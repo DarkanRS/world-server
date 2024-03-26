@@ -4,7 +4,7 @@ import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.quest.Quest;
-import com.rs.game.content.achievements.AchievementSystemDialogue;
+import com.rs.game.content.achievements.AchievementSystemD;
 import com.rs.game.content.achievements.SetReward;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -19,7 +19,7 @@ public class RatBurgiss extends Conversation {
     public RatBurgiss(Player player) {
         super(player);
         addOptions(ops -> {
-            ops.add("About the Achievement System...", new AchievementSystemDialogue(player, ID, SetReward.VARROCK_ARMOR).getStart());
+            ops.add("About the Achievement System...", () -> new AchievementSystemD(player, ID, SetReward.VARROCK_ARMOR));
 
             if (!player.isQuestComplete(Quest.WHAT_LIES_BELOW) && Quest.WHAT_LIES_BELOW.meetsReqs(player)) {
                 ops.add("Hello there!")

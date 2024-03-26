@@ -20,7 +20,7 @@ import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.game.content.Skillcapes;
-import com.rs.game.content.achievements.AchievementSystemDialogue;
+import com.rs.game.content.achievements.AchievementSystemD;
 import com.rs.game.content.achievements.SetReward;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -59,7 +59,7 @@ public class SlayerMasterD extends Conversation {
 			if (master == Master.Kuradal)
 				ops.add("What is that cape you're wearing?", Skillcapes.Slayer.getOffer99CapeDialogue(player, master.npcId));
 			if (master == Master.Vannaka)
-				ops.add("About the Achievement System...", new AchievementSystemDialogue(player, master.npcId, SetReward.VARROCK_ARMOR).getStart());
+				ops.add("About the Achievement System...", () -> new AchievementSystemD(player, master.npcId, SetReward.VARROCK_ARMOR));
 		});
 		create();
 	}

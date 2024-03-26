@@ -25,7 +25,7 @@ import com.rs.game.content.PlayerLook;
 import com.rs.game.content.achievements.AchievementDef;
 import com.rs.game.content.achievements.AchievementDef.Area;
 import com.rs.game.content.achievements.AchievementDef.Difficulty;
-import com.rs.game.content.achievements.AchievementSystemDialogue;
+import com.rs.game.content.achievements.AchievementSystemD;
 import com.rs.game.content.achievements.SetReward;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.skills.magic.TeleType;
@@ -48,7 +48,7 @@ public class Rellekka {
             addOptions("What would you like to say?", new Options() {
                 @Override
                 public void create() {
-                    option("About the Achievement System...", new AchievementSystemDialogue(player, e.getNPCId(), SetReward.FREMENNIK_BOOTS).getStart());
+                    option("About the Achievement System...", () -> new AchievementSystemD(player, e.getNPCId(), SetReward.FREMENNIK_BOOTS));
                 }
             });
         }
@@ -65,7 +65,7 @@ public class Rellekka {
 						public void create() {
 							option("I'd like to buy some clothes.", () -> ShopsHandler.openShop(player, "yrsas_accoutrements"));
 							option("I'd like to change my shoes.", () -> PlayerLook.openYrsaShop(player));
-							option("About the Achievement System...", new AchievementSystemDialogue(player, e.getNPCId(), SetReward.FREMENNIK_BOOTS).getStart());
+							option("About the Achievement System...", () -> new AchievementSystemD(player, e.getNPCId(), SetReward.FREMENNIK_BOOTS));
 						}
 					});
 				}
