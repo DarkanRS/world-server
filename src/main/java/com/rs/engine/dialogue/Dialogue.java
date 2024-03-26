@@ -222,7 +222,7 @@ public class Dialogue {
 			for (String opName : options.getOptions().keySet()) {
 				Option op = options.getOptions().get(opName);
 				if (op.show() && op.getDialogue() != null)
-					addNext(op.getDialogue());
+					return addNext(op.getDialogue());
 			}
 			if (options.getConv() != null)
 				options.getConv().addStage(options.getStageName(), getNext(0));
@@ -239,9 +239,9 @@ public class Dialogue {
 				if (o.show() && o.getDialogue() != null)
 					op.addNext(o.getDialogue());
 			}
-			addNext(op);
 			if (options.getConv() != null)
 				options.getConv().addStage(options.getStageName(), op);
+			return addNext(op);
 		} else {
 			String[] ops = new String[options.getOptions().keySet().size()];
 			options.getOptions().keySet().toArray(ops);
@@ -269,9 +269,9 @@ public class Dialogue {
 				}
 			}
 			currPage.addNext(baseOption);
-			addNext(baseOption);
 			if (options.getConv() != null)
 				options.getConv().addStage(options.getStageName(), baseOption);
+			return addNext(baseOption);
 		}
 		return this;
 	}

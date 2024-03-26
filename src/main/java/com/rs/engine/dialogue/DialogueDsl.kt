@@ -140,7 +140,6 @@ open class DialogueBuilder(val stages: MutableMap<String, Dialogue> = mutableMap
     private fun applyPendingLabel() {
         if (pendingLabel != null) {
             stages[pendingLabel!!] = dialogue
-            println("Applied pending label: $pendingLabel to $dialogue")
             pendingLabel = null
         }
     }
