@@ -45,28 +45,28 @@ fun mapBarbarianOutpostAgility() {
     }
 
     onObjectClick(32015) { e ->
-        if (e.getObject().tile.matches(Tile(2547, 9951, 0))) e.player.useLadder(Tile(2546, 3551, 0))
+        if (e.getObject().tile.matches(Tile.of(2547, 9951, 0))) e.player.useLadder(Tile.of(2546, 3551, 0))
     }
 
     onObjectClick(20210) { e ->
         if (!Agility.hasLevel(e.player, 35)) return@onObjectClick
-        e.player.forceMove(Tile(e.getObject().x.toShort(), if (e.player.y >= 3561) 3558 else 3561, e.getObject().plane.toByte()), 10580, 10, 60) {
+        e.player.forceMove(Tile.of(e.getObject().x, if (e.player.y >= 3561) 3558 else 3561, e.getObject().plane), 10580, 10, 60) {
             e.player.skills.addXp(Constants.AGILITY, 1.0 / 20.0)
         }
     }
 
     onObjectClick(43526, checkDistance = false) { e ->
         val targetTile = if (e.getObject().x == 2552) {
-            Tile(2552, 3554, 0)
+            Tile.of(2552, 3554, 0)
         } else {
-            Tile(2551, 3554, 0)
+            Tile.of(2551, 3554, 0)
         }
         e.player.setRouteEvent(RouteEvent(targetTile) {
             if (!Agility.hasLevel(e.player, 35)) return@RouteEvent
             e.player.lock()
             e.player.resetWalkSteps()
             World.sendObjectAnimation(e.getObject(), Animation(497))
-            e.player.forceMove(Tile(e.getObject().x.toShort(), 3549, 0), 751, 20, 75) {
+            e.player.forceMove(Tile.of(e.getObject().x, 3549, 0), 751, 20, 75) {
                 e.player.sendMessage("You skillfully swing across.", true)
                 e.player.skills.addXp(Constants.AGILITY, 28.0)
                 setStage(e.player, 0)
@@ -76,10 +76,10 @@ fun mapBarbarianOutpostAgility() {
 
     onObjectClick(43595, checkDistance = false) { e ->
 
-        e.player.setRouteEvent(RouteEvent(Tile(2551, 3546, 0)) {
+        e.player.setRouteEvent(RouteEvent(Tile.of(2551, 3546, 0)) {
             if (!Agility.hasLevel(e.player, 35)) return@RouteEvent
             e.player.sendMessage("You walk carefully across the slippery log...", true)
-            e.player.forceMove(Tile(2541, e.getObject().y.toShort(), e.getObject().plane.toByte()), 9908, 20, 12 * 30) {
+            e.player.forceMove(Tile.of(2541, e.getObject().y, e.getObject().plane), 9908, 20, 12 * 30) {
                 e.player.anim(-1)
                 e.player.skills.addXp(Constants.AGILITY, 20.7)
                 e.player.sendMessage("... and make it safely to the other side.", true)
@@ -92,13 +92,13 @@ fun mapBarbarianOutpostAgility() {
         if (!Agility.hasLevel(e.player, 35)) return@onObjectClick
         e.player.sendMessage("You climb the netting...", true)
         e.player.skills.addXp(Constants.AGILITY, 10.2)
-        e.player.useStairs(828, Tile((e.getObject().x - 1).toShort(), e.player.y.toShort(), 1), 1, 2)
+        e.player.useStairs(828, Tile.of((e.getObject().x - 1), e.player.y, 1), 1, 2)
         if (getStage(e.player) == 1) setStage(e.player, 2)
     }
 
     onObjectClick(2302) { e ->
         if (!Agility.hasLevel(e.player, 35)) return@onObjectClick
-        val toTile = Tile(2532, e.getObject().y.toShort(), e.getObject().plane.toByte())
+        val toTile = Tile.of(2532, e.getObject().y, e.getObject().plane)
         e.player.sendMessage("You put your foot on the ledge and try to edge across...", true)
         e.player.lock()
         e.player.schedule {
@@ -130,8 +130,8 @@ fun mapBarbarianOutpostAgility() {
         }
         e.player.lock()
         e.player.sendMessage("You climb the low wall...", true)
-        e.player.forceMove(Tile((e.getObject().x + 1).toShort(), e.getObject().y.toShort(),
-            e.getObject().plane.toByte()
+        e.player.forceMove(Tile.of((e.getObject().x + 1), e.getObject().y,
+            e.getObject().plane
         ), 4853, 30, 60) {
             e.player.skills.addXp(Constants.AGILITY, 16.2)
             val stage = getStage(e.player)
@@ -153,7 +153,7 @@ fun mapBarbarianOutpostAgility() {
             e.player.anim(10492)
             wait(6)
             e.player.tele(e.player.transform(0, 0, 2))
-            e.player.forceMove(Tile(2538, 3545, 2), 10493, 10, 30) {
+            e.player.forceMove(Tile.of(2538, 3545, 2), 10493, 10, 30) {
                 e.player.skills.addXp(Constants.AGILITY, 15.0)
             }
         }
@@ -168,7 +168,7 @@ fun mapBarbarianOutpostAgility() {
                 wait(1)
                 e.player.anim(10023)
                 wait(2)
-                e.player.tele(Tile(2536, 3546, 3))
+                e.player.tele(Tile.of(2536, 3546, 3))
                 e.player.anim(11794)
                 wait(1)
                 e.player.unlock()
@@ -179,15 +179,15 @@ fun mapBarbarianOutpostAgility() {
 
     onObjectClick(43587, checkDistance = false) { e ->
         if (!Agility.hasLevel(e.player, 90)) return@onObjectClick
-        e.player.setRouteEvent(RouteEvent(Tile(2533, 3547, 3)) {
+        e.player.setRouteEvent(RouteEvent(Tile.of(2533, 3547, 3)) {
             e.player.lock()
             e.player.schedule {
-                e.player.faceTile(Tile(2531, 3554, 3))
+                e.player.faceTile(Tile.of(2531, 3554, 3))
                 wait(1)
                 World.sendObjectAnimation(e.getObject(), Animation(11819))
-                e.player.forceMove(Tile(2532, 3553, 3), 4189, 15, 90) {
+                e.player.forceMove(Tile.of(2532, 3553, 3), 4189, 15, 90) {
                     e.player.skills.addXp(Constants.AGILITY, 15.0)
-                    World.sendObjectAnimation(World.getObject(Tile(2531, 3554, 3), ObjectType.SCENERY_INTERACT), Animation(7527))
+                    World.sendObjectAnimation(World.getObject(Tile.of(2531, 3554, 3), ObjectType.SCENERY_INTERACT), Animation(7527))
                 }
             }
         })
@@ -196,7 +196,7 @@ fun mapBarbarianOutpostAgility() {
     onObjectClick(43527) { e ->
         if (!Agility.hasLevel(e.player, 90)) return@onObjectClick
         e.player.appearance.setBAS(330)
-        e.player.forceMove(Tile(2536, 3553, 3), 16079, 10, 90) {
+        e.player.forceMove(Tile.of(2536, 3553, 3), 16079, 10, 90) {
             e.player.stopAll()
             e.player.interfaceManager.removeSubs(
                 InterfaceManager.Sub.TAB_INVENTORY,
@@ -225,7 +225,7 @@ fun mapBarbarianOutpostAgility() {
                     InterfaceManager.Sub.TAB_EQUIPMENT,
                     InterfaceManager.Sub.TAB_PRAYER
                 )
-                e.player.tele(Tile(2538, 3553, 2))
+                e.player.tele(Tile.of(2538, 3553, 2))
                 e.player.anim(2588)
                 e.player.skills.addXp(Constants.AGILITY, 15.0)
                 stop()
@@ -236,14 +236,14 @@ fun mapBarbarianOutpostAgility() {
     onObjectClick(43532) { e ->
         if (!Agility.hasLevel(e.player, 90)) return@onObjectClick
         e.player.lock()
-        e.player.forceMove(Tile(2540, e.player.y.toShort(), 2), 11792, 10, 30)
+        e.player.forceMove(Tile.of(2540, e.player.y, 2), 11792, 10, 30)
         e.player.schedule {
-            e.player.forceMove(Tile(2542, e.player.y.toShort(), 1), 11790, 0, 90)
+            e.player.forceMove(Tile.of(2542, e.player.y, 1), 11790, 0, 90)
             wait(3)
-            e.player.forceMove(Tile(2543, e.player.y.toShort(), 1), 11791, 0, 30)
+            e.player.forceMove(Tile.of(2543, e.player.y, 1), 11791, 0, 30)
             wait(1)
             e.player.anim(2588)
-            e.player.tele(Tile(2543, e.player.y.toShort(), 0))
+            e.player.tele(Tile.of(2543, e.player.y, 0))
             e.player.skills.addXp(Constants.AGILITY, 15.0)
             if (getStage(e.player) == 1) {
                 e.player.incrementCount("Barbarian advanced laps")
