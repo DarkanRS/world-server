@@ -27,12 +27,7 @@ public class DraynorVillageNPC {
     private static final int OLIVIA = 2233;
     private static final int SHADY_STRANGER = 8339;
     private static final int SUSPICIOUS_OUTSIDER = 8436;
-
-    @ServerStartupEvent
-    public static void addLoSOverrides() {
-        Entity.addLOSOverride( MISS_SCHISM );
-    }
-
+    
     public static NPCClickHandler HandleBankGuard= new NPCClickHandler(new Object[]{ BANK_GUARD }, e -> {
         switch (e.getOption()) {
             case "Talk-to" -> {

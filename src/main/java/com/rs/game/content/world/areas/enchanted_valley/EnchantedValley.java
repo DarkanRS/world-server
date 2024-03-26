@@ -62,11 +62,6 @@ public class EnchantedValley {
         });
     });
 
-    @ServerStartupEvent
-    public static void addFishingSpotLOSOverride() {
-        Entity.addLOSOverride(8647);
-    }
-
     public static NPCClickHandler fishFish = new NPCClickHandler(new Object[] { 8647 }, e -> {
         if (e.getPlayer().inCombat()) {
             e.getPlayer().sendMessage("You can't fish while you are under attack.");

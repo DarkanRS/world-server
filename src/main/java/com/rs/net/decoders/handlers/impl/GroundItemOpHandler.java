@@ -93,7 +93,7 @@ public class GroundItemOpHandler implements PacketHandler<Player, GroundItemOp> 
 					player.sendMessage("Too late. It's gone!");
 					return true;
 				}
-				if (!player.lineOfSightTo(groundItem.getTile(), false)) {
+				if (!player.lineOfSightTo(groundItem.getTile(), true)) {
 					player.sendMessage("You can't reach that.");
 					return true;
 				}

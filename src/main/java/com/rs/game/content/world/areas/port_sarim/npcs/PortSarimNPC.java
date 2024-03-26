@@ -30,11 +30,6 @@ public class PortSarimNPC {
     private static final int THAKI = 7115;
     private static final int THE_FACE = 2950;
 
-    @ServerStartupEvent
-    public static void addLoSOverrides() {
-        Entity.addLOSOverride( AHAB );
-    }
-
     public static NPCClickHandler Ahab = new NPCClickHandler(new Object[]{ AHAB }, e -> {
         switch (e.getOption()) {
             case "Talk-to" -> e.getPlayer().startConversation(new Dialogue()

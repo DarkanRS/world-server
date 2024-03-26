@@ -72,11 +72,6 @@ public class DoorSupport extends NPC {
 			}
 		});
 	}
-	
-	@ServerStartupEvent
-	public static void addLoSOverrides() {
-		Entity.addLOSOverrides(2440, 2443, 2446);
-	}
 
 	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { 2440, 2443, 2446 }, DoorSupport::new);
 }

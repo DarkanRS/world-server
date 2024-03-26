@@ -10,13 +10,7 @@ import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
 public class Doomsayer extends Conversation {
-
 	private static final int npcId = 3777;
-	
-	@ServerStartupEvent
-	public static void addLoSOverrides() {
-		Entity.addLOSOverride(npcId);
-	}
 	
 	public static NPCClickHandler Doomsayer = new NPCClickHandler(new Object[] { npcId }, e -> {
 		switch(e.getOption()) {

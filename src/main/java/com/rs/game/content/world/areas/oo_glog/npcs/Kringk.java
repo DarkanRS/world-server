@@ -14,11 +14,6 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 @PluginEventHandler
 public class Kringk {
 
-    @ServerStartupEvent
-    public static void addLoSOverride() {
-        Entity.addLOSOverride(7102);
-    }
-
     public static NPCClickHandler Kringk = new NPCClickHandler(new Object[]{ 7102, 7099 }, new String[]{"Talk-to"}, e -> {
         if (e.getPlayer().isQuestComplete(Quest.AS_A_FIRST_RESORT))
             afterAsAFirstResort(e.getPlayer(), e.getNPC());
