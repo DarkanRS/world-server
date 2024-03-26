@@ -21,7 +21,7 @@ import com.rs.game.content.minigames.herblorehabitat.JadinkoType;
 import com.rs.game.content.skills.hunter.traps.BoxStyleTrap;
 import com.rs.game.content.skills.hunter.traps.BoxStyleTrap.Status;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.pathing.RouteEvent;
+import com.rs.engine.pathfinder.RouteEvent;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.Constants;

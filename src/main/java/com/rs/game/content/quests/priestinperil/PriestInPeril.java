@@ -244,8 +244,15 @@ public class PriestInPeril extends QuestOutline {
 	});
 
 	public static NPCDeathHandler handleMonkKeys = new NPCDeathHandler(new Object[] {1044, 1045, 1046}, e -> {
-		if (e.getKiller() instanceof Player player && (player.getQuestManager().getStage(Quest.PRIEST_IN_PERIL) == 4 || player.getQuestManager().getStage(Quest.PRIEST_IN_PERIL) == 5))
+		if (e.getKiller() instanceof Player player && (player.getQuestManager().getStage(Quest.PRIEST_IN_PERIL) == 4 || player.getQuestManager().getStage(Quest.PRIEST_IN_PERIL) == 5)) {
+			if(!player.getInventory().containsItem(2945) || !player.getBank().containsItem(2945, 1))
+				player.getQuestManager().getAttribs(Quest.PRIEST_IN_PERIL).setB(String.valueOf(Monuments.NE), false);
+			if(player.getInventory().containsItem(2945) || player.getBank().containsItem(2945, 1))
+				return;
+			if(player.getInventory().containsItem(2944) || player.getBank().containsItem(2944, 1))
+				return;
 			World.addGroundItem(new Item(2944), e.getNPC().getTile(), player);
+		}
 	});
 
 	public static ObjectClickHandler handleNorthStair = new ObjectClickHandler(new Object[] { 30725 }, Tile.of(3415, 3491, 1), e -> e.getPlayer().useStairs(827, Tile.of(3414, 3491, 0), 1, 2));

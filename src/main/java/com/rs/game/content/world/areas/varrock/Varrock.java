@@ -22,14 +22,13 @@ import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.dialogue.Options;
 import com.rs.engine.quest.Quest;
 import com.rs.game.World;
-import com.rs.game.content.combat.PlayerCombat;
 import com.rs.game.content.combat.PlayerCombatKt;
 import com.rs.game.content.combat.XPType;
 import com.rs.game.content.quests.scorpioncatcher.ScorpionCatcher;
 import com.rs.game.content.skills.agility.Agility;
 import com.rs.game.content.world.AgilityShortcuts;
 import com.rs.game.content.world.doors.Doors;
-import com.rs.game.model.entity.pathing.Direction;
+import com.rs.engine.pathfinder.Direction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.Task;
@@ -46,33 +45,33 @@ import com.rs.utils.shop.ShopsHandler;
 @PluginEventHandler
 public class Varrock {
 	public static PlayerStepHandler musicBlueMoonInn = new PlayerStepHandler(new Tile[] { Tile.of(3215, 3395, 0), Tile.of(3216, 3395, 0), Tile.of(3233, 3396, 0) }, e -> {
-		if(e.getTile().getX() <= 3216 && e.getStep().getDir() == Direction.WEST)
+		if(e.getTile().getX() <= 3216 && e.getStep().dir == Direction.WEST)
 			if(e.getPlayer().getMusicsManager().isPlaying(716))
 				e.getPlayer().getMusicsManager().nextAmbientSong();
-		if(e.getTile().getX() == 3216 && e.getStep().getDir() == Direction.EAST)
+		if(e.getTile().getX() == 3216 && e.getStep().dir == Direction.EAST)
 			e.getPlayer().getMusicsManager().playSpecificAmbientSong(716, true);
 
-		if(e.getTile().getX() == 3233 && e.getStep().getDir() == Direction.WEST)
+		if(e.getTile().getX() == 3233 && e.getStep().dir == Direction.WEST)
 			e.getPlayer().getMusicsManager().playSpecificAmbientSong(716, true);
-		if(e.getTile().getX() == 3233 && e.getStep().getDir() == Direction.EAST) {
+		if(e.getTile().getX() == 3233 && e.getStep().dir == Direction.EAST) {
 			if(e.getPlayer().getMusicsManager().isPlaying(716))
 				e.getPlayer().getMusicsManager().nextAmbientSong();
 		}
 	});
 
 	public static PlayerStepHandler musicDancingDonkeyInn = new PlayerStepHandler(new Tile[] { Tile.of(3274, 3389, 0), Tile.of(3275, 3389, 0) }, e -> {
-		if (e.getTile().getX() <= 3275 && e.getStep().getDir() == Direction.EAST)
+		if (e.getTile().getX() <= 3275 && e.getStep().dir == Direction.EAST)
 			if (e.getPlayer().getMusicsManager().isPlaying(721))
 				e.getPlayer().getMusicsManager().nextAmbientSong();
-		if (e.getTile().getX() == 3274 && e.getStep().getDir() == Direction.WEST)
+		if (e.getTile().getX() == 3274 && e.getStep().dir == Direction.WEST)
 			e.getPlayer().getMusicsManager().playSpecificAmbientSong(721, true);
 	});
 
 	public static PlayerStepHandler musicBoarsHeadInn = new PlayerStepHandler(new Tile[] { Tile.of(3281, 3506, 0), Tile.of(3280, 3506, 0) }, e -> {
-		if (e.getStep().getDir() == Direction.NORTH)
+		if (e.getStep().dir == Direction.NORTH)
 			if (e.getPlayer().getMusicsManager().isPlaying(720))
 				e.getPlayer().getMusicsManager().nextAmbientSong();
-		if (e.getStep().getDir() == Direction.SOUTH)
+		if (e.getStep().dir == Direction.SOUTH)
 			e.getPlayer().getMusicsManager().playSpecificAmbientSong(720, true);
 	});
 

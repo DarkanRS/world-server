@@ -548,14 +548,14 @@ enum class CombatSpell(
                 else -> false
             }
 
-    private fun getCastSpotAnim(caster: Entity): SpotAnim {
+    private fun getCastSpotAnim(caster: Entity): SpotAnim? {
         return when (this) {
             WATER_BLAST,
             WATER_BOLT,
             WATER_STRIKE,
             WATER_SURGE,
-            WATER_WAVE -> (if (caster is Player && caster.equipment.weaponName.lowercase(Locale.getDefault()).contains("staff")) SpotAnim(2702) else castSpotAnim)!!
-            else -> castSpotAnim!!
+            WATER_WAVE -> (if (caster is Player && caster.equipment.weaponName.lowercase(Locale.getDefault()).contains("staff")) SpotAnim(2702) else castSpotAnim)
+            else -> castSpotAnim
         }
     }
 
@@ -566,10 +566,12 @@ enum class CombatSpell(
     fun cast(caster: Entity, target: Entity?): Int {
         val castAnim = getCastAnim(caster)
         val castSpotAnim = getCastSpotAnim(caster)
-        caster.sync(castAnim, castSpotAnim)
+        caster.anim(castAnim)
+        if (castSpotAnim != null)
+            caster.spotAnim(castSpotAnim)
         if (castSound != -1) caster.soundEffect(target, castSound, true)
         onCast(caster, target)
-        return World.sendProjectile(caster, target, projAnim, if (castSpotAnim.height > 50) 20 else 0, 50, 1.0).taskDelay
+        return World.sendProjectile(caster, target, projAnim, if ((castSpotAnim?.height ?: 0) > 50) 20 else 0, 50, 1.0).taskDelay
     }
 
     open fun onCast(caster: Entity?, target: Entity?) {}

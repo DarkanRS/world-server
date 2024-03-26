@@ -84,13 +84,6 @@ public class Fishing extends PlayerAction {
         FISHING_SPOTS.put(7862, new FishingSpot[]{FishingSpot.CRAYFISH});
         FISHING_SPOTS.put(15020, new FishingSpot[]{FishingSpot.LAVA_EEL});
     }
-    
-    @ServerStartupEvent
-    public static void addLoSOverrides() {
-    	for (int id : FISHING_SPOTS.keySet())
-    		Entity.addLOSOverride(id);
-		Entity.addLOSOverride(DungeonConstants.FISH_SPOT_NPC_ID);
-    }
 
     private final FishingSpot spot;
     private final NPC npc;

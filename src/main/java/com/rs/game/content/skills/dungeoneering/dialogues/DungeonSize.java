@@ -41,11 +41,12 @@ public class DungeonSize extends Conversation {
 					player.getDungManager().enterDungeon(false);
 				}
 			});
-			if(party != null && party.getTeam().size() >= 3)
-				ops.add("Large.", () -> {
+			ops.add("Large.", () -> {
+				if(party != null) {
 					player.getDungManager().setSize(DungeonConstants.LARGE_DUNGEON);
 					player.getDungManager().enterDungeon(false);
-				});
+				}
+			});
 		});
 		create();
 	}

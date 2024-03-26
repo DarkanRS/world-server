@@ -96,62 +96,90 @@ class CombatDefinitions {
         player!!.vars.setVar(108, spellAutoCastConfigValue)
     }
 
-    val spellAutoCastConfigValue: Int
+    private val spellAutoCastConfigValue: Int
         get() {
             if (autoCast == null) return 0
-            if (isDungSpellbook) return when (autoCast) {
-                CombatSpell.WIND_STRIKE -> 103
-                CombatSpell.WATER_STRIKE -> 105
-                CombatSpell.EARTH_STRIKE -> 107
-                CombatSpell.FIRE_STRIKE -> 109
-                CombatSpell.WIND_BOLT -> 111
-                CombatSpell.WATER_BOLT -> 113
-                CombatSpell.EARTH_BOLT -> 115
-                CombatSpell.FIRE_BOLT -> 117
-                CombatSpell.WIND_BLAST -> 119
-                CombatSpell.WATER_BLAST -> 121
-                CombatSpell.EARTH_BLAST -> 123
-                CombatSpell.FIRE_BLAST -> 125
-                CombatSpell.WIND_WAVE -> 127
-                CombatSpell.WATER_WAVE -> 129
-                CombatSpell.EARTH_WAVE -> 131
-                CombatSpell.FIRE_WAVE -> 133
-                CombatSpell.WIND_SURGE -> 135
-                CombatSpell.WATER_SURGE -> 137
-                CombatSpell.EARTH_SURGE -> 139
-                CombatSpell.FIRE_SURGE -> 141
-                else -> 0
-            }
-            if (spellbook == Spellbook.MODERN) return when (autoCast) {
-                CombatSpell.WIND_STRIKE -> 3
-                CombatSpell.WATER_STRIKE -> 5
-                CombatSpell.EARTH_STRIKE -> 7
-                CombatSpell.FIRE_STRIKE -> 9
-                CombatSpell.WIND_BOLT -> 11
-                CombatSpell.WATER_BOLT -> 13
-                CombatSpell.EARTH_BOLT -> 15
-                CombatSpell.FIRE_BOLT -> 17
-                CombatSpell.CRUMBLE_UNDEAD -> 35
-                CombatSpell.WIND_BLAST -> 19
-                CombatSpell.WATER_BLAST -> 21
-                CombatSpell.EARTH_BLAST -> 23
-                CombatSpell.FIRE_BLAST -> 25
-                CombatSpell.IBAN_BLAST -> 45
-                CombatSpell.MAGIC_DART -> 37
-                CombatSpell.SARADOMIN_STRIKE -> 41
-                CombatSpell.CLAWS_OF_GUTHIX -> 39
-                CombatSpell.FLAMES_OF_ZAMORAK -> 43
-                CombatSpell.WIND_WAVE -> 27
-                CombatSpell.WATER_WAVE -> 29
-                CombatSpell.EARTH_WAVE -> 31
-                CombatSpell.FIRE_WAVE -> 33
-                CombatSpell.WIND_SURGE -> 47
-                CombatSpell.WATER_SURGE -> 49
-                CombatSpell.EARTH_SURGE -> 51
-                CombatSpell.FIRE_SURGE -> 53
-                CombatSpell.WIND_RUSH -> 143
-                CombatSpell.STORM_OF_ARMADYL -> 145
-                else -> 0
+            when {
+                isDungSpellbook -> return when (autoCast) {
+                    CombatSpell.WIND_STRIKE -> 103
+                    CombatSpell.WATER_STRIKE -> 105
+                    CombatSpell.EARTH_STRIKE -> 107
+                    CombatSpell.FIRE_STRIKE -> 109
+                    CombatSpell.WIND_BOLT -> 111
+                    CombatSpell.WATER_BOLT -> 113
+                    CombatSpell.EARTH_BOLT -> 115
+                    CombatSpell.FIRE_BOLT -> 117
+                    CombatSpell.WIND_BLAST -> 119
+                    CombatSpell.WATER_BLAST -> 121
+                    CombatSpell.EARTH_BLAST -> 123
+                    CombatSpell.FIRE_BLAST -> 125
+                    CombatSpell.WIND_WAVE -> 127
+                    CombatSpell.WATER_WAVE -> 129
+                    CombatSpell.EARTH_WAVE -> 131
+                    CombatSpell.FIRE_WAVE -> 133
+                    CombatSpell.WIND_SURGE -> 135
+                    CombatSpell.WATER_SURGE -> 137
+                    CombatSpell.EARTH_SURGE -> 139
+                    CombatSpell.FIRE_SURGE -> 141
+                    else -> 0
+                }
+
+                spellbook == Spellbook.MODERN -> return when (autoCast) {
+                    CombatSpell.WIND_STRIKE -> 3
+                    CombatSpell.WATER_STRIKE -> 5
+                    CombatSpell.EARTH_STRIKE -> 7
+                    CombatSpell.FIRE_STRIKE -> 9
+                    CombatSpell.WIND_BOLT -> 11
+                    CombatSpell.WATER_BOLT -> 13
+                    CombatSpell.EARTH_BOLT -> 15
+                    CombatSpell.FIRE_BOLT -> 17
+                    CombatSpell.CRUMBLE_UNDEAD -> 35
+                    CombatSpell.WIND_BLAST -> 19
+                    CombatSpell.WATER_BLAST -> 21
+                    CombatSpell.EARTH_BLAST -> 23
+                    CombatSpell.FIRE_BLAST -> 25
+                    CombatSpell.IBAN_BLAST -> 45
+                    CombatSpell.MAGIC_DART -> 37
+                    CombatSpell.SARADOMIN_STRIKE -> 41
+                    CombatSpell.CLAWS_OF_GUTHIX -> 39
+                    CombatSpell.FLAMES_OF_ZAMORAK -> 43
+                    CombatSpell.WIND_WAVE -> 27
+                    CombatSpell.WATER_WAVE -> 29
+                    CombatSpell.EARTH_WAVE -> 31
+                    CombatSpell.FIRE_WAVE -> 33
+                    CombatSpell.WIND_SURGE -> 47
+                    CombatSpell.WATER_SURGE -> 49
+                    CombatSpell.EARTH_SURGE -> 51
+                    CombatSpell.FIRE_SURGE -> 53
+                    CombatSpell.WIND_RUSH -> 143
+                    CombatSpell.STORM_OF_ARMADYL -> 145
+                    else -> 0
+                }
+
+                spellbook == Spellbook.ANCIENT -> return when (autoCast) {
+                    CombatSpell.SMOKE_RUSH -> 63
+                    CombatSpell.SHADOW_RUSH -> 65
+                    CombatSpell.BLOOD_RUSH -> 67
+                    CombatSpell.ICE_RUSH -> 69
+                    CombatSpell.SMOKE_BURST -> 71
+                    CombatSpell.SHADOW_BURST -> 73
+                    CombatSpell.BLOOD_BURST -> 75
+                    CombatSpell.ICE_BURST -> 77
+                    CombatSpell.SMOKE_BLITZ -> 79
+                    CombatSpell.SHADOW_BLITZ -> 81
+                    CombatSpell.BLOOD_BLITZ -> 83
+                    CombatSpell.ICE_BLITZ -> 85
+                    CombatSpell.SMOKE_BARRAGE -> 87
+                    CombatSpell.SHADOW_BARRAGE -> 89
+                    CombatSpell.BLOOD_BARRAGE -> 91
+                    CombatSpell.ICE_BARRAGE -> 93
+                    CombatSpell.MIASMIC_RUSH -> 95
+                    CombatSpell.MIASMIC_BURST -> 97
+                    CombatSpell.MIASMIC_BLITZ -> 99
+                    CombatSpell.MIASMIC_BARRAGE -> 101
+                    else -> 0
+                }
+
             }
             return 0
         }

@@ -22,7 +22,7 @@ import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
-import com.rs.game.model.entity.pathing.Direction;
+import com.rs.engine.pathfinder.Direction;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -58,7 +58,7 @@ public class KreeArraCombat extends CombatScript {
 					if (dir != null)
 						if (World.checkWalkStep(target.getTile(), dir, target.getSize())) {
 							target.resetWalkSteps();
-							target.tele(target.transform(dir.getDx(), dir.getDy()));
+							target.tele(target.transform(dir.dx, dir.dy));
 						}
 				});
 			}

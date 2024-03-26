@@ -128,6 +128,8 @@ public final class InstanceBuilder {
 	private static void destroyMap(int chunkX, int chunkY, int width, int height) {
 		int fromRegionX = chunkX / 8;
 		int fromRegionY = chunkY / 8;
+		final int fromWidth = width;
+		final int fromHeight = height;
 		int regionsDistanceX = 2;
 		while (width > 8) {
 			regionsDistanceX += 1;
@@ -140,8 +142,8 @@ public final class InstanceBuilder {
 		}
 		int baseChunk = MapUtils.encode(Structure.CHUNK, chunkX, chunkY, 0);
 		for (int plane = 0; plane < 4 * Chunk.PLANE_INC; plane += Chunk.PLANE_INC)
-			for (int x = 0; x <= width * Chunk.X_INC; x += Chunk.X_INC)
-				for (int y = 0; y <= height; y++)
+			for (int x = 0; x <= fromWidth * Chunk.X_INC; x += Chunk.X_INC)
+				for (int y = 0; y <= fromHeight; y++)
 					destroyChunk(baseChunk + x + y + plane);
 		reserveRegions(fromRegionX, fromRegionY, regionsDistanceX, regionsDistanceY, true);
 	}

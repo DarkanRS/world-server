@@ -12,11 +12,6 @@ public class SoSNpcs {
     private static final int JAILGUARD = 7142;
     private static final int PROFESSOR_HENRY = 7143;
 
-    @ServerStartupEvent
-    public static void addLoSOverrides() {
-        Entity.addLOSOverrides( 7151, 7152, 7153, 7154, 7155, 7156, 7157 );
-    }
-
     public static NPCClickHandler HandleSoPSGuard = new NPCClickHandler(new Object[]{JAILGUARD}, e -> {
         switch (e.getOption()) {
             case "Talk-to" -> e.getPlayer().startConversation(new Dialogue()

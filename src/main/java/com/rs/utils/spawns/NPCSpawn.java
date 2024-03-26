@@ -17,9 +17,11 @@
 package com.rs.utils.spawns;
 
 import com.rs.cache.loaders.NPCDefinitions;
+import com.rs.engine.pathfinder.collision.CollisionStrategy;
+import com.rs.engine.pathfinder.collision.CollisionStrategyType;
 import com.rs.game.World;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.pathing.Direction;
+import com.rs.engine.pathfinder.Direction;
 import com.rs.lib.game.Tile;
 
 public class NPCSpawn {
@@ -28,25 +30,35 @@ public class NPCSpawn {
 	private final int npcId;
 	private final Tile tile;
 	private final Direction dir;
+	private final CollisionStrategyType clip;
 	private String customName;
 
-	public NPCSpawn(int npcId, Tile tile, Direction dir, String comment) {
+	public NPCSpawn(int npcId, Tile tile, Direction dir, String comment, CollisionStrategyType clip) {
 		this.npcId = npcId;
 		this.tile = tile;
 		this.dir = dir;
 		this.comment = comment;
+        this.clip = clip;
+    }
+
+	public NPCSpawn(int npcId, Tile tile, String comment, CollisionStrategyType clip) {
+		this(npcId, tile, null, comment, clip);
+	}
+
+	public NPCSpawn(int npcId, Tile tile, Direction dir, String comment) {
+		this(npcId, tile, dir, comment, CollisionStrategyType.NORMAL);
 	}
 
 	public NPCSpawn(int npcId, Tile tile, String comment) {
-		this(npcId, tile, null, comment);
+		this(npcId, tile, null, comment, CollisionStrategyType.NORMAL);
 	}
 
 	public NPC spawn() {
-		return World.spawnNPC(npcId, tile, dir, false, true, customName);
+		return (NPC) World.spawnNPC(npcId, tile, dir, false, true, customName).setCollisionStrategyType(clip);
 	}
 
 	public NPC spawnAtCoords(Tile tile, Direction dir) {
-		return World.spawnNPC(npcId, tile, dir, false, true, customName);
+		return (NPC) World.spawnNPC(npcId, tile, dir, false, true, customName).setCollisionStrategyType(clip);
 	}
 
 	public Tile getTile() {
@@ -76,5 +88,9 @@ public class NPCSpawn {
 
 	public NPCDefinitions getDefs() {
 		return NPCDefinitions.getDefs(npcId);
+	}
+
+	public CollisionStrategyType getCollisionStrategyType() {
+		return clip == null ? CollisionStrategyType.NORMAL : clip;
 	}
 }

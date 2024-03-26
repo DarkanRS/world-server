@@ -22,7 +22,7 @@ import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
-import com.rs.game.model.entity.pathing.Direction;
+import com.rs.engine.pathfinder.Direction;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
@@ -58,7 +58,7 @@ public class PlaneFreezerLakhrahnazCombat extends CombatScript {
 				case 1 -> {
 					npc.setNextAnimation(new Animation(defs.getAttackEmote()));
 					Direction dir = Direction.random();
-					target.addWalkSteps(target.getX() + dir.getDx(), target.getY() + dir.getDy(), 1);
+					target.addWalkSteps(target.getX() + dir.dx, target.getY() + dir.dy, 1);
 					delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, 100, AttackStyle.MELEE, target)));
 				}
 			}

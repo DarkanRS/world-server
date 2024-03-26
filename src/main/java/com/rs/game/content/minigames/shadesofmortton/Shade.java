@@ -16,9 +16,9 @@
 //
 package com.rs.game.content.minigames.shadesofmortton;
 
+import com.rs.engine.pathfinder.collision.CollisionStrategyType;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.pathing.ClipType;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Tile;
@@ -36,7 +36,7 @@ public class Shade extends NPC {
 		super(id, tile);
 		baseId = id;
 		setForceAggroDistance(15);
-		setClipType(ClipType.FLYING);
+		setCollisionStrategyType(CollisionStrategyType.FLY);
 		setNoDistanceCheck(true);
 		attack = 0;
 	}

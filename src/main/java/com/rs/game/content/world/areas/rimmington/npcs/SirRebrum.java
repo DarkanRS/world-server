@@ -29,10 +29,4 @@ public class SirRebrum {
 					}
 				}));
 	});
-
-	@ServerStartupEvent
-	public static void addCerebrumLOSOverride() {
-		Entity.addLOSOverrides(15460);
-	}
-
 }

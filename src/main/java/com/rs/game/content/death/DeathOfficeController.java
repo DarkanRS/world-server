@@ -212,7 +212,7 @@ public class DeathOfficeController extends InstancedController {
 
 	@Override
 	public void onTeleported(TeleType type) {
-		removeController();
+		player.getControllerManager().forceStop();
 	}
 
 	@Override

@@ -1,7 +1,7 @@
 package com.rs.game.content.minigames.trawler;
 
 import com.rs.game.model.entity.Teleport;
-import com.rs.game.model.entity.pathing.RouteEvent;
+import com.rs.engine.pathfinder.RouteEvent;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.Animation;

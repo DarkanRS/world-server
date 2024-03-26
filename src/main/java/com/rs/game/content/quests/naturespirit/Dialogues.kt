@@ -6,7 +6,7 @@ import com.rs.engine.dialogue.startConversation
 import com.rs.engine.dialogue.HeadE.*
 import com.rs.engine.quest.Quest
 import com.rs.game.World
-import com.rs.game.content.canSpeakWithGhosts
+import com.rs.game.content.utils.canSpeakWithGhosts
 import com.rs.game.content.skills.magic.Magic
 import com.rs.game.content.world.areas.morytania.npcs.DREZEL
 import com.rs.game.model.entity.npc.NPC

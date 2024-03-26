@@ -27,7 +27,6 @@ import com.rs.engine.quest.Quest;
 import com.rs.game.World;
 import com.rs.game.content.ItemConstants;
 import com.rs.game.content.combat.CombatDefinitions.Spellbook;
-import com.rs.game.content.combat.PlayerCombat;
 import com.rs.game.content.combat.PlayerCombatKt;
 import com.rs.game.content.items.Spade;
 import com.rs.game.content.minigames.creations.StealingCreationLobbyController;
@@ -60,7 +59,7 @@ import com.rs.game.content.world.unorganized_dialogue.StrongholdRewardD;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
-import com.rs.game.model.entity.pathing.RouteEvent;
+import com.rs.engine.pathfinder.RouteEvent;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.EmotesManager.Emote;
 import com.rs.game.model.object.GameObject;
@@ -687,10 +686,8 @@ public final class ObjectHandler {
 				player.useStairs(-1, Tile.of(2402, 3419, 0), 0, 1);
 			else if (id == 17209)
 				player.useStairs(-1, Tile.of(2408, 9812, 0), 0, 1);
-			else if (id == 1754 && x == 2594 && y == 3085)
-				player.useStairs(827, Tile.of(2594, 9486, 0));
-			else if (id == 1757 && x == 2594 && y == 9485)
-				player.useStairs(828, Tile.of(2594, 3086, 0));
+			else if (id == 1754)
+				player.useLadder(player.transform(0, 6400));
 			else if (id == 2811 || id == 2812) {
 				player.useStairs(id == 2812 ? 827 : -1, id == 2812 ? Tile.of(2501, 2989, 0) : Tile.of(2574, 3029, 0));
 				WorldTasks.schedule(() -> player.playerDialogue(HeadE.AMAZED, "Wow! That tunnel went a long way."));

@@ -29,6 +29,10 @@ import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.ItemOnNPCHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 @PluginEventHandler
 public class ToolLeprechaun {
 
@@ -53,11 +57,6 @@ public class ToolLeprechaun {
 		if (item == null)
 			return;
 		player.takeLeprechaunItem(item, amount);
-	}
-	
-	@ServerStartupEvent
-	public static void addLoSOverrides() {
-		Entity.addLOSOverrides("Tool leprechaun", "Tool Leprechaun");
 	}
 
 	public static NPCClickHandler handleToolLeprechaun = new NPCClickHandler(new Object[] { "Tool leprechaun", "Tool Leprechaun" }, e -> {
@@ -94,14 +93,20 @@ public class ToolLeprechaun {
 		}
 	});
 
+	private static final List<Integer> NOTABLE_HERBS = Arrays.asList(
+			249, 251, 253, 255, 257, 259, 261, 263, 265, 267, 269, 2481, 2998, 3000, 12172, 14854, 21624
+	);
+
 	public static ItemOnNPCHandler handleItemOnLeprechaun = new ItemOnNPCHandler(new Object[] { "Tool leprechaun", "Tool Leprechaun" }, e -> {
-		if (ProduceType.isProduce(e.getItem().getId()) && e.getItem().getDefinitions().getCertId() != -1) {
-			int num = e.getPlayer().getInventory().getNumberOf(e.getItem().getId());
-			e.getPlayer().getInventory().deleteItem(e.getItem().getId(), num);
-			e.getPlayer().getInventory().addItem(new Item(e.getItem().getDefinitions().getCertId(), num));
+		int itemId = e.getItem().getId();
+		ProduceType produceType = ProduceType.forProduce(itemId);
+		if ((produceType == null || e.getItem().getDefinitions().getCertId() == -1) && !NOTABLE_HERBS.contains(itemId)) {
+			e.getPlayer().sendMessage("The leprechaun cannot note that item for you.");
 			return;
 		}
-		e.getPlayer().sendMessage("The leprechaun cannot note that item for you.");
+		int num = e.getPlayer().getInventory().getNumberOf(itemId);
+		e.getPlayer().getInventory().deleteItem(itemId, num);
+		e.getPlayer().getInventory().addItem(new Item(e.getItem().getDefinitions().getCertId(), num));
 	});
 
 	public static ButtonClickHandler handleWithdrawInter = new ButtonClickHandler(125, e -> {

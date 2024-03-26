@@ -19,6 +19,8 @@ package com.rs.game.model.entity.npc;
 import com.rs.cache.loaders.Bonus;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.cache.loaders.interfaces.IFEvents;
+import com.rs.engine.pathfinder.*;
+import com.rs.engine.pathfinder.collision.CollisionStrategyType;
 import com.rs.engine.thread.AsyncTaskExecutor;
 import com.rs.game.World;
 import com.rs.game.content.Effect;
@@ -39,7 +41,6 @@ import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AggressiveType;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.Skill;
-import com.rs.game.model.entity.pathing.*;
 import com.rs.game.model.entity.player.Bank;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.AuraManager;
@@ -128,7 +129,7 @@ public class NPC extends Entity {
 		setHitpoints(getMaxHitpoints());
 		setFaceAngle(direction == null ? getRespawnDirection() : direction.getAngle());
 		setRandomWalk((getDefinitions().walkMask & 0x2) != 0 || forceRandomWalk(id));
-		setClipType((getDefinitions().walkMask & 0x4) != 0 ? ClipType.WATER : ClipType.NORMAL);
+		setCollisionStrategyType((getDefinitions().walkMask & 0x4) != 0 ? CollisionStrategyType.WATER : CollisionStrategyType.NORMAL);
 		size = getDefinitions().size;
 		if (getDefinitions().hasAttackOption())
 			setRandomWalk(true);
@@ -268,9 +269,9 @@ public class NPC extends Entity {
 						if (Utils.random(2) == 0)
 							moveY = -moveY;
 						resetWalkSteps();
-						DumbRouteFinder.addDumbPathfinderSteps(this, respawnTile.transform(moveX, moveY, 0), getDefinitions().hasAttackOption() ? 7 : 3, getClipType());
+						DumbRouteFinder.addDumbPathfinderSteps(this, respawnTile.transform(moveX, moveY, 0), getDefinitions().hasAttackOption() ? 7 : 3, getCollisionStrategy());
 						if (Utils.getDistance(this.getTile(), respawnTile) > 3 && !getDefinitions().hasAttackOption())
-							DumbRouteFinder.addDumbPathfinderSteps(this, respawnTile, getDefinitions().hasAttackOption() ? 7 : 3, getClipType());
+							DumbRouteFinder.addDumbPathfinderSteps(this, respawnTile, getDefinitions().hasAttackOption() ? 7 : 3, getCollisionStrategy());
 					}
 				}
 			}
@@ -279,14 +280,12 @@ public class NPC extends Entity {
 			if (!hasEffect(Effect.FREEZE))
 				if (getX() != forceWalk.getX() || getY() != forceWalk.getY()) {
 					if (!hasWalkSteps()) {
-						Route route = RouteFinder.find(getX(), getY(), getPlane(), getSize(), new FixedTileStrategy(forceWalk.getX(), forceWalk.getY()), true);
-						for (int i = route.getStepCount() - 1; i >= 0; i--)
-							if (!addWalkSteps(route.getBufferX()[i], route.getBufferY()[i], 25, true, true))
-								break;
-					}
-					if (!hasWalkSteps()) { // failing finding route
-						tele(Tile.of(forceWalk));
-						forceWalk = null; // so ofc reached forcewalk place
+						Route route = RouteFinderKt.routeEntityToTile(this, forceWalk, 25);
+						if (route.getFailed()) {
+							tele(Tile.of(forceWalk));
+							forceWalk = null;
+						} else
+							RouteFinderKt.walkRoute(this, route, true);
 					}
 				} else
 					// walked till forcewalk place

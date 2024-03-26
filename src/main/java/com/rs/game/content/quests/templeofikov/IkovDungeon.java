@@ -39,7 +39,8 @@ public class IkovDungeon {
 	});
 
 	public static ObjectClickHandler handleIceLever = new ObjectClickHandler(new Object[]{ 87 }, e -> {
-		e.getObject().setId(36);
+		//e.getObject().setId(36);
+		e.getPlayer().sendMessage("You pull the lever and hear a click.");
 		if(e.getPlayer().getQuestManager().getStage(Quest.TEMPLE_OF_IKOV) == TempleOfIkov.HELP_LUCIEN)
 			e.getPlayer().getQuestManager().getAttribs(Quest.TEMPLE_OF_IKOV).setB("LeverIcePulled", true);
 	});

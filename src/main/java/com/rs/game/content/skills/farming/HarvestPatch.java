@@ -94,7 +94,7 @@ public class HarvestPatch extends PlayerAction {
 	@Override
 	public int processWithDelay(Player player) {
 		player.setNextAnimation(animation);
-		if (patch.seed.decLife(player))
+		if (patch.seed.decreaseLife(player))
 			patch.lives--;
 		if (patch.seed == ProduceType.Willow)
 			player.getInventory().addItemDrop(5933, 1);

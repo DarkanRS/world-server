@@ -26,7 +26,7 @@ import com.rs.game.content.quests.heroesquest.HeroesQuest;
 import com.rs.game.content.quests.knightssword.KnightsSword;
 import com.rs.game.content.quests.knightssword.ThurgoKnightsSwordD;
 import com.rs.game.content.world.unorganized_dialogue.skillmasters.GenericSkillcapeOwnerD;
-import com.rs.game.model.entity.pathing.Direction;
+import com.rs.engine.pathfinder.Direction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.Item;
@@ -39,11 +39,11 @@ import com.rs.utils.shop.ShopsHandler;
 public class PortSarim {
 
 	public static PlayerStepHandler musicRustyAnchorInn = new PlayerStepHandler(new Tile[]{Tile.of(3053, 3255, 0), Tile.of(3053, 3254, 0), Tile.of(3053, 3259, 0), Tile.of(3053, 3260, 0)}, e -> {
-		if (e.getTile().getY() == 3255 && e.getStep().getDir() == Direction.NORTH) {
+		if (e.getTile().getY() == 3255 && e.getStep().dir == Direction.NORTH) {
 			e.getPlayer().getMusicsManager().playSpecificAmbientSong(719, true);
 			return;
 		}
-		if (e.getTile().getY() == 3259 && e.getStep().getDir() == Direction.SOUTH) {
+		if (e.getTile().getY() == 3259 && e.getStep().dir == Direction.SOUTH) {
 			e.getPlayer().getMusicsManager().playSpecificAmbientSong(719, true);
 			return;
 		}

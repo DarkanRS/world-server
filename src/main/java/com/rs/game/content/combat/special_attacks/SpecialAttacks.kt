@@ -4,14 +4,13 @@ import com.rs.game.World
 import com.rs.game.content.Effect
 import com.rs.game.content.combat.*
 import com.rs.game.content.combat.AmmoType.Companion.forId
-import com.rs.game.content.combat.PlayerCombat.*
 import com.rs.game.model.entity.Entity
 import com.rs.game.model.entity.Hit
 import com.rs.game.model.entity.Hit.HitLook
 import com.rs.game.model.entity.async.schedule
 import com.rs.game.model.entity.interactions.PlayerCombatInteraction
 import com.rs.game.model.entity.npc.NPC
-import com.rs.game.model.entity.pathing.Direction
+import com.rs.engine.pathfinder.Direction
 import com.rs.game.model.entity.player.Equipment
 import com.rs.game.model.entity.player.Player
 import com.rs.game.model.entity.player.Skills

@@ -15,12 +15,6 @@ import com.rs.plugin.handlers.NPCClickHandler;
 @PluginEventHandler
 public class Thump {
 
-    @ServerStartupEvent
-    public static void addLoSOverride() {
-        Entity.addLOSOverride(7100);
-        Entity.addLOSOverride(7101);
-    }
-
     //Varbit handles all post quest content, Move to quest once implemented
     public static LoginHandler login = new LoginHandler(e -> {
         if (e.getPlayer().isQuestComplete(Quest.AS_A_FIRST_RESORT))
