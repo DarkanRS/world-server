@@ -24,10 +24,7 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.lib.util.Utils;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 
@@ -82,8 +79,12 @@ public class Dialogue {
 		return event;
 	}
 
+	public Dialogue addGotoStage(String stageName, Map<String, Dialogue> stages) {
+		return addNext(new StageSelectDialogue(stageName, stages));
+	}
+
 	public Dialogue addGotoStage(String stageName, Conversation conversation) {
-		return addNext(new StageSelectDialogue(stageName, conversation));
+		return addNext(new StageSelectDialogue(stageName, conversation.getStages()));
 	}
 
 	public Dialogue addGotoStage(Dialogue directNextReference) {
