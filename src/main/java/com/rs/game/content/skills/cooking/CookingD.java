@@ -17,12 +17,18 @@
 package com.rs.game.content.skills.cooking;
 
 import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.impl.MakeXActionD;
+import com.rs.engine.dialogue.impl.MakeXItem;
 import com.rs.engine.dialogue.statements.MakeXStatement;
 import com.rs.engine.dialogue.statements.MakeXStatement.MakeXType;
 import com.rs.game.content.skills.cooking.Cooking.Cookables;
+import com.rs.game.content.skills.fletching.Fletching;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.Constants;
+import com.rs.lib.game.Item;
+import com.rs.lib.util.Utils;
 import com.rs.plugin.handlers.ItemOnItemHandler;
 
 public class CookingD extends Conversation {
@@ -55,10 +61,16 @@ public class CookingD extends Conversation {
 			return;
 		}
 		if (player.getSkills().getLevel(Constants.COOKING) < cookable.getLevel()) {
-			addSimple("You need a Cooking level of " + cookable.getLevel() + " to cook a " + cookable.getProductItem().getName().toLowerCase() + ".");
+			addSimple("You need a Cooking level of " + cookable.getLevel() + " to cook " + Utils.addArticle(new Item(cookable.getProductItem()[0]).getDefinitions().getName().toLowerCase()) + ".");
 			return;
 		}
-		addNext(new MakeXStatement(MakeXType.COOK, player.getInventory().getAmountOf(cookable.getRawItem().getId()), "Choose how many you wish to cook,<br>then click on the item to begin.", new int[] { cookable.getProductItem().getId() }, null));
-		addNext(() -> player.getActionManager().setAction(new Cooking(player, gameObject, cookable, MakeXStatement.getQuantity(player))));
+
+		Dialogue makeX = addNext(new MakeXStatement(MakeXType.COOK, player.getInventory().getAmountOf(cookable.getRawItem().getId()), "Choose how many you wish to cook,<br>then click on the item to begin.", cookable.getProductItem(), null));
+		for (int i = 0; i < cookable.getProductItem().length; i++) {
+			final int option = i;
+			makeX.addNext(() -> {
+				player.getActionManager().setAction(new Cooking(player, option, gameObject, cookable, MakeXStatement.getQuantity(player)));
+			});
+		}
 	}
 }
