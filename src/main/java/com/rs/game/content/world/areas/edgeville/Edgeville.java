@@ -34,6 +34,8 @@ import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.shop.ShopsHandler;
 
+import static com.rs.game.content.quests.dragonslayer.DragonSlayer.*;
+
 @PluginEventHandler
 public class Edgeville  {
 
@@ -47,7 +49,7 @@ public class Edgeville  {
 			e.getPlayer().handleOneWayDoor(e.getObject());
 	});
 
-    public static ObjectClickHandler handleBlackKnightWall = new ObjectClickHandler(new Object[] { 2341 }, e -> Doors.handleDoor(e.getPlayer(), e.getObject(), -1));
+	public static ObjectClickHandler handleBlackKnightWall = new ObjectClickHandler(new Object[] { 2341 }, e -> Doors.handleDoor(e.getPlayer(), e.getObject(), -1));
 
 	public static ObjectClickHandler handleJailEntrance = new ObjectClickHandler(new Object[] { 29603 }, e -> e.getPlayer().useStairs(-1, Tile.of(3082, 4229, 0), 0, 1));
 
@@ -92,16 +94,29 @@ public class Edgeville  {
 	});
 
 	public static NPCClickHandler handleOziachDialogue = new NPCClickHandler(new Object[] { 747 }, e -> {
+		int dragonSlayerStage = e.getPlayer().getQuestManager().getStage(Quest.DRAGON_SLAYER);
 		if (e.getOption().equalsIgnoreCase("trade"))
-			if(e.getPlayer().isQuestComplete(Quest.DRAGON_SLAYER))
-				ShopsHandler.openShop(e.getPlayer(), "oziach");
-			else
-				e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
-					{
-						addNPC(e.getNPCId(), HeadE.FRUSTRATED, "I don't have anything to sell...");
-						create();
-					}
-				});
+			switch (dragonSlayerStage) {
+				case NOT_STARTED, TALK_TO_OZIACH:
+					e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
+						{
+							addNPC(e.getNPCId(), HeadE.FRUSTRATED, "I don't have anything to sell.");
+							create();
+						}
+					});
+					break;
+				case TALK_TO_GUILDMASTER, PREPARE_FOR_CRANDOR, REPORT_TO_OZIACH:
+					e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
+						{
+							addNPC(e.getNPCId(), HeadE.FRUSTRATED, "I'm not sellin' ye anything till you've slayed that dragon! Now be off wi' ye.");
+							create();
+						}
+					});
+					break;
+				case QUEST_COMPLETE:
+					ShopsHandler.openShop(e.getPlayer(), "oziach");
+					break;
+			}
 		if(e.getOption().equalsIgnoreCase("Talk-to"))
 			if(e.getPlayer().isQuestComplete(Quest.DRAGON_SLAYER))
 				e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
@@ -130,7 +145,7 @@ public class Edgeville  {
 																player.getInventory().deleteItem(1540, 1);
 																player.getInventory().addItem(11283, 1);
 															}) : new Dialogue().addNPC(747, HeadE.CALM_TALK, "Ye seem to be missing some stuff. Come see me when ye have an anti-dragon shield and my payment."))
-													));
+											));
 								option("Can I buy a rune platebody now, please?", new Dialogue().addPlayer(HeadE.CALM, "Can I buy a rune platebody now, please?").addNext(() -> ShopsHandler.openShop(player, "oziach")));
 								if (!player.getInventory().containsItem(11286)) {
 									option("I'm not your friend.", new Dialogue().addPlayer(HeadE.CALM, "I'm not your friend.").addNPC(747, HeadE.FRUSTRATED, "I'm surprised if you're anyone's friend with those kind of manners."));
@@ -157,12 +172,12 @@ public class Edgeville  {
 								.addPlayer(HeadE.HAPPY_TALKING, "Can you heal me? I'm injured.")
 								.addNPC(NPC, HeadE.CALM_TALK, "Ok.")
 								.addSimple("Abbot Langley places his hands on your head. You feel a little better.", () -> p.heal(p.getMaxHitpoints()))
-								);
+						);
 						option("Isn't this place built a bit out of the way?", new Dialogue()
 								.addPlayer(HeadE.HAPPY_TALKING, "Isn't this place built a bit out of the way?")
 								.addNPC(NPC, HeadE.CALM_TALK, "We like it that way actually! We get disturbed less. We still get rather a large amount " +
 										"of travellers looking for sanctuary and healing here as it is!")
-								);
+						);
 						if(p.getSkills().getLevel(Constants.PRAYER)<31)
 							option("How do I get further into the monastery?", new Dialogue()
 									.addPlayer(HeadE.HAPPY_TALKING, "How do I get further into the monastery?")
@@ -174,13 +189,13 @@ public class Edgeville  {
 													.addPlayer(HeadE.HAPPY_TALKING, "Well can I join your order?")
 													.addNPC(NPC, HeadE.CALM_TALK, "No. I am sorry, but I feel you are not devout enough.")
 													.addSimple("You need 31 prayer to enter the inner monastary.")
-													);
+											);
 											option("Oh, sorry.", new Dialogue()
 													.addPlayer(HeadE.HAPPY_TALKING, "Oh, sorry.")
-													);
+											);
 										}
 									})
-									);
+							);
 					}
 				});
 				create();
