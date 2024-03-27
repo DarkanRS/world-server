@@ -15,11 +15,6 @@ public class Avalani extends Conversation {
 
     private static final int npcId = 13827;
 
-    @ServerStartupEvent
-    public static void addLoSOverrides() {
-        Entity.addLOSOverrides(npcId);
-    }
-
     public static NPCClickHandler Avalani = new NPCClickHandler(new Object[] { npcId }, e -> {
         if (e.getOption().equalsIgnoreCase("chat")) {
             e.getPlayer().startConversation(new Avalani(e.getPlayer(), e.getNPC()));

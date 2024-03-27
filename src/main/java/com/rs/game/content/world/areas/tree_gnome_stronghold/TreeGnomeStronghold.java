@@ -14,7 +14,7 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.content.world.areas.gnome_stronghold;
+package com.rs.game.content.world.areas.tree_gnome_stronghold;
 
 import com.rs.game.map.ChunkManager;
 import com.rs.game.model.object.GameObject;

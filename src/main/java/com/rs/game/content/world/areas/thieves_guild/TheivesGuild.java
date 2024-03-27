@@ -105,11 +105,6 @@ public class TheivesGuild {
         }
     });
 
-    @ServerStartupEvent
-    public static void addLoSOverrides() {
-        Entity.addLOSOverride(11299);
-    }
-
     public static NPCInteractionDistanceHandler MrPinsworthDistance = new NPCInteractionDistanceHandler(new Object[] { 11299 }, (p, n) -> 1);
 
     public static NPCClickHandler MrPinsworth = new NPCClickHandler(new Object[] { 11299 }, e -> {

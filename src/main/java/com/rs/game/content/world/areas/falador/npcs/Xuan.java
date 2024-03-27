@@ -30,12 +30,6 @@ import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
 public class Xuan {
-	
-	@ServerStartupEvent
-	public static void addLoSOverride() {
-		Entity.addLOSOverride(13727);
-	}
-
 	public static NPCClickHandler onNPCClick = new NPCClickHandler(new Object[] { 13727 }, e -> {
 		Player player = e.getPlayer();
 		NPC npc = e.getNPC();

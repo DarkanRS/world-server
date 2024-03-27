@@ -77,7 +77,7 @@ public class EvilChickenD extends Conversation {
                     }
                 });
             }
-            addNext(new StageSelectDialogue("huntOps", this));
+            addNext(new StageSelectDialogue("huntOps", this.getStages()));
         }
 
         player.getNSV().setB("talkedWithEvilChicken", true);

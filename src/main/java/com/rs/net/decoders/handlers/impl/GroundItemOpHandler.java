@@ -72,10 +72,8 @@ public class GroundItemOpHandler implements PacketHandler<Player, GroundItemOp> 
 		case GROUND_ITEM_OP3:
 			player.setRouteEvent(new RouteEvent(item, () -> {
 				final GroundItem groundItem = ChunkManager.getChunk(tile.getChunkId()).getGroundItem(packet.getObjectId(), tile, player);
-				if (groundItem == null || !player.getControllerManager().canTakeItem(groundItem)) {
-					player.sendMessage("Too late. It's gone!");
+				if (groundItem == null || !player.getControllerManager().canTakeItem(groundItem))
 					return;
-				}
 				if (TreasureTrailsManager.isScroll(groundItem.getId()))
 					if (player.getTreasureTrailsManager().hasClueScrollItem()) {
 						player.sendMessage("You should finish the clue you are currently doing first.");
@@ -89,11 +87,9 @@ public class GroundItemOpHandler implements PacketHandler<Player, GroundItemOp> 
 				}
 			}, () -> {
 				final GroundItem groundItem = ChunkManager.getChunk(tile.getChunkId()).getGroundItem(packet.getObjectId(), tile, player);
-				if (groundItem == null || !player.getControllerManager().canTakeItem(groundItem)) {
-					player.sendMessage("Too late. It's gone!");
+				if (groundItem == null || !player.getControllerManager().canTakeItem(groundItem))
 					return true;
-				}
-				if (!player.lineOfSightTo(groundItem.getTile(), false)) {
+				if (!player.lineOfSightTo(groundItem.getTile(), true)) {
 					player.sendMessage("You can't reach that.");
 					return true;
 				}

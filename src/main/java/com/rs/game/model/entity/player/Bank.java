@@ -221,6 +221,19 @@ public class Bank {
 		return false;
 	}
 
+	public boolean containsItem(int itemId) {
+		if (bankTabs != null) {
+			for (Item[] bankTab : bankTabs) {
+				for (Item element : bankTab) {
+					if (element.getId() == itemId) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+
 	public void setPlayer(Player player) {
 		this.player = player;
 		if (bankTabs == null || bankTabs.length == 0)

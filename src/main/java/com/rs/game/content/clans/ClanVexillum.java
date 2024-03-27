@@ -42,11 +42,6 @@ public class ClanVexillum extends OwnedNPC {
 		CLAN_VEXES.put(clan.getName(), this);
 	}
 	
-	@ServerStartupEvent
-	public static void addLoSOverrides() {
-		Entity.addLOSOverride(13634);
-	}
-	
 	public static NPCClickHandler interact = new NPCClickHandler(new Object[] { 13634 }, e -> {
 		if (!(e.getNPC() instanceof ClanVexillum vex)) {
 			e.getNPC().finish();

@@ -153,11 +153,6 @@ public class ShootingStars {
         }
     });
 
-    @ServerStartupEvent
-    public static void addLoSOverride() {
-        Entity.addLOSOverride(8091);
-    }
-
     public static NPCClickHandler handleStarSprite = new NPCClickHandler(new Object[] { 8091 }, e -> {
        e.getNPC().resetDirection();
        if (e.getPlayer().getDailyI("stardustHandedIn") < 200 && e.getPlayer().getInventory().containsItem(13727, 1)) {

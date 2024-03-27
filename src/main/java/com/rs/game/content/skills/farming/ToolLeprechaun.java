@@ -58,11 +58,6 @@ public class ToolLeprechaun {
 			return;
 		player.takeLeprechaunItem(item, amount);
 	}
-	
-	@ServerStartupEvent
-	public static void addLoSOverrides() {
-		Entity.addLOSOverrides("Tool leprechaun", "Tool Leprechaun");
-	}
 
 	public static NPCClickHandler handleToolLeprechaun = new NPCClickHandler(new Object[] { "Tool leprechaun", "Tool Leprechaun" }, e -> {
 		switch(e.getOption()) {
