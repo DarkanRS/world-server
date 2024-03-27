@@ -2283,11 +2283,11 @@ public class Player extends Entity {
 
 	public void sendPVEItemsOnDeath(Player killer, boolean dropItems) {
 		Integer[][] slots = GraveStone.getItemSlotsKeptOnDeath(this, true, dropItems, prayer.isProtectingItem());
-		sendPVEItemsOnDeath(killer, Tile.of(getTile()), Tile.of(getTile()), true, slots);
+		sendPVEItemsOnDeath(killer, Tile.of(getTile()), true, slots);
 	}
 
-	public void sendPVEItemsOnDeath(Player killer, Tile deathTile, Tile respawnTile, boolean noGravestone, Integer[][] slots) {
-		if (hasRights(Rights.ADMIN) || Settings.getConfig().isDebug())
+	public void sendPVEItemsOnDeath(Player killer, Tile deathTile, boolean noGravestone, Integer[][] slots) {
+		if ((Settings.getConfig().isDebug() && !hasRights(Rights.ADMIN)) || (!Settings.getConfig().isDebug() && hasRights(Rights.ADMIN)))
 			return;
 		auraManager.removeAura();
 		Item[][] items = GraveStone.getItemsKeptOnDeath(this, slots);
