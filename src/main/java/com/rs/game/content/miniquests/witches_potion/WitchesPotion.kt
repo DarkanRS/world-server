@@ -89,7 +89,7 @@ fun mapWitchesPotion() {
     onNpcClick(307) { (p, npc) ->
         HettyD(p, npc)
     }
-    onObjectClick(2024) { (p, obj) ->
+    onObjectClick(2024) { (p) ->
         p.startConversation {
             simple("You drink from the cauldron. It tastes horrible!<br>You feel yourself imbued with power.")
             exec { p.miniquestManager.complete(Miniquest.WITCHES_POTION) }
