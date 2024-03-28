@@ -54,7 +54,7 @@ fun mapBarCrawl() {
 
 @MiniquestHandler(
     miniquest = Miniquest.BAR_CRAWL,
-    startText = "The Barbarian Guards outside the Barbarian Output in Kandarin.",
+    startText = "The Barbarian Guards outside the Barbarian Outpost in Kandarin.",
     itemsText = "208 gold coins.",
     combatText = "None.",
     rewardsText = "Access to the Barbarian Outpost.<br>Access to the Barbarian Agility Course.",
