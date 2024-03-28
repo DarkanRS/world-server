@@ -46,8 +46,7 @@ public class BuyersAndCellars extends QuestOutline {
                 lines.add("");
             }
             case 4 -> {
-                lines.add("Robin tells me that the chalice has been taken into Lumbridge Swamp");
-                lines.add("by an irritable old man.");
+                lines.add("Robin tells me that the chalice has been taken into Lumbridge Swamp by an irritable old man.");
                 lines.add("");
             }
             case 5 -> {

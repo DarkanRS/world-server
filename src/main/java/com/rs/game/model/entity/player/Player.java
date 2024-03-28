@@ -4238,8 +4238,8 @@ public class Player extends Entity {
 		return isQuestComplete(quest, null);
 	}
 
-	public boolean isMiniquestComplete(Miniquest quest, String actionString) {
-		return getMiniquestManager().isComplete(quest, actionString);
+	public boolean isMiniquestComplete(Miniquest quest, String actionString, boolean outputReqs) {
+		return getMiniquestManager().isComplete(quest, actionString, outputReqs);
 	}
 
 	public boolean isQuestStarted(Quest quest) {
@@ -4250,7 +4250,10 @@ public class Player extends Entity {
 		return getMiniquestStage(quest) > 0;
 	}
 	public boolean isMiniquestComplete(Miniquest quest) {
-		return isMiniquestComplete(quest, null);
+		return isMiniquestComplete(quest, null, false);
+	}
+	public boolean isMiniquestComplete(Miniquest quest, boolean outputReqs) {
+		return isMiniquestComplete(quest, null, outputReqs);
 	}
 
 	public void delayLock(int ticks, Runnable task) {

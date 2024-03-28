@@ -3,6 +3,7 @@ package com.rs.game.content.world.areas.lumbridge.npcs;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.quest.Quest;
+import com.rs.game.content.quests.buyersandcellars.npcs.FatherUrhneyBuyersAndCellars;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
@@ -27,14 +28,14 @@ public class FatherUrhney {
                     if (stageBuyersAndCellars >= 4 && !hasBuyersAndCellars)
                         questOptions.add("Talk about Buyers and Cellars.", () -> {
                             if (stageBuyersAndCellars == 4 || stageBuyersAndCellars == 5) {
-                                com.rs.game.content.quests.buyersandcellars.npcs.FatherUrhney.stage4(player);
+                                FatherUrhneyBuyersAndCellars.stage4(player, e.getNPC());
                             }
                             else
-                                com.rs.game.content.quests.buyersandcellars.npcs.FatherUrhney.stage6(player, e.getNPC());
+                                FatherUrhneyBuyersAndCellars.stage6(player, e.getNPC());
                         });
 
-                    questOptions.add("Nevermind")
-                            .addPlayer(HeadE.CALM_TALK, "Erm nothing, Nevermind.")
+                    questOptions.add("Never mind.")
+                            .addPlayer(HeadE.CALM_TALK, "Erm nothing, never mind.")
                             .addNPC(NPC, HeadE.FRUSTRATED, "Bah.");
                 })
         );

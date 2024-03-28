@@ -773,13 +773,13 @@ public class MiscTest {
 			for (Quest quest : Quest.values())
 				if (quest.name().toLowerCase().contains(args[0]) && quest.isImplemented()) {
 					p.getQuestManager().resetQuest(quest);
-					p.sendMessage("Resetted quest: " + quest.name());
+					p.sendMessage("Reset quest: " + quest.name());
 					return;
 				}
 			for (Miniquest quest : Miniquest.values())
 				if (quest.name().toLowerCase().contains(args[0]) && quest.isImplemented()) {
 					p.getMiniquestManager().reset(quest);
-					p.sendMessage("Resetted miniquest: " + quest.name());
+					p.sendMessage("Reset miniquest: " + quest.name());
 					return;
 				}
 		});
