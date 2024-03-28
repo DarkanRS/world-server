@@ -19,15 +19,15 @@ import com.rs.utils.shop.ShopsHandler;
 public class TheivesGuild {
 
     public static LoginHandler login = new LoginHandler(e -> {
-        if (Miniquest.A_GUILD_OF_OUR_OWN.isImplemented() && e.getPlayer().isMiniquestComplete(Miniquest.A_GUILD_OF_OUR_OWN, null)) {
+        if (Miniquest.A_GUILD_OF_OUR_OWN.isImplemented() && e.getPlayer().isMiniquestComplete(Miniquest.A_GUILD_OF_OUR_OWN, false)) {
             e.getPlayer().getVars().saveVarBit(7792, 40);
             return;
         }
-        if (Miniquest.LOST_HER_MARBLES.isImplemented() && e.getPlayer().isMiniquestComplete(Miniquest.LOST_HER_MARBLES, null)) {
+        if (Miniquest.LOST_HER_MARBLES.isImplemented() && e.getPlayer().isMiniquestComplete(Miniquest.LOST_HER_MARBLES, false)) {
             e.getPlayer().getVars().saveVarBit(7792, 20);
             return;
         }
-        if (Miniquest.FROM_TINY_ACORNS.isImplemented() && e.getPlayer().isMiniquestComplete(Miniquest.FROM_TINY_ACORNS, null)) {
+        if (Miniquest.FROM_TINY_ACORNS.isImplemented() && e.getPlayer().isMiniquestComplete(Miniquest.FROM_TINY_ACORNS, false)) {
             e.getPlayer().getVars().saveVarBit(7792, 10);
             return;
         }
@@ -44,19 +44,19 @@ public class TheivesGuild {
             e.getPlayer().sendMessage("The cellar is securely locked.");
             return;
         }
-        if (Miniquest.A_GUILD_OF_OUR_OWN.isImplemented() && e.getPlayer().isMiniquestComplete(Miniquest.A_GUILD_OF_OUR_OWN, null)) {
+        if (Miniquest.A_GUILD_OF_OUR_OWN.isImplemented() && e.getPlayer().isMiniquestComplete(Miniquest.A_GUILD_OF_OUR_OWN, false)) {
             e.getPlayer().useLadder(Tile.of(4762, 5763, 0));
             e.getPlayer().getVars().saveVarBit(7792, 40); //Darren T4
             e.getPlayer().getMusicsManager().unlockMusic(840);
             return;
         }
-        if (Miniquest.LOST_HER_MARBLES.isImplemented() && e.getPlayer().isMiniquestComplete(Miniquest.LOST_HER_MARBLES, null)) {
+        if (Miniquest.LOST_HER_MARBLES.isImplemented() && e.getPlayer().isMiniquestComplete(Miniquest.LOST_HER_MARBLES, false)) {
             e.getPlayer().useLadder(Tile.of(4634, 5763, 0));
             e.getPlayer().getVars().saveVarBit(7792, 20); //Darren T3
             e.getPlayer().getMusicsManager().unlockMusic(838);
             return;
         }
-        if (Miniquest.FROM_TINY_ACORNS.isImplemented() && e.getPlayer().isMiniquestComplete(Miniquest.FROM_TINY_ACORNS, null)) {
+        if (Miniquest.FROM_TINY_ACORNS.isImplemented() && e.getPlayer().isMiniquestComplete(Miniquest.FROM_TINY_ACORNS, false)) {
             e.getPlayer().useLadder(Tile.of(4634, 5763, 0));
             e.getPlayer().getMusicsManager().unlockMusic(839);
             return;

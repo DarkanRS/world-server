@@ -3,10 +3,9 @@ package com.rs.game.content.quests.buyersandcellars;
 import com.rs.engine.quest.Quest;
 import com.rs.game.content.world.doors.Doors;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.handlers.LoginHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 @PluginEventHandler
-public class Challice {
+public class Chalice {
 
 	public static ObjectClickHandler handleShackDoor = new ObjectClickHandler(new Object[] { 45539, 45540 }, e -> Doors.handleDoor(e.getPlayer(), e.getObject()));
 

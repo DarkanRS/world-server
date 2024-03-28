@@ -61,14 +61,14 @@ public enum Miniquest {
 	private final Quest[] questPreReqs;
 	private final Miniquest[] miniquestPreReqs;
 	private final Map<Integer, Integer> skillReqs;
-    private MiniquestOutline handler;
+	private MiniquestOutline handler;
 
 	Miniquest(String name, Quest[] questPreReqs, Miniquest[] miniquestPreReqs, Map<Integer, Integer> skillReqs, Function<Player, Boolean> canStart) {
 		this.name = name;
 		this.questPreReqs = questPreReqs;
 		this.miniquestPreReqs = miniquestPreReqs;
 		this.skillReqs = skillReqs;
-    }
+	}
 
 	public boolean isImplemented() {
 		return handler != null;
@@ -79,23 +79,25 @@ public enum Miniquest {
 	}
 
 	public boolean meetsReqs(Player player) {
-		return meetsReqs(player, null);
+		return meetsReqs(player, null, false);
 	}
 
-	public boolean meetsReqs(Player player, String actionStr) {
+	public boolean meetsReqs(Player player, String actionStr,  boolean outputReqs) {
 		boolean meetsRequirements = true;
 		if (questPreReqs != null) {
 			for (Quest preReq : questPreReqs) {
 				if (!player.isQuestComplete(preReq, actionStr)) {
-						player.sendMessage("You need to complete " + preReq.getDefs().name + " first.");
+					if (outputReqs)
+					player.sendMessage("You need to complete " + preReq.getDefs().name + " first.");
 					meetsRequirements = false;
 				}
 			}
 		}
 		if (miniquestPreReqs != null) {
 			for (Miniquest preReq : miniquestPreReqs) {
-				if (!player.isMiniquestComplete(preReq, actionStr)) {
-						player.sendMessage("You need to complete " + preReq.getName() + " first.");
+				if (!player.isMiniquestComplete(preReq, actionStr, outputReqs)) {
+					if (outputReqs)
+					player.sendMessage("You need to complete " + preReq.getName() + " first.");
 					meetsRequirements = false;
 				}
 			}
@@ -110,6 +112,7 @@ public enum Miniquest {
 			}
 		}
 		if (!meetsRequirements && actionStr != null)
+			if (outputReqs)
 			player.sendMessage("You must meet the requirements for the miniquest: " + getName() + " " + actionStr);
 		return meetsRequirements;
 	}
