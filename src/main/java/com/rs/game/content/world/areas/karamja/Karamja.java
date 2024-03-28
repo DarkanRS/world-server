@@ -35,6 +35,8 @@ import com.rs.lib.net.ClientPacket;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
+import static com.rs.game.content.quests.dragonslayer.DragonSlayer.*;
+
 @PluginEventHandler
 public class Karamja  {
 
@@ -163,7 +165,7 @@ public class Karamja  {
 
 	public static ObjectClickHandler handleCrandorVolcanoCrater = new ObjectClickHandler(new Object[] { 25154 }, e -> {
 		Player p = e.getPlayer();
-		if (p.getQuestManager().getStage(Quest.DRAGON_SLAYER) == DragonSlayer.PREPARE_FOR_CRANDOR) {
+		if (p.getQuestManager().getStage(Quest.DRAGON_SLAYER) == DragonSlayer.PREPARE_FOR_CRANDOR && !hasHeadAlready(p)) {
 			if (!p.getQuestManager().getAttribs(Quest.DRAGON_SLAYER).getB(DragonSlayer.INTRODUCED_ELVARG_ATTR)) {
 				DragonSlayer.introduceElvarg(p);
 				return;
@@ -232,33 +234,39 @@ public class Karamja  {
 
 	public static ObjectClickHandler handleElvargEntrance = new ObjectClickHandler(new Object[] { 25161 }, e -> {
 		Player p = e.getPlayer();
+		int dragonSlayerStage = p.getQuestManager().getStage(Quest.DRAGON_SLAYER);
+		boolean hasHeadAlready = hasHeadAlready(p);
 
+		if (((dragonSlayerStage >= PREPARE_FOR_CRANDOR && dragonSlayerStage <= REPORT_TO_OZIACH && !hasHeadAlready) || p.getX() == 2847) ||
+				(dragonSlayerStage == REPORT_TO_OZIACH && p.getX() == 2847)) {
 		WorldTasks.scheduleLooping(new Task() {
-			int ticks = 0;
-			boolean goingEast = true;
+				int ticks = 0;
+				boolean goingEast = true;
 
-			@Override
-			public void run() {
-				if (ticks == 0) {
-					if (p.getX() == 2845) {
-						p.setFaceAngle(Direction.getAngleTo(Direction.EAST));
-						p.setNextAnimation(new Animation(839));
-						goingEast = true;
-					} else if (p.getX() == 2847) {
-						p.setFaceAngle(Direction.getAngleTo(Direction.WEST));
-						p.setNextAnimation(new Animation(839));
-						goingEast = false;
-					} else
-						return;
-				} else if (ticks >= 1) {
-					if (goingEast)
-						p.tele(Tile.of(2847, p.getY(), 0));
-					if (!goingEast)
-						p.tele(Tile.of(2845, p.getY(), 0));
-					stop();
+				@Override
+				public void run() {
+					if (ticks == 0) {
+						if (p.getX() == 2845) {
+							p.setFaceAngle(Direction.getAngleTo(Direction.EAST));
+							p.setNextAnimation(new Animation(839));
+							goingEast = true;
+						} else if (p.getX() == 2847) {
+							p.setFaceAngle(Direction.getAngleTo(Direction.WEST));
+							p.setNextAnimation(new Animation(839));
+							goingEast = false;
+						} else return;
+					} else if (ticks >= 1) {
+						if (goingEast) p.tele(Tile.of(2847, p.getY(), 0));
+						if (!goingEast) p.tele(Tile.of(2845, p.getY(), 0));
+						stop();
+					}
+					ticks++;
 				}
-				ticks++;
-			}
-		}, 0, 1);
+			}, 0, 1);
+		} else {
+			String message = (dragonSlayerStage < PREPARE_FOR_CRANDOR) ? "I shouldn't need to go in there." : "I shouldn't need to go back in there.";
+			p.sendMessage(message);
+		}
 	});
+
 }
