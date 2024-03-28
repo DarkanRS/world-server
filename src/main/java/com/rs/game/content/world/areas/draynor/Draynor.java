@@ -22,7 +22,7 @@ import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.dialogue.Options;
 import com.rs.engine.quest.Quest;
 import com.rs.game.World;
-import com.rs.game.content.achievements.AchievementSystemDialogue;
+import com.rs.game.content.achievements.AchievementSystemD;
 import com.rs.game.content.achievements.SetReward;
 import com.rs.game.content.quests.dragonslayer.DragonSlayer;
 import com.rs.game.content.quests.dragonslayer.NedDragonSlayerD;
@@ -83,9 +83,7 @@ addPlayer(HeadE.HAPPY_TALKING, "Sounds good");
 create();
 }
 })));
-                    option("About the Achievement System...",
-                            new AchievementSystemDialogue(player, e.getNPCId(), SetReward.EXPLORERS_RING)
-                            .getStart());
+                    option("About the Achievement System...", () -> new AchievementSystemD(player, e.getNPCId(), SetReward.EXPLORERS_RING));
                     option("Ned, could you make other things from wool?", new Dialogue()
                             .addNPC(NED, HeadE.HAPPY_TALKING, "I am sure I can. What are you thinking of?")
                             .addOptions("Choose an option:", new Options() {

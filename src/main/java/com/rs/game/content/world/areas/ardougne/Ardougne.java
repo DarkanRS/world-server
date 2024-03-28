@@ -23,7 +23,7 @@ import com.rs.engine.dialogue.Options;
 import com.rs.engine.pathfinder.RouteFinderKt;
 import com.rs.engine.quest.Quest;
 import com.rs.game.World;
-import com.rs.game.content.achievements.AchievementSystemDialogue;
+import com.rs.game.content.achievements.AchievementSystemD;
 import com.rs.game.content.achievements.SetReward;
 import com.rs.game.content.quests.monksfriend.dialogues.BrotherCedricMonksFriendD;
 import com.rs.game.content.quests.monksfriend.dialogues.BrotherOmadMonksFriendD;
@@ -104,7 +104,7 @@ public class Ardougne  {
             addOptions("What would you like to say?", new Options() {
                 @Override
                 public void create() {
-                    option("About the Achievement System...", new AchievementSystemDialogue(player, e.getNPCId(), SetReward.ARDOUGNE_CLOAK).getStart());
+                    option("About the Achievement System...", () -> new AchievementSystemD(player, e.getNPCId(), SetReward.ARDOUGNE_CLOAK));
                 }
             });
             create();
@@ -195,7 +195,7 @@ public class Ardougne  {
             addOptions("What would you like to say?", new Options() {
                 @Override
                 public void create() {
-                    option("About the Achievement System...", new AchievementSystemDialogue(player, e.getNPCId(), SetReward.ARDOUGNE_CLOAK).getStart());
+                    option("About the Achievement System...", () -> new AchievementSystemD(player, e.getNPCId(), SetReward.ARDOUGNE_CLOAK));
                 }
             });
             create();
@@ -211,7 +211,7 @@ public class Ardougne  {
 						@Override
 						public void create() {
 							option("Do you have anything for trade?", () -> ShopsHandler.openShop(player, "alecks_hunter_emporium"));
-							option("About the Achievement System...", new AchievementSystemDialogue(player, e.getNPCId(), SetReward.ARDOUGNE_CLOAK).getStart());
+							option("About the Achievement System...", () -> new AchievementSystemD(player, e.getNPCId(), SetReward.ARDOUGNE_CLOAK));
 						}
 					});
 					create();
