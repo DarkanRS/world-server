@@ -1,5 +1,6 @@
 package com.rs.game.map.instance;
 
+import com.rs.Settings;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTasks;
@@ -30,7 +31,15 @@ public class Instance {
 
     private final boolean copyNpcs;
 
-    private transient AtomicBoolean destroyed;
+    private final transient AtomicBoolean destroyed;
+
+    private Instance() {
+        this.returnTo = Settings.getConfig().getPlayerStartTile();
+        this.width = 1;
+        this.height = 1;
+        destroyed = new AtomicBoolean(false);
+        this.copyNpcs = false;
+    }
 
     private Instance(Tile returnTo, int width, int height, boolean copyNpcs) {
         this.returnTo = returnTo;
