@@ -373,7 +373,7 @@ fun loadEaster2021Spawns() {
     ObjectSpawns.add(ObjectSpawn(23117, 10, 0, Tile.of(3210, 3424, 0), "Rabbit hole"))
     NPCSpawns.add(NPCSpawn(9687, Tile.of(3212, 3425, 0), "Easter Bunny"))
     NPCSpawns.add(NPCSpawn(9687, Tile.of(2463, 5355, 0), "Easter Bunny"))
-    NPCSpawns.add(NPCSpawn(7411, Tile.of(2448, 5357, 0), "Easter Bunny Jr").setCustomName("Easter Bunny Jr (Trent with Easter 2021 Event)"))
+    NPCSpawns.add(NPCSpawn(7411, Tile.of(2448, 5357, 0), "Easter Bunny Jr").setCustomName("Easter Bunny Jr (Trent with Easter 2024 Event)"))
     NPCSpawns.add(NPCSpawn(9686, Tile.of(2969, 3431, 0), "Charlie the Squirrel"))
     NPCSpawns.add(NPCSpawn(3283, Tile.of(2968, 3429, 0), "Squirrel"))
     NPCSpawns.add(NPCSpawn(3284, Tile.of(2970, 3429, 0), "Squirrel"))
