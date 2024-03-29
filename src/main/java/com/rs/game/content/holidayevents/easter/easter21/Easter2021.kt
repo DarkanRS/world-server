@@ -303,16 +303,14 @@ fun mapEaster2021() {
                     player(HeadE.HAPPY_TALKING, "No problem, is there any special chocolate you can give me now that everything is fixed?")
                     npc(EASTER_BUNNY, HeadE.CAT_CHEERFUL, "Oh of course! I almost forgot. Here's a magical ring for all the trouble you went through!")
                     player(HeadE.CHEERFUL, "Thank you!")
-                    item(7927, "The Easter Bunny hands you a magical easter ring and unlocks the Around the World emote for you!")
+                    item(7927, "The Easter Bunny hands you a chicken costume and unlocks the Bunny Hop emote for you!")
                     exec {
                         player.save(STAGE_KEY, 9)
-                        //				player.getInventory().addItemDrop(new Item(1037, 1));
-                        //				player.getInventory().addItemDrop(new Item(4565, 1));
-                        //				player.addDiangoReclaimItem(1037);
-                        //				player.addDiangoReclaimItem(4565);
-                        player.inventory.addItemDrop(Item(7927, 1))
-                        player.addDiangoReclaimItem(7927)
-                        player.emotesManager.unlockEmote(EmotesManager.Emote.AROUND_THE_WORLD)
+                        intArrayOf(11022, 11021, 11020, 11019).forEach {
+                            player.inventory.addItemDrop(Item(it, 1))
+                            player.addDiangoReclaimItem(it)
+                        }
+                        player.emotesManager.unlockEmote(EmotesManager.Emote.BUNNY_HOP)
                     }
                 }
 
