@@ -359,8 +359,8 @@ public class Conversation {
 		if (current instanceof StageSelectDialogue d) {
 			if (d.getFunc() != null)
 				d.getFunc().run();
-			if (d.getConversation() != null)
-				current = d.getConversation().getStage(d.getStageName());
+			if (d.getStages() != null)
+				current = d.getStages().get(d.getStageName());
 			else
 				current = d.getDirectNextReference();
 		}
@@ -397,5 +397,9 @@ public class Conversation {
 
 	public boolean isCreated() {
 		return created;
+	}
+
+	public HashMap<String, Dialogue> getStages() {
+		return markedStages;
 	}
 }

@@ -291,7 +291,7 @@ public class ChaosTunnels {
         }
 
         public void travel(Player player, GameObject fromPortal) {
-            if (surokLocked && !player.isMiniquestComplete(Miniquest.HUNT_FOR_SUROK, "to travel through this portal."))
+            if (surokLocked && !player.isMiniquestComplete(Miniquest.HUNT_FOR_SUROK, "to travel through this portal.", true))
                 return;
             if (this == _16 && player.getMiniquestStage(Miniquest.HUNT_FOR_SUROK) == 2) {
                 player.playCutscene(cs -> {

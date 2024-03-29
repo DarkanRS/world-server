@@ -448,6 +448,10 @@ public class DragonSlayer extends QuestOutline {
         }, 0, 1);
     }
 
+    public static boolean hasHeadAlready(Player player) {
+        return player.getInventory().containsItem(ELVARG_HEAD, 1) || player.getBank().containsItem(ELVARG_HEAD);
+    }
+
     @Override
     public void complete(Player player) {
         player.getSkills().addXpQuest(Constants.STRENGTH, 18650);

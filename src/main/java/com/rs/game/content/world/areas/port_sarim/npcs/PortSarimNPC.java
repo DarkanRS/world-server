@@ -4,7 +4,7 @@ import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.quest.Quest;
-import com.rs.game.content.achievements.AchievementSystemDialogue;
+import com.rs.game.content.achievements.AchievementSystemD;
 import com.rs.game.content.achievements.SetReward;
 import com.rs.game.content.quests.piratestreasure.RedbeardFrankPiratesTreasureD;
 import com.rs.game.model.entity.Entity;
@@ -221,9 +221,7 @@ public class PortSarimNPC {
                             ops.add("About Pirate's Treasure", new Dialogue()
                                     .addNext(() -> e.getPlayer().startConversation(new RedbeardFrankPiratesTreasureD(e.getPlayer()))));
 
-                        ops.add("About the Achievement System...",
-                                new AchievementSystemDialogue(e.getPlayer(), REDBEARD_FRANK, SetReward.FALADOR_SHIELD)
-                                        .getStart());
+                        ops.add("About the Achievement System...", () -> new AchievementSystemD(e.getPlayer(), REDBEARD_FRANK, SetReward.FALADOR_SHIELD));
                     }));
         }
     });

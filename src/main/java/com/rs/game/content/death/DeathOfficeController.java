@@ -16,6 +16,7 @@
 //
 package com.rs.game.content.death;
 
+import com.rs.Settings;
 import com.rs.engine.miniquest.Miniquest;
 import com.rs.engine.quest.Quest;
 import com.rs.game.content.skills.magic.Magic;
@@ -274,10 +275,7 @@ public class DeathOfficeController extends InstancedController {
 		player.getPackets().setIFRightClickOps(18, 45, 0, 6, 0);
 		player.setCloseInterfacesEvent(() -> {
 			synchronized (slots) {
-				if (!player.hasRights(Rights.ADMIN))
-					player.sendPVEItemsOnDeath(null, getDeathTile(), currentHub.tile, false, slots);
-				else
-					player.sendMessage("Slots saved: " + Arrays.deepToString(GraveStone.getItemsKeptOnDeath(player, slots)));
+				player.sendPVEItemsOnDeath(null, getDeathTile(), false, slots);
 			}
 			player.setCloseInterfacesEvent(null);
 			player.getPackets().setBlockMinimapState(0);

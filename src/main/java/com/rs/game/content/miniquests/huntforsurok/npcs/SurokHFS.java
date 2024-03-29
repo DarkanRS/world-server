@@ -22,7 +22,7 @@ public class SurokHFS {
                     .addNPC(ID, HeadE.FRUSTRATED, "Escape from Varrock Palace Library? That cruel imprisonment you left me in?")
                     .addPlayer(HeadE.AMAZED, "Well...er...yes.")
                     .addNPC(ID, HeadE.FRUSTRATED, "Bah! A mere trifle for a powerful mage such as myself. There were plenty of other foolish people to help with my plans and you would do well to stay out of my way.")
-                    .addNextIf(() -> !Miniquest.HUNT_FOR_SUROK.meetsReqs(e.getPlayer(), "to start Hunt for Surok."), new Dialogue()
+                    .addNextIf(() -> !Miniquest.HUNT_FOR_SUROK.meetsReqs(e.getPlayer(), "to start Hunt for Surok.", true), new Dialogue()
                             .addStop())
                     .addPlayer(HeadE.FRUSTRATED, "Stop, Surok! As a member of the Varrock Palace Secret Guard, I arrest you! Again!")
                     .addNPC(ID, HeadE.FRUSTRATED, "Ha! I tire of this meaningless drivel. Catch me if you can.")

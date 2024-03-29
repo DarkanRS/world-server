@@ -138,7 +138,7 @@ public class Debug {
 			p.stopAll();
 		});
 
-		Commands.add(Rights.PLAYER, "setqstage [questName, stage]", "Resets the specified quest.", (p, args) -> {
+		Commands.add(Rights.PLAYER, "setqstage [questName, stage]", "Sets the specified quest's stage.", (p, args) -> {
 			for (Quest quest : Quest.values())
 				if (quest.name().toLowerCase().contains(args[0]) && quest.isImplemented()) {
 					int stage = Integer.parseInt(args[1]);
@@ -148,7 +148,7 @@ public class Debug {
 				}
 		});
 
-		Commands.add(Rights.PLAYER, "setmqstage [miniquestName, stage]", "Resets the specified miniquest.", (p, args) -> {
+		Commands.add(Rights.PLAYER, "setmqstage [miniquestName, stage]", "Sets the specified miniquest's stage.", (p, args) -> {
 			for (Miniquest miniquest : Miniquest.values())
 				if (miniquest.name().toLowerCase().contains(args[0]) && miniquest.isImplemented()) {
 					int stage = Integer.parseInt(args[1]);
@@ -162,16 +162,34 @@ public class Debug {
 			for (Quest quest : Quest.values())
 				if (quest.name().toLowerCase().contains(args[0]) && quest.isImplemented()) {
 					p.getQuestManager().resetQuest(quest);
-					p.sendMessage("Resetted quest: " + quest.name());
+					p.sendMessage("Reset quest: " + quest.name());
 					return;
 				}
 		});
 
-		Commands.add(Rights.PLAYER, "completequest [questName]", "Resets the specified quest.", (p, args) -> {
+		Commands.add(Rights.PLAYER, "resetminiquest [questName]", "Resets the specified miniquest.", (p, args) -> {
+			for (Miniquest miniquest : Miniquest.values())
+				if (miniquest.name().toLowerCase().contains(args[0]) && miniquest.isImplemented()) {
+					p.getMiniquestManager().reset(miniquest);
+					p.sendMessage("Reset quest: " + miniquest.name());
+					return;
+				}
+		});
+
+		Commands.add(Rights.PLAYER, "completequest [questName]", "Completes the specified quest.", (p, args) -> {
 			for (Quest quest : Quest.values())
 				if (quest.name().toLowerCase().contains(args[0])) {
 					p.getQuestManager().completeQuest(quest);
 					p.sendMessage("Completed quest: " + quest.name());
+					return;
+				}
+		});
+
+		Commands.add(Rights.PLAYER, "completeminiquest [miniquestName]", "Completes the specified miniquest.", (p, args) -> {
+			for (Miniquest miniquest : Miniquest.values())
+				if (miniquest.name().toLowerCase().contains(args[0])) {
+					p.getMiniquestManager().complete(miniquest);
+					p.sendMessage("Completed quest: " + miniquest.name());
 					return;
 				}
 		});
@@ -192,7 +210,16 @@ public class Debug {
 				}
 		});
 
-		Commands.add(Rights.PLAYER, "getqstage [questName]", "Resets the specified quest.", (p, args) -> {
+		Commands.add(Rights.PLAYER, "getmqstage [questName]", "Gets the specified miniquest stage.", (p, args) -> {
+			for (Miniquest miniquest : Miniquest.values())
+				if (miniquest.name().toLowerCase().contains(args[0]) && miniquest.isImplemented()) {
+					int stage = p.getMiniquestStage(miniquest);
+					p.sendMessage(miniquest.name() + " is at stage " + stage);
+					return;
+				}
+		});
+
+		Commands.add(Rights.PLAYER, "getqstage [questName]", "Gets the specified quest stage.", (p, args) -> {
 			for (Quest quest : Quest.values())
 				if (quest.name().toLowerCase().contains(args[0]) && quest.isImplemented()) {
 					int stage = p.getQuestManager().getStage(quest);

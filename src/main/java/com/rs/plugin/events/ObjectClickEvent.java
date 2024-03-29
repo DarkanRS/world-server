@@ -106,8 +106,8 @@ public class ObjectClickEvent implements PluginEvent {
 	public static void registerMethod(Class<?> eventType, PluginHandler<? extends PluginEvent> method) {
 		ObjectClickHandler handler = (ObjectClickHandler) method;
 		for (Object key : handler.keys()) {
-            Map<Integer, List<ObjectClickHandler>> locMap = METHODS.computeIfAbsent(key, k -> new HashMap<>());
-            if (handler.getType() == null && (handler.getTiles() == null || handler.getTiles().length <= 0)) {
+			Map<Integer, List<ObjectClickHandler>> locMap = METHODS.computeIfAbsent(key, k -> new HashMap<>());
+			if (handler.getType() == null && (handler.getTiles() == null || handler.getTiles().length <= 0)) {
 				List<ObjectClickHandler> methods = locMap.get(0);
 				if (methods == null)
 					methods = new ArrayList<>();

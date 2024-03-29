@@ -61,28 +61,6 @@ public class Rimmington {
     });
 
     /**
-     * Should be in a Witches Potion class eventually when the miniquest is added. Would be
-     * an absurdly easy miniquest to add too.
-     */
-    public static NPCClickHandler HETTY = new NPCClickHandler(new Object[] { 307 }, e -> e.getPlayer().startConversation(new Dialogue()
-            .addNPC(307, HeadE.HAPPY_TALKING, "What could you want with an old woman like me?")
-            .addOptions(ops -> {
-                if (!e.getPlayer().isMiniquestComplete(Miniquest.WITCHES_POTION)) {
-                    switch(e.getPlayer().getMiniquestManager().getStage(Miniquest.WITCHES_POTION)) {
-                        case 0 -> ops.add("I'm looking for work.");
-                    }
-                }
-
-                ops.add("You look like a witch.")
-                        .addPlayer(HeadE.CALM_TALK, "You look like a witch.")
-                        .addNPC(307, HeadE.HAPPY_TALKING, "Yes, I suppose I'm not being very subtle about it. I fear I may get a visit from the witch hunters of Falador before long.");
-
-                ops.add("Nothing, thanks.")
-                        .addPlayer(HeadE.CALM_TALK, "Nothing, thanks.")
-                        .addNPC(307, HeadE.FRUSTRATED, "Hmph.");
-            })));
-
-    /**
      * Purely Biohazard related Quest NPCs that will need to be eventually moved into
      * a Biohazard class once the quest gets added.
      */

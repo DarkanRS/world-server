@@ -56,12 +56,17 @@ fun mapBarbarianOutpostAgility() {
     }
 
     onObjectClick(43526, checkDistance = false) { e ->
-        if (!Agility.hasLevel(e.player, 35)) return@onObjectClick
-        e.player.setRouteEvent(RouteEvent(Tile.of(2551, 3554, 0)) {
+        val targetTile = if (e.getObject().x == 2552) {
+            Tile.of(2552, 3554, 0)
+        } else {
+            Tile.of(2551, 3554, 0)
+        }
+        e.player.setRouteEvent(RouteEvent(targetTile) {
+            if (!Agility.hasLevel(e.player, 35)) return@RouteEvent
             e.player.lock()
             e.player.resetWalkSteps()
             World.sendObjectAnimation(e.getObject(), Animation(497))
-            e.player.forceMove(Tile.of(2551, 3549, 0), 751, 20, 75) {
+            e.player.forceMove(Tile.of(e.getObject().x, 3549, 0), 751, 20, 75) {
                 e.player.sendMessage("You skillfully swing across.", true)
                 e.player.skills.addXp(Constants.AGILITY, 28.0)
                 setStage(e.player, 0)
@@ -69,24 +74,25 @@ fun mapBarbarianOutpostAgility() {
         })
     }
 
-    onObjectClick(43595) { e ->
-        if (!Agility.hasLevel(e.player, 35)) return@onObjectClick
-        e.player.sendMessage("You walk carefully across the slippery log...", true)
-        e.player.walkToAndExecute(Tile.of(2551, 3546, 0)) {
+    onObjectClick(43595, checkDistance = false) { e ->
+
+        e.player.setRouteEvent(RouteEvent(Tile.of(2551, 3546, 0)) {
+            if (!Agility.hasLevel(e.player, 35)) return@RouteEvent
+            e.player.sendMessage("You walk carefully across the slippery log...", true)
             e.player.forceMove(Tile.of(2541, e.getObject().y, e.getObject().plane), 9908, 20, 12 * 30) {
                 e.player.anim(-1)
                 e.player.skills.addXp(Constants.AGILITY, 20.7)
                 e.player.sendMessage("... and make it safely to the other side.", true)
                 if (getStage(e.player) == 0) setStage(e.player, 1)
             }
-        }
+        })
     }
 
     onObjectClick(20211) { e ->
         if (!Agility.hasLevel(e.player, 35)) return@onObjectClick
         e.player.sendMessage("You climb the netting...", true)
         e.player.skills.addXp(Constants.AGILITY, 10.2)
-        e.player.useStairs(828, Tile.of(e.getObject().x - 1, e.player.y, 1), 1, 2)
+        e.player.useStairs(828, Tile.of((e.getObject().x - 1), e.player.y, 1), 1, 2)
         if (getStage(e.player) == 1) setStage(e.player, 2)
     }
 
@@ -124,7 +130,9 @@ fun mapBarbarianOutpostAgility() {
         }
         e.player.lock()
         e.player.sendMessage("You climb the low wall...", true)
-        e.player.forceMove(Tile.of(e.getObject().x + 1, e.getObject().y, e.getObject().plane), 4853, 30, 60) {
+        e.player.forceMove(Tile.of((e.getObject().x + 1), e.getObject().y,
+            e.getObject().plane
+        ), 4853, 30, 60) {
             e.player.skills.addXp(Constants.AGILITY, 16.2)
             val stage = getStage(e.player)
             if (stage == 3) setStage(e.player, 4)

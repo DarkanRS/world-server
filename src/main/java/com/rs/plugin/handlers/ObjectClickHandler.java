@@ -33,7 +33,7 @@ public class ObjectClickHandler extends PluginHandler<ObjectClickEvent> {
 		this.tiles = tiles;
 		this.checkDistance = checkDistance;
 	}
-	
+
 	public ObjectClickHandler(boolean checkDistance, Object[] namesOrIds, Consumer<ObjectClickEvent> handler) {
 		super(namesOrIds, handler);
 		this.checkDistance = checkDistance;
@@ -42,7 +42,7 @@ public class ObjectClickHandler extends PluginHandler<ObjectClickEvent> {
 	public ObjectClickHandler(Object[] namesOrIds, Tile[] tiles, Consumer<ObjectClickEvent> handler) {
 		this(true, namesOrIds, tiles, handler);
 	}
-	
+
 	public ObjectClickHandler(Object[] namesOrIds, Tile tile, Consumer<ObjectClickEvent> handler) {
 		this(true, namesOrIds, new Tile[] { tile }, handler);
 	}

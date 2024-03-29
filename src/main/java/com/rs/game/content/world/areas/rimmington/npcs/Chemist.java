@@ -2,7 +2,7 @@ package com.rs.game.content.world.areas.rimmington.npcs;
 
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.HeadE;
-import com.rs.game.content.achievements.AchievementSystemDialogue;
+import com.rs.game.content.achievements.AchievementSystemD;
 import com.rs.game.content.achievements.SetReward;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -70,7 +70,7 @@ public class Chemist extends Conversation {
                                 .addPlayer(HeadE.CALM_TALK, "I'd better go and get the ingredients.")
                                 .addNPC(CHEMIST, HeadE.CALM_TALK, "I think so.");
                         });
-            ops.add("About the Task System...", new AchievementSystemDialogue(player, CHEMIST, SetReward.FALADOR_SHIELD).getStart());
+            ops.add("About the Task System...", () -> new AchievementSystemD(player, CHEMIST, SetReward.FALADOR_SHIELD));
         });
     }
 
