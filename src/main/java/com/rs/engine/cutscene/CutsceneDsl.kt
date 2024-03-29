@@ -1,6 +1,5 @@
 package com.rs.engine.cutscene
 
-import com.rs.engine.dialogue.DialogueDsl
 import com.rs.game.model.entity.player.Player
 
 @DslMarker
