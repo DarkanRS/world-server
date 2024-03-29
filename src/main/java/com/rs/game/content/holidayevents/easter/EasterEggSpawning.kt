@@ -19,17 +19,14 @@ package com.rs.game.content.holidayevents.easter
 import com.rs.game.World
 import com.rs.game.map.ChunkManager
 import com.rs.game.tasks.WorldTasks
-import com.rs.lib.game.GroundItem
 import com.rs.lib.game.Item
 import com.rs.lib.game.Tile
 import com.rs.lib.util.Utils
 import com.rs.plugin.annotations.ServerStartupEvent
 import it.unimi.dsi.fastutil.ints.IntSet
-import java.util.function.Consumer
 
 const val ENABLED = true
 
-private var eggsCount = 0
 private var eggsPerChunk = 2
 private var regionsToSpawn = IntSet.of(12850, 11828, 12084, 12853, 12597, 12342, 10806, 10547, 13105)
 
@@ -44,28 +41,33 @@ fun startTasks() {
 }
 
 private fun countEggs(chunkId: Int): Int {
-    eggsCount = 0
+    var eggsCount = 0
     val itemSpawns = ChunkManager.getChunk(chunkId).allGroundItems
-    if (itemSpawns != null && itemSpawns.size > 0) itemSpawns.forEach(Consumer { spawn: GroundItem ->
+    if (itemSpawns != null && itemSpawns.size > 0) itemSpawns.forEach { spawn ->
         if (spawn.id == 1961) eggsCount += 1
-    })
+    }
     return eggsCount
 }
 
 private fun spawnEggs() {
     for (chunkId in World.mapRegionIdsToChunks(regionsToSpawn, 0)) {
-        val r = ChunkManager.getChunk(chunkId)
+        val chunk = ChunkManager.getChunk(chunkId)
         val eggsNeeded = eggsPerChunk - countEggs(chunkId)
+
+        if (eggsNeeded <= 0) continue
+
         for (i in 0 until eggsNeeded) {
-            var x = r.baseX + Utils.random(8)
-            var y = r.baseY + Utils.random(8)
+            var x = chunk.baseX + Utils.random(8)
+            var y = chunk.baseY + Utils.random(8)
             var tile = Tile.of(x, y, 0)
+            var attempts = 0
             while (!World.floorAndWallsFree(tile, 1)) {
-                x = r.baseX + Utils.random(8)
-                y = r.baseY + Utils.random(8)
+                if (attempts++ >= 64) break
+                x = chunk.baseX + Utils.random(8)
+                y = chunk.baseY + Utils.random(8)
                 tile = Tile.of(x, y, 0)
             }
-            World.addGroundItem(Item(1961), Tile.of(x, y, 0))
+            World.addGroundItem(Item(1961), tile)
         }
     }
 }
