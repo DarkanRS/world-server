@@ -375,7 +375,7 @@ public class FightArenaFightCutsceneController extends Controller {
 	}
 
 	private void jeremeysCell(boolean open) {
-		GameObject door = World.getClosestObject(80, player.getTile());
+		GameObject door = World.getClosestObjectByObjectId(80, player.getTile());
 		if(open) {
 			if(door.getRotation() == 3)
 				return;

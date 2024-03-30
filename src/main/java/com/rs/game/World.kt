@@ -18,7 +18,6 @@ package com.rs.game
 
 import com.rs.Launcher
 import com.rs.Settings
-import com.rs.cache.loaders.ObjectDefinitions
 import com.rs.cache.loaders.ObjectType
 import com.rs.cache.loaders.map.ClipFlag
 import com.rs.db.WorldDB
@@ -349,141 +348,92 @@ object World {
         }
     }
 
-    @JvmStatic
-	fun getSpawnedObjectsInChunkRange(chunkId: Int, chunkRadius: Int): List<GameObject> {
-        val objects: MutableList<GameObject> = ArrayList<GameObject>()
-        val chunkIds = getChunkRadius(chunkId, chunkRadius)
-        for (chunk in chunkIds) {
-            for (obj in ChunkManager.getChunk(chunk).spawnedObjects) {
-                if (obj == null) continue
-                objects.add(obj)
-            }
-        }
-        return objects
+    private fun <T> getObjectsInChunkRange(chunkId: Int, chunkRadius: Int, objectFetcher: (Chunk) -> List<T?>, filter: (T) -> Boolean = { true }): List<T> {
+        return getChunkRadius(chunkId, chunkRadius)
+            .asSequence()
+            .mapNotNull { ChunkManager.getChunk(it) }
+            .flatMap { objectFetcher(it).asSequence() }
+            .filterNotNull()
+            .filter(filter)
+            .toList()
     }
 
     @JvmStatic
-	fun getAllObjectsInChunkRange(chunkId: Int, chunkRadius: Int): List<GameObject> {
-        val objects: MutableList<GameObject> = ArrayList<GameObject>()
-        val chunkIds = getChunkRadius(chunkId, chunkRadius)
-        for (chunk in chunkIds) {
-            for (obj in ChunkManager.getChunk(chunk).getAllObjects()) {
-                if (obj == null) continue
-                objects.add(obj)
-            }
-        }
-        return objects
-    }
+    fun getSpawnedObjectsInChunkRange(chunkId: Int, chunkRadius: Int): List<GameObject> =
+        getObjectsInChunkRange(chunkId, chunkRadius, { it.spawnedObjects })
 
     @JvmStatic
-    fun getBaseObjectsInChunkRange(chunkId: Int, chunkRadius: Int): List<GameObject> {
-        val objects: MutableList<GameObject> = ArrayList<GameObject>()
-        val chunkIds = getChunkRadius(chunkId, chunkRadius)
-        for (chunk in chunkIds) {
-            for (obj in ChunkManager.getChunk(chunk).getBaseObjects()) {
-                if (obj == null) continue
-                objects.add(obj)
-            }
-        }
-        return objects
-    }
+    fun getAllObjectsInChunkRange(chunkId: Int, chunkRadius: Int): List<GameObject> =
+        getObjectsInChunkRange(chunkId, chunkRadius, { it.getAllObjects() })
 
     @JvmStatic
-	fun getNPCsInChunkRange(chunkId: Int, chunkRadius: Int): List<NPC> {
-        val npcs: MutableList<NPC> = ArrayList()
-        val chunkIds = getChunkRadius(chunkId, chunkRadius)
-        for (chunk in chunkIds) {
-            for (pid in ChunkManager.getChunk(chunk).npCsIndexes) {
-                val npc = NPCs[pid]
-                if (npc == null || npc.hasFinished()) continue
-                npcs.add(npc)
-            }
-        }
-        return npcs
-    }
+    fun getBaseObjectsInChunkRange(chunkId: Int, chunkRadius: Int): List<GameObject> =
+        getObjectsInChunkRange(chunkId, chunkRadius, { it.getBaseObjects() })
 
     @JvmStatic
-	fun getPlayersInChunkRange(chunkId: Int, chunkRadius: Int): List<Player> {
-        val players: MutableList<Player> = ArrayList()
-        val chunkIds = getChunkRadius(chunkId, chunkRadius)
-        for (chunk in chunkIds) {
-            for (pid in ChunkManager.getChunk(chunk).playerIndexes) {
-                val player = World.players[pid]
-                if (player == null || !player.hasStarted() || player.hasFinished()) continue
-                players.add(player)
-            }
-        }
-        return players
-    }
+    fun getNPCsInChunkRange(chunkId: Int, chunkRadius: Int): List<NPC> =
+        getObjectsInChunkRange(chunkId, chunkRadius, { chunk ->
+            chunk.npCsIndexes.map { NPCs[it] }
+        }) { !it.hasFinished() }
 
     @JvmStatic
-    fun getPlayersInChunks(vararg chunkIds: Int): List<Player> {
-        val players: MutableList<Player> = ArrayList()
-        for (chunk in chunkIds) {
-            for (pid in ChunkManager.getChunk(chunk).playerIndexes) {
-                val player = World.players[pid]
-                if (player == null || !player.hasStarted() || player.hasFinished()) continue
-                players.add(player)
-            }
-        }
-        return players
-    }
+    fun getPlayersInChunkRange(chunkId: Int, chunkRadius: Int): List<Player> =
+        getObjectsInChunkRange(chunkId, chunkRadius, { chunk ->
+            chunk.playerIndexes.map { players[it] }
+        }) { it.hasStarted() && !it.hasFinished() }
 
     @JvmStatic
-	fun getAllGroundItemsInChunkRange(chunkId: Int, chunkRadius: Int): List<GroundItem> {
-        val objects: MutableList<GroundItem> = ArrayList<GroundItem>()
-        val chunkIds = getChunkRadius(chunkId, chunkRadius)
-        for (chunk in chunkIds) {
-            for (obj in ChunkManager.getChunk(chunk).allGroundItems) {
-                if (obj == null) continue
-                objects.add(obj)
-            }
-        }
-        return objects
-    }
+    fun getPlayersInChunks(vararg chunkIds: Int): List<Player> =
+        chunkIds.asSequence()
+            .mapNotNull { ChunkManager.getChunk(it) }
+            .flatMap { chunk -> chunk.playerIndexes.map { players[it] }.asSequence() }
+            .filterNotNull()
+            .filter { it.hasStarted() && !it.hasFinished() }
+            .toList()
+
+    @JvmStatic
+    fun getAllGroundItemsInChunkRange(chunkId: Int, chunkRadius: Int): List<GroundItem> =
+        getObjectsInChunkRange(chunkId, chunkRadius, { it.allGroundItems })
 
     @JvmStatic
     private fun getChunkRadius(chunkId: Int, radius: Int): Set<Int> {
         val chunksXYLoop: MutableSet<Int> = IntOpenHashSet()
-        var cx = -radius * Chunk.X_INC
-        while (cx <= radius * Chunk.X_INC) {
-            for (cy in -radius..radius) chunksXYLoop.add(chunkId + cx + cy)
-            cx += Chunk.X_INC
+        for (cx in -radius..radius) {
+            for (cy in -radius..radius) {
+                chunksXYLoop.add(chunkId + cx * Chunk.X_INC + cy)
+            }
         }
         return chunksXYLoop
     }
 
     @JvmStatic
-    fun mapRegionIdsToChunks(mapRegionsIds: Set<Int>): Set<Int> {
-        val chunkIds: MutableSet<Int> = IntOpenHashSet()
-        for (regionId in mapRegionsIds) {
+    fun mapRegionIdsToChunks(mapRegionsIds: Set<Int>, plane: Int? = null): Set<Int> {
+        return mapRegionsIds.flatMap { regionId ->
             val rCoords = MapUtils.decode(MapUtils.Structure.REGION, regionId)
             val cX = rCoords[0] shl 3
             val cY = rCoords[1] shl 3
-            for (plane in 0..3) for (x in 0..7) for (y in 0..7) chunkIds.add(MapUtils.encode(MapUtils.Structure.CHUNK, cX + x, cY + y, plane))
-        }
-        return chunkIds
-    }
-
-    @JvmStatic
-    fun mapRegionIdsToChunks(mapRegionsIds: Set<Int>, plane: Int): Set<Int> {
-        val chunkIds: MutableSet<Int> = IntOpenHashSet()
-        for (regionId in mapRegionsIds) {
-            val rCoords = MapUtils.decode(MapUtils.Structure.REGION, regionId)
-            val cX = rCoords[0] shl 3
-            val cY = rCoords[1] shl 3
-            for (x in 0..7) for (y in 0..7) chunkIds.add(MapUtils.encode(MapUtils.Structure.CHUNK, cX + x, cY + y, plane))
-        }
-        return chunkIds
+            generateChunkIds(cX, cY, plane)
+        }.toSet()
     }
 
     @JvmStatic
     fun regionIdToChunkSet(regionId: Int): Set<Int> {
-        val chunkIds: MutableSet<Int> = IntOpenHashSet()
         val rCoords = MapUtils.decode(MapUtils.Structure.REGION, regionId)
         val cX = rCoords[0] shl 3
         val cY = rCoords[1] shl 3
-        for (plane in 0..3) for (x in 0..7) for (y in 0..7) chunkIds.add(MapUtils.encode(MapUtils.Structure.CHUNK, cX + x, cY + y, plane))
+        return generateChunkIds(cX, cY, null)
+    }
+
+    private fun generateChunkIds(cX: Int, cY: Int, plane: Int?): Set<Int> {
+        val chunkIds: MutableSet<Int> = IntOpenHashSet()
+        val planes = plane?.let { listOf(it) } ?: (0..3)
+        for (pl in planes) {
+            for (x in 0..7) {
+                for (y in 0..7) {
+                    chunkIds.add(MapUtils.encode(MapUtils.Structure.CHUNK, cX + x, cY + y, pl))
+                }
+            }
+        }
         return chunkIds
     }
 
@@ -639,60 +589,52 @@ object World {
     }
 
     @JvmStatic
-	fun sendProjectile(from: Any, to: Any, graphicId: Int, startHeight: Int, endHeight: Int, startTime: Int, speed: Double, angle: Int, task: Consumer<WorldProjectile?>?): WorldProjectile {
-        var speedD = speed
-        val fromTile: Tile = tileFromTarget(from)
-        val toTile: Tile = tileFromTarget(to)
-        if (speedD > 20.0) speedD /= 50.0
-        val fromSizeX: Int
-        val fromSizeY: Int
-        if (from is Entity) {
-            fromSizeY = from.size
-            fromSizeX = fromSizeY
-        } else if (from is GameObject) {
-            val defs: ObjectDefinitions = from.definitions
-            fromSizeX = defs.getSizeX()
-            fromSizeY = defs.getSizeY()
-        } else {
-            fromSizeY = 1
-            fromSizeX = fromSizeY
-        }
-        val toSizeX: Int
-        val toSizeY: Int
-        if (to is Entity) {
-            toSizeY = to.size
-            toSizeX = toSizeY
-        } else if (to is GameObject) {
-            val defs: ObjectDefinitions = to.definitions
-            toSizeX = defs.getSizeX()
-            toSizeY = defs.getSizeY()
-        } else {
-            toSizeY = 1
-            toSizeX = toSizeY
-        }
+    fun sendProjectile(from: Any, to: Any, graphicId: Int, startHeight: Int, endHeight: Int, startTime: Int, speed: Double, angle: Int, task: Consumer<WorldProjectile?>?): WorldProjectile {
+        val adjustedSpeed = if (speed > 20.0) speed / 50.0 else speed
+        val fromTile: Tile = getTargetTile(from)
+        val toTile: Tile = getTargetTile(to)
+
+        val (fromSizeX, fromSizeY) = getTargetSize(from)
+        val (toSizeX, toSizeY) = getTargetSize(to)
+
         val slope = fromSizeX * 32
-        val projectile = WorldProjectile(fromTile, to, graphicId, startHeight, endHeight, startTime, startTime + (if (speed == -1.0) Utils.getProjectileTimeSoulsplit(fromTile, fromSizeX, fromSizeY, toTile, toSizeX, toSizeY) else Utils.getProjectileTimeNew(fromTile, fromSizeX, fromSizeY, toTile, toSizeX, toSizeY, speedD)), slope, angle, task)
+        val duration = if (speed == -1.0)
+            Utils.getProjectileTimeSoulsplit(fromTile, fromSizeX, fromSizeY, toTile, toSizeX, toSizeY)
+        else
+            Utils.getProjectileTimeNew(fromTile, fromSizeX, fromSizeY, toTile, toSizeX, toSizeY, adjustedSpeed)
+
+        val projectile = WorldProjectile(fromTile, to, graphicId, startHeight, endHeight, startTime, startTime + duration, slope, angle, task)
         if (graphicId != -1) {
-            val chunkId = chunkIdFromTarget(from)
+            val chunkId = getTargetChunkId(from)
             ChunkManager.getChunk(chunkId).addProjectile(projectile)
         }
         return projectile
     }
 
     @JvmStatic
-    private fun tileFromTarget(obj: Any): Tile {
-        if (obj is Tile) return obj
-        if (obj is Entity) return obj.middleTile
-        if (obj is GameObject) return obj.tile
-        throw RuntimeException("Invalid target type. $obj")
+    private fun getTargetSize(target: Any): Pair<Int, Int> = when (target) {
+        is Entity -> target.size to target.size
+        is GameObject -> {
+            val defs = target.definitions
+            defs.getSizeX() to defs.getSizeY()
+        }
+        else -> 1 to 1
     }
 
     @JvmStatic
-    private fun chunkIdFromTarget(obj: Any): Int {
-        if (obj is Tile) return obj.chunkId
-        if (obj is Entity) return obj.chunkId
-        if (obj is GameObject) return obj.tile.chunkId
-        throw RuntimeException("Invalid target type. $obj")
+    private fun getTargetTile(obj: Any): Tile = when (obj) {
+        is Tile -> obj
+        is Entity -> obj.middleTile
+        is GameObject -> obj.tile
+        else -> throw RuntimeException("Invalid target type. $obj")
+    }
+
+    @JvmStatic
+    private fun getTargetChunkId(obj: Any): Int = when (obj) {
+        is Tile -> obj.chunkId
+        is Entity -> obj.chunkId
+        is GameObject -> obj.tile.chunkId
+        else -> throw RuntimeException("Invalid target type. $obj")
     }
 
     @JvmStatic
@@ -751,52 +693,51 @@ object World {
     }
 
     @JvmStatic
-    fun getClosestObject(objectId: Int, tile: Tile): GameObject? {
-        for (dist in 0..15) for (x in -dist until dist) for (y in -dist until dist) {
-            val obj: GameObject? = getObject(tile.transform(x, y))
-            if (obj != null && obj.id == objectId) return obj
+    fun getClosestObject(tile: Tile, matchCondition: (GameObject) -> Boolean): GameObject? {
+        for (dist in 0..15) {
+            for (dx in -dist..dist) {
+                for (dy in listOf(-dist, dist)) {
+                    getObject(tile.transform(dx, dy))?.takeIf(matchCondition)?.let { return it }
+                }
+            }
+            for (dy in -dist + 1 until dist) {
+                for (dx in listOf(-dist, dist)) {
+                    getObject(tile.transform(dx, dy))?.takeIf(matchCondition)?.let { return it }
+                }
+            }
         }
         return null
     }
 
     @JvmStatic
-    fun getClosestObject(type: ObjectType, tile: Tile): GameObject? {
-        for (dist in 0..15) for (x in -dist until dist) for (y in -dist until dist) {
-            val obj: GameObject? = getObject(tile.transform(x, y), type)
-            if (obj != null && obj.type == type) return obj
-        }
-        return null
-    }
+    fun getClosestObjectByObjectId(objectId: Int, tile: Tile): GameObject? =
+        getClosestObject(tile) { it.id == objectId }
 
     @JvmStatic
-    fun getClosestObject(type: ObjectType?, objectId: Int, tile: Tile): GameObject? {
-        for (dist in 0..15) for (x in -dist until dist) for (y in -dist until dist) {
-            val obj: GameObject? = getObject(tile.transform(x, y), type)
-            if (obj != null && obj.id == objectId) return obj
-        }
-        return null
-    }
+    fun getClosestObjectByType(type: ObjectType, tile: Tile): GameObject? =
+        getClosestObject(tile) { it.type == type }
 
     @JvmStatic
-    fun getClosestObject(name: String, tile: Tile): GameObject? {
-        for (dist in 0..15) for (x in -dist until dist) for (y in -dist until dist) {
-            val obj: GameObject? = getObject(tile.transform(x, y))
-            if (obj != null && obj.definitions.name == name) return obj
-        }
-        return null
-    }
+    fun getClosestObjectByTypeAndObjectId(type: ObjectType?, objectId: Int, tile: Tile): GameObject? =
+        getClosestObject(tile) { it.id == objectId && (type == null || it.type == type) }
+
+    @JvmStatic
+    fun getClosestObjectByName(name: String, tile: Tile): GameObject? =
+        getClosestObject(tile) { it.definitions.name == name }
 
     @JvmStatic
     fun getClosestObject(name: String, tile: Tile, range: Int): GameObject? {
         var closest: GameObject? = null
-        var closestDist = 1000.0
-        for (dist in 0 until range) for (x in -dist until dist) for (y in -dist until dist) {
-            val obj: GameObject? = getObject(tile.transform(x, y))
-            if (obj != null && obj.definitions.name == name) {
-                val newDist = Utils.getDistance(obj.coordFace, tile)
-                if (newDist < closestDist) {
-                    closest = obj
-                    closestDist = newDist
+        var closestDist = Double.MAX_VALUE
+        for (x in -range until range) {
+            for (y in -range until range) {
+                val obj: GameObject? = getObject(tile.transform(x, y))
+                if (obj != null && obj.definitions.name == name) {
+                    val newDist = Utils.getDistance(obj.coordFace, tile)
+                    if (newDist < closestDist) {
+                        closest = obj
+                        closestDist = newDist
+                    }
                 }
             }
         }
@@ -831,17 +772,14 @@ object World {
         }
     }
 
-    /**
-     * Please someone refactor this. This is beyond disgusting and definitely can be done better.
-     */
     @JvmStatic
     fun findAdjacentFreeTile(tile: Tile, vararg blacklistedDirections: Direction): Tile? {
         val step = StepValidator(allFlags)
-        val unchecked: MutableList<Direction> = ArrayList(listOf(*Direction.entries.toTypedArray()))
-        for (dir in blacklistedDirections) unchecked.remove(dir)
+        val unchecked = Direction.entries.filterNot { it in blacklistedDirections }.toMutableList()
         while (unchecked.isNotEmpty()) {
-            val curr = unchecked[Utils.random(unchecked.size)]
-            if (step.canTravel(tile.plane().toInt(), tile.x().toInt(), tile.y().toInt(), curr.dx, curr.dy, 1, 0, CollisionStrategyType.NORMAL.strategy)) return tile.transform(curr.dx, curr.dy)
+            val curr = unchecked.random()
+            if (step.canTravel(tile.plane().toInt(), tile.x().toInt(), tile.y().toInt(), curr.dx, curr.dy, 1, 0, CollisionStrategyType.NORMAL.strategy))
+                return tile.transform(curr.dx, curr.dy)
             unchecked.remove(curr)
         }
         return null
@@ -866,41 +804,37 @@ object World {
     @JvmStatic
     fun findAdjacentFreeSpace(tile: Tile, size: Int): Tile? {
         if (size == 1) return findAdjacentFreeTile(tile)
-        val step = StepValidator(allFlags)
-        val unchecked: MutableList<Direction> = ArrayList(listOf(Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST))
-        var finalTile: Tile? = null
-        while (unchecked.isNotEmpty()) {
+
+        val stepValidator = StepValidator(allFlags)
+        val directions = mutableListOf(Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST)
+        val plane = tile.plane().toInt()
+        val startX = tile.x().toInt()
+        val startY = tile.y().toInt()
+
+        while (directions.isNotEmpty()) {
+            val currentDirection = directions.removeAt(Utils.random(directions.size))
+            val isHorizontal = currentDirection.dy == 0
+            val offsetDirection = if (isHorizontal) Direction.NORTH else Direction.WEST // Assuming forDelta simplification
+
             var failed = false
-            val curr = unchecked[Utils.random(unchecked.size)]
-            val offset = forDelta(if (curr.dx != 0) 0 else curr.dy, if (curr.dy != 0) 0 else curr.dx) ?: Direction.WEST
-            val startTile: Tile = tile.transform(0, 0)
-            for (i in 0..size) {
+            for (i in 0 until size) {
                 for (row in 0 until size) {
-//                    val from: Tile = startTile.transform(offset!!.dx * row, offset.dy * row).transform(curr.dx * i, curr.dy * i)
-                    //					if (Settings.getConfig().isDebug()) {
-//						World.sendSpotAnim(null, new SpotAnim(switch (curr) {
-//							case NORTH -> 2000;
-//							case SOUTH -> 2001;
-//							case EAST -> 2017;
-//							default -> 1999;
-//						}), from);
-//					}
-                    if (!step.canTravel(tile.plane().toInt(), tile.x().toInt(), tile.y().toInt(), curr.dx, curr.dy, 1, 0, CollisionStrategyType.NORMAL.strategy) || (size > 1 && row < (size - 1) && !step.canTravel(tile.plane().toInt(), tile.x().toInt(), tile.y().toInt(), offset.dx, offset.dy, 1, 0, CollisionStrategyType.NORMAL.strategy))) {
+                    if (!stepValidator.canTravel(plane, startX, startY, currentDirection.dx, currentDirection.dy, 1, 0, CollisionStrategyType.NORMAL.strategy) || (row < size - 1 && !stepValidator.canTravel(plane, startX, startY, offsetDirection.dx, offsetDirection.dy, 1, 0, CollisionStrategyType.NORMAL.strategy))) {
                         failed = true
                         break
                     }
                 }
+                if (failed) break
             }
+
             if (!failed) {
-                finalTile = startTile.transform(curr.dx, curr.dy)
-                if (curr.dx < 0 || curr.dy < 0) finalTile = finalTile.transform(-size + 1, -size + 1)
-                //				if (Settings.getConfig().isDebug())
-//					World.sendSpotAnim(null, new SpotAnim(2679), finalTile);
-                break
+                val deltaX = if (currentDirection.dx < 0) -size + 1 else currentDirection.dx
+                val deltaY = if (currentDirection.dy < 0) -size + 1 else currentDirection.dy
+                return tile.transform(deltaX, deltaY)
             }
-            unchecked.remove(curr)
         }
-        return finalTile
+
+        return null
     }
 
     @JvmStatic

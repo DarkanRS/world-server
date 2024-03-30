@@ -32,7 +32,7 @@ public class MaxTaskFM implements Task {
 			max.nextTask();
 			return 10;
 		}
-		currentBonfire = World.getClosestObject(ObjectType.SCENERY_INTERACT, Fire.MAGIC.getFireId(), max.getTile());
+		currentBonfire = World.getClosestObjectByTypeAndObjectId(ObjectType.SCENERY_INTERACT, Fire.MAGIC.getFireId(), max.getTile());
 		if (currentBonfire == null) {
 			max.getActionManager().setAction(new Firemaking(Fire.MAGIC));
 			return 20;
