@@ -40,7 +40,7 @@ public class GeyserTitan extends FamiliarCombatScript {
 		} else {
 			npc.setNextAnimation(new Animation(7883));
 			npc.setNextSpotAnim(new SpotAnim(1375));
-			delayHit(npc, World.sendProjectile(npc, target, 1374, 34, 16, 30, 35, 16, 0).getTaskDelay(), target, getRangeHit(npc, getMaxHit(npc, 190, AttackStyle.RANGE, target)));
+			delayHit(npc, World.sendProjectile(npc, target, 1374, 34, 16, 30, 35, 16).getTaskDelay(), target, getRangeHit(npc, getMaxHit(npc, 190, AttackStyle.RANGE, target)));
 		}
 		return npc.getAttackSpeed();
 	}

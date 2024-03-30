@@ -62,7 +62,7 @@ public class StrykewyrmCombat extends CombatScript {
 			npc.setNextAnimation(new Animation(12794));
 			final Hit hit = getMagicHit(npc, getMaxHit(npc, defs.getMaxHit(), AttackStyle.MAGE, target));
 			delayHit(npc, 1, target, hit);
-			World.sendProjectile(npc, target, defs.getAttackProjectile(), 41, 16, 41, 30, 16, 0);
+			World.sendProjectile(npc, target, defs.getAttackProjectile(), 41, 16, 41, 30, 16);
 			if (npc.getId() == 9463)
 				WorldTasks.schedule(new Task() {
 					@Override

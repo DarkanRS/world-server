@@ -177,7 +177,7 @@ public class FishingFerretRoom extends PuzzleRoom {
 		player.getInventory().deleteItem(item);
 		player.faceObject(object);
 		player.sendMessage("You throw the fish.");
-		WorldProjectile p = World.sendProjectile(player, object, 2522, 32, 0, 25, 1, 15, 0);
+		WorldProjectile p = World.sendProjectile(player, object, 2522, 32, 0, 25, 1, 15);
 		WorldTasks.schedule(new Task() {
 			@Override
 			public void run() {

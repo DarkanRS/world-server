@@ -244,7 +244,7 @@ public class SirPrysinDemonSlayerD extends Conversation {
 		for(NPC npc : World.getNPCsInChunkRange(p.getChunkId(), 2))
 			if(npc.getId() == SIR_PRYSIN) {
 				npc.setHidden(true);
-				NPC dummy = World.spawnNPC(SIR_PRYSIN, Tile.of(3204, 3470, 0), -1, false, true);
+				NPC dummy = World.spawnNPC(SIR_PRYSIN, Tile.of(3204, 3470, 0), true, true);
 				dummy.setRandomWalk(false);
 				dummy.faceTile(Tile.of(3204, 3469, 0));
 				WorldTasks.scheduleLooping(new Task() {

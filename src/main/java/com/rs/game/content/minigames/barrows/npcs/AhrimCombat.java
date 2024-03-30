@@ -45,7 +45,7 @@ public class AhrimCombat extends CombatScript {
 			int currentLevel = player.getSkills().getLevel(Constants.STRENGTH);
 			player.getSkills().set(Constants.STRENGTH, currentLevel < 5 ? 0 : currentLevel - 5);
 		}
-		World.sendProjectile(npc, target, defs.getAttackProjectile(), 41, 16, 41, 35, 16, 0);
+		World.sendProjectile(npc, target, defs.getAttackProjectile(), 41, 16, 41, 35, 16);
 		npc.setNextSpotAnim(new SpotAnim(defs.getAttackGfx()));
 		delayHit(npc, 2, target, getMagicHit(npc, damage));
 		return npc.getAttackSpeed();

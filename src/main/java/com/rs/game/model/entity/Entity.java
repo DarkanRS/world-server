@@ -405,7 +405,7 @@ public abstract class Entity {
 
 	public void sendSoulSplit(Hit hit, Entity user) {
 		if (hit.getDamage() > 0)
-			World.sendProjectile(user, this, 2263, 11, 11, 0, -1, 0, 0);
+			World.sendProjectile(user, this, 2263, 11, 11, 0, -1, 0);
 		user.heal(hit.getDamage() / 5);
 		if (user instanceof Player p)
 			p.incrementCount("Health soulsplitted back", hit.getDamage() / 5);
@@ -416,7 +416,7 @@ public abstract class Entity {
 			public void run() {
 				setNextSpotAnim(new SpotAnim(2264));
 				if (hit.getDamage() > 0)
-					World.sendProjectile(Entity.this, user, 2263, 11, 11, 0, -1, 0, 0);
+					World.sendProjectile(Entity.this, user, 2263, 11, 11, 0, -1, 0);
 			}
 		}, 0);
 	}
@@ -1719,7 +1719,7 @@ public abstract class Entity {
 	}
 
 	public Tile getNearestTeleTile(Direction... blacklistedDirections) {
-		return World.findAdjacentFreeSpace(this.getTile(), blacklistedDirections);
+		return World.findAdjacentFreeTile(this.getTile(), blacklistedDirections);
 	}
 
 	public Tile getTile() {

@@ -60,8 +60,8 @@ public class DragonSlayer_BoatScene extends Controller {
 	private void playCutscene() {
 		instance = Instance.of(crandor, 8, 8);
 		instance.copyMapAllPlanes(256, 688).thenAccept(e -> {
-			captainNed = World.spawnNPC(CAPTAIN_NED, instance.getLocalTile(18, 13, 1), -1, false, true);
-			cabinboyJenkins = World.spawnNPC(CABIN_BOY_JENKINS, instance.getLocalTile(15, 14, 1), -1, false, true);
+			captainNed = World.spawnNPC(CAPTAIN_NED, instance.getLocalTile(18, 13, 1), true, true);
+			cabinboyJenkins = World.spawnNPC(CABIN_BOY_JENKINS, instance.getLocalTile(15, 14, 1), true, true);
 
 			WorldTasks.scheduleLooping(new Task() {
 				int tick = 0;

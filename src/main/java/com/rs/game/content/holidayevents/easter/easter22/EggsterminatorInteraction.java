@@ -31,7 +31,7 @@ public class EggsterminatorInteraction extends PlayerEntityInteraction {
         player.setNextSpotAnim(new SpotAnim(2138));
         
         int attackStyle = player.getCombatDefinitions().getAttackStyleId();
-        int delay = World.sendProjectile(player.getTile(), target, (attackStyle == 0 ? 3034 : 3035), 20, 20, 30, 1, 0, 0).getTaskDelay();
+        int delay = World.sendProjectile(player.getTile(), target, (attackStyle == 0 ? 3034 : 3035), 20, 20, 30, 1, 0).getTaskDelay();
         
         WorldTasks.schedule(delay, () -> {
             if (target instanceof NPC n) {

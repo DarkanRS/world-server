@@ -37,7 +37,7 @@ public class InfernalMage extends CombatScript {
 		NPCCombatDefinitions defs = npc.getCombatDefinitions();
 		npc.setNextAnimation(new Animation(defs.getAttackEmote()));
 
-		World.sendProjectile(npc, target, defs.getAttackProjectile(), 30, 30, 50, 2, Utils.random(5), 5);
+		World.sendProjectile(npc, target, defs.getAttackProjectile(), 30, 30, 50, 2, Utils.random(5));
 		delayHit(npc, 3, target, getMagicHit(npc, getMaxHit(npc, defs.getMaxHit(), defs.getAttackStyle(), target)));
 		target.setNextSpotAnim(new SpotAnim(2739, 3, 100));
 		return npc.getAttackSpeed();

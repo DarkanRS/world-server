@@ -101,7 +101,7 @@ class PlayerCombat(@JvmField val target: Entity) : PlayerAction() {
                 return 3
             }
             player.sync(6696, 1165)
-            val p = World.sendProjectile(player, target, 1166, 32, 32, 50, 2.0, 15, 0)
+            val p = World.sendProjectile(player, target, 1166, 32, 32, 50, 2.0, 15)
             delayMagicHit(target, p.taskDelay, Hit(player, Utils.random(100, 250), HitLook.TRUE_DAMAGE), { target.spotAnim(1167, 0, 96) }, null, null)
             player.tempAttribs.setB("dfsActive", false)
             player.tempAttribs.setL("dfsCd", World.getServerTicks() + 200)
@@ -113,7 +113,7 @@ class PlayerCombat(@JvmField val target: Entity) : PlayerAction() {
             player.setNextFaceEntity(target)
             player.sync(15448, 2034)
             drainCharge(player)
-            val p = World.sendProjectile(player, target, 2035, 60, 32, 50, 2.0, 0, 0)
+            val p = World.sendProjectile(player, target, 2035, 60, 32, 50, 2.0, 0)
             val hit = calculateMagicHit(player, target, (5 * player.skills.getLevel(Constants.MAGIC)) - 180, false)
             delayMagicHit(target, p.taskDelay, hit, {
                 if (hit.damage > 0) target.spotAnim(2036, 0, 96)
@@ -424,7 +424,7 @@ class PlayerCombat(@JvmField val target: Entity) : PlayerAction() {
         if (gloves == null || !gloves.definitions.getName().contains("Swift glove")) return
         if (hit.damage != 0 && hit.damage < ((hit.maxHit / 3) * 2) || Random().nextInt(3) != 0) return
         player.sendMessage("You fired an extra shot.")
-        World.sendProjectile(player, target, p.spotAnimId, p.startHeight - 5, p.endHeight - 5, p.startTime, 2.0, if (p.angle - 5 < 0) 0 else p.angle - 5, p.slope)
+        World.sendProjectile(player, target, p.spotAnimId, p.startHeight - 5, p.endHeight - 5, p.startTime, 2.0, if (p.angle - 5 < 0) 0 else p.angle - 5)
         delayHit(target, hitDelay, weaponId, attackStyle, calculateHit(player, target, weaponId, attackStyle, true))
         if (hit.damage > (hit.maxHit - 10)) {
             target.freeze(Ticks.fromSeconds(10), false)

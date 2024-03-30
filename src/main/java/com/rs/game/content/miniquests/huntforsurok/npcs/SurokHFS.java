@@ -43,7 +43,7 @@ public class SurokHFS {
                         cs.npcSync("surok", 6098, 1009);
                         cs.delay(1);
                         cs.npcAnim("surok", -1);
-                        cs.action(() -> World.sendProjectile(cs.getNPC("surok"), cs.getPlayer().transform(2, -3, 0), 1010, 5, 15, 15, 0.4, 10, 10));
+                        cs.action(() -> World.sendProjectile(cs.getNPC("surok"), cs.getPlayer().transform(2, -3, 0), 1010, 5, 15, 15, 0.4, 10));
                         cs.delay(1);
                         cs.playerTalk("Whoah!");
                         cs.playerAnim(EmotesManager.Emote.CRY.getAnim());

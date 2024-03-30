@@ -25,7 +25,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.AbstractCollection;
 import java.util.Iterator;
 
-public class EntityList<T extends Entity> extends AbstractCollection<T> {
+public class EntityList<T extends Entity> implements Iterable<T> {
 	public Object[] entities;
 	private final IntSet usedIndices = new IntOpenHashSet();
 	private final IntPriorityQueue freeIndices = new IntHeapPriorityQueue();
@@ -37,7 +37,6 @@ public class EntityList<T extends Entity> extends AbstractCollection<T> {
 		entities = new Object[capacity];
 	}
 
-	@Override
 	public boolean add(T entity) {
 		synchronized (lock) {
 			int slot = getEmptySlot();
@@ -101,7 +100,6 @@ public class EntityList<T extends Entity> extends AbstractCollection<T> {
 		}
 	}
 
-	@Override
 	public @NotNull Iterator<T> iterator() {
 		synchronized (lock) {
 			return new EntityListIterator<>(entities, usedIndices, this);
@@ -121,7 +119,6 @@ public class EntityList<T extends Entity> extends AbstractCollection<T> {
 		return -1;
 	}
 
-	@Override
 	public int size() {
 		return usedIndices.size();
 	}

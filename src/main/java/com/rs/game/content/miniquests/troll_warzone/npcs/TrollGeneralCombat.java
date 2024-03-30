@@ -19,7 +19,7 @@ public class TrollGeneralCombat extends CombatScript {
             delayHit(npc, 1, target, getMeleeHit(npc, getMaxHit(npc, 2, NPCCombatDefinitions.AttackStyle.MELEE, target)));
         } else {
             npc.sync(1933, 262);
-            delayHit(npc, World.sendProjectile(npc, target, 295, 34, 16, 60, 2.0, 16, 0).getTaskDelay(), target, getRangeHit(npc, getMaxHit(npc, 2, NPCCombatDefinitions.AttackStyle.RANGE, target)));
+            delayHit(npc, World.sendProjectile(npc, target, 295, 34, 16, 60, 2.0, 16).getTaskDelay(), target, getRangeHit(npc, getMaxHit(npc, 2, NPCCombatDefinitions.AttackStyle.RANGE, target)));
         }
         return npc.getAttackSpeed();
     }

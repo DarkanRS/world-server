@@ -490,7 +490,7 @@ public class RunespanController extends Controller {
 							gfx = 2718;
 						else
 							gfx = 2729;
-						World.sendProjectile(player, toTile, gfx, 18, 18, 20, 50, 145, 0);
+						World.sendProjectile(player, toTile, gfx, 18, 18, 20, 50, 145);
 					} else if (plataform.middleGraphic == -3) {
 						int gfx;
 						if (plataform.runes[0] == AIR_RUNE)
@@ -501,7 +501,7 @@ public class RunespanController extends Controller {
 							gfx = 2719;
 						else
 							gfx = 2731;
-						World.sendProjectile(player, toTile, gfx, 18, 18, 20, 50, 145, 0);
+						World.sendProjectile(player, toTile, gfx, 18, 18, 20, 50, 145);
 					} else if (plataform.middleGraphic != -1)
 						player.setNextSpotAnim(new SpotAnim(plataform.middleGraphic));
 					if (plataform.invisible)

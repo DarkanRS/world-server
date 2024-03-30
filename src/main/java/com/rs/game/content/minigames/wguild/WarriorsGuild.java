@@ -71,7 +71,7 @@ public class WarriorsGuild extends Controller {
 				lastDummy += 0.000000001D;
 				World.sendObjectAnimation(CATAPULT, new Animation(4164));
 				projectileType = (byte) Utils.random(4);
-				World.sendProjectile(CATAPULT_PROJECTILE_BASE, CATAPULT_TARGET, 679 + projectileType, 85, 15, 15, 0.2, 15, 0);
+				World.sendProjectile(CATAPULT_PROJECTILE_BASE, CATAPULT_TARGET, 679 + projectileType, 85, 15, 15, 0.2, 15);
 			}
 		}
 
@@ -530,7 +530,7 @@ public class WarriorsGuild extends Controller {
 
 				if (ticks == 3) {
 					Tile tile = Tile.of(player.getX() + distance, player.getY(), 1);
-					World.sendProjectile(player, tile, 690, 50, 0, 30, 1, 15, 0);
+					World.sendProjectile(player, tile, 690, 50, 0, 30, 1, 15);
 				} else if (ticks == ((distance / 2) + 4)) {
 					player.getSkills().addXp(Constants.STRENGTH, distance);
 					player.getTempAttribs().setB("thrown_delay", true);

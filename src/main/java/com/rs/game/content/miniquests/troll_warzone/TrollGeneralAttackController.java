@@ -91,7 +91,7 @@ public class TrollGeneralAttackController extends InstancedController {
                                 ozan.follow(player);
                                 keymans.follow(ozan);
                                 player.getHintIconsManager().removeAll();
-                                trollGeneral = World.spawnNPC(14991, Tile.of(getInstance().getLocalX(36), getInstance().getLocalY(53), 0), -1, true, true, true);
+                                trollGeneral = World.spawnNPC(14991, Tile.of(getInstance().getLocalX(36), getInstance().getLocalY(53), 0), true, true);
                                 trollGeneral.setRandomWalk(false);
                                 trollGeneral.setCantInteract(true);
                                 player.getHintIconsManager().addHintIcon(getInstance().getLocalX(37), getInstance().getLocalY(54), 0, 50, 0, 0, -1, false);

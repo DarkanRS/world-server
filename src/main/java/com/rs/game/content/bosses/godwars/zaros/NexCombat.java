@@ -110,13 +110,13 @@ public class NexCombat extends CombatScript {
 				break;
 			case BLOOD:
 				nex.setNextAnimation(new Animation(6986));
-				delayHit(nex, World.sendProjectile(nex, target, 374, 41, 16, 41, 1.6, 16, 0).getTaskDelay(), target, getMagicHit(nex, getMaxHit(nex, 250, AttackStyle.MAGE, target)));
+				delayHit(nex, World.sendProjectile(nex, target, 374, 41, 16, 41, 1.6, 16).getTaskDelay(), target, getMagicHit(nex, getMaxHit(nex, 250, AttackStyle.MAGE, target)));
 				break;
 			case ICE:
 				nex.setNextAnimation(new Animation(6986));
 				for (final Entity t : nex.getPossibleTargets()) {
 					int damage = getMaxHit(nex, 250, AttackStyle.MAGE, t);
-					delayHit(nex, World.sendProjectile(nex, t, 362, 41, 16, 41, 35, 16, 0).getTaskDelay(), t, getMagicHit(nex, damage));
+					delayHit(nex, World.sendProjectile(nex, t, 362, 41, 16, 41, 35, 16).getTaskDelay(), t, getMagicHit(nex, damage));
 					if (damage > 0 && Utils.getRandomInclusive(5) == 0) {
 						if (t instanceof Player player)
 							t.freeze(Ticks.fromSeconds(player.getPrayer().isProtectingMage() ? 3 : 18), true);

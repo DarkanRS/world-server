@@ -69,7 +69,7 @@ fun mapUristPlugins() {
 
 private fun getFloorDrop(player: Player): GroundItem? {
     for (groundItem in World.getAllGroundItemsInChunkRange(823724, 1)) {
-        if (groundItem == null || groundItem.definitions == null || groundItem.id != talisman) {
+        if (groundItem.definitions == null || groundItem.id != talisman) {
             continue
         }
         if (!groundItem.tile.withinArea(3220, 3427, 3228, 3432)) {

@@ -54,7 +54,7 @@ public class GlacorCombat extends CombatScript {
 		if (target instanceof NPC) {
 			npc.setNextAnimation(new Animation(9968));
 			npc.setNextSpotAnim(new SpotAnim(905));
-			WorldProjectile p = World.sendProjectile(npc, target, SPECIAL_PROJECTILE, 60, 32, 50, 2, 0, 0);
+			WorldProjectile p = World.sendProjectile(npc, target, SPECIAL_PROJECTILE, 60, 32, 50, 2, 0);
 			final Tile targetPosition = Tile.of(target.getX(), target.getY(), target.getPlane());
 			WorldTasks.schedule(new Task() {
 				@Override
@@ -82,7 +82,7 @@ public class GlacorCombat extends CombatScript {
 			if (attackType == 1) {
 				npc.setNextAnimation(new Animation(9967));
 				npc.setNextSpotAnim(new SpotAnim(902));
-				WorldProjectile p = World.sendProjectile(npc, target, MAGE_PROJECTILE, 60, 32, 50, 2, 0, 0);
+				WorldProjectile p = World.sendProjectile(npc, target, MAGE_PROJECTILE, 60, 32, 50, 2, 0);
 				WorldTasks.schedule(new Task() {
 					@Override
 					public void run() {
@@ -96,7 +96,7 @@ public class GlacorCombat extends CombatScript {
 			} else if (attackType == 2) {
 				npc.setNextAnimation(new Animation(9968));
 				npc.setNextSpotAnim(new SpotAnim(905));
-				WorldProjectile p = World.sendProjectile(npc, target, RANGE_PROJECTILE, 60, 32, 50, 2, 0, 0);
+				WorldProjectile p = World.sendProjectile(npc, target, RANGE_PROJECTILE, 60, 32, 50, 2, 0);
 				WorldTasks.schedule(new Task() {
 					@Override
 					public void run() {
@@ -106,7 +106,7 @@ public class GlacorCombat extends CombatScript {
 			} else if (attackType == 3) {
 				npc.setNextAnimation(new Animation(9955));
 				npc.setNextSpotAnim(new SpotAnim(905));
-				WorldProjectile p = World.sendProjectile(npc, target, SPECIAL_PROJECTILE, 60, 32, 50, 1, 0, 0);
+				WorldProjectile p = World.sendProjectile(npc, target, SPECIAL_PROJECTILE, 60, 32, 50, 1, 0);
 				final Tile targetPosition = Tile.of(player.getX(), player.getY(), player.getPlane());
 				WorldTasks.schedule(new Task() {
 					@Override

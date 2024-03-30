@@ -84,7 +84,7 @@ enum class CombatSpell(
     FIRE_BLAST(59, 34.5, 160, Animation(2791), SpotAnim(2728), 2733, SpotAnim(2739), 155, 156, RuneSet(Rune.AIR, 4, Rune.FIRE, 5, Rune.DEATH, 1)),
     FIRE_WAVE(75, 42.5, 200, Animation(2791), SpotAnim(2728), 2735, SpotAnim(2740), 162, 163, RuneSet(Rune.AIR, 5, Rune.FIRE, 7, Rune.BLOOD, 1)),
     FIRE_SURGE(95, 90.0, 280, Animation(2791), SpotAnim(2728), 2735, SpotAnim(2741), 7932, 7933, RuneSet(Rune.AIR, 7, Rune.FIRE, 10, Rune.DEATH, 1, Rune.BLOOD, 1)) {
-        override fun onCast(caster: Entity?, target: Entity?) {
+        override fun onCast(caster: Entity, target: Entity) {
             World.sendProjectile(caster, target, 2736, -25, 50, 1.0)
             World.sendProjectile(caster, target, 2736, 25, 50, 1.0)
         }
@@ -563,7 +563,7 @@ enum class CombatSpell(
         return baseDamage
     }
 
-    fun cast(caster: Entity, target: Entity?): Int {
+    fun cast(caster: Entity, target: Entity): Int {
         val castAnim = getCastAnim(caster)
         val castSpotAnim = getCastSpotAnim(caster)
         caster.anim(castAnim)
@@ -574,7 +574,7 @@ enum class CombatSpell(
         return World.sendProjectile(caster, target, projAnim, if ((castSpotAnim?.height ?: 0) > 50) 20 else 0, 50, 1.0).taskDelay
     }
 
-    open fun onCast(caster: Entity?, target: Entity?) {}
+    open fun onCast(caster: Entity, target: Entity) {}
 
     open fun onHit(caster: Entity, target: Entity, hit: Hit) {}
 

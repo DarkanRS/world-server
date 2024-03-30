@@ -104,7 +104,7 @@ class DrunkenDwarf(owner: Player, tile: Tile) : RandomEventNPC(owner, NPC_ID, ti
                 if (npc.lineOfSightTo(owner, false)) {
                     owner.soundEffect(npc.combatDefinitions.attackSound, false)
                     npc.anim(npc.combatDefinitions.attackEmote)
-                    World.sendProjectile(npc, owner, npc.combatDefinitions.attackProjectile, 12, 32, 0, 0.7, 15, 0)
+                    World.sendProjectile(npc, owner, npc.combatDefinitions.attackProjectile, 12, 32, 0, 0.7, 15)
                     owner.anim(424)
                     owner.applyHit(Hit(npc, Utils.random(200), Hit.HitLook.RANGE_DAMAGE))
                     attackDelay = ATTACK_DELAY_TICKS
