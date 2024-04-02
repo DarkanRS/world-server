@@ -167,17 +167,19 @@ class Cutscene(val player: Player) : Continuation<Unit> {
         player.jingle(id)
     }
 
-    fun npcCreate(npcId: Int, x: Int, y: Int, z: Int, initNpc: ((npc: NPC) -> Unit)? = null): NPC {
+    fun npcCreate(npcId: Int, x: Int, y: Int, z: Int, initNpc: (NPC.() -> Unit)? = null): NPC {
         val npc = spawnNPC(npcId, Tile.of(getX(x), getY(y), z), true, true)
-        initNpc?.invoke(npc)
         npc.setRandomWalk(false)
+        initNpc?.invoke(npc)
         objects[npc.hashCode()] = npc
         return npc
     }
 
-    fun npcCreatePersistent(npcId: Int, x: Int, y: Int, z: Int, initNpc: ((npc: NPC) -> Unit)? = null): NPC {
+    fun npcCreatePersistent(npcId: Int, x: Int, y: Int, z: Int, initNpc: (NPC.() -> Unit)? = null): NPC {
         val npc = npcCreate(npcId, x, y, z, initNpc)
         npc.persistBeyondCutscene()
+        npc.setRandomWalk(false)
+        initNpc?.invoke(npc)
         return npc
     }
 
@@ -192,6 +194,10 @@ class Cutscene(val player: Player) : Continuation<Unit> {
         }
         player.run = moveType == MoveType.RUN
         player.addWalkSteps(getX(x), getY(y), 25, false)
+    }
+
+    fun npcMove(npc: NPC, x: Int, y: Int, moveType: MoveType) {
+        npcMove(npc, x, y, player.plane, moveType)
     }
 
     fun npcMove(npc: NPC, x: Int, y: Int, z: Int, moveType: MoveType) {

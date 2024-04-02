@@ -9,19 +9,18 @@ import com.rs.plugin.annotations.ServerStartupEvent
 @ServerStartupEvent
 fun mapCommand() {
     Commands.add(Rights.DEVELOPER, "examplecutscene", "starts the example kotlin cutscene") { p, _ ->
-        p.presentCutscene {
+        p.cutscene {
             fadeIn()
             wait(5)
             dynamicRegion(player.tile, 178, 554, 4, 4)
             playerMove(15, 20, 0, MoveType.TELE)
             objCreate(67500, 0, 14, 23, 0)
-            wait(2)
             val manKbd = npcCreate(1, 14, 20, 0)
             fadeOut()
             wait(5)
             dialogue {
-                npc(13447, HeadE.SAD, "yee haw")
-                player(HeadE.CHEERFUL, "yee haw?")
+                npc(1, HeadE.SAD, "yee haw")
+                player(HeadE.CHEERFUL, "yee haw!")
             }
             waitForDialogue()
             manKbd.transformIntoNPC(50)

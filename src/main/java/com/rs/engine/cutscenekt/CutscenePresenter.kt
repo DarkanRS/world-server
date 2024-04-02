@@ -35,6 +35,6 @@ class CutscenePresenter {
     }
 }
 
-fun Player.presentCutscene(block: suspend Cutscene.(CoroutineScope) -> Unit) {
+fun Player.cutscene(block: suspend Cutscene.(CoroutineScope) -> Unit) {
     this.cutscenePresenter.present(this, block)
 }

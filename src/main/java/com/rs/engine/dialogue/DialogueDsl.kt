@@ -125,6 +125,11 @@ open class DialogueBuilder(val stages: MutableMap<String, Dialogue> = mutableMap
         applyPendingLabel()
     }
 
+    fun next(nextDialogue: Dialogue) {
+        dialogue = dialogue.addNext(nextDialogue)
+        applyPendingLabel()
+    }
+
     fun stop() {
         dialogue = dialogue.addStop()
     }
@@ -186,6 +191,12 @@ fun dialogue(block: DialogueBuilder.() -> Unit): Dialogue {
     val builder = DialogueBuilder()
     builder.block()
     return builder.build()
+}
+
+fun createDialogueSection(block: DialogueBuilder.() -> Unit): Dialogue {
+    val builder = DialogueBuilder()
+    builder.block()
+    return builder.build().head
 }
 
 fun Player.startConversation(block: DialogueBuilder.() -> Unit) {
