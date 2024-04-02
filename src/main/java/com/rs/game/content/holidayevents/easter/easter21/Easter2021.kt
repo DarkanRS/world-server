@@ -74,7 +74,9 @@ fun mapEaster2021() {
         e.player.useLadder(if (e.objectId == 23117) Tile.of(2483, 5258, 0) else Tile.of(3212, 3425, 0))
     }
 
-    onObjectClick(30075, 30076) { e -> useBunnyHole(e.player, e.getObject(), e.player.transform(0, if (e.objectId == 30075) 7 else -7)) }
+    onObjectClick(30075, 30076) { e ->
+        useBunnyHole(e.player, e.getObject(), e.player.transform(0, if (e.objectId == 30075) 7 else -7))
+    }
 
     onItemClick(12645, options = arrayOf("Emote")) { e ->
         e.player.sync(8903, 1566)

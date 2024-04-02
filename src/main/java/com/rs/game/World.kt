@@ -573,13 +573,13 @@ object World {
 
     @JvmOverloads
     @JvmStatic
-    fun sendProjectile(from: Any, to: Any, graphicId: Int, angle: Int, delay: Int, speed: Double, task: Consumer<WorldProjectile?>? = null): WorldProjectile {
+    fun sendProjectile(from: Any, to: Any, graphicId: Int, angle: Int, delay: Int, speed: Double, task: Consumer<WorldProjectile>? = null): WorldProjectile {
         return sendProjectile(from, to, graphicId, 28, 28, delay, speed, angle, task)
     }
 
     @JvmOverloads
     @JvmStatic
-    fun sendProjectile(from: Any, to: Any, graphicId: Int, angle: Int, speed: Double, task: Consumer<WorldProjectile?>? = null): WorldProjectile {
+    fun sendProjectile(from: Any, to: Any, graphicId: Int, angle: Int, speed: Double, task: Consumer<WorldProjectile>? = null): WorldProjectile {
         return sendProjectile(from, to, graphicId, 28, 28, 0, speed, angle, task)
     }
 
@@ -589,7 +589,7 @@ object World {
     }
 
     @JvmStatic
-    fun sendProjectile(from: Any, to: Any, graphicId: Int, startHeight: Int, endHeight: Int, startTime: Int, speed: Double, angle: Int, task: Consumer<WorldProjectile?>?): WorldProjectile {
+    fun sendProjectile(from: Any, to: Any, graphicId: Int, startHeight: Int, endHeight: Int, startTime: Int, speed: Double, angle: Int, task: Consumer<WorldProjectile>?): WorldProjectile {
         val adjustedSpeed = if (speed > 20.0) speed / 50.0 else speed
         val fromTile: Tile = getTargetTile(from)
         val toTile: Tile = getTargetTile(to)
@@ -745,7 +745,7 @@ object World {
     }
 
     @JvmStatic
-    fun getObjectWithType(tile: Tile, type: ObjectType?): GameObject {
+    fun getObjectWithType(tile: Tile, type: ObjectType?): GameObject? {
         return ChunkManager.getChunk(tile.chunkId).getObjectWithType(tile, type)
     }
 
@@ -760,7 +760,7 @@ object World {
     }
 
     @JvmStatic
-    fun getObjectWithId(tile: Tile, id: Int): GameObject {
+    fun getObjectWithId(tile: Tile, id: Int): GameObject? {
         return ChunkManager.getChunk(tile.chunkId).getObjectWithId(tile, id)
     }
 

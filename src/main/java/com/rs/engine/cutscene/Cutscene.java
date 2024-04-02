@@ -538,20 +538,20 @@ public abstract class Cutscene {
 		this.dialoguePaused = paused;
 	}
 	
-	public void projectile(int delay, Tile from, Tile to, int graphicId, int startHeight, int endHeight, int startTime, double speed, int angle, int slope, Consumer<WorldProjectile> task) {
+	public void projectile(int delay, Tile from, Tile to, int graphicId, int startHeight, int endHeight, int startTime, double speed, int angle, Consumer<WorldProjectile> task) {
 		action(delay, () -> World.sendProjectile(Tile.of(getX(from.getX()), getY(from.getY()), from.getPlane()), Tile.of(getX(to.getX()), getY(to.getY()), to.getPlane()), graphicId, startHeight, endHeight, startTime, speed, angle, task));
 	}
 	
-	public void projectile(int delay, Tile from, Tile to, int graphicId, int startHeight, int endHeight, int startTime, double speed, int angle, int slope) {
+	public void projectile(int delay, Tile from, Tile to, int graphicId, int startHeight, int endHeight, int startTime, double speed, int angle) {
 		action(delay, () -> World.sendProjectile(Tile.of(getX(from.getX()), getY(from.getY()), from.getPlane()), Tile.of(getX(to.getX()), getY(to.getY()), to.getPlane()), graphicId, startHeight, endHeight, startTime, speed, angle));
 	}
 	
-	public void projectile(Tile from, Tile to, int graphicId, int startHeight, int endHeight, int startTime, double speed, int angle, int slope, Consumer<WorldProjectile> task) {
-		projectile(-1, from, to, graphicId, startHeight, endHeight, startTime, speed, angle, slope, task);
+	public void projectile(Tile from, Tile to, int graphicId, int startHeight, int endHeight, int startTime, double speed, int angle, Consumer<WorldProjectile> task) {
+		projectile(-1, from, to, graphicId, startHeight, endHeight, startTime, speed, angle, task);
 	}
 	
-	public void projectile(Tile from, Tile to, int graphicId, int startHeight, int endHeight, int startTime, double speed, int angle, int slope) {
-		projectile(-1, from, to, graphicId, startHeight, endHeight, startTime, speed, angle, slope);
+	public void projectile(Tile from, Tile to, int graphicId, int startHeight, int endHeight, int startTime, double speed, int angle) {
+		projectile(-1, from, to, graphicId, startHeight, endHeight, startTime, speed, angle);
 	}
 
 	public void npcFaceNPC(String key, String targetKey, int delay) {
