@@ -25,6 +25,7 @@ import com.rs.cache.loaders.ObjectType;
 import com.rs.db.WorldDB;
 import com.rs.engine.book.Book;
 import com.rs.engine.cutscene.Cutscene;
+import com.rs.engine.cutscenekt.CutscenePresenter;
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
@@ -232,6 +233,7 @@ public class Player extends Entity {
 	private transient InterfaceManager interfaceManager;
 	private transient HintIconsManager hintIconsManager;
 	private transient CutsceneManager cutsceneManager;
+	public transient CutscenePresenter cutscenePresenter;
 	private transient Trade trade;
 	private transient DuelRules lastDuelRules;
 	private transient Pet pet;
@@ -635,6 +637,7 @@ public class Player extends Entity {
 		varManager.setSession(session);
 		sounds = new HashSet<>();
 		cutsceneManager = new CutsceneManager(this);
+		cutscenePresenter = new CutscenePresenter();
 		trade = new Trade(this);
 		// loads player on saved instances
 		appearence.setPlayer(this);
@@ -938,6 +941,7 @@ public class Player extends Entity {
 				finish(0);
 			processPackets();
 			cutsceneManager.process();
+			cutscenePresenter.tick();
 			super.processEntity();
 			if (hasStarted() && isIdle() && !hasRights(Rights.ADMIN) && !getNSV().getB("idleLogImmune")) {
 				if (getInteractionManager().getInteraction() instanceof PlayerCombatInteraction combat) {

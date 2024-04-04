@@ -43,7 +43,7 @@ public class ChaosElementalCombat extends CombatScript {
 		int atk = Utils.random(100);
 		npc.setNextAnimation(new Animation(npc.getCombatDefinitions().getAttackEmote()));
 		if (atk <= 10) {
-			World.sendProjectile(npc, target, 2966, 30, 30, 45, 30, 15, 0);
+			World.sendProjectile(npc, target, 2966, 30, 30, 45, 30, 15);
 			WorldTasks.schedule(new Task() {
 				@Override
 				public void run() {
@@ -57,7 +57,7 @@ public class ChaosElementalCombat extends CombatScript {
 				}
 			}, Utils.getDistanceI(npc.getTile(), target.getTile())/3);
 		} else if (atk <= 18) {
-			World.sendProjectile(npc, target, 310, 30, 30, 45, 30, 15, 0);
+			World.sendProjectile(npc, target, 310, 30, 30, 45, 30, 15);
 			if (target instanceof Player player)
 				WorldTasks.schedule(new Task() {
 					@Override
@@ -94,7 +94,7 @@ public class ChaosElementalCombat extends CombatScript {
 				damage = getMaxHit(npc, 300, AttackStyle.MELEE, target);
 				hit = getMeleeHit(npc, damage);
 			}
-			World.sendProjectile(npc, target, 1279, 30, 30, 45, 30, 15, 0);
+			World.sendProjectile(npc, target, 1279, 30, 30, 45, 30, 15);
 			delayHit(npc, Utils.getDistanceI(npc.getTile(), target.getTile())/3, target, hit);
 		}
 		return 4;

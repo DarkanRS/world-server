@@ -17,6 +17,7 @@
 package com.rs.game.content.holidayevents.easter
 
 import com.rs.game.World
+import com.rs.game.map.Chunk
 import com.rs.game.map.ChunkManager
 import com.rs.game.tasks.WorldTasks
 import com.rs.lib.game.Item
@@ -50,24 +51,16 @@ private fun countEggs(chunkId: Int): Int {
 }
 
 private fun spawnEggs() {
-    for (chunkId in World.mapRegionIdsToChunks(regionsToSpawn, 0)) {
+    World.mapRegionIdsToChunks(regionsToSpawn, 0).forEach { chunkId ->
         val chunk = ChunkManager.getChunk(chunkId)
         val eggsNeeded = eggsPerChunk - countEggs(chunkId)
 
-        if (eggsNeeded <= 0) continue
-
-        for (i in 0 until eggsNeeded) {
-            var x = chunk.baseX + Utils.random(8)
-            var y = chunk.baseY + Utils.random(8)
-            var tile = Tile.of(x, y, 0)
-            var attempts = 0
-            while (!World.floorAndWallsFree(tile, 1)) {
-                if (attempts++ >= 64) break
-                x = chunk.baseX + Utils.random(8)
-                y = chunk.baseY + Utils.random(8)
-                tile = Tile.of(x, y, 0)
+        if (eggsNeeded > 0) {
+            repeat(eggsNeeded) {
+                World.getRandomWalkableTileInChunk(chunk)?.let {
+                    World.addGroundItem(Item(1961), it)
+                }
             }
-            World.addGroundItem(Item(1961), tile)
         }
     }
 }

@@ -338,34 +338,40 @@ public final class ChunkManager {
 
     public static void clearUnusedMemory() {
         synchronized (CHUNKS) {
-            List<Integer> destroyed = new IntArrayList();
-            regionLoop:
-            for (int regionId : UNLOADABLE_REGIONS) {
+            Iterator<Integer> iterator = UNLOADABLE_REGIONS.iterator();
+            while (iterator.hasNext()) {
+                int regionId = iterator.next();
                 int chunkBaseId = Tile.of((regionId >> 8) * 64, (regionId & 0xff) * 64, 0).getChunkId();
+                boolean skipRegion = false;
                 Set<Integer> chunksToDestroy = new IntOpenHashSet();
+
+                outerLoop:
                 for (int planeOff = 0; planeOff < 4 * Chunk.PLANE_INC; planeOff += Chunk.PLANE_INC) {
                     for (int chunkXOff = 0; chunkXOff < 8 * Chunk.X_INC; chunkXOff += Chunk.X_INC) {
                         for (int chunkYOff = 0; chunkYOff < 8; chunkYOff++) {
                             int chunkId = chunkBaseId + chunkXOff + chunkYOff + planeOff;
+                            if (ACTIVE_CHUNKS.contains(chunkId)) {
+                                skipRegion = true;
+                                break outerLoop;
+                            }
                             Chunk chunk = getChunk(chunkId);
-                            if (ACTIVE_CHUNKS.contains(chunkId))
-                                continue regionLoop;
                             if (chunk != null && !(chunk instanceof InstancedChunk))
                                 chunksToDestroy.add(chunkId);
                         }
                     }
                 }
-                for (int chunkId : chunksToDestroy) {
-                    Chunk chunk = getChunk(chunkId);
-                    if (chunk == null)
-                        continue;
-                    chunk.clearCollisionData();
-                    chunk.destroy();
-                    destroyed.add(chunkId);
+
+                if (!skipRegion) {
+                    chunksToDestroy.forEach(chunkId -> {
+                        Chunk chunk = getChunk(chunkId);
+                        if (chunk != null) {
+                            chunk.clearCollisionData();
+                            chunk.destroy();
+                        }
+                    });
+                    iterator.remove();
                 }
             }
-            for (int regionId : destroyed)
-                UNLOADABLE_REGIONS.remove(regionId);
         }
     }
 }

@@ -61,7 +61,7 @@ public class EventEasterEgg extends GameObject {
             e.getPlayer().setNextAnimation(new Animation(12174));
             e.getPlayer().setNextSpotAnim(new SpotAnim(2138));
             int attackStyle = e.getPlayer().getCombatDefinitions().getAttackStyleId();
-            int delay = World.sendProjectile(e.getPlayer().getTile(), Tile.of(e.getObject().getTile()), (attackStyle == 0 ? 3034 : 3035), 20, 10, 30, 1, 0, 0).getTaskDelay();
+            int delay = World.sendProjectile(e.getPlayer().getTile(), Tile.of(e.getObject().getTile()), (attackStyle == 0 ? 3034 : 3035), 20, 10, 30, 1, 0).getTaskDelay();
     		int npcId = (attackStyle == 0 ? Easter2022.CHICK : Easter2022.CHOCOCHICK);
     		egg.spotted(e.getPlayer());
     		WorldTasks.scheduleTimer(delay, (tick) -> {

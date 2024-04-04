@@ -63,6 +63,6 @@ public class BarkerToad extends FamiliarCombatScript {
 		f.getAttribs().removeB("storedCannonball");
 		f.sync(7703, 1401);
 		delayHit(f, 1, target, PlayerCombatKt.calculateHit(f.getOwner(), target, 0, 300, f.getOwner().getEquipment().getWeaponId(), f.getOwner().getCombatDefinitions().getAttackStyle(), PlayerCombatKt.isRanging(f.getOwner()), true, 1.0)).setSource(f);
-		World.sendProjectile(f, target, 1402, 10, 16, 30, 1.5, 16, 0);
+		World.sendProjectile(f, target, 1402, 10, 16, 30, 1.5, 16);
 	}
 }

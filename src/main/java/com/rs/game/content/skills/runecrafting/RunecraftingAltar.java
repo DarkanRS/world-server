@@ -468,13 +468,13 @@ public class RunecraftingAltar {
 	public static void handleEssTele(Player player, NPC npc) {
 		npc.forceTalk("Senventior Disthine Molenko!");
 		npc.resetWalkSteps();
-		npc.faceEntity(player);
+		npc.faceEntityTile(player);
 		npc.anim(722);
 		npc.spotAnim(108, 0, 96);
 		player.lock();
 		WorldTasks.scheduleTimer(0, 0, tick -> {
 			switch(tick) {
-				case 0 -> World.sendProjectile(npc, player, 109, 5, 5, 5, 0.6, 5, 0);
+				case 0 -> World.sendProjectile(npc, player, 109, 5, 5, 5, 0.6, 5);
 				case 1 -> player.spotAnim(110, 35, 96);
 				case 3 -> {
 					if (player.getMiniquestStage(Miniquest.ENTER_THE_ABYSS) == EnterTheAbyss.SCRYING_ORB) {

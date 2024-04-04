@@ -23,7 +23,7 @@ public class GaurdianArmadylTempleOfIkov extends Conversation {
 			addNPC(NPC, HeadE.CALM_TALK, "Okay, I shall cleanse you with holy water...");
 				addSimple("He splashes water on your face...", ()->{
 					guardian.setLockedForTicks(4);
-					guardian.faceEntity(player);
+					guardian.faceEntityTile(player);
 					WorldTasks.delay(1, () -> guardian.setNextAnimation(new Animation(805)));
 				});
 				addNPC(NPC, HeadE.CALM_TALK, "You have been cleansed!");

@@ -46,7 +46,7 @@ public class KarilCombat extends CombatScript {
 			int currentLevel = player.getSkills().getLevel(Constants.AGILITY);
 			player.getSkills().set(Constants.AGILITY, currentLevel < drain ? 0 : currentLevel - drain);
 		}
-		World.sendProjectile(npc, target, defs.getAttackProjectile(), 41, 16, 41, 35, 16, 0);
+		World.sendProjectile(npc, target, defs.getAttackProjectile(), 41, 16, 41, 35, 16);
 		delayHit(npc, 2, target, getRangeHit(npc, damage));
 		return npc.getAttackSpeed();
 	}

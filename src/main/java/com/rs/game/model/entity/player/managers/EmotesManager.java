@@ -536,7 +536,7 @@ public final class EmotesManager {
 							if (step == 1) {
 								player.getAppearance().transformIntoNPC(11229);
 								player.setNextAnimation(new Animation(14608));
-								World.sendProjectile(player, Tile.of(player.getX(), player.getY() - 1, player.getPlane()), 2781, 30, 30, 6, 20, 1, 0);
+								World.sendProjectile(player, Tile.of(player.getX(), player.getY() - 1, player.getPlane()), 2781, 30, 30, 6, 20, 1);
 								World.sendSpotAnim(Tile.of(player.getX(), player.getY() - 1, player.getPlane()), new SpotAnim(2777));
 							}
 							if (step == 3) {

@@ -12,8 +12,6 @@ val MUSICIANS = arrayOf(29, 30, 3463, 3509, 3611, 5442, 5439, 8698, 8699, 8700, 
 fun isNearby(p: Player): Boolean {
     val nearbyNPCs = World.getNPCsInChunkRange(p.chunkId, 1)
     for (nearbyNPC in nearbyNPCs) {
-        if (nearbyNPC == null)
-            continue
         for (musicianId in MUSICIANS)
             if (nearbyNPC.id == musicianId && p.withinDistance(nearbyNPC.middleTile, 2))
                 return true

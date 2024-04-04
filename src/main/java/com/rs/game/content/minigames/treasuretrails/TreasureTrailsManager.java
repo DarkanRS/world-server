@@ -209,7 +209,7 @@ public class TreasureTrailsManager {
 		} else if (((cluePhase == 0 && currentClue.dificulty < HARD) || (cluePhase == 2 && currentClue.dificulty >= HARD)) && currentClue.details.type == EMOTE) {
 			final NPC npc = new Ugi(player, 5141, player.getNearestTeleTile(1));
 			npc.setNextSpotAnim(new SpotAnim(74));
-			WorldTasks.schedule(() -> npc.faceEntity(player));
+			WorldTasks.schedule(() -> npc.faceEntityTile(player));
 			cluePhase = ((Emote[]) currentClue.details.parameters[0]).length == 1 ? 4 : 3;
 		} else if (cluePhase == 3)
 			cluePhase = 4; // for emotes

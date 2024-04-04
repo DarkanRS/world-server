@@ -37,7 +37,7 @@ public class SappingMinion extends NPC {
 		super.processEntity();
 		if (getHitpoints() <= 0 || isDead()) {
 			if (!defeated)
-				World.sendProjectile(this, parent, 634, 34, 16, 30, 35, 16, 15);
+				World.sendProjectile(this, parent, 634, 34, 16, 30, 35, 16);
 			defeated = true;
 		}
 	}

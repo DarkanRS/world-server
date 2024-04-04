@@ -104,7 +104,7 @@ fun instantiateAndCombat() {
 				cs.delay(6)
 				cs.action {
 					repeat(3) {
-						World.spawnNPC(7135, Tile.of(npc.tile, 1), -1, true, true).apply {
+						World.spawnNPC(7135, Tile.of(npc.tile, 1), true).apply {
 							setForceAgressive(true)
 							setForceMultiArea(true)
 						}

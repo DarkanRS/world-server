@@ -72,7 +72,7 @@ public class BulwarkBeastCombat extends CombatScript {
 				npc.setNextSpotAnim(new SpotAnim(2394));
 				List<Entity> targets = npc.getPossibleTargets();
 				for (Entity t : targets) {
-					World.sendProjectile(npc, t, 2395, 35, 30, 41, 40, 0, 0);
+					World.sendProjectile(npc, t, 2395, 35, 30, 41, 40, 0);
 					t.setNextSpotAnim(new SpotAnim(2396, 75, 0));
 					delayHit(npc, 1, t, getRangeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.RANGE, t)));
 				}

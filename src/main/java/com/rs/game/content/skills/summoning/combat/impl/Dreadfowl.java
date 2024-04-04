@@ -41,7 +41,7 @@ public class Dreadfowl extends FamiliarCombatScript {
 		npc.setNextAnimation(new Animation(7810));
 		npc.setNextSpotAnim(new SpotAnim(1523));
 		delayHit(npc, 1, target, getMagicHit(npc, getMaxHit(npc, 30, AttackStyle.MAGE, target)));
-		World.sendProjectile(npc, target, 1318, 34, 16, 30, 35, 16, 0);
+		World.sendProjectile(npc, target, 1318, 34, 16, 30, 35, 16);
 		return npc.getAttackSpeed();
 	}
 }

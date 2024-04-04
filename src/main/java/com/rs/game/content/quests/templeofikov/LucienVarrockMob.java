@@ -34,8 +34,8 @@ public class LucienVarrockMob extends NPC {
 	public boolean canBeAttackedBy(Player player) {
 		if(player.getEquipment().getAmuletId() == 87)//Armadyl pendant
 			return true;
-		this.faceEntity(player);
-		player.faceEntity(this);
+		this.faceEntityTile(player);
+		player.faceEntityTile(this);
 		WorldTasks.delay(1, () -> this.setNextAnimation(new Animation(805)));
 		player.startConversation(new Dialogue()
 				.addNPC(NPC, HeadE.CALM_TALK, "You don't want to attack me. I am your friend.")

@@ -19,7 +19,6 @@ package com.rs.game.content.skills.runecrafting;
 import com.rs.game.World;
 import com.rs.game.content.skills.mining.Pickaxe;
 import com.rs.game.content.skills.woodcutting.Hatchet;
-import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.Teleport;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
@@ -28,7 +27,6 @@ import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -260,7 +258,7 @@ public class Abyss {
 	public static void teleport(final Player player, NPC npc) {
 		player.lock(2);
 		npc.resetWalkSteps();
-		npc.faceEntity(player);
+		npc.faceEntityTile(player);
 		npc.forceTalk("Veniens! Sallkar! Rinnesset!");
 		npc.anim(722);
 		npc.spotAnim(343);

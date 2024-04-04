@@ -24,7 +24,7 @@ public class ImpDefender extends NPC {
     public ImpDefender(Tile tile) {
         super(6074, tile);
         setCollisionStrategyType(CollisionStrategyType.NORMAL);
-        WorldTasks.scheduleLooping(0, Ticks.fromSeconds(5), this::freeImplings);
+        getTasks().scheduleLooping(0, Ticks.fromSeconds(5), this::freeImplings);
     }
 
     public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { 6074 }, (npcId, tile) -> new ImpDefender(tile));
@@ -47,7 +47,7 @@ public class ImpDefender extends NPC {
                         i.addMetaData("used", true);
                     p.sendMessage("Your repellent protects you from the Imp Defender.");
                     if (Utils.random(10000) == 0) {
-                        p.faceEntity(this);
+                        p.faceEntityTile(this);
                         p.setNextAnimation(new Animation(8991));
                         p.setNextForceTalk(new ForceTalk("Swiper, no swiping!"));
                     }
@@ -59,7 +59,7 @@ public class ImpDefender extends NPC {
                        return;
                     p.lock();
                     walkToAndExecute(p.getNearestTeleTile(1), () -> {
-                        p.faceEntity(this);
+                        p.faceEntityTile(this);
                         p.getInventory().replace(jar, FlyingEntityHunter.IMPLING_JAR);
                         setNextForceTalk(new ForceTalk("Be Free!"));
                     });

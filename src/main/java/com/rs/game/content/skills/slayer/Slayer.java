@@ -329,7 +329,7 @@ public class Slayer {
 			WorldTasks.schedule(new Task() {
 				@Override
 				public void run() {
-					NPC npc = World.spawnNPC(5751, Tile.of(player.getTile()), -1, true);
+					NPC npc = World.spawnNPC(5751, Tile.of(player.getTile()));
 					npc.getCombat().setTarget(player);
 					GameObject o = new GameObject(object);
 					o.setId(22544);

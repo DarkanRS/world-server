@@ -41,7 +41,7 @@ public class IFOnNPCHandler implements PacketHandler<Player, IFOnNPC> {
 		if (PluginManager.handle(new IFOnNPCEvent(player, npc, packet.getInterfaceId(), packet.getComponentId(), packet.getSlotId(), packet.getItemId(), false)))
 			return;
 		player.setRouteEvent(new RouteEvent(npc, () -> {
-			player.faceEntity(npc);
+			player.faceEntityTile(npc);
 			PluginManager.handle(new IFOnNPCEvent(player, npc, packet.getInterfaceId(), packet.getComponentId(), packet.getSlotId(), packet.getItemId(), true));
 		}));
 	}

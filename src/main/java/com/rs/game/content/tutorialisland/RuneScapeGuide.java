@@ -32,7 +32,7 @@ public class RuneScapeGuide extends Conversation {
 
 	public RuneScapeGuide(Player player, NPC npc, TutorialIslandController ctrl) {
 		super(player);
-		npc.faceEntity(player);
+		npc.faceEntityTile(player);
 		npc.resetWalkSteps();
 
 		create("Intro", new Dialogue(new NPCStatement(npc.getId(), HeadE.CHEERFUL, "Greetings! I see you are a new arrival to this land. My", "job is to welcome all new visitors. So welcome!")))

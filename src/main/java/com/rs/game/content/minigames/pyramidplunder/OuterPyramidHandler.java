@@ -1,5 +1,6 @@
 package com.rs.game.content.minigames.pyramidplunder;
 
+import com.rs.engine.pathfinder.Direction;
 import com.rs.game.World;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
@@ -49,7 +50,7 @@ public class OuterPyramidHandler {//OuterPyramidHandler plunder is all in one re
 				if(tick == 0)
 					p.getInterfaceManager().setFadingInterface(115);
 				if(tick == 2) {
-					p.faceNorth();
+					p.faceDir(Direction.NORTH);
 					p.tele(Tile.of(tile.getX(), tile.getY() - 8, tile.getPlane()));
 				}
 				if(tick == 3)
@@ -63,16 +64,16 @@ public class OuterPyramidHandler {//OuterPyramidHandler plunder is all in one re
 		Player p = e.getPlayer();
 		Tile[] tiles = MUMMY_LOCATIONS;
 		if(p.withinDistance(tiles[0]))
-			exitMummyRoom(p, Tile.of(3288, 2801, 0), 0);
+			exitMummyRoom(p, Tile.of(3288, 2801, 0), Direction.NORTH);
 		else if(p.withinDistance(tiles[1]))
-			exitMummyRoom(p, Tile.of(3295, 2795, 0), 1);
+			exitMummyRoom(p, Tile.of(3295, 2795, 0), Direction.EAST);
 		else if(p.withinDistance(tiles[2]))
-			exitMummyRoom(p, Tile.of(3289, 2788, 0), 2);
+			exitMummyRoom(p, Tile.of(3289, 2788, 0), Direction.SOUTH);
 		else if(p.withinDistance(tiles[3]))
-			exitMummyRoom(p, Tile.of(3282, 2794, 0), 3);
+			exitMummyRoom(p, Tile.of(3282, 2794, 0), Direction.WEST);
 	});
 
-	private static void exitMummyRoom(Player p, Tile tile, int dir) {
+	private static void exitMummyRoom(Player p, Tile tile, Direction dir) {
 		p.lock(4);
 		WorldTasks.scheduleLooping(new Task() {
 			int tick;
@@ -81,18 +82,15 @@ public class OuterPyramidHandler {//OuterPyramidHandler plunder is all in one re
 				if(tick == 0)
 					p.getInterfaceManager().setFadingInterface(115);
 				if(tick == 2) {
-					if(dir ==0)
-						p.faceNorth();
-					if(dir ==1)
-						p.faceEast();
-					if(dir ==2)
-						p.faceSouth();
-					if(dir ==3)
-						p.faceWest();
+					p.faceDir(dir);
 					p.tele(tile);
 				}
 				if(tick == 3)
 					p.getInterfaceManager().setFadingInterface(170);
+				if (tick >= 4) {
+					stop();
+					return;
+				}
 				tick++;
 			}
 		}, 0, 1);

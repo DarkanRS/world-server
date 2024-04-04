@@ -39,7 +39,7 @@ public class DarkBeastCombat extends CombatScript {
 			delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, 170, def.getAttackStyle(), target)));
 		else {
 			final int damage = getMaxHit(npc, 90, def.getAttackStyle(), target);
-			World.sendProjectile(npc, target, 2181, 41, 16, 41, 35, 16, 0);
+			World.sendProjectile(npc, target, 2181, 41, 16, 41, 35, 16);
 			delayHit(npc, 2, target, getMagicHit(npc, damage));
 		}
 		return npc.getAttackSpeed();
