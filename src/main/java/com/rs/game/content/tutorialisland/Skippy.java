@@ -35,7 +35,7 @@ public class Skippy extends Conversation {
 
 	public Skippy(Player player, NPC npc, TutorialIslandController ctrl) {
 		super(player);
-		npc.faceEntity(player);
+		npc.faceEntityTile(player);
 		npc.resetWalkSteps();
 
 		addNext(new NPCStatement(npc.getId(), HeadE.DRUNK, "Hey. Do you wanna skip the Tutorial?", "I can send you straight to Burthorpe, easy."));

@@ -18,6 +18,7 @@ package com.rs.game.content.quests.fightarena;
 
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.pathfinder.Direction;
 import com.rs.engine.quest.Quest;
 import com.rs.game.World;
 import com.rs.game.content.skills.magic.TeleType;
@@ -110,21 +111,21 @@ public class FightArenaFightCutsceneController extends Controller {
 						player.getPackets().setBlockMinimapState(0);
 					}
 					if(tick == 6)
-						player.faceWest();
+						player.faceDir(Direction.WEST);
 					if(tick == 7)
 						player.setNextAnimation(new Animation(2098));
 					if(tick == 8) {
 						jeremeysCell(true);
 						jeremy.setRandomWalk(false);
-						jeremy.faceEntity(player);
+						jeremy.faceEntityTile(player);
 					}
 					if(tick == 9) {
 						jeremy.walkToAndExecute(spawn, ()->{
-							jeremy.faceNorth();
+							jeremy.faceDir(Direction.NORTH);
 							jeremy.forceTalk("I'll run ahead");
 							tick++;
 						});
-						player.walkToAndExecute(instance.getLocalTile(57, 40), () -> player.faceSouth());
+						player.walkToAndExecute(instance.getLocalTile(57, 40), () -> player.faceDir(Direction.SOUTH));
 					}
 					if(tick == 11) {
 						jeremeysCell(false);
@@ -132,20 +133,20 @@ public class FightArenaFightCutsceneController extends Controller {
 					}
 					if(tick == 13) {
 						general_khazard = new NPC(7551, Tile.of(instance.getLocalX(45), instance.getLocalY(28), 0));
-						general_khazard.faceWest();
+						general_khazard.faceDir(Direction.WEST);
 						general_khazard.setRandomWalk(false);
 						dynamicNPCs.add(general_khazard);
 
 						player.getPackets().sendCameraPos(Tile.of(instance.getLocalX(41), instance.getLocalY(35), 0), 1500);
 						player.getPackets().sendCameraLook(Tile.of(instance.getLocalX(44), instance.getLocalY(26), 0), 0);
-						player.faceNorth();
-						jeremy.faceNorth();
+						player.faceDir(Direction.NORTH);
+						jeremy.faceDir(Direction.NORTH);
 						player.tele(Tile.of(instance.getLocalX(43), instance.getLocalY(26), player.getPlane()));
 						jeremy.tele(Tile.of(instance.getLocalX(42), instance.getLocalY(26), 0));
 					}
 					if(tick == 15) {
-						player.faceEntity(jeremy);
-						jeremy.faceEntity(player);
+						player.faceEntityTile(jeremy);
+						jeremy.faceEntityTile(player);
 						player.startConversation(new Dialogue()
 								.addPlayer(HeadE.SCARED, "Jeremy, where's your father?")
 								.addNPC(jeremy.getId(), HeadE.CHILD_UNSURE, "Quick, help him! That beast will kill him. He's too old to fight.")
@@ -155,8 +156,8 @@ public class FightArenaFightCutsceneController extends Controller {
 					if(tick == 17) {
 						ogre.tele(Tile.of(instance.getLocalX(42), instance.getLocalY(40), 0));
 						ogre.setRandomWalk(false);
-						ogre.faceEntity(father);
-						father.faceEntity(ogre);
+						ogre.faceEntityTile(father);
+						father.faceEntityTile(ogre);
 						father.setLocked(true);
 						father.setHitpoints(9999);
 						ogre.setTarget(father);
@@ -177,12 +178,12 @@ public class FightArenaFightCutsceneController extends Controller {
 						player.lock();
 						player.startConversation(new Dialogue()
 								.addNPC(7535, HeadE.CALM_TALK, "You saved both my life and that of my son. I am eternally in your debt, brave traveller.", () ->{
-									father.faceEntity(player);
-									player.faceEntity(father);
+									father.faceEntityTile(player);
+									player.faceEntityTile(father);
 								})
 								.addNPC(7551, HeadE.CALM_TALK, "Haha! Well done, well done. That was rather entertaining. I am the great General Khazard" +
-										" and the two men you just \'saved\' are my property.", () -> general_khazard.faceEntity(player))
-								.addPlayer(HeadE.HAPPY_TALKING, "They belong to nobody.", ()-> player.faceEntity(general_khazard))
+										" and the two men you just \'saved\' are my property.", () -> general_khazard.faceEntityTile(player))
+								.addPlayer(HeadE.HAPPY_TALKING, "They belong to nobody.", ()-> player.faceEntityTile(general_khazard))
 								.addNPC(7551, HeadE.CALM_TALK, "Well, I suppose we could make some arrangement for their freedom.")
 								.addPlayer(HeadE.HAPPY_TALKING, "What do you mean?")
 								.addNPC(7551, HeadE.CALM_TALK, "I'll let them go, but you must stay and fight!")
@@ -236,11 +237,11 @@ public class FightArenaFightCutsceneController extends Controller {
 						player.lock();
 						player.startConversation(new Dialogue()
 								.addNPC(7551, HeadE.AMAZED, "Nooooo! Bouncer! How dare you? For his sake you'll suffer, traveller." +
-										" Prepare to meet your maker.", () -> general_khazard.faceEntity(player))
-								.addPlayer(HeadE.HAPPY_TALKING, "You agreed to let the Servils go if I stayed to fight.", ()-> player.faceEntity(general_khazard))
+										" Prepare to meet your maker.", () -> general_khazard.faceEntityTile(player))
+								.addPlayer(HeadE.HAPPY_TALKING, "You agreed to let the Servils go if I stayed to fight.", ()-> player.faceEntityTile(general_khazard))
 								.addNPC(7551, HeadE.CALM_TALK, "Indeed you shall see that I am not cowardly enough to make false promises. They may go.")
 								.addNPC(7551, HeadE.CALM_TALK, "You, however, have caused me much trouble today. You will remain here so that I may have the pleasure of killing you myself.")
-								.addNPC(jeremy.getId(), HeadE.CHILD_UNSURE, "No, you don't have to fight him! Come with us, " + player.getDisplayName() + "!", ()-> jeremy.faceEntity(player))
+								.addNPC(jeremy.getId(), HeadE.CHILD_UNSURE, "No, you don't have to fight him! Come with us, " + player.getDisplayName() + "!", ()-> jeremy.faceEntityTile(player))
 								.addNext(()->{
 									canLeave = true;
 									tick = 42;
@@ -375,7 +376,7 @@ public class FightArenaFightCutsceneController extends Controller {
 	}
 
 	private void jeremeysCell(boolean open) {
-		GameObject door = World.getClosestObject(80, player.getTile());
+		GameObject door = World.getClosestObjectByObjectId(80, player.getTile());
 		if(open) {
 			if(door.getRotation() == 3)
 				return;

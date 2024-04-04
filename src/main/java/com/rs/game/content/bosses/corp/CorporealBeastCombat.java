@@ -60,10 +60,10 @@ public class CorporealBeastCombat extends CombatScript {
 		}
 		if (attackStyle == 2) { // powerfull mage spiky ball
 			npc.setNextAnimation(new Animation(10410));
-			delayHit(npc, World.sendProjectile(npc, target, 1825, 41, 16, 10, 1, 16, 0).getTaskDelay(), target, getMagicHit(npc, getMaxHit(npc, 650, AttackStyle.MAGE, target)));
+			delayHit(npc, World.sendProjectile(npc, target, 1825, 41, 16, 10, 1, 16).getTaskDelay(), target, getMagicHit(npc, getMaxHit(npc, 650, AttackStyle.MAGE, target)));
 		} else if (attackStyle == 3) { // translucent ball of energy
 			npc.setNextAnimation(new Animation(10410));
-			int delay = World.sendProjectile(npc, target, 1823, 41, 16, 10, 1, 16, 0).getTaskDelay();
+			int delay = World.sendProjectile(npc, target, 1823, 41, 16, 10, 1, 16).getTaskDelay();
 			delayHit(npc, delay, target, getMagicHit(npc, getMaxHit(npc, 550, AttackStyle.MAGE, target)));
 			if (target instanceof Player player)
 				WorldTasks.schedule(new Task() {
@@ -102,10 +102,10 @@ public class CorporealBeastCombat extends CombatScript {
 							public void run() {
 								World.sendSpotAnim(newTile, new SpotAnim(1806));
 							}
-						}, World.sendProjectile(tile, newTile, 1824, 0, 0, 0, 1, 30, 0).getTaskDelay());
+						}, World.sendProjectile(tile, newTile, 1824, 0, 0, 0, 1, 30).getTaskDelay());
 					}
 				}
-			}, World.sendProjectile(npc, tile, 1824, 41, 16, 0, 1, 16, 0).getTaskDelay());
+			}, World.sendProjectile(npc, tile, 1824, 41, 16, 0, 1, 16).getTaskDelay());
 		}
 		return npc.getAttackSpeed();
 	}

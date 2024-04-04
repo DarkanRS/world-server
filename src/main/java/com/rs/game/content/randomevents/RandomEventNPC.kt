@@ -27,7 +27,7 @@ abstract class RandomEventNPC(
     init {
         playSoundAndAnim(startSoundId, DEFAULT_START_GFX)
         this.run = false
-        this.setNextFaceEntity(owner)
+        this.faceEntity(owner)
         this.isAutoDespawnAtDistance = false
     }
 

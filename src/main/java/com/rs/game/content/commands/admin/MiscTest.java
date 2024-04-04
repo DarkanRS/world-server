@@ -178,7 +178,7 @@ public class MiscTest {
 			}
 		});
 
-		Commands.add(Rights.DEVELOPER, "spawnmax", "Spawns another max into the world on top of the player.", (p, args) -> World.spawnNPC(3373, Tile.of(p.getTile()), -1, true, true, true));
+		Commands.add(Rights.DEVELOPER, "spawnmax", "Spawns another max into the world on top of the player.", (p, args) -> World.spawnNPC(3373, Tile.of(p.getTile()), true, true));
 
 		Commands.add(Rights.DEVELOPER, "playcs", "Plays a cutscene using new cutscene system", (p, args) -> p.getCutsceneManager().play(new ExampleCutscene()));
 
@@ -341,12 +341,12 @@ public class MiscTest {
 
 		Commands.add(Rights.DEVELOPER, "proj [id]", "Sends a projectile over the player.", (p, args) -> {
 			p.getTempAttribs().setI("tempProjCheck", Integer.parseInt(args[0]));
-			World.sendProjectile(Tile.of(p.getX() + 5, p.getY(), p.getPlane()), Tile.of(p.getX() - 5, p.getY(), p.getPlane()), Integer.parseInt(args[0]), 40, 40, 0, 0.2, 0, 0);
+			World.sendProjectile(Tile.of(p.getX() + 5, p.getY(), p.getPlane()), Tile.of(p.getX() - 5, p.getY(), p.getPlane()), Integer.parseInt(args[0]), 40, 40, 0, 0.2, 0);
 		});
 
 		Commands.add(Rights.DEVELOPER, "projrot [id next/prev]", "Sends a projectile over the player.", (p, args) -> {
 			int projId = p.getTempAttribs().getI("tempProjCheck", 0);
-			World.sendProjectile(Tile.of(p.getX() + 5, p.getY(), p.getPlane()), Tile.of(p.getX() - 5, p.getY(), p.getPlane()), projId, 0, 0, 0, 0.2, 0, 0);
+			World.sendProjectile(Tile.of(p.getX() + 5, p.getY(), p.getPlane()), Tile.of(p.getX() - 5, p.getY(), p.getPlane()), projId, 0, 0, 0, 0.2, 0);
 			p.getPackets().sendDevConsoleMessage("Projectile: " + projId);
 			if (args[0].equals("next"))
 				p.getTempAttribs().setI("tempProjCheck", Utils.clampI(projId+1, 0, 5000));
@@ -433,7 +433,7 @@ public class MiscTest {
 		});
 
 		Commands.add(Rights.DEVELOPER, "spawntestnpc", "Spawns a combat test NPC.", (p, args) -> {
-			NPC n = World.spawnNPC(14256, Tile.of(p.getTile()), -1, true, true);
+			NPC n = World.spawnNPC(14256, Tile.of(p.getTile()), true, true);
 			n.setLoadsUpdateZones();
 			n.setPermName("Losercien (punching bag)");
 			n.setHitpoints(Integer.MAX_VALUE / 2);
@@ -572,7 +572,7 @@ public class MiscTest {
 
 		Commands.add(Rights.ADMIN, "update,restart [ticks]", "Restarts the server after specified number of ticks.", (p, args) -> World.safeShutdown(Integer.parseInt(args[0])));
 
-		Commands.add(Rights.DEVELOPER, "npc [npcId]", "Spawns an NPC with specified ID.", (p, args) -> World.spawnNPC(Integer.parseInt(args[0]), Tile.of(p.getTile()), -1, true, true, false));
+		Commands.add(Rights.DEVELOPER, "npc [npcId]", "Spawns an NPC with specified ID.", (p, args) -> World.spawnNPC(Integer.parseInt(args[0]), Tile.of(p.getTile()), true, false));
 
 		Commands.add(Rights.DEVELOPER, "addnpc [npcId]", "Spawns an NPC permanently with specified ID.", (p, args) -> {
 			if (!Settings.getConfig().isDebug())

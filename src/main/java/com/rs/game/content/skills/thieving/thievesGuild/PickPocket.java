@@ -24,7 +24,7 @@ public class PickPocket extends PlayerAction {
 	public boolean start(Player player) {
 		if (checkAll(player)) {
 			success = successful(player);
-			player.faceEntity(npc);
+			player.faceEntityTile(npc);
 			player.sendMessage("You attempt to pick the " + npc.getDefinitions().getName().toLowerCase() + "'s pocket...");
 			WorldTasks.delay(0, () -> player.setNextAnimation(new Animation(881)));
 			setActionDelay(player, 2);
@@ -54,7 +54,7 @@ public class PickPocket extends PlayerAction {
 		if (!success) {
 			player.sendMessage("You fail to pick the " + npc.getDefinitions().getName().toLowerCase() + "'s pocket.");
 			npc.setNextAnimation(new Animation(422));
-			npc.faceEntity(player);
+			npc.faceEntityTile(player);
 			player.setNextAnimation(new Animation(424));
 			player.setNextSpotAnim(new SpotAnim(80, 5, 60));
 			player.sendMessage("You've been stunned.");

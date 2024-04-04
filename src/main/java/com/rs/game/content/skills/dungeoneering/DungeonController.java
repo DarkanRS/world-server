@@ -459,7 +459,7 @@ public class DungeonController extends Controller {
 		if (vRoom == null || !vRoom.processNPCClick1(player, npc))
 			return false;
 		if (npc.getId() == DungeonConstants.FISH_SPOT_NPC_ID) {
-			player.faceEntity(npc);
+			player.faceEntityTile(npc);
 			player.getActionManager().setAction(new DungeoneeringFishing((DungeonFishSpot) npc));
 			return false;
 		}
@@ -469,7 +469,7 @@ public class DungeonController extends Controller {
 			return false;
 		}
 		if (npc.getId() == DungeonConstants.SMUGGLER) {
-			npc.faceEntity(player);
+			npc.faceEntityTile(player);
 			player.startConversation(new Dialogue()
 					.addNPC(DungeonConstants.SMUGGLER, HeadE.CALM_TALK, "Hail, " + player.getDisplayName() + ". Need something?")
 					.addOptions(ops -> {

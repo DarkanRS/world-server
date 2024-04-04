@@ -80,7 +80,7 @@ public class HarAken extends NPC {
 	public void processNPC() {
 		if (isDead())
 			return;
-		cancelFaceEntityNoCheck();
+		stopFaceEntity();
 	}
 
 	public void process() {

@@ -391,7 +391,7 @@ public class Potions {
 
 				@Override
 				public void run() {
-					if (count == 0)
+					if (count <= 0)
 						stop();
 					p.setNextAnimation(new Animation(3170));
 					p.setNextSpotAnim(new SpotAnim(560));

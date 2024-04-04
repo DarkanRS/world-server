@@ -109,9 +109,9 @@ fun mapSpecials() {
     //Obliteration
     addSpec(intArrayOf(24457), SpecialAttack(SpecialAttack.Type.MAGIC, 20) { player, target ->
         player.sync(16960, 3189)
-        val p = World.sendProjectile(player, target, 3188, 15, 15, 15, 0.6, 0, 0)
+        val p = World.sendProjectile(player, target, 3188, 15, 15, 15, 0.6, 0)
         for (dir in Direction.entries)
-            World.sendProjectile(Tile.of(target.x + (dir.dx * 7), target.y + (dir.dy * 7), target.plane), target, 3188, 15, 15, 15, 0.6, 0, 0)
+            World.sendProjectile(Tile.of(target.x + (dir.dx * 7), target.y + (dir.dy * 7), target.plane), target, 3188, 15, 15, 15, 0.6, 0)
         val hit = calculateMagicHit(player, target, 500, true)
         delayMagicHit(target, p.taskDelay, hit, { target.spotAnim(CombatSpell.WIND_RUSH.hitSpotAnim) }, null, null)
         return@SpecialAttack 7
@@ -343,11 +343,11 @@ fun mapSpecials() {
         target.spotAnim(80, 5, 60)
 
         if (!target.addWalkSteps(target.x - player.x + target.x, target.y - player.y + target.y, 1))
-            player.setNextFaceEntity(target)
-        target.setNextFaceEntity(player)
+            player.faceEntity(target)
+        target.faceEntity(player)
         player.schedule {
-            target.setNextFaceEntity(null)
-            player.setNextFaceEntity(null)
+            target.stopFaceEntity()
+            player.stopFaceEntity()
         }
         if (target is Player) {
             target.lock()

@@ -34,7 +34,7 @@ public class WineldaWitchTempleOfIkov extends Conversation {
 					.addNext(()->{
 						for(NPC npc : World.getNPCsInChunkRange(player.getChunkId(), 2))
 							if(npc.getId() == 276) {
-								npc.faceEntity(player);
+								npc.faceEntityTile(player);
 								npc.setNextAnimation(new Animation(711));
 								npc.setNextSpotAnim(new SpotAnim(108));
 								WorldTasks.delay(1, () -> {

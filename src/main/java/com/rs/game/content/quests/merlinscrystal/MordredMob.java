@@ -1,5 +1,6 @@
 package com.rs.game.content.quests.merlinscrystal;
 
+import com.rs.engine.pathfinder.Direction;
 import com.rs.engine.quest.Quest;
 import com.rs.game.World;
 import com.rs.game.model.entity.Entity;
@@ -30,7 +31,7 @@ public class MordredMob extends NPC {
                 OwnedNPC morgan = new OwnedNPC(player, MORGAN, Tile.of(2769, 3403, 2), true);
 				morgan.setNextSpotAnim(new SpotAnim(1605, 0, 0));
 				morgan.forceTalk("Stop! Spare my son!");
-				morgan.faceSouth();
+				morgan.faceDir(Direction.SOUTH);
 				morgan.setRandomWalk(false);
                 WorldTasks.schedule(new Task() {
                     @Override

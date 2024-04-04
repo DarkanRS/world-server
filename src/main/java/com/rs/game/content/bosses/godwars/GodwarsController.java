@@ -141,7 +141,7 @@ public class GodwarsController extends Controller {
 					case 3 -> player.setNextAnimation(new Animation(16635));
 					case 4 -> {
 						player.getAppearance().setHidden(true);
-						World.sendProjectile(Tile.of(player.getTile()), tile, 605, 18, 18, 20, 0.6, 30, 0).getTaskDelay();
+						World.sendProjectile(Tile.of(player.getTile()), tile, 605, 18, 18, 20, 0.6, 30).getTaskDelay();
 						player.forceMove(tile, 0, 180, false, () -> {
 							player.getAppearance().setHidden(false);
 							player.setNextAnimation(new Animation(16672));

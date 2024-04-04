@@ -209,20 +209,20 @@ public final class Nex extends NPC {
 		if (phase == Phase.SMOKE && minionStage == 1) {
 			setCapDamage(500);
 			setNextForceTalk(new ForceTalk("Darken my shadow!"));
-			World.sendProjectile(arena.umbra, this, 2244, 18, 18, 60, 30, 0, 0);
+			World.sendProjectile(arena.umbra, this, 2244, 18, 18, 60, 30, 0);
 			getCombat().addCombatDelay(1);
 			voiceEffect(3302, true);
 		} else if (phase == Phase.SHADOW && minionStage == 2) {
 			setCapDamage(500);
 			setNextForceTalk(new ForceTalk("Flood my lungs with blood!"));
-			World.sendProjectile(arena.cruor, this, 2244, 18, 18, 60, 30, 0, 0);
+			World.sendProjectile(arena.cruor, this, 2244, 18, 18, 60, 30, 0);
 			getCombat().addCombatDelay(1);
 			voiceEffect(3306, true);
 		} else if (phase == Phase.BLOOD && minionStage == 3) {
 			setCapDamage(500);
 			killBloodReavers();
 			setNextForceTalk(new ForceTalk("Infuse me with the power of ice!"));
-			World.sendProjectile(arena.glacies, this, 2244, 18, 18, 60, 30, 0, 0);
+			World.sendProjectile(arena.glacies, this, 2244, 18, 18, 60, 30, 0);
 			getCombat().addCombatDelay(1);
 			voiceEffect(3303, true);
 		} else if (phase == Phase.ICE && minionStage == 4) {

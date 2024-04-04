@@ -395,7 +395,7 @@ public final class DominionTower {
 	public NPC[] createBosses() {
 		NPC[] bosses = new NPC[BOSSES[getNextBossIndex()].ids.length];
 		for (int i = 0; i < BOSSES[getNextBossIndex()].ids.length; i++)
-			bosses[i] = World.spawnNPC(BOSSES[getNextBossIndex()].ids[i], Tile.of(getBaseX() + 37 + (i * 2), getBaseY() + 31, 2), -1, true, true);
+			bosses[i] = World.spawnNPC(BOSSES[getNextBossIndex()].ids[i], Tile.of(getBaseX() + 37 + (i * 2), getBaseY() + 31, 2), true, true);
 		return bosses;
 	}
 

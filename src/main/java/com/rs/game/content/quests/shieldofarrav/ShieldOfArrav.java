@@ -488,7 +488,7 @@ public class ShieldOfArrav extends QuestOutline {
 					npc.forceTalk("Hey, that's Phoenix Gang property!");
 					break;
 				}
-				npc.faceEntity(e.getPlayer());
+				npc.faceEntityTile(e.getPlayer());
 				e.cancelPickup();
 			}
 	});

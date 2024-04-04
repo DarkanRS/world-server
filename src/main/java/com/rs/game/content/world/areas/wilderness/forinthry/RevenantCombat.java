@@ -102,7 +102,7 @@ public class RevenantCombat extends CombatScript {
 			if (target instanceof Player player && player.hasEffect(Effect.REV_IMMUNE))
 				damage = 0;
 			delayHit(npc, 2, target, getMagicHit(npc, damage));
-			World.sendProjectile(npc, target, 1276, 34, 16, 30, 35, 16, 0);
+			World.sendProjectile(npc, target, 1276, 34, 16, 30, 35, 16);
 			if (damage > 0)
 				WorldTasks.schedule(new Task() {
 
@@ -123,7 +123,7 @@ public class RevenantCombat extends CombatScript {
 			if (target instanceof Player player && player.hasEffect(Effect.REV_IMMUNE))
 				damage = 0;
 			delayHit(npc, 2, target, getRangeHit(npc, damage2));
-			World.sendProjectile(npc, target, 1278, 34, 16, 30, 35, 16, 0);
+			World.sendProjectile(npc, target, 1278, 34, 16, 30, 35, 16);
 			npc.setNextAnimation(new Animation(getRangeAnimation(npc)));
 			break;
 		case 2: // melee

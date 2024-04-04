@@ -3,6 +3,7 @@ package com.rs.game.content.quests.fightarena.dialogue;
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.pathfinder.Direction;
 import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
@@ -84,7 +85,7 @@ public class LazyGuardFightArenaD extends Conversation {
 	}
 
     public static NPCClickHandler handleDialogue = new NPCClickHandler(new Object[]{NPC, 7525, 7526, 7527}, e -> {
-    	e.getNPC().faceSouth();
+    	e.getNPC().faceDir(Direction.SOUTH);
         if(e.getOption().equalsIgnoreCase("Steal-keys")) {
 			if(e.getPlayer().getInventory().hasFreeSlots()) {
 				e.getPlayer().startConversation(new Dialogue().addSimple("You grab the keys"));

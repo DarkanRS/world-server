@@ -87,7 +87,7 @@ public class SiphonAction extends PlayerAction {
 			creature.setNextFaceTile(player.getTile());
 			creature.freeze(4);
 			player.setNextFaceTile(creature.getTile());
-			WorldProjectile p = World.sendProjectile(creature, player, 3060, 31, 40, 35, 1, 2, 0);
+			WorldProjectile p = World.sendProjectile(creature, player, 3060, 31, 40, 35, 1, 2);
 			boolean finalSuccess = success;
 			WorldTasks.schedule(Utils.clampI(p.getTaskDelay()-1, 0, 100), () -> player.setNextSpotAnim(new SpotAnim(finalSuccess ? 3062 : 3071)));
 		}

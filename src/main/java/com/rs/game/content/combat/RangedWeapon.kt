@@ -717,7 +717,7 @@ enum class RangedWeapon {
         return null
     }
 
-    fun getProjectile(player: Player, target: Entity?, attackSpeed: Int): WorldProjectile {
+    fun getProjectile(player: Player, target: Entity, attackSpeed: Int): WorldProjectile {
         val speed = 8.0 / (attackSpeed.toDouble())
         when (this) {
             SLING -> return World.sendProjectile(player, target, projAnim, 20, 30, speed)

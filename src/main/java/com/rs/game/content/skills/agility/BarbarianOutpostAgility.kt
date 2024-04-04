@@ -17,6 +17,7 @@
 package com.rs.game.content.skills.agility
 
 import com.rs.cache.loaders.ObjectType
+import com.rs.engine.pathfinder.Direction
 import com.rs.game.World
 import com.rs.game.model.entity.async.schedule
 import com.rs.engine.pathfinder.RouteEvent
@@ -148,7 +149,7 @@ fun mapBarbarianOutpostAgility() {
         if (!Agility.hasLevel(e.player, 90)) return@onObjectClick
         e.player.lock()
         e.player.schedule {
-            e.player.faceNorth()
+            e.player.faceDir(Direction.NORTH)
             wait(1)
             e.player.anim(10492)
             wait(6)
@@ -164,7 +165,7 @@ fun mapBarbarianOutpostAgility() {
         e.player.setRouteEvent(RouteEvent(e.getObject().tile) {
             e.player.lock()
             e.player.schedule {
-                e.player.faceWest()
+                e.player.faceDir(Direction.WEST)
                 wait(1)
                 e.player.anim(10023)
                 wait(2)

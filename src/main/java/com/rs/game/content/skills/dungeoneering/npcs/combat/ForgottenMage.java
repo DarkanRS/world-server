@@ -90,11 +90,11 @@ public class ForgottenMage extends CombatScript {
 		if (start != -1)
 			npc.setNextSpotAnim(new SpotAnim(start, 0, 0));
 		if (attack == 2722) {
-			World.sendProjectile(npc, target, 2735, 18, 18, 50, 1, 3, 0);
-			World.sendProjectile(npc, target, 2736, 18, 18, 50, 1, 20, 0);
-			World.sendProjectile(npc, target, 2736, 18, 18, 50, 1, 110, 0);
+			World.sendProjectile(npc, target, 2735, 18, 18, 50, 1, 3);
+			World.sendProjectile(npc, target, 2736, 18, 18, 50, 1, 20);
+			World.sendProjectile(npc, target, 2736, 18, 18, 50, 1, 110);
 		} else
-			World.sendProjectile(npc, target, projectileId, 18, 18, 50, 1, 3, 0);
+			World.sendProjectile(npc, target, projectileId, 18, 18, 50, 1, 3);
 		delayHit(npc, 2, target, getMagicHit(npc, getMaxHit(npc, npc.getMaxHit(), AttackStyle.MAGE, target)));
 		if (hit == -1)
 			return;
@@ -104,7 +104,7 @@ public class ForgottenMage extends CombatScript {
 	private void sendWeaken(NPC npc, final Entity target, int attack, int start, final int hit, int projectileId, final int skill, final double percentDrain) {
 		npc.setNextAnimation(new Animation(attack));
 		npc.setNextSpotAnim(new SpotAnim(start, 0, 50));
-		World.sendProjectile(npc, target, projectileId, 39, 18, 55, 1.2, 5, 0);
+		World.sendProjectile(npc, target, projectileId, 39, 18, 55, 1.2, 5);
 		if (hit > 0) {
 			WorldTasks.scheduleTimer(2, (ticks) -> {
 				if (target instanceof Player player)

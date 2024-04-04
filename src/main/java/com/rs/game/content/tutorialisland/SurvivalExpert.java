@@ -29,7 +29,7 @@ public class SurvivalExpert extends Conversation {
 
 	public SurvivalExpert(Player player, NPC npc, TutorialIslandController ctrl) {
 		super(player);
-		npc.faceEntity(player);
+		npc.faceEntityTile(player);
 		npc.resetWalkSteps();
 
 		if (ctrl.inSection(Stage.TALK_TO_SURVIVAL_EXPERT, Stage.TALK_TO_SURVIVAL_EXPERT_2))

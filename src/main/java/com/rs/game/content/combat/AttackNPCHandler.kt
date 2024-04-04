@@ -29,7 +29,7 @@ fun mapNpcAttackOptions() {
         e.player.interactionManager.setInteraction(StandardEntityInteraction(e.npc, 0) {
             if (!e.player.controllerManager.canAttack(e.npc)) return@StandardEntityInteraction
             e.npc.resetWalkSteps()
-            e.player.faceEntity(e.npc)
+            e.player.faceEntityTile(e.npc)
             if (e.player.skills.getLevelForXp(Constants.ATTACK) < 5) {
                 if (e.player.actionManager.actionDelay < 1) {
                     e.player.actionManager.actionDelay = 4

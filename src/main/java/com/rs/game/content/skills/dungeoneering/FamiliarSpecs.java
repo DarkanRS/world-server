@@ -20,14 +20,14 @@ public class FamiliarSpecs {
 		target.freeze(8, true);
 		familiar.setNextSpotAnim(new SpotAnim(2591));
 		familiar.setNextAnimation(new Animation(13620));
-		delayHit(familiar, World.sendProjectile(familiar, target, 2592, 41, 16, 41, 2.0, 16, 0).getTaskDelay(), target, getMagicHit(familiar, getMaxHit(familiar, (int) (familiar.getMaxHit() * (1.0 + (0.05 * tier))), AttackStyle.MAGE, target, 1.5)), () -> target.setNextSpotAnim(new SpotAnim(2593)));
+		delayHit(familiar, World.sendProjectile(familiar, target, 2592, 41, 16, 41, 2.0, 16).getTaskDelay(), target, getMagicHit(familiar, getMaxHit(familiar, (int) (familiar.getMaxHit() * (1.0 + (0.05 * tier))), AttackStyle.MAGE, target, 1.5)), () -> target.setNextSpotAnim(new SpotAnim(2593)));
 		return Familiar.DEFAULT_ATTACK_SPEED;
 	}
 
 	public static int poisonousShot(Player owner, Familiar familiar, Entity target, int tier) {
 		familiar.setNextAnimation(new Animation(13203));
 		familiar.setNextSpotAnim(new SpotAnim(2447));
-		delayHit(familiar, World.sendProjectile(familiar, target, 2448, 41, 16, 41, 2.0, 16, 0).getTaskDelay(), target, getRangeHit(familiar, getMaxHit(familiar, (int) (familiar.getMaxHit() * (1.0 + (0.05 * tier))), AttackStyle.RANGE, target, 1.5)), () -> target.getPoison().makePoisoned(18+tier));
+		delayHit(familiar, World.sendProjectile(familiar, target, 2448, 41, 16, 41, 2.0, 16).getTaskDelay(), target, getRangeHit(familiar, getMaxHit(familiar, (int) (familiar.getMaxHit() * (1.0 + (0.05 * tier))), AttackStyle.RANGE, target, 1.5)), () -> target.getPoison().makePoisoned(18+tier));
 		return Familiar.DEFAULT_ATTACK_SPEED;
 	}
 
