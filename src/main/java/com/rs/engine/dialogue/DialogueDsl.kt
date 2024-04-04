@@ -50,6 +50,11 @@ open class DialogueBuilder(val stages: MutableMap<String, Dialogue> = mutableMap
         applyPendingLabel()
     }
 
+    fun addItemToInv(player: Player, itemId: Int, text: String) {
+        dialogue = dialogue.addItemToInv(player, Item(itemId, 1), text)
+        applyPendingLabel()
+    }
+
     fun questStart(quest: Quest) {
         dialogue = dialogue.addQuestStart(quest)
         applyPendingLabel()
