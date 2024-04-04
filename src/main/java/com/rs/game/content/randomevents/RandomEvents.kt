@@ -41,7 +41,9 @@ object RandomEvents {
 			return
 		}
 
-		val spawnTile = player.getNearestTeleTile(1)
+		var spawnTile = player.getNearestTeleTile(1)
+		if (spawnTile == null)
+			spawnTile = Tile.of(player.tile)
 		player.nsv.setL("lastRandom", World.getServerTicks())
 		val random = Utils.random(0, 100)
 
