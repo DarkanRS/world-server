@@ -35,7 +35,7 @@ public class CastleWarBarricade extends NPC {
 	public void processNPC() {
 		if (isDead())
 			return;
-		cancelFaceEntityNoCheck();
+		stopFaceEntity();
 		if (getId() == 1533 && Utils.getRandomInclusive(20) == 0)
 			sendDeath(this);
 	}

@@ -109,7 +109,7 @@ public class NightGazerKhighorahkCombat extends CombatScript {
 											tile = Tile.of(t.getTile());
 									}
 									tiles.add(tile);
-									t.faceEntity(gazer);
+									t.faceEntityTile(gazer);
 									t.forceMove(tile, 10070, 5, 60);
 								}
 						} else if (ticks == 4) {

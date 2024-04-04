@@ -113,7 +113,7 @@ public class StrykewyrmCombat extends CombatScript {
 							}
 						}
 						count++;
-					} else if (count == 2) {
+					} else if (count >= 2) {
 						WorldTasks.schedule(new Task() {
 							@Override
 							public void run() {

@@ -80,7 +80,7 @@ public class CountDraynorBoss extends OwnedNPC {
 		setAttackedBy(null);
 		resetHP();
 		setLocked(true);
-		faceEntity(source);
+		faceEntityTile(source);
 
 		WorldTasks.scheduleLooping(new Task() {
 			int tick = 0;
@@ -233,7 +233,7 @@ public class CountDraynorBoss extends OwnedNPC {
 				}
 				if(tick == 20) {
 					countDraynor.setTarget(p);
-					p.faceEntity(countDraynor);
+					p.faceEntityTile(countDraynor);
 				}
 				if(tick == 22) {
 					if(p.getInventory().containsItem(GARLIC, 1)) {

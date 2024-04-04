@@ -71,7 +71,7 @@ class DrunkenDwarf(owner: Player, tile: Tile) : RandomEventNPC(owner, NPC_ID, ti
     init {
         run = false
         isAutoDespawnAtDistance = false
-        setNextFaceEntity(owner)
+        faceEntity(owner)
         forceTalk("'Ello der ${owner.displayName}! *hic*")
     }
 

@@ -106,11 +106,11 @@ class TrollGeneralAttackController : InstancedController(Instance.of(OUTSIDE, 8,
                                 camLook(31, 51, 0)
                                 fadeOut()
                                 wait(5)
-                                npcMove(babyTroll, 28, 51, MoveType.RUN)
+                                entityRunTo(babyTroll, 28, 51)
                                 wait(2)
                                 camPos(32, 45, 2000, 0, 10)
                                 wait(1)
-                                npcMove(babyTroll, 30, 51, MoveType.RUN)
+                                entityRunTo(babyTroll, 30, 51)
                                 wait(3)
                                 ozan.run = false
                                 ozan.addWalkSteps(instance.getLocalX(33), instance.getLocalY(51))

@@ -9,6 +9,7 @@ import com.rs.game.World.spawnNPC
 import com.rs.game.World.spawnObject
 import com.rs.game.map.instance.Instance
 import com.rs.game.model.WorldProjectile
+import com.rs.game.model.entity.Entity
 import com.rs.game.model.entity.Entity.MoveType
 import com.rs.game.model.entity.async.ConditionalWait
 import com.rs.game.model.entity.async.TickWait
@@ -87,6 +88,10 @@ class Cutscene(val player: Player) : Continuation<Unit> {
         return if (instance != null && instance.isCreated) instance.getLocalY(y) else y
     }
 
+    fun tileFromLocal(localX: Int, localY: Int): Tile {
+        return Tile.of(getX(localX), getY(localY), player.plane)
+    }
+
     fun createObjectMap() {
         endTile = Tile.of(player.tile)
     }
@@ -147,6 +152,16 @@ class Cutscene(val player: Player) : Continuation<Unit> {
         player.interfaceManager.fadeOut()
     }
 
+    suspend fun fadeInAndWait() {
+        player.interfaceManager.fadeIn()
+        wait(5)
+    }
+
+    suspend fun fadeOutAndWait() {
+        player.interfaceManager.fadeOut()
+        wait(5)
+    }
+
     fun fadeOutQuickly() {
         player.interfaceManager.removeInterface(115)
     }
@@ -187,26 +202,29 @@ class Cutscene(val player: Player) : Continuation<Unit> {
         spawnObject(GameObject(id, ObjectDefinitions.getDefs(id).types[0], rotation, Tile.of(getX(x), getY(y), z)))
     }
 
-    fun playerMove(x: Int, y: Int, z: Int, moveType: MoveType) {
-        if (moveType == MoveType.TELE) {
-            player.tele(Tile.of(getX(x), getY(y), z))
-            return
-        }
-        player.run = moveType == MoveType.RUN
-        player.addWalkSteps(getX(x), getY(y), 25, false)
+    fun entityMoveTo(entity: Entity, x: Int, y: Int, moveType: MoveType) {
+        entityMoveTo(entity, x, y, entity.plane, moveType)
     }
 
-    fun npcMove(npc: NPC, x: Int, y: Int, moveType: MoveType) {
-        npcMove(npc, x, y, player.plane, moveType)
-    }
-
-    fun npcMove(npc: NPC, x: Int, y: Int, z: Int, moveType: MoveType) {
+    fun entityMoveTo(entity: Entity, x: Int, y: Int, z: Int, moveType: MoveType) {
         if (moveType == MoveType.TELE) {
-            npc.tele(Tile.of(getX(x), getY(y), z))
+            entity.tele(Tile.of(getX(x), getY(y), z))
             return
         }
-        npc.run = moveType == MoveType.RUN
-        npc.addWalkSteps(getX(x), getY(y), 25, false)
+        entity.run = moveType == MoveType.RUN
+        entity.addWalkSteps(getX(x), getY(y), 25, false)
+    }
+
+    fun entityWalkTo(entity: Entity, x: Int, y: Int) {
+        entityMoveTo(entity, x, y, MoveType.WALK)
+    }
+
+    fun entityRunTo(entity: Entity, x: Int, y: Int) {
+        entityMoveTo(entity, x, y, MoveType.RUN)
+    }
+
+    fun entityTeleTo(entity: Entity, x: Int, y: Int) {
+        entityMoveTo(entity, x, y, MoveType.TELE)
     }
 
     fun spotAnim(id: Int, x: Int, y: Int, z: Int = player.plane) {
@@ -224,7 +242,7 @@ class Cutscene(val player: Player) : Continuation<Unit> {
     suspend fun dynamicRegion(returnTile: Tile, baseChunkX: Int, baseChunkY: Int, widthChunks: Int, heightChunks: Int, copyNpcs: Boolean = false) {
         constructingRegion = true
         val old = instance
-        val instance = Instance.of(returnTile, widthChunks, heightChunks, copyNpcs)
+        val instance = Instance.of(Tile.of(returnTile), widthChunks, heightChunks, copyNpcs)
         instance.copyMapAllPlanes(baseChunkX, baseChunkY).thenAccept {
             instance.teleportTo(player)
             constructingRegion = false

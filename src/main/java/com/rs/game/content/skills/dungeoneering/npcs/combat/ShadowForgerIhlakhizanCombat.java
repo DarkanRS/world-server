@@ -103,7 +103,7 @@ public class ShadowForgerIhlakhizanCombat extends CombatScript {
 										if (distance == 0)
 											tile = Tile.of(target.getTile());
 									}
-									target.faceEntity(forger);
+									target.faceEntityTile(forger);
 									target.forceMove(tile, 10070, 5, 60);
 									stop();
 								}

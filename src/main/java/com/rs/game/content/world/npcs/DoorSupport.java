@@ -25,7 +25,6 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Logger;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.handlers.NPCInstanceHandler;
 import com.rs.utils.Ticks;
 
@@ -39,7 +38,7 @@ public class DoorSupport extends NPC {
 
 	@Override
 	public void processNPC() {
-		cancelFaceEntityNoCheck();
+		stopFaceEntity();
 	}
 
 	public boolean canDestroy(Player player) {

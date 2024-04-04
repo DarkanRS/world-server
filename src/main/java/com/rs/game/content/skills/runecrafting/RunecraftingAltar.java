@@ -468,7 +468,7 @@ public class RunecraftingAltar {
 	public static void handleEssTele(Player player, NPC npc) {
 		npc.forceTalk("Senventior Disthine Molenko!");
 		npc.resetWalkSteps();
-		npc.faceEntity(player);
+		npc.faceEntityTile(player);
 		npc.anim(722);
 		npc.spotAnim(108, 0, 96);
 		player.lock();

@@ -54,7 +54,7 @@ import kotlin.math.pow
 class PlayerCombat(@JvmField val target: Entity) : PlayerAction() {
     override fun start(player: Player): Boolean {
         player.actionManager.forceStop()
-        player.setNextFaceEntity(target)
+        player.faceEntity(target)
         if (!player.controllerManager.canAttack(target)) return false
         if (target is Player) {
             if (!player.isCanPvp || !target.isCanPvp) {
@@ -94,7 +94,7 @@ class PlayerCombat(@JvmField val target: Entity) : PlayerAction() {
         val spell = player.combatDefinitions.spell
         if (player.tempAttribs.getB("dfsActive")) {
             val shield = player.equipment[Equipment.SHIELD]
-            player.setNextFaceEntity(target)
+            player.faceEntity(target)
             if (shield == null || shield.getMetaDataI("dfsCharges") < 0) {
                 player.tempAttribs.setB("dfsActive", false)
                 player.sendMessage("Your shield was unable to be activated.")
@@ -110,7 +110,7 @@ class PlayerCombat(@JvmField val target: Entity) : PlayerAction() {
             return 3
         }
         if (spell == null && usingPolypore(player)) {
-            player.setNextFaceEntity(target)
+            player.faceEntity(target)
             player.sync(15448, 2034)
             drainCharge(player)
             val p = World.sendProjectile(player, target, 2035, 60, 32, 50, 2.0, 0)
@@ -480,7 +480,7 @@ class PlayerCombat(@JvmField val target: Entity) : PlayerAction() {
     }
 
     override fun stop(player: Player) {
-        player.setNextFaceEntity(null)
+        player.stopFaceEntity()
         player.interactionManager.forceStop()
         player.actionManager.forceStop()
         player.tempAttribs.removeO<Any>("combatTarget")

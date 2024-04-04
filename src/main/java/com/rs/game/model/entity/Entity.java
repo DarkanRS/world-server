@@ -1231,29 +1231,22 @@ public abstract class Entity {
 		this.fixedFaceTile = tile;
 	}
 
-	public void faceNorth() {
-		setNextFaceTile(Tile.of(getX(), getY()+1, getPlane()));
-	}
-
-	public void faceEast() {
-		setNextFaceTile(Tile.of(getX()+1, getY(), getPlane()));
-	}
-
-	public void faceSouth() {
-		setNextFaceTile(Tile.of(getX(), getY()-1, getPlane()));
-	}
-
-	public void faceWest() {
-		setNextFaceTile(Tile.of(getX()-1, getY(), getPlane()));
+	public void faceDir(Direction dir) {
+		setNextFaceTile(transform(dir.dx, dir.dy));
 	}
 
 	public abstract int getSize();
 
-	public void cancelFaceEntityNoCheck() {
+	public void stopFaceEntity() {
 		nextFaceEntity = -2;
 		lastFaceEntity = -1;
 	}
 
+	/**
+	 * Use faceEntity() instead
+	 * @param entity
+	 */
+	@Deprecated
 	public void setNextFaceEntity(Entity entity) {
 		if (entity == null) {
 			nextFaceEntity = -1;
@@ -1262,6 +1255,10 @@ public abstract class Entity {
 			nextFaceEntity = entity.getClientIndex();
 			lastFaceEntity = nextFaceEntity;
 		}
+	}
+
+	public void faceEntity(Entity entity) {
+		setNextFaceEntity(entity);
 	}
 
 	public int getNextFaceEntity() {
@@ -1498,7 +1495,7 @@ public abstract class Entity {
 		setNextForceTalk(new ForceTalk(message));
 	}
 
-	public void faceEntity(Entity target) {
+	public void faceEntityTile(Entity target) {
 		setNextFaceTile(Tile.of(target.getCoordFaceX(target.getSize()), target.getCoordFaceY(target.getSize()), target.getPlane()));
 	}
 

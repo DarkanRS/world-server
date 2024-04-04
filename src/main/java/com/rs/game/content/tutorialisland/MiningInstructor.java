@@ -31,7 +31,7 @@ public class MiningInstructor extends Conversation {
 
 	public MiningInstructor(Player player, NPC npc, TutorialIslandController ctrl) {
 		super(player);
-		npc.faceEntity(player);
+		npc.faceEntityTile(player);
 		npc.resetWalkSteps();
 
 		if (ctrl.inSection(Stage.TALK_TO_MINING_GUIDE, Stage.TALK_TO_MINING_GUIDE_2)) {

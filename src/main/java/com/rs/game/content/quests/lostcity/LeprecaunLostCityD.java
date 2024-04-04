@@ -66,7 +66,7 @@ public class LeprecaunLostCityD extends Conversation {
 							.addNPC(LEPRACAUN, HeadE.CALM_TALK, "Right yer are. Hold on!")
 							.addNext(()-> {
 								leprechaun.resetWalkSteps();
-								leprechaun.faceEntity(p);
+								leprechaun.faceEntityTile(p);
 								leprechaun.setNextAnimation(new Animation(5488));
 								leprechaun.forceTalk("Avach Sarimporto!");
 								Magic.sendObjectTeleportSpell(p, false, Tile.of(3047, 3236, 0));
@@ -129,7 +129,7 @@ public class LeprecaunLostCityD extends Conversation {
 							.addNext(()-> {
 								p.getQuestManager().setStage(Quest.LOST_CITY, CHOP_DRAMEN_TREE);
 								leprechaun.resetWalkSteps();
-								leprechaun.faceEntity(p);
+								leprechaun.faceEntityTile(p);
 								leprechaun.setNextAnimation(new Animation(5488));
 								leprechaun.forceTalk("Avach Sarimporto!");
 								Magic.sendObjectTeleportSpell(p, false, Tile.of(3047, 3236, 0));

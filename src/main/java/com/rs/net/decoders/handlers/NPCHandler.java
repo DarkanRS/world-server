@@ -91,8 +91,8 @@ public class NPCHandler {
 			if (!player.getControllerManager().processNPCClick1(npc))
 				return;
 			npc.resetWalkSteps();
-			player.faceEntity(npc);
-			npc.faceEntity(player);
+			player.faceEntityTile(npc);
+			npc.faceEntityTile(player);
 
 			Object[] shipAttributes = BoatingD.getBoatForShip(player, npc.getId());
 			if (shipAttributes != null) {
@@ -205,8 +205,8 @@ public class NPCHandler {
 		player.getInteractionManager().setInteraction(new StandardEntityInteraction(npc, distance, () -> {
 			if (!player.getControllerManager().processNPCClick2(npc))
 				return;
-			player.faceEntity(npc);
-			npc.faceEntity(player);
+			player.faceEntityTile(npc);
+			npc.faceEntityTile(player);
 
 			if (player.getTreasureTrailsManager().useNPC(npc))
 				return;
@@ -306,8 +306,8 @@ public class NPCHandler {
 			if (!player.getControllerManager().processNPCClick3(npc))
 				return;
 			npc.resetWalkSteps();
-			player.faceEntity(npc);
-			npc.faceEntity(player);
+			player.faceEntityTile(npc);
+			npc.faceEntityTile(player);
 
 			if (npc instanceof GraveStone grave) {
 				grave.repair(player, true);
@@ -340,8 +340,8 @@ public class NPCHandler {
 			if (!player.getControllerManager().processNPCClick3(npc))
 				return;
 			npc.resetWalkSteps();
-			player.faceEntity(npc);
-			npc.faceEntity(player);
+			player.faceEntityTile(npc);
+			npc.faceEntityTile(player);
 
 			if (npc instanceof GraveStone grave) {
 				grave.demolish(player);

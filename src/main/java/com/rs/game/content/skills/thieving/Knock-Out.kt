@@ -83,7 +83,7 @@ fun mapHandlers() {
                             .lowercase(Locale.getDefault()) + "'s pocket."
                     )
                     e.npc.anim(422)
-                    e.npc.faceEntity(e.player)
+                    e.npc.faceEntityTile(e.player)
                     e.player.anim(424)
                     e.player.spotAnim(80, 5, 60)
                     e.player.sendMessage("You've been stunned.")

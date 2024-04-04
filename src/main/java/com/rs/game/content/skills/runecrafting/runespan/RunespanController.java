@@ -516,7 +516,8 @@ public class RunespanController extends Controller {
 				} else if (stage == 6)
 					World.sendSpotAnim(toTile, new SpotAnim(getPlatformSpotAnim(plataform.runes.length)));
 				stage++;
-
+				if (stage >= 7)
+					stop();
 			}
 
 		}, 0, 0);

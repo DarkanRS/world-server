@@ -343,11 +343,11 @@ fun mapSpecials() {
         target.spotAnim(80, 5, 60)
 
         if (!target.addWalkSteps(target.x - player.x + target.x, target.y - player.y + target.y, 1))
-            player.setNextFaceEntity(target)
-        target.setNextFaceEntity(player)
+            player.faceEntity(target)
+        target.faceEntity(player)
         player.schedule {
-            target.setNextFaceEntity(null)
-            player.setNextFaceEntity(null)
+            target.stopFaceEntity()
+            player.stopFaceEntity()
         }
         if (target is Player) {
             target.lock()

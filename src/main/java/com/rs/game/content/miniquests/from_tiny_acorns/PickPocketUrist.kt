@@ -14,7 +14,7 @@ class PickPocketUrist(private val npc: NPC) : PlayerAction() {
     override fun start(player: Player): Boolean {
         if (checkAll(player)) {
             success = rollSuccess(player)
-            player.faceEntity(npc)
+            player.faceEntityTile(npc)
             WorldTasks.delay(0) {
                 player.anim(881)
             }
@@ -42,7 +42,7 @@ class PickPocketUrist(private val npc: NPC) : PlayerAction() {
 
     override fun stop(player: Player) {
         player.unlock()
-        player.setNextFaceEntity(null)
+        player.stopFaceEntity()
         setActionDelay(player, 1)
     }
 

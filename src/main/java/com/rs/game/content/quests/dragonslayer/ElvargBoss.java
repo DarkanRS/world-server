@@ -35,7 +35,7 @@ public class ElvargBoss extends NPC {
 	public boolean canBeAttackedBy(Player player) {
 		int dragonSlayerStage = player.getQuestManager().getStage(Quest.DRAGON_SLAYER);
 		if (dragonSlayerStage >= PREPARE_FOR_CRANDOR && dragonSlayerStage <= REPORT_TO_OZIACH && hasHeadAlready(player)) {
-			player.cancelFaceEntityNoCheck();
+			player.stopFaceEntity();
 			player.sendMessage("That's not very nice!");
 			return false;
 		}

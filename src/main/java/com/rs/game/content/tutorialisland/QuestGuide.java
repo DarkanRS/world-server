@@ -28,7 +28,7 @@ public class QuestGuide extends Conversation {
 
 	public QuestGuide(Player player, NPC npc, TutorialIslandController ctrl) {
 		super(player);
-		npc.faceEntity(player);
+		npc.faceEntityTile(player);
 		npc.resetWalkSteps();
 
 		if (ctrl.getStage().ordinal() >= Stage.TALK_TO_QUEST_GUIDE.ordinal() && ctrl.getStage().ordinal() < Stage.TALK_TO_QUEST_GUIDE_2.ordinal())

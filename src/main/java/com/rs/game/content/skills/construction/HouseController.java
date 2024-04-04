@@ -96,7 +96,7 @@ public class HouseController extends Controller {
 	@Override
 	public boolean processNPCClick1(NPC npc) {
 		if (npc instanceof ServantNPC servant) {
-			npc.faceEntity(player);
+			npc.faceEntityTile(player);
 			if (!house.isOwner(player)) {
 				player.npcDialogue(npc.getId(), HeadE.CALM_TALK, "Sorry, I only serve my master.");
 				return false;
@@ -110,7 +110,7 @@ public class HouseController extends Controller {
 	@Override
 	public boolean processNPCClick2(NPC npc) {
 		if (npc instanceof ServantNPC servant) {
-			npc.faceEntity(player);
+			npc.faceEntityTile(player);
 			if (!house.isOwner(player)) {
 				player.npcDialogue(npc.getId(), HeadE.CALM_TALK, "The servant ignores your request.");
 				return false;
@@ -124,7 +124,7 @@ public class HouseController extends Controller {
 	@Override
 	public boolean processItemOnNPC(NPC npc, Item item) {
 		if (npc instanceof ServantNPC) {
-			npc.faceEntity(player);
+			npc.faceEntityTile(player);
 			if (!house.isOwner(player)) {
 				player.npcDialogue(npc.getId(), HeadE.CALM_TALK, "The servant ignores your request.");
 				return false;

@@ -77,7 +77,7 @@ class Genie(owner: Player, tile: Tile) : RandomEventNPC(owner, NPC_ID, tile, DUR
     init {
         run = false
         forceTalk("Hello, Master ${owner.displayName}!")
-        setNextFaceEntity(owner)
+        faceEntity(owner)
         isAutoDespawnAtDistance = false
     }
 

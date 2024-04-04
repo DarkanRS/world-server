@@ -96,7 +96,7 @@ public class DragonSlayer_BoatScene extends Controller {
 					}
 
 					if (tick == 11) {
-						player.faceEntity(captainNed);
+						player.faceEntityTile(captainNed);
 						captainNed.setNextFaceTile(Tile.of(captainNed.getX()+1, captainNed.getY(), captainNed.getPlane()));
 						player.getInterfaceManager().setFadingInterface(170);
 						closeInterfaces();
@@ -172,7 +172,7 @@ public class DragonSlayer_BoatScene extends Controller {
 					if(tick == PAUSE_FOR_NED3) {
 						captainNed.setNextFaceTile(Tile.of(captainNed.getX(), captainNed.getY()+1, captainNed.getPlane()));
 						player.setNextFaceTile(Tile.of(player.getX(), player.getY()+1, player.getPlane()));
-						cabinboyJenkins.faceEntity(captainNed);
+						cabinboyJenkins.faceEntityTile(captainNed);
 						player.startConversation(new Conversation(player) {
 							{
 								addNPC(CAPTAIN_NED, HeadE.HAPPY_TALKING, "Oh, well. The weather had been so good up until now.", () -> {});
@@ -469,7 +469,7 @@ public class DragonSlayer_BoatScene extends Controller {
 							{
 								addNPC(CAPTAIN_NED, HeadE.CALM_TALK, "We're going to sink!", () -> {});
 								addNext(()->{
-									captainNed.faceEntity(player);
+									captainNed.faceEntityTile(player);
 									player.setNextFaceTile(Tile.of(player.getX()+1, player.getY(), player.getPlane()));
 									tick++;
 								});
@@ -487,7 +487,7 @@ public class DragonSlayer_BoatScene extends Controller {
 						});
 					if(tick == 44) {
 						player.getPackets().sendCameraPos(Tile.of(instance.getLocalX(20), instance.getLocalY(14), 0), 1200, 0, 3);
-						player.faceEntity(captainNed);
+						player.faceEntityTile(captainNed);
 						captainNed.setNextFaceTile(Tile.of(captainNed.getX()+1, captainNed.getY(), captainNed.getPlane()));
 					}
 					if(tick == PAUSE_FOR_NED6)
