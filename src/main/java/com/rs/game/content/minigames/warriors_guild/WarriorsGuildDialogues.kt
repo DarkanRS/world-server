@@ -9,7 +9,7 @@ const val SHANOMI = 4290
 
 @ServerStartupEvent
 fun mapWarriorsGuildDialogue() {
-    onNpcClick(SHANOMI) { (player, npc) ->
+    onNpcClick(SHANOMI) { (player) ->
         player.startConversation {
             npc(SHANOMI, HeadE.HAPPY_TALKING, "Greetings ${player.displayName} Welcome you are in the test of combat.")
             label("startOps")

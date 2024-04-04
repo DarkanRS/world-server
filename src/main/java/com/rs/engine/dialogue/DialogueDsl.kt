@@ -207,3 +207,9 @@ fun createDialogueSection(block: DialogueBuilder.() -> Unit): Dialogue {
 fun Player.startConversation(block: DialogueBuilder.() -> Unit) {
     startConversation(DialogueBuilder().apply(block).build())
 }
+
+fun Player.sendOptionsDialogue(title: String? = null, setup: OptionsBuilder.() -> Unit) {
+    startConversation(DialogueBuilder().apply {
+        options(title, setup)
+    }.build())
+}

@@ -93,7 +93,7 @@ class SandwichLady(owner: Player, tile: Tile) : RandomEventNPC(owner, NPC_ID, ti
 	init {
 		run = true
 		forceTalk("Sandwich delivery for ${owner.displayName}!")
-		setNextFaceEntity(owner)
+		faceEntity(owner)
 		isAutoDespawnAtDistance = false
 	}
 

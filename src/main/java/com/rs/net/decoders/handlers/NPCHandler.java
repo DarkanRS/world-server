@@ -16,6 +16,7 @@
 //
 package com.rs.net.decoders.handlers;
 
+import com.rs.Settings;
 import com.rs.engine.quest.Quest;
 import com.rs.game.content.Effect;
 import com.rs.game.content.PlayerLook;
@@ -67,7 +68,7 @@ public class NPCHandler {
 			player.sendMessage("Spawn tile [" + npc.getRespawnTile().getX() + ", " + npc.getRespawnTile().getY() + ", " + npc.getRespawnTile().getPlane() + "]]. ");
 		}
 		player.getPackets().sendNPCMessage(0, 0xFFFFFF, npc, NPCExamines.getExamine(npc, player) + " ("+npc.getId()+")");
-		if (npc.getDefinitions().hasAttackOption() || npc.getDefinitions().hasOption("Investigate"))
+		if (Settings.getConfig().isDebug() && (npc.getDefinitions().hasAttackOption() || npc.getDefinitions().hasOption("Investigate")))
 			player.sendOptionDialogue("Would you like to check the drops on this monster?", ops -> {
 				ops.add("Show drops (1,000 kills)", () -> NPC.displayDropsFor(player, npc.getId(), 1000));
 				ops.add("Show drops (5,000 kills)", () -> NPC.displayDropsFor(player, npc.getId(), 5000));

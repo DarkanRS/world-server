@@ -53,7 +53,6 @@ import com.rs.game.content.minigames.domtower.DominionTower;
 import com.rs.game.content.minigames.duel.DuelRules;
 import com.rs.game.content.minigames.herblorehabitat.HabitatFeature;
 import com.rs.game.content.minigames.treasuretrails.TreasureTrailsManager;
-import com.rs.game.content.minigames.wguild.WarriorsGuild;
 import com.rs.game.content.pets.Pet;
 import com.rs.game.content.pets.PetManager;
 import com.rs.game.content.skills.construction.House;
@@ -395,7 +394,7 @@ public class Player extends Entity {
 	public int slayerPoints = 0;
 	public int consecutiveTasks = 0;
 
-	private int[] warriorPoints = new int[6];
+	public int[] warriorPoints = new int[6];
 
 	private transient boolean cantWalk;
 
@@ -3786,36 +3785,6 @@ public class Player extends Entity {
 			setRunHidden(running);
 			unlock();
 		});
-	}
-
-	public int[] getWarriorPoints() {
-		if (warriorPoints == null || warriorPoints.length != 6)
-			warriorPoints = new int[6];
-		return warriorPoints;
-	}
-
-	public void setWarriorPoints(int index, int pointsDifference) {
-		if (warriorPoints == null || warriorPoints.length != 6)
-			warriorPoints = new int[6];
-
-		warriorPoints[index] += pointsDifference;
-		if (warriorPoints[index] < 0) {
-			Controller controller = getControllerManager().getController();
-			if (controller == null || !(controller instanceof WarriorsGuild guild))
-				return;
-			guild.inCyclopse = false;
-			tele(WarriorsGuild.CYCLOPS_LOBBY);
-			warriorPoints[index] = 0;
-		} else if (warriorPoints[index] > 65535)
-			warriorPoints[index] = 65535;
-		refreshWarriorPoints(index);
-	}
-
-	public void refreshWarriorPoints(int index) {
-		if (warriorPoints == null || warriorPoints.length != 6)
-			warriorPoints = new int[6];
-
-		getVars().setVarBit(index + 8662, warriorPoints[index]);
 	}
 
 	public Brewery getKeldagrimBrewery() {

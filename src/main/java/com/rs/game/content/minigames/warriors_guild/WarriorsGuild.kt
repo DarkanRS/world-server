@@ -2,6 +2,7 @@ package com.rs.game.content.minigames.warriors_guild
 
 import com.rs.cache.loaders.ObjectType
 import com.rs.engine.dialogue.HeadE
+import com.rs.engine.dialogue.sendOptionsDialogue
 import com.rs.engine.dialogue.startConversation
 import com.rs.game.World.getObject
 import com.rs.game.World.getPlayersInChunkRange
@@ -14,10 +15,8 @@ import com.rs.game.content.combat.AttackStyle
 import com.rs.game.content.combat.AttackType
 import com.rs.game.content.combat.XPType
 import com.rs.game.content.combat.getWeaponAttackEmote
-import com.rs.game.content.minigames.wguild.WarriorsGuild
 import com.rs.game.content.skills.magic.TeleType
 import com.rs.game.content.world.doors.Doors
-import com.rs.game.content.world.unorganized_dialogue.ShotputD
 import com.rs.game.model.entity.Entity
 import com.rs.game.model.entity.Hit
 import com.rs.game.model.entity.Hit.HitLook
@@ -39,6 +38,7 @@ import com.rs.lib.net.ClientPacket
 import com.rs.lib.util.Utils
 import com.rs.plugin.annotations.ServerStartupEvent
 import com.rs.plugin.kts.*
+import kotlin.random.Random
 
 private var killedCyclopses = 0
 private var amountOfPlayers = 0
@@ -57,13 +57,14 @@ private val DUMMY_ROTATIONS = intArrayOf(1, 1, 2, 2, 3, 3, 0, 0)
 private val SHOTPUT_FACE_18LB = Tile.of(2876, 3549, 1)
 private val SHOTPUT_FACE_22LB = Tile.of(2876, 3543, 1)
 
-private const val STRENGTH = 0
-private const val DEFENCE = 1
-private const val ATTACK = 2
-private const val COMBAT = 3
-private const val BARRELS = 4
-private const val ALL = 5
+private const val ALL = 0
+private const val ATTACK = 1
+private const val DEFENSE = 2
+private const val STRENGTH = 3
+private const val COMBAT = 4
+private const val BALANCE = 5
 
+private val CYCLOPS_LOBBY = Tile.of(2843, 3535, 2)
 private val CYCLOPS_ROOM_SELECT_INTERFACE = 1058
 private val DEFENDERS = intArrayOf(20072, 8850, 8849, 8848, 8847, 8846, 8845, 8844)
 
@@ -73,7 +74,7 @@ private fun canEnter(player: Player): Boolean {
         player.sendMessage("The sum of your attack and strength level must be 130 or greater to enter the guild.")
         return false
     }
-    player.controllerManager.startController(WarriorsGuild())
+    player.controllerManager.startController(WarriorsGuildController())
     player.musicsManager.playSpecificAmbientSong(634, true)
     return true
 }
@@ -141,12 +142,19 @@ fun mapWarriorsGuild() {
     onButtonClick(CYCLOPS_ROOM_SELECT_INTERFACE) { (player, _, componentId) ->
         val controller = player.controllerManager.controller as? WarriorsGuildController ?: return@onButtonClick
         when(componentId) {
+            2 -> {
+                var prevOp = Utils.clampI(player.vars.getVarBit(8668), 0, 5)
+                if (prevOp == 0) {
+                    prevOp = 1
+                    player.vars.setVarBit(8668, prevOp)
+                }
+                controller.cyclopseOption = prevOp
+            }
             3 -> {
                 controller.cyclopseOption = ALL
-                player.vars.setVarBit(8668, 0)
             }
             22 -> {
-                controller.cyclopseOption = BARRELS
+                controller.cyclopseOption = BALANCE
                 player.vars.setVarBit(8668, 5)
             }
             23 -> {
@@ -162,13 +170,9 @@ fun mapWarriorsGuild() {
                 player.vars.setVarBit(8668, 1)
             }
             26 -> {
-                controller.cyclopseOption = DEFENCE
+                controller.cyclopseOption = DEFENSE
                 player.vars.setVarBit(8668, 2)
             }
-//            unk -> {
-//                controller.cyclopseOption = -1
-//                player.vars.setVarBit(8668, 0)
-//            }
             44 -> confirmAndEnterRoom(player, controller)
             else -> player.sendMessage("Unknown cyclops entrance interface component: $componentId")
         }
@@ -275,7 +279,21 @@ class WarriorsGuildController(var inCyclopsRoom: Boolean = false, var cyclopseOp
                 player.simpleDialogue("You must have both your hands free in order to throw a shotput.")
                 return false
             }
-            player.startConversation(ShotputD(player, obj.id == 15664))
+            player.anim(827)
+            player.sendOptionsDialogue {
+                opExec("Standing Throw.") {
+                    throwShotput(player, 0, obj.id == 15664)
+                    player.anim(15079)
+                }
+                opExec("Step and throw.") {
+                    throwShotput(player, 1, obj.id == 15664)
+                    player.anim(15080)
+                }
+                opExec("Spin and throw.") {
+                    throwShotput(player, 2, obj.id == 15664)
+                    player.anim(15078)
+                }
+            }
             return false
         } else if (obj.id == 15647 || obj.id == 15641 || obj.id == 15644) {
             player.lock(2)
@@ -295,8 +313,8 @@ class WarriorsGuildController(var inCyclopsRoom: Boolean = false, var cyclopseOp
             return false
         } else if (obj.id in 15669..15673) {
             if (hasEmptyHands(player) && (player.equipment.hatId == -1 || kegCount >= 1))
-                balanceKeg(obj)
-            else if (kegCount === 0)
+                balanceKeg(player, this, obj)
+            else if (kegCount == 0)
                 player.simpleDialogue("You must have both your hands and head free to balance kegs.")
             return false
         } else if (obj.id == 66599 || obj.id == 66601) {
@@ -414,6 +432,21 @@ private fun tickKegMinigame(player: Player, controller: WarriorsGuildController)
     }
 }
 
+private fun balanceKeg(player: Player, controller: WarriorsGuildController, obj: GameObject) {
+    player.lock(4)
+    player.anim(4180)
+    player.schedule {
+        wait(2)
+        if (controller.kegCount == 0) player.appearance.setBAS(2671)
+        controller.kegCount++
+        player.vars.setVarBit(obj.definitions.varpBit, 1)
+        player.equipment.setSlot(Equipment.HEAD, Item(8859 + controller.kegCount))
+        player.equipment.refresh(Equipment.HEAD)
+        player.appearance.generateAppearanceData()
+    }
+}
+
+
 private fun loseBalance(player: Player, controller: WarriorsGuildController) {
     player.spotAnim(689 - controller.kegCount)
     player.lock(2)
@@ -422,7 +455,7 @@ private fun loseBalance(player: Player, controller: WarriorsGuildController) {
     player.forceTalk("Ouch!")
     if (controller.kegCount != 1) {
         player.skills.addXp(Constants.STRENGTH, 10.0 * controller.kegCount)
-        player.setWarriorPoints(BARRELS, (10 * controller.kegCount) + (controller.kegTicks / 2))
+        player.setWarriorPoints(BALANCE, (10 * controller.kegCount) + (controller.kegTicks / 2))
     }
     resetKegBalance(player, controller)
 }
@@ -495,7 +528,7 @@ private fun tickDefenseMinigame() {
                 val controller = player.controllerManager.controller as? WarriorsGuildController ?: return@forEach
                 if (controller.defensiveStyle + 679 == projectile.spotAnimId) {
                     player.skills.addXp(Constants.DEFENSE, 15.0)
-                    player.setWarriorPoints(DEFENCE, 5)
+                    player.setWarriorPoints(DEFENSE, 5)
                     player.anim(DEFENSIVE_ANIMATIONS[controller.defensiveStyle])
                     player.sendMessage("You deflect the incoming attack.")
                 } else {
@@ -527,13 +560,38 @@ private fun hasEmptyHands(player: Player): Boolean {
     return player.equipment.getGlovesId() == -1 && player.equipment.getWeaponId() == -1 && player.equipment.getShieldId() == -1
 }
 
+private data class ShotPutResult(val success: Boolean, val distance: Int, val runEnergyCost: Double, val experience: Double, val tokens: Int)
+
+private fun calculateShotPutResults(player: Player, throwingStyle: Int, is18LB: Boolean): ShotPutResult {
+    val dustBonus = if (player.tempAttribs.getB("dustedHands")) 5 else 0
+    val styleBonus = when (throwingStyle) {
+        0 -> 30
+        1 -> 20
+        2 -> 10
+        else -> 0
+    }
+    val x = player.skills.getLevel(STRENGTH) + player.runEnergy + styleBonus + dustBonus - (if (is18LB) 18 else 22)
+    val thresholds = arrayOf(58, 71, 84, 97, 110, 124, 137, 150, 163, 176, 190, 203, 216)
+    val distance = (thresholds.indexOfFirst { x < it } + 1).takeIf { it > 0 } ?: 14
+
+    return ShotPutResult(
+        success = Random.nextDouble(0.0, 1.0) < (x / 250.0),
+        distance = distance,
+        runEnergyCost = x * 0.1,
+        experience = x * 0.7,
+        tokens = if (is18LB) 1 + distance else 3 + distance
+    )
+}
+
 fun throwShotput(player: Player, type: Int, is18LB: Boolean) {
     player.setNextFaceTile(if (is18LB) SHOTPUT_FACE_18LB else SHOTPUT_FACE_22LB)
     when(type) {
         0, 2 -> player.sendMessage("You take a deep breath and prepare yourself.")
         1 -> player.sendMessage("You take a step and throw the shot as hard as you can.")
     }
-    if ((player.skills.getLevel(Constants.STRENGTH).toDouble() / 100.0) > Math.random()) {
+    val results = calculateShotPutResults(player, type, is18LB)
+    player.drainRunEnergy(results.runEnergyCost)
+    if (!results.success) {
         player.sendMessage("You fumble and drop the shot onto your toe. Ow!")
         player.applyHit(Hit(player, 10, HitLook.TRUE_DAMAGE))
         player.unlock()
@@ -541,21 +599,17 @@ fun throwShotput(player: Player, type: Int, is18LB: Boolean) {
     }
     player.lock()
     player.schedule {
-        val distance = Utils.random(1, (player.skills.getLevel(Constants.STRENGTH) / 10) + (if (is18LB) 5 else 3))
         player.anim(if (type == 0) 15079 else if (type == 1) 15080 else 15078)
-        wait(3)
-        val tile = Tile.of(player.x + distance, player.y, 1)
-        wait(sendProjectile(player, tile, 690, 50, 0, 30, 1.0, 15).taskDelay)
-        player.skills.addXp(Constants.STRENGTH, distance.toDouble())
         wait(1)
-        val random = Utils.random(3)
+        wait(sendProjectile(player, Tile.of(player.x + results.distance, player.y, 1), 690, 50, 0, 30, 1.0, 15).taskDelay)
+        player.skills.addXp(Constants.STRENGTH, results.experience)
+        wait(1)
         when(Utils.random(3)) {
             0 -> player.sendMessage("The shot is perfectly thrown and gently drops to the floor.")
             1 -> player.sendMessage("The shot drops to the floor.")
             else -> player.sendMessage("The shot falls from the air like a brick, landing with a sickening thud.")
         }
-        val base = if (random == 0) distance * 7 else if (random == 1) distance * 4 else distance
-        player.setWarriorPoints(STRENGTH, base + Utils.random(2))
+        player.setWarriorPoints(STRENGTH, results.tokens)
         player.unlock()
     }
 }
@@ -590,4 +644,27 @@ private fun confirmAndEnterRoom(player: Player, controller: WarriorsGuildControl
     Doors.handleDoubleDoor(player, getObject(Tile.of(2846, 3535, 2)))
     player.closeInterfaces()
     controller.inCyclopsRoom = true
+}
+
+/**
+ * Warriors guild extension functions for manipulating the array on the player file
+ */
+private fun Player.setWarriorPoints(index: Int, pointsDifference: Int) {
+    if (warriorPoints == null || warriorPoints.size != 6)
+        warriorPoints = IntArray(6)
+    warriorPoints[index] += pointsDifference
+    if (warriorPoints[index] < 0) {
+        val controller = controllerManager.controller as? WarriorsGuildController ?: return
+        controller.inCyclopsRoom = false
+        tele(CYCLOPS_LOBBY)
+        warriorPoints[index] = 0
+    } else if (warriorPoints[index] > 65535)
+        warriorPoints[index] = 65535
+    refreshWarriorPoints(index)
+}
+
+private fun Player.refreshWarriorPoints(index: Int) {
+    if (warriorPoints == null || warriorPoints.size != 6)
+        warriorPoints = IntArray(6)
+    vars.setVarBit(index + 8662, warriorPoints[index])
 }

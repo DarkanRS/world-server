@@ -432,7 +432,7 @@ class CombatDefinitions {
     }
 
     val attackBonusForStyle: Int
-        get() = getAttackStyle()!!.attackType.getAttackBonus(player!!)
+        get() = getAttackStyle().attackType.getAttackBonus(player!!)
 
     fun getDefenseBonusForStyle(style: AttackStyle): Int {
         return style.attackType.getDefenseBonus(player!!)
