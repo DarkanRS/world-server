@@ -396,7 +396,7 @@ object World {
         getObjectsInChunkRange(chunkId, chunkRadius, { it.allGroundItems })
 
     @JvmStatic
-    private fun getChunkRadius(chunkId: Int, radius: Int): Set<Int> {
+    fun getChunkRadius(chunkId: Int, radius: Int): Set<Int> {
         val chunksXYLoop: MutableSet<Int> = IntOpenHashSet()
         for (cx in -radius..radius) {
             for (cy in -radius..radius) {
