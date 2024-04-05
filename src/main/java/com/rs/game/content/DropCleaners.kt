@@ -13,12 +13,12 @@ import java.util.*
 
 @ServerStartupEvent
 fun mapDrops() {
-    onNpcDrop(null, Bone.values().filter { bone -> !listOf(Bone.ACCURSED_ASHES, Bone.IMPIOUS_ASHES, Bone.INFERNAL_ASHES).contains(bone) }.map { it.id }.toTypedArray()) { e ->
+    onNpcDrop(null, Bone.entries.filter { bone -> !listOf(Bone.ACCURSED_ASHES, Bone.IMPIOUS_ASHES, Bone.INFERNAL_ASHES).contains(bone) }.map { it.id }.toTypedArray()) { e ->
         if (bonecrush(e.player, e.item))
             e.deleteItem()
     }
 
-    onNpcDrop(null, HerbicideSetting.values().map { it.herb.herbId }.toTypedArray()) { e ->
+    onNpcDrop(null, HerbicideSetting.entries.map { it.herb.herbId }.toTypedArray()) { e ->
         if (herbicide(e.player, e.item)) {
             e.deleteItem()
             return@onNpcDrop

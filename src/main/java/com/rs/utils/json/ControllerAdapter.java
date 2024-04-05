@@ -63,8 +63,10 @@ public class ControllerAdapter implements JsonSerializer<Controller>, JsonDeseri
 		String type = jsonObject.get("type").getAsString();
 		JsonElement element = jsonObject.get("properties");
 		Class<?> clazz = CONTROLLER_CLASSES.get(type);
-		if (clazz == null)
-			throw new RuntimeException("Controller not found: " + type);
+		if (clazz == null) {
+			Logger.handle(ControllerAdapter.class, "deserialize", new Error("Controller not found: " + type));
+			return null;
+		}
 		return context.deserialize(element, clazz);
 	}
 

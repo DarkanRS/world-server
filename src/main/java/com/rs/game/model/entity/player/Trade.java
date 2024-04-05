@@ -414,6 +414,14 @@ public class Trade {
 				tradeModified = false;
 				accepted = false;
 				if (CloseTradeStage.DONE != stage) {
+					int coinSlot = items.getThisItemSlot(995);
+					if (coinSlot != -1) {
+						Item coins = items.get(coinSlot);
+						if (coins != null) {
+							player.getInventory().addCoins(coins.getAmount());
+							items.set(coinSlot, null);
+						}
+					}
 					player.getInventory().getItems().addAll(items);
 					player.getInventory().init();
 					items.clear();
@@ -422,6 +430,14 @@ public class Trade {
 					if (!logged && !oldTarget.getTrade().logged) {
 						WorldDB.getLogs().logTrade(player, this, oldTarget, oldTarget.getTrade());
 						logged = true;
+					}
+					int coinSlot = oldTarget.getTrade().items.getThisItemSlot(995);
+					if (coinSlot != -1) {
+						Item coins = oldTarget.getTrade().items.get(coinSlot);
+						if (coins != null) {
+							player.getInventory().addCoins(coins.getAmount());
+							oldTarget.getTrade().items.set(coinSlot, null);
+						}
 					}
 					player.getInventory().getItems().addAll(oldTarget.getTrade().items);
 					player.getInventory().init();

@@ -117,7 +117,7 @@ public class CrystalPuzzleRoom extends PuzzleRoom {
 		@Override
 		public void run() {
 			synchronized (manager) {
-				if (manager.isDestroyed() || reference == null) {
+				if (manager.isDestroyed() || reference == null || manager.getTile(reference, POS_CENTER[0], POS_CENTER[1]) == null) {
 					stop();
 					return;
 				}

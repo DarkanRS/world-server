@@ -34,10 +34,10 @@ public class EntityFollow extends Action {
 
 	@Override
 	public boolean start(Entity entity) {
-		entity.setNextFaceEntity(target);
+		entity.faceEntity(target);
 		if (checkAll(entity))
 			return true;
-		entity.setNextFaceEntity(null);
+		entity.stopFaceEntity();
 		return false;
 	}
 
@@ -64,7 +64,7 @@ public class EntityFollow extends Action {
 				return false;
 			entity.resetWalkSteps();
 			RouteFinderKt.addSteps(entity, route, true, entity.getRun() ? 2 : 1);
-			entity.setNextFaceEntity(target);
+			entity.faceEntity(target);
 			return true;
 		}
 		return true;
@@ -82,6 +82,6 @@ public class EntityFollow extends Action {
 
 	@Override
 	public void stop(final Entity entity) {
-		entity.setNextFaceEntity(null);
+		entity.stopFaceEntity();
 	}
 }

@@ -44,6 +44,14 @@ public class NPCDeathEvent implements PluginEvent {
 		return killer;
 	}
 
+	public Entity component1() {
+		return killer;
+	}
+
+	public NPC component2() {
+		return npc;
+	}
+
 	public boolean killedByPlayer() {
 		if (killer != null && (killer instanceof Player))
 			return true;

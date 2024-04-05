@@ -22,6 +22,7 @@ import com.rs.game.model.entity.player.Equipment
 import com.rs.game.model.entity.player.Player
 import com.rs.game.model.entity.player.managers.AuraManager
 import com.rs.game.model.entity.player.managers.InterfaceManager
+import com.rs.lib.util.Logger
 
 class CombatDefinitions {
     enum class Spellbook(@JvmField val interfaceId: Int) {
@@ -409,23 +410,29 @@ class CombatDefinitions {
         player!!.vars.setVar(172, if (isAutoRetaliate) 0 else 1)
     }
 
-    fun getAttackStyle(): AttackStyle? {
+    fun getAttackStyle(): AttackStyle {
         val styles = AttackStyle.getStyles(
             player!!.equipment.weaponId
         )
-        var style = attackStyle.toInt()
-        for (i in style downTo 0) {
+        var styleIndex = attackStyle.toInt()
+        for (i in styleIndex downTo 0) {
             if (styles[i] != null) {
-                style = i
+                styleIndex = i
                 break
             }
         }
-        if (style != attackStyle.toInt()) setAttackStyle(style)
-        return styles[style]
+        if (styleIndex != attackStyle.toInt()) setAttackStyle(styleIndex)
+        val style = styles[styleIndex]
+        if (style != null)
+            return style
+        else {
+            Logger.handle(CombatDefinitions::class.java, "getAttackStyle", Error("Invalid attack style for weapon ${player!!.equipment.weaponId} on style index $styleIndex"))
+            return AttackStyle.UNARMED[0]!!
+        }
     }
 
     val attackBonusForStyle: Int
-        get() = getAttackStyle()!!.attackType.getAttackBonus(player!!)
+        get() = getAttackStyle().attackType.getAttackBonus(player!!)
 
     fun getDefenseBonusForStyle(style: AttackStyle): Int {
         return style.attackType.getDefenseBonus(player!!)
