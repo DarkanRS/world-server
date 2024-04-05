@@ -22,11 +22,13 @@ import com.rs.game.model.entity.Entity
 import com.rs.game.model.entity.Hit
 import com.rs.game.model.entity.Hit.HitLook
 import com.rs.game.model.entity.async.schedule
-import com.rs.game.model.entity.npc.NPC
 import com.rs.game.model.entity.npc.OwnedNPC
 import com.rs.game.model.entity.player.Controller
 import com.rs.game.model.entity.player.Equipment
 import com.rs.game.model.entity.player.Player
+import com.rs.game.model.entity.player.Skills.ATTACK
+import com.rs.game.model.entity.player.Skills.STRENGTH
+import com.rs.game.model.entity.player.managers.AuraManager
 import com.rs.game.model.entity.player.managers.InterfaceManager
 import com.rs.game.model.`object`.GameObject
 import com.rs.game.tasks.WorldTasks
@@ -58,12 +60,28 @@ private val DUMMY_ROTATIONS = intArrayOf(1, 1, 2, 2, 3, 3, 0, 0)
 private val SHOTPUT_FACE_18LB = Tile.of(2876, 3549, 1)
 private val SHOTPUT_FACE_22LB = Tile.of(2876, 3543, 1)
 
-private const val ALL = 0
-private const val ATTACK = 1
-private const val DEFENSE = 2
-private const val STRENGTH = 3
-private const val COMBAT = 4
-private const val BALANCE = 5
+private const val VARBIT_CURRENT_TOKEN_PAY = 8661
+private const val VARBIT_LAST_SINGLE_TOKEN_PAY = 8668
+private const val TOKEN_PAY_ALL = 0
+private const val TOKEN_PAY_ATTACK = 1
+private const val TOKEN_PAY_DEFENSE = 2
+private const val TOKEN_PAY_STRENGTH = 3
+private const val TOKEN_PAY_COMBAT = 4
+private const val TOKEN_PAY_BALANCE = 5
+
+private const val VARBIT_STRENGTH = 8662
+private const val VARBIT_DEFENSE = 8663
+private const val VARBIT_ATTACK = 8664
+private const val VARBIT_COMBAT = 8665
+private const val VARBIT_BALANCE = 8666
+
+private val PAY_TYPE_TO_VARBIT = mapOf(
+    TOKEN_PAY_ATTACK to VARBIT_ATTACK,
+    TOKEN_PAY_STRENGTH to VARBIT_STRENGTH,
+    TOKEN_PAY_DEFENSE to VARBIT_DEFENSE,
+    TOKEN_PAY_COMBAT to VARBIT_COMBAT,
+    TOKEN_PAY_BALANCE to VARBIT_BALANCE,
+)
 
 private val CYCLOPS_LOBBY = Tile.of(2843, 3535, 2)
 private val CYCLOPS_ROOM_SELECT_INTERFACE = 1058
@@ -143,36 +161,27 @@ fun mapWarriorsGuild() {
     onButtonClick(CYCLOPS_ROOM_SELECT_INTERFACE) { (player, _, componentId) ->
         val controller = player.controllerManager.controller as? WarriorsGuildController ?: return@onButtonClick
         when(componentId) {
-            2 -> {
-                var prevOp = Utils.clampI(player.vars.getVarBit(8668), 0, 5)
-                if (prevOp == 0) {
-                    prevOp = 1
-                    player.vars.setVarBit(8668, prevOp)
-                }
-                controller.cyclopseOption = prevOp
-            }
-            3 -> {
-                controller.cyclopseOption = ALL
-            }
+            2 -> player.vars.saveVarBit(VARBIT_CURRENT_TOKEN_PAY, Utils.clampI(player.vars.getVarBit(8668), 1, 5))
+            3 -> player.vars.saveVarBit(VARBIT_CURRENT_TOKEN_PAY, TOKEN_PAY_ALL)
             22 -> {
-                controller.cyclopseOption = BALANCE
-                player.vars.setVarBit(8668, 5)
+                player.vars.saveVarBit(VARBIT_CURRENT_TOKEN_PAY, TOKEN_PAY_BALANCE)
+                player.vars.saveVarBit(VARBIT_LAST_SINGLE_TOKEN_PAY, TOKEN_PAY_BALANCE)
             }
             23 -> {
-                controller.cyclopseOption = STRENGTH
-                player.vars.setVarBit(8668, 3)
+                player.vars.saveVarBit(VARBIT_CURRENT_TOKEN_PAY, TOKEN_PAY_STRENGTH)
+                player.vars.saveVarBit(VARBIT_LAST_SINGLE_TOKEN_PAY, TOKEN_PAY_STRENGTH)
             }
             24 -> {
-                controller.cyclopseOption = COMBAT
-                player.vars.setVarBit(8668, 4)
+                player.vars.saveVarBit(VARBIT_CURRENT_TOKEN_PAY, TOKEN_PAY_COMBAT)
+                player.vars.saveVarBit(VARBIT_LAST_SINGLE_TOKEN_PAY, TOKEN_PAY_COMBAT)
             }
             25 -> {
-                controller.cyclopseOption = ATTACK
-                player.vars.setVarBit(8668, 1)
+                player.vars.saveVarBit(VARBIT_CURRENT_TOKEN_PAY, TOKEN_PAY_ATTACK)
+                player.vars.saveVarBit(VARBIT_LAST_SINGLE_TOKEN_PAY, TOKEN_PAY_ATTACK)
             }
             26 -> {
-                controller.cyclopseOption = DEFENSE
-                player.vars.setVarBit(8668, 2)
+                player.vars.saveVarBit(VARBIT_CURRENT_TOKEN_PAY, TOKEN_PAY_DEFENSE)
+                player.vars.saveVarBit(VARBIT_LAST_SINGLE_TOKEN_PAY, TOKEN_PAY_DEFENSE)
             }
             44 -> confirmAndEnterRoom(player, controller)
             else -> player.sendMessage("Unknown cyclops entrance interface component: $componentId")
@@ -214,22 +223,16 @@ fun mapWarriorsGuild() {
     }
 }
 
-class WarriorsGuildController(var inCyclopsRoom: Boolean = false, var cyclopseOption: Int = 0) : Controller() {
-    @Transient
-    var defensiveStyle = 0
-
-    @Transient
-    var lastDummy = 0L
-
-    @Transient
-    var kegCount = 0
-
-    @Transient
-    var kegTicks = 0
+class WarriorsGuildController: Controller() {
+    var inCyclopsRoom: Boolean = false
+    @Transient var defensiveStyle = 0
+    @Transient var lastDummy = 0L
+    @Transient var kegCount = 0
 
     override fun start() {
         sendInterfaces()
         amountOfPlayers++
+        player.sendMessage(inCyclopsRoom.toString())
     }
 
     override fun canAttack(target: Entity): Boolean {
@@ -342,19 +345,23 @@ class WarriorsGuildController(var inCyclopsRoom: Boolean = false, var cyclopseOp
     }
 
     override fun sendInterfaces() {
-        if (inCatapultArea(player) && player.equipment.shieldId == 8856) sendShieldInterfaces(player)
+        if (inCatapultArea(player) && player.equipment.shieldId == 8856)
+            sendShieldInterfaces(player)
         player.interfaceManager.sendOverlay(1057)
-        for (i in player.warriorPoints.indices) player.refreshWarriorPoints(i)
     }
 
     override fun process() {
         tickKegMinigame(player, this)
-        if (cyclopseOption != -1 && inCyclopsRoom)
-            if (player.tickCounter % 100 == 0L)
-                if (cyclopseOption == ALL)
-                    for (index in player.warriorPoints.indices) player.setWarriorPoints(index, -3)
-                else
-                    player.setWarriorPoints(cyclopseOption, -10)
+        if (inCyclopsRoom && World.getServerTicks() % 100L == 0L) {
+            val leastTokenBalance = when(val payType = player.vars.getVarBit(VARBIT_CURRENT_TOKEN_PAY)) {
+                TOKEN_PAY_ALL -> player.modifyAllPoints(-3)
+                else -> PAY_TYPE_TO_VARBIT[payType]?.let { player.modifyPoints(it, -10) } ?: 0
+            }
+            if (leastTokenBalance <= 0) {
+                inCyclopsRoom = false
+                player.tele(CYCLOPS_LOBBY)
+            }
+        }
     }
 
     override fun login(): Boolean {
@@ -375,7 +382,6 @@ class WarriorsGuildController(var inCyclopsRoom: Boolean = false, var cyclopseOp
     override fun forceClose() {
         resetKegBalance(player, this)
         inCyclopsRoom = false
-        cyclopseOption = -1
         player.interfaceManager.removeOverlay(false)
         amountOfPlayers--
     }
@@ -409,7 +415,7 @@ class AnimatedArmor(owner: Player, id: Int, tile: Tile) : OwnedNPC(owner, id, ti
         super.finish()
         if (owner != null) {
             owner.tempAttribs.removeB("animator_spawned")
-            owner.setWarriorPoints(3, ARMOR_POINTS[id - 4278])
+            owner.modifyPoints(VARBIT_COMBAT, ARMOR_POINTS[id - 4278])
             if (!isDead) for (item in ARMOR_SETS[id - 4278]) {
                 if (item == -1) continue
                 owner.inventory.addItemDrop(item, 1)
@@ -423,13 +429,14 @@ class AnimatedArmor(owner: Player, id: Int, tile: Tile) : OwnedNPC(owner, id, ti
  */
 private fun tickKegMinigame(player: Player, controller: WarriorsGuildController) {
     if (controller.kegCount >= 1) {
-        if (controller.kegCount == 5)
-            controller.kegTicks++
-        if (player.tickCounter % 15 == 0L)
-            player.runEnergy -= 9
-        player.drainRunEnergy(1.0)
-        if ((player.runEnergy / 2.0) <= Math.random() || player.hasWalkSteps() && player.run)
+        if (!player.auraManager.isActivated(AuraManager.Aura.SUREFOOTED, AuraManager.Aura.GREATER_SUREFOOTED))
+            player.drainRunEnergy(1.0)
+        if ((player.runEnergy / 2.0) <= Math.random() || (player.hasWalkSteps() && player.run))
             loseBalance(player, controller)
+        if (player.tickCounter % 10L == 0L) {
+            player.skills.addXp(Constants.STRENGTH, (controller.kegCount + 1).toDouble())
+            player.modifyPoints(VARBIT_BALANCE, controller.kegCount * 2)
+        }
     }
 }
 
@@ -438,7 +445,10 @@ private fun balanceKeg(player: Player, controller: WarriorsGuildController, obj:
     player.anim(4180)
     player.schedule {
         wait(2)
-        if (controller.kegCount == 0) player.appearance.setBAS(2671)
+        if (controller.kegCount == 0) {
+            player.packets.setIFHidden(1057, 34, false)
+            player.appearance.setBAS(2671)
+        }
         controller.kegCount++
         player.vars.setVarBit(obj.definitions.varpBit, 1)
         player.equipment.setSlot(Equipment.HEAD, Item(8859 + controller.kegCount))
@@ -454,10 +464,6 @@ private fun loseBalance(player: Player, controller: WarriorsGuildController) {
     player.applyHit(Hit(null, Utils.random(20, 40), HitLook.TRUE_DAMAGE))
     player.sendMessage("You lose balance and the kegs fall onto your head.")
     player.forceTalk("Ouch!")
-    if (controller.kegCount != 1) {
-        player.skills.addXp(Constants.STRENGTH, 10.0 * controller.kegCount)
-        player.setWarriorPoints(BALANCE, (10 * controller.kegCount) + (controller.kegTicks / 2))
-    }
     resetKegBalance(player, controller)
 }
 
@@ -467,11 +473,13 @@ private fun resetKegBalance(player: Player, controller: WarriorsGuildController)
         player.equipment.refresh(Equipment.HEAD)
         player.appearance.generateAppearanceData()
         player.appearance.setBAS(-1)
+        player.packets.setIFHidden(1057, 34, true)
     }
     controller.kegCount = 0
-    controller.kegTicks = 0
-    for (i in 0..5)
+    for (i in 0..5) {
+        player.vars.setVarBit(8655 + i, 0)
         player.vars.setVarBit(2252 + i, 0)
+    }
 }
 
 /**
@@ -491,7 +499,7 @@ private fun submitDummyHit(player: Player, controller: WarriorsGuildController, 
         if (isProperHit(player, obj)) {
             player.lock(2)
             player.skills.addXp(Constants.ATTACK, 15.0)
-            player.setWarriorPoints(ATTACK, 5)
+            player.modifyPoints(VARBIT_ATTACK, 5)
             player.sendMessage("You whack the dummy successfully!")
             controller.lastDummy = currentDummyTick
         } else {
@@ -529,7 +537,7 @@ private fun tickDefenseMinigame() {
                 val controller = player.controllerManager.controller as? WarriorsGuildController ?: return@forEach
                 if (controller.defensiveStyle + 679 == projectile.spotAnimId) {
                     player.skills.addXp(Constants.DEFENSE, 15.0)
-                    player.setWarriorPoints(DEFENSE, 5)
+                    player.modifyPoints(VARBIT_DEFENSE, 5)
                     player.anim(DEFENSIVE_ANIMATIONS[controller.defensiveStyle])
                     player.sendMessage("You deflect the incoming attack.")
                 } else {
@@ -610,7 +618,7 @@ fun throwShotput(player: Player, type: Int, is18LB: Boolean) {
             1 -> player.sendMessage("The shot drops to the floor.")
             else -> player.sendMessage("The shot falls from the air like a brick, landing with a sickening thud.")
         }
-        player.setWarriorPoints(STRENGTH, results.tokens)
+        player.modifyPoints(VARBIT_STRENGTH, results.tokens)
         player.unlock()
     }
 }
@@ -624,17 +632,8 @@ private fun getBestDefender(player: Player): Int {
 }
 
 private fun confirmAndEnterRoom(player: Player, controller: WarriorsGuildController) {
-    if (controller.cyclopseOption == -1) {
-        player.sendMessage("You must select an option before proceeding to the cyclopes room.")
-        return
-    }
-
-    val hasEnoughPoints = if (controller.cyclopseOption == ALL)
-        player.warriorPoints.all { it >= 30 }
-    else
-        player.warriorPoints[controller.cyclopseOption] >= 200
-
-    if (!hasEnoughPoints) {
+    val currentPayType = player.vars.getVarBit(VARBIT_CURRENT_TOKEN_PAY)
+    if (!player.meetsCyclopsPointEntryRequirement(currentPayType)) {
         player.sendMessage("You don't have enough points to complete this option.")
         return
     }
@@ -650,22 +649,45 @@ private fun confirmAndEnterRoom(player: Player, controller: WarriorsGuildControl
 /**
  * Warriors guild extension functions for manipulating the array on the player file
  */
-private fun Player.setWarriorPoints(index: Int, pointsDifference: Int) {
-    if (warriorPoints == null || warriorPoints.size != 6)
-        warriorPoints = IntArray(6)
-    warriorPoints[index] += pointsDifference
-    if (warriorPoints[index] < 0) {
-        val controller = controllerManager.controller as? WarriorsGuildController ?: return
-        controller.inCyclopsRoom = false
-        tele(CYCLOPS_LOBBY)
-        warriorPoints[index] = 0
-    } else if (warriorPoints[index] > 65535)
-        warriorPoints[index] = 65535
-    refreshWarriorPoints(index)
+val POINT_COMPS = mapOf(
+    VARBIT_STRENGTH to 69271567,
+    VARBIT_ATTACK to 69271576,
+    VARBIT_DEFENSE to 69271573,
+    VARBIT_BALANCE to 69271564,
+    VARBIT_COMBAT to 69271570
+)
+private fun Player.modifyPoints(varbit: Int, points: Int): Int {
+    val oldPoints = vars.getVarBit(varbit)
+    val newPoints = Utils.clampI(oldPoints + points, 0, 65535)
+    vars.saveVarBit(varbit, newPoints)
+    val actualDiff = newPoints - oldPoints
+    if (actualDiff > 0)
+        packets.sendRunScript(4051, POINT_COMPS[varbit], 1)
+    else if (actualDiff < 0)
+        packets.sendRunScript(4051, POINT_COMPS[varbit], 0)
+    return newPoints
 }
 
-private fun Player.refreshWarriorPoints(index: Int) {
-    if (warriorPoints == null || warriorPoints.size != 6)
-        warriorPoints = IntArray(6)
-    vars.setVarBit(index + 8662, warriorPoints[index])
+private fun Player.modifyAllPoints(points: Int): Int {
+    var lowest = Int.MAX_VALUE
+    for (i in VARBIT_STRENGTH..VARBIT_BALANCE) {
+        val newPoints = modifyPoints(i, points)
+        if (newPoints < lowest)
+            lowest = newPoints
+    }
+    packets.sendRunScript(4049)
+    return lowest
+}
+
+private fun Player.meetsCyclopsPointEntryRequirement(payType: Int): Boolean {
+    return when (payType) {
+        TOKEN_PAY_ALL -> arrayOf(VARBIT_BALANCE, VARBIT_ATTACK, VARBIT_STRENGTH, VARBIT_DEFENSE, VARBIT_COMBAT)
+            .all { vars.getVarBit(it) >= 30 }
+        TOKEN_PAY_BALANCE -> vars.getVarBit(VARBIT_BALANCE) >= 200
+        TOKEN_PAY_ATTACK -> vars.getVarBit(VARBIT_ATTACK) >= 200
+        TOKEN_PAY_STRENGTH -> vars.getVarBit(VARBIT_STRENGTH) >= 200
+        TOKEN_PAY_DEFENSE -> vars.getVarBit(VARBIT_DEFENSE) >= 200
+        TOKEN_PAY_COMBAT -> vars.getVarBit(VARBIT_COMBAT) >= 200
+        else -> false
+    }
 }

@@ -393,9 +393,6 @@ public class Player extends Entity {
 	private TaskMonster[] taskBlocks;
 	public int slayerPoints = 0;
 	public int consecutiveTasks = 0;
-
-	public int[] warriorPoints = new int[6];
-
 	private transient boolean cantWalk;
 
 	private Map<PatchLocation, FarmPatch> patches;
