@@ -218,6 +218,10 @@ public abstract class Entity {
 		setRouteEvent(new RouteEvent(startTile, event));
 	}
 
+	public void walkToAndExecute(GameObject object, Runnable event) {
+		setRouteEvent(new RouteEvent(object, event));
+	}
+
 	private void processEffects() {
 		if (effects == null)
 			return;
@@ -1238,8 +1242,7 @@ public abstract class Entity {
 	public abstract int getSize();
 
 	public void stopFaceEntity() {
-		nextFaceEntity = -2;
-		lastFaceEntity = -1;
+		setNextFaceEntity(null);
 	}
 
 	/**
