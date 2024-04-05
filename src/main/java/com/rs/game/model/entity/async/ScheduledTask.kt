@@ -3,9 +3,8 @@ package com.rs.game.model.entity.async
 import com.rs.lib.util.Logger
 import kotlin.coroutines.*
 
-class ScheduledTask(val mapping: String? = null) : Continuation<Unit> {
+class ScheduledTask(val mapping: String? = null, private val onStop: ((ScheduledTask).() -> Unit)? = null) : Continuation<Unit> {
     lateinit var coroutine: Continuation<Unit>
-    private var onStop: ((ScheduledTask).() -> Unit)? = null
     private var waitCondition: WaitCondition? = null
     var started = false
 

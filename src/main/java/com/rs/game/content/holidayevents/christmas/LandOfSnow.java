@@ -82,7 +82,7 @@ public class LandOfSnow {
 
 		ObjectSpawns.add(new ObjectSpawn(67036, 10, 0, Tile.of(2672, 5679, 0), "Summoning obelisk"));
 
-		NPC n = World.spawnNPC(14256, Tile.of(2658, 5671, 0), -1, true, false);
+		NPC n = World.spawnNPC(14256, Tile.of(2658, 5671, 0), false, true);
 		n.setLoadsUpdateZones();
 		n.setPermName("Yule-cien");
 		n.setHitpoints(Integer.MAX_VALUE / 2);

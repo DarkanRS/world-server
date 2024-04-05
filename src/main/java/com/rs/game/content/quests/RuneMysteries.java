@@ -280,7 +280,7 @@ public class RuneMysteries extends QuestOutline {
 									option("Yes please", new Dialogue()
 											.addNext(() -> {
 												e.getNPC().setNextForceTalk(new ForceTalk("Senventior Disthine Molenko!"));
-												World.sendProjectile(e.getNPC(), e.getPlayer(), 109, 5, 5, 5, 1, 5, 0);
+												World.sendProjectile(e.getNPC(), e.getPlayer(), 109, 5, 5, 5, 1, 5);
 												WorldTasks.schedule(new Task() {
 													@Override
 													public void run() {

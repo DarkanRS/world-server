@@ -156,8 +156,8 @@ public class PlayerVsKingFight extends InstancedController {
             cs.setEndTile(OUTSIDE);
             cs.action(() -> {
                 player.setQuestStage(Quest.WHAT_LIES_BELOW, 8);
-                cs.getNPC("zaff").faceEntity(king);
-                king.faceEntity(cs.getNPC("zaff"));;
+                cs.getNPC("zaff").faceEntityTile(king);
+                king.faceEntityTile(cs.getNPC("zaff"));;
             });
             cs.delay(3);
             cs.npcSync("zaff", 5633, 1006);
@@ -195,7 +195,7 @@ public class PlayerVsKingFight extends InstancedController {
             cs.delay(2);
             cs.action(() -> {
                 surok.forceTalk("Mirra din namus!!");
-                surok.faceEntity(cs.getNPC("zaff"));
+                surok.faceEntityTile(cs.getNPC("zaff"));
                 surok.anim(6098);
                 surok.spotAnim(108, 0, 92);
             });

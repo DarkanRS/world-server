@@ -356,8 +356,8 @@ fun fillimanDialogue(player: Player, npc: NPC) {
                         val spell = World.getAllGroundItemsInChunkRange(player.chunkId, 1).firstOrNull { it.id == 2969 && it.tile.isAt(3441, 3336, 0) }
                         val success = player.tile.isAt(3440, 3335, 0) && (fungus != null || player.questManager.getAttribs(Quest.NATURE_SPIRIT).getB("placedFungus")) && (spell != null || player.questManager.getAttribs(Quest.NATURE_SPIRIT).getB("placedSpell"))
                         if (success) {
-                            fungus.let { World.removeGroundItem(it) }
-                            spell.let { World.removeGroundItem(it) }
+                            fungus?.let { World.removeGroundItem(it) }
+                            spell?.let { World.removeGroundItem(it) }
                             World.sendProjectile(player, npc, 268, 15, 15, 0.6) { player.spotAnim(259) }
                             World.sendProjectile(Tile.of(3439, 3336, 0), npc, 268, 15, 15, 0.6)
                             World.sendProjectile(Tile.of(3441, 3336, 0), npc, 268, 15, 15, 0.6)

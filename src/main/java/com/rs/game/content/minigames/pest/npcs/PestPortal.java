@@ -89,7 +89,7 @@ public class PestPortal extends NPC {
 					control.createPestNPC(getIndexForId());
 		if (isDead() || isLocked)
 			return;
-		cancelFaceEntityNoCheck();
+		stopFaceEntity();
 	}
 
 	@Override

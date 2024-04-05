@@ -120,7 +120,7 @@ public final class Inventory {
 		e.getPlayer().getInteractionManager().setInteraction(new StandardEntityInteraction(e.getTarget(), 0, () -> {
 			if (!e.getPlayer().getInventory().containsItem(item.getId(), item.getAmount()))
 				return;
-			e.getPlayer().faceEntity(e.getTarget());
+			e.getPlayer().faceEntityTile(e.getTarget());
 			PluginManager.handle(new ItemOnPlayerEvent(e.getPlayer(), e.getTarget(), item, true));
 		}));
 	});
@@ -142,7 +142,7 @@ public final class Inventory {
 		e.getPlayer().getInteractionManager().setInteraction(new StandardEntityInteraction(e.getTarget(), distance, () -> {
 			if (!e.getPlayer().getInventory().containsItem(item.getId(), item.getAmount()))
 				return;
-			e.getPlayer().faceEntity(e.getTarget());
+			e.getPlayer().faceEntityTile(e.getTarget());
 			
 			//TODO move this block to plugins after mapping NPC ids support
 			if (e.getTarget() instanceof Familiar f && f.getPouch() == Pouch.GEYSER_TITAN) {
@@ -162,7 +162,7 @@ public final class Inventory {
 						e.getPlayer().itemDialogue(1712, "Your ring of wealth and amulet of glory have all been recharged.");
 					}
 			} else if (e.getTarget() instanceof Pet p) {
-				e.getPlayer().faceEntity(e.getTarget());
+				e.getPlayer().faceEntityTile(e.getTarget());
 				e.getPlayer().getPetManager().eat(item.getId(), p);
 				return;
 			} else if (e.getTarget() instanceof ConditionalDeath cd) {

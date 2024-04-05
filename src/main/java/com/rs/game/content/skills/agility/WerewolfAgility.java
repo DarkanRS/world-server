@@ -16,6 +16,7 @@
 //
 package com.rs.game.content.skills.agility;
 
+import com.rs.engine.pathfinder.Direction;
 import com.rs.game.World;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.npc.NPC;
@@ -81,7 +82,7 @@ public class WerewolfAgility {
 					default -> { return true; }
 					case 0 -> {
 						e.getPlayer().lock();
-						e.getPlayer().faceSouth();
+						e.getPlayer().faceDir(Direction.SOUTH);
 						List<NPC> npcs = e.getPlayer().queryNearbyNPCsByTileRange(1, (npc -> npc.getId() == 1663 && npc.withinDistance(e.getPlayer().getTile(), 4)));
 						if(npcs.size() >= 1) {
 							switch(Utils.random(3)) {
@@ -141,7 +142,7 @@ public class WerewolfAgility {
 	private static void yellFetch(ObjectClickEvent e) {
 		List<NPC> npcs = e.getPlayer().queryNearbyNPCsByTileRange(8, (npc -> npc.getId() == 1661));
 		if (npcs.size() >= 1) {
-			npcs.getFirst().faceNorth();
+			npcs.getFirst().faceDir(Direction.NORTH);
 			npcs.getFirst().forceTalk("FETCH!!!!!");
 			WorldTasks.schedule(2, () -> {
 				npcs.getFirst().setNextAnimation(new Animation(6547));

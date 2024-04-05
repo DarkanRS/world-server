@@ -54,7 +54,7 @@ public class MetalDragonCombat extends CombatScript {
 			}
 
 			npc.setNextAnimation(new Animation(13160));
-			World.sendProjectile(npc, target, 393, 28, 16, 35, 35, 16, 0);
+			World.sendProjectile(npc, target, 393, 28, 16, 35, 35, 16);
 			delayHit(npc, 1, target, getRegularHit(npc, damage));
 		}
 		return npc.getAttackSpeed();

@@ -31,7 +31,7 @@ public class WizardCrompertyTribalTotemD extends Conversation {
 			addNPC(NPC, HeadE.CALM_TALK, "Okey dokey! Ready?");
 			addNext(()->{
 				npc.setNextForceTalk(new ForceTalk("Dipsolum sentento sententi!"));
-				World.sendProjectile(npc, p, 50, 5, 5, 5, 1, 5, 0);
+				World.sendProjectile(npc, p, 50, 5, 5, 5, 1, 5);
 				p.lock(3);
 				WorldTasks.schedule(new Task() {
 					@Override
@@ -72,7 +72,7 @@ public class WizardCrompertyTribalTotemD extends Conversation {
 													if(npc.getId() == NPC)
 														wizard = npc;
 												wizard.setNextForceTalk(new ForceTalk("Dipsolum sentento sententi!"));
-												World.sendProjectile(wizard, p, 50, 5, 5, 5, 1, 5, 0);
+												World.sendProjectile(wizard, p, 50, 5, 5, 5, 1, 5);
 												p.lock(3);
 												WorldTasks.schedule(new Task() {
 													@Override

@@ -3,6 +3,7 @@ package com.rs.game.content.quests.treegnomevillage;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.dialogue.Options;
+import com.rs.engine.pathfinder.Direction;
 import com.rs.engine.quest.Quest;
 import com.rs.engine.quest.QuestHandler;
 import com.rs.engine.quest.QuestOutline;
@@ -112,12 +113,12 @@ public class TreeGnomeVillage extends QuestOutline {
 					if (tick == 0) {
 						if (p.getY() == 3254) {
 							p.lock(2);
-							p.faceSouth();
+							p.faceDir(Direction.SOUTH);
 							p.setNextAnimation(new Animation(839));
 							isPlayerNorth = true;
 						} else if (p.getY() == 3252) {
 							p.lock(2);
-							p.faceNorth();
+							p.faceDir(Direction.NORTH);
 							p.setNextAnimation(new Animation(839));
 							isPlayerNorth = false;
 						} else

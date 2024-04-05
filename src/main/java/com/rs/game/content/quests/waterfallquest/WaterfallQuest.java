@@ -27,7 +27,6 @@ import com.rs.lib.Constants;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
@@ -105,8 +104,8 @@ public class WaterfallQuest extends QuestOutline {
 		if (e.getOpNum() == 1) {				
 			e.getNPC().resetWalkSteps();
 			e.getPlayer().resetWalkSteps();
-			e.getPlayer().faceEntity(e.getNPC());
-			e.getNPC().faceEntity(e.getPlayer());
+			e.getPlayer().faceEntityTile(e.getNPC());
+			e.getNPC().faceEntityTile(e.getPlayer());
 			e.getPlayer().startConversation(new HudonD(e.getPlayer(), e.getNPC().getId()));
 		}
 	});

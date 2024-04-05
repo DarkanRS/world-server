@@ -38,7 +38,7 @@ public class ForgeRegent extends FamiliarCombatScript {
 			delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, npc.getCombatDefinitions().getMaxHit(), AttackStyle.MELEE, target)));
 		} else {
 			npc.anim(7866);
-			delayHit(npc, World.sendProjectile(npc, target, 1330, 34, 16, 30, 1.8, 16, 0).getTaskDelay(), target, getMagicHit(npc, getMaxHit(npc, npc.getCombatDefinitions().getMaxHit(), AttackStyle.MAGE, target)));
+			delayHit(npc, World.sendProjectile(npc, target, 1330, 34, 16, 30, 1.8, 16).getTaskDelay(), target, getMagicHit(npc, getMaxHit(npc, npc.getCombatDefinitions().getMaxHit(), AttackStyle.MAGE, target)));
 		}
 		return npc.getAttackSpeed();
 	}

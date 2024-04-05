@@ -29,8 +29,8 @@ fun handleShortcutStairs() {
             val npcId = if (obj.id == 66990) AUSTRI_ID else VESTRI_ID
             World.getNPCsInChunkRange(player.chunkId, 2).firstOrNull { it.id == npcId }?.let {
                 player.setRouteEvent(RouteEvent(it) {
-                    player.faceEntity(it)
-                    it.faceEntity(player)
+                    player.faceEntityTile(it)
+                    it.faceEntityTile(player)
                     player.startConversation(DwarfBrothersFishingContestD(player, npcId).start)
                 })
             }

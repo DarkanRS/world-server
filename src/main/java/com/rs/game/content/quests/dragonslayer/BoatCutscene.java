@@ -107,15 +107,15 @@ public class BoatCutscene extends Cutscene {
 		npcFaceTile("ned", 17, 12);
 		npcFaceTile("jenkins", 17, 12);
 		playerFaceTile(17, 12);
-		projectile(1, Tile.of(17, 9, 1), Tile.of(17, 12, 1), 1155, 99, 0, 0, 0.5, 0, 0, p -> repeatFireSpotAnim(player, p.getDestination(), 0));
+		projectile(1, Tile.of(17, 9, 1), Tile.of(17, 12, 1), 1155, 99, 0, 0, 0.5, 0, p -> repeatFireSpotAnim(player, p.getDestination(), 0));
 				
 		dialogue(new Dialogue().addNPC(6084, HeadE.SCARED, "It's the dragon!"), true);
-		projectile(1, Tile.of(17, 9, 1), Tile.of(16, 12, 1), 1155, 99, 0, 0, 0.5, 0, 0, p -> repeatFireSpotAnim(player, p.getDestination(), 0));
+		projectile(1, Tile.of(17, 9, 1), Tile.of(16, 12, 1), 1155, 99, 0, 0, 0.5, 0, p -> repeatFireSpotAnim(player, p.getDestination(), 0));
 				
-		projectile(1, Tile.of(17, 9, 1), Tile.of(15, 12, 1), 1155, 99, 0, 0, 0.5, 0, 0, p -> repeatFireSpotAnim(player, p.getDestination(), 0));
+		projectile(1, Tile.of(17, 9, 1), Tile.of(15, 12, 1), 1155, 99, 0, 0, 0.5, 0, p -> repeatFireSpotAnim(player, p.getDestination(), 0));
 		
 		action(() -> player.getInterfaceManager().sendBackgroundInterfaceOverGameWindow(546));
-		projectile(2, Tile.of(17, 9, 1), Tile.of(13, 12, 1), 1155, 99, 0, 0, 0.5, 0, 0, p -> repeatFireSpotAnim(player, p.getDestination(), 500));
+		projectile(2, Tile.of(17, 9, 1), Tile.of(13, 12, 1), 1155, 99, 0, 0, 0.5, 0, p -> repeatFireSpotAnim(player, p.getDestination(), 500));
 
 		action(() -> player.getInterfaceManager().closeInterfacesOverGameWindow());
 		camShake(1, 0, 8, 5, 8);
@@ -125,14 +125,14 @@ public class BoatCutscene extends Cutscene {
 		npcFaceTile("ned", 13, 14);
 		npcFaceTile("jenkins", 13, 14);
 		action(() -> player.getInterfaceManager().closeInterfacesOverGameWindow());
-		projectile(1, Tile.of(13, 11, 1), Tile.of(13, 14, 1), 1155, 99, 0, 0, 0.5, 0, 0, p -> repeatFireSpotAnim(player, p.getDestination(), 500));
+		projectile(1, Tile.of(13, 11, 1), Tile.of(13, 14, 1), 1155, 99, 0, 0, 0.5, 0, p -> repeatFireSpotAnim(player, p.getDestination(), 500));
 
-		projectile(1, Tile.of(15, 11, 1), Tile.of(15, 14, 1), 1155, 99, 0, 0, 0.5, 0, 0, p -> repeatFireSpotAnim(player, p.getDestination(), 0, () -> getNPC("jenkins").setNextAnimation(new Animation(2105))));
-		projectile(1, Tile.of(16, 17, 1), Tile.of(16, 14, 1), 1155, 99, 0, 0, 0.5, 0, 0, p -> repeatFireSpotAnim(player, p.getDestination(), 0, () -> getNPC("ned").setNextAnimation(new Animation(4280))));
-		projectile(1, Tile.of(17, 17, 1), Tile.of(17, 14, 1), 1155, 99, 0, 0, 0.5, 0, 0, p -> repeatFireSpotAnim(player, p.getDestination(), 0, () -> getNPC("jenkins").setNextAnimation(new Animation(6649))));
-		projectile(1, Tile.of(18, 17, 1), Tile.of(18, 14, 1), 1155, 99, 0, 0, 0.5, 0, 0, p -> repeatFireSpotAnim(player, p.getDestination(), 0, () -> getNPC("jenkins").setNextAnimation(new Animation(836))));
-		projectile(1, Tile.of(19, 17, 1), Tile.of(19, 14, 1), 1155, 99, 0, 0, 0.5, 0, 0, p -> repeatFireSpotAnim(player, p.getDestination(), 0));
-		projectile(1, Tile.of(41, 17, 1), Tile.of(41, 14, 1), 1155, 99, 0, 0, 0.5, 0, 0, p -> repeatFireSpotAnim(player, p.getDestination(), 0));
+		projectile(1, Tile.of(15, 11, 1), Tile.of(15, 14, 1), 1155, 99, 0, 0, 0.5, 0, p -> repeatFireSpotAnim(player, p.getDestination(), 0, () -> getNPC("jenkins").setNextAnimation(new Animation(2105))));
+		projectile(1, Tile.of(16, 17, 1), Tile.of(16, 14, 1), 1155, 99, 0, 0, 0.5, 0, p -> repeatFireSpotAnim(player, p.getDestination(), 0, () -> getNPC("ned").setNextAnimation(new Animation(4280))));
+		projectile(1, Tile.of(17, 17, 1), Tile.of(17, 14, 1), 1155, 99, 0, 0, 0.5, 0, p -> repeatFireSpotAnim(player, p.getDestination(), 0, () -> getNPC("jenkins").setNextAnimation(new Animation(6649))));
+		projectile(1, Tile.of(18, 17, 1), Tile.of(18, 14, 1), 1155, 99, 0, 0, 0.5, 0, p -> repeatFireSpotAnim(player, p.getDestination(), 0, () -> getNPC("jenkins").setNextAnimation(new Animation(836))));
+		projectile(1, Tile.of(19, 17, 1), Tile.of(19, 14, 1), 1155, 99, 0, 0, 0.5, 0, p -> repeatFireSpotAnim(player, p.getDestination(), 0));
+		projectile(1, Tile.of(41, 17, 1), Tile.of(41, 14, 1), 1155, 99, 0, 0, 0.5, 0, p -> repeatFireSpotAnim(player, p.getDestination(), 0));
 
 		camPos(34, 14, 1900);
 		camLook(17, 14, 700);

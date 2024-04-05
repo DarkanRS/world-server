@@ -244,7 +244,7 @@ public class SirPrysinDemonSlayerD extends Conversation {
 		for(NPC npc : World.getNPCsInChunkRange(p.getChunkId(), 2))
 			if(npc.getId() == SIR_PRYSIN) {
 				npc.setHidden(true);
-				NPC dummy = World.spawnNPC(SIR_PRYSIN, Tile.of(3204, 3470, 0), -1, false, true);
+				NPC dummy = World.spawnNPC(SIR_PRYSIN, Tile.of(3204, 3470, 0), true, true);
 				dummy.setRandomWalk(false);
 				dummy.faceTile(Tile.of(3204, 3469, 0));
 				WorldTasks.scheduleLooping(new Task() {
@@ -256,7 +256,7 @@ public class SirPrysinDemonSlayerD extends Conversation {
 							p.lock();
 							playerTile = p.getTile();
 							p.tele(Tile.of(3204, 3471, 0));
-							p.faceEntity(dummy);
+							p.faceEntityTile(dummy);
 						} else if (tick == 1) {
 							dummy.setNextAnimation(new Animation(2579));
 							p.getVars().setVarBit(6922, 1);
@@ -268,7 +268,7 @@ public class SirPrysinDemonSlayerD extends Conversation {
 							p.getVars().setVarBit(6922, 0);
 							dummy.transformIntoNPC(SIR_PRYSIN_W_SWORD);
 						} else if(tick == 4)
-							dummy.faceEntity(p);
+							dummy.faceEntityTile(p);
 						else if(tick == 5)
 							dummy.setNextAnimation(new Animation(15953));
 						else if(tick == 6) {

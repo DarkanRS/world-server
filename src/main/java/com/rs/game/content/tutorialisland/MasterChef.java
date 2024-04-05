@@ -32,7 +32,7 @@ public class MasterChef extends Conversation {
 
 	public MasterChef(Player player, NPC npc, TutorialIslandController ctrl) {
 		super(player);
-		npc.faceEntity(player);
+		npc.faceEntityTile(player);
 		npc.resetWalkSteps();
 
 		if (ctrl.getStage() == Stage.TALK_TO_CHEF) {

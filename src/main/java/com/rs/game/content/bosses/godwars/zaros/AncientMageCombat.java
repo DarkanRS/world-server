@@ -44,24 +44,24 @@ public class AncientMageCombat extends CombatScript {
 
 		npc.setNextAnimation(new Animation(defs.getAttackEmote()));
 		if (spellType == 0) {
-			World.sendProjectile(npc, target, 386, 18, 18, 50, 50, 0, 0);
+			World.sendProjectile(npc, target, 386, 18, 18, 50, 50, 0);
 			delayHit(npc, 2, target, hit);
 		} else if (spellType == 1) {
-			World.sendProjectile(npc, target, 380, 18, 18, 50, 50, 0, 0);
+			World.sendProjectile(npc, target, 380, 18, 18, 50, 50, 0);
 			delayHit(npc, 2, target, hit);
 		} else if (spellType == 2) {
-			World.sendProjectile(npc, target, 374, 18, 18, 50, 50, 0, 0);// blood
+			World.sendProjectile(npc, target, 374, 18, 18, 50, 50, 0);// blood
 			delayHit(npc, 2, target, hit);
 			npc.heal(hit.getDamage() / 3);
 		} else if (spellType == 3) {
-			World.sendProjectile(npc, target, 362, 18, 18, 50, 50, 0, 0); // ice
+			World.sendProjectile(npc, target, 362, 18, 18, 50, 50, 0); // ice
 			delayHit(npc, 2, target, hit);
 			if (hit.getDamage() > 0 && !target.hasEffect(Effect.FREEZE)) {
 				target.setNextSpotAnim(new SpotAnim(369));
 				target.freeze(Ticks.fromSeconds(10));
 			}
 		} else {
-			World.sendProjectile(npc, target, 386, 18, 18, 50, 50, 0, 0); // ice
+			World.sendProjectile(npc, target, 386, 18, 18, 50, 50, 0); // ice
 			delayHit(npc, 2, target, hit);
 		}
 

@@ -62,7 +62,7 @@ public class FrostDragonCombat extends CombatScript {
 				else if (protection == 2)
 					damage = 0;
 				npc.setNextAnimation(new Animation(13155));
-				delayHit(npc, World.sendProjectile(npc, target, 393, 28, 16, 35, 2, 16, 0).getTaskDelay(), target, getRegularHit(npc, damage));
+				delayHit(npc, World.sendProjectile(npc, target, 393, 28, 16, 35, 2, 16).getTaskDelay(), target, getRegularHit(npc, damage));
 			}
 		} else if (npc.withinDistance(target.getTile(), 3) && Utils.random(2) == 0) {
 			damage = getMaxHit(npc, defs.getMaxHit(), AttackStyle.MELEE, target);
@@ -71,11 +71,11 @@ public class FrostDragonCombat extends CombatScript {
 		} else if (mageRange == 0) {
 			damage = Utils.getRandomInclusive(250);
 			npc.setNextAnimation(new Animation(13155));
-			delayHit(npc, World.sendProjectile(npc, target, 2705, 28, 16, 35, 2, 16, 0).getTaskDelay(), target, getMagicHit(npc, damage), () -> target.setNextSpotAnim(new SpotAnim(2711)));
+			delayHit(npc, World.sendProjectile(npc, target, 2705, 28, 16, 35, 2, 16).getTaskDelay(), target, getMagicHit(npc, damage), () -> target.setNextSpotAnim(new SpotAnim(2711)));
 		} else {
 			damage = Utils.getRandomInclusive(250);
 			npc.setNextAnimation(new Animation(13155));
-			delayHit(npc, World.sendProjectile(npc, target, 11, 28, 16, 35, 2, 16, 0).getTaskDelay(), target, getRangeHit(npc, damage));
+			delayHit(npc, World.sendProjectile(npc, target, 11, 28, 16, 35, 2, 16).getTaskDelay(), target, getRangeHit(npc, damage));
 		}
 		return npc.getAttackSpeed();
 	}

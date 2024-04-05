@@ -224,7 +224,7 @@ public final class Commands {
 			return true;
 
 		case "proj":
-			World.sendProjectile(Tile.of(p.getX() + 5, p.getY(), p.getPlane()), Tile.of(p.getX() - 5, p.getY(), p.getPlane()), Integer.valueOf(args[1]), 40, 40, 0, 0.2, 0, 0);
+			World.sendProjectile(Tile.of(p.getX() + 5, p.getY(), p.getPlane()), Tile.of(p.getX() - 5, p.getY(), p.getPlane()), Integer.valueOf(args[1]), 40, 40, 0, 0.2, 0);
 			return true;
 
 		case "house":

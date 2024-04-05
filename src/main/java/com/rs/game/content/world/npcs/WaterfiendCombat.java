@@ -45,16 +45,16 @@ public class WaterfiendCombat extends CombatScript {
 
 		npc.setNextAnimation(new Animation(defs.getAttackEmote()));
 		if (spellType == 0) {
-			World.sendProjectile(npc, target, 11, 20, 20, 25, 30, 25, 0);
+			World.sendProjectile(npc, target, 11, 20, 20, 25, 30, 25);
 			delayHit(npc, 2, target, hit);
 		} else if (spellType == 1) {
-			World.sendProjectile(npc, target, 11, 20, 20, 25, 30, 25, 0);
+			World.sendProjectile(npc, target, 11, 20, 20, 25, 30, 25);
 			delayHit(npc, 2, target, hit);
 		} else if (spellType == 2) {
-			World.sendProjectile(npc, target, 2704, 20, 20, 25, 30, 25, 0);
+			World.sendProjectile(npc, target, 2704, 20, 20, 25, 30, 25);
 			delayHit(npc, 2, target, hit);
 		} else {
-			World.sendProjectile(npc, target, 2704, 20, 20, 25, 30, 25, 0);
+			World.sendProjectile(npc, target, 2704, 20, 20, 25, 30, 25);
 			delayHit(npc, 2, target, hit);
 		}
 

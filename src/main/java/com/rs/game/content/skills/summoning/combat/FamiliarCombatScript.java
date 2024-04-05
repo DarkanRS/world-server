@@ -50,7 +50,7 @@ public class FamiliarCombatScript extends CombatScript {
 			delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, npc.getMaxHit(), attackStyle, target)));
 		else {
 			int damage = getMaxHit(npc, npc.getMaxHit(), attackStyle, target);
-			WorldProjectile p = World.sendProjectile(npc, target, defs.getAttackProjectile(), 32, 32, 50, 2, 2, 0);
+			WorldProjectile p = World.sendProjectile(npc, target, defs.getAttackProjectile(), 32, 32, 50, 2, 2);
 			delayHit(npc, p.getTaskDelay(), target, attackStyle == AttackStyle.RANGE ? getRangeHit(npc, damage) : getMagicHit(npc, damage));
 		}
 		if (defs.getAttackGfx() != -1)

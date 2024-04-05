@@ -53,7 +53,7 @@ public class NecroLordCombat extends CombatScript {
 					for (int i = 0; i < skeletonCount; i++) {
 						Tile tile = World.getFreeTile(boss.getManager().getTile(boss.getReference(), Utils.random(2) == 0 ? 5 : 10, 5), 4);
 						projectileTile.add(tile);
-						World.sendProjectile(boss, tile, 2590, 65, 0, 30, 0, 16, 0);
+						World.sendProjectile(boss, tile, 2590, 65, 0, 30, 0, 16);
 					}
 				} else if (ticks == 4) {
 					for (Tile tile : projectileTile)
@@ -70,7 +70,7 @@ public class NecroLordCombat extends CombatScript {
 			case 0, 1 -> {
 				npc.setNextAnimation(new Animation(14209));
 				npc.setNextSpotAnim(new SpotAnim(2716));
-				World.sendProjectile(npc, target, 2721, 38, 18, 50, 50, 0, 0);
+				World.sendProjectile(npc, target, 2721, 38, 18, 50, 50, 0);
 				delayHit(npc, 1, target, getMagicHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MAGE, target)));
 				target.setNextSpotAnim(new SpotAnim(2726, 75, 80));
 			}
@@ -78,7 +78,7 @@ public class NecroLordCombat extends CombatScript {
 				final Tile tile = Tile.of(target.getTile());
 				npc.setNextAnimation(new Animation(attack == 2 ? 710 : 729));
 				npc.setNextSpotAnim(new SpotAnim(attack == 2 ? 177 : 167, 0, 65));
-				World.sendProjectile(npc, tile, attack == 2 ? 178 : 168, 40, 18, 55, 70, 5, 0);
+				World.sendProjectile(npc, tile, attack == 2 ? 178 : 168, 40, 18, 55, 70, 5);
 				WorldTasks.scheduleTimer(1, (ticks) -> {
 					for (Entity t : boss.getPossibleTargets()) {
 						int damage = getMaxHit(boss, boss.getMaxHit(), AttackStyle.MAGE, t);

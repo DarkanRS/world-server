@@ -38,7 +38,6 @@ import com.rs.game.content.minigames.fightpits.FightPits;
 import com.rs.game.content.minigames.partyroom.PartyRoom;
 import com.rs.game.content.minigames.pest.Lander;
 import com.rs.game.content.minigames.pest.PestControlLobbyController;
-import com.rs.game.content.minigames.wguild.WarriorsGuild;
 import com.rs.game.content.pets.Incubator;
 import com.rs.game.content.skills.agility.Agility;
 import com.rs.game.content.skills.agility.WildernessAgility;
@@ -209,13 +208,6 @@ public final class ObjectHandler {
 						player.tele(Tile.of(2900, 4449, 0));
 					}
 				}, 1);
-            } else if (id == 15653) {
-				if (World.isSpawnedObject(object) || !WarriorsGuild.canEnter(player))
-					return;
-				player.lock(2);
-				GameObject opened = new GameObject(object.getId(), object.getType(), object.getRotation() - 1, object.getX(), object.getY(), object.getPlane());
-				World.spawnObjectTemporary(opened, 1);
-				player.addWalkSteps(2876, 3542, 2, false);
 			} else if (id == 14315) {
 				if (Lander.canEnter(player, 0)) {
                 }

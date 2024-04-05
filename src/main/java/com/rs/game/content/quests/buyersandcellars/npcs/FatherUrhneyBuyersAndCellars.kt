@@ -24,7 +24,7 @@ fun mapFatherUrhneyBuyersAndCellars() {
         }
         if (FatherUrhneyBuyersAndCellars.fireIsLit() && p.getQuestStage(Quest.BUYERS_AND_CELLARS) == 7) {
             if (!p.inventory.containsItem(key) && !p.bank.containsItem(key, 1)) {
-                p.faceEntity(npc)
+                p.faceEntityTile(npc)
                 WorldTasks.delay(0) { p.anim(881) }
                 p.inventory.addItem(18647)
                 p.sendMessage("You take advantage of Father Urhney's panic to lift a complex-looking key from his pocket.")

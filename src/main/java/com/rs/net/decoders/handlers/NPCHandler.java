@@ -16,6 +16,7 @@
 //
 package com.rs.net.decoders.handlers;
 
+import com.rs.Settings;
 import com.rs.engine.quest.Quest;
 import com.rs.game.content.Effect;
 import com.rs.game.content.PlayerLook;
@@ -67,7 +68,7 @@ public class NPCHandler {
 			player.sendMessage("Spawn tile [" + npc.getRespawnTile().getX() + ", " + npc.getRespawnTile().getY() + ", " + npc.getRespawnTile().getPlane() + "]]. ");
 		}
 		player.getPackets().sendNPCMessage(0, 0xFFFFFF, npc, NPCExamines.getExamine(npc, player) + " ("+npc.getId()+")");
-		if (npc.getDefinitions().hasAttackOption() || npc.getDefinitions().hasOption("Investigate"))
+		if (Settings.getConfig().isDebug() && (npc.getDefinitions().hasAttackOption() || npc.getDefinitions().hasOption("Investigate")))
 			player.sendOptionDialogue("Would you like to check the drops on this monster?", ops -> {
 				ops.add("Show drops (1,000 kills)", () -> NPC.displayDropsFor(player, npc.getId(), 1000));
 				ops.add("Show drops (5,000 kills)", () -> NPC.displayDropsFor(player, npc.getId(), 5000));
@@ -91,8 +92,8 @@ public class NPCHandler {
 			if (!player.getControllerManager().processNPCClick1(npc))
 				return;
 			npc.resetWalkSteps();
-			player.faceEntity(npc);
-			npc.faceEntity(player);
+			player.faceEntityTile(npc);
+			npc.faceEntityTile(player);
 
 			Object[] shipAttributes = BoatingD.getBoatForShip(player, npc.getId());
 			if (shipAttributes != null) {
@@ -205,8 +206,8 @@ public class NPCHandler {
 		player.getInteractionManager().setInteraction(new StandardEntityInteraction(npc, distance, () -> {
 			if (!player.getControllerManager().processNPCClick2(npc))
 				return;
-			player.faceEntity(npc);
-			npc.faceEntity(player);
+			player.faceEntityTile(npc);
+			npc.faceEntityTile(player);
 
 			if (player.getTreasureTrailsManager().useNPC(npc))
 				return;
@@ -306,8 +307,8 @@ public class NPCHandler {
 			if (!player.getControllerManager().processNPCClick3(npc))
 				return;
 			npc.resetWalkSteps();
-			player.faceEntity(npc);
-			npc.faceEntity(player);
+			player.faceEntityTile(npc);
+			npc.faceEntityTile(player);
 
 			if (npc instanceof GraveStone grave) {
 				grave.repair(player, true);
@@ -340,8 +341,8 @@ public class NPCHandler {
 			if (!player.getControllerManager().processNPCClick3(npc))
 				return;
 			npc.resetWalkSteps();
-			player.faceEntity(npc);
-			npc.faceEntity(player);
+			player.faceEntityTile(npc);
+			npc.faceEntityTile(player);
 
 			if (npc instanceof GraveStone grave) {
 				grave.demolish(player);

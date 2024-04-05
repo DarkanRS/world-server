@@ -151,7 +151,7 @@ public class NomadCombat extends CombatScript {
 						} else {
 							if (npc.lineOfSightTo(target, false)) {
 								delayHit(npc, 2, target, getRegularHit(npc, 750));
-								World.sendProjectile(npc, target, 1658, 30, 30, 75, 25, 0, 0);
+								World.sendProjectile(npc, target, 1658, 30, 30, 75, 25, 0);
 							}
 							nomad.setCantFollowUnderCombat(false);
 							nomad.setNextMovePerform();
@@ -190,7 +190,7 @@ public class NomadCombat extends CombatScript {
 							secondLoop = true;
 						} else {
 							delayHit(npc, 2, target, getRegularHit(npc, player.getMaxHitpoints() - 1));
-							World.sendProjectile(npc, target, 2280, 30, 30, 5, 25, 0, 0);
+							World.sendProjectile(npc, target, 2280, 30, 30, 5, 25, 0);
 							nomad.setCantFollowUnderCombat(false);
 							nomad.setNextMovePerform();
 							stop();
@@ -213,7 +213,7 @@ public class NomadCombat extends CombatScript {
 						target.setNextSpotAnim(new SpotAnim(85, 0, 100));
 					}
 				}, 1);
-			World.sendProjectile(npc, target, 1657, 30, 30, 75, 25, 0, 0);
+			World.sendProjectile(npc, target, 1657, 30, 30, 75, 25, 0);
 		}
 
 		return npc.getAttackSpeed();

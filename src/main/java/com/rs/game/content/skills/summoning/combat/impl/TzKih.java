@@ -36,7 +36,7 @@ public class TzKih extends FamiliarCombatScript {
 	public int alternateAttack(final NPC npc, final Entity target) {
 		npc.sync(npc.getCombatDefinitions().getAttackEmote(), 1422);
 		Hit hit = getMagicHit(npc, getMaxHit(npc, npc.getCombatDefinitions().getMaxHit(), AttackStyle.MAGE, target));
-		delayHit(npc, World.sendProjectile(npc, target, 1423, 34, 16, 30, 2.0, 16, 0).getTaskDelay(), target, hit);
+		delayHit(npc, World.sendProjectile(npc, target, 1423, 34, 16, 30, 2.0, 16).getTaskDelay(), target, hit);
 		if (hit.getDamage() > 0 && target instanceof Player player)
 			player.getPrayer().drainPrayer(player.getPrayer().getPoints() * 0.02);
 		return npc.getAttackSpeed();

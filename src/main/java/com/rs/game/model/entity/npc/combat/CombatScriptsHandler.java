@@ -46,7 +46,7 @@ public class CombatScriptsHandler {
 				CombatScript.delayHit(npc, 0, target, CombatScript.getMeleeHit(npc, CombatScript.getMaxHit(npc, npc.getMaxHit(), attackStyle, target)));
 			else {
 				int damage = CombatScript.getMaxHit(npc, npc.getMaxHit(), attackStyle, target);
-				WorldProjectile p = World.sendProjectile(npc, target, defs.getAttackProjectile(), 32, 32, 50, 2, 2, 0);
+				WorldProjectile p = World.sendProjectile(npc, target, defs.getAttackProjectile(), 32, 32, 50, 2, 2);
 				CombatScript.delayHit(npc, p.getTaskDelay(), target, attackStyle == NPCCombatDefinitions.AttackStyle.RANGE ? CombatScript.getRangeHit(npc, damage) : CombatScript.getMagicHit(npc, damage));
 			}
 			if (defs.getAttackGfx() != -1)

@@ -220,7 +220,7 @@ public class BlackKnightsFortress extends QuestOutline {
 
 				if (tick == 0) {
 					p.setNextAnimation(new Animation(TOSS_CABBAGE));
-					World.sendProjectile(p, Tile.of(p.getX() + 1, p.getY(), p.getPlane()), CABBAGE_PROJECTILE, 40, 0, 2, 0.1, 20, 0);
+					World.sendProjectile(p, Tile.of(p.getX() + 1, p.getY(), p.getPlane()), CABBAGE_PROJECTILE, 40, 0, 2, 0.1, 20);
 				}
 				if (tick == 3)
 					p.getInterfaceManager().setFadingInterface(115);

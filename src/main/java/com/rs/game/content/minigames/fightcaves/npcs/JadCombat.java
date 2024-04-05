@@ -69,7 +69,7 @@ public class JadCombat extends CombatScript {
 			WorldTasks.schedule(new Task() {
 				@Override
 				public void run() {
-					WorldProjectile p = World.sendProjectile(npc, target, 2996, 80, 30, 40, 5, 5, 0);
+					WorldProjectile p = World.sendProjectile(npc, target, 2996, 80, 30, 40, 5, 5);
 					target.setNextSpotAnim(new SpotAnim(2741, 0, 100));
 					delayHit(npc, p.getTaskDelay(), target, getMagicHit(npc, getMaxHit(npc, defs.getMaxHit() - 2, AttackStyle.MAGE, target)));
 				}

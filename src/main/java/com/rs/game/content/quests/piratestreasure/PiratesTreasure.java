@@ -116,7 +116,7 @@ public class PiratesTreasure extends QuestOutline {
 			for(NPC npc : World.getNPCsInChunkRange(player.getChunkId(), 1))
 				if(npc.getId()== HOSTILE_GARDENER)
 					return;
-			NPC gardener = World.spawnNPC(HOSTILE_GARDENER, Tile.of(player.getTile()), -1, false, true);
+			NPC gardener = World.spawnNPC(HOSTILE_GARDENER, Tile.of(player.getTile()), true, true);
 			gardener.setTarget(player);
 			gardener.forceTalk("First moles, now this!? Take this, vandal!");
 		}

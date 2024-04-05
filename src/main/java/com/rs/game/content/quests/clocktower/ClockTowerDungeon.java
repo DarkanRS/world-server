@@ -2,6 +2,7 @@ package com.rs.game.content.quests.clocktower;
 
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.pathfinder.Direction;
 import com.rs.engine.quest.Quest;
 import com.rs.game.World;
 import com.rs.game.model.entity.npc.NPC;
@@ -23,7 +24,7 @@ public class ClockTowerDungeon {
 			handleGate(e.getPlayer(), e.getObject());
 			return;
 		}
-		e.getPlayer().faceWest();
+		e.getPlayer().faceDir(Direction.WEST);
 		e.getPlayer().startConversation(new Dialogue().addPlayer(HeadE.SKEPTICAL_THINKING, "Perhaps one of those levers opens this door..."));
 		e.getPlayer().sendMessage("The door is shut...");
 	});

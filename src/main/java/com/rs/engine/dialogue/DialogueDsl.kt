@@ -50,6 +50,11 @@ open class DialogueBuilder(val stages: MutableMap<String, Dialogue> = mutableMap
         applyPendingLabel()
     }
 
+    fun addItemToInv(player: Player, itemId: Int, text: String) {
+        dialogue = dialogue.addItemToInv(player, Item(itemId, 1), text)
+        applyPendingLabel()
+    }
+
     fun questStart(quest: Quest) {
         dialogue = dialogue.addQuestStart(quest)
         applyPendingLabel()
@@ -125,6 +130,11 @@ open class DialogueBuilder(val stages: MutableMap<String, Dialogue> = mutableMap
         applyPendingLabel()
     }
 
+    fun next(nextDialogue: Dialogue) {
+        dialogue = dialogue.addNext(nextDialogue)
+        applyPendingLabel()
+    }
+
     fun stop() {
         dialogue = dialogue.addStop()
     }
@@ -188,6 +198,18 @@ fun dialogue(block: DialogueBuilder.() -> Unit): Dialogue {
     return builder.build()
 }
 
+fun createDialogueSection(block: DialogueBuilder.() -> Unit): Dialogue {
+    val builder = DialogueBuilder()
+    builder.block()
+    return builder.build().head
+}
+
 fun Player.startConversation(block: DialogueBuilder.() -> Unit) {
     startConversation(DialogueBuilder().apply(block).build())
+}
+
+fun Player.sendOptionsDialogue(title: String? = null, setup: OptionsBuilder.() -> Unit) {
+    startConversation(DialogueBuilder().apply {
+        options(title, setup)
+    }.build())
 }

@@ -38,7 +38,7 @@ public class AberrantSpectre extends CombatScript {
 	@Override
 	public int attack(NPC npc, Entity target) {
 		NPCCombatDefinitions def = npc.getCombatDefinitions();
-		WorldProjectile p = World.sendProjectile(npc, target, def.getAttackProjectile(), 18, 18, 35, 1, 0, 0);
+		WorldProjectile p = World.sendProjectile(npc, target, def.getAttackProjectile(), 18, 18, 35, 1, 0);
 		npc.setNextAnimation(new Animation(def.getAttackEmote()));
 		if (!Slayer.hasNosepeg(target)) {
 			Player targetPlayer = (Player) target;

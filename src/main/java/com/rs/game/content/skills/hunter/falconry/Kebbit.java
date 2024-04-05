@@ -141,7 +141,7 @@ public class Kebbit extends NPC {
 		resetWalkSteps();
 		lock();
 		player.lock();
-		player.faceEntity(this);
+		player.faceEntityTile(this);
 		player.getEquipment().setNoPluginTrigger(Equipment.WEAPON, new Item(FalconryController.EMPTY_GLOVE));
 		player.getAppearance().generateAppearanceData();
 		player.soundEffect(2634, true);
@@ -175,7 +175,7 @@ public class Kebbit extends NPC {
 			return;
 		}
 		player.incrementCount(NPCDefinitions.getDefs(type.kebbitId).getName() + " hunted at falconry");
-		player.faceEntity(this);
+		player.faceEntityTile(this);
 		player.lock();
 		player.anim(827);
 		player.getSkills().addXp(Skills.HUNTER, type.xp);

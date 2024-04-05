@@ -49,7 +49,7 @@ class StealToyDragon(private val obj: GameObject) : PlayerAction() {
 
     override fun stop(player: Player) {
         player.unlock()
-        player.setNextFaceEntity(null)
+        player.stopFaceEntity()
         setActionDelay(player, 1)
     }
 

@@ -25,6 +25,7 @@ import com.rs.cache.loaders.ObjectType;
 import com.rs.db.WorldDB;
 import com.rs.engine.book.Book;
 import com.rs.engine.cutscene.Cutscene;
+import com.rs.engine.cutscenekt.CutscenePresenter;
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
@@ -52,7 +53,6 @@ import com.rs.game.content.minigames.domtower.DominionTower;
 import com.rs.game.content.minigames.duel.DuelRules;
 import com.rs.game.content.minigames.herblorehabitat.HabitatFeature;
 import com.rs.game.content.minigames.treasuretrails.TreasureTrailsManager;
-import com.rs.game.content.minigames.wguild.WarriorsGuild;
 import com.rs.game.content.pets.Pet;
 import com.rs.game.content.pets.PetManager;
 import com.rs.game.content.skills.construction.House;
@@ -232,6 +232,7 @@ public class Player extends Entity {
 	private transient InterfaceManager interfaceManager;
 	private transient HintIconsManager hintIconsManager;
 	private transient CutsceneManager cutsceneManager;
+	public transient CutscenePresenter cutscenePresenter;
 	private transient Trade trade;
 	private transient DuelRules lastDuelRules;
 	private transient Pet pet;
@@ -392,9 +393,6 @@ public class Player extends Entity {
 	private TaskMonster[] taskBlocks;
 	public int slayerPoints = 0;
 	public int consecutiveTasks = 0;
-
-	private int[] warriorPoints = new int[6];
-
 	private transient boolean cantWalk;
 
 	private Map<PatchLocation, FarmPatch> patches;
@@ -635,6 +633,7 @@ public class Player extends Entity {
 		varManager.setSession(session);
 		sounds = new HashSet<>();
 		cutsceneManager = new CutsceneManager(this);
+		cutscenePresenter = new CutscenePresenter();
 		trade = new Trade(this);
 		// loads player on saved instances
 		appearence.setPlayer(this);
@@ -938,6 +937,7 @@ public class Player extends Entity {
 				finish(0);
 			processPackets();
 			cutsceneManager.process();
+			cutscenePresenter.tick();
 			super.processEntity();
 			if (hasStarted() && isIdle() && !hasRights(Rights.ADMIN) && !getNSV().getB("idleLogImmune")) {
 				if (getInteractionManager().getInteraction() instanceof PlayerCombatInteraction combat) {
@@ -3782,36 +3782,6 @@ public class Player extends Entity {
 			setRunHidden(running);
 			unlock();
 		});
-	}
-
-	public int[] getWarriorPoints() {
-		if (warriorPoints == null || warriorPoints.length != 6)
-			warriorPoints = new int[6];
-		return warriorPoints;
-	}
-
-	public void setWarriorPoints(int index, int pointsDifference) {
-		if (warriorPoints == null || warriorPoints.length != 6)
-			warriorPoints = new int[6];
-
-		warriorPoints[index] += pointsDifference;
-		if (warriorPoints[index] < 0) {
-			Controller controller = getControllerManager().getController();
-			if (controller == null || !(controller instanceof WarriorsGuild guild))
-				return;
-			guild.inCyclopse = false;
-			tele(WarriorsGuild.CYCLOPS_LOBBY);
-			warriorPoints[index] = 0;
-		} else if (warriorPoints[index] > 65535)
-			warriorPoints[index] = 65535;
-		refreshWarriorPoints(index);
-	}
-
-	public void refreshWarriorPoints(int index) {
-		if (warriorPoints == null || warriorPoints.length != 6)
-			warriorPoints = new int[6];
-
-		getVars().setVarBit(index + 8662, warriorPoints[index]);
 	}
 
 	public Brewery getKeldagrimBrewery() {

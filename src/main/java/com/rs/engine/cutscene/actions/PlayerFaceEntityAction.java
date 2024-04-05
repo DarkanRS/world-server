@@ -30,7 +30,7 @@ public class PlayerFaceEntityAction extends CutsceneAction {
 	@Override
 	public void process(Player player, Map<String, Object> objects) {
 		NPC npc = (NPC) objects.get(getObjectKey());
-		player.faceEntity(npc);
+		player.faceEntityTile(npc);
 	}
 
 }

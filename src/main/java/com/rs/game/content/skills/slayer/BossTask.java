@@ -110,7 +110,7 @@ public class BossTask {
 	}
 
 	public void sendKill(Player player, NPC npc) {
-		World.sendProjectile(npc, player, 3060, 18, 18, 15, 0, 20, 0);
+		World.sendProjectile(npc, player, 3060, 18, 18, 15, 0, 20);
 		if (amount >= 1)
 			amount--;
 		if (amount <= 0)
