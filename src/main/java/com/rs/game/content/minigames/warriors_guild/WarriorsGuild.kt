@@ -4,6 +4,7 @@ import com.rs.cache.loaders.ObjectType
 import com.rs.engine.dialogue.HeadE
 import com.rs.engine.dialogue.sendOptionsDialogue
 import com.rs.engine.dialogue.startConversation
+import com.rs.game.World
 import com.rs.game.World.getObject
 import com.rs.game.World.getPlayersInChunkRange
 import com.rs.game.World.getSpawnedObject
@@ -42,12 +43,12 @@ import kotlin.random.Random
 
 private var killedCyclopses = 0
 private var amountOfPlayers = 0
-private var lastDummy = 0.0
+private var currentDummyTick = 0L
 private var projectileType = 0
 
 private val CATAPAULT_MINIGAME_INTERFACE = 411
 private val CATAPULT_TARGET = Tile.of(2842, 3541, 1)
-private val CATAPULT_PROJECTILE_BASE = NPC(1957, Tile.of(2842, 3550, 1))
+private val CATAPULT_PROJECTILE_BASE = Tile.of(2842, 3550, 1)
 private val DEFENSIVE_ANIMATIONS = intArrayOf(4169, 4168, 4171, 4170)
 private val CATAPULT = GameObject(15616, ObjectType.SCENERY_INTERACT, 0, 2840, 3548, 1)
 
@@ -83,10 +84,10 @@ private fun canEnter(player: Player): Boolean {
 fun mapWarriorsGuild() {
     //Catapault and warrior dummy timer
     WorldTasks.scheduleTimer { tick ->
-        if (tick % 14 == 0) {
+        if (tick % 14 == 0)
             tickDummies()
+        if (tick % 8 == 0)
             tickDefenseMinigame()
-        }
         return@scheduleTimer true
     }
 
@@ -218,7 +219,7 @@ class WarriorsGuildController(var inCyclopsRoom: Boolean = false, var cyclopseOp
     var defensiveStyle = 0
 
     @Transient
-    var lastDummy = 0.0
+    var lastDummy = 0L
 
     @Transient
     var kegCount = 0
@@ -260,7 +261,7 @@ class WarriorsGuildController(var inCyclopsRoom: Boolean = false, var cyclopseOp
 
     override fun processObjectClick1(obj: GameObject): Boolean {
         if (obj.id in 15624..15630) {
-            if (this.lastDummy == lastDummy) {
+            if (lastDummy == currentDummyTick) {
                 player.sendMessage("You have already tagged a dummy.")
                 return false
             }
@@ -479,7 +480,7 @@ private fun resetKegBalance(player: Player, controller: WarriorsGuildController)
 private fun tickDummies() {
     val index = Utils.random(DUMMY_LOCATIONS.size)
     spawnObjectTemporary(GameObject(Utils.random(15624, 15630), ObjectType.SCENERY_INTERACT, DUMMY_ROTATIONS[index], DUMMY_LOCATIONS[index]), 10)
-    lastDummy += 0.000000001
+    currentDummyTick = World.getServerTicks()
     sendObjectAnimation(CATAPULT, Animation(4164))
 }
 
@@ -492,12 +493,12 @@ private fun submitDummyHit(player: Player, controller: WarriorsGuildController, 
             player.skills.addXp(Constants.ATTACK, 15.0)
             player.setWarriorPoints(ATTACK, 5)
             player.sendMessage("You whack the dummy successfully!")
-            controller.lastDummy = lastDummy
+            controller.lastDummy = currentDummyTick
         } else {
             player.lock(5)
             player.applyHit(Hit(player, 10, HitLook.TRUE_DAMAGE))
             player.sync(Animation(424), SpotAnim(80, 5, 60))
-            player.sendMessage("You whack the dummy whistle using the wrong attack style.")
+            player.sendMessage("You whack the dummy whilst using the wrong attack style.")
         }
     }
 }
