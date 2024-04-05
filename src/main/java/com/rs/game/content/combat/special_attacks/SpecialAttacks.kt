@@ -306,7 +306,7 @@ fun mapSpecials() {
                 World.sendSpotAnim(tile, SpotAnim(478))
                 for (entity in getMultiAttackTargets(player, tile, 1, 9)) {
                     val hit = calculateHit(player, entity, 0, getMaxHit(player, target, 21371, attackStyle, false, 0.33), 21371, attackStyle, false, true, 1.25)
-                    addXp(player, entity, attackStyle!!.xpType, hit)
+                    addXp(player, entity, attackStyle.xpType, hit)
                     if (hit.damage > 0 && Utils.getRandomInclusive(8) == 0) target.poison.makePoisoned(48)
                     entity.applyHit(hit)
                 }

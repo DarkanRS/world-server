@@ -453,7 +453,7 @@ object World {
     }
 
     @JvmStatic
-    fun getSpawnedObject(tile: Tile): GameObject {
+    fun getSpawnedObject(tile: Tile): GameObject? {
         return ChunkManager.getChunk(tile.chunkId).getSpawnedObject(tile)
     }
 

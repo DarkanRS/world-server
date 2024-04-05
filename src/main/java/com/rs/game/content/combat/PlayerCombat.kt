@@ -220,7 +220,7 @@ class PlayerCombat(@JvmField val target: Entity) : PlayerAction() {
         val weaponId = player.equipment.weaponId
         val attackStyle = player.combatDefinitions.getAttackStyle()
         val weaponConfig = ItemConfig.get(weaponId)
-        var soundId = weaponConfig.getAttackSound(attackStyle!!.index)
+        var soundId = weaponConfig.getAttackSound(attackStyle.index)
         val weapon = RangedWeapon.forId(weaponId)
         val ammo = AmmoType.forId(player.equipment.ammoId)
         var combatDelay = getRangeCombatDelay(weaponId, attackStyle)
@@ -449,7 +449,7 @@ class PlayerCombat(@JvmField val target: Entity) : PlayerAction() {
         val attackStyle = player.combatDefinitions.getAttackStyle()
         val weaponConfig = ItemConfig.get(weaponId)
         val combatDelay = getMeleeCombatDelay(weaponId)
-        val soundId = weaponConfig.getAttackSound(attackStyle!!.index)
+        val soundId = weaponConfig.getAttackSound(attackStyle.index)
         if (weaponId == -1) {
             val gloves = player.equipment.getItem(Equipment.HANDS)
             if (gloves != null && gloves.definitions.getName().contains("Goliath gloves")) weaponId = -2
@@ -625,7 +625,7 @@ fun getMagicMaxHit(player: Player, target: Entity, spellBaseDamage: Int, applyMa
     val def: Double
     if (target is Player) {
         var defLvl = floor(target.skills.getLevel(Constants.DEFENSE) * target.prayer.defenceMultiplier)
-        defLvl += (if (target.combatDefinitions.getAttackStyle()!!.attackType == AttackType.LONG_RANGE || target.combatDefinitions.getAttackStyle()!!.xpType == XPType.DEFENSIVE) 3 else if (target.combatDefinitions.getAttackStyle()!!.xpType == XPType.CONTROLLED) 1 else 0).toDouble()
+        defLvl += (if (target.combatDefinitions.getAttackStyle().attackType == AttackType.LONG_RANGE || target.combatDefinitions.getAttackStyle().xpType == XPType.DEFENSIVE) 3 else if (target.combatDefinitions.getAttackStyle().xpType == XPType.CONTROLLED) 1 else 0).toDouble()
         defLvl += 8.0
         defLvl *= 0.3
         var magLvl = floor(target.skills.getLevel(Constants.MAGIC) * target.prayer.mageMultiplier)
@@ -741,9 +741,9 @@ fun calculateHit(player: Player, target: Entity?, minHit: Int, maxHit: Int, weap
         var def: Double
         if (target is Player) {
             var defLvl = floor(target.skills.getLevel(Constants.DEFENSE) * target.prayer.defenceMultiplier)
-            defLvl += (if (target.combatDefinitions.getAttackStyle()!!.attackType == AttackType.LONG_RANGE || target.combatDefinitions.getAttackStyle()!!.xpType == XPType.DEFENSIVE) 3 else if (target.combatDefinitions.getAttackStyle()!!.xpType == XPType.CONTROLLED) 1 else 0).toDouble()
+            defLvl += (if (target.combatDefinitions.getAttackStyle().attackType == AttackType.LONG_RANGE || target.combatDefinitions.getAttackStyle().xpType == XPType.DEFENSIVE) 3 else if (target.combatDefinitions.getAttackStyle().xpType == XPType.CONTROLLED) 1 else 0).toDouble()
             defLvl += 8.0
-            val defBonus = target.combatDefinitions.getDefenseBonusForStyle(player.combatDefinitions.getAttackStyle()!!).toDouble()
+            val defBonus = target.combatDefinitions.getDefenseBonusForStyle(player.combatDefinitions.getAttackStyle()).toDouble()
 
             def = floor(defLvl * (defBonus + 64))
 
@@ -803,7 +803,7 @@ fun calculateHit(player: Player, target: Entity?, minHit: Int, maxHit: Int, weap
                 }
             }
             var defLvl = n.defenseLevel.toDouble()
-            val defBonus = player.combatDefinitions.getAttackStyle()!!.attackType.getDefenseBonus(n).toDouble()
+            val defBonus = player.combatDefinitions.getAttackStyle().attackType.getDefenseBonus(n).toDouble()
             defLvl += 8.0
             def = floor(defLvl * (defBonus + 64))
         }
@@ -1048,7 +1048,7 @@ fun addXp(player: Player, target: Entity, xpType: XPType?, hit: Hit) {
         HitLook.MAGIC_DAMAGE -> {
             combatXp = (damage / 5.0)
             if (combatXp > 0) {
-                if (player.combatDefinitions.isDefensiveCasting || (usingPolypore(player) && player.combatDefinitions.getAttackStyle()!!.attackType == AttackType.POLYPORE_LONGRANGE)) {
+                if (player.combatDefinitions.isDefensiveCasting || (usingPolypore(player) && player.combatDefinitions.getAttackStyle().attackType == AttackType.POLYPORE_LONGRANGE)) {
                     val defenceXp = (damage / 7.5)
                     if (defenceXp > 0.0) {
                         combatXp -= defenceXp
@@ -1119,7 +1119,7 @@ fun getAttackRange(player: Player): Int {
     if (isRanging(player)) {
         if (player.tempAttribs.getB("dfsActive")) return 8
         var atkRange = ItemConfig.get(player.equipment.weaponId).attackRange
-        if (player.combatDefinitions.getAttackStyle()!!.attackType == AttackType.LONG_RANGE) atkRange += 2
+        if (player.combatDefinitions.getAttackStyle().attackType == AttackType.LONG_RANGE) atkRange += 2
         return Utils.clampI(atkRange, 0, 10)
     }
     return ItemConfig.get(player.equipment.weaponId).attackRange
@@ -1186,7 +1186,6 @@ fun getAntifireLevel(target: Entity?, prayerWorks: Boolean): Int {
         target.sendMessage("Your potion slightly protects you from the heat of the dragon's breath.", true)
         protection++
     }
-    if (protection > 2) protection = 2
     if (protection == 0) target.sendMessage("You are hit by the dragon's fiery breath.", true)
     chargeDragonfireShield(target)
     return protection

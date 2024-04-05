@@ -67,6 +67,18 @@ public class ItemOnObjectEvent implements PluginEvent {
 		return objectId;
 	}
 
+	public Player component1() {
+		return player;
+	}
+
+	public GameObject component2() {
+		return object;
+	}
+
+	public Item component3() {
+		return item;
+	}
+
 	@Override
 	public List<PluginHandler<? extends PluginEvent>> getMethods() {
 		List<PluginHandler<? extends PluginEvent>> valids = new ArrayList<>();
