@@ -299,8 +299,8 @@ public enum Scroll {
 			}
 			familiar.stopAll();
 			familiar.faceObject(object);
-			familiar.setNextFaceEntity(null);
-			familiar.walkToAndExecute(object.getTile(), () -> familiar.getActionManager().setAction(new Woodcutting(object, type).setLevel(60)));
+			familiar.stopFaceEntity();
+			familiar.walkToAndExecute(object, () -> familiar.getActionManager().setAction(new Woodcutting(object, type).setLevel(60)));
 			return true;
 		}
 	},

@@ -431,8 +431,7 @@ public final class Familiar extends NPC {
 			return;
 		if (executeSpecial(target)) {
 			owner.getTempAttribs().setL("familiarSpecTimer", World.getServerTicks() + 4);
-			owner.setNextAnimation(new Animation(7660));
-			owner.setNextSpotAnim(new SpotAnim(1316));
+			owner.sync(7660, 1316);
 			drainSpec();
 			decrementScroll();
 		}
