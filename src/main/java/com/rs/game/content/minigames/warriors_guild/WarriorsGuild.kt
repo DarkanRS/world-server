@@ -355,7 +355,7 @@ class WarriorsGuildController: Controller() {
         if (inCyclopsRoom && World.getServerTicks() % 100L == 0L) {
             val leastTokenBalance = when(val payType = player.vars.getVarBit(VARBIT_CURRENT_TOKEN_PAY)) {
                 TOKEN_PAY_ALL -> player.modifyAllPoints(-3)
-                else -> PAY_TYPE_TO_VARBIT[payType]?.let { player.modifyPoints(it, -10) } ?: 0
+                else -> PAY_TYPE_TO_VARBIT[payType]?.let { player.modifyPoints(it, -20) } ?: 0
             }
             if (leastTokenBalance <= 0) {
                 inCyclopsRoom = false
