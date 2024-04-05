@@ -31,6 +31,7 @@ import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.LoginHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
@@ -115,6 +116,9 @@ public class Mining extends Action {
 			e.getPlayer().sendMessage("You've mined all you can from the rock.");
 	});
 
+	public static ItemClickHandler checkBracelet = new ItemClickHandler(new Object[] { 11074 }, new String[] { "Check" }, e ->
+			e.getPlayer().sendMessage("Your bracelet has " + e.getPlayer().getI("braceletOfClayCharges", 28) + " charges remaining."));
+
 	public static LoginHandler updateSandstone = new LoginHandler(e -> e.getPlayer().getVars().setVarBit(10133, e.getPlayer().getDailyI("redSandstoneMined")));
 
 	private final RockType type;
@@ -193,7 +197,7 @@ public class Mining extends Action {
 			star.minedThisTick = true;
 
 		if (success && depleteOre(entity)) {
-			entity.setNextAnimation(new Animation(-1));
+			entity.anim(-1);
 			return -1;
 		}
 		return ((pick == Pickaxe.DRAGON || pick == Pickaxe.DRAGON_G) && Utils.random(2) == 0) ? pick.getTicks() - 2 : pick.getTicks() - 1;
