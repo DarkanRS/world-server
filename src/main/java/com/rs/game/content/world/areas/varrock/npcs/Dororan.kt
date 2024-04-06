@@ -20,6 +20,9 @@ const val ANIM_TAKE_ITEM = 14738
 val REPLACEMENT_GUNNARS_GROUND_POEM = Item(19773)
 val REPLACEMENT_SWANKY_BOOTS = Item(19776)
 val RUBY_RING = Item(1641)
+val RUBY_BRACELET = Item(11085)
+val DRAGONSTONE_NECKLACE = Item(1664)
+val ONYX_AMULET = Item(6581)
 
 @ServerStartupEvent
 fun mapDororanTalk() {
@@ -130,11 +133,11 @@ fun mapEngraveRubyBracelet(player: Player, npc: NPC, dialogue: DialogueBuilder) 
             options {
                 op("Engrave the bracelet.") {
                     if (craftLevel < 42) {
-                        simple("You need a Crafting level of at least 42 to engrave the ruby bracelet.")
+                        item(RUBY_BRACELET.id, "You need a Crafting level of at least 42 to engrave the ruby bracelet.")
                         npc(npc, SAD, "That's a shame. Maybe you can try again another time.")
                         goto("initialOptions")
                     } else {
-                        simple("You carefully engrave 'With beauty blessed' onto the ruby bracelet.") {
+                        item(RUBY_BRACELET.id, "You carefully engrave 'With beauty blessed' onto the ruby bracelet.") {
                             completeDororanCraftTask(player, 2000.0)
                             player.sendMessage("You gained 2000 Crafting XP.")
                         }
@@ -161,11 +164,11 @@ fun mapEngraveDragonstoneNecklace(player: Player, npc: NPC, dialogue: DialogueBu
             options {
                 op("Engrave the necklace.") {
                     if (craftLevel < 72) {
-                        simple("You need a Crafting level of at least 72 to engrave the dragonstone necklace.")
+                        item(DRAGONSTONE_NECKLACE.id, "You need a Crafting level of at least 72 to engrave the dragonstone necklace.")
                         npc(npc, SAD, "That's a shame. Maybe you can try again another time.")
                         goto("initialOptions")
                     } else {
-                        simple("You skilfully engrave 'Gudrun' onto the dragonstone necklace.") {
+                        item(DRAGONSTONE_NECKLACE.id, "You skilfully engrave 'Gudrun' onto the dragonstone necklace.") {
                             completeDororanCraftTask(player, 10000.0)
                             player.sendMessage("You gained 10,000 Crafting XP.")
                         }
@@ -192,11 +195,11 @@ fun mapEngraveOnyxAmulet(player: Player, npc: NPC, dialogue: DialogueBuilder) {
             options {
                 op("Engrave the necklace.") {
                     if (craftLevel < 90) {
-                        simple("You need a Crafting level of at least 90 to engrave the onyx amulet.")
+                        item(ONYX_AMULET.id, "You need a Crafting level of at least 90 to engrave the onyx amulet.")
                         npc(npc, SAD, "That's a shame. Maybe you can try again another time.")
                         goto("initialOptions")
                     } else {
-                        simple("You expertly engrave 'The most beautiful girl in the room' onto the onyx amulet.") {
+                        item(ONYX_AMULET.id, "You expertly engrave 'The most beautiful girl in the room' onto the onyx amulet.") {
                             completeDororanCraftTask(player, 20000.0)
                             player.sendMessage("You gained 20,000 Crafting XP.")
                         }
