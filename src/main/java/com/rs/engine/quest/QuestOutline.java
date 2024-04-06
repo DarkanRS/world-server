@@ -46,7 +46,7 @@ public abstract class QuestOutline {
 	}
 
 	public final String getRewardsString() {
-		return getClass().getAnnotation(QuestHandler.class).rewardsText();
+		return getQuest().getQuestPointRewardLine() + getClass().getAnnotation(QuestHandler.class).rewardsText();
 	}
 
 	public void updateStage(Player player, int stage) {

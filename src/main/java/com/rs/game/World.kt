@@ -396,7 +396,7 @@ object World {
         getObjectsInChunkRange(chunkId, chunkRadius, { it.allGroundItems })
 
     @JvmStatic
-    private fun getChunkRadius(chunkId: Int, radius: Int): Set<Int> {
+    fun getChunkRadius(chunkId: Int, radius: Int): Set<Int> {
         val chunksXYLoop: MutableSet<Int> = IntOpenHashSet()
         for (cx in -radius..radius) {
             for (cy in -radius..radius) {
@@ -478,6 +478,12 @@ object World {
         val groundItem: GroundItem = GroundItem(item, tile, GroundItem.GroundItemType.FOREVER).setRespawnTicks(respawnTicks)
         if (groundItem.id == -1) return
         ChunkManager.getChunk(tile.chunkId).addGroundItem(groundItem)
+    }
+
+    @JvmStatic
+    @JvmOverloads
+    fun addGroundItemNoExpire(item: Item, tile: Tile, owner: Player? = null): GroundItem? {
+        return addGroundItem(item, tile, owner, owner != null, -1, World.DropMethod.NORMAL, -1)
     }
 
     @JvmOverloads
@@ -802,24 +808,22 @@ object World {
      * Please someone refactor this. This is beyond disgusting and definitely can be done better.
      */
     @JvmStatic
-    fun findAdjacentFreeSpace(tile: Tile, size: Int): Tile? {
-        if (size == 1) return findAdjacentFreeTile(tile)
+    fun findAdjacentFreeSpace(origin: Tile, size: Int): Tile? {
+        if (size == 1) return findAdjacentFreeTile(origin)
 
         val stepValidator = StepValidator(allFlags)
         val directions = mutableListOf(Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST)
-        val plane = tile.plane().toInt()
-        val startX = tile.x().toInt()
-        val startY = tile.y().toInt()
 
         while (directions.isNotEmpty()) {
-            val currentDirection = directions.removeAt(Utils.random(directions.size))
-            val isHorizontal = currentDirection.dy == 0
-            val offsetDirection = if (isHorizontal) Direction.NORTH else Direction.WEST // Assuming forDelta simplification
+            val currDir = directions.removeAt(Utils.random(directions.size))
+            val isHorizontal = currDir.dy == 0
+            val offsetDir = if (isHorizontal) Direction.NORTH else Direction.WEST
 
             var failed = false
             for (i in 0 until size) {
                 for (row in 0 until size) {
-                    if (!stepValidator.canTravel(plane, startX, startY, currentDirection.dx, currentDirection.dy, 1, 0, CollisionStrategyType.NORMAL.strategy) || (row < size - 1 && !stepValidator.canTravel(plane, startX, startY, offsetDirection.dx, offsetDirection.dy, 1, 0, CollisionStrategyType.NORMAL.strategy))) {
+                    if (!stepValidator.canTravel(origin.plane().toInt(), origin.x, origin.y, currDir.dx, currDir.dy, size, 0, CollisionStrategyType.NORMAL.strategy) ||
+                        (row < size - 1 && !stepValidator.canTravel(origin.plane().toInt(), origin.x, origin.y, offsetDir.dx, offsetDir.dy, size, 0, CollisionStrategyType.NORMAL.strategy))) {
                         failed = true
                         break
                     }
@@ -828,9 +832,9 @@ object World {
             }
 
             if (!failed) {
-                val deltaX = if (currentDirection.dx < 0) -size + 1 else currentDirection.dx
-                val deltaY = if (currentDirection.dy < 0) -size + 1 else currentDirection.dy
-                return tile.transform(deltaX, deltaY)
+                val deltaX = if (currDir.dx < 0) -size + 1 else currDir.dx
+                val deltaY = if (currDir.dy < 0) -size + 1 else currDir.dy
+                return origin.transform(deltaX, deltaY)
             }
         }
 

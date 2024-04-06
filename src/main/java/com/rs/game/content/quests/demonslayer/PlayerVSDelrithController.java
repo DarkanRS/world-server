@@ -161,12 +161,12 @@ public class PlayerVSDelrithController extends InstancedController {
 					cs.getNPC(label).setRandomWalk(true);
 					cs.getNPC(label).setForceMultiArea(true);
 					cs.getNPC(label).setForceAggroDistance(20);
-					cs.getNPC(label).setTarget(player);
+					cs.getNPC(label).setCombatTarget(player);
 				});
 				cs.getNPC("delrith").setRandomWalk(true);
 				cs.getNPC("delrith").setForceMultiArea(true);
 				cs.getNPC("delrith").setForceAggroDistance(20);
-				cs.getNPC("delrith").setTarget(player);
+				cs.getNPC("delrith").setCombatTarget(player);
 			});
 		}));
 	}

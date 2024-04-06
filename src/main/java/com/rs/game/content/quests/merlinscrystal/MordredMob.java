@@ -47,7 +47,7 @@ public class MordredMob extends NPC {
 
 	public void resetNPC(final Entity source) {
 		resetWalkSteps();
-		removeTarget();
+		removeCombatTarget();
 		reset();
 		finish();
 		if (!isSpawned())

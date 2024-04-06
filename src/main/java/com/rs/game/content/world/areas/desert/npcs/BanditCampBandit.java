@@ -51,10 +51,10 @@ public class BanditCampBandit extends NPC {
 	}
 
 	@Override
-	public void setTarget(Entity entity) {
+	public void setCombatTarget(Entity entity) {
 		if (entity instanceof Player && (ZamorakFactionNPC.hasGodItem((Player) entity) || SaradominFactionNPC.hasGodItem((Player) entity)))
 			setNextForceTalk(new ForceTalk(ZamorakFactionNPC.hasGodItem((Player) entity) ? "Prepare to suffer, Zamorakian scum!" : "Time to die, Saradominist filth!"));
-		super.setTarget(entity);
+		super.setCombatTarget(entity);
 	}
 
 	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { 1926, 1931 }, (npcId, tile) -> new BanditCampBandit(npcId, tile, false));

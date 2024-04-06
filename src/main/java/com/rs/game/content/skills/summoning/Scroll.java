@@ -20,7 +20,6 @@ import com.rs.cache.loaders.Bonus;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.World;
 import com.rs.game.content.Effect;
-import com.rs.game.content.combat.PlayerCombat;
 import com.rs.game.content.combat.PlayerCombatKt;
 import com.rs.game.content.minigames.MinigameUtilKt;
 import com.rs.game.content.minigames.creations.Score;
@@ -141,7 +140,7 @@ public enum Scroll {
 				owner.sendMessage("Your mosquito can't find a way to get there.");
 				return false;
 			}
-			if (familiar.getTarget() != null) {
+			if (familiar.getCombatTarget() != null) {
 				owner.sendMessage("Your mosquito is already attacking something.");
 				return false;
 			}
@@ -496,7 +495,7 @@ public enum Scroll {
 				owner.sendMessage("Your kyatt can't find a way to get there.");
 				return false;
 			}
-			if (familiar.getTarget() != null) {
+			if (familiar.getCombatTarget() != null) {
 				owner.sendMessage("Your kyatt is already attacking something.");
 				return false;
 			}

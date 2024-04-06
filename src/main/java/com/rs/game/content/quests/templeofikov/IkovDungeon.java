@@ -85,7 +85,7 @@ public class IkovDungeon {
 							.addNext(()->{
 								for(NPC npc : World.getNPCsInChunkRange(e.getPlayer().getChunkId(), 3))
 									if(npc instanceof FireWarrior warrior && warrior.getOwner() == e.getPlayer())
-										warrior.setTarget(e.getPlayer());
+										warrior.setCombatTarget(e.getPlayer());
 							})
 					);
 					option("A humble pilgrim.", new Dialogue()
@@ -99,7 +99,7 @@ public class IkovDungeon {
 	public static NPCClickHandler handleGaurdianTalk = new NPCClickHandler(new Object[]{274, 275}, new String[]{"Talk-to"}, e -> {
 		if(e.getPlayer().getEquipment().getAmuletId() == 86) {//Lucien amulet
 			e.getPlayer().startConversation(new Dialogue().addNPC(e.getNPCId(), HeadE.FRUSTRATED, "Thou art a foul agent of Lucien! Such an agent must die!"));
-			WorldTasks.delay(3, () -> e.getNPC().setTarget(e.getPlayer()));
+			WorldTasks.delay(3, () -> e.getNPC().setCombatTarget(e.getPlayer()));
 			return;
 		}
 		e.getPlayer().startConversation(new GaurdianArmadylTempleOfIkov(e.getPlayer(), e.getNPC()).getStart());

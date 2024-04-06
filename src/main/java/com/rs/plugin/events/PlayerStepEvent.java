@@ -51,6 +51,18 @@ public class PlayerStepEvent implements PluginEvent {
 		return step;
 	}
 
+	public Player component1() {
+		return player;
+	}
+
+	public WalkStep component2() {
+		return step;
+	}
+
+	public Tile component3() {
+		return tile;
+	}
+
 	@Override
 	public PluginHandler<? extends PluginEvent> getMethod() {
 		return METHODS.get(tile.getTileHash());

@@ -262,7 +262,7 @@ public final class DominionTower {
 				player.getPackets().sendResetCamera();
 				for (NPC boss : bosses) {
 					boss.setCantInteract(false);
-					boss.setTarget(player);
+					boss.setCombatTarget(player);
 				}
 				player.unlock();
 				return false;

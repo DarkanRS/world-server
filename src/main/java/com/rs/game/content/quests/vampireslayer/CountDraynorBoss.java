@@ -76,7 +76,7 @@ public class CountDraynorBoss extends OwnedNPC {
 
 	@Override
 	public void sendDeath(Entity source) {
-		removeTarget();
+		removeCombatTarget();
 		setAttackedBy(null);
 		resetHP();
 		setLocked(true);
@@ -95,7 +95,7 @@ public class CountDraynorBoss extends OwnedNPC {
 				if(tick == finalTick - 1)
 					setLocked(false);
 				if(tick == finalTick) {
-					setTarget(source);
+					setCombatTarget(source);
 					stop();
 				}
 				tick++;
@@ -232,7 +232,7 @@ public class CountDraynorBoss extends OwnedNPC {
 					countDraynor.setRandomWalk(true);
 				}
 				if(tick == 20) {
-					countDraynor.setTarget(p);
+					countDraynor.setCombatTarget(p);
 					p.faceEntityTile(countDraynor);
 				}
 				if(tick == 22) {

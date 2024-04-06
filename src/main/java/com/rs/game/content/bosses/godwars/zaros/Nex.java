@@ -18,7 +18,6 @@ package com.rs.game.content.bosses.godwars.zaros;
 
 import com.rs.game.World;
 import com.rs.game.content.bosses.godwars.zaros.attack.NexAttack;
-import com.rs.game.content.combat.PlayerCombat;
 import com.rs.game.content.combat.PlayerCombatKt;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.ForceTalk;
@@ -119,9 +118,9 @@ public final class Nex extends NPC {
 			return;
 		if (!getCombat().process()) {
 			checkAggressivity();
-			if (getTarget() == null)
+			if (getCombatTarget() == null)
 				return;
-			Entity target = getTarget();
+			Entity target = getCombatTarget();
 			int maxDistance = isFollowTarget() ? 0 : 9;
 			if ((!lineOfSightTo(target, isFollowTarget())) || !WorldUtil.isInRange(getX(), getY(), getSize(), target.getX(), target.getY(), target.getSize(), maxDistance)) {
 				resetWalkSteps();
