@@ -269,14 +269,14 @@ public class DungeonController extends Controller {
 		if (player.getInventory().containsItem(DungeonConstants.GROUP_GATESTONE, 1)) {
 			Tile tile = Tile.of(player.getTile());
 			dungeon.setGroupGatestone(Tile.of(player.getTile()));
-			World.addGroundItem(new Item(DungeonConstants.GROUP_GATESTONE), tile);
+			World.addGroundItemNoExpire(new Item(DungeonConstants.GROUP_GATESTONE), tile);
 			player.getInventory().deleteItem(DungeonConstants.GROUP_GATESTONE, 1);
 			player.sendMessage("Your group gatestone drops to the floor as you die.");
 		}
 		if (player.getInventory().containsItem(DungeonConstants.GATESTONE, 1)) {
 			Tile tile = Tile.of(player.getTile());
 			setGatestone(Tile.of(player.getTile()));
-			World.addGroundItem(new Item(DungeonConstants.GATESTONE), tile);
+			World.addGroundItemNoExpire(new Item(DungeonConstants.GATESTONE), tile);
 			player.getInventory().deleteItem(DungeonConstants.GATESTONE, 1);
 			player.sendMessage("Your gatestone drops to the floor as you die.");
 		}
@@ -1227,11 +1227,11 @@ public class DungeonController extends Controller {
 			dungeon.setGroupGatestone(currentTile);
 		else if (item.getId() == DungeonConstants.GATESTONE) {
 			setGatestone(currentTile);
-			World.addGroundItem(item, currentTile, player, true, -1, DropMethod.NORMAL, -1);
+			World.addGroundItemNoExpire(item, currentTile, player);
 			player.sendMessage("You place the gatestone. You can teleport back to it at any time.");
 			return false;
 		}
-		World.addGroundItem(item, currentTile);
+		World.addGroundItemNoExpire(item, currentTile);
 		return false;
 	}
 

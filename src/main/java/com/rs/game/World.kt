@@ -480,6 +480,12 @@ object World {
         ChunkManager.getChunk(tile.chunkId).addGroundItem(groundItem)
     }
 
+    @JvmStatic
+    @JvmOverloads
+    fun addGroundItemNoExpire(item: Item, tile: Tile, owner: Player? = null): GroundItem? {
+        return addGroundItem(item, tile, owner, owner != null, -1, World.DropMethod.NORMAL, -1)
+    }
+
     @JvmOverloads
     @JvmStatic
     fun addGroundItem(item: Item, tile: Tile, owner: Player? = null, invisible: Boolean = true, hiddenTime: Int = 60, type: DropMethod = DropMethod.NORMAL, deleteTime: Int = 150): GroundItem? {

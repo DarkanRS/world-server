@@ -599,12 +599,12 @@ public class DungeonManager {
 			for (Item item : player.getEquipment().getItemsCopy()) {
 				if (item == null || item.getName().contains("(b)") || item.getName().contains("kinship") || !DungManager.isBannedDungItem(item))
 					continue;
-				World.addGroundItem(item, Tile.of(player.getTile()));
+				World.addGroundItemNoExpire(item, Tile.of(player.getTile()));
 			}
 			for (Item item : player.getInventory().getItems().array()) {
 				if (item == null || item.getName().contains("(b)") || item.getName().contains("kinship") || !DungManager.isBannedDungItem(item))
 					continue;
-				World.addGroundItem(item, Tile.of(player.getTile()));
+				World.addGroundItemNoExpire(item, Tile.of(player.getTile()));
 				if (hasLoadedNoRewardScreen() & item.getId() == DungeonConstants.GROUP_GATESTONE)
 					setGroupGatestone(Tile.of(player.getTile()));
 			}
@@ -813,7 +813,7 @@ public class DungeonManager {
 	public void spawnItem(RoomReference reference, Item item, int x, int y) {
 		final int mapRotation = dungeon.getRoom(reference).getRotation();
 		int[] coords = translate(x, y, mapRotation, 1, 1, 0);
-		World.addGroundItem(item, Tile.of(instance.getLocalX(reference.getBaseX() + coords[0]), instance.getLocalY(reference.getBaseY() + coords[1]), 0));
+		World.addGroundItemNoExpire(item, Tile.of(instance.getLocalX(reference.getBaseX() + coords[0]), instance.getLocalY(reference.getBaseY() + coords[1]), 0));
 	}
 
 	public boolean isFloorFree(RoomReference reference, int x, int y) {
