@@ -125,7 +125,7 @@ public enum Effect {
 		public void tick(Entity entity, long tick) {
 			if(entity instanceof Player player && player.getDungManager().isInsideDungeon()) {
 				List<NPC> npcs = player.queryNearbyNPCsByTileRange(1, npc -> !npc.isDead() && npc.withinDistance(player, 1)
-						&& npc.getDefinitions().hasAttackOption() && player.getControllerManager().canHit(npc) && npc.getTarget() instanceof Player);
+						&& npc.getDefinitions().hasAttackOption() && player.getControllerManager().canHit(npc) && npc.getCombatTarget() instanceof Player);
 				for (NPC npc : npcs)
 					if (tick % Ticks.fromSeconds(10) == 0) {
 						int dmg = 40 * player.getSkills().getCombatLevelWithSummoning() / 138;

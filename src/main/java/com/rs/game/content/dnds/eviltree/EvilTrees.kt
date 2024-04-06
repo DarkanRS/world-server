@@ -75,7 +75,7 @@ enum class Location(val tile: Tile, val desc: String) {
 }
 
 @ServerStartupEvent
-fun schedule() {
+fun scheduleEvilTreeSpawns() {
     LOCATIONS = LOCATIONS.shuffled()
     locIterator = Iterators.peekingIterator(LOCATIONS.iterator())
     WorldTasks.scheduleNthHourly(2, ::spawnTree)

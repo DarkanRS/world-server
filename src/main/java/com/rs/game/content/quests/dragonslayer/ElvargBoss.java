@@ -56,7 +56,7 @@ public class ElvargBoss extends NPC {
 		if(source instanceof Player p) {
 			p.lock();
 			ElvargBoss elvarg = this;
-			removeTarget();
+			removeCombatTarget();
 			elvarg.setCantInteract(true);
 			WorldTasks.scheduleLooping(new Task() {
 				int tick = 0;

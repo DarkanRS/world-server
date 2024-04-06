@@ -69,7 +69,7 @@ public class NoEscape implements NexAttack {
 				} else if (count == 3)
 					nex.tele(center);
 				else if (count == 4) {
-					nex.setTarget(target);
+					nex.setCombatTarget(target);
 					nex.setCantInteract(false);
 					stop();
 				}

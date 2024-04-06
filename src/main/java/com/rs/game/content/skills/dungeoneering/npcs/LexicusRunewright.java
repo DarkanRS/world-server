@@ -99,7 +99,7 @@ public class LexicusRunewright extends DungeonBoss {
 					break;
 				Tile tile = getManager().getTile(getReference(), 6 + Utils.random(4), 6 + Utils.random(4));
 				TombOfLexicus book = new TombOfLexicus(boss, 9856 + Utils.random(3), tile, getManager()); //TODO scale to combat level
-				book.setTarget(target);
+				book.setCombatTarget(target);
 				books.add(book);
 			}
 			return false;

@@ -27,7 +27,7 @@ public class DramenTreeBoss {
 						return;
 					}
 				NPC spirit = World.spawnNPC(TREE_SPIRIT, Tile.of(obj.getX(), obj.getY() + 2, obj.getPlane()), true, true);
-				spirit.setTarget(e.getPlayer());
+				spirit.setCombatTarget(e.getPlayer());
 				spirit.forceTalk("You must defeat me before touching the tree!");
 			}
 		}else if(e.getPlayer().isQuestComplete(Quest.LOST_CITY) || e.getPlayer().getQuestManager().getStage(Quest.LOST_CITY) >= LostCity.FIND_ZANARIS) {

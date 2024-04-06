@@ -848,18 +848,18 @@ public class NPC extends Entity {
 		return forceWalk != null;
 	}
 
-	public Entity getTarget() {
+	public Entity getCombatTarget() {
 		return combat.getTarget();
 	}
 
-	public void setTarget(Entity entity) {
+	public void setCombatTarget(Entity entity) {
 		if (isForceWalking()) // if force walk not gonna get target
 			return;
 		combat.setTarget(entity);
 		lastAttackedByTarget = System.currentTimeMillis();
 	}
 
-	public void removeTarget() {
+	public void removeCombatTarget() {
 		if (combat.getTarget() == null)
 			return;
 		combat.removeTarget();
@@ -949,7 +949,7 @@ public class NPC extends Entity {
 		List<Entity> possibleTarget = getPossibleTargets();
 		if (!possibleTarget.isEmpty()) {
 			Entity target = possibleTarget.get(Utils.random(possibleTarget.size()));
-			setTarget(target);
+			setCombatTarget(target);
 			target.setAttackedBy(target);
 			//target.setFindTargetDelay(System.currentTimeMillis() + 10000); //TODO makes everything possible aggro to you
 			return true;

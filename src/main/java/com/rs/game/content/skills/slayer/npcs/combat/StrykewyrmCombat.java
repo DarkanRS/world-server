@@ -118,7 +118,7 @@ public class StrykewyrmCombat extends CombatScript {
 							@Override
 							public void run() {
 								npc.getCombat().setCombatDelay(npc.getAttackSpeed());
-								npc.setTarget(target);
+								npc.setCombatTarget(target);
 								npc.setCantInteract(false);
 							}
 						});

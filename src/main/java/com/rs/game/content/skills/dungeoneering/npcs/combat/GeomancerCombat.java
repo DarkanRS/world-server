@@ -96,7 +96,7 @@ public class GeomancerCombat extends CombatScript {
 	private void sendEntangle(NPC npc, Entity target) {
 		npc.setNextSpotAnim(new SpotAnim(177, 0, 50));
 		npc.setNextAnimation(new Animation(12992));
-		npc.removeTarget();
+		npc.removeCombatTarget();
 		World.sendProjectile(npc, target, 178, 40, 18, 55, 70, 5);
 
 		int damage = getMaxHit(npc, (int) (npc.getLevelForStyle(AttackStyle.MAGE) * 0.95), AttackStyle.MAGE, target);

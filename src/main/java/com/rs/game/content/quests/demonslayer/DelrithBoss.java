@@ -51,7 +51,7 @@ public class DelrithBoss extends NPC {
 	@Override
 	public void sendDeath(Entity source) {
 		setNextAnimation(new Animation(STUNNED));
-		removeTarget();
+		removeCombatTarget();
 
 		WorldTasks.scheduleLooping(new Task() {
 			int tick = 0;
@@ -63,7 +63,7 @@ public class DelrithBoss extends NPC {
 					setNextAnimation(new Animation(REVIVE));
 				if(tick == finalTick+1) {
 					resetHP();
-					setTarget(source);
+					setCombatTarget(source);
 					stop();
 				}
 

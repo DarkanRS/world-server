@@ -263,7 +263,7 @@ public class DwarfMultiCannon extends OwnedObject {
 				WorldTasks.schedule(proj.getTaskDelay(), () -> npc.applyHit(new Hit(owner, hit.getDamage(), HitLook.CANNON_DAMAGE)));
 				owner.getSkills().addXp(Constants.RANGE, (double) hit.getDamage() / 5);
 				balls--;
-				npc.setTarget(owner);
+				npc.setCombatTarget(owner);
 				npc.setAttackedBy(owner);
 				break;
 			}

@@ -85,7 +85,7 @@ public class PlayerVsKingFight extends InstancedController {
                 cs.delay(4);
                 cs.action(() -> {
                     player.unlock();
-                    king.setTarget(player);
+                    king.setCombatTarget(player);
                 });
             });
         });
@@ -130,7 +130,7 @@ public class PlayerVsKingFight extends InstancedController {
     public void attemptZaffSummon(Player player) {
         player.resetWalkSteps();
         player.lock();
-        king.setTarget(null);
+        king.setCombatTarget(null);
         king.freeze(50);
         if (king.getHitpoints() >= 20) {
             player.playCutscene(cs -> {
