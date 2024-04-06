@@ -10,6 +10,7 @@ import com.rs.game.content.quests.gunnarsground.dialogues.DororanD
 import com.rs.game.content.quests.gunnarsground.dialogues.GudrunD
 import com.rs.game.content.quests.gunnarsground.dialogues.JefferyD
 import com.rs.game.content.quests.gunnarsground.utils.*
+import com.rs.game.content.world.areas.varrock.npcs.REPLACEMENT_GUNNARS_GROUND_POEM
 import com.rs.game.model.entity.async.schedule
 import com.rs.game.model.entity.player.Player
 import com.rs.game.model.entity.player.Skills
@@ -22,7 +23,10 @@ import com.rs.plugin.kts.*
     startText = "Speak to Dororan near the bridge at the Barbarian Village.",
     itemsText = "A chisel.",
     combatText = "None.",
-    rewardsText = "5 Quest Points<br>300 Crafting XP<br>Antique lamp<br>Swanky boots",
+    rewardsText =
+            "300 Crafting XP<br>" +
+            "Antique Lamp<br>" +
+            "Swanky boots",
     completedStage = STAGE_COMPLETE
 )
 
@@ -50,26 +54,26 @@ class GunnarsGround : QuestOutline() {
     }
     override fun complete(player: Player) {
         sendQuestCompleteInterface(player, GUNNARS_GROUND_POEM.id)
-        player.inventory.addItemDrop(19776, 1)
-        player.inventory.addItemDrop(19775, 1)
+        player.inventory.addItemDrop(SWANKY_BOOTS.id, 1)
+        player.inventory.addItemDrop(ANTIQUE_LAMP.id, 1)
         player.skills.addXpQuest(Skills.CRAFTING, 300.0)
     }
 }
 
 @ServerStartupEvent
 fun mapGunnarsGround() {
-    onNpcClick(DORORAN_QUESTING, DORORAN_POST_CUTSCENE, JEFFERY, GUDRUN_QUESTING, GUDRUN_POST_CUTSCENE, CHIEFTAIN_GUNTHOR) { (player, npc) ->
+    onNpcClick(QUESTING_DORORAN, DORORAN_POST_CUTSCENE, JEFFERY, QUESTING_GUDRUN, GUDRUN_POST_CUTSCENE, QUESTING_CHIEFTAIN_GUNTHOR) { (player, npc) ->
         when(npc.id) {
             JEFFERY -> {
                 JefferyD(player, npc)
             }
-            DORORAN_QUESTING, DORORAN_POST_CUTSCENE-> {
+            QUESTING_DORORAN, DORORAN_POST_CUTSCENE-> {
                 DororanD(player, npc)
             }
-            GUDRUN_QUESTING, GUDRUN_POST_CUTSCENE -> {
+            QUESTING_GUDRUN, GUDRUN_POST_CUTSCENE -> {
                 GudrunD(player, npc)
             }
-            CHIEFTAIN_GUNTHOR -> {
+            QUESTING_CHIEFTAIN_GUNTHOR -> {
                 ChieftainGunthorD(player, npc)
             }
         }
@@ -97,8 +101,11 @@ fun mapGunnarsGround() {
         engraveRing(e.player)
     }
 
-    onItemClick(19770, options = arrayOf("Engrave")) { e ->
-        engraveRing(e.player)
+    onItemClick(RING_FROM_JEFFERY.id,GUNNARS_GROUND_POEM.id, REPLACEMENT_GUNNARS_GROUND_POEM.id, options = arrayOf("Engrave", "Read")) { e ->
+        when (e.option) {
+            "Engrave" -> { engraveRing(e.player) }
+            "Read" -> { e.player.openBook(GunnarsGroundBook()) }
+        }
     }
 
     onLogin { (player) ->

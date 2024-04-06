@@ -6,16 +6,6 @@ import com.rs.engine.quest.Quest
 import com.rs.game.content.quests.gunnarsground.utils.*
 import com.rs.game.model.entity.npc.NPC
 import com.rs.game.model.entity.player.Player
-import com.rs.lib.util.Utils
-
-val responses = arrayOf(
-    "Ah, you've come for fight!",
-    "You look funny!",
-    "Wanna fight?",
-    "Grrr!",
-    "What you want?",
-    "Go away!"
-)
 
 class ChieftainGunthorD (player: Player, npc: NPC) {
     init {
@@ -75,16 +65,16 @@ class ChieftainGunthorD (player: Player, npc: NPC) {
                     }
                     label("weAreTheFreemen")
                     npc(npc, TALKING_ALOT, "We are the freemen of the ice. You think this is a settlement, but it is a camp of war!")
-                    npc(HAAKON, TALKING_ALOT, "Chieftain! May I interrupt?")
+                    npc(QUESTING_HAAKON, TALKING_ALOT, "Chieftain! May I interrupt?")
                     npc(npc, TALKING_ALOT, "What is it, Haakon?")
-                    npc(HAAKON, TALKING_ALOT, "We have lived here since before the time of my father. Perhaps we are no longer a camp.")
+                    npc(QUESTING_HAAKON, TALKING_ALOT, "We have lived here since before the time of my father. Perhaps we are no longer a camp.")
                     npc(npc, FRUSTRATED, "Your father? Do you honour him, Haakon?")
-                    npc(HAAKON, TALKING_ALOT, "Of course!")
+                    npc(QUESTING_HAAKON, TALKING_ALOT, "Of course!")
                     npc(npc, FRUSTRATED, "And do you honour Warlord Gunnar?")
-                    npc(HAAKON, TALKING_ALOT, "Of course, Chieftain!")
+                    npc(QUESTING_HAAKON, TALKING_ALOT, "Of course, Chieftain!")
                     npc(npc, FRUSTRATED, "Then why do you dishonour his name by abandoning what he fought for?")
                     npc(npc, FRUSTRATED, "We will honour our fathers and we will honour Gunnar!")
-                    npc(HAAKON, SAD, "Yes, Chieftain. You are wise. I am sorry.")
+                    npc(QUESTING_HAAKON, SAD, "Yes, Chieftain. You are wise. I am sorry.")
                     npc(npc, FRUSTRATED, "You! Outerlander!")
                     player(CALM_TALK, "What?")
                     npc(npc, FRUSTRATED, "We are not friends, you and I! We are not allies!")
@@ -96,11 +86,11 @@ class ChieftainGunthorD (player: Player, npc: NPC) {
                         op("I'm going!") { player(WORRIED, "I'm going!") }
                         op("I'd like to see him try.") {
                             player(ROLL_EYES, "I'd like to see him try.")
-                            npc(HAAKON, ANGRY, "Come here and say that to my face, outerlander!")
+                            npc(QUESTING_HAAKON, ANGRY, "Come here and say that to my face, outerlander!")
                         }
                         op("I'm going to challenge him right now!") {
                             player(CHUCKLE, "I'm going to challenge him right now!")
-                            npc(HAAKON, ANGRY, "Come here and say that to my face, outerlander!")
+                            npc(QUESTING_HAAKON, ANGRY, "Come here and say that to my face, outerlander!")
                         }
                     }
                 }
@@ -113,11 +103,11 @@ class ChieftainGunthorD (player: Player, npc: NPC) {
                         op("I'm going!") { player(WORRIED, "I'm going!") }
                         op("I'd like to see him try.") {
                             player(ROLL_EYES, "I'd like to see him try.")
-                            npc(HAAKON, ANGRY, "Come here and say that to my face, outerlander!")
+                            npc(QUESTING_HAAKON, ANGRY, "Come here and say that to my face, outerlander!")
                         }
                         op("I'm going to challenge him right now!") {
                             player(CHUCKLE, "I'm going to challenge him right now!")
-                            npc(HAAKON, ANGRY, "Come here and say that to my face, outerlander!")
+                            npc(QUESTING_HAAKON, ANGRY, "Come here and say that to my face, outerlander!")
                         }
                     }
                 }
@@ -135,7 +125,7 @@ class ChieftainGunthorD (player: Player, npc: NPC) {
                             player(HAPPY_TALKING, "A drink to Gunnar the strong!")
                             label("cheersTalk")
                             npc(npc, HAPPY_TALKING, "Skål!")
-                            npc(HAAKON, HAPPY_TALKING, "Skål!")
+                            npc(QUESTING_HAAKON, HAPPY_TALKING, "Skål!")
                             if (!player.questManager.isComplete(Quest.GLORIOUS_MEMORIES)) player(HAPPY_TALKING, "Cheers!") else player(HAPPY_TALKING, "Skål!")
                         }
                         op("A drink to Dororan the poet!") {
@@ -158,10 +148,7 @@ class ChieftainGunthorD (player: Player, npc: NPC) {
                 }
 
                 else -> {
-                    npc(npc, VERY_FRUSTRATED, responses[(Utils.random(1,6))])
-                    exec {
-                        npc.setTarget(player)
-                    }
+                    npc(npc, VERY_FRUSTRATED, "Begone, outerlander! Your kind are not welcome here!")
                 }
 
             }

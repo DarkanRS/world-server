@@ -20,15 +20,15 @@ class GudrunD (player: Player, npc: NPC) {
                     } else if (!player.containsOneItem(DORORANS_ENGRAVED_RING.id)) {
                         player(CALM_TALK, "I should fetch the engraved ring from the bank.")
                     } else {
-                        npc(KJELL, ANGRY, "Gudrun! You caught enough fish?")
+                        npc(QUESTING_KJELL, ANGRY, "Gudrun! You caught enough fish?")
                         npc(npc, FRUSTRATED, "Yes! I have plenty of fish!")
-                        npc(KJELL, ANGRY, "Your father needs many fish to feed the freemen!")
+                        npc(QUESTING_KJELL, ANGRY, "Your father needs many fish to feed the freemen!")
                         npc(npc, FRUSTRATED, "I know!")
-                        npc(KJELL, ANGRY, "Maybe you should sneak off to the outerlander city again? Buy fish in market, instead of catching them?")
+                        npc(QUESTING_KJELL, ANGRY, "Maybe you should sneak off to the outerlander city again? Buy fish in market, instead of catching them?")
                         npc(npc, ANGRY, "Shut up! I'm much better at fishing than you.")
-                        npc(KJELL, ANGRY, "You are not!")
+                        npc(QUESTING_KJELL, ANGRY, "You are not!")
                         npc(npc, FRUSTRATED, "Just guard the hut like the chieftain told you to!")
-                        npc(KJELL, FRUSTRATED, "Fine!")
+                        npc(QUESTING_KJELL, FRUSTRATED, "Fine!")
                         npc(npc, FRUSTRATED, "Stupid barbarian.")
                         npc(npc, CALM_TALK, "Sorry about that, stranger. Did you want something?")
                         player(CONFUSED, "Are you Gudrun?")
@@ -195,7 +195,7 @@ class GudrunD (player: Player, npc: NPC) {
                         npc(npc, HAPPY_TALKING, "'Gunnar's Ground.'")
                         npc(npc, HAPPY_TALKING, "Yes! I think this could work. I'll go to the longhouse right away!")
                         exec {
-                            player.playCutscene(GunnarsGroundCutscenes())
+                            GunnarsGroundCutscenes(player)
                             player.inventory.removeItems(GUNNARS_GROUND_POEM)
                             setHasItem(player, GUNNARS_GROUND_POEM, false)
                         }
@@ -234,9 +234,9 @@ class GudrunD (player: Player, npc: NPC) {
 
                 else -> {
                     npc(npc, SKEPTICAL, "Can I help you, stranger?")
-                    npc(KJELL, ANGRY, "Why are you talking to that outerlander?")
-                    npc(GUDRUN_QUESTING, ANGRY, "It's none of your business, Kjell! Just guard the hut!")
-                    npc(GUDRUN_QUESTING, CALM_TALK, "Sorry about that. Did you want something?")
+                    npc(QUESTING_KJELL, ANGRY, "Why are you talking to that outerlander?")
+                    npc(QUESTING_GUDRUN, ANGRY, "It's none of your business, Kjell! Just guard the hut!")
+                    npc(QUESTING_GUDRUN, CALM_TALK, "Sorry about that. Did you want something?")
                     label("didYouWantSomethingOptions")
                     options {
                         op("What is this place?") {

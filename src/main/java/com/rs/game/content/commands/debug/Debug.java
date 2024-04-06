@@ -99,7 +99,7 @@ public class Debug {
 				case 1 -> p.getControllerManager().startController(new PlayerVSDelrithController());
 				case 2 -> p.getControllerManager().startController(new DragonSlayer_BoatScene());
 				case 3 -> p.getControllerManager().startController(new MerlinsCrystalCrateScene());
-				case 4 -> p.playCutscene(new GunnarsGroundCutscenes());
+				case 4 -> new GunnarsGroundCutscenes(p);
 			}
 
 		});
