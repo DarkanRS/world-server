@@ -83,7 +83,7 @@ public class PumpkinSpawning {
 					tile = Tile.of(x, y, 0);
 					tries++;
 				}
-				World.addGroundItem(new Item(1959), Tile.of(x, y, 0));
+				World.addGroundItemNoExpire(new Item(1959), Tile.of(x, y, 0));
 			}
 		}
 	}
