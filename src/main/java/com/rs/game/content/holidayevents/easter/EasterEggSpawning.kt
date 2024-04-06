@@ -58,7 +58,7 @@ private fun spawnEggs() {
         if (eggsNeeded > 0) {
             repeat(eggsNeeded) {
                 World.getRandomWalkableTileInChunk(chunk)?.let {
-                    World.addGroundItem(Item(1961), it)
+                    World.addGroundItemNoExpire(Item(1961), it)
                 }
             }
         }

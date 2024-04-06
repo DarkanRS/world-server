@@ -60,7 +60,7 @@ public class GraveStone extends NPC {// 652 - gravestone selection interface
 		inscription = getInscription(player.getDisplayName());
 		floorItems = new ArrayList<>();
 		for (Item item : items) {
-			GroundItem i = World.addGroundItem(item, deathTile, player, true, -1, DropMethod.NORMAL, -1);
+			GroundItem i = World.addGroundItemNoExpire(item, deathTile, player);
 			if (i != null)
 				floorItems.add(i);
 		}
