@@ -26,7 +26,8 @@ import com.rs.plugin.kts.*
     rewardsText =
             "300 Crafting XP<br>" +
             "Antique Lamp<br>" +
-            "Swanky boots",
+            "Swanky boots<br>" +
+            "Talk to Dororan for more Crafting tasks",
     completedStage = STAGE_COMPLETE
 )
 
@@ -101,10 +102,10 @@ fun mapGunnarsGround() {
         engraveRing(e.player)
     }
 
-    onItemClick(RING_FROM_JEFFERY.id,GUNNARS_GROUND_POEM.id, REPLACEMENT_GUNNARS_GROUND_POEM.id, options = arrayOf("Engrave", "Read")) { e ->
+    onItemClick(RING_FROM_JEFFERY.id, GUNNARS_GROUND_POEM.id, REPLACEMENT_GUNNARS_GROUND_POEM.id, options = arrayOf("Engrave", "Read")) { e ->
         when (e.option) {
             "Engrave" -> { engraveRing(e.player) }
-            "Read" -> { e.player.openBook(GunnarsGroundBook()) }
+            "Read" -> { GunnarsGroundPoem(e.player) }
         }
     }
 
@@ -193,7 +194,8 @@ fun setGunnarsGroundVarBits(player: Player) {
  * Fades screen & completes quest
  */
 fun completeGunnarsGround(player: Player) {
-    player.fadeScreen{
+    player.fadeScreen {
+        player.packets.setIFGraphic(1244, 18, 3797)
         player.questManager.completeQuest(Quest.GUNNARS_GROUND)
         player.interfaceManager.sendAchievementComplete(Achievement.GUNNARS_GROUND_502)
     }

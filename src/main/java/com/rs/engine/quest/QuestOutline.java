@@ -63,7 +63,9 @@ public abstract class QuestOutline {
 
 		player.getPackets().sendVarcString(359, getRewardsString());
 		player.getInterfaceManager().sendInterface(1244);
+		player.getPackets().setIFModel(1244, 18, 12);
 		player.getPackets().setIFItem(1244, 24, itemId, 1);
 		player.getPackets().setIFText(1244, 25, "You have completed "+getQuest().getDefs().name+"!");
+		player.getPackets().setIFText(1244, 27, "Quest points: "+player.getQuestManager().getQuestPoints());
 	}
 }
