@@ -838,15 +838,15 @@ public class Player extends Entity {
 		stopAll(stopWalk, stopInterface, true);
 	}
 
-	// as walk done clientsided
 	public void stopAll(boolean stopWalk, boolean stopInterfaces, boolean stopActions) {
 		TransformationRing.triggerDeactivation(this);
-		setRouteEvent(null);
-		walkRequest = null;
 		if (stopInterfaces)
 			closeInterfaces();
-		if (stopWalk)
+		if (stopWalk) {
+			setRouteEvent(null);
+			walkRequest = null;
 			resetWalkSteps();
+		}
 		if (stopActions) {
 			getActionManager().forceStop();
 			getInteractionManager().forceStop();

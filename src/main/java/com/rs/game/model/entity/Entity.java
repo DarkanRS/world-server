@@ -1920,6 +1920,10 @@ public abstract class Entity {
 		setNextAnimation(new Animation(anim));
 	}
 
+	public void stopAnim() {
+		anim(-1);
+	}
+
 	public void anim(Animation anim) {
 		setNextAnimation(anim);
 	}
