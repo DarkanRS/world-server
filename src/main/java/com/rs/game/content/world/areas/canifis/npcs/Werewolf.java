@@ -58,7 +58,7 @@ public class Werewolf extends NPC {
 						transformIntoNPC(realId - 20);
 						setNextAnimation(new Animation(-1));
 						setCantInteract(false);
-						setTarget(target);
+						setCombatTarget(target);
 					}
 				}, 1);
 				return;

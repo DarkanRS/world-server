@@ -119,8 +119,8 @@ public class Glacor extends NPC {
 			hit.setDamage(hit.getDamage() * 2);
 		if (!isMinionsSpawned() && getHitpoints() < 2500) {
 			spawnMinions();
-			unstable.setTarget(lastAttacked);
-			sapping.setTarget(lastAttacked);
+			unstable.setCombatTarget(lastAttacked);
+			sapping.setCombatTarget(lastAttacked);
 		}
 		super.handlePreHit(hit);
 	}

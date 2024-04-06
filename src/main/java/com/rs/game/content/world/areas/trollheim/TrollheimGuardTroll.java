@@ -19,8 +19,8 @@ public class TrollheimGuardTroll extends NPC {
 	@Override
 	public boolean withinDistance(Player tile, int distance)  {
 		if(super.withinDistance(tile, distance)) {
-			if(isGWDGaurd() && getTarget() == null && super.withinDistance(tile, 8))
-				setTarget(tile);
+			if(isGWDGaurd() && getCombatTarget() == null && super.withinDistance(tile, 8))
+				setCombatTarget(tile);
 			return true;
 		}
 		return false;

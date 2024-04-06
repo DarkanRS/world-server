@@ -201,7 +201,7 @@ public class TreasureTrailsManager {
 				final ClueNPC npc = new ClueNPC(player, inWilderness ? isCoordinateClue ? 1007 : 5144 : isCoordinateClue ? 1264 : 5145, tile);
 				npc.setNextSpotAnim(new SpotAnim(74));
 				WorldTasks.schedule(() -> {
-					npc.setTarget(player);
+					npc.setCombatTarget(player);
 					npc.setNextForceTalk(new ForceTalk(npc.getId() == 1007 ? "For Zamorak!" : npc.getId() == 1264 ? "For Saradomin!" : "I expect you to die!"));
 				});
 			}

@@ -126,7 +126,7 @@ public class BlackKnightsFortress extends QuestOutline {
 				for (NPC npc : World.getNPCsInChunkRange(e.getPlayer().getChunkId(), 1)) {
 					if (npc.getName().equalsIgnoreCase("Black Knight"))
 						if (npc.lineOfSightTo(p, false)) {
-							npc.setTarget(p);
+							npc.setCombatTarget(p);
 							if (Utils.random(0, 5) == 1)
 								npc.forceTalk("Die intruder!");
 						}

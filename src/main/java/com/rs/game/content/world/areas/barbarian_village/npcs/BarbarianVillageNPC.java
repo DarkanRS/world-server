@@ -27,7 +27,7 @@ public class BarbarianVillageNPC {
         };
         e.getPlayer().startConversation(new Dialogue()
                 .addNPC(e.getNPCId(), HeadE.VERY_FRUSTRATED, responses[(Utils.random(1,6))])
-                .addNext(() -> e.getNPC().setTarget(e.getPlayer()))
+                .addNext(() -> e.getNPC().setCombatTarget(e.getPlayer()))
         );
     });
 
@@ -42,7 +42,7 @@ public class BarbarianVillageNPC {
         };
         e.getPlayer().startConversation(new Dialogue()
                 .addNPC(CHEIFTAIN_GUNTHOR, HeadE.VERY_FRUSTRATED, responses[(Utils.random(1,6))])
-                .addNext(() -> e.getNPC().setTarget(e.getPlayer()))
+                .addNext(() -> e.getNPC().setCombatTarget(e.getPlayer()))
         );
     });
 
@@ -110,7 +110,7 @@ public class BarbarianVillageNPC {
                     .addOptions(ops -> {
                         ops.add("I challenge you!")
                                 .addNPC(HAAKON, HeadE.EVIL_LAUGH, "Make peace with your god, outerlander!")
-                                .addNext(() -> e.getNPC().setTarget(e.getPlayer()));
+                                .addNext(() -> e.getNPC().setCombatTarget(e.getPlayer()));
 
                         ops.add("Er, no.")
                                 .addPlayer(HeadE.SHAKING_HEAD, "Er, no.");
@@ -121,7 +121,7 @@ public class BarbarianVillageNPC {
                     .addOptions(ops -> {
                         ops.add("I challenge you!")
                                 .addNPC(HAAKON, HeadE.EVIL_LAUGH, "I am Haakon, champion of this village. Do you seek to challenge me?")
-                                .addNext(() -> e.getNPC().setTarget(e.getPlayer()));
+                                .addNext(() -> e.getNPC().setCombatTarget(e.getPlayer()));
 
                         ops.add("Are you glad the village has settled finally?")
                                 .addPlayer(HeadE.SHAKING_HEAD, "I do as my chieftain commands. I respect his wisdom.");

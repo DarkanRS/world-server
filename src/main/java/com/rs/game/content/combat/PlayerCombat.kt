@@ -278,7 +278,7 @@ class PlayerCombat(@JvmField val target: Entity) : PlayerAction() {
                             hit = calculateHit(player, target, weaponId, attackStyle, true)
                             target.spotAnim(755)
                             if (target is Player) target.stopAll()
-                            else if (target is NPC) target.target = null
+                            else if (target is NPC) target.combatTarget = null
                             soundId = 2914
                         }
 
@@ -959,7 +959,7 @@ fun delayHit(target: Entity, delay: Int, weaponId: Int, attackStyle: AttackStyle
             if (!target.isLocked && target.combatDefinitions.isAutoRetaliate && !target.actionManager.hasSkillWorking() && target.interactionManager.interaction == null && !target.hasWalkSteps()) target.interactionManager.setInteraction(PlayerCombatInteraction(target, player))
         } else {
             val n = target as NPC?
-            if (!n!!.isUnderCombat || n.canBeAutoRetaliated()) n.target = player
+            if (!n!!.isUnderCombat || n.canBeAutoRetaliated()) n.combatTarget = player
         }
     }
     val damage = min(hit.damage.toDouble(), target.hitpoints.toDouble()).toInt()

@@ -160,13 +160,13 @@ public class FightArenaFightCutsceneController extends Controller {
 						father.faceEntityTile(ogre);
 						father.setLocked(true);
 						father.setHitpoints(9999);
-						ogre.setTarget(father);
+						ogre.setCombatTarget(father);
 						player.getPackets().sendResetCamera();
 						player.unlock();
 					}
 					if(tick == 20) {
 						ogre.forceTalk("Puny human go splat!");
-						ogre.setTarget(father);
+						ogre.setCombatTarget(father);
 						father.setNextAnimation(new Animation(2836));
 						ogre.setRandomWalk(true);
 					}
@@ -202,7 +202,7 @@ public class FightArenaFightCutsceneController extends Controller {
 					if(tick == 29) {
 						player.getInterfaceManager().setFadingInterface(170);
 						player.getPackets().setBlockMinimapState(0);
-						scorpion.setTarget(player);
+						scorpion.setCombatTarget(player);
 						player.unlock();
 					}
 					if(tick == 30) {
@@ -226,7 +226,7 @@ public class FightArenaFightCutsceneController extends Controller {
 					if(tick == 38) {
 						player.getPackets().setBlockMinimapState(0);
 						player.getInterfaceManager().setFadingInterface(170);
-						bouncer.setTarget(player);
+						bouncer.setCombatTarget(player);
 						player.unlock();
 					}
 					if(tick == 39) {

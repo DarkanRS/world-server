@@ -1,6 +1,5 @@
 package com.rs.game.content.miniquests.troll_warzone
 
-import com.rs.engine.cutscene.Cutscene
 import com.rs.engine.cutscenekt.cutscene
 import com.rs.engine.dialogue.*
 import com.rs.engine.miniquest.Miniquest
@@ -9,7 +8,6 @@ import com.rs.game.World.addGroundItem
 import com.rs.game.World.getNPCsInChunkRange
 import com.rs.game.World.spawnNPC
 import com.rs.game.map.instance.Instance
-import com.rs.game.model.entity.Entity.MoveType
 import com.rs.game.model.entity.npc.NPC
 import com.rs.game.model.entity.player.InstancedController
 import com.rs.game.model.`object`.GameObject
@@ -239,10 +237,10 @@ class TrollGeneralAttackController : InstancedController(Instance.of(OUTSIDE, 8,
                 keymans.setForceMultiArea(true)
                 player.setForceMultiArea(true)
                 trollGeneral.isCantInteract = false
-                trollGeneral.target = player
+                trollGeneral.combatTarget = player
                 trollGeneral.addReceivedDamage(player, 5000)
-                ozan.target = trollGeneral
-                keymans.target = trollGeneral
+                ozan.combatTarget = trollGeneral
+                keymans.combatTarget = trollGeneral
                 camPosResetSoft()
             }
             stage = 2

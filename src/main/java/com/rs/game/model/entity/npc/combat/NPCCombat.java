@@ -18,7 +18,6 @@ package com.rs.game.model.entity.npc.combat;
 
 import com.rs.game.content.Effect;
 import com.rs.game.content.bosses.godwars.zaros.Nex;
-import com.rs.game.content.combat.PlayerCombat;
 import com.rs.game.content.combat.PlayerCombatKt;
 import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.content.skills.summoning.Summoning.ScrollTarget;
@@ -73,7 +72,7 @@ public final class NPCCombat {
 			Player player = familiar.getOwner();
 			if (player != null) {
 				target = player;
-				npc.setTarget(target);
+				npc.setCombatTarget(target);
 				addAttackedByDelay(target);
 			}
 		}

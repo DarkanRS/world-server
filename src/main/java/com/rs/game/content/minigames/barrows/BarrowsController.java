@@ -404,7 +404,7 @@ public final class BarrowsController extends Controller {
 			target.disappear();
 		target = new BarrowsBrother(id, tile, this);
 		target.setForceMultiArea(true);
-		target.setTarget(player);
+		target.setCombatTarget(player);
 		target.setNextForceTalk(new ForceTalk("You dare disturb my rest!"));
 		player.getHintIconsManager().addHintIcon(target, 1, -1, false);
 	}

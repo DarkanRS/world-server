@@ -53,7 +53,7 @@ public abstract class CombatScript {
 				} else {
 					NPC n = (NPC) target;
 					if (!n.isUnderCombat() || n.canBeAutoRetaliated())
-						n.setTarget(npc);
+						n.setCombatTarget(npc);
 				}
 			});
 		}
@@ -80,7 +80,7 @@ public abstract class CombatScript {
 			} else {
 				NPC n = (NPC) target;
 				if (!n.isUnderCombat() || n.canBeAutoRetaliated())
-					n.setTarget(npc);
+					n.setCombatTarget(npc);
 			}
 		});
 		return hit;

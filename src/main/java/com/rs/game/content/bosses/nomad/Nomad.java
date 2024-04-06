@@ -58,7 +58,7 @@ public class Nomad extends NPC {
 
 	public void setTarget(Player player) {
 		target = player;
-		super.setTarget(player);
+		super.setCombatTarget(player);
 	}
 
 	public void setNextMovePerform() {
@@ -132,7 +132,7 @@ public class Nomad extends NPC {
 				sendTeleport(getThroneTile());
 			}
 		} else if (target instanceof Familiar && this.target != null)
-			super.setTarget(this.target);
+			super.setCombatTarget(this.target);
 		else
 			notAttacked = 0;
 		super.processNPC();
@@ -204,7 +204,7 @@ public class Nomad extends NPC {
 					n.setCantFollowUnderCombat(true);
 					n.setNextAnimation(new Animation(12730));
 					n.setNextSpotAnim(new SpotAnim(1577));
-					n.setTarget(target);
+					n.setCombatTarget(target);
 				}
 
 			}

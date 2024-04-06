@@ -9,7 +9,6 @@ import com.rs.game.World.setObjectRouteType
 import com.rs.game.content.miniquests.huntforsurok.bork.BorkController
 import com.rs.game.content.skills.runecrafting.RunecraftingAltar
 import com.rs.game.content.world.areas.wilderness.WildernessController
-import com.rs.game.model.entity.Entity
 import com.rs.game.model.entity.Hit
 import com.rs.game.model.entity.npc.OwnedNPC
 import com.rs.game.model.entity.player.Player
@@ -351,8 +350,8 @@ enum class PortalPair(val tile1: Tile, val tile2: Tile, private val surokLocked:
                 fadeInAndWait()
                 returnPlayerFromInstance()
                 wait(1)
-                OwnedNPC(player, 95, Tile.of(3188, 5496, 0), false).setTarget(player)
-                OwnedNPC(player, 95, Tile.of(3188, 5493, 0), false).setTarget(player)
+                OwnedNPC(player, 95, Tile.of(3188, 5496, 0), false).setCombatTarget(player)
+                OwnedNPC(player, 95, Tile.of(3188, 5493, 0), false).setCombatTarget(player)
                 fadeOutAndWait()
                 player.resetReceivedHits()
             }
