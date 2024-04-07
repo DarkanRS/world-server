@@ -3,7 +3,7 @@ package com.rs.game.content.items;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.game.World;
 import com.rs.game.content.Effect;
-import com.rs.game.content.Potions.Potion;
+import com.rs.game.content.Potion;
 import com.rs.game.content.combat.CombatDefinitions.Spellbook;
 import com.rs.game.content.minigames.barrows.BarrowsController;
 import com.rs.game.content.minigames.treasuretrails.TreasureTrailsManager;
@@ -135,14 +135,14 @@ public class StaffPotato {
 			e.getPlayer().addEffect(Effect.JUJU_HUNTER, Ticks.fromHours(10));
 			e.getPlayer().addEffect(Effect.JUJU_FISHING, Ticks.fromHours(10));
 			e.getPlayer().addEffect(Effect.REV_IMMUNE, Ticks.fromHours(10));
-			Potion.RECOVER_SPECIAL.getEffect().accept(e.getPlayer());
-			Potion.SUPER_RESTORE.getEffect().accept(e.getPlayer());
-			Potion.SUPER_ENERGY.getEffect().accept(e.getPlayer());
-			Potion.SUMMONING_POTION.getEffect().accept(e.getPlayer());
-			Potion.STRONG_ARTISANS_POTION.getEffect().accept(e.getPlayer());
-			Potion.STRONG_GATHERERS_POTION.getEffect().accept(e.getPlayer());
-			Potion.STRONG_NATURALISTS_POTION.getEffect().accept(e.getPlayer());
-			Potion.STRONG_SURVIVALISTS_POTION.getEffect().accept(e.getPlayer());
+			Potion.RECOVER_SPECIAL.getEffect().invoke(e.getPlayer());
+			Potion.SUPER_RESTORE.getEffect().invoke(e.getPlayer());
+			Potion.SUPER_ENERGY.getEffect().invoke(e.getPlayer());
+			Potion.SUMMONING_POTION.getEffect().invoke(e.getPlayer());
+			Potion.STRONG_ARTISANS_POTION.getEffect().invoke(e.getPlayer());
+			Potion.STRONG_GATHERERS_POTION.getEffect().invoke(e.getPlayer());
+			Potion.STRONG_NATURALISTS_POTION.getEffect().invoke(e.getPlayer());
+			Potion.STRONG_SURVIVALISTS_POTION.getEffect().invoke(e.getPlayer());
 		}
 		case "Heal" -> {
 			Command command = e.getPlayer().getNSV().getO("lastPotatoCommand");

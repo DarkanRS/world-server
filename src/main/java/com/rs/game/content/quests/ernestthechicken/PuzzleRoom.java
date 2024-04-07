@@ -137,13 +137,21 @@ public class PuzzleRoom {
 	});
 
 	public static ObjectClickHandler handleDoors = new ObjectClickHandler(false, new Object[] { DOOR1, DOOR2, DOOR3, DOOR4, DOOR5, DOOR6, DOOR7, DOOR8, DOOR9 }, e -> e.getPlayer().setRouteEvent(new RouteEvent(e.getObject(), () -> {
-        if (!WorldUtil.isInRange(e.getPlayer().getTile(), e.getObject().getTile(), 2))
-            return;
-        if(e.getObject().getId() == DOOR1 || e.getObject().getId() == DOOR3 || e.getObject().getId() == DOOR8 || e.getObject().getId() == DOOR5)
-            handlePuzzle2Door(e.getPlayer(), e.getObject(), 2);
-        else
-            handlePuzzleDoor(e.getPlayer(), e.getObject(), 2);
-    })));
+		if(e.getObject().getId() == DOOR1 || e.getObject().getId() == DOOR3 || e.getObject().getId() == DOOR8 || e.getObject().getId() == DOOR5)
+			handlePuzzle2Door(e.getPlayer(), e.getObject(), 2);
+		else
+			handlePuzzleDoor(e.getPlayer(), e.getObject(), 2);
+	}, () -> {
+		if (!WorldUtil.isInRange(e.getPlayer().getTile(), e.getObject().getTile(), 2)) {
+			e.getPlayer().sendMessage("You can't reach that.");
+			return false;
+		}
+		if(e.getObject().getId() == DOOR1 || e.getObject().getId() == DOOR3 || e.getObject().getId() == DOOR8 || e.getObject().getId() == DOOR5)
+			handlePuzzle2Door(e.getPlayer(), e.getObject(), 2);
+		else
+			handlePuzzleDoor(e.getPlayer(), e.getObject(), 2);
+		return true;
+	})));
 
 	private static void handlePuzzleDoor(Player player, GameObject object, int offset) {
 		boolean open = object.getDefinitions(player).containsOption("Open");

@@ -18,7 +18,7 @@ package com.rs.game.content.world.areas.mortton;
 
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.HeadE;
-import com.rs.game.content.Potions;
+import com.rs.game.content.PotionsKt;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemOnNPCHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
@@ -37,7 +37,7 @@ public class Mortton {
 		case 3410:
 		case 3412:
 		case 3414:
-			e.getItem().setId(e.getItem().getId() == 3414 ? Potions.VIAL : e.getItem().getId()+2);
+			e.getItem().setId(e.getItem().getId() == 3414 ? PotionsKt.VIAL : e.getItem().getId()+2);
 			e.getPlayer().getVars().setVarBit(e.getNPC().getDefinitions().varpBit, 1);
 			e.getPlayer().getInventory().refresh();
 			break;
