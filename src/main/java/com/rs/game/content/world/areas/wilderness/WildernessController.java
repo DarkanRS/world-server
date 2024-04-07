@@ -18,7 +18,7 @@ package com.rs.game.content.world.areas.wilderness;
 
 import com.rs.Settings;
 import com.rs.game.content.Effect;
-import com.rs.game.content.Potions;
+import com.rs.game.content.Potion;
 import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.content.skills.thieving.Thieving;
 import com.rs.game.model.entity.Entity;
@@ -39,7 +39,7 @@ public class WildernessController extends Controller {
 
 	@Override
 	public void start() {
-		Potions.checkOverloads(player);
+		Potion.checkPVPPotionBoosts(player);
 		player.addEffect(Effect.OVERLOAD_PVP_REDUCTION, Integer.MAX_VALUE);
 	}
 

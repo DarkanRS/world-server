@@ -335,7 +335,7 @@ public class Ardougne  {
 			e.getPlayer().sendMessage("You require 40 Ranged to enter the Ranging Guild.");
 			return;
 		}
-		if (RouteFinderKt.routeEntityToTile(e.getPlayer(), Tile.of(2659, 3437, 0), 25).getSuccess())
+		if (RouteFinderKt.routeEntityToTile(e.getPlayer(), Tile.of(2659, 3437, 0)).getSuccess())
 			e.getPlayer().setRouteEvent(new RouteEvent(Tile.of(2659, 3437, 0), () -> {
 				Doors.handleDoor(e.getPlayer(), e.getObject());
 				e.getPlayer().addWalkSteps(Tile.of(2657, 3439, 0), 5, false);

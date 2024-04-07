@@ -28,7 +28,7 @@ import com.rs.lib.net.packets.encoders.MinimapFlag
 import com.rs.utils.WorldUtil
 
 class RouteEvent(private val target: Any, private val onReachedEvent: Runnable, private val onNearestEvent: (() -> Boolean)?) {
-    constructor(target: Any, event: Runnable): this(target, event, null) //F-U java
+    constructor(target: Any, event: Runnable): this(target, event, null)
 
     //TODO add optimized boolean for stationary targets that doesn't recalculate the path to check status each time
     fun processEvent(entity: Entity): Boolean {
@@ -39,7 +39,10 @@ class RouteEvent(private val target: Any, private val onReachedEvent: Runnable, 
 
         val route = routeEntityTo(entity, target)
         if (route.failed || route.size <= 0) {
-            if (route.failed) cantReachThat(entity as? Player)
+            if (route.failed) {
+                cantReachThat(entity as? Player)
+                return true
+            }
             if (route.size <= 0) {
                 (entity as? Player)?.session?.writeToQueue(MinimapFlag())
                 if (route.alternative) {

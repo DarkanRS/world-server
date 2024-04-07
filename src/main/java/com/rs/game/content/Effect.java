@@ -150,13 +150,13 @@ public enum Effect {
 		@Override
 		public void apply(Entity entity) {
 			if (entity instanceof Player player)
-				Potions.applyOverLoadEffect(player);
+				Potion.applyOverloadEffect(player);
 		}
 
 		@Override
 		public void tick(Entity entity, long tick) {
 			if (tick % 25 == 0 && entity instanceof Player player)
-				Potions.applyOverLoadEffect(player);
+				Potion.applyOverloadEffect(player);
 		}
 
 		@Override

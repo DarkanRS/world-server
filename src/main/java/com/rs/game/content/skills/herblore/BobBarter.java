@@ -18,7 +18,7 @@ package com.rs.game.content.skills.herblore;
 
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.engine.dialogue.Dialogue;
-import com.rs.game.content.Potions.Potion;
+import com.rs.game.content.Potion;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
