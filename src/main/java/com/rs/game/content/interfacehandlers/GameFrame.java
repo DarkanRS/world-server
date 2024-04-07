@@ -170,7 +170,13 @@ public class GameFrame {
 				return;
 			switch(e.getPacket()) {
 			case IF_OP1 -> e.getPlayer().getPackets().sendRunScript(5557, 1);
-			case IF_OP2 -> e.getPlayer().sendInputInteger("How much would you like to withdraw?", num -> e.getPlayer().getInventory().coinPouchToInventory(num));
+			case IF_OP2 -> {
+				if (e.getPlayer().getInterfaceManager().containsScreenInter() || e.getPlayer().inCombat(10000) || e.getPlayer().hasBeenHit(10000)) {
+					e.getPlayer().sendMessage("Please finish what you're doing before withdrawing coins.");
+					return;
+				}
+				e.getPlayer().sendInputInteger("How much would you like to withdraw?", num -> e.getPlayer().getInventory().coinPouchToInventory(num));
+			}
 			case IF_OP3 -> e.getPlayer().sendMessage("Your pouch contains " + NumberFormat.getNumberInstance(Locale.US).format(e.getPlayer().getInventory().getCoins()) + " coins.");
 			case IF_OP4 -> {
 				if (e.getPlayer().getInterfaceManager().containsScreenInter() || e.getPlayer().inCombat(10000) || e.getPlayer().hasBeenHit(10000)) {
