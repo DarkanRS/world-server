@@ -267,7 +267,6 @@ class CombatDefinitions {
     fun setPlayer(player: Player) {
         this.player = player
         bonuses = IntArray(18)
-        if (spellbook == null) spellbook = Spellbook.MODERN
     }
 
     fun getBonus(bonus: Bonus): Int {
