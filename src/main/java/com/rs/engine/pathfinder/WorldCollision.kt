@@ -305,7 +305,7 @@ object WorldCollision {
         synchronized(LOCK) {
             val chunkId = tile.chunkId
             if (allFlags[chunkId] == null) return -1
-            return allFlags[chunkId]!![tile.xInChunk or (tile.yInChunk shl 3)]
+            return allFlags[chunkId]?.get(tile.xInChunk or (tile.yInChunk shl 3)) ?: ClipFlag.BW_FULL.flag
         }
     }
 
@@ -314,7 +314,7 @@ object WorldCollision {
         synchronized(LOCK) {
             val chunkId = MapUtils.encode(MapUtils.Structure.CHUNK, x shr 3, y shr 3, plane)
             if (allFlags[chunkId] == null) return -1
-            return allFlags[chunkId]!![x and 7 or ((y and 7) shl 3)]
+            return allFlags[chunkId]?.get(x and 7 or ((y and 7) shl 3)) ?: ClipFlag.BW_FULL.flag
         }
     }
 
@@ -323,7 +323,7 @@ object WorldCollision {
         synchronized(LOCK) {
             val chunkId = tile.chunkId
             if (allFlags[chunkId] == null) allFlags[chunkId] = IntArray(64)
-            allFlags[chunkId]!![tile.xInChunk or (tile.yInChunk shl 3)] = allFlags[chunkId]!![tile.xInChunk or (tile.yInChunk shl 3)] or flag
+            allFlags[chunkId]?.set(tile.xInChunk or (tile.yInChunk shl 3), (allFlags[chunkId]?.get(tile.xInChunk or (tile.yInChunk shl 3)) ?: ClipFlag.BW_FULL.flag) or flag)
         }
     }
 
@@ -332,7 +332,7 @@ object WorldCollision {
         synchronized(LOCK) {
             val chunkId = tile.chunkId
             if (allFlags[chunkId] == null) allFlags[chunkId] = IntArray(64)
-            allFlags[chunkId]!![tile.xInChunk or (tile.yInChunk shl 3)] = allFlags[chunkId]!![tile.xInChunk or (tile.yInChunk shl 3)] and flag.inv()
+            allFlags[chunkId]?.set(tile.xInChunk or (tile.yInChunk shl 3), (allFlags[chunkId]?.get(tile.xInChunk or (tile.yInChunk shl 3)) ?: ClipFlag.BW_FULL.flag) and flag.inv())
         }
     }
 
@@ -341,13 +341,13 @@ object WorldCollision {
         synchronized(LOCK) {
             val chunkId = tile.chunkId
             if (allFlags[chunkId] == null) allFlags[chunkId] = IntArray(64)
-            allFlags[chunkId]!![tile.xInChunk or (tile.yInChunk shl 3)] = flag
+            allFlags[chunkId]?.set(tile.xInChunk or (tile.yInChunk shl 3), flag)
         }
     }
 
     @JvmStatic
     fun clip(obj: GameObject) {
-        if (obj.getId() == -1) return
+        if (obj.id == -1) return
         val type: ObjectType = obj.type
         val rotation: Int = obj.rotation
 
