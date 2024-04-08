@@ -41,7 +41,7 @@ public class Edgeville  {
 
 	public static LoginHandler setSafetyStrongholdPosterPulled = new LoginHandler(e -> e.getPlayer().getVars().setVarBit(6278, 1));
 
-	public static ObjectClickHandler handleWildernessDitch = new ObjectClickHandler(new Object[] { 29319, 29320 }, e -> {
+	public static ObjectClickHandler handleEdgevilleWildernessDungeonGate = new ObjectClickHandler(new Object[] { 29319, 29320 }, e -> {
 		if (e.getPlayer().getY() <= 9917) {
 			e.getPlayer().getControllerManager().startController(new WildernessController());
 			e.getPlayer().handleOneWayDoor(e.getObject());

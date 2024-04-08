@@ -52,7 +52,7 @@ public abstract class EntityInteraction extends Interaction {
 
 	@Override
 	public final boolean start(Entity entity) {
-		entity.setNextFaceEntity(target);
+		entity.faceEntity(target);
 		if (!canStart(entity))
 			return false;
         return checkDistance(entity) && checkAll(entity);
@@ -61,7 +61,7 @@ public abstract class EntityInteraction extends Interaction {
 	@Override
 	public void stop(Entity entity) {
 		super.stop(entity);
-		entity.setNextFaceEntity(null);
+		entity.stopFaceEntity();
 	}
 
 	@Override
@@ -70,7 +70,7 @@ public abstract class EntityInteraction extends Interaction {
 			if (isWithinDistance(player, target, true)) {
 				interact(player);
 				if (stopFaceOnReached)
-					player.setNextFaceEntity(null);
+					player.stopFaceEntity();
 				if (stopWhenReached) {
 					stop(player);
 					return false;

@@ -196,8 +196,6 @@ object World {
         val fromTile: Tile = WorldUtil.targetToTile(from)
         var toTile: Tile = WorldUtil.targetToTile(to)
         (to as? Entity)?.let { toTile = it.lastTile }
-        sendSpotAnim(fromTile, 2000)
-        sendSpotAnim(toTile, 2001)
         if (fromTile.plane != toTile.plane) return false
         return reached(allFlags, fromTile.x().toInt(), fromTile.y().toInt(), fromTile.plane().toInt(), toTile.x().toInt(), toTile.y().toInt(), toSize, toSize, fromSize, 0, -2, 0)
     }

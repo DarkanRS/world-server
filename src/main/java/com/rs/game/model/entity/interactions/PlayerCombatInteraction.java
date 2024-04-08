@@ -15,7 +15,7 @@ public class PlayerCombatInteraction extends PlayerEntityInteractionAction<Playe
 
 	@Override
 	public boolean canStart(Player player) {
-		player.setNextFaceEntity(target);
+		player.faceEntity(target);
 		return true;
 	}
 
@@ -24,7 +24,7 @@ public class PlayerCombatInteraction extends PlayerEntityInteractionAction<Playe
 		if (target.isDead() || (target instanceof NPC n && n.isCantInteract()))
 			return false;
 		setDistance(PlayerCombatKt.getAttackRange(player));
-		player.setNextFaceEntity(target);
+		player.faceEntity(target);
 		return getAction().checkAll(player);
 	}
 }

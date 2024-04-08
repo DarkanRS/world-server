@@ -482,7 +482,6 @@ class PlayerCombat(@JvmField val target: Entity) : PlayerAction() {
 
     override fun stop(player: Player) {
         player.stopFaceEntity()
-        player.interactionManager.forceStop()
         player.actionManager.forceStop()
         player.tempAttribs.removeO<Any>("combatTarget")
     }
