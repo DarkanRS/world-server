@@ -14,6 +14,9 @@ import com.rs.plugin.annotations.ServerStartupEvent
 import com.rs.plugin.kts.instantiateNpc
 import com.rs.plugin.kts.onNpcClick
 
+const val DORORAN_CRAFT_TASKS_KEY = "Dororan's crafting tasks completed"
+const val SWANKY_BOOTS_KEY = "Recovered Swanky Boots"
+
 const val DORORAN = 2648
 const val ANIM_CHISEL = 14736
 const val ANIM_TAKE_ITEM = 14738
@@ -41,8 +44,8 @@ class Dororan(id: Int, tile: Tile) : NPC(id, tile) {
 }
 
 fun mapDororanDialogue(player: Player, npc: NPC) {
-    val dororanCraftingTasks: Int = player.getCounterValue("dororanCraftingTasks")
-    val dororanSwankyBoots: Int = player.getCounterValue("dororanSwankyBoots")
+    val dororanCraftingTasks: Int = player.getCounterValue(DORORAN_CRAFT_TASKS_KEY)
+    val dororanSwankyBoots: Int = player.getCounterValue(SWANKY_BOOTS_KEY)
 
     player.startConversation {
         if (dororanCraftingTasks < 3)
@@ -109,7 +112,7 @@ fun mapDororanDialogue(player: Player, npc: NPC) {
 }
 
 fun mapDororanJewelleryTalk(player: Player, npc: NPC, dialogue: DialogueBuilder) {
-    when (player.getCounterValue("dororanCraftingTasks")) {
+    when (player.getCounterValue(DORORAN_CRAFT_TASKS_KEY)) {
         0 -> {
             mapEngraveRubyBracelet(player, npc, dialogue)
         }
@@ -220,7 +223,7 @@ fun completeDororanCraftTask(player: Player, xpToAward: Double) {
         player.lock()
         player.anim(ANIM_CHISEL)
         player.skills.addXp(Skills.CRAFTING, xpToAward)
-        player.incrementCount("dororanCraftingTasks")
+        player.incrementCount(DORORAN_CRAFT_TASKS_KEY)
         wait(5)
         player.unlock()
     }
@@ -232,5 +235,5 @@ fun retrieveGunnarsGroundPoem(player: Player) {
 fun retrieveSwankyBoots(player: Player) {
     player.anim(ANIM_TAKE_ITEM)
     player.inventory.addItem(REPLACEMENT_SWANKY_BOOTS, true)
-    player.incrementCount("dororanSwankyBoots")
+    player.incrementCount(SWANKY_BOOTS_KEY)
 }

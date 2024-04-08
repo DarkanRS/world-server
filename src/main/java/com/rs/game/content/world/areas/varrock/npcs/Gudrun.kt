@@ -17,7 +17,7 @@ fun mapGudrunTalk() {
 }
 
 fun mapGudrunDialogue(player: Player, npc: NPC) {
-    val dororanCraftingTasks: Int = player.getCounterValue("dororanCraftingTasks")
+    val dororanCraftingTasks: Int = player.getCounterValue(DORORAN_CRAFT_TASKS_KEY)
 
     player.startConversation {
         npc(npc, HAPPY_TALKING, "Hello!")
