@@ -89,11 +89,13 @@ fun mapResourceLocators() {
     onButtonClick(844) { (player, _, componentId) ->
         val resource = resources[componentId] ?: return@onButtonClick
         val locator = player.nsv.getO<Item>("locatorOpened") ?: return@onButtonClick
-        if (player.inventory.getItem(locator.slot) == null) return@onButtonClick
+        val container: Any = if (player.nsv.getB("locatorOpenedFromEquipment")) player.inventory else player.equipment
+        if (container.getItem(locator.slot) == null) return@onButtonClick
         val tier = locator.id - 15004
-        if (resource.first != tier) return@onButtonClick
+        if (resource.first > tier) return@onButtonClick player.sendMessage("This locator isn't powerful enough to attune to that resource.")
         if (Magic.sendItemTeleportSpell(player, true,11871, 2061, 11885, -1, 5, resource.second.random())) {
-            val chargesLeft = locator.decMetaDataI("locateCharges")
+            val chargesLeft = locator.getMetaDataI("locateCharges", 20) - 1
+            locator.addMetaData("locateCharges", chargesLeft)
             if (chargesLeft <= 0) {
                 player.inventory.deleteItem(locator.slot, locator)
                 player.sendMessage("Your locator has degraded into dust.")
@@ -103,15 +105,16 @@ fun mapResourceLocators() {
         }
     }
 
-    onItemClick(15005, 15006, 15007, 15008, options = arrayOf("Locate", "Check-Charges")) { (player, item, option) ->
-        when(option) {
-            "Check-Charges" -> player.sendMessage("This locator has ${item.getMetaDataI("locateCharges", 20)} charges left.")
+    onItemClick(15005, 15006, 15007, 15008, options = arrayOf("Locate", "Check-Charges")) { e ->
+        when(e.option) {
+            "Check-Charges" -> e.player.sendMessage("This locator has ${e.item.getMetaDataI("locateCharges", 20)} charges left.")
             "Locate" -> {
-                val tier = item.id - 15004
-                player.packets.sendVarc(826, item.getMetaDataI("locateCharges", 20))
-                player.packets.sendVarc(827, tier)
-                player.nsv.setO<Item>("locatorOpened", item)
-                player.interfaceManager.sendInterface(844)
+                val tier = e.item.id - 15004
+                e.player.packets.sendVarc(826, e.item.getMetaDataI("locateCharges", 20))
+                e.player.packets.sendVarc(827, tier)
+                e.player.nsv.setO<Item>("locatorOpened", e.item)
+                e.player.nsv.setB("locatorOpenedFromEquipment", e.isEquipped)
+                e.player.interfaceManager.sendInterface(844)
             }
         }
     }

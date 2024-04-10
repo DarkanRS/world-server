@@ -74,11 +74,6 @@ public class Appearance {
 		generateAppearanceData();
 	}
 
-	public void switchHidden() {
-		hidePlayer = !hidePlayer;
-		generateAppearanceData();
-	}
-
 	public void setHidden(boolean hidden) {
 		hidePlayer = hidden;
 		generateAppearanceData();
