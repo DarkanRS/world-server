@@ -14,29 +14,21 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.content.world;
+package com.rs.game.content.world
 
-import com.rs.game.model.entity.ForceTalk;
-import com.rs.game.model.entity.npc.NPC;
-import com.rs.lib.game.Tile;
-import com.rs.lib.util.Utils;
-import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.handlers.NPCInstanceHandler;
+import com.rs.game.model.entity.npc.NPC
+import com.rs.lib.util.Utils
+import com.rs.plugin.annotations.ServerStartupEvent
+import com.rs.plugin.kts.instantiateNpc
 
-@PluginEventHandler
-public class Duck extends NPC {
-
-	public Duck(int id, Tile tile) {
-		super(id, tile);
-	}
-
-	@Override
-	public void processNPC() {
-		super.processNPC();
-		if (Utils.random(50) == 0)
-			forceTalk("Quack!");
-	}
-
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { "Duck", "Drake" }, Duck::new);
-
+@ServerStartupEvent
+fun mapDuckQuacks() {
+    instantiateNpc("Duck", "Drake") { id, tile ->
+        object: NPC(id, tile) {
+            override fun processNPC() {
+                super.processNPC()
+                if (Utils.random(50) == 0) forceTalk("Quack!")
+            }
+        }
+    }
 }
