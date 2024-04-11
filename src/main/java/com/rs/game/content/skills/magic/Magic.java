@@ -451,6 +451,10 @@ public class Magic {
 		sendItemTeleportSpell(player, randomize, upEmoteId, upGraphicId, delay, tile, null);
 	}
 
+	public static boolean sendItemTeleportSpell(Player player, boolean randomize, int upEmoteId, int upGraphicId, int downEmoteId, int downGraphicId, int delay, Tile tile) {
+		return sendTeleportSpell(player, upEmoteId, downEmoteId, upGraphicId, downGraphicId, 0, 0, tile, delay, randomize, TeleType.ITEM, null);
+	}
+
 	public static void sendItemTeleportSpell(Player player, boolean randomize, int upEmoteId, int upGraphicId, int delay, Tile tile, Runnable onArrive) {
 		player.getTempAttribs().setB("glory", true);
 		sendTeleportSpell(player, upEmoteId, -2, upGraphicId, -1, 0, 0, tile, delay, randomize, TeleType.ITEM, onArrive);

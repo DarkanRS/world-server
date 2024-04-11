@@ -33,7 +33,7 @@ class CombatDefinitions {
     }
 
     @Transient
-    private var player: Player? = null
+    private lateinit var player: Player
 
     @Transient
     var isUsingSpecialAttack: Boolean = false
@@ -56,27 +56,27 @@ class CombatDefinitions {
     private var showTeleportSpells = true
     var isDefensiveCasting: Boolean = false
         private set
-    private var spellbook: Spellbook? = Spellbook.MODERN
+    private var spellbook: Spellbook = Spellbook.MODERN
     var autoCast: CombatSpell? = null
         private set
 
     val spell: CombatSpell?
         get() {
-            val spell = player!!.tempAttribs.getO<CombatSpell>("manualCastSpell")
+            val spell = player.tempAttribs.getO<CombatSpell>("manualCastSpell")
             if (spell != null) return spell
             return autoCast
         }
 
     fun hasManualCastQueued(): Boolean {
-        return player!!.tempAttribs.getO<Any?>("manualCastSpell") != null
+        return player.tempAttribs.getO<Any?>("manualCastSpell") != null
     }
 
     fun setManualCastSpell(spell: CombatSpell?) {
-        player!!.tempAttribs.setO<Any>("manualCastSpell", spell)
+        player.tempAttribs.setO<Any>("manualCastSpell", spell)
     }
 
     fun clearManualCastSpell() {
-        player!!.tempAttribs.removeO<Any>("manualCastSpell")
+        player.tempAttribs.removeO<Any>("manualCastSpell")
     }
 
     fun resetSpells(removeAutoSpell: Boolean) {
@@ -94,7 +94,7 @@ class CombatDefinitions {
 
     fun refreshAutoCastSpell() {
         refreshAttackStyle()
-        player!!.vars.setVar(108, spellAutoCastConfigValue)
+        player.vars.setVar(108, spellAutoCastConfigValue)
     }
 
     private val spellAutoCastConfigValue: Int
@@ -186,12 +186,12 @@ class CombatDefinitions {
         }
 
     fun setSpellbook(book: Spellbook) {
-        if (book == Spellbook.LUNAR && !player!!.isQuestComplete(
+        if (book == Spellbook.LUNAR && !player.isQuestComplete(
                 Quest.LUNAR_DIPLOMACY,
                 "to use the Lunar spellbook."
             )
         ) return
-        if (book == Spellbook.ANCIENT && !player!!.isQuestComplete(
+        if (book == Spellbook.ANCIENT && !player.isQuestComplete(
                 Quest.DESERT_TREASURE,
                 "to use the Ancient spellbook."
             )
@@ -199,7 +199,7 @@ class CombatDefinitions {
         if (book == Spellbook.DUNGEONEERING) isDungSpellbook = true
         else spellbook = book
         refreshSpellbook()
-        player!!.interfaceManager.sendSubDefault(InterfaceManager.Sub.TAB_MAGIC)
+        player.interfaceManager.sendSubDefault(InterfaceManager.Sub.TAB_MAGIC)
     }
 
     fun getSpellbook(): Spellbook? {
@@ -238,36 +238,35 @@ class CombatDefinitions {
     }
 
     fun refreshSpellbookSettings() {
-        player!!.vars.setVarBit(357, spellbook!!.ordinal)
-        player!!.vars.setVarBit(5822, sortSpellBook.toInt())
-        player!!.vars.setVarBit(5823, sortSpellBook.toInt())
-        player!!.vars.setVarBit(5824, sortSpellBook.toInt())
-        player!!.vars.setVarBit(7347, sortSpellBook.toInt())
+        player.vars.setVarBit(357, spellbook.ordinal)
+        player.vars.setVarBit(5822, sortSpellBook.toInt())
+        player.vars.setVarBit(5823, sortSpellBook.toInt())
+        player.vars.setVarBit(5824, sortSpellBook.toInt())
+        player.vars.setVarBit(7347, sortSpellBook.toInt())
 
-        player!!.vars.setVarBit(6459, if (showCombatSpells) 0 else 1)
-        player!!.vars.setVarBit(6466, if (showCombatSpells) 0 else 1)
-        player!!.vars.setVarBit(6463, if (showCombatSpells) 0 else 1)
-        player!!.vars.setVarBit(7348, if (showCombatSpells) 0 else 1)
+        player.vars.setVarBit(6459, if (showCombatSpells) 0 else 1)
+        player.vars.setVarBit(6466, if (showCombatSpells) 0 else 1)
+        player.vars.setVarBit(6463, if (showCombatSpells) 0 else 1)
+        player.vars.setVarBit(7348, if (showCombatSpells) 0 else 1)
 
-        player!!.vars.setVarBit(6460, if (showSkillSpells) 0 else 1)
-        player!!.vars.setVarBit(7349, if (showSkillSpells) 0 else 1)
+        player.vars.setVarBit(6460, if (showSkillSpells) 0 else 1)
+        player.vars.setVarBit(7349, if (showSkillSpells) 0 else 1)
 
-        player!!.vars.setVarBit(6461, if (showMiscSpells) 0 else 1)
-        player!!.vars.setVarBit(6464, if (showMiscSpells) 0 else 1)
-        player!!.vars.setVarBit(7350, if (showMiscSpells) 0 else 1)
+        player.vars.setVarBit(6461, if (showMiscSpells) 0 else 1)
+        player.vars.setVarBit(6464, if (showMiscSpells) 0 else 1)
+        player.vars.setVarBit(7350, if (showMiscSpells) 0 else 1)
 
-        player!!.vars.setVarBit(6462, if (showTeleportSpells) 0 else 1)
-        player!!.vars.setVarBit(6467, if (showTeleportSpells) 0 else 1)
-        player!!.vars.setVarBit(6465, if (showTeleportSpells) 0 else 1)
-        player!!.vars.setVarBit(7351, if (showTeleportSpells) 0 else 1)
+        player.vars.setVarBit(6462, if (showTeleportSpells) 0 else 1)
+        player.vars.setVarBit(6467, if (showTeleportSpells) 0 else 1)
+        player.vars.setVarBit(6465, if (showTeleportSpells) 0 else 1)
+        player.vars.setVarBit(7351, if (showTeleportSpells) 0 else 1)
 
-        player!!.vars.setVarBit(2668, if (isDefensiveCasting) 1 else 0)
+        player.vars.setVarBit(2668, if (isDefensiveCasting) 1 else 0)
     }
 
-    fun setPlayer(player: Player?) {
+    fun setPlayer(player: Player) {
         this.player = player
         bonuses = IntArray(18)
-        if (spellbook == null) spellbook = Spellbook.MODERN
     }
 
     fun getBonus(bonus: Bonus): Int {
@@ -280,7 +279,7 @@ class CombatDefinitions {
 
     fun refreshBonuses() {
         bonuses = IntArray(18)
-        for (item in player!!.equipment.itemsCopy) {
+        for (item in player.equipment.itemsCopy) {
             if (item == null) continue
             for (bonus in Bonus.entries) {
                 if (bonus == Bonus.RANGE_STR && getBonus(Bonus.RANGE_STR) != 0) continue
@@ -302,22 +301,22 @@ class CombatDefinitions {
     }
 
     fun restoreSpecialAttack() {
-        if (player!!.familiar != null) player!!.familiar.restoreSpecialAttack(15)
+        if (player.familiar != null) player.familiar.restoreSpecialAttack(15)
         if (specialAttackPercentage.toInt() == 100) return
         var toRestore = 10
-        if (player!!.auraManager.isActivated(AuraManager.Aura.INVIGORATE)) toRestore = 12
-        else if (player!!.auraManager.isActivated(AuraManager.Aura.GREATER_INVIGORATE)) toRestore = 15
-        else if (player!!.auraManager.isActivated(AuraManager.Aura.MASTER_INVIGORATE)) toRestore = 17
-        else if (player!!.auraManager.isActivated(AuraManager.Aura.SUPREME_INVIGORATE)) toRestore = 20
+        if (player.auraManager.isActivated(AuraManager.Aura.INVIGORATE)) toRestore = 12
+        else if (player.auraManager.isActivated(AuraManager.Aura.GREATER_INVIGORATE)) toRestore = 15
+        else if (player.auraManager.isActivated(AuraManager.Aura.MASTER_INVIGORATE)) toRestore = 17
+        else if (player.auraManager.isActivated(AuraManager.Aura.SUPREME_INVIGORATE)) toRestore = 20
         restoreSpecialAttack(toRestore)
-        if (specialAttackPercentage.toInt() == 100 || specialAttackPercentage.toInt() == 50) player!!.sendMessage(
+        if (specialAttackPercentage.toInt() == 100 || specialAttackPercentage.toInt() == 50) player.sendMessage(
             "<col=00FF00>Your special attack energy is now $specialAttackPercentage%.",
             true
         )
     }
 
     fun restoreSpecialAttack(percentage: Int) {
-        if (specialAttackPercentage >= 100 || player!!.interfaceManager.containsScreenInter()) return
+        if (specialAttackPercentage >= 100 || player.interfaceManager.containsScreenInter()) return
         specialAttackPercentage =
             (specialAttackPercentage + if (specialAttackPercentage > (100 - percentage)) 100 - specialAttackPercentage else percentage).toByte()
         refreshSpecialAttackPercentage()
@@ -334,8 +333,8 @@ class CombatDefinitions {
     fun refreshSpellbook() {
         refreshSpellbookSettings()
         refreshAutoCastSpell()
-        player!!.vars.syncVarsToClient()
-        player!!.packets.sendRunScriptBlank(2057)
+        player.vars.syncVarsToClient()
+        player.packets.sendRunScriptBlank(2057)
     }
 
     fun checkAttackStyle() {
@@ -345,7 +344,7 @@ class CombatDefinitions {
     fun setAttackStyle(style: Int) {
         var finalStyle = style
         val styles = AttackStyle.getStyles(
-            player!!.equipment.weaponId
+            player.equipment.weaponId
         )
         if (finalStyle < 0) finalStyle = 0
         for (i in finalStyle downTo 0) {
@@ -362,11 +361,11 @@ class CombatDefinitions {
     }
 
     fun refreshAttackStyle() {
-        player!!.vars.setVar(43, (if (autoCast != null) 4 else attackStyle).toInt())
+        player.vars.setVar(43, (if (autoCast != null) 4 else attackStyle).toInt())
     }
 
     fun sendUnlockAttackStylesButtons() {
-        for (componentId in 7..10) player!!.packets.setIFRightClickOps(884, componentId, -1, 0, 0)
+        for (componentId in 7..10) player.packets.setIFRightClickOps(884, componentId, -1, 0, 0)
     }
 
     fun switchUsingSpecialAttack() {
@@ -378,7 +377,7 @@ class CombatDefinitions {
         var finalAmount = amount
         isUsingSpecialAttack = false
         refreshUsingSpecialAttack()
-        if (player!!.nsv.getB("infSpecialAttack")) finalAmount = 0
+        if (player.nsv.getB("infSpecialAttack")) finalAmount = 0
         if (finalAmount > 0) {
             specialAttackPercentage = (specialAttackPercentage - finalAmount).toByte()
             refreshSpecialAttackPercentage()
@@ -386,7 +385,7 @@ class CombatDefinitions {
     }
 
     fun hasRingOfVigour(): Boolean {
-        return player!!.equipment.ringId == 19669
+        return player.equipment.ringId == 19669
     }
 
     fun getSpecialAttackPercentage(): Int {
@@ -394,11 +393,11 @@ class CombatDefinitions {
     }
 
     fun refreshUsingSpecialAttack() {
-        player!!.vars.setVar(301, if (isUsingSpecialAttack) 1 else 0)
+        player.vars.setVar(301, if (isUsingSpecialAttack) 1 else 0)
     }
 
     fun refreshSpecialAttackPercentage() {
-        player!!.vars.setVar(300, specialAttackPercentage * 10)
+        player.vars.setVar(300, specialAttackPercentage * 10)
     }
 
     fun switchAutoRetaliate() {
@@ -407,12 +406,12 @@ class CombatDefinitions {
     }
 
     fun refreshAutoRelatie() {
-        player!!.vars.setVar(172, if (isAutoRetaliate) 0 else 1)
+        player.vars.setVar(172, if (isAutoRetaliate) 0 else 1)
     }
 
     fun getAttackStyle(): AttackStyle {
         val styles = AttackStyle.getStyles(
-            player!!.equipment.weaponId
+            player.equipment.weaponId
         )
         var styleIndex = attackStyle.toInt()
         for (i in styleIndex downTo 0) {
@@ -426,22 +425,22 @@ class CombatDefinitions {
         if (style != null)
             return style
         else {
-            Logger.handle(CombatDefinitions::class.java, "getAttackStyle", Error("Invalid attack style for weapon ${player!!.equipment.weaponId} on style index $styleIndex"))
-            return AttackStyle.UNARMED[0]!!
+            Logger.handle(CombatDefinitions::class.java, "getAttackStyle", Error("Invalid attack style for weapon ${player.equipment.weaponId} on style index $styleIndex"))
+            return AttackStyle(0, "Punch", XPType.ACCURATE, AttackType.CRUSH)
         }
     }
 
     val attackBonusForStyle: Int
-        get() = getAttackStyle().attackType.getAttackBonus(player!!)
+        get() = getAttackStyle().attackType.getAttackBonus(player)
 
     fun getDefenseBonusForStyle(style: AttackStyle): Int {
-        return style.attackType.getDefenseBonus(player!!)
+        return style.attackType.getDefenseBonus(player)
     }
 
     fun removeDungeonneringBook() {
         if (isDungSpellbook) {
             isDungSpellbook = false
-            player!!.interfaceManager.sendSubDefault(InterfaceManager.Sub.TAB_MAGIC)
+            player.interfaceManager.sendSubDefault(InterfaceManager.Sub.TAB_MAGIC)
         }
     }
 

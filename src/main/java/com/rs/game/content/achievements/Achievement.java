@@ -1128,7 +1128,7 @@ public enum Achievement {
 
 	private final int id;
 
-	private Achievement(int id) {
+	Achievement(int id) {
 		this.id = id;
 	}
 

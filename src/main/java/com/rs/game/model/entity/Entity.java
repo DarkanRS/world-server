@@ -981,7 +981,8 @@ public abstract class Entity {
 	public void processEntity() {
 		tickCounter++;
 		if (walkRequest != null) {
-			RouteFinderKt.walkRoute(this, RouteFinderKt.routeEntityWalkRequest(this, walkRequest, 25), true);
+			resetWalkSteps();
+			RouteFinderKt.addSteps(this, RouteFinderKt.routeEntityWalkRequest(this, walkRequest), true);
 			walkRequest = null;
 		}
 		RouteEvent prevEvent = routeEvent;

@@ -2391,7 +2391,7 @@ public class Player extends Entity {
 			List<Item> foodItems = new ArrayList<>();
 			List<Item> trophyItems = new ArrayList<>();
 			for (Item item : droppedItems) {
-				if (Foods.isConsumable(item) || Potions.Potion.POTS.containsKey(item.getId()) || item.getId() == 24444)
+				if (Foods.isConsumable(item) || Potion.POTS.containsKey(item.getId()) || item.getId() == 24444)
 					foodItems.add(item);
 				else
 					trophyItems.add(item);

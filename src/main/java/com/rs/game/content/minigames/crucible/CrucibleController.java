@@ -1,7 +1,7 @@
 package com.rs.game.content.minigames.crucible;
 
 import com.rs.game.content.Effect;
-import com.rs.game.content.Potions;
+import com.rs.game.content.Potion;
 import com.rs.game.content.minigames.MinigameUtilKt;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Teleport;
@@ -35,7 +35,7 @@ public class CrucibleController extends Controller {
     @Override
     public void start() {
         if (dangerous) {
-            Potions.checkOverloads(player);
+            Potion.checkPVPPotionBoosts(player);
             player.addEffect(Effect.OVERLOAD_PVP_REDUCTION, Integer.MAX_VALUE);
             player.setSkullInfiniteDelay(7);
         }
@@ -71,9 +71,9 @@ public class CrucibleController extends Controller {
                 }
                 player.reset();
                 player.tele(getRespawnTile());
-                player.setNextAnimation(new Animation(-1));
+                player.stopAnim();
                 if (dangerous) {
-                    Potions.checkOverloads(player);
+                    Potion.checkPVPPotionBoosts(player);
                     player.addEffect(Effect.OVERLOAD_PVP_REDUCTION, Integer.MAX_VALUE);
                     player.setSkullInfiniteDelay(7);
                 }

@@ -150,13 +150,13 @@ public enum Effect {
 		@Override
 		public void apply(Entity entity) {
 			if (entity instanceof Player player)
-				Potions.applyOverLoadEffect(player);
+				Potion.applyOverloadEffect(player);
 		}
 
 		@Override
 		public void tick(Entity entity, long tick) {
 			if (tick % 25 == 0 && entity instanceof Player player)
-				Potions.applyOverLoadEffect(player);
+				Potion.applyOverloadEffect(player);
 		}
 
 		@Override
@@ -223,6 +223,8 @@ public enum Effect {
 	},
 
 	FARMERS_AFFINITY("farmer's affinity"),
+
+	PATCH_BOMB("patch bomb"),
 
 	SHOOTING_STAR_MINING_BUFF("star sprite's power", false),
 	EVIL_TREE_WOODCUTTING_BUFF("evil tree magic", false);

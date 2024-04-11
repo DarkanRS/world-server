@@ -9,6 +9,7 @@ import com.rs.game.content.achievements.AchievementDef
 import com.rs.game.content.achievements.SetReward
 import com.rs.game.content.minigames.treasuretrails.TreasureTrailsManager
 import com.rs.game.model.entity.Entity
+import com.rs.game.model.entity.async.schedule
 import com.rs.game.model.entity.npc.NPC
 import com.rs.game.model.entity.npc.combat.CombatScript.*
 import com.rs.game.model.entity.player.Player
@@ -36,19 +37,19 @@ class Bork(id: Int, tile: Tile, spawned: Boolean) : NPC(id, tile, spawned) {
             .forEach { it.sendDeath(source) }
 		resetWalkSteps()
 		combat.removeTarget()
-		(source as? Player)?.let { player ->
-			player.resetReceivedHits()
-			player.interfaceManager.sendForegroundInterfaceOverGameWindow(693)
-			WorldTasks.schedule(8) {
-				player.interfaceManager.closeInterfacesOverGameWindow()
-				anim(combatDefinitions.deathEmote)
-				WorldTasks.schedule(4) {
-					drop()
-					reset()
-					setLocation(respawnTile)
-					finish()
-				}
+		schedule {
+			(source as? Player)?.let {
+				it.resetReceivedHits()
+				it.interfaceManager.sendForegroundInterfaceOverGameWindow(693)
 			}
+			wait(8)
+			(source as? Player)?.let { it.interfaceManager.closeInterfacesOverGameWindow() }
+			anim(combatDefinitions.deathEmote)
+			wait(4)
+			drop()
+			reset()
+			setLocation(respawnTile)
+			finish()
 		}
 	}
 

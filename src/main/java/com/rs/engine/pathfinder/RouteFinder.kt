@@ -1518,6 +1518,7 @@ internal inline fun getIndexInZone(x: Int, y: Int): Int {
     return (x and 0x7) or ((y and 0x7) shl 3)
 }
 
+@JvmOverloads
 fun routeEntityToObject(entity: Entity, obj: GameObject, maxTurns: Int = DEFAULT_MAX_TURNS): Route {
     return PathFinder(flags = WorldCollision.allFlags, useRouteBlockerFlags = true)
         .findPath(
@@ -1535,6 +1536,7 @@ fun routeEntityToObject(entity: Entity, obj: GameObject, maxTurns: Int = DEFAULT
         )
 }
 
+@JvmOverloads
 fun routeEntityToEntity(entity: Entity, target: Entity, maxTurns: Int = DEFAULT_MAX_TURNS): Route {
     return PathFinder(flags = WorldCollision.allFlags, useRouteBlockerFlags = true)
         .findPath(
@@ -1550,16 +1552,19 @@ fun routeEntityToEntity(entity: Entity, target: Entity, maxTurns: Int = DEFAULT_
         )
 }
 
+@JvmOverloads
 fun routeEntityToTile(entity: Entity, tile: Tile, maxTurns: Int = DEFAULT_MAX_TURNS): Route {
     return PathFinder(flags = WorldCollision.allFlags, useRouteBlockerFlags = true)
         .findPath(entity.x, entity.y, tile.x, tile.y, entity.plane, collision = entity.collisionStrategy, srcSize = entity.size, maxTurns = maxTurns)
 }
 
+@JvmOverloads
 fun routeEntityWalkRequest(entity: Entity, request: Walk, maxTurns: Int = DEFAULT_MAX_TURNS): Route {
     return PathFinder(flags = WorldCollision.allFlags, useRouteBlockerFlags = true)
         .findPath(entity.x, entity.y, request.x, request.y, entity.plane, collision = entity.collisionStrategy, srcSize = entity.size, maxTurns = maxTurns)
 }
 
+@JvmOverloads
 fun routeEntityTo(entity: Entity, target: Any, maxTurns: Int = DEFAULT_MAX_TURNS): Route {
     return when(target) {
         is Entity -> routeEntityToEntity(entity, target, maxTurns)
@@ -1578,6 +1583,7 @@ fun walkRoute(entity: Entity, route: Route, forceSteps: Boolean): Boolean {
     return true
 }
 
+@JvmOverloads
 fun addSteps(entity: Entity, route: Route, forceSteps: Boolean, maxSteps: Int = -1) {
     var lastStep: RouteCoordinates? = null
     for (coord in route.coords) {

@@ -156,15 +156,15 @@ class TrollGeneralAttackController : InstancedController(Instance.of(OUTSIDE, 8,
                             options {
                                 op("Don't we have more important things to worry about?") {
                                     npc(npc, HeadE.SAD, "We can't just leave it here to die.")
-                                    next(endDialogue)
+                                    statement(endDialogue)
                                 }
                                 op("He's so cute!") {
                                     npc(npc, HeadE.SAD_MILD, "Isn't he? He's so wubbly!")
-                                    next(endDialogue)
+                                    statement(endDialogue)
                                 }
                                 op("We should kill it before it becomes a threat!") {
                                     npc(npc, HeadE.SAD, "I can't just execute a baby even if it is a troll!")
-                                    next(endDialogue)
+                                    statement(endDialogue)
                                 }
                             }
                         }

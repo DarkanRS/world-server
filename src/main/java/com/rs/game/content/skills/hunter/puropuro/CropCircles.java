@@ -115,6 +115,7 @@ public class CropCircles {
                 delay(3);
                 camPos(loc2.getX()+10, loc2.getY()-10, 7000,50,1);
                 delay(6);
+                action(() -> player.getAppearance().setHidden(false));
             }
         };
         switch (e.getOption()) {

@@ -130,9 +130,26 @@ open class DialogueBuilder(val stages: MutableMap<String, Dialogue> = mutableMap
         applyPendingLabel()
     }
 
-    fun next(nextDialogue: Dialogue) {
+    fun statement(nextDialogue: Dialogue) {
         dialogue = dialogue.addNext(nextDialogue)
         applyPendingLabel()
+    }
+
+    fun statement(statement: Statement) {
+        dialogue = dialogue.addNext(Dialogue(statement))
+        applyPendingLabel()
+    }
+
+    fun appendToCurrent(dialogue: Dialogue) {
+        dialogue.addNext(dialogue)
+    }
+
+    fun appendToCurrent(statement: Statement) {
+        dialogue.addNext(Dialogue(statement))
+    }
+
+    fun appendToCurrent(action: Runnable) {
+        dialogue.addNext(action)
     }
 
     fun stop() {

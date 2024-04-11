@@ -16,7 +16,7 @@
 //
 package com.rs.game.model.entity.player.managers;
 
-import com.rs.game.content.Potions.Potion;
+import com.rs.game.content.Potion;
 import com.rs.game.content.skills.cooking.Foods.Food;
 import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.model.entity.Entity;

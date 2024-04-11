@@ -673,7 +673,7 @@ public final class Equipment {
 			return;
 		}
 		Item item = e.getPlayer().getEquipment().getItem(Equipment.getItemSlot(e.getSlotId2()));
-		if ((item == null) || PluginManager.handle(new ItemClickEvent(e.getPlayer(), item, e.getSlotId(), item.getDefinitions().getEquipmentOption(getOptionForPacket(e.getPacket())), true)))
+		if ((item == null) || PluginManager.handle(new ItemClickEvent(e.getPlayer(), item, Equipment.getItemSlot(e.getSlotId2()), item.getDefinitions().getEquipmentOption(getOptionForPacket(e.getPacket())), true)))
 			return;
 		if (e.getPacket() == ClientPacket.IF_OP10) {
 			e.getPlayer().getEquipment().sendExamine(Equipment.getItemSlot(e.getSlotId2()));
