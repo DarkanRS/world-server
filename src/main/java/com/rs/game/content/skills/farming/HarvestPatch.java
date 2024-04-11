@@ -68,8 +68,7 @@ public class HarvestPatch extends PlayerAction {
 			animation = FarmPatch.FILL_COMPOST_ANIMATION;
 			break;
 		default:
-			tool = -1;
-			break;
+            break;
 		}
 	}
 
@@ -93,7 +92,19 @@ public class HarvestPatch extends PlayerAction {
 
 	@Override
 	public int processWithDelay(Player player) {
-		player.setNextAnimation(animation);
+		player.anim(animation);
+		boolean keepPicking = pick(player);
+		if (keepPicking && player.hasEffect(Effect.PATCH_BOMB))
+			for (int i = 0;i < 50;i++) {
+				if (!pick(player)) {
+					keepPicking = false;
+					break;
+				}
+			}
+		return keepPicking ? 1 : -1;
+	}
+
+	public boolean pick(Player player) {
 		if (patch.seed.decreaseLife(player))
 			patch.lives--;
 		if (patch.seed == ProduceType.Willow)
@@ -115,27 +126,27 @@ public class HarvestPatch extends PlayerAction {
 			player.getInventory().addItemDrop(patch.seed.productId.getId(), amount);
 		}
 		switch (patch.seed.type) {
-		case CALQUAT:
-		case FRUIT_TREE:
-		case BUSH:
-		case VINE_BUSH:
-		case CACTUS:
-		case TREE:
-			player.getSkills().addXp(Constants.FARMING, patch.seed.plantingExperience * 0.375);
-			patch.updateVars(player);
-			if (patch.lives <= 0)
-				return -1;
-			break;
-		default:
-			player.getSkills().addXp(Constants.FARMING, patch.seed.experience);
-			if (patch.lives <= 0) {
-				patch.empty();
+			case CALQUAT:
+			case FRUIT_TREE:
+			case BUSH:
+			case VINE_BUSH:
+			case CACTUS:
+			case TREE:
+				player.getSkills().addXp(Constants.FARMING, patch.seed.plantingExperience * 0.375);
 				patch.updateVars(player);
-				return -1;
-			}
-			break;
+				if (patch.lives <= 0)
+					return false;
+				break;
+			default:
+				player.getSkills().addXp(Constants.FARMING, patch.seed.experience);
+				if (patch.lives <= 0) {
+					patch.empty();
+					patch.updateVars(player);
+					return false;
+				}
+				break;
 		}
-		return 1;
+		return true;
 	}
 
 	@Override

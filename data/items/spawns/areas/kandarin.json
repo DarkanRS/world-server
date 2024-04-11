@@ -9,5 +9,71 @@
       "plane": 0
     },
     "respawnTicks": 100
+  },
+  {
+    "comment": "Jangerberries added by trent",
+    "itemId": 247,
+    "amount": 1,
+    "tile": {
+      "x": 2518,
+      "y": 3085,
+      "plane": 0
+    },
+    "respawnTicks": 30
+  },
+  {
+    "comment": "Jangerberries added by trent",
+    "itemId": 247,
+    "amount": 1,
+    "tile": {
+      "x": 2518,
+      "y": 3083,
+      "plane": 0
+    },
+    "respawnTicks": 30
+  },
+  {
+    "comment": "Jangerberries added by trent",
+    "itemId": 247,
+    "amount": 1,
+    "tile": {
+      "x": 2513,
+      "y": 3081,
+      "plane": 0
+    },
+    "respawnTicks": 30
+  },
+  {
+    "comment": "Jangerberries added by trent",
+    "itemId": 247,
+    "amount": 1,
+    "tile": {
+      "x": 2507,
+      "y": 3088,
+      "plane": 0
+    },
+    "respawnTicks": 30
+  },
+  {
+    "comment": "Jangerberries added by trent",
+    "itemId": 247,
+    "amount": 1,
+    "tile": {
+      "x": 2506,
+      "y": 3084,
+      "plane": 0
+    },
+    "respawnTicks": 30
+  },
+  {
+    "comment": "Jangerberries added by trent",
+    "itemId": 247,
+    "amount": 1,
+    "tile": {
+      "x": 2510,
+      "y": 3084,
+      "plane": 0
+    },
+    "respawnTicks": 30
   }
 ]

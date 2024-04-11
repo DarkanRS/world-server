@@ -36,7 +36,8 @@ fun mapStaffPotato() {
                     Effect.OVERLOAD, Effect.BONFIRE, Effect.ANTIPOISON, Effect.SUPER_ANTIFIRE,
                     Effect.JUJU_MINE_BANK, Effect.JUJU_WC_BANK, Effect.JUJU_FARMING, Effect.JUJU_HUNTER,
                     Effect.JUJU_FISHING, Effect.REV_IMMUNE, Effect.EVIL_TREE_WOODCUTTING_BUFF,
-                    Effect.SHOOTING_STAR_MINING_BUFF, Effect.OOG_THERMAL_POOL, Effect.OOG_SALTWATER_POOL
+                    Effect.SHOOTING_STAR_MINING_BUFF, Effect.OOG_THERMAL_POOL, Effect.OOG_SALTWATER_POOL,
+                    Effect.PATCH_BOMB
                 ).forEach {
                     e.player.addEffect(it, Ticks.fromHours(1000).toLong())
                 }

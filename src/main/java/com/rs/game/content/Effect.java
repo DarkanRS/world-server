@@ -224,6 +224,8 @@ public enum Effect {
 
 	FARMERS_AFFINITY("farmer's affinity"),
 
+	PATCH_BOMB("patch bomb"),
+
 	SHOOTING_STAR_MINING_BUFF("star sprite's power", false),
 	EVIL_TREE_WOODCUTTING_BUFF("evil tree magic", false);
 
