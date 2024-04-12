@@ -151,7 +151,10 @@ private enum class Command(val cmdName: String, val action: (Player) -> Unit) {
             p.inventory.refresh()
         }
     }),
-    INSTA_FARM("Instant grow all farm patches", { for (i in 0..199) it.tickFarming() }),
+    INSTA_FARM("Instant grow all farm patches", { p ->
+        p.patches.values.forEach { it.compostLevel = 3 }
+        for (i in 0..199) p.tickFarming()
+    }),
     NEVER_LOG("Neverlog", { it.nsv.setB("idleLogImmune", true) }),
     AGGRO_POT("Aggro pot toggle", { p ->
         if (p.hasEffect(Effect.AGGRESSION_POTION)) p.removeEffect(Effect.AGGRESSION_POTION)
