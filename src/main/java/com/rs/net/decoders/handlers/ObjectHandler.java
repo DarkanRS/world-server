@@ -92,7 +92,6 @@ public final class ObjectHandler {
 		player.setRouteEvent(new RouteEvent(object, () -> {
 			player.stopAll();
 			player.faceObject(object);
-
 			if (!player.getControllerManager().processObjectClick1(object) || player.getTreasureTrailsManager().useObject(object))
 				return;
 

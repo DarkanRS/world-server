@@ -687,8 +687,7 @@ enum class RangedWeapon {
 
     fun properAmmo(player: Player, print: Boolean): Boolean {
         if (isThrown || ammos == null) return true
-        val ammo = AmmoType.forId(player.equipment.ammoId)
-        if (ammo == null) {
+        val ammo = AmmoType.forId(player.equipment.ammoId) ?: run {
             if (print) player.sendMessage("You have no ammo in your quiver!")
             return false
         }
@@ -717,7 +716,7 @@ enum class RangedWeapon {
         return null
     }
 
-    fun getProjectile(player: Player, target: Entity, attackSpeed: Int): WorldProjectile {
+    fun sendProjectile(player: Player, target: Entity, attackSpeed: Int): WorldProjectile {
         val speed = 8.0 / (attackSpeed.toDouble())
         when (this) {
             SLING -> return World.sendProjectile(player, target, projAnim, 20, 30, speed)

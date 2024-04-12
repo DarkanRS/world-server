@@ -34,8 +34,10 @@ public final class InteractionManager {
 
 	public boolean setInteraction(Interaction skill) {
 		forceStop();
-		if (!skill.start(player))
+		if (!skill.start(player)) {
+			skill.stop(player);
 			return false;
+		}
 		interaction = skill;
 		return true;
 	}
@@ -43,7 +45,7 @@ public final class InteractionManager {
 	public void forceStop() {
 		if (interaction == null)
 			return;
-		player.setNextFaceEntity(null);
+		player.stopFaceEntity();
 		interaction.stop(player);
 		interaction = null;
 	}

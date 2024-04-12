@@ -723,7 +723,7 @@ enum class CombatSpell(
 
         @JvmStatic
         fun forId(spellBook: Int, spellId: Int): CombatSpell? {
-            return SPELL_MAP[spellBook]!![spellId]
+            return SPELL_MAP[spellBook]?.get(spellId)
         }
     }
 }

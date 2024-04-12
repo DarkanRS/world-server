@@ -194,9 +194,10 @@ object World {
     @JvmStatic
 	fun checkMeleeStep(from: Any?, fromSize: Int, to: Any?, toSize: Int): Boolean {
         val fromTile: Tile = WorldUtil.targetToTile(from)
-        val toTile: Tile = WorldUtil.targetToTile(to)
+        var toTile: Tile = WorldUtil.targetToTile(to)
+        (to as? Entity)?.let { toTile = it.lastTile }
         if (fromTile.plane != toTile.plane) return false
-        return reached(allFlags, fromTile.x().toInt(), fromTile.y().toInt(), fromTile.plane().toInt(), toTile.x().toInt(), toTile.y().toInt(), toSize, toSize, fromSize, 0, 22, 0)
+        return reached(allFlags, fromTile.x().toInt(), fromTile.y().toInt(), fromTile.plane().toInt(), toTile.x().toInt(), toTile.y().toInt(), toSize, toSize, fromSize, 0, -2, 0)
     }
 
     @JvmStatic

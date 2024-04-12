@@ -18,11 +18,7 @@ package com.rs.game.content.skills.magic;
 
 import com.rs.engine.quest.Quest;
 import com.rs.game.World;
-import com.rs.game.content.bosses.godwars.GodwarsController;
 import com.rs.game.content.combat.CombatSpell;
-import com.rs.game.content.skills.construction.HouseController;
-import com.rs.game.content.skills.dungeoneering.DamonheimController;
-import com.rs.game.content.world.areas.wilderness.WildernessController;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Teleport;
 import com.rs.game.model.entity.interactions.PlayerCombatInteraction;
@@ -449,6 +445,10 @@ public class Magic {
 
 	public static void sendItemTeleportSpell(Player player, boolean randomize, int upEmoteId, int upGraphicId, int delay, Tile tile) {
 		sendItemTeleportSpell(player, randomize, upEmoteId, upGraphicId, delay, tile, null);
+	}
+
+	public static boolean sendItemTeleportSpell(Player player, boolean randomize, int upEmoteId, int upGraphicId, int downEmoteId, int downGraphicId, int delay, Tile tile) {
+		return sendTeleportSpell(player, upEmoteId, downEmoteId, upGraphicId, downGraphicId, 0, 0, tile, delay, randomize, TeleType.ITEM, null);
 	}
 
 	public static void sendItemTeleportSpell(Player player, boolean randomize, int upEmoteId, int upGraphicId, int delay, Tile tile, Runnable onArrive) {

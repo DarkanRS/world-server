@@ -78,7 +78,7 @@ public final class NPCCombat {
 		}
 		int maxDistance = npc.getCombatDefinitions().getAttackRange();
 		if (!(npc instanceof Nex) && !npc.lineOfSightTo(target, maxDistance == 0))
-			return npc.getAttackSpeed();
+			return Math.min(combatDelay, npc.getAttackSpeed()); //probably could return 0 but too scared of side effects
 		boolean los = npc.lineOfSightTo(target, maxDistance == 0);
 		boolean inRange = WorldUtil.isInRange(npc, target, maxDistance + (npc.hasWalkSteps() && target.hasWalkSteps() ? (npc.getRun() && target.getRun() ? 2 : 1) : 0));
 		//boolean collidesCheck = !npc.isCantFollowUnderCombat() && WorldUtil.collides(npc, target);
