@@ -3900,58 +3900,6 @@ public class Player extends Entity {
 		return timePlayedThisSession;
 	}
 
-	public Map<StorableItem, Item> getLeprechaunStorage() {
-		if (leprechaunStorage == null)
-			leprechaunStorage = new HashMap<>();
-		return leprechaunStorage;
-	}
-
-	public int getNumInLeprechaun(StorableItem item) {
-		return leprechaunStorage.get(item) == null ? 0 : leprechaunStorage.get(item).getAmount();
-	}
-
-	public void storeLeprechaunItem(StorableItem item, int itemId, int amount) {
-		Item curr = leprechaunStorage.get(item);
-		if (curr == null) {
-			if (amount > item.maxAmount)
-				amount = item.maxAmount;
-			if (amount > getInventory().getNumberOf(itemId))
-				amount = getInventory().getNumberOf(itemId);
-			if (amount <= 0)
-				return;
-			curr = new Item(itemId, amount);
-			getInventory().deleteItem(itemId, amount);
-		} else {
-			if ((curr.getAmount()+amount) > item.maxAmount)
-				amount = item.maxAmount - curr.getAmount();
-			if (amount > getInventory().getNumberOf(itemId))
-				amount = getInventory().getNumberOf(itemId);
-			if (amount <= 0)
-				return;
-			curr.setAmount(curr.getAmount() + amount);
-			getInventory().deleteItem(itemId, amount);
-		}
-		leprechaunStorage.put(item, curr);
-		item.updateVars(this);
-	}
-
-	public void takeLeprechaunItem(StorableItem item, int amount) {
-		Item curr = leprechaunStorage.get(item);
-		if (curr == null)
-			return;
-		if (amount > curr.getAmount())
-			amount = curr.getAmount();
-		if (amount > getInventory().getFreeSlots())
-			amount = getInventory().getFreeSlots();
-		curr.setAmount(curr.getAmount() - amount);
-		getInventory().addItem(curr.getId(), amount);
-		if (curr.getAmount() == 0)
-			leprechaunStorage.remove(item);
-		else
-			leprechaunStorage.put(item, curr);
-		item.updateVars(this);
-	}
-
 	public int getUuid() {
 		return getUsername().hashCode();
 	}
@@ -4191,6 +4139,12 @@ public class Player extends Entity {
 			tele(instancedArea.getReturnTo());
 			instancedArea = null;
 		}
+	}
+
+	public Map<StorableItem, Item> getLeprechaunStorage() {
+		if (leprechaunStorage == null)
+			leprechaunStorage = new HashMap<>();
+		return leprechaunStorage;
 	}
 
 	public Recorder getRecorder() {
