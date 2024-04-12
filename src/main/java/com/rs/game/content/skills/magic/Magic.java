@@ -18,11 +18,7 @@ package com.rs.game.content.skills.magic;
 
 import com.rs.engine.quest.Quest;
 import com.rs.game.World;
-import com.rs.game.content.bosses.godwars.GodwarsController;
 import com.rs.game.content.combat.CombatSpell;
-import com.rs.game.content.skills.construction.HouseController;
-import com.rs.game.content.skills.dungeoneering.DamonheimController;
-import com.rs.game.content.world.areas.wilderness.WildernessController;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Teleport;
 import com.rs.game.model.entity.interactions.PlayerCombatInteraction;

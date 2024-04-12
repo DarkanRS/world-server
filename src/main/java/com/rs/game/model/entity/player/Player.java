@@ -2039,8 +2039,7 @@ public class Player extends Entity {
 					hit.setDamage((int) (hit.getDamage() * source.getMagePrayerMultiplier()));
 					if (deflectedDamage > 0 && Math.random() < 0.6) {
 						source.applyHit(new Hit(this, deflectedDamage, HitLook.REFLECTED_DAMAGE));
-						setNextSpotAnim(new SpotAnim(2228));
-						setNextAnimation(new Animation(12573));
+						sync(12573, 2228);
 					}
 				}
 			} else if (hit.getLook() == HitLook.RANGE_DAMAGE) {
@@ -2051,8 +2050,7 @@ public class Player extends Entity {
 					hit.setDamage((int) (hit.getDamage() * source.getRangePrayerMultiplier()));
 					if (deflectedDamage > 0 && Math.random() < 0.6) {
 						source.applyHit(new Hit(this, deflectedDamage, HitLook.REFLECTED_DAMAGE));
-						setNextSpotAnim(new SpotAnim(2229));
-						setNextAnimation(new Animation(12573));
+						sync(12573, 2229);
 					}
 				}
 			} else if (hit.getLook() == HitLook.MELEE_DAMAGE)
@@ -2063,8 +2061,7 @@ public class Player extends Entity {
 					hit.setDamage((int) (hit.getDamage() * source.getMeleePrayerMultiplier()));
 					if (deflectedDamage > 0 && Math.random() < 0.6) {
 						source.applyHit(new Hit(this, deflectedDamage, HitLook.REFLECTED_DAMAGE));
-						setNextSpotAnim(new SpotAnim(2230));
-						setNextAnimation(new Animation(12573));
+						sync(12573, 2230);
 					}
 				}
 		if (hit.getDamage() >= 200) {

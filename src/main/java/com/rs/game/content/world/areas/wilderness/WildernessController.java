@@ -228,16 +228,23 @@ public class WildernessController extends Controller {
 		player.removeEffect(Effect.OVERLOAD_PVP_REDUCTION);
 	}
 
-	public static boolean isAtWild(Tile tile) {// TODO fix this
-		return (tile.getX() >= 3011 && tile.getX() <= 3132 && tile.getY() >= 10052 && tile.getY() <= 10175)
-				|| (tile.getX() >= 2940 && tile.getX() <= 3395 && tile.getY() >= 3525 && tile.getY() <= 4000)
-				|| (tile.getX() >= 3078 && tile.getX() <= 3139 && tile.getY() >= 9923 && tile.getY() <= 10002)
-				|| (tile.getX() >= 3264 && tile.getX() <= 3279 && tile.getY() >= 3279 && tile.getY() <= 3672)
-				|| (tile.getX() >= 2756 && tile.getX() <= 2875 && tile.getY() >= 5512 && tile.getY() <= 5627)
-				|| (tile.getX() >= 3158 && tile.getX() <= 3181 && tile.getY() >= 3679 && tile.getY() <= 3697)
-				|| (tile.getX() >= 3280 && tile.getX() <= 3183 && tile.getY() >= 3885 && tile.getY() <= 3888)
-				|| (tile.getX() >= 3012 && tile.getX() <= 3059 && tile.getY() >= 10303 && tile.getY() <= 10351)
-				|| (tile.getX() >= 3061 && tile.getX() <= 3071 && tile.getY() >= 10251 && tile.getY() <= 10262);
+	private static final int[][] RANGES = {
+			{2756, 2875, 5512, 5627},
+			{2940, 3395, 3525, 4000},
+			{3011, 3132, 10052, 10175},
+			{3012, 3059, 10303, 10351},
+			{3008, 3071, 10240, 10367},
+			{3078, 3139, 9923, 10002},
+			{3158, 3181, 3679, 3697},
+			{3264, 3279, 3279, 3672},
+			{3280, 3283, 3885, 3888}
+	};
+
+	public static boolean isAtWild(Tile tile) {
+		for (int[] range : RANGES)
+			if (tile.x() >= range[0] && tile.x() <= range[1] && tile.y() >= range[2] && tile.y() <= range[3])
+				return true;
+		return false;
 	}
 
 	public boolean isAtWildSafe() {
