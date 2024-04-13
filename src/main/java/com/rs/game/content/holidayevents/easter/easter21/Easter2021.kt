@@ -35,7 +35,7 @@ import com.rs.utils.spawns.ObjectSpawn
 import com.rs.utils.spawns.ObjectSpawns
 
 private const val STAGE_KEY = "easter2024"
-private const val ENABLED = true
+private const val ENABLED = false
 
 private const val COG = 14719
 private const val PISTON = 14720

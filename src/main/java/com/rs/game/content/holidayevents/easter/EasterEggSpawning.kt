@@ -26,7 +26,7 @@ import com.rs.lib.util.Utils
 import com.rs.plugin.annotations.ServerStartupEvent
 import it.unimi.dsi.fastutil.ints.IntSet
 
-const val ENABLED = true
+const val ENABLED = false
 
 private var eggsPerChunk = 2
 private var regionsToSpawn = IntSet.of(12850, 11828, 12084, 12853, 12597, 12342, 10806, 10547, 13105)

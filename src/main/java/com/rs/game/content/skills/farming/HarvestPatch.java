@@ -18,6 +18,7 @@ package com.rs.game.content.skills.farming;
 
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.content.Effect;
+import com.rs.game.content.ItemConstants;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
 import com.rs.game.model.entity.player.managers.AuraManager.Aura;
@@ -108,7 +109,7 @@ public class HarvestPatch extends PlayerAction {
 		if (patch.seed.decreaseLife(player))
 			patch.lives--;
 		if (patch.seed == ProduceType.Willow)
-			player.getInventory().addItemDrop(5933, 1);
+			player.getInventory().addItemDrop(player.hasEffect(Effect.PATCH_BOMB) ? 5934 : 5933, 1);
 		else {
 			int amount = patch.seed == ProduceType.Limpwurt ? 3 : 1;
 			if (player.getAuraManager().isActivated(Aura.GREENFINGERS))
@@ -123,7 +124,7 @@ public class HarvestPatch extends PlayerAction {
 				if (Utils.random(3) == 0)
 					amount++;
 			player.incrementCount(patch.seed.productId.getName() + " harvested", amount);
-			player.getInventory().addItemDrop(patch.seed.productId.getId(), amount);
+			player.getInventory().addItemDrop(player.hasEffect(Effect.PATCH_BOMB) ? ItemConstants.noteIfPossible(patch.seed.productId.getId()) : patch.seed.productId.getId(), amount);
 		}
 		switch (patch.seed.type) {
 			case CALQUAT:

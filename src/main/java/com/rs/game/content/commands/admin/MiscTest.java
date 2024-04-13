@@ -39,6 +39,7 @@ import com.rs.game.content.combat.PlayerCombatKt;
 import com.rs.game.content.dnds.eviltree.EvilTreesKt;
 import com.rs.game.content.dnds.shootingstar.ShootingStars;
 import com.rs.game.content.minigames.barrows.BarrowsController;
+import com.rs.game.content.minigames.treasuretrails.TreasureTrailsManager;
 import com.rs.game.content.pets.Pet;
 import com.rs.game.content.randomevents.RandomEvents;
 import com.rs.game.content.skills.runecrafting.runespan.RunespanController;
@@ -123,6 +124,28 @@ public class MiscTest {
 			} catch(Throwable e) {
 				p.sendMessage("Error compiling plugins.");
 			}
+		});
+
+		Commands.add(Rights.ADMIN, "testcoordclue [deg1, min1, dir1, deg2, min2, dir2]", "teleports you to the coordinates for clues", (p, args) -> {
+			int deg1 = Integer.parseInt(args[0]);
+			int min1 = Integer.parseInt(args[1]);
+			int dir1 = switch(args[2].toLowerCase()) {
+				case "north" -> 0;
+				case "south" -> 1;
+				case "west" -> 2;
+				case "east" -> 3;
+				default -> throw new IllegalArgumentException("Must be a direction as a string.");
+			};
+			int deg2 = Integer.parseInt(args[3]);
+			int min2 = Integer.parseInt(args[4]);
+			int dir2 = switch(args[5].toLowerCase()) {
+				case "north" -> 0;
+				case "south" -> 1;
+				case "west" -> 2;
+				case "east" -> 3;
+				default -> throw new IllegalArgumentException("Must be a direction as a string.");
+			};
+			p.tele(TreasureTrailsManager.getTile(deg1, min1, dir1, deg2, min2, dir2));
 		});
 
 		Commands.add(Rights.ADMIN, "shootingstar", "spawn a shooting star", (p, args) -> ShootingStars.spawnStar());
