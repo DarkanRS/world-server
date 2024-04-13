@@ -14,8 +14,8 @@ import com.rs.plugin.annotations.ServerStartupEvent
 import com.rs.plugin.kts.instantiateNpc
 import com.rs.plugin.kts.onNpcClick
 
-const val DORORAN_CRAFT_TASKS_KEY = "Dororan's crafting tasks completed"
-const val SWANKY_BOOTS_KEY = "Recovered Swanky Boots"
+const val DORORAN_CRAFT_TASKS_KEY = "dororanCraftingTasks"
+const val SWANKY_BOOTS_KEY = "dororanSwankyBoots"
 
 const val DORORAN = 2648
 const val ANIM_CHISEL = 14736
@@ -44,17 +44,17 @@ class Dororan(id: Int, tile: Tile) : NPC(id, tile) {
 }
 
 fun mapDororanDialogue(player: Player, npc: NPC) {
-    val dororanCraftingTasks: Int = player.getCounterValue(DORORAN_CRAFT_TASKS_KEY)
-    val dororanSwankyBoots: Int = player.getCounterValue(SWANKY_BOOTS_KEY)
+    val dororanCraftingTasks: Int = player.getI(DORORAN_CRAFT_TASKS_KEY)
+    val dororanSwankyBoots: Int = player.getI(SWANKY_BOOTS_KEY)
 
     player.startConversation {
-        if (dororanCraftingTasks < 3)
+        if (dororanCraftingTasks < 2)
             npc(npc, HAPPY_TALKING, "Come in, my friend, come in! There is another matter I could use your assistance with.")
         else
             npc(npc, HAPPY_TALKING, "Thanks so much for everything you've done for us!")
         label("initialOptions")
         options {
-            if (dororanCraftingTasks < 3)
+            if (dororanCraftingTasks < 2)
                 op("What is it?") {
                     player(HAPPY_TALKING, "What is it?")
                     exec { mapDororanJewelleryTalk(player, npc, this) }
@@ -112,14 +112,14 @@ fun mapDororanDialogue(player: Player, npc: NPC) {
 }
 
 fun mapDororanJewelleryTalk(player: Player, npc: NPC, dialogue: DialogueBuilder) {
-    when (player.getCounterValue(DORORAN_CRAFT_TASKS_KEY)) {
-        0 -> {
+    when (player.getI(DORORAN_CRAFT_TASKS_KEY)) {
+        -1 -> {
             mapEngraveRubyBracelet(player, npc, dialogue)
         }
-        1 -> {
+        0 -> {
             mapEngraveDragonstoneNecklace(player, npc, dialogue)
         }
-        2 -> {
+        1 -> {
             mapEngraveOnyxAmulet(player, npc, dialogue)
         }
     }
@@ -223,8 +223,8 @@ fun completeDororanCraftTask(player: Player, xpToAward: Double) {
         player.lock()
         player.anim(ANIM_CHISEL)
         player.skills.addXp(Skills.CRAFTING, xpToAward)
-        player.incrementCount(DORORAN_CRAFT_TASKS_KEY)
-        wait(5)
+        player.save(DORORAN_CRAFT_TASKS_KEY, (player.getI(DORORAN_CRAFT_TASKS_KEY) + 1))
+        wait(4)
         player.unlock()
     }
 }
@@ -235,5 +235,6 @@ fun retrieveGunnarsGroundPoem(player: Player) {
 fun retrieveSwankyBoots(player: Player) {
     player.anim(ANIM_TAKE_ITEM)
     player.inventory.addItem(REPLACEMENT_SWANKY_BOOTS, true)
-    player.incrementCount(SWANKY_BOOTS_KEY)
+    if (player.getI(SWANKY_BOOTS_KEY) < 0) player.save(SWANKY_BOOTS_KEY, 1)
+    else player.save(SWANKY_BOOTS_KEY, (player.getI(SWANKY_BOOTS_KEY) + 1))
 }

@@ -17,7 +17,7 @@ fun mapGudrunTalk() {
 }
 
 fun mapGudrunDialogue(player: Player, npc: NPC) {
-    val dororanCraftingTasks: Int = player.getCounterValue(DORORAN_CRAFT_TASKS_KEY)
+    val dororanCraftingTasks: Int = player.getI(DORORAN_CRAFT_TASKS_KEY)
 
     player.startConversation {
         npc(npc, HAPPY_TALKING, "Hello!")
@@ -62,16 +62,16 @@ fun mapGudrunDialogue(player: Player, npc: NPC) {
                             }
                         }
                     }
-                    if (dororanCraftingTasks > 0)
+                    if (dororanCraftingTasks >= 0)
                         op("Did you like your present?") {
                             when (dororanCraftingTasks) {
-                                1 -> {
+                                0 -> {
                                     npc(npc, HAPPY_TALKING, "Look at this ruby bracelet he got for me! 'With beauty blessed.' When I recited that line to papa, it took my breath away.")
                                 }
-                                2 -> {
+                                1 -> {
                                     npc(npc, HAPPY_TALKING, "I love this dragonstone necklace he got for me! Isn't it wonderful? I might have it enchanted, so I can easily visit Al Kharid.")
                                 }
-                                3 -> {
+                                2 -> {
                                     npc(npc, HAPPY_TALKING, "I love my new onyx amulet! Aren't these things really expensive? \"The most beautiful girl in the room.\" Dororan is so sweet! Now, whichever room I'm in, I know I'm the most beautiful!")
                                 }
                             }
