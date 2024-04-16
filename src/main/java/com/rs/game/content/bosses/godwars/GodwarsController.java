@@ -32,6 +32,7 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+import kotlin.Pair;
 
 @PluginEventHandler
 public class GodwarsController extends Controller {
@@ -141,7 +142,7 @@ public class GodwarsController extends Controller {
 					case 3 -> player.setNextAnimation(new Animation(16635));
 					case 4 -> {
 						player.getAppearance().setHidden(true);
-						World.sendProjectile(Tile.of(player.getTile()), tile, 605, 18, 18, 20, 0.6, 30).getTaskDelay();
+						World.sendProjectile(Tile.of(player.getTile()), tile, 605, new Pair<>(18, 18), 20, 10, 30).getTaskDelay();
 						player.forceMove(tile, 0, 180, false, () -> {
 							player.getAppearance().setHidden(false);
 							player.setNextAnimation(new Animation(16672));

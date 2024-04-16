@@ -29,6 +29,7 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
 import com.rs.lib.util.Utils;
 import com.rs.utils.Ticks;
+import kotlin.Pair;
 
 public class KingBlackDragonCombat extends CombatScript {
 
@@ -63,7 +64,7 @@ public class KingBlackDragonCombat extends CombatScript {
 			if (protection == 2)
 				damage = 0;
 			delayHit(npc, 2, target, getRegularHit(npc, damage));
-			World.sendProjectile(npc, target, 393, 34, 16, 30, 35, 16);
+			World.sendProjectile(npc, target, 393, new Pair<>(34, 16), 30, 5, 16);
 			npc.setNextAnimation(new Animation(81));
 
 		} else if (attackStyle == 3) {
@@ -78,7 +79,7 @@ public class KingBlackDragonCombat extends CombatScript {
 			if (Utils.getRandomInclusive(2) == 0)
 				target.getPoison().makePoisoned(80);
 			delayHit(npc, 2, target, getRegularHit(npc, damage));
-			World.sendProjectile(npc, target, 394, 34, 16, 30, 35, 16);
+			World.sendProjectile(npc, target, 394, new Pair<>(34, 16), 30, 5, 16);
 			npc.setNextAnimation(new Animation(81));
 		} else if (attackStyle == 4) {
 			int damage = Utils.getRandomInclusive(650);
@@ -92,7 +93,7 @@ public class KingBlackDragonCombat extends CombatScript {
 			if (Utils.getRandomInclusive(2) == 0)
 				target.freeze(Ticks.fromSeconds(15));
 			delayHit(npc, 2, target, getRegularHit(npc, damage));
-			World.sendProjectile(npc, target, 395, 34, 16, 30, 35, 16);
+			World.sendProjectile(npc, target, 395, new Pair<>(34, 16), 30, 5, 16);
 			npc.setNextAnimation(new Animation(81));
 		} else {
 			int damage = Utils.getRandomInclusive(650);
@@ -104,7 +105,7 @@ public class KingBlackDragonCombat extends CombatScript {
 			if (protection == 2)
 				damage = getMaxHit(npc, 100, AttackStyle.MAGE, target);
 			delayHit(npc, 2, target, getRegularHit(npc, damage));
-			World.sendProjectile(npc, target, 396, 34, 16, 30, 35, 16);
+			World.sendProjectile(npc, target, 396, new Pair<>(34, 16), 30, 5, 16);
 			npc.setNextAnimation(new Animation(81));
 		}
 		return npc.getAttackSpeed();

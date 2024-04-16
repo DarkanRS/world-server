@@ -25,6 +25,7 @@ import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
+import kotlin.Pair;
 
 public class FakeNomadCombat extends CombatScript {
 
@@ -39,7 +40,7 @@ public class FakeNomadCombat extends CombatScript {
 		npc.setNextAnimation(new Animation(12697));
 		boolean hit = getMaxHit(npc, 50, AttackStyle.MAGE, target) != 0;
 		delayHit(npc, 2, target, getRegularHit(npc, hit ? 50 : 0));
-		World.sendProjectile(npc, target, 1657, 30, 30, 75, 25, 0);
+		World.sendProjectile(npc, target, 1657, new Pair<>(30, 30), 75, 10, 0);
 		if (hit)
 			WorldTasks.schedule(new Task() {
 				@Override

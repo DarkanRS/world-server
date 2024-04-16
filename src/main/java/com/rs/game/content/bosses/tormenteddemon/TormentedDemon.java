@@ -32,6 +32,7 @@ import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
+import kotlin.Pair;
 
 @PluginEventHandler
 public final class TormentedDemon extends NPC {
@@ -140,7 +141,7 @@ public final class TormentedDemon extends NPC {
 		}
 		Tile finalTile = tile;
 		setNextAnimation(new Animation(10917));
-		World.sendProjectile(this, tile, 1884, 100, 16, 40, 0.6, 16, p -> {
+		World.sendProjectile(this, tile, 1884, new Pair<>(100, 16), 40, 5, 16, 0, p -> {
 			World.sendSpotAnim(finalTile, new SpotAnim(1883));
 			for (Player player : queryNearbyPlayersByTileRange(7, player -> !player.isDead() && player.withinDistance(finalTile, 1))) {
 				player.sendMessage("The demon's magical attack splashes on you.");

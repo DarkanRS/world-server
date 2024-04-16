@@ -27,6 +27,7 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
+import kotlin.Pair;
 
 public class PlaneFreezerLakhrahnazCombat extends CombatScript {
 
@@ -50,7 +51,7 @@ public class PlaneFreezerLakhrahnazCombat extends CombatScript {
 				case 0 -> {
 					npc.setNextAnimation(new Animation(13775));
 					for (Entity t : npc.getPossibleTargets()) {
-						World.sendProjectile(npc, t, 2577, 16, 16, 41, 30, 0);
+						World.sendProjectile(npc, t, 2577, new Pair<>(16, 16), 41, 5, 0);
 						t.setNextSpotAnim(new SpotAnim(2578, 70, 0));
 						delayHit(npc, 1, t, getMagicHit(npc, getMaxHit(npc, 100, AttackStyle.MAGE, target)));
 					}
@@ -66,7 +67,7 @@ public class PlaneFreezerLakhrahnazCombat extends CombatScript {
 		}
 		npc.setNextAnimation(new Animation(13775));
 		npc.setNextSpotAnim(new SpotAnim(2574));
-		World.sendProjectile(npc, target, 2595, 16, 16, 41, 30, 0);
+		World.sendProjectile(npc, target, 2595, new Pair<>(16, 16), 41, 5, 0);
 		target.setNextSpotAnim(new SpotAnim(2576, 70, 0));
 		delayHit(npc, 1, target, getRangeHit(npc, getMaxHit(npc, 100, AttackStyle.RANGE, target)));
 		return npc.getAttackSpeed();

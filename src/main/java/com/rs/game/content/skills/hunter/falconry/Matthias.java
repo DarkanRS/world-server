@@ -12,6 +12,7 @@ import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
 import com.rs.utils.Ticks;
+import kotlin.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +52,7 @@ public class Matthias extends NPC {
 				forceTalk("Gouge 'em, Valor!");
 			transformIntoNPC(5093);
 			setBas(1);
-			World.sendProjectile(this, post, 922, 41, 16, 31, 0.8, 16, proj -> {
+			World.sendProjectile(this, post, 922, new Pair<>(41, 16), 31, 5, 16, 0, proj -> {
 				post.setId(19221);
 				unfreeze();
 			});
@@ -59,7 +60,7 @@ public class Matthias extends NPC {
 			if (Utils.random(10) == 0)
 				forceTalk("Valor, to me!");
 			post.setId(19220);
-			World.sendProjectile(post, this, 922, 41, 16, 31, 0.8, 16, proj -> {
+			World.sendProjectile(post, this, 922, new Pair<>(41, 16), 31, 5, 16, 0, proj -> {
 				transformIntoNPC(5092);
 				setBas(-1);
 				unfreeze();

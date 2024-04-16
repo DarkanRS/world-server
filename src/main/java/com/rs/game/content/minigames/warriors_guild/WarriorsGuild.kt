@@ -530,7 +530,7 @@ private fun isProperHit(player: Player, obj: GameObject): Boolean {
  */
 private fun tickDefenseMinigame() {
     projectileType = Utils.random(4)
-    sendProjectile(CATAPULT_PROJECTILE_BASE, CATAPULT_TARGET, 679 + projectileType, 85, 15, 15, 0.2, 15) { projectile ->
+    sendProjectile(CATAPULT_PROJECTILE_BASE, CATAPULT_TARGET, 679 + projectileType, 85 to 15, 15, 10, 15) { projectile ->
         getPlayersInChunkRange(projectile.destination.chunkId, 1)
             .filter { inCatapultArea(it) && it.withinDistance(CATAPULT_TARGET, 0) }
             .forEach { player ->
@@ -610,7 +610,7 @@ fun throwShotput(player: Player, type: Int, is18LB: Boolean) {
     player.schedule {
         player.anim(if (type == 0) 15079 else if (type == 1) 15080 else 15078)
         wait(1)
-        wait(sendProjectile(player, Tile.of(player.x + results.distance, player.y, 1), 690, 50, 0, 30, 1.0, 15).taskDelay)
+        wait(sendProjectile(player, Tile.of(player.x + results.distance, player.y, 1), 690, 50 to 0, 30, 5, 15).taskDelay)
         player.skills.addXp(Constants.STRENGTH, results.experience)
         wait(1)
         when(Utils.random(3)) {

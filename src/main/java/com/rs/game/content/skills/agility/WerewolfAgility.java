@@ -31,6 +31,7 @@ import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+import kotlin.Pair;
 
 import java.util.List;
 
@@ -146,7 +147,7 @@ public class WerewolfAgility {
 			npcs.getFirst().forceTalk("FETCH!!!!!");
 			WorldTasks.schedule(2, () -> {
 				npcs.getFirst().setNextAnimation(new Animation(6547));
-				World.sendProjectile(npcs.getFirst(), Tile.of(3540, 9911, 0), 1158, 35, 0, 20, 0.6, 20, p -> World.addGroundItem(new Item(4179), Tile.of(3540, 9911, 0), e.getPlayer()));
+				World.sendProjectile(npcs.getFirst(), Tile.of(3540, 9911, 0), 1158, new Pair<>(35, 0), 20, 10, 20, 0, p -> World.addGroundItem(new Item(4179), Tile.of(3540, 9911, 0), e.getPlayer()));
 			});
 		}
 	}

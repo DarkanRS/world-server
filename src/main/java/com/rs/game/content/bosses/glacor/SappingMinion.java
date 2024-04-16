@@ -19,6 +19,7 @@ package com.rs.game.content.bosses.glacor;
 import com.rs.game.World;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.lib.game.Tile;
+import kotlin.Pair;
 
 public class SappingMinion extends NPC {
 
@@ -37,7 +38,7 @@ public class SappingMinion extends NPC {
 		super.processEntity();
 		if (getHitpoints() <= 0 || isDead()) {
 			if (!defeated)
-				World.sendProjectile(this, parent, 634, 34, 16, 30, 35, 16);
+				World.sendProjectile(this, parent, 634, new Pair<>(34, 16), 30, 10, 16);
 			defeated = true;
 		}
 	}

@@ -28,6 +28,7 @@ import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
 import com.rs.lib.util.Utils;
+import kotlin.Pair;
 
 public class SpinolypCombat extends CombatScript {
 
@@ -42,7 +43,7 @@ public class SpinolypCombat extends CombatScript {
 		switch (Utils.random(2)) {
 		case 0 -> {
 			npc.setNextAnimation(new Animation(defs.getAttackEmote()));
-			WorldProjectile projectile = World.sendProjectile(npc, target, 2705, 34, 16, 35, 2, 10);
+			WorldProjectile projectile = World.sendProjectile(npc, target, 2705, new Pair<>(34, 16), 35, 5, 10);
 			Hit hit = getMagicHit(npc, getMaxHit(npc, AttackStyle.RANGE, target));
 			delayHit(npc, projectile.getTaskDelay(), target, hit, () -> {
 				if (hit.getDamage() > 0 && target instanceof Player p)
@@ -51,7 +52,7 @@ public class SpinolypCombat extends CombatScript {
 		}
 		case 1 -> {
 			npc.setNextAnimation(new Animation(defs.getAttackEmote()));
-			WorldProjectile projectile = World.sendProjectile(npc, target, 473, 34, 16, 35, 2, 10);
+			WorldProjectile projectile = World.sendProjectile(npc, target, 473, new Pair<>(34, 16), 35, 5, 10);
 			Hit hit = getRangeHit(npc, getMaxHit(npc, AttackStyle.RANGE, target));
 			delayHit(npc, projectile.getTaskDelay(), target, hit, () -> {
 				if (hit.getDamage() > 0 && Utils.random(10) == 0)

@@ -33,6 +33,7 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ButtonClickHandler;
+import kotlin.Pair;
 
 import java.util.concurrent.CopyOnWriteArraySet;
 
@@ -493,7 +494,7 @@ public class PrayerManager {
 				player.setNextAnimation(new Animation(12569));
 				player.soundEffect(target, 8115, true);
 				player.setNextSpotAnim(new SpotAnim(sap.getSpotAnimStart()));
-				World.sendProjectile(player, target, sap.getProjAnim(), 35, 35, 20, 0.6, 0, p -> {
+				World.sendProjectile(player, target, sap.getProjAnim(), new Pair<>(35, 35), 20, 10, 0, 0, p -> {
 					if (target != null)
 						target.setNextSpotAnim(new SpotAnim(sap.getSpotAnimHit()));
 					player.soundEffect(target, 8116, true);
@@ -504,7 +505,7 @@ public class PrayerManager {
 				leech.activate(player, target);
 				player.setNextAnimation(new Animation(12575));
 				player.soundEffect(target, 8109, true);
-				World.sendProjectile(player, target, leech.getProjAnim(), 35, 35, 20, 0.6, 0, p -> {
+				World.sendProjectile(player, target, leech.getProjAnim(), new Pair<>(35, 35), 20, 10, 0, 0, p -> {
 					if (target != null)
 						target.setNextSpotAnim(new SpotAnim(leech.getSpotAnimHit()));
 					player.soundEffect(target, 8110, true);

@@ -109,9 +109,9 @@ fun mapSpecials() {
     //Obliteration
     addSpec(intArrayOf(24457), SpecialAttack(SpecialAttack.Type.MAGIC, 20) { player, target ->
         player.sync(16960, 3189)
-        val p = World.sendProjectile(player, target, 3188, 15, 15, 15, 0.6, 0)
+        val p = World.sendProjectile(player, target, 3188, 15 to 15, 15, 5, 0)
         for (dir in Direction.entries)
-            World.sendProjectile(Tile.of(target.x + (dir.dx * 7), target.y + (dir.dy * 7), target.plane), target, 3188, 15, 15, 15, 0.6, 0)
+            World.sendProjectile(Tile.of(target.x + (dir.dx * 7), target.y + (dir.dy * 7), target.plane), target, 3188, 15 to 15, 15, 5, 0)
         val hit = calculateMagicHit(player, target, 500, true)
         delayMagicHit(target, p.taskDelay, hit, { target.spotAnim(CombatSpell.WIND_RUSH.hitSpotAnim) }, null, null)
         return@SpecialAttack 7
@@ -123,8 +123,8 @@ fun mapSpecials() {
     addSpec(RangedWeapon.QUICK_BOW.ids, SpecialAttack(SpecialAttack.Type.RANGE, 75) { player, target ->
         player.anim(1074)
         player.spotAnim(250, 10, 100)
-        val p = World.sendProjectile(player, target, 249, 20, 50, 1.5)
-        val p2 = World.sendProjectile(player, target, 249, 30, 50, 1.5)
+        val p = World.sendProjectile(player, target, 249, 50, 5, 20)
+        val p2 = World.sendProjectile(player, target, 249, 50, 5, 30)
         delayHit(target, p.taskDelay, Hit.range(player, 25).setMaxHit(25))
         delayHit(target, p2.taskDelay, Hit.range(player, 25).setMaxHit(25))
         return@SpecialAttack getRangeCombatDelay(player)
@@ -132,7 +132,7 @@ fun mapSpecials() {
 
     addSpec(RangedWeapon.ZAMORAK_BOW.ids, SpecialAttack(SpecialAttack.Type.RANGE, 55) { player, target ->
         player.sync(426, 97)
-        val p = World.sendProjectile(player, target, 100, 20, 50, 1.5)
+        val p = World.sendProjectile(player, target, 100, 50, 5, 20)
         delayHit(target, p.taskDelay, calculateHit(player, target, true))
         dropAmmo(player, target, Equipment.AMMO, 1)
         return@SpecialAttack getRangeCombatDelay(player)
@@ -140,7 +140,7 @@ fun mapSpecials() {
 
     addSpec(RangedWeapon.GUTHIX_BOW.ids, SpecialAttack(SpecialAttack.Type.RANGE, 55) { player, target ->
         player.sync(426, 95)
-        val p = World.sendProjectile(player, target, 98, 20, 50, 1.5)
+        val p = World.sendProjectile(player, target, 98, 50, 5, 20)
         delayHit(target, p.taskDelay, calculateHit(player, target, true))
         dropAmmo(player, target, Equipment.AMMO, 1)
         return@SpecialAttack getRangeCombatDelay(player)
@@ -148,7 +148,7 @@ fun mapSpecials() {
 
     addSpec(RangedWeapon.SARADOMIN_BOW.ids, SpecialAttack(SpecialAttack.Type.RANGE, 55) { player, target ->
         player.sync(426, 96)
-        val p = World.sendProjectile(player, target, 99, 20, 50, 1.5)
+        val p = World.sendProjectile(player, target, 99, 50, 5, 20)
         delayHit(target, p.taskDelay, calculateHit(player, target, true))
         dropAmmo(player, target, Equipment.AMMO, 1)
         return@SpecialAttack getRangeCombatDelay(player)
@@ -157,14 +157,14 @@ fun mapSpecials() {
     addSpec(RangedWeapon.RUNE_THROWNAXE.ids, SpecialAttack(SpecialAttack.Type.RANGE, 20) { player, target -> //TODO test this heavily
         val maxHit = getMaxHit(player, target, true, 1.0)
         player.anim(9055)
-        val projectile = World.sendProjectile(player, target, 258, 20, 50, 1.0)
+        val projectile = World.sendProjectile(player, target, 258, 50, 5, 20)
         delayHit(target, projectile.taskDelay, calculateHit(player, target, 1, maxHit, true, true, 1.0))
         player.schedule {
             wait(projectile.taskDelay + 1)
             var lastTarget = target
             for (i in 1..5) {
                 val nextTarget = getMultiAttackTargets(player, lastTarget, 4, 10, false).closestOrNull(lastTarget.tile) ?: return@schedule
-                wait(World.sendProjectile(lastTarget, nextTarget, 258, 20, 0, 1.0).taskDelay + 1)
+                wait(World.sendProjectile(lastTarget, nextTarget, 258, 50, 5).taskDelay + 1)
                 nextTarget.applyHit(calculateHit(player, nextTarget, 1, maxHit, true, true, 1.0))
                 lastTarget = nextTarget
             }
@@ -175,8 +175,8 @@ fun mapSpecials() {
     addSpec(Stream.of(RangedWeapon.MAGIC_BOW.ids, RangedWeapon.MAGIC_LONGBOW.ids, RangedWeapon.MAGIC_COMP_BOW.ids).flatMapToInt(Arrays::stream).toArray(), SpecialAttack(SpecialAttack.Type.RANGE, 55) { player, target ->
         player.anim(1074)
         player.spotAnim(250, 10, 100)
-        delayHit(target, World.sendProjectile(player, target, 249, 20, 20, 2.0).taskDelay, calculateHit(player, target, true))
-        delayHit(target, World.sendProjectile(player, target, 249, 15, 50, 1.6).taskDelay, calculateHit(player, target, true))
+        delayHit(target, World.sendProjectile(player, target, 249, 20, 5, 15).taskDelay, calculateHit(player, target, true))
+        delayHit(target, World.sendProjectile(player, target, 249, 50, 5, 20).taskDelay, calculateHit(player, target, true))
         dropAmmo(player, target, Equipment.AMMO, 2)
         player.soundEffect(target, 2545, true)
         return@SpecialAttack getRangeCombatDelay(player)
@@ -184,7 +184,7 @@ fun mapSpecials() {
 
     addSpec(RangedWeapon.HAND_CANNON.ids, SpecialAttack(SpecialAttack.Type.RANGE, 50) { player, target ->
         player.sync(12175, 2138)
-        delayHit(target, World.sendProjectile(player, target, 2143, 0, 50, 1.5).taskDelay, calculateHit(player, target, true))
+        delayHit(target, World.sendProjectile(player, target, 2143, 50, 5).taskDelay, calculateHit(player, target, true))
         return@SpecialAttack 1
     })
 
@@ -196,7 +196,7 @@ fun mapSpecials() {
         val hit = calculateHit(player, target, true, true, 1.0, 1.3)
         if (hit.damage > 0)
             target.lowerStat(Skills.DEFENSE, hit.damage / 10, 0.0)
-        delayHit(target, World.sendProjectile(player, target, 698, 20, 50, 1.0).taskDelay, hit)
+        delayHit(target, World.sendProjectile(player, target, 698, 50, 5, 20).taskDelay, hit)
         dropAmmo(player, target, Equipment.AMMO, 1)
         player.soundEffect(target, 1080, true)
         return@SpecialAttack getRangeCombatDelay(player)
@@ -213,10 +213,10 @@ fun mapSpecials() {
             if (hit1.damage < 80) hit1.setDamage(80)
             val hit2 = calculateHit(player, target, true, true, 1.0, 1.5)
             if (hit2.damage < 80) hit2.setDamage(80)
-            delayHit(target, World.sendProjectile(player, target, 1099, 20, 50, 1.0) { _ ->
+            delayHit(target, World.sendProjectile(player, target, 1099, 50, 5, 20) { _ ->
                 target.spotAnim(1100, 0, 100)
             }.taskDelay, hit1)
-            delayHit(target, World.sendProjectile(player, target, 1099, 30, 50, 1.5) { _ ->
+            delayHit(target, World.sendProjectile(player, target, 1099, 50, 5, 30) { _ ->
                 target.spotAnim(1100, 0, 100)
             }.taskDelay, hit2)
             player.soundEffect(target, 3736, true)
@@ -225,8 +225,8 @@ fun mapSpecials() {
             if (hit1.damage < 50) hit1.setDamage(50)
             val hit2 = calculateHit(player, target, true, true, 1.0, 1.3)
             if (hit2.damage < 50) hit2.setDamage(50)
-            delayHit(target, World.sendProjectile(player, target, 1101, 20, 50, 1.0).taskDelay, hit1)
-            delayHit(target, World.sendProjectile(player, target, 1101, 30, 50, 1.5).taskDelay, hit2)
+            delayHit(target, World.sendProjectile(player, target, 1101, 50, 5, 20).taskDelay, hit1)
+            delayHit(target, World.sendProjectile(player, target, 1101, 50, 5, 30).taskDelay, hit2)
             player.soundEffect(target, 3737, true)
         }
         dropAmmo(player, target, Equipment.AMMO, 2)
@@ -237,7 +237,7 @@ fun mapSpecials() {
         player.anim(ItemConfig.get(RangedWeapon.ZANIKS_CROSSBOW.ids[0]).getAttackAnim(0))
         player.spotAnim(1714)
         delayHit(target,
-            World.sendProjectile(player, target, 2001, 20, 50, 1.5).taskDelay,
+            World.sendProjectile(player, target, 2001, 50, 5, 20).taskDelay,
             Hit.range(player,
                 calculateHit(player, target, true, true, 1.0, 1.0).damage + 30 + Utils.getRandomInclusive(120)))
         dropAmmo(player, target)
@@ -247,7 +247,7 @@ fun mapSpecials() {
     addSpec(RangedWeapon.MORRIGANS_JAVELIN.ids, SpecialAttack(SpecialAttack.Type.RANGE, 50) { player, target ->
         player.sync(10501, 1836)
         val hit = calculateHit(player, target, true, true, 1.0, 1.0)
-        val proj = World.sendProjectile(player, target, 1837, 20, 50, 1.5)
+        val proj = World.sendProjectile(player, target, 1837, 50, 5, 20)
         delayHit(target, proj.taskDelay, hit)
         if (hit.damage > 0) {
             target.schedule {
@@ -267,7 +267,7 @@ fun mapSpecials() {
     addSpec(RangedWeapon.MORRIGANS_THROWING_AXE.ids, SpecialAttack(SpecialAttack.Type.RANGE, 50) { player, target ->
         player.sync(10504, 1838)
         delayHit(target,
-            World.sendProjectile(player, target, 1839, 20, 50, 1.5).taskDelay,
+            World.sendProjectile(player, target, 1839, 50, 5, 20).taskDelay,
             calculateHit(player, target, true, true, 1.0, 1.0))
         dropAmmo(player, target, Equipment.WEAPON, 1)
         return@SpecialAttack getRangeCombatDelay(player)
@@ -277,7 +277,7 @@ fun mapSpecials() {
         val hit = calculateHit(player, target, true, true, 1.0, 1.0)
         player.anim(ItemConfig.get(RangedWeapon.SEERCULL.ids[0]).getAttackAnim(0))
         player.spotAnim(472, 0, 100)
-        delayHit(target, World.sendProjectile(player, target, 473, 20, 50, 1.5) { _ -> target.spotAnim(474) }.taskDelay, hit)
+        delayHit(target, World.sendProjectile(player, target, 473, 50, 5, 20) { _ -> target.spotAnim(474) }.taskDelay, hit)
         if (hit.damage > 0)
             target.lowerStat(Skills.MAGIC, hit.damage / 10, 0.0)
         dropAmmo(player, target)
@@ -287,7 +287,7 @@ fun mapSpecials() {
 
     addSpec(RangedWeapon.DECIMATION.ids, SpecialAttack(SpecialAttack.Type.RANGE, 20) { player, target ->
         player.sync(16959, 3192)
-        val p = World.sendProjectile(player, target, 3188, 20, 100, 0.6) { _ -> target.spotAnim(3191) }
+        val p = World.sendProjectile(player, target, 3188, 100, 10, 20) { _ -> target.spotAnim(3191) }
         for (i in 0..3)
             delayHit(target, p.taskDelay, calculateHit(player, target, true, true, 1.0, 1.0))
         return@SpecialAttack 6

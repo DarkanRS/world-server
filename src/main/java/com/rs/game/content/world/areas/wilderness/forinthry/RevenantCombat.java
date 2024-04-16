@@ -30,6 +30,7 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
 import com.rs.utils.Ticks;
+import kotlin.Pair;
 
 public class RevenantCombat extends CombatScript {
 
@@ -102,7 +103,7 @@ public class RevenantCombat extends CombatScript {
 			if (target instanceof Player player && player.hasEffect(Effect.REV_IMMUNE))
 				damage = 0;
 			delayHit(npc, 2, target, getMagicHit(npc, damage));
-			World.sendProjectile(npc, target, 1276, 34, 16, 30, 35, 16);
+			World.sendProjectile(npc, target, 1276, new Pair<>(34, 16), 30, 7, 16);
 			if (damage > 0)
 				WorldTasks.schedule(new Task() {
 
@@ -123,7 +124,7 @@ public class RevenantCombat extends CombatScript {
 			if (target instanceof Player player && player.hasEffect(Effect.REV_IMMUNE))
 				damage = 0;
 			delayHit(npc, 2, target, getRangeHit(npc, damage2));
-			World.sendProjectile(npc, target, 1278, 34, 16, 30, 35, 16);
+			World.sendProjectile(npc, target, 1278, new Pair<>(34, 16), 30, 7, 16);
 			npc.setNextAnimation(new Animation(getRangeAnimation(npc)));
 			break;
 		case 2: // melee

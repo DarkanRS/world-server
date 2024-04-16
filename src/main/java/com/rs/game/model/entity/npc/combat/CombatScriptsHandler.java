@@ -28,6 +28,7 @@ import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.annotations.ServerStartupEvent.Priority;
+import kotlin.Pair;
 
 import java.util.HashMap;
 import java.util.List;
@@ -46,7 +47,7 @@ public class CombatScriptsHandler {
 				CombatScript.delayHit(npc, 0, target, CombatScript.getMeleeHit(npc, CombatScript.getMaxHit(npc, npc.getMaxHit(), attackStyle, target)));
 			else {
 				int damage = CombatScript.getMaxHit(npc, npc.getMaxHit(), attackStyle, target);
-				WorldProjectile p = World.sendProjectile(npc, target, defs.getAttackProjectile(), 32, 32, 50, 2, 2);
+				WorldProjectile p = World.sendProjectile(npc, target, defs.getAttackProjectile(), new Pair<>(32, 32), 50, 5, 2);
 				CombatScript.delayHit(npc, p.getTaskDelay(), target, attackStyle == NPCCombatDefinitions.AttackStyle.RANGE ? CombatScript.getRangeHit(npc, damage) : CombatScript.getMagicHit(npc, damage));
 			}
 			if (defs.getAttackGfx() != -1)

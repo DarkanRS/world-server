@@ -34,6 +34,7 @@ import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.DropSets;
 import com.rs.utils.drop.DropTable;
+import kotlin.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -273,7 +274,7 @@ public final class QueenBlackDragon extends NPC {
 		setNextAnimation(new Animation(16747));
 		attacker.sendMessage("Worms burrow through her rotting flesh.");
 		final Tile destination = base.transform(28 + Utils.random(12), 28 + Utils.random(6), 0);
-		WorldProjectile p = World.sendProjectile(this, destination, 3141, 128, 0, 60, 1.5, 5);
+		WorldProjectile p = World.sendProjectile(this, destination, 3141, new Pair<>(128, 0), 60, 10, 5);
 		getTasks().schedule(new Task() {
 			@Override
 			public void run() {

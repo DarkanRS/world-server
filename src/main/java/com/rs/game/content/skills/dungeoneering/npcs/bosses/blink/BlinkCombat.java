@@ -33,6 +33,7 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
+import kotlin.Pair;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -82,7 +83,7 @@ public class BlinkCombat extends CombatScript {
 				boss.resetCombat();
 				boss.setNextFaceEntity(null);
 				boss.setNextFaceTile(beginningTile);// Faces the direction it throws into
-				World.sendProjectile(boss, beginningTile, 2853, 18, 18, 50, 50, 0);
+				World.sendProjectile(boss, beginningTile, 2853, new Pair<>(18, 18), 50, 5, 0);
 				WorldTasks.scheduleLooping(new Task() {
 
 					private List<Tile> knifeTargets;
@@ -115,7 +116,7 @@ public class BlinkCombat extends CombatScript {
 				}, 0, 0);
 			} else {
 				boss.setNextAnimation(new Animation(14949));
-				World.sendProjectile(boss, target, 2853, 18, 18, 50, 50, 0);
+				World.sendProjectile(boss, target, 2853, new Pair<>(18, 18), 50, 5, 0);
 				delayHit(boss, 1, target, getRangeHit(boss, getMaxHit(boss, boss.getMaxHit(), AttackStyle.RANGE, target)));
 			}
 		} else {

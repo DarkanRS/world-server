@@ -12,6 +12,7 @@ import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
+import kotlin.Pair;
 
 import java.util.Arrays;
 
@@ -50,7 +51,7 @@ public class FamiliarCombatScript extends CombatScript {
 			delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, npc.getMaxHit(), attackStyle, target)));
 		else {
 			int damage = getMaxHit(npc, npc.getMaxHit(), attackStyle, target);
-			WorldProjectile p = World.sendProjectile(npc, target, defs.getAttackProjectile(), 32, 32, 50, 2, 2);
+			WorldProjectile p = World.sendProjectile(npc, target, defs.getAttackProjectile(), new Pair<>(32, 32), 50, 5, 2);
 			delayHit(npc, p.getTaskDelay(), target, attackStyle == AttackStyle.RANGE ? getRangeHit(npc, damage) : getMagicHit(npc, damage));
 		}
 		if (defs.getAttackGfx() != -1)

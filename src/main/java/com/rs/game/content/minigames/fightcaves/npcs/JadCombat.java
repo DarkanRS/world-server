@@ -28,6 +28,7 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
+import kotlin.Pair;
 
 public class JadCombat extends CombatScript {
 
@@ -69,7 +70,7 @@ public class JadCombat extends CombatScript {
 			WorldTasks.schedule(new Task() {
 				@Override
 				public void run() {
-					WorldProjectile p = World.sendProjectile(npc, target, 2996, 80, 30, 40, 5, 5);
+					WorldProjectile p = World.sendProjectile(npc, target, 2996, new Pair<>(80, 30), 40, 10, 5);
 					target.setNextSpotAnim(new SpotAnim(2741, 0, 100));
 					delayHit(npc, p.getTaskDelay(), target, getMagicHit(npc, getMaxHit(npc, defs.getMaxHit() - 2, AttackStyle.MAGE, target)));
 				}

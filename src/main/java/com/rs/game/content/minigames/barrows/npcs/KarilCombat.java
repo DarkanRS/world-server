@@ -27,6 +27,7 @@ import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
+import kotlin.Pair;
 
 public class KarilCombat extends CombatScript {
 
@@ -46,7 +47,7 @@ public class KarilCombat extends CombatScript {
 			int currentLevel = player.getSkills().getLevel(Constants.AGILITY);
 			player.getSkills().set(Constants.AGILITY, currentLevel < drain ? 0 : currentLevel - drain);
 		}
-		World.sendProjectile(npc, target, defs.getAttackProjectile(), 41, 16, 41, 35, 16);
+		World.sendProjectile(npc, target, defs.getAttackProjectile(), new Pair<>(41, 16), 41, 5, 16);
 		delayHit(npc, 2, target, getRangeHit(npc, damage));
 		return npc.getAttackSpeed();
 	}

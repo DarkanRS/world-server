@@ -29,18 +29,18 @@ import java.util.function.Consumer;
 
 public class WorldProjectile extends Projectile {
 
-	public WorldProjectile(Object from, Object to, int spotAnimId, int startHeight, int endHeight, int startTime, int endTime, int slope, int angle, Consumer<WorldProjectile> task) {
+	public WorldProjectile(Object from, Object to, int spotAnimId, int startHeight, int endHeight, int startDelayClientCycles, int inAirClientCycles, int slope, int angle, Consumer<WorldProjectile> task) {
 		super(switch(from) {
 			case Tile t -> t;
-			case Entity e -> e.getMiddleTile();
+			case Entity e -> e.getTile();
 			case GameObject g -> g.getTile();
 			default -> throw new IllegalArgumentException("Unexpected value: " + from);
 		}, from instanceof Entity e ? e.getIndex() : -1, switch(to) {
 			case Tile t -> t;
-			case Entity e -> e.getMiddleTile();
+			case Entity e -> e.getTile();
 			case GameObject g -> g.getTile();
 			default -> throw new IllegalArgumentException("Unexpected value: " + to);
-		}, to instanceof Entity e ? e.getIndex() : -1, spotAnimId, startHeight, endHeight, startTime, endTime, slope, angle);
+		}, to instanceof Entity e ? e.getIndex() : -1, spotAnimId, startHeight, endHeight, startDelayClientCycles, inAirClientCycles, slope, angle);
 		Entity fromE = from instanceof Entity e ? e : null;
 		sourceId = fromE == null ? 0 : (fromE instanceof Player ? -(fromE.getIndex() + 1) : fromE.getIndex() + 1);
 		Entity toE = to instanceof Entity e ? e : null;
@@ -72,6 +72,6 @@ public class WorldProjectile extends Projectile {
 	}
 
 	public int getTaskDelay() {
-		return Utils.clampI(Utils.projectileTimeToCycles(getEndTime()) - 1, 0, Integer.MAX_VALUE);
+		return Utils.clampI(Utils.projInAirToTicks(getStartDelayClientCycles(), getInAirClientCycles()), 0, Integer.MAX_VALUE);
 	}
 }

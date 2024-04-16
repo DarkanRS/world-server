@@ -33,6 +33,7 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
+import kotlin.Pair;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -78,7 +79,7 @@ public class RuneboundBehemothCombat extends CombatScript {
 							if (!manager.isAtBossRoom(tile))
 								continue;
 							explosions.add(tile);
-							World.sendProjectile(boss, tile, 2414, 120, 0, 20, 0, 20);
+							World.sendProjectile(boss, tile, 2414, new Pair<>(120, 0), 20, 3, 20);
 						}
 				} else if (ticks == 8) {
 					for (Tile tile : explosions)
@@ -118,7 +119,7 @@ public class RuneboundBehemothCombat extends CombatScript {
 			case 1 -> {
 				boss.setNextAnimation(new Animation(14427));
 				//boss.setNextGraphics(new Graphics(2413));
-				World.sendProjectile(npc, target, 2414, 41, 16, 50, 40, 0);
+				World.sendProjectile(npc, target, 2414, new Pair<>(41, 16), 50, 4, 0);
 				delayHit(npc, 1, target, getMagicHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MAGE, target)));
 				target.setNextSpotAnim(new SpotAnim(2417, 80, 0));
 			}
@@ -126,7 +127,7 @@ public class RuneboundBehemothCombat extends CombatScript {
 			case 2 -> {
 				boss.setNextAnimation(new Animation(14424));
 				boss.setNextSpotAnim(new SpotAnim(2394));
-				World.sendProjectile(npc, target, 2395, 41, 16, 50, 40, 0);
+				World.sendProjectile(npc, target, 2395, new Pair<>(41, 16), 50, 4, 0);
 				delayHit(npc, 1, target, getRangeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.RANGE, target)));
 				target.setNextSpotAnim(new SpotAnim(2396, 80, 0));
 			}

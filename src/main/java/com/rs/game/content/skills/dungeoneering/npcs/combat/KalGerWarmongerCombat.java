@@ -32,6 +32,7 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
+import kotlin.Pair;
 
 public class KalGerWarmongerCombat extends CombatScript {
 
@@ -90,7 +91,7 @@ public class KalGerWarmongerCombat extends CombatScript {
 			npc.setNextAnimation(new Animation(14996));
 			npc.setNextSpotAnim(new SpotAnim(2874));
 			for (Entity t : boss.getPossibleTargets()) {
-				World.sendProjectile(boss, t, 2875, 65, 10, 50, 0, 5);
+				World.sendProjectile(boss, t, 2875, new Pair<>(65, 10), 50, 5, 5);
 				t.setNextSpotAnim(new SpotAnim(2873));
 				delayHit(npc, 0, t, getMagicHit(npc, getMaxHit(npc, boss.getMaxHit(), AttackStyle.MAGE, t)));
 			}
@@ -101,7 +102,7 @@ public class KalGerWarmongerCombat extends CombatScript {
 			npc.setNextAnimation(new Animation(14537));
 			npc.setNextSpotAnim(new SpotAnim(2885));
 			for (Entity t : boss.getPossibleTargets()) {
-				World.sendProjectile(boss, t, 2886, 75, 30, 50, 55, 2);
+				World.sendProjectile(boss, t, 2886, new Pair<>(75, 30), 50, 5, 2);
 				delayHit(npc, 2, t, getRangeHit(npc, getMaxHit(npc, boss.getMaxHit(), AttackStyle.RANGE, t)));
 			}
 		} else if (boss.getType() == 6) {// MAUL

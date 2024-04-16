@@ -33,6 +33,7 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
+import kotlin.Pair;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -49,7 +50,7 @@ public class NightGazerKhighorahkCombat extends CombatScript {
 			return;
 		gazer.setNextAnimation(new Animation(13425));
 		for (Entity target : gazer.getPossibleTargets()) {
-			World.sendProjectile(gazer, target, 2385, 60, 16, 41, 30, 0);
+			World.sendProjectile(gazer, target, 2385, new Pair<>(60, 16), 41, 3, 0);
 			delayHit(gazer, 1, target, getRangeHit(gazer, getMaxHit(gazer, (int) (gazer.getMaxHit() * 0.6), AttackStyle.RANGE, target)));
 		}
 
@@ -138,13 +139,13 @@ public class NightGazerKhighorahkCombat extends CombatScript {
 		}
 		if (Utils.random(3) == 0) { // range single target
 			npc.setNextAnimation(new Animation(gazer.isSecondStage() ? 13433 : 13434));
-			World.sendProjectile(npc, target, 2385, gazer.isSecondStage() ? 60 : 40, 16, 41, 90, 0);
+			World.sendProjectile(npc, target, 2385, new Pair<>(gazer.isSecondStage() ? 60 : 40, 16), 41, 5, 0);
 			delayHit(npc, 3, target, getRangeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.RANGE, target)));
 			return npc.getAttackSpeed() + 1;
 		}
 		// magic
 		npc.setNextAnimation(new Animation(gazer.isSecondStage() ? 13430 : 13431));
-		World.sendProjectile(npc, target, 2385, gazer.isSecondStage() ? 60 : 40, 16, 41, 30, 0);
+		World.sendProjectile(npc, target, 2385, new Pair<>(gazer.isSecondStage() ? 60 : 40, 16), 41, 10, 0);
 		target.setNextSpotAnim(new SpotAnim(2386, 70, 100));
 		delayHit(npc, 1, target, getMagicHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MAGE, target)));
 		return npc.getAttackSpeed();

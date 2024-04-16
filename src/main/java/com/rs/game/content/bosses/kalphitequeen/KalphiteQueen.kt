@@ -77,7 +77,7 @@ fun mapKalphiteQueen() {
         npc.anim(if (npc.id == 1158) 6240 else 6234)
         if (random(2) == 0) {
             //range
-            sendProjectile(npc, target, 288, 30, 15, 1.8) {
+            sendProjectile(npc, target, 288, 30, 5, 15) {
                 delayHit(npc, 0, target, getRangeHit(npc, getMaxHit(npc, npc.combatDefinitions.maxHit, NPCCombatDefinitions.AttackStyle.RANGE, target, 10000.0)))
                 if (target is Player)
                     target.prayer.drainPrayer(10.0)
@@ -86,7 +86,7 @@ fun mapKalphiteQueen() {
         }
         //mage
         npc.spotAnim(if (npc.id == 1158) 278 else 279)
-        projectileBounce(npc, target, mutableSetOf(target), 280, 281, 1.8) { nextTarget ->
+        projectileBounce(npc, target, mutableSetOf(target), 280, 281, 5) { nextTarget ->
             delayHit(npc, 0, nextTarget, getMagicHit(npc, getMaxHit(npc, npc.maxHit, NPCCombatDefinitions.AttackStyle.MAGE, nextTarget, 10000.0)))
         }
         return@npcCombat npc.attackSpeed

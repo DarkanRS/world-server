@@ -231,8 +231,8 @@ class Cutscene(val player: Player) : Continuation<Unit> {
         sendSpotAnim(Tile.of(getX(x), getY(y), z), id)
     }
 
-    fun projectile(from: Tile, to: Tile, spotAnim: Int, startHeight: Int, endHeight: Int, startTime: Int, speed: Double, angle: Int, task: ((projectile: WorldProjectile) -> Unit)?) {
-        sendProjectile(Tile.of(getX(from.x), getY(from.y), from.plane), Tile.of(getX(to.x), getY(to.y), to.plane), spotAnim, startHeight, endHeight, startTime, speed, angle, task)
+    fun projectile(from: Tile, to: Tile, spotAnim: Int, startHeight: Int, endHeight: Int, startDelayClientCycles: Int, inAirClientCyclesPerTile: Int, angle: Int, task: ((projectile: WorldProjectile) -> Unit)?) {
+        sendProjectile(Tile.of(getX(from.x), getY(from.y), from.plane), Tile.of(getX(to.x), getY(to.y), to.plane), spotAnim, startHeight to endHeight, startDelayClientCycles, inAirClientCyclesPerTile, angle, 0, task)
     }
 
     fun returnPlayerFromInstance() {

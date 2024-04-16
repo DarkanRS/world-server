@@ -27,6 +27,7 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
+import kotlin.Pair;
 
 public class KetZekCombat extends CombatScript {
 
@@ -65,7 +66,7 @@ public class KetZekCombat extends CombatScript {
         int hit = getMaxHit(npc, npc.getCombatDefinitions().getMaxHit() - 50, AttackStyle.MAGE, target);
 		npc.setNextAnimation(new Animation(16136));
 		// npc.setNextGraphics(new Graphics(1622, 0, 96 << 16));
-		World.sendProjectile(npc, target, 2984, 34, 16, 30, 2, 16);
+		World.sendProjectile(npc, target, 2984, new Pair<>(34, 16), 30, 7, 16);
 		delayHit(npc, 2, target, getMagicHit(npc, hit));
 		WorldTasks.schedule(new Task() {
 

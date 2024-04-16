@@ -101,7 +101,7 @@ fun mapTrollWarzone() {
             CombatScript.delayHit(npc, 1, target, CombatScript.getMeleeHit(npc, CombatScript.getMaxHit(npc, 2, NPCCombatDefinitions.AttackStyle.MELEE, target)))
         } else {
             npc.sync(1933, 262)
-            CombatScript.delayHit(npc, World.sendProjectile(npc, target, 295, 34, 16, 60, 2.0, 16).taskDelay, target, CombatScript.getRangeHit(npc, CombatScript.getMaxHit(npc, 2, NPCCombatDefinitions.AttackStyle.RANGE, target)))
+            CombatScript.delayHit(npc, World.sendProjectile(npc, target, 295, 34 to 16, 60, 3, 16).taskDelay, target, CombatScript.getRangeHit(npc, CombatScript.getMaxHit(npc, 2, NPCCombatDefinitions.AttackStyle.RANGE, target)))
         }
         return@npcCombat npc.attackSpeed
     }

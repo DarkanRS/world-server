@@ -28,6 +28,7 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
 import com.rs.utils.Ticks;
+import kotlin.Pair;
 
 public class AncientMageCombat extends CombatScript {
 
@@ -44,24 +45,24 @@ public class AncientMageCombat extends CombatScript {
 
 		npc.setNextAnimation(new Animation(defs.getAttackEmote()));
 		if (spellType == 0) {
-			World.sendProjectile(npc, target, 386, 18, 18, 50, 50, 0);
+			World.sendProjectile(npc, target, 386, new Pair<>(18, 18), 50, 8, 0);
 			delayHit(npc, 2, target, hit);
 		} else if (spellType == 1) {
-			World.sendProjectile(npc, target, 380, 18, 18, 50, 50, 0);
+			World.sendProjectile(npc, target, 380, new Pair<>(18, 18), 50, 8, 0);
 			delayHit(npc, 2, target, hit);
 		} else if (spellType == 2) {
-			World.sendProjectile(npc, target, 374, 18, 18, 50, 50, 0);// blood
+			World.sendProjectile(npc, target, 374, new Pair<>(18, 18), 50, 8, 0);// blood
 			delayHit(npc, 2, target, hit);
 			npc.heal(hit.getDamage() / 3);
 		} else if (spellType == 3) {
-			World.sendProjectile(npc, target, 362, 18, 18, 50, 50, 0); // ice
+			World.sendProjectile(npc, target, 362, new Pair<>(18, 18), 50, 8, 0); // ice
 			delayHit(npc, 2, target, hit);
 			if (hit.getDamage() > 0 && !target.hasEffect(Effect.FREEZE)) {
 				target.setNextSpotAnim(new SpotAnim(369));
 				target.freeze(Ticks.fromSeconds(10));
 			}
 		} else {
-			World.sendProjectile(npc, target, 386, 18, 18, 50, 50, 0); // ice
+			World.sendProjectile(npc, target, 386, new Pair<>(18, 18), 50, 8, 0); // ice
 			delayHit(npc, 2, target, hit);
 		}
 

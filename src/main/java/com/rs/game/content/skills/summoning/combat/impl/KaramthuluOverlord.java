@@ -23,6 +23,7 @@ import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.lib.game.Animation;
+import kotlin.Pair;
 
 public class KaramthuluOverlord extends FamiliarCombatScript {
 
@@ -38,7 +39,7 @@ public class KaramthuluOverlord extends FamiliarCombatScript {
 			delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, npc.getCombatDefinitions().getMaxHit(), AttackStyle.MELEE, target)));
 		} else {
 			npc.sync(7970, 1474);
-			delayHit(npc, World.sendProjectile(npc, target, 1477, 34, 16, 30, 1.8, 16).getTaskDelay(), target, getMagicHit(npc, getMaxHit(npc, npc.getCombatDefinitions().getMaxHit(), AttackStyle.MAGE, target)));
+			delayHit(npc, World.sendProjectile(npc, target, 1477, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, getMagicHit(npc, getMaxHit(npc, npc.getCombatDefinitions().getMaxHit(), AttackStyle.MAGE, target)));
 		}
 		return npc.getAttackSpeed();
 	}

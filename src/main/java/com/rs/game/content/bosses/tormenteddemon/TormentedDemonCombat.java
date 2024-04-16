@@ -23,6 +23,7 @@ import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
+import kotlin.Pair;
 
 public class TormentedDemonCombat extends CombatScript {
 
@@ -57,13 +58,13 @@ public class TormentedDemonCombat extends CombatScript {
 			hit = getMaxHit(npc, 270, AttackStyle.MAGE, target);
 			npc.setNextAnimation(new Animation(10918));
 			npc.setNextSpotAnim(new SpotAnim(1883, 0, 96 << 16));
-			delayHit(npc, World.sendProjectile(npc, target, 1884, 34, 16, 30, 35, 16).getTaskDelay(), target, getMagicHit(npc, hit));
+			delayHit(npc, World.sendProjectile(npc, target, 1884, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, getMagicHit(npc, hit));
 			break;
 		case 2:
 			hit = getMaxHit(npc, 270, AttackStyle.RANGE, target);
 			npc.setNextAnimation(new Animation(10919));
 			npc.setNextSpotAnim(new SpotAnim(1888));
-			delayHit(npc, World.sendProjectile(npc, target, 1887, 34, 16, 30, 35, 16).getTaskDelay(), target, getRangeHit(npc, hit));
+			delayHit(npc, World.sendProjectile(npc, target, 1887, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, getRangeHit(npc, hit));
 			break;
 		}
 		return 7;

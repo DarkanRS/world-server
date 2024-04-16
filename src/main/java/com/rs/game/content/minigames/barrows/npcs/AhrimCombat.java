@@ -27,6 +27,7 @@ import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
+import kotlin.Pair;
 
 public class AhrimCombat extends CombatScript {
 
@@ -45,7 +46,7 @@ public class AhrimCombat extends CombatScript {
 			int currentLevel = player.getSkills().getLevel(Constants.STRENGTH);
 			player.getSkills().set(Constants.STRENGTH, currentLevel < 5 ? 0 : currentLevel - 5);
 		}
-		World.sendProjectile(npc, target, defs.getAttackProjectile(), 41, 16, 41, 35, 16);
+		World.sendProjectile(npc, target, defs.getAttackProjectile(), new Pair<>(41, 16), 41, 5, 16);
 		npc.setNextSpotAnim(new SpotAnim(defs.getAttackGfx()));
 		delayHit(npc, 2, target, getMagicHit(npc, damage));
 		return npc.getAttackSpeed();

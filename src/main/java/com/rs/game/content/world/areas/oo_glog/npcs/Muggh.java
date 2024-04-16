@@ -10,6 +10,7 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
+import kotlin.Pair;
 
 @PluginEventHandler
 public class Muggh {
@@ -50,7 +51,7 @@ public class Muggh {
                                     Equipment.sendWear(player, Equipment.HEAD, 12558);
                                     player.sendMessage("Muggh smacks a fistful of mud on your face.");
                                     //TODO npc.anim();
-                                    World.sendProjectile(npc, player, 1462, 30, 30, 45, 30, 15);
+                                    World.sendProjectile(npc, player, 1462, new Pair<>(30, 30), 45, 5, 15);
                                     player.delayLock(2, () -> {
                                         player.getEquipment().setSlot(Equipment.HEAD, new Item(12558));
                                         player.getEquipment().refresh(Equipment.HEAD);

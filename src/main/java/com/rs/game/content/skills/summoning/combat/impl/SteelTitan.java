@@ -24,6 +24,7 @@ import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.lib.game.Animation;
 import com.rs.lib.util.Utils;
+import kotlin.Pair;
 
 public class SteelTitan extends FamiliarCombatScript {
 
@@ -41,11 +42,11 @@ public class SteelTitan extends FamiliarCombatScript {
 			switch (Utils.getRandomInclusive(1)) {
 			case 0:
 				npc.sync(7694, 1451);
-				delayHit(npc, World.sendProjectile(npc, target, 1453, 34, 16, 30, 2.0, 16).getTaskDelay(), target, getMagicHit(npc, getMaxHit(npc, 255, AttackStyle.MAGE, target)));
+				delayHit(npc, World.sendProjectile(npc, target, 1453, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, getMagicHit(npc, getMaxHit(npc, 255, AttackStyle.MAGE, target)));
 				break;
 			case 1:
 				npc.sync(8190, 1444);
-				delayHit(npc, World.sendProjectile(npc, target, 1445, 34, 16, 30, 2.0, 16).getTaskDelay(), target, getRangeHit(npc, getMaxHit(npc, 244, AttackStyle.RANGE, target)));
+				delayHit(npc, World.sendProjectile(npc, target, 1445, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, getRangeHit(npc, getMaxHit(npc, 244, AttackStyle.RANGE, target)));
 				break;
 			}
 		}
