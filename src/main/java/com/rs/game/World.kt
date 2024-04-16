@@ -578,39 +578,26 @@ object World {
         ChunkManager.getChunk(tile.chunkId).addSpotAnim(tile, SpotAnim(anim))
     }
 
+    @JvmStatic
     @JvmOverloads
-    @JvmStatic
-    fun sendProjectile(from: Any, to: Any, graphicId: Int, angle: Int, delay: Int, speed: Double, task: Consumer<WorldProjectile>? = null): WorldProjectile {
-        return sendProjectile(from, to, graphicId, 28, 28, delay, speed, angle, task)
+    fun sendProjectile(from: Any, to: Any, graphicId: Int, startDelayClientFrames: Int, inAirClientFramesPerTile: Int, angle: Int = 0, offset: Int = 0, task: Consumer<WorldProjectile>? = null): WorldProjectile {
+        return sendProjectile(from, to, graphicId, 28 to 28, startDelayClientFrames, inAirClientFramesPerTile, angle, offset, task)
     }
 
+    @JvmStatic
     @JvmOverloads
-    @JvmStatic
-    fun sendProjectile(from: Any, to: Any, graphicId: Int, angle: Int, speed: Double, task: Consumer<WorldProjectile>? = null): WorldProjectile {
-        return sendProjectile(from, to, graphicId, 28, 28, 0, speed, angle, task)
+    fun sendProjectile(from: Any, to: Any, graphicId: Int, startHeightEndHeight: Pair<Int, Int>, startDelayClientFrames: Int = 0, inAirClientFramesPerTile: Int, angle: Int = 0, offset: Int = 0, task: Consumer<WorldProjectile>? = null): WorldProjectile {
+        val sourceTile = getTargetTile(from)
+        val targetTile = getTargetTile(to)
+        return sendProjectileAbsoluteSpeed(from, to, graphicId, startHeightEndHeight, startDelayClientFrames, Utils.getDistanceI(sourceTile, targetTile) * inAirClientFramesPerTile, angle, offset, task)
     }
 
     @JvmStatic
-	fun sendProjectile(from: Any, to: Any, graphicId: Int, startHeight: Int, endHeight: Int, startTime: Int, speed: Double, angle: Int): WorldProjectile {
-        return sendProjectile(from, to, graphicId, startHeight, endHeight, startTime, speed, angle, null)
-    }
-
-    @JvmStatic
-    fun sendProjectile(from: Any, to: Any, graphicId: Int, startHeight: Int, endHeight: Int, startTime: Int, speed: Double, angle: Int, task: Consumer<WorldProjectile>?): WorldProjectile {
-        val adjustedSpeed = if (speed > 20.0) speed / 50.0 else speed
-        val fromTile: Tile = getTargetTile(from)
-        val toTile: Tile = getTargetTile(to)
-
-        val (fromSizeX, fromSizeY) = getTargetSize(from)
-        val (toSizeX, toSizeY) = getTargetSize(to)
-
-        val slope = fromSizeX * 32
-        val duration = if (speed == -1.0)
-            Utils.getProjectileTimeSoulsplit(fromTile, fromSizeX, fromSizeY, toTile, toSizeX, toSizeY)
-        else
-            Utils.getProjectileTimeNew(fromTile, fromSizeX, fromSizeY, toTile, toSizeX, toSizeY, adjustedSpeed)
-
-        val projectile = WorldProjectile(fromTile, to, graphicId, startHeight, endHeight, startTime, startTime + duration, slope, angle, task)
+    @JvmOverloads
+    fun sendProjectileAbsoluteSpeed(from: Any, to: Any, graphicId: Int, startHeightEndHeight: Pair<Int, Int>, startDelayClientFrames: Int = 0, inAirClientFrames: Int, angle: Int, offset: Int = 0, task: Consumer<WorldProjectile>? = null): WorldProjectile {
+        val (fromSizeX, _) = getTargetSize(from)
+        val calcedOffset = fromSizeX * 32 + offset
+        val projectile = WorldProjectile(from, to, graphicId, startHeightEndHeight.first, startHeightEndHeight.second, startDelayClientFrames, inAirClientFrames, calcedOffset, angle, task)
         if (graphicId != -1) {
             val chunkId = getTargetChunkId(from)
             ChunkManager.getChunk(chunkId).addProjectile(projectile)

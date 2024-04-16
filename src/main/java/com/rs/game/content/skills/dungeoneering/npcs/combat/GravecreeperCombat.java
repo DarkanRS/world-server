@@ -28,6 +28,7 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
+import kotlin.Pair;
 
 public class GravecreeperCombat extends CombatScript {
 
@@ -65,7 +66,7 @@ public class GravecreeperCombat extends CombatScript {
 		switch (attack) {
 		case 0:// range
 			npc.setNextAnimation(new Animation(14504));
-			World.sendProjectile(npc, target, 2753, 65, 65, 30, 0, 0);
+			World.sendProjectile(npc, target, 2753, new Pair<>(65, 65), 30, 5, 0);
 			delayHit(npc, 1, target, getRangeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.RANGE, target)));
 			break;
 		case 1:// melee

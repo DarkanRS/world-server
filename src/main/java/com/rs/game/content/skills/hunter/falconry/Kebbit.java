@@ -13,6 +13,7 @@ import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
 import com.rs.utils.Ticks;
+import kotlin.Pair;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -112,7 +113,7 @@ public class Kebbit extends NPC {
 				returnPlayer.getHintIconsManager().removeHintIcon(hintIcon);
 			returnPlayer.lock();
 			returnPlayer.soundEffect(2633, true);
-			World.sendProjectile(this, caughtBy, 922, 24, 8, 0, 1.0, 15, backProj -> {
+			World.sendProjectile(this, caughtBy, 922, new Pair<>(24, 8), 0, 5, 15, 0, backProj -> {
 				unlock();
 				returnPlayer.unlock();
 				returnPlayer.getEquipment().setNoPluginTrigger(Equipment.WEAPON, new Item(FalconryController.BIRD_GLOVE));
@@ -145,7 +146,7 @@ public class Kebbit extends NPC {
 		player.getEquipment().setNoPluginTrigger(Equipment.WEAPON, new Item(FalconryController.EMPTY_GLOVE));
 		player.getAppearance().generateAppearanceData();
 		player.soundEffect(2634, true);
-		World.sendProjectile(player, this, 922, 24, 8, 0, 1.0, 15, toProj -> {
+		World.sendProjectile(player, this, 922, new Pair<>(24, 8), 0, 5, 15, 0, toProj -> {
 			if (Utils.skillSuccess(player.getSkills().getLevel(Skills.HUNTER), type.rate1, type.rate99)) {
 				hintIcon = player.getHintIconsManager().addHintIcon(this, 0, -1, false);
 				catchTimer = Ticks.fromSeconds(60);
@@ -156,7 +157,7 @@ public class Kebbit extends NPC {
 				return;
 			}
 			player.soundEffect(2633, true);
-			World.sendProjectile(this, player, 922, 24, 8, 0, 1.0, 15, backProj -> {
+			World.sendProjectile(this, player, 922, new Pair<>(24, 8), 0, 5, 15, 0, backProj -> {
 				unlock();
 				player.unlock();
 				player.getEquipment().setNoPluginTrigger(Equipment.WEAPON, new Item(FalconryController.BIRD_GLOVE));

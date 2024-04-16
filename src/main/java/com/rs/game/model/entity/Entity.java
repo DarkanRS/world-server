@@ -63,6 +63,7 @@ import com.rs.utils.WorldUtil;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import it.unimi.dsi.fastutil.ints.IntSets;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import kotlin.Pair;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -409,7 +410,7 @@ public abstract class Entity {
 
 	public void sendSoulSplit(Hit hit, Entity user) {
 		if (hit.getDamage() > 0)
-			World.sendProjectile(user, this, 2263, 11, 11, 0, -1, 0);
+			World.sendProjectile(user, this, 2263, new Pair<>(11, 11), 0, 50, 0);
 		user.heal(hit.getDamage() / 5);
 		if (user instanceof Player p)
 			p.incrementCount("Health soulsplitted back", hit.getDamage() / 5);
@@ -420,7 +421,7 @@ public abstract class Entity {
 			public void run() {
 				setNextSpotAnim(new SpotAnim(2264));
 				if (hit.getDamage() > 0)
-					World.sendProjectile(Entity.this, user, 2263, 11, 11, 0, -1, 0);
+					World.sendProjectile(Entity.this, user, 2263, new Pair<>(11, 11), 0, 50, 0);
 			}
 		}, 0);
 	}

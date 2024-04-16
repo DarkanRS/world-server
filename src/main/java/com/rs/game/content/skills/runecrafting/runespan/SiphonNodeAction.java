@@ -31,6 +31,7 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+import kotlin.Pair;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -208,7 +209,7 @@ public class SiphonNodeAction extends PlayerAction {
 			}
 			player.setNextAnimation(new Animation(nodes.getEmoteId()));
 			player.setNextFaceTile(node.getTile());
-			WorldProjectile p = World.sendProjectile(node, player, 3060, 31, 40, 35, 1, 2);
+			WorldProjectile p = World.sendProjectile(node, player, 3060, new Pair<>(31, 40), 35, 5, 2);
 			final boolean succF = success;
 			WorldTasks.schedule(new Task() {
 				@Override

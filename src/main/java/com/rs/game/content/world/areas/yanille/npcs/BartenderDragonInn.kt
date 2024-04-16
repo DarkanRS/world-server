@@ -36,7 +36,7 @@ class BartenderDragonInn(p: Player, npc: NPC) {
                     player(HeadE.HAPPY_TALKING, "Can I have some Greenman's Ale?")
                     npc(npc, HeadE.HAPPY_TALKING, "Ok, that'll be ten coins.")
                     exec {
-                        buyDrinkOrIngredients(p, npc, 10, Item(1901), true)
+                        buyDrinkOrIngredients(p, npc, 10, Item(1909), true)
                         p.sendMessage("You buy a pint of Greenman's Ale.")
                     }
                 }

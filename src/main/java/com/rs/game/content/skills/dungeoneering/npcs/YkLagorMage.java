@@ -20,6 +20,7 @@ import com.rs.game.World;
 import com.rs.game.content.skills.dungeoneering.DungeonManager;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Tile;
+import kotlin.Pair;
 
 public class YkLagorMage extends DungeonNPC {
 
@@ -48,7 +49,7 @@ public class YkLagorMage extends DungeonNPC {
 		cycle = 5;
 		setNextFaceEntity(boss);
 		setNextAnimation(new Animation(3645));
-		World.sendProjectile(this, boss, 2704, 39, 39, 55, 70, 0);
+		World.sendProjectile(this, boss, 2704, new Pair<>(39, 39), 55, 10, 0);
 	}
 
 	@Override

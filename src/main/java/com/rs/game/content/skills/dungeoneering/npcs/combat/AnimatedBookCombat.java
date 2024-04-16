@@ -27,6 +27,7 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
+import kotlin.Pair;
 
 public class AnimatedBookCombat extends CombatScript {
 
@@ -55,7 +56,7 @@ public class AnimatedBookCombat extends CombatScript {
 		npc.setNextAnimation(new Animation(13480));
 		npc.setNextSpotAnim(new SpotAnim(2728));
 		delayHit(npc, 1, target, getMagicHit(npc, getMaxHit(npc, 100, AttackStyle.MAGE, target)));
-		World.sendProjectile(npc, target, 2731, 34, 16, 30, 35, 16);
+		World.sendProjectile(npc, target, 2731, new Pair<>(34, 16), 30, 5, 16);
 		WorldTasks.schedule(new Task() {
 
 			@Override

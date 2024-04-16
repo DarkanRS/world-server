@@ -30,6 +30,7 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
+import kotlin.Pair;
 
 public class IcyBonesCombat extends CombatScript {
 
@@ -56,7 +57,7 @@ public class IcyBonesCombat extends CombatScript {
 				delayHit(npc, 2, target, getMagicHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MAGE, target)));
 			else
 				delayHit(npc, 2, target, getRangeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.RANGE, target)));
-			World.sendProjectile(npc, target, 2595, 41, 16, 41, 40, 16);
+			World.sendProjectile(npc, target, 2595, new Pair<>(41, 16), 41, 5, 16);
 			return npc.getAttackSpeed();
 		}
 		if (Utils.random(3) == 0 && WorldUtil.isInRange(target.getX(), target.getY(), target.getSize(), npc.getX(), npc.getY(), npc.getSize(), 0) && ((IcyBones) npc).sendSpikes()) {

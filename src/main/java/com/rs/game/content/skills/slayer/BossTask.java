@@ -22,6 +22,7 @@ import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.lib.util.Utils;
+import kotlin.Pair;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -110,7 +111,7 @@ public class BossTask {
 	}
 
 	public void sendKill(Player player, NPC npc) {
-		World.sendProjectile(npc, player, 3060, 18, 18, 15, 0, 20);
+		World.sendProjectile(npc, player, 3060, new Pair<>(18, 18), 15, 15, 20);
 		if (amount >= 1)
 			amount--;
 		if (amount <= 0)

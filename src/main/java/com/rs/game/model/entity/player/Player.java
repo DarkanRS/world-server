@@ -126,6 +126,7 @@ import com.rs.utils.record.Recorder;
 import com.rs.utils.reflect.ReflectionAnalysis;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import it.unimi.dsi.fastutil.ints.IntSets;
+import kotlin.Pair;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.InetAddress;
@@ -2260,8 +2261,8 @@ public class Player extends Entity {
 
 	public void wrath(Entity source) {
 		for (Direction dir : Direction.values())
-			World.sendProjectile(this, Tile.of(getX() + (dir.dx *2), getY() + (dir.dy *2), getPlane()), 2261, 0, 0, 15, 0.4, 35,
-					proj -> World.sendSpotAnim(proj.getToTile(), new SpotAnim(2260)));
+			World.sendProjectile(this, Tile.of(getX() + (dir.dx *2), getY() + (dir.dy *2), getPlane()), 2261, new Pair<>(0, 0), 15, 10, 35, 0,
+					proj -> World.sendSpotAnim(proj.getDestination(), new SpotAnim(2260)));
 		setNextSpotAnim(new SpotAnim(2259));
 		WorldTasks.schedule(() -> {
 			if (isAtMultiArea()) {

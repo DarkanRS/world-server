@@ -27,6 +27,7 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
+import kotlin.Pair;
 
 public class LuminescentIcefiendCombat extends CombatScript {
 
@@ -51,11 +52,11 @@ public class LuminescentIcefiendCombat extends CombatScript {
 
 		if (magicAttack) {
 			npc.setNextAnimation(new Animation(13352));
-			World.sendProjectile(npc, target, 2529, 15, 16, 35, 35, 16);
+			World.sendProjectile(npc, target, 2529, new Pair<>(15, 16), 35, 5, 16);
 			delayHit(icefiend, 2, target, getMagicHit(npc, getMaxHit(npc, icefiend.getMaxHit(), AttackStyle.MAGE, target)));
 		} else {
 			npc.setNextAnimation(new Animation(13337));
-			World.sendProjectile(npc, target, 2530, 30, 16, 35, 35, 0);
+			World.sendProjectile(npc, target, 2530, new Pair<>(30, 16), 35, 5, 0);
 			delayHit(icefiend, 2, target, getRangeHit(npc, getMaxHit(npc, (int) (icefiend.getMaxHit() * .90), AttackStyle.RANGE, target)));
 			WorldTasks.schedule(new Task() {
 

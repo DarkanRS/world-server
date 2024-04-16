@@ -13,6 +13,7 @@ import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
+import kotlin.Pair;
 
 public class SiphonAction extends PlayerAction {
 	private final Creature creatures;
@@ -87,7 +88,7 @@ public class SiphonAction extends PlayerAction {
 			creature.setNextFaceTile(player.getTile());
 			creature.freeze(4);
 			player.setNextFaceTile(creature.getTile());
-			WorldProjectile p = World.sendProjectile(creature, player, 3060, 31, 40, 35, 1, 2);
+			WorldProjectile p = World.sendProjectile(creature, player, 3060, new Pair<>(31, 40), 35, 5, 2);
 			boolean finalSuccess = success;
 			WorldTasks.schedule(Utils.clampI(p.getTaskDelay()-1, 0, 100), () -> player.setNextSpotAnim(new SpotAnim(finalSuccess ? 3062 : 3071)));
 		}

@@ -36,6 +36,7 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.*;
 import com.rs.lib.util.Utils;
+import kotlin.Pair;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -177,7 +178,7 @@ public class FishingFerretRoom extends PuzzleRoom {
 		player.getInventory().deleteItem(item);
 		player.faceObject(object);
 		player.sendMessage("You throw the fish.");
-		WorldProjectile p = World.sendProjectile(player, object, 2522, 32, 0, 25, 1, 15);
+		WorldProjectile p = World.sendProjectile(player, object, 2522, new Pair<>(32, 0), 25, 5, 15);
 		WorldTasks.schedule(new Task() {
 			@Override
 			public void run() {

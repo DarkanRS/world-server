@@ -31,6 +31,7 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
+import kotlin.Pair;
 
 public class StompCombat extends CombatScript {
 
@@ -77,7 +78,7 @@ public class StompCombat extends CombatScript {
 				npc.setNextAnimation(new Animation(13449));
 				npc.setNextSpotAnim(new SpotAnim(2401));
 				for (Entity t : npc.getPossibleTargets()) {
-					World.sendProjectile(npc, t, 2402, 16, 16, 41, 30, 0);
+					World.sendProjectile(npc, t, 2402, new Pair<>(16, 16), 41, 5, 0);
 					t.setNextSpotAnim(new SpotAnim(2403, 70, 0));
 					delayHit(npc, 1, t, getRangeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.RANGE, target)));
 				}
@@ -85,7 +86,7 @@ public class StompCombat extends CombatScript {
 			case 2 -> {
 				npc.setNextAnimation(new Animation(13450));
 				npc.setNextSpotAnim(new SpotAnim(2404));
-				World.sendProjectile(npc, target, 2405, 30, 16, 41, 65, 0);
+				World.sendProjectile(npc, target, 2405, new Pair<>(30, 16), 41, 6, 0);
 				target.setNextSpotAnim(new SpotAnim(2406, 120, 0));
 				delayHit(npc, 2, target, getMagicHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MAGE, target)));
 			}

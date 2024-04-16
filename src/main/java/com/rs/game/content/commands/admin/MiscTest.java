@@ -90,6 +90,7 @@ import com.rs.utils.shop.ShopsHandler;
 import com.rs.utils.spawns.ItemSpawns;
 import com.rs.utils.spawns.NPCSpawn;
 import com.rs.utils.spawns.NPCSpawns;
+import kotlin.Pair;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -364,12 +365,12 @@ public class MiscTest {
 
 		Commands.add(Rights.DEVELOPER, "proj [id]", "Sends a projectile over the player.", (p, args) -> {
 			p.getTempAttribs().setI("tempProjCheck", Integer.parseInt(args[0]));
-			World.sendProjectile(Tile.of(p.getX() + 5, p.getY(), p.getPlane()), Tile.of(p.getX() - 5, p.getY(), p.getPlane()), Integer.parseInt(args[0]), 40, 40, 0, 0.2, 0);
+			World.sendProjectile(Tile.of(p.getX() + 5, p.getY(), p.getPlane()), Tile.of(p.getX() - 5, p.getY(), p.getPlane()), Integer.parseInt(args[0]), new Pair<>(40, 40), 0, 30, 0);
 		});
 
 		Commands.add(Rights.DEVELOPER, "projrot [id next/prev]", "Sends a projectile over the player.", (p, args) -> {
 			int projId = p.getTempAttribs().getI("tempProjCheck", 0);
-			World.sendProjectile(Tile.of(p.getX() + 5, p.getY(), p.getPlane()), Tile.of(p.getX() - 5, p.getY(), p.getPlane()), projId, 0, 0, 0, 0.2, 0);
+			World.sendProjectile(Tile.of(p.getX() + 5, p.getY(), p.getPlane()), Tile.of(p.getX() - 5, p.getY(), p.getPlane()), projId, new Pair<>(40, 40), 0, 30, 0);
 			p.getPackets().sendDevConsoleMessage("Projectile: " + projId);
 			if (args[0].equals("next"))
 				p.getTempAttribs().setI("tempProjCheck", Utils.clampI(projId+1, 0, 5000));

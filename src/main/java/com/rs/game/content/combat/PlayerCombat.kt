@@ -101,7 +101,7 @@ class PlayerCombat(@JvmField val target: Entity) : PlayerAction() {
                 return 3
             }
             player.sync(6696, 1165)
-            val p = World.sendProjectile(player, target, 1166, 32, 32, 50, 2.0, 15)
+            val p = World.sendProjectile(player, target, 1166, 50, 7, 10)
             delayMagicHit(target, p.taskDelay, Hit(player, Utils.random(100, 250), HitLook.TRUE_DAMAGE), { target.spotAnim(1167, 0, 96) }, null, null)
             player.tempAttribs.setB("dfsActive", false)
             player.tempAttribs.setL("dfsCd", World.getServerTicks() + 200)
@@ -113,7 +113,7 @@ class PlayerCombat(@JvmField val target: Entity) : PlayerAction() {
             player.faceEntity(target)
             player.sync(15448, 2034)
             drainCharge(player)
-            val p = World.sendProjectile(player, target, 2035, 60, 32, 50, 2.0, 0)
+            val p = World.sendProjectile(player, target, 2035, 60 to 32, 50, 10)
             val hit = calculateMagicHit(player, target, (5 * player.skills.getLevel(Constants.MAGIC)) - 180, false)
             delayMagicHit(target, p.taskDelay, hit, {
                 if (hit.damage > 0) target.spotAnim(2036, 0, 96)
@@ -394,7 +394,7 @@ class PlayerCombat(@JvmField val target: Entity) : PlayerAction() {
                 val hit = calculateHit(player, target, weaponId, attackStyle, true)
                 delayHit(target, p.taskDelay, weaponId, attackStyle, hit)
                 checkSwiftGlovesEffect(player, p.taskDelay, attackStyle, weaponId, hit, p)
-                val p2 = AmmoType.forId(player.equipment.ammoId)?.let { World.sendProjectile(player, target, it.getProjAnim(player.equipment.ammoId), 30, 50, 1.0) }
+                val p2 = AmmoType.forId(player.equipment.ammoId)?.let { World.sendProjectile(player, target, it.getProjAnim(player.equipment.ammoId), 30, 5, 15) }
                 delayHit(target, p2?.taskDelay ?: 1, weaponId, attackStyle, calculateHit(player, target, weaponId, attackStyle, true))
                 dropAmmo(player, target, Equipment.AMMO, 2)
             }
@@ -425,7 +425,7 @@ class PlayerCombat(@JvmField val target: Entity) : PlayerAction() {
         if (gloves == null || !gloves.definitions.getName().contains("Swift glove")) return
         if (hit.damage != 0 && hit.damage < ((hit.maxHit / 3) * 2) || Random().nextInt(3) != 0) return
         player.sendMessage("You fired an extra shot.")
-        World.sendProjectile(player, target, p.spotAnimId, p.startHeight - 5, p.endHeight - 5, p.startTime, 2.0, if (p.angle - 5 < 0) 0 else p.angle - 5)
+        World.sendProjectileAbsoluteSpeed(player, target, p.spotAnimId, p.startHeight - 5 to p.endHeight - 5, p.startDelayClientCycles, p.inAirClientCycles, p.angle)
         delayHit(target, hitDelay, weaponId, attackStyle, calculateHit(player, target, weaponId, attackStyle, true))
         if (hit.damage > (hit.maxHit - 10)) {
             target.freeze(Ticks.fromSeconds(10), false)

@@ -289,7 +289,7 @@ enum class PortalPair(val tile1: Tile, val tile2: Tile, private val surokLocked:
                 surok.faceTile(tileFromLocal(10, 16))
                 wait(1)
                 surok.anim(-1)
-                sendProjectile(surok, fireGiant1, 1010, 5, 15, 0, 0.8, 10) {
+                sendProjectile(surok, fireGiant1, 1010, 5 to 15, 0, 8, 10) {
                     fireGiant1.applyHit(Hit.magic(surok, fireGiant1.hitpoints))
                     fireGiant1.spotAnim(1011)
                 }
@@ -300,7 +300,7 @@ enum class PortalPair(val tile1: Tile, val tile2: Tile, private val surokLocked:
                 wait(1)
                 surok.forceTalk("Feel the power of Zamorak!")
                 surok.anim(-1)
-                sendProjectile(surok, fireGiant2, 1010, 5, 15, 0, 0.8, 10) {
+                sendProjectile(surok, fireGiant2, 1010, 5 to 15, 0, 8, 10) {
                     fireGiant2.applyHit(Hit.magic(surok, fireGiant2.hitpoints))
                     fireGiant2.spotAnim(1011)
                 }

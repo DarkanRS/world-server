@@ -29,6 +29,7 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
+import kotlin.Pair;
 
 public class DreadnautCombat extends CombatScript {
 
@@ -65,7 +66,7 @@ public class DreadnautCombat extends CombatScript {
 				if (!t.withinDistance(target.getTile(), 2))
 					continue;
 				int damage = getMaxHit(boss, boss.getMaxHit(), AttackStyle.MELEE, t);
-				World.sendProjectile(boss, t, 2857, 30, 30, 25, 35, 15);
+				World.sendProjectile(boss, t, 2857, new Pair<>(30, 30), 25, 5, 15);
 				if (damage > 0) {
 					sendReductionEffect(boss, t, damage);
 					boss.addSpot(Tile.of(t.getTile()));

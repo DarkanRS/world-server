@@ -25,6 +25,7 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
+import kotlin.Pair;
 
 import java.util.List;
 
@@ -63,7 +64,7 @@ public class DarkEnergyCore extends NPC {
 				}
 				target = possibleTarget.get(Utils.getRandomInclusive(possibleTarget.size() - 1));
 				setHidden(true);
-				delay += World.sendProjectile(this, target.getTile(), 1828, 0, 0, 0, 0.6, 20, proj -> {
+				delay += World.sendProjectile(this, target.getTile(), 1828, new Pair<>(0, 0), 0, 10, 20, 0, proj -> {
 					tele(proj.getDestination());
 					setHidden(false);
 				}).getTaskDelay();

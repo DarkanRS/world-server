@@ -21,6 +21,7 @@ import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.quest.Quest;
 import com.rs.game.content.DwarfMultiCannon;
+import com.rs.game.content.DwarfMultiCannonKt;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
@@ -44,9 +45,9 @@ public class NulodionD extends Conversation {
 			}
 			ShopsHandler.openShop(e.getPlayer(), "nulodions_cannon_parts");
 		} else if (e.getOption().equals("Replace-cannon"))
-			if (DwarfMultiCannon.canFreelyReplace(e.getPlayer()))
+			if (DwarfMultiCannonKt.eligibleForCannonReplacement(e.getPlayer()))
 				e.getPlayer().startConversation(new Conversation(new Dialogue().addNPC(NULODION, HeadE.HAPPY_TALKING, "Please try not to lose it next time..", () -> {
-					for (int item : DwarfMultiCannon.CANNON_PIECES[e.getPlayer().getPlacedCannon()-1])
+					for (int item : DwarfMultiCannonKt.CANNON_PIECES[e.getPlayer().getPlacedCannon()-1])
 						e.getPlayer().getInventory().addItemDrop(item, 1);
 					e.getPlayer().setPlacedCannon(0);
 				})));

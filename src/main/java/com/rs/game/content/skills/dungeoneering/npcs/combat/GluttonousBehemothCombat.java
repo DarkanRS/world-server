@@ -34,6 +34,7 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
+import kotlin.Pair;
 
 public class GluttonousBehemothCombat extends CombatScript {
 
@@ -94,7 +95,7 @@ public class GluttonousBehemothCombat extends CombatScript {
 		}
 		if (attackStyle == 0) {
 			npc.setNextAnimation(new Animation(13719));
-			World.sendProjectile(npc, target, 2612, 41, 16, 41, 35, 16);
+			World.sendProjectile(npc, target, 2612, new Pair<>(41, 16), 41, 5, 16);
 			int damage = getMaxHitFromAttackStyleLevel(npc, AttackStyle.MAGE, target);
 			delayHit(npc, 2, target, getMagicHit(npc, damage));
 			if (damage != 0)
@@ -106,7 +107,7 @@ public class GluttonousBehemothCombat extends CombatScript {
 				}, 1);
 		} else if (attackStyle == 1) {
 			npc.setNextAnimation(new Animation(13721));
-			World.sendProjectile(npc, target, 2610, 41, 16, 41, 35, 16);
+			World.sendProjectile(npc, target, 2610, new Pair<>(41, 16), 41, 5, 16);
 			delayHit(npc, 2, target, getRangeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.RANGE, target)));
 			WorldTasks.schedule(new Task() {
 				@Override

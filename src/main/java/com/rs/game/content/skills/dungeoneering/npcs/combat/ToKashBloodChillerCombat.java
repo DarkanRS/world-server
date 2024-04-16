@@ -33,6 +33,7 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
+import kotlin.Pair;
 
 public class ToKashBloodChillerCombat extends CombatScript {
 
@@ -65,7 +66,7 @@ public class ToKashBloodChillerCombat extends CombatScript {
 				delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, 200, AttackStyle.MELEE, target)));
 			} else {
 				npc.setNextAnimation(new Animation(14398));
-				World.sendProjectile(npc, target, 2546, 16, 16, 41, 30, 0);
+				World.sendProjectile(npc, target, 2546, new Pair<>(16, 16), 41, 5, 0);
 				delayHit(npc, 1, target, getMagicHit(npc, getMaxHit(npc, 200, AttackStyle.MAGE, target)));
 			}
 			return meleeAttack ? 4 : 5;

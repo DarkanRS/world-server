@@ -34,6 +34,7 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.Ticks;
+import kotlin.Pair;
 
 public class GlacorCombat extends CombatScript {
 
@@ -53,7 +54,7 @@ public class GlacorCombat extends CombatScript {
 	public int attack(NPC npc, final Entity target) {
 		if (target instanceof NPC) {
 			npc.sync(9968, 905);
-			WorldProjectile p = World.sendProjectile(npc, target, SPECIAL_PROJECTILE, 60, 32, 50, 2, 0);
+			WorldProjectile p = World.sendProjectile(npc, target, SPECIAL_PROJECTILE, new Pair<>(60, 32), 50, 5, 0);
 			final Tile targetPosition = Tile.of(target.getX(), target.getY(), target.getPlane());
 			WorldTasks.schedule(new Task() {
 				@Override
@@ -80,7 +81,7 @@ public class GlacorCombat extends CombatScript {
 
 			if (attackType == 1) {
 				npc.sync(9967, 902);
-				WorldProjectile p = World.sendProjectile(npc, target, MAGE_PROJECTILE, 60, 32, 50, 2, 0);
+				WorldProjectile p = World.sendProjectile(npc, target, MAGE_PROJECTILE, new Pair<>(60, 32), 50, 5, 0);
 				WorldTasks.schedule(new Task() {
 					@Override
 					public void run() {
@@ -93,7 +94,7 @@ public class GlacorCombat extends CombatScript {
 				}
 			} else if (attackType == 2) {
 				npc.sync(9968, 905);
-				WorldProjectile p = World.sendProjectile(npc, target, RANGE_PROJECTILE, 60, 32, 50, 2, 0);
+				WorldProjectile p = World.sendProjectile(npc, target, RANGE_PROJECTILE, new Pair<>(60, 32), 50, 5, 0);
 				WorldTasks.schedule(new Task() {
 					@Override
 					public void run() {
@@ -102,7 +103,7 @@ public class GlacorCombat extends CombatScript {
 				}, p.getTaskDelay());
 			} else if (attackType == 3) {
 				npc.sync(9955, 905);
-				WorldProjectile p = World.sendProjectile(npc, target, SPECIAL_PROJECTILE, 60, 32, 50, 1, 0);
+				WorldProjectile p = World.sendProjectile(npc, target, SPECIAL_PROJECTILE, new Pair<>(60, 32), 50, 5, 0);
 				final Tile targetPosition = Tile.of(player.getX(), player.getY(), player.getPlane());
 				WorldTasks.schedule(new Task() {
 					@Override

@@ -24,6 +24,7 @@ import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
+import kotlin.Pair;
 
 public class InfernalMage extends CombatScript {
 
@@ -37,7 +38,7 @@ public class InfernalMage extends CombatScript {
 		NPCCombatDefinitions defs = npc.getCombatDefinitions();
 		npc.setNextAnimation(new Animation(defs.getAttackEmote()));
 
-		World.sendProjectile(npc, target, defs.getAttackProjectile(), 30, 30, 50, 2, Utils.random(5));
+		World.sendProjectile(npc, target, defs.getAttackProjectile(), new Pair<>(30, 30), 50, 5, Utils.random(5));
 		delayHit(npc, 3, target, getMagicHit(npc, getMaxHit(npc, defs.getMaxHit(), defs.getAttackStyle(), target)));
 		target.setNextSpotAnim(new SpotAnim(2739, 3, 100));
 		return npc.getAttackSpeed();

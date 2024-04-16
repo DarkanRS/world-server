@@ -29,6 +29,8 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.*;
+import kotlin.Pair;
+
 import static com.rs.game.content.skills.runecrafting.Runecrafting.RCRune;
 
 import java.util.ArrayList;
@@ -474,7 +476,7 @@ public class RunecraftingAltar {
 		player.lock();
 		WorldTasks.scheduleTimer(0, 0, tick -> {
 			switch(tick) {
-				case 0 -> World.sendProjectile(npc, player, 109, 5, 5, 5, 0.6, 5);
+				case 0 -> World.sendProjectile(npc, player, 109, new Pair<>(5, 5), 5, 5, 5);
 				case 1 -> player.spotAnim(110, 35, 96);
 				case 3 -> {
 					if (player.getMiniquestStage(Miniquest.ENTER_THE_ABYSS) == EnterTheAbyss.SCRYING_ORB) {

@@ -36,6 +36,7 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
+import kotlin.Pair;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -77,7 +78,7 @@ public class LexicusRunewrightCombat extends CombatScript {
 			boolean range_style = attack == 0 || attack == 1;
 			boss.setNextAnimation(new Animation(13470));
 			boss.setNextSpotAnim(new SpotAnim(range_style ? 2408 : 2424));
-			World.sendProjectile(npc, target, range_style ? 2409 : 2425, 40, 40, 54, 35, 5);
+			World.sendProjectile(npc, target, range_style ? 2409 : 2425, new Pair<>(40, 40), 54, 5, 5);
 			if (range_style)
 				delayHit(npc, 1, target, getRangeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.RANGE, target)));
 			else
@@ -129,7 +130,7 @@ public class LexicusRunewrightCombat extends CombatScript {
 								break;
 							GameObject c = cases.get(Utils.random(cases.size()));
 							cases.remove(c);
-							World.sendProjectile(c, tile, 2422, 60, 75, 30, 0, 0);
+							World.sendProjectile(c, tile, 2422, new Pair<>(60, 75), 30, 5, 0);
 						}
 					}
 				else if (cycle == 4) {
