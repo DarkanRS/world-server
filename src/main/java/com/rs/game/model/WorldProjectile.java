@@ -17,6 +17,7 @@
 package com.rs.game.model;
 
 import com.rs.cache.loaders.ObjectDefinitions;
+import com.rs.game.World;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
@@ -29,46 +30,24 @@ import java.util.function.Consumer;
 
 public class WorldProjectile extends Projectile {
 
-	public WorldProjectile(Object from, Object to, int spotAnimId, int startHeight, int endHeight, int startDelayClientCycles, int inAirClientCycles, int slope, int angle, Consumer<WorldProjectile> task) {
+	public WorldProjectile(Object from, Object to, int spotAnimId, int startHeight, int endHeight, int startDelayClientCycles, int inAirClientCycles, int offset, int angle, Consumer<WorldProjectile> task) {
 		super(switch(from) {
 			case Tile t -> t;
-			case Entity e -> e.getTile();
+			case Entity e -> e.getMiddleTile();
 			case GameObject g -> g.getTile();
 			default -> throw new IllegalArgumentException("Unexpected value: " + from);
 		}, from instanceof Entity e ? e.getIndex() : -1, switch(to) {
 			case Tile t -> t;
-			case Entity e -> e.getTile();
+			case Entity e -> e.getMiddleTile();
 			case GameObject g -> g.getTile();
 			default -> throw new IllegalArgumentException("Unexpected value: " + to);
-		}, to instanceof Entity e ? e.getIndex() : -1, spotAnimId, startHeight, endHeight, startDelayClientCycles, inAirClientCycles, slope, angle);
+		}, to instanceof Entity e ? e.getIndex() : -1, spotAnimId, startHeight, endHeight, startDelayClientCycles, inAirClientCycles, offset, angle);
 		Entity fromE = from instanceof Entity e ? e : null;
 		sourceId = fromE == null ? 0 : (fromE instanceof Player ? -(fromE.getIndex() + 1) : fromE.getIndex() + 1);
 		Entity toE = to instanceof Entity e ? e : null;
 		lockOnId = toE == null ? 0 : (toE instanceof Player ? -(toE.getIndex() + 1) : toE.getIndex() + 1);
-
 		if (task != null)
 			WorldTasks.schedule(getTaskDelay(), () -> task.accept(WorldProjectile.this));
-
-		if (from instanceof Entity e)
-			fromSizeX = fromSizeY = e.getSize();
-		else if (from instanceof GameObject go) {
-			ObjectDefinitions defs = go.getDefinitions();
-			fromSizeX = defs.getSizeX();
-			fromSizeY = defs.getSizeY();
-		} else
-			fromSizeX = fromSizeY = 1;
-		if (to instanceof Entity e)
-			toSizeX = toSizeY = e.getSize();
-		else if (to instanceof GameObject go) {
-			ObjectDefinitions defs = go.getDefinitions();
-			toSizeX = defs.getSizeX();
-			toSizeY = defs.getSizeY();
-		} else
-			toSizeX = toSizeY = 1;
-		fromSizeX -= 1;
-		fromSizeY -= 1;
-		toSizeX -= 1;
-		toSizeY -= 1;
 	}
 
 	public int getTaskDelay() {

@@ -596,7 +596,7 @@ object World {
     @JvmOverloads
     fun sendProjectileAbsoluteSpeed(from: Any, to: Any, graphicId: Int, startHeightEndHeight: Pair<Int, Int>, startDelayClientFrames: Int = 0, inAirClientFrames: Int, angle: Int, offset: Int = 0, task: Consumer<WorldProjectile>? = null): WorldProjectile {
         val (fromSizeX, _) = getTargetSize(from)
-        val calcedOffset = fromSizeX * 64 + offset
+        val calcedOffset = fromSizeX * 32 + offset
         val projectile = WorldProjectile(from, to, graphicId, startHeightEndHeight.first, startHeightEndHeight.second, startDelayClientFrames, inAirClientFrames, calcedOffset, angle, task)
         if (graphicId != -1) {
             val chunkId = getTargetChunkId(from)

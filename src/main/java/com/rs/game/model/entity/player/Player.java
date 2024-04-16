@@ -2262,7 +2262,7 @@ public class Player extends Entity {
 	public void wrath(Entity source) {
 		for (Direction dir : Direction.values())
 			World.sendProjectile(this, Tile.of(getX() + (dir.dx *2), getY() + (dir.dy *2), getPlane()), 2261, new Pair<>(0, 0), 15, 10, 35, 0,
-					proj -> World.sendSpotAnim(proj.getToTile(), new SpotAnim(2260)));
+					proj -> World.sendSpotAnim(proj.getDestination(), new SpotAnim(2260)));
 		setNextSpotAnim(new SpotAnim(2259));
 		WorldTasks.schedule(() -> {
 			if (isAtMultiArea()) {
