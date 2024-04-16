@@ -8096,9 +8096,11 @@
     "name": "Gunnarsgrunn",
     "hint": "during Gunnar's Ground.",
     "comment": "",
-    "allowAmbient": true,
+    "allowAmbient": false,
     "id": 896,
-    "regionIds": []
+    "regionIds": [
+      12341
+    ]
   },
   {
     "name": "",

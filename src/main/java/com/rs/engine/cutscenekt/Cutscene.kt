@@ -104,6 +104,10 @@ class Cutscene(val player: Player) : Continuation<Unit> {
         if (o is NPC && !o.persistsBeyondCutscene()) o.finish()
     }
 
+    fun lowerAspectRatio() {
+        player.vars.setVar(1241, 1)
+    }
+
     fun restoreDefaultAspectRatio() {
         player.vars.setVar(1241, 3)
     }
