@@ -30,6 +30,7 @@ import com.rs.game.model.entity.player.Player
 import com.rs.lib.Constants
 import com.rs.lib.game.Animation
 import com.rs.lib.game.SpotAnim
+import com.rs.lib.game.Tile
 import com.rs.lib.util.Utils
 import com.rs.utils.Ticks
 import java.util.*
@@ -571,7 +572,17 @@ enum class CombatSpell(
             caster.spotAnim(castSpotAnim)
         if (castSound != -1) caster.soundEffect(target, castSound, true)
         onCast(caster, target)
-        return World.sendProjectile(caster, target, projAnim, 30 to 30, 35, 5, (if ((castSpotAnim?.height ?: 0) > 50) 20 else 0)).taskDelay
+        return World.sendProjectile(caster, target, projAnim, 30 to 30, 45, 5, (if ((castSpotAnim?.height ?: 0) > 50) 20 else 0)).taskDelay
+    }
+
+    fun cast(caster: Entity, target: Tile, targetHeight: Int): Int {
+        val castAnim = getCastAnim(caster)
+        val castSpotAnim = getCastSpotAnim(caster)
+        caster.anim(castAnim)
+        if (castSpotAnim != null)
+            caster.spotAnim(castSpotAnim)
+        if (castSound != -1) caster.soundEffect(castSound, false)
+        return World.sendProjectile(caster, target, projAnim, 30 to targetHeight, 45, 5, (if ((castSpotAnim?.height ?: 0) > 50) 20 else 0)).taskDelay
     }
 
     open fun onCast(caster: Entity, target: Entity) {}

@@ -71,6 +71,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static com.rs.game.content.quests.elderkiln.ElderKilnKt.depleteTokkulZo;
+
 public class NPC extends Entity {
 
 	private int id;
@@ -330,7 +332,7 @@ public class NPC extends Entity {
 					hit.setDamage(0);
 					player.sendMessage("You do not have the slayer level required to damage this monster.");
 				}
-			if (hit.getDamage() > 0 && isTzhaarMonster() && TzHaar.depleteTokkulZo(player))
+			if (hit.getDamage() > 0 && isTzhaarMonster() && depleteTokkulZo(player))
 				hit.setDamage((int) (hit.getDamage() * 1.1));
 		}
 		handlePostHit(hit);
