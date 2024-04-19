@@ -22459,11 +22459,38 @@
   {
     "tile": {
       "plane": 0,
-      "x": 2621,
-      "y": 3368
+      "x": 2609,
+      "y": 3343
     },
-    "comment": "Sick-looking sheep (2)",
-    "npcId": 293
+    "comment": "Sick-looking sheep (1)",
+    "npcId": 292
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2610,
+      "y": 3344
+    },
+    "comment": "Sick-looking sheep (1)",
+    "npcId": 292
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2609,
+      "y": 3345
+    },
+    "comment": "Sick-looking sheep (1)",
+    "npcId": 292
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2615,
+      "y": 3343
+    },
+    "comment": "Sick-looking sheep (1)",
+    "npcId": 292
   },
   {
     "tile": {
@@ -22477,11 +22504,65 @@
   {
     "tile": {
       "plane": 0,
-      "x": 2620,
-      "y": 3366
+      "x": 2621,
+      "y": 3368
     },
     "comment": "Sick-looking sheep (2)",
     "npcId": 293
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2619,
+      "y": 3371
+    },
+    "comment": "Sick-looking sheep (2)",
+    "npcId": 293
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2617,
+      "y": 3365
+    },
+    "comment": "Sick-looking sheep (2)",
+    "npcId": 293
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2559,
+      "y": 3388
+    },
+    "comment": "Sick-looking sheep (3)",
+    "npcId": 294
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2562,
+      "y": 3388
+    },
+    "comment": "Sick-looking sheep (3)",
+    "npcId": 294
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2563,
+      "y": 3383
+    },
+    "comment": "Sick-looking sheep (3)",
+    "npcId": 294
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2559,
+      "y": 3385
+    },
+    "comment": "Sick-looking sheep (3)",
+    "npcId": 294
   },
   {
     "tile": {
@@ -22505,6 +22586,15 @@
     "tile": {
       "plane": 0,
       "x": 2607,
+      "y": 3384
+    },
+    "comment": "Sick-looking sheep (4)",
+    "npcId": 295
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2608,
       "y": 3384
     },
     "comment": "Sick-looking sheep (4)",
@@ -89860,8 +89950,8 @@
   {
     "tile": {
       "plane": 0,
-      "x": 2617,
-      "y": 3355
+      "x": 2628,
+      "y": 3362
     },
     "comment": "Farmer",
     "npcId": 7
@@ -89869,8 +89959,8 @@
   {
     "tile": {
       "plane": 0,
-      "x": 2621,
-      "y": 3355
+      "x": 2630,
+      "y": 3354
     },
     "comment": "Farmer",
     "npcId": 7
@@ -114022,15 +114112,6 @@
     },
     "comment": "Master Crafter",
     "npcId": 2733
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2619,
-      "y": 3354
-    },
-    "comment": "Master Farmer",
-    "npcId": 2234
   },
   {
     "tile": {
