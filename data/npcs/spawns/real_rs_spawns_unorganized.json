@@ -22459,150 +22459,6 @@
   {
     "tile": {
       "plane": 0,
-      "x": 2609,
-      "y": 3343
-    },
-    "comment": "Sick-looking sheep (1)",
-    "npcId": 292
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2610,
-      "y": 3344
-    },
-    "comment": "Sick-looking sheep (1)",
-    "npcId": 292
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2609,
-      "y": 3345
-    },
-    "comment": "Sick-looking sheep (1)",
-    "npcId": 292
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2615,
-      "y": 3343
-    },
-    "comment": "Sick-looking sheep (1)",
-    "npcId": 292
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2622,
-      "y": 3366
-    },
-    "comment": "Sick-looking sheep (2)",
-    "npcId": 293
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2621,
-      "y": 3368
-    },
-    "comment": "Sick-looking sheep (2)",
-    "npcId": 293
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2619,
-      "y": 3371
-    },
-    "comment": "Sick-looking sheep (2)",
-    "npcId": 293
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2617,
-      "y": 3365
-    },
-    "comment": "Sick-looking sheep (2)",
-    "npcId": 293
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2559,
-      "y": 3388
-    },
-    "comment": "Sick-looking sheep (3)",
-    "npcId": 294
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2562,
-      "y": 3388
-    },
-    "comment": "Sick-looking sheep (3)",
-    "npcId": 294
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2563,
-      "y": 3383
-    },
-    "comment": "Sick-looking sheep (3)",
-    "npcId": 294
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2559,
-      "y": 3385
-    },
-    "comment": "Sick-looking sheep (3)",
-    "npcId": 294
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2610,
-      "y": 3385
-    },
-    "comment": "Sick-looking sheep (4)",
-    "npcId": 295
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2608,
-      "y": 3386
-    },
-    "comment": "Sick-looking sheep (4)",
-    "npcId": 295
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2607,
-      "y": 3384
-    },
-    "comment": "Sick-looking sheep (4)",
-    "npcId": 295
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2608,
-      "y": 3384
-    },
-    "comment": "Sick-looking sheep (4)",
-    "npcId": 295
-  },
-  {
-    "tile": {
-      "plane": 0,
       "x": 2621,
       "y": 3688
     },
@@ -83308,15 +83164,6 @@
   {
     "tile": {
       "plane": 0,
-      "x": 2617,
-      "y": 3299
-    },
-    "comment": "Councillor Halgrive",
-    "npcId": 289
-  },
-  {
-    "tile": {
-      "plane": 0,
       "x": 2580,
       "y": 3117
     },
@@ -87403,15 +87250,6 @@
   {
     "tile": {
       "plane": 0,
-      "x": 2614,
-      "y": 3306
-    },
-    "comment": "Doctor Orbon",
-    "npcId": 290
-  },
-  {
-    "tile": {
-      "plane": 0,
       "x": 3022,
       "y": 3288
     },
@@ -90018,15 +89856,6 @@
     },
     "comment": "Farmer",
     "npcId": 1758
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2593,
-      "y": 3358
-    },
-    "comment": "Farmer Brumty",
-    "npcId": 291
   },
   {
     "tile": {
