@@ -10,7 +10,7 @@ import com.rs.plugin.annotations.ServerStartupEvent
 
 const val STAGE_UNSTARTED = 0
 const val STAGE_HATCH_EGG = 1
-const val STAGE_GAAL_TO_LIBRARY = 2
+const val STAGE_SAVE_GAAL_FIGHTPITS = 2
 const val STAGE_COMPLETE = 45
 
 @QuestHandler(
@@ -32,6 +32,7 @@ class ElderKiln : QuestOutline() {
     override fun getJournalLines(player: Player, stage: Int) = when (stage) {
         STAGE_UNSTARTED -> listOf("I should speak to TzHaar-Mej-Jeh by the Birthing Pools in the TzHaar City.")
         STAGE_HATCH_EGG -> listOf("I need to help the TzHaar-Mej hatch their egg by regulating the temperature.")
+        STAGE_SAVE_GAAL_FIGHTPITS -> listOf("The Ga'al is going to be honor killed in the Fight Pits and I need to get him back to Jeh.")
         STAGE_COMPLETE -> listOf("QUEST COMPLETE!")
         else -> listOf("Invalid quest stage. Report this to an administrator.")
     }
@@ -46,9 +47,11 @@ class ElderKiln : QuestOutline() {
 
     override fun updateStage(player: Player, stage: Int) {
         when(stage) {
-            STAGE_GAAL_TO_LIBRARY -> {
+            STAGE_SAVE_GAAL_FIGHTPITS -> {
                 player.vars.setVarBit(10809, 25)
                 player.vars.setVarBit(10833, 2)
+                player.vars.setVarBit(10811, 1)
+                player.vars.setVarBit(10832, 1)
             }
 
         }

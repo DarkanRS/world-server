@@ -27,6 +27,7 @@ import com.rs.game.content.Effect;
 import com.rs.game.content.bosses.godwars.GodwarsController;
 import com.rs.game.content.combat.PolyporeStaffKt;
 import com.rs.game.content.minigames.treasuretrails.TreasureTrailsManager;
+import com.rs.game.content.quests.elderkiln.TokkulZoKt;
 import com.rs.game.content.skills.hunter.BoxHunterType;
 import com.rs.game.content.skills.slayer.SlayerMonsters;
 import com.rs.game.content.skills.summoning.Familiar;
@@ -70,8 +71,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
-import static com.rs.game.content.quests.elderkiln.ElderKilnKt.depleteTokkulZo;
 
 public class NPC extends Entity {
 
@@ -332,7 +331,7 @@ public class NPC extends Entity {
 					hit.setDamage(0);
 					player.sendMessage("You do not have the slayer level required to damage this monster.");
 				}
-			if (hit.getDamage() > 0 && isTzhaarMonster() && depleteTokkulZo(player))
+			if (hit.getDamage() > 0 && isTzhaarMonster() && TokkulZoKt.depleteTokkulZo(player))
 				hit.setDamage((int) (hit.getDamage() * 1.1));
 		}
 		handlePostHit(hit);

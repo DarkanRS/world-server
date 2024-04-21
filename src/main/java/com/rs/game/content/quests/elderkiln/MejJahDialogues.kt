@@ -10,16 +10,17 @@ import com.rs.plugin.annotations.ServerStartupEvent
 import com.rs.plugin.kts.onNpcClick
 
 const val TZHAAR_MEJ_JEH_BPOOL = 15161
-const val TZHAAR_MEJ_JEH = 15163
+const val TZHAAR_MEJ_JEH_LIBRARY = 15163
 const val TZHAAR_MEJ_AK_BPOOL = 15164
+const val TZHAAR_MEJ_JEH_AK_PLAZA = 15165
 
 @ServerStartupEvent
 fun mapMejJahDialogues() {
     onNpcClick(TZHAAR_MEJ_JEH_BPOOL, TZHAAR_MEJ_AK_BPOOL) { (player) -> mejJahBirthingPoolDialogue(player) }
-    onNpcClick(TZHAAR_MEJ_JEH) { (player, npc) -> mejJahDialoguePostQuest(player, npc) }
+    onNpcClick(TZHAAR_MEJ_JEH_AK_PLAZA) { (player, npc) -> mejDialogueCenterRing(player, npc) }
 }
 
-fun mejJahBirthingPoolDialogue(player: Player) {
+private fun mejJahBirthingPoolDialogue(player: Player) {
     player.startConversation {
         when(player.getQuestStage(Quest.ELDER_KILN)) {
             STAGE_UNSTARTED -> {
@@ -49,7 +50,14 @@ fun mejJahBirthingPoolDialogue(player: Player) {
     }
 }
 
-fun mejJahDialoguePostQuest(player: Player, npc: NPC) {
+private fun mejDialogueCenterRing(player: Player, npc: NPC) {
+    when(player.getQuestStage(Quest.ELDER_KILN)) {
+        STAGE_SAVE_GAAL_FIGHTPITS -> saveGaalFightPitsAkDialogue(player, npc)
+        else -> mejJahDialoguePostQuest(player, npc)
+    }
+}
+
+private fun mejJahDialoguePostQuest(player: Player, npc: NPC) {
     player.startConversation {
         npc(npc.id, T_CONFUSED, "What do you need from me?")
         options {

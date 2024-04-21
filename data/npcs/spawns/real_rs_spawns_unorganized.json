@@ -4162,15 +4162,6 @@
   {
     "tile": {
       "plane": 0,
-      "x": 4671,
-      "y": 5157
-    },
-    "comment": "TzHaar-Mej-Jeh added by trent",
-    "npcId": 15163
-  },
-  {
-    "tile": {
-      "plane": 0,
       "x": 1935,
       "y": 4967
     },

@@ -121,7 +121,7 @@ fun hatchEggCutscene(player: Player) {
                                         npc(jeh.id, T_CALM_TALK, "Go to Main Plaza in the centre of TzHaar City, west of here, and bring Ga'al back. Convince TzHaar-Mej-Ak if you must.")
                                         player(CALM_TALK, "I'll help.")
                                         npc(jeh.id, T_CALM_TALK, "Thank you, JalYt-Hur-${player.displayName}. Bring him to me at the library.")
-                                        exec { player.setQuestStage(Quest.ELDER_KILN, STAGE_GAAL_TO_LIBRARY) }
+                                        exec { player.setQuestStage(Quest.ELDER_KILN, STAGE_SAVE_GAAL_FIGHTPITS) }
                                     }
                                 }
                             }
