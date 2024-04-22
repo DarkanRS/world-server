@@ -75,5 +75,16 @@
       "plane": 0
     },
     "respawnTicks": 30
+  },
+  {
+    "comment": "Cattleprod added by mr_ashie_b",
+    "itemId": 278,
+    "amount": 1,
+    "tile": {
+      "x": 2604,
+      "y": 3358,
+      "plane": 0
+    },
+    "respawnTicks": 30
   }
 ]

@@ -49,7 +49,7 @@ public class Doors {
 
 	public static ObjectClickHandler handleInvertedDoublesYanille = new ObjectClickHandler(new Object[] { 1517, 1520 }, new Tile[] { Tile.of(2561, 3099, 0), Tile.of(2561, 3098, 0) }, e -> handleDoubleDoor(e.getPlayer(), e.getObject(), true));
 
-	public static ObjectClickHandler handleGates = new ObjectClickHandler(new Object[] { 166, 167, 1551, 1552, 1553, 1556, 2050, 2051, 2306, 2313, 2320, 2344, 2261, 2262, 2438, 2439, 3015, 3016, 3725, 3726, 4311, 4312, 7049, 7050, 7051, 7052, 15510, 15511, 15512, 15513, 15514, 15515, 15516, 15517, 24560, 24561, 34777, 34778, 34779, 34780, 36912, 36913, 36914, 36915, 37351, 37352, 37353, 37354, 45206, 45207, 45208, 45209, 45210, 45211, 45212, 45213 }, e -> handleGate(e.getPlayer(), e.getObject()));
+	public static ObjectClickHandler handleGates = new ObjectClickHandler(new Object[] { 1551, 1552, 1553, 1556, 2050, 2051, 2306, 2313, 2320, 2344, 2261, 2262, 2438, 2439, 3015, 3016, 3725, 3726, 4311, 4312, 7049, 7050, 7051, 7052, 15510, 15511, 15512, 15513, 15514, 15515, 15516, 15517, 24560, 24561, 34777, 34778, 34779, 34780, 36912, 36913, 36914, 36915, 37351, 37352, 37353, 37354, 45206, 45207, 45208, 45209, 45210, 45211, 45212, 45213 }, e -> handleGate(e.getPlayer(), e.getObject()));
 
 	public static ObjectClickHandler handleInPlaceSingleDoors = new ObjectClickHandler(new Object[] { 4250, 4251, 5887, 5888, 5889, 5890, 5891, 5893, 64833, 64834, 65365, 65367, 65386, 65387, 65573, 65574, 68977, 68978, 68983 }, e -> handleInPlaceSingleDoor(e.getPlayer(), e.getObject()));
 
