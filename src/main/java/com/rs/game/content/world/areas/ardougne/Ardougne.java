@@ -189,19 +189,6 @@ public class Ardougne  {
 		}
 	});
 
-	public static NPCClickHandler handleDrOrbon = new NPCClickHandler(new Object[] { 290 }, e -> e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
-        {
-            addNPC(e.getNPCId(), HeadE.CHEERFUL, "Hello, what are you after?");
-            addOptions("What would you like to say?", new Options() {
-                @Override
-                public void create() {
-                    option("About the Achievement System...", () -> new AchievementSystemD(player, e.getNPCId(), SetReward.ARDOUGNE_CLOAK));
-                }
-            });
-            create();
-        }
-    }));
-
 	public static NPCClickHandler handleAleck = new NPCClickHandler(new Object[] { 5110 }, e -> {
 		if (e.getOpNum() == 1)
 			e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
