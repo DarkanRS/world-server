@@ -4,16 +4,12 @@ import com.rs.engine.quest.Quest
 import com.rs.game.content.items.Spade.dig
 import com.rs.game.content.minigames.barrows.BarrowsController
 import com.rs.game.content.quests.piratestreasure.PiratesTreasure
+import com.rs.game.content.quests.plaguecity.utils.*
 import com.rs.game.model.entity.async.schedule
 import com.rs.game.model.entity.player.Player
-import com.rs.game.tasks.WorldTasks
-import com.rs.lib.game.Animation
 import com.rs.lib.game.Tile
 import com.rs.lib.util.Utils
-import com.rs.plugin.annotations.PluginEventHandler
 import com.rs.plugin.annotations.ServerStartupEvent
-import com.rs.plugin.events.ItemClickEvent
-import com.rs.plugin.handlers.ItemClickHandler
 import com.rs.plugin.kts.onItemClick
 
 @ServerStartupEvent
@@ -21,7 +17,6 @@ fun mapSpade() {
     onItemClick(952, options = arrayOf("Dig")) { dig(it.player) }
 }
 
-@PluginEventHandler
 object Spade {
     @JvmStatic
 	fun dig(player: Player) {
@@ -48,9 +43,19 @@ object Spade {
                 player.useStairs(-1, Tile.of(2690, 10124, 0), 0, 1)
                 return@schedule
             }
+
+            // Plague City Mud Patch
+            if (player.tile == MUD_PATCH_DIG_TILE) {
+                if (player.questManager.getStage(Quest.PLAGUE_CITY) >= STAGE_UNCOVERED_SEWER_ENTRANCE) player.simpleDialogue("You've already uncovered the entrance to the Ardougne Sewers.")
+                else PlagueCityUtils().digAtMudPatch(player)
+                return@schedule
+            }
+
             //Pirate's Treasure
             if (player.questManager.getStage(Quest.PIRATES_TREASURE) == PiratesTreasure.GET_TREASURE) PiratesTreasure.findTreasure(player)
             player.sendMessage("You find nothing.")
+
+
         }
     }
 }

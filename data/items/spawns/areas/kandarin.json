@@ -86,5 +86,93 @@
       "plane": 0
     },
     "respawnTicks": 30
+  },
+  {
+    "comment": "Picture of Elena added by mr_ashie_b",
+    "itemId": 1510,
+    "amount": 1,
+    "tile": {
+      "x": 2576,
+      "y": 3334,
+      "plane": 0
+    },
+    "respawnTicks": 30
+  },
+  {
+    "comment": "Spade added by mr_ashie_b",
+    "itemId": 952,
+    "amount": 1,
+    "tile": {
+      "x": 2566,
+      "y": 3330,
+      "plane": 0
+    },
+    "respawnTicks": 30
+  },
+  {
+    "comment": "Bucket added by mr_ashie_b",
+    "itemId": 1925,
+    "amount": 1,
+    "tile": {
+      "x": 2564,
+      "y": 3332,
+      "plane": 0
+    },
+    "respawnTicks": 30
+  },
+    {
+    "comment": "Dwellberries added by mr_ashie_b",
+    "itemId": 2126,
+    "amount": 1,
+    "tile": {
+      "x": 2670,
+      "y": 3492,
+      "plane": 0
+    },
+    "respawnTicks": 30
+  },
+  {
+    "comment": "Dwellberries added by mr_ashie_b",
+    "itemId": 2126,
+    "amount": 1,
+    "tile": {
+      "x": 2666,
+      "y": 3475,
+      "plane": 0
+    },
+    "respawnTicks": 30
+  },
+  {
+    "comment": "Dwellberries added by mr_ashie_b",
+    "itemId": 2126,
+    "amount": 1,
+    "tile": {
+      "x": 2646,
+      "y": 3499,
+      "plane": 0
+    },
+    "respawnTicks": 30
+  },
+  {
+    "comment": "Dwellberries added by mr_ashie_b",
+    "itemId": 2126,
+    "amount": 1,
+    "tile": {
+      "x": 2633,
+      "y": 3492,
+      "plane": 0
+    },
+    "respawnTicks": 30
+  },
+  {
+    "comment": "Dwellberries added by mr_ashie_b",
+    "itemId": 2126,
+    "amount": 1,
+    "tile": {
+      "x": 2633,
+      "y": 3479,
+      "plane": 0
+    },
+    "respawnTicks": 30
   }
 ]

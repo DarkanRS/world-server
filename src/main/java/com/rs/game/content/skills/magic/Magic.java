@@ -36,6 +36,8 @@ import com.rs.plugin.handlers.InterfaceOnPlayerHandler;
 import java.util.List;
 import java.util.function.Consumer;
 
+import static com.rs.game.content.quests.plaguecity.utils.PlagueCityConstantsKt.ARDOUGNE_TELEPORT_UNLOCKED;
+
 @PluginEventHandler
 public class Magic {
 
@@ -358,7 +360,11 @@ public class Magic {
 				sendNormalTeleportSpell(player, 45, 55.5, Tile.of(2757, 3478, 0), new RuneSet(Rune.AIR, 5, Rune.LAW, 1));
 				break;
 			case 57: // ardy
-				sendNormalTeleportSpell(player, 51, 61, Tile.of(2664, 3305, 0), new RuneSet(Rune.WATER, 2, Rune.LAW, 2));
+				if (player.isQuestComplete(Quest.PLAGUE_CITY) && player.getBool(ARDOUGNE_TELEPORT_UNLOCKED)) {
+					sendNormalTeleportSpell(player, 51, 61, Tile.of(2664, 3305, 0), new RuneSet(Rune.WATER, 2, Rune.LAW, 2));
+				} else {
+					player.sendMessage("You have not yet learned this spell.");
+				}
 				break;
 			case 62: // watch
 				sendNormalTeleportSpell(player, 58, 68, Tile.of(2547, 3113, 2), new RuneSet(Rune.EARTH, 2, Rune.LAW, 2));
@@ -545,7 +551,7 @@ public class Magic {
 		}, true);
 		Teleport.execute(player, tele, delay);
 	}
-	
+
 	public static void npcTeleport(NPC npc, int upEmoteId, final int downEmoteId, int upGraphicId, final int downGraphicId, final Tile tile, int delay, final boolean randomize, Consumer<NPC> onArrive) {
 		npc.resetWalkSteps();
 		npc.setRouteEvent(null);
@@ -576,23 +582,23 @@ public class Magic {
 			npc.resetReceivedHits();
 		});
 	}
-	
+
 	public static void npcNormalTeleport(NPC npc, Tile tile, boolean randomize, Consumer<NPC> onArrive) {
 		npcTeleport(npc, 8939, 8941, 1576, 1577, tile, 3, randomize, onArrive);
 	}
-	
+
 	public static void npcAncientTeleport(NPC npc, Tile tile, boolean randomize, Consumer<NPC> onArrive) {
 		npcTeleport(npc, 9599, -2, 1681, -1, tile, 5, randomize, onArrive);
 	}
-	
+
 	public static void npcLunarTeleport(NPC npc, Tile tile, boolean randomize, Consumer<NPC> onArrive) {
 		npcTeleport(npc, 9606, -1, 1685, -1, tile, 5, randomize, onArrive);
 	}
-	
+
 	public static void npcDaemonheimTeleport(NPC npc, Tile tile, boolean randomize, Consumer<NPC> onArrive) {
 		npcTeleport(npc, 13652, 13654, 2602, 2603, tile, 10, randomize, onArrive);
 	}
-	
+
 	public static void npcItemTeleport(NPC npc, Tile tile, boolean randomize, Consumer<NPC> onArrive) {
 		npcTeleport(npc, 9603, -2, 1684, -1, tile, 4, randomize, onArrive);
 	}

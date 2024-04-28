@@ -134,7 +134,6 @@ public class Foods {
         CHILLI_CON_CARNIE(new int[] { 7062 }, 1923, 50),
         CHILLI_POTATO(7054, 140),
         CHOCCHIP_CRUNCHIES(2209, 70),
-        CHOCOLATEY_MILK(1977, 40),
         CHOCOLATE_BAR(1973, 30),
         CHOCOLATE_BOMB(2185, 150),
         CHOCOLATE_CAKE(new int[] { 1897, 1899, 1901 }, 50),

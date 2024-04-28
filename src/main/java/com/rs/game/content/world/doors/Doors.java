@@ -53,7 +53,7 @@ public class Doors {
 
 	public static ObjectClickHandler handleInPlaceSingleDoors = new ObjectClickHandler(new Object[] { 4250, 4251, 5887, 5888, 5889, 5890, 5891, 5893, 64833, 64834, 65365, 65367, 65386, 65387, 65573, 65574, 68977, 68978, 68983 }, e -> handleInPlaceSingleDoor(e.getPlayer(), e.getObject()));
 
-	public static ObjectClickHandler handleInPlaceDoubleDoors = new ObjectClickHandler(new Object[] { 6553, 6555, 9330, 9738, 69197, 69198 }, e -> handleInPlaceDoubleDoor(e.getPlayer(), e.getObject()));
+	public static ObjectClickHandler handleInPlaceDoubleDoors = new ObjectClickHandler(new Object[] { 6553, 6555, 69197, 69198 }, e -> handleInPlaceDoubleDoor(e.getPlayer(), e.getObject()));
 
 	public static ObjectClickHandler handleWasteMyTimeDoors = new ObjectClickHandler(new Object[] { 52, 53, 71, 73, 74, 79, 80, 1589, 1590, 1591, 2154, 2155, 2184, 2685, 2686, 2687, 2688, 3442, 3626, 5730, 18168, 20341, 20665, 20666, 20695, 21065, 37470, 67747 }, e -> e.getPlayer().sendMessage("The door is securely locked."));
 
