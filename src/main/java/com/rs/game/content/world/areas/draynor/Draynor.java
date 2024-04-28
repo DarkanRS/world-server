@@ -48,7 +48,7 @@ public class Draynor {
 
 	public static NPCClickHandler handleNed = new NPCClickHandler(new Object[] { 918 }, e -> e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
         {
-            addNPC(e.getNPCId(), HeadE.CHEERFUL, "Why, hello there, lass. Me friends call me Ned. I was a man of the sea, but it's past me now." +
+            addNPC(e.getNPCId(), HeadE.CHEERFUL, "Why, hello there, " + e.getPlayer().genderTerm("lad", "lass") + ". Me friends call me Ned. I was a man of the sea, but it's past me now." +
                     " Could I be making or selling you some rope?");
             addOptions("What would you like to say?", new Options() {
                 @Override
@@ -61,8 +61,8 @@ public class Draynor {
                             .addNext(() -> player.startConversation(new Conversation(player) {
 {
 if(player.getInventory().hasCoins(15)) {
-addNPC(NED, HeadE.HAPPY_TALKING, "Okay that will be 15 coins...");
-addPlayer(HeadE.CALM_TALK, "Thats good, here you go!");
+addNPC(NED, HeadE.HAPPY_TALKING, "Okay, that will be 15 coins...");
+addPlayer(HeadE.CALM_TALK, "That's good, here you go!");
 addNext(()->{
 player.getInventory().removeCoins(15);
 player.getInventory().addItem(954, 1);
@@ -70,14 +70,14 @@ player.getInventory().addItem(954, 1);
 
 } else if(player.getInventory().containsItem(BALL_WOOL, 4)) {
 addNPC(NED, HeadE.CALM_TALK, "Okay I will need 4 balls of wool...");
-addPlayer(HeadE.HAPPY_TALKING, "Thats good, here you go!");
+addPlayer(HeadE.HAPPY_TALKING, "That's good, here you go!");
 addNext(()->{
 player.getInventory().deleteItem(BALL_WOOL, 4);
 player.getInventory().addItem(954, 1);
 });
 } else {
-addNPC(NED, HeadE.CALM_TALK, "Okay, bring me 15 coins or 4 balls of wool and ill give you some.");
-addPlayer(HeadE.HAPPY_TALKING, "Sounds good");
+addNPC(NED, HeadE.CALM_TALK, "Okay, bring me 15 coins or 4 balls of wool and I'll give you some.");
+addPlayer(HeadE.HAPPY_TALKING, "Sounds good.");
 
 }
 create();

@@ -3926,15 +3926,6 @@
     }
   },
   {
-    "comment": "Edmond",
-    "npcId": 714,
-    "tile": {
-      "x": 2571,
-      "y": 3333,
-      "plane": 0
-    }
-  },
-  {
     "comment": "Odd Old Man",
     "npcId": 9173,
     "tile": {
@@ -73005,15 +72996,6 @@
   {
     "tile": {
       "plane": 0,
-      "x": 2573,
-      "y": 3333
-    },
-    "comment": "Alrena",
-    "npcId": 710
-  },
-  {
-    "tile": {
-      "plane": 0,
       "x": 2514,
       "y": 3855
     },
@@ -77049,15 +77031,6 @@
     },
     "comment": "Billy Goat",
     "npcId": 4932
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2530,
-      "y": 3331
-    },
-    "comment": "Billy Rehnison",
-    "npcId": 723
   },
   {
     "tile": {
@@ -82395,15 +82368,6 @@
     },
     "comment": "Child",
     "npcId": 6345
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2523,
-      "y": 3307
-    },
-    "comment": "Child",
-    "npcId": 356
   },
   {
     "tile": {
@@ -113368,33 +113332,6 @@
   {
     "tile": {
       "plane": 0,
-      "x": 2507,
-      "y": 3325
-    },
-    "comment": "Man",
-    "npcId": 351
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2536,
-      "y": 3308
-    },
-    "comment": "Man",
-    "npcId": 729
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2540,
-      "y": 3308
-    },
-    "comment": "Man",
-    "npcId": 728
-  },
-  {
-    "tile": {
-      "plane": 0,
       "x": 2596,
       "y": 3104
     },
@@ -115075,15 +115012,6 @@
     },
     "comment": "Milla",
     "npcId": 6037
-  },
-  {
-    "tile": {
-      "plane": 1,
-      "x": 2531,
-      "y": 3330
-    },
-    "comment": "Milli Rehnison",
-    "npcId": 724
   },
   {
     "tile": {
@@ -119213,6 +119141,7 @@
       "x": 3100,
       "y": 3257
     },
+	"clip": "INDOOR",
     "comment": "Ned",
     "npcId": 918
   },
@@ -126757,15 +126686,6 @@
     },
     "comment": "Raum Urda-Stein",
     "npcId": 5485
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2542,
-      "y": 3306
-    },
-    "comment": "Recruiter",
-    "npcId": 720
   },
   {
     "tile": {
@@ -143078,15 +142998,6 @@
   {
     "tile": {
       "plane": 0,
-      "x": 2504,
-      "y": 3326
-    },
-    "comment": "Woman",
-    "npcId": 353
-  },
-  {
-    "tile": {
-      "plane": 0,
       "x": 2509,
       "y": 3314
     },
@@ -143101,24 +143012,6 @@
     },
     "comment": "Woman",
     "npcId": 354
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2511,
-      "y": 3322
-    },
-    "comment": "Woman",
-    "npcId": 352
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2513,
-      "y": 3315
-    },
-    "comment": "Woman",
-    "npcId": 363
   },
   {
     "tile": {

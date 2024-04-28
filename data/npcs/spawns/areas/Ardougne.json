@@ -169,5 +169,602 @@
     },
     "comment": "Doctor Orbon",
     "npcId": 290
-  }
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2517,
+      "y": 9752
+    },
+	"clip": "OUTDOOR",
+    "comment": "Edmond in Ardougne Sewers added by mr_ashie_b",
+    "npcId": 3214
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2568,
+      "y": 3333
+    },
+	"clip": "OUTDOOR",
+    "comment": "Edmond on Surface added by mr_ashie_b",
+    "npcId": 3213
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2573,
+      "y": 3333
+    },
+	"clip": "INDOOR",
+    "comment": "Alrena",
+    "npcId": 710
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2581,
+      "y": 3332
+    },
+	"clip": "OUTDOOR",
+    "comment": "Mourner @ Alrena/Edmond added by mr_ashie_b",
+    "npcId": 719
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2561,
+      "y": 3303
+    },
+	"dir": "EAST",
+    "comment": "Mourner @ Watchtower added by mr_ashie_b",
+    "npcId": 372
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2559,
+      "y": 3303
+    },
+	"dir": "SOUTH",
+    "comment": "Mourner @ Watchtower added by mr_ashie_b",
+    "npcId": 372
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2559,
+      "y": 3305
+    },
+	"dir": "NORTH",
+    "comment": "Mourner @ Watchtower added by mr_ashie_b",
+    "npcId": 372
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2561,
+      "y": 3305
+    },
+	"dir": "EAST",
+    "comment": "Mourner @ Watchtower added by mr_ashie_b",
+    "npcId": 372
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2560,
+      "y": 3288
+    },
+	"dir": "SOUTH",
+    "comment": "Mourner South of Watchtower added by mr_ashie_b",
+    "npcId": 718
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2541,
+      "y": 3304
+    },
+	"clip": "OUTDOOR",
+    "comment": "Jethick added by mr_ashie_b",
+    "npcId": 725
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2541,
+      "y": 9671
+    },
+    "comment": "Elena Prison added by mr_ashie_b",
+    "npcId": 715
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2592,
+      "y": 3337
+    },
+	"clip": "INDOOR",
+    "comment": "Elena added by mr_ashie_b",
+    "npcId": 335
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2542,
+      "y": 3306
+    },
+	"clip": "OUTDOOR",
+    "comment": "Recruiter",
+    "npcId": 720
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2540,
+      "y": 3308
+    },
+	"clip": "OUTDOOR",
+    "comment": "Man",
+    "npcId": 728
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2536,
+      "y": 3308
+    },
+	"clip": "OUTDOOR",
+    "comment": "Man",
+    "npcId": 729
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2530,
+      "y": 3331
+    },
+	"clip": "INDOOR",
+    "comment": "Ted Rehnison added by mr_ashie_b",
+    "npcId": 721
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2530,
+      "y": 3333
+    },
+	"clip": "INDOOR",
+    "comment": "Martha Rehnison added by mr_ashie_b",
+    "npcId": 722
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2528,
+      "y": 3332
+    },
+	"clip": "INDOOR",
+    "comment": "Billy Rehnison",
+    "npcId": 723
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 2531,
+      "y": 3330
+    },
+	"clip": "INDOOR",
+    "comment": "Milli Rehnison",
+    "npcId": 724
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2523,
+      "y": 3307
+    },
+	"clip": "OUTDOOR",
+    "comment": "Child",
+    "npcId": 356
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2511,
+      "y": 3322
+    },
+	"clip": "OUTDOOR",
+    "comment": "Woman",
+    "npcId": 352
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2513,
+      "y": 3315
+    },
+	"clip": "OUTDOOR",
+    "comment": "Woman",
+    "npcId": 363
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2504,
+      "y": 3326
+    },
+	"clip": "INDOOR",
+    "comment": "Woman",
+    "npcId": 353
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2507,
+      "y": 3325
+    },
+	"clip": "INDOOR",
+    "comment": "Man",
+    "npcId": 351
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2539,
+      "y": 3273
+    },
+	"clip": "OUTDOOR",
+    "comment": "Mourner added by mr_ashie_b",
+    "npcId": 717
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2534,
+      "y": 3273
+    },
+	"clip": "OUTDOOR",
+    "comment": "Mourner added by mr_ashie_b",
+    "npcId": 3216
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2536,
+      "y": 3295
+    },
+	"clip": "OUTDOOR",
+    "comment": "Mourner added by mr_ashie_b",
+    "npcId": 718
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2521,
+      "y": 3293
+    },
+	"clip": "OUTDOOR",
+    "comment": "Mourner added by mr_ashie_b",
+    "npcId": 718
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2513,
+      "y": 3294
+    },
+	"clip": "OUTDOOR",
+    "comment": "Mourner added by mr_ashie_b",
+    "npcId": 718
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2518,
+      "y": 3320
+    },
+	"clip": "OUTDOOR",
+    "comment": "Mourner added by mr_ashie_b",
+    "npcId": 718
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2551,
+      "y": 3291
+    },
+	"clip": "OUTDOOR",
+    "comment": "Lvl 24 Mourner added by mr_ashie_b",
+    "npcId": 348
+  },  
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2545,
+      "y": 3327
+    },
+	"clip": "INDOOR",
+    "comment": "Lvl 24 Mourner added by mr_ashie_b",
+    "npcId": 369
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2545,
+      "y": 3324
+    },
+	"clip": "INDOOR",
+    "comment": "Lvl 24 Mourner added by mr_ashie_b",
+    "npcId": 369
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2553,
+      "y": 3324
+    },
+	"clip": "INDOOR",
+    "comment": "Lvl 24 Mourner added by mr_ashie_b",
+    "npcId": 369
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2553,
+      "y": 3322
+    },
+	"clip": "INDOOR",
+    "comment": "Lvl 24 Mourner added by mr_ashie_b",
+    "npcId": 369
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2542,
+      "y": 3326
+    },
+	"clip": "INDOOR",
+    "comment": "Lvl 24 Mourner added by mr_ashie_b",
+    "npcId": 369
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2547,
+      "y": 3326
+    },
+	"clip": "INDOOR",
+    "comment": "Lvl 12 Mourner added by mr_ashie_b",
+    "npcId": 371
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2549,
+      "y": 3322
+    },
+	"clip": "INDOOR",
+    "comment": "Lvl 12 Mourner added by mr_ashie_b",
+    "npcId": 371
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2552,
+      "y": 3323
+    },
+	"clip": "INDOOR",
+    "comment": "Lvl 12 Mourner added by mr_ashie_b",
+    "npcId": 371
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2550,
+      "y": 3326
+    },
+	"clip": "INDOOR",
+    "comment": "Lvl 12 Mourner added by mr_ashie_b",
+    "npcId": 371
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2550,
+      "y": 3319
+    },
+    "comment": "Lvl 18 Mourner added by mr_ashie_b",
+    "npcId": 357
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2552,
+      "y": 3319
+    },
+    "comment": "Lvl 18 Mourner added by mr_ashie_b",
+    "npcId": 357
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 2551,
+      "y": 3324
+    },
+    "comment": "Lvl 13 Mourner added by mr_ashie_b",
+    "npcId": 370
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 2551,
+      "y": 3327
+    },
+    "comment": "Lvl 13 Mourner added by mr_ashie_b",
+    "npcId": 370
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2526,
+      "y": 3303
+    },
+	"clip": "OUTDOOR",
+    "comment": "Lvl 18 Mourner added by mr_ashie_b",
+    "npcId": 357
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2518,
+      "y": 3309
+    },
+	"clip": "OUTDOOR",
+    "comment": "Lvl 18 Mourner added by mr_ashie_b",
+    "npcId": 357
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2543,
+      "y": 3309
+    },
+	"clip": "OUTDOOR",
+    "comment": "Lvl 18 Mourner added by mr_ashie_b",
+    "npcId": 357
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2528,
+      "y": 3297
+    },
+	"clip": "OUTDOOR",
+    "comment": "Lvl 24 Mourner added by mr_ashie_b",
+    "npcId": 348
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2526,
+      "y": 3279
+    },
+	"clip": "OUTDOOR",
+    "comment": "Lvl 24 Mourner added by mr_ashie_b",
+    "npcId": 348
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2535,
+      "y": 3288
+    },
+	"clip": "OUTDOOR",
+    "comment": "Lvl 24 Mourner added by mr_ashie_b",
+    "npcId": 348
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2501,
+      "y": 3315
+    },
+	"clip": "OUTDOOR",
+    "comment": "Lvl 24 Mourner added by mr_ashie_b",
+    "npcId": 348
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2513,
+      "y": 3325
+    },
+	"clip": "INDOOR",
+    "comment": "Lvl 24 Mourner added by mr_ashie_b",
+    "npcId": 348
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2523,
+      "y": 3292
+    },
+	"clip": "OUTDOOR",
+    "comment": "Lvl 11 Mourner added by mr_ashie_b",
+    "npcId": 347
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2538,
+      "y": 3321
+    },
+	"clip": "OUTDOOR",
+    "comment": "Lvl 11 Mourner added by mr_ashie_b",
+    "npcId": 347
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2038,
+      "y": 4642
+    },
+	"dir": "EAST",
+    "comment": "Mourner added by mr_ashie_b",
+    "npcId": 2374
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2040,
+      "y": 4632
+    },
+	"dir": "EAST",
+    "comment": "Mourner added by mr_ashie_b",
+    "npcId": 2374
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2037,
+      "y": 4630
+    },
+	"dir": "NORTH",
+    "comment": "Mourner added by mr_ashie_b",
+    "npcId": 2374
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2044,
+      "y": 4632
+    },
+	"dir": "WEST",
+    "comment": "Head Mourner added by mr_ashie_b",
+    "npcId": 2372
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2516,
+      "y": 3274
+    },
+	"dir": "EAST",
+	"clip": "INDOOR",
+    "comment": "Nurse Sarah added by mr_ashie_b",
+    "npcId": 373
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2495,
+      "y": 3312
+    },
+	"dir": "WEST",
+	"clip": "OUTDOOR",
+    "comment": "Carla added by mr_ashie_b",
+    "npcId": 712
+  },
 ]
