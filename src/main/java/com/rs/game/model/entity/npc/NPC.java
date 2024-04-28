@@ -334,6 +334,18 @@ public class NPC extends Entity {
 			if (hit.getDamage() > 0 && isTzhaarMonster() && TokkulZoKt.depleteTokkulZo(player))
 				hit.setDamage((int) (hit.getDamage() * 1.1));
 		}
+		if (hit.getDamage() >= 200) {
+			Bonus bonus = switch(hit.getLook()) {
+				case MELEE_DAMAGE -> Bonus.ABSORB_MELEE;
+				case RANGE_DAMAGE -> Bonus.ABSORB_RANGE;
+				default -> Bonus.ABSORB_MAGIC;
+			};
+			int reducedDamage = hit.getDamage() * getBonus(bonus) / 100;
+			if (reducedDamage > 0) {
+				hit.setDamage(hit.getDamage() - reducedDamage);
+				hit.addSoaking(reducedDamage);
+			}
+		}
 		handlePostHit(hit);
 	}
 

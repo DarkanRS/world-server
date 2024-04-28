@@ -1,17 +1,17 @@
 {
   "names": [
-    "TzHaar-Xil (Hardened)"
+    "TzHaar-Ket (Hardened)"
   ],
-  "attackAnim": -1,
+  "attackAnim": 16090,
   "attackSound": -1,
-  "defenceAnim": -1,
+  "defenceAnim": 16096,
   "defendSound": -1,
-  "deathAnim": -1,
+  "deathAnim": 16092,
   "deathDelay": 6,
   "deathSound": -1,
   "respawnDelay": 59,
-  "hitpoints": 1,
-  "maxHit": 1,
+  "hitpoints": 3000,
+  "maxHit": 414,
   "attackStyle": "MELEE",
   "attackRange": -1,
   "attackGfx": -1,

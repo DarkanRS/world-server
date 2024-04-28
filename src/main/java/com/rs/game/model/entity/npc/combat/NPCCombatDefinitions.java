@@ -29,6 +29,7 @@ import com.rs.plugin.annotations.ServerStartupEvent.Priority;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @PluginEventHandler
 public class NPCCombatDefinitions {
@@ -156,7 +157,8 @@ public class NPCCombatDefinitions {
 	private static void loadPackedCombatDefinitions() {
 		try {
 			File[] dropFiles = new File(PATH).listFiles();
-			for (File f : dropFiles)
+            assert dropFiles != null;
+            for (File f : dropFiles)
 				loadFile(f);
 		} catch (Throwable e) {
 			Logger.handle(NPCCombatDefinitions.class, "loadPackedCombatDefinitions", e);
@@ -166,7 +168,7 @@ public class NPCCombatDefinitions {
 	private static void loadFile(File f) {
 		try {
 			if (f.isDirectory()) {
-				for (File dir : f.listFiles())
+				for (File dir : Objects.requireNonNull(f.listFiles()))
 					loadFile(dir);
 				return;
 			}
@@ -337,8 +339,7 @@ public class NPCCombatDefinitions {
 			if (id == npcId)
 				return;
 		int[] newIds = new int[ids.length+1];
-		for (int i = 0;i < ids.length;i++)
-			newIds[i] = ids[i];
+        System.arraycopy(ids, 0, newIds, 0, ids.length);
 		newIds[ids.length] = npcId;
 		ids = newIds;
 	}
@@ -377,7 +378,7 @@ public class NPCCombatDefinitions {
 	}
 
 	public boolean hasOverriddenBonuses() {
-		return bonuses != null && bonuses.size() > 0;
+		return bonuses != null && !bonuses.isEmpty();
 	}
 
 	public int getBonus(Bonus bonus) {
@@ -385,7 +386,7 @@ public class NPCCombatDefinitions {
 			return 1000;
 		if (bonuses.get(bonus) == null)
 			return 0;
-		return (Integer) bonuses.get(bonus);
+		return bonuses.get(bonus);
 	}
 
 	public int getAttackSound() {
