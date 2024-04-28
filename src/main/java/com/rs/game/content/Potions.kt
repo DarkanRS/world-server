@@ -101,6 +101,8 @@ fun mapPotionOps() {
 }
 
 enum class Potion(val emptyId: Int, val ids: IntArray, val effect: (Player) -> Unit) {
+    CHOCOLATEY_MILK(1925, 1977, { it.heal(40) }),
+    BUCKET_OF_MILK(1925, 1927, { }),
     CUP_OF_TEA(1980, intArrayOf(712, 1978, 4242, 4243, 4245, 4246, 4838, 7730, 7731, 7733, 7734, 7736, 7737), { p ->
         p.heal(30)
         p.skills.adjustStat(3, 0.0, ATTACK)

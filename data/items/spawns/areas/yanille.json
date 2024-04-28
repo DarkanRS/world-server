@@ -1,0 +1,13 @@
+[
+  {
+    "comment": "Rope added by mr_ashie_b",
+    "itemId": 954,
+    "amount": 1,
+    "tile": {
+      "x": 2571,
+      "y": 3026,
+      "plane": 0
+    },
+    "respawnTicks": 60
+  }
+]
