@@ -113,10 +113,6 @@ val SEWER_PIPE_TELE_LOC: Tile = Tile.of(2529, 3304, 0)
 val EDMOND_SEWER_SPAWN_LOC: Tile = Tile.of(2517, 9752, 0)
 var MANHOLE_TELE_LOC: Tile = Tile.of(2514, 9739, 0)
 
-// Regions
-const val EDMOND_HOUSE_ABOVE_GROUND = 10292
-const val ARDOUGNE_SEWERS = 10136
-
 // Var Keys
 const val WATER_USED_ON_MUD = "waterUsedOnMudPatch"
 const val EDMOND_SUGGESTED_ROPE = "edmondSuggestedRope"

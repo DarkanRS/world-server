@@ -258,7 +258,13 @@ public class Ardougne  {
 		AgilityShortcuts.walkLog(e.getPlayer(), e.getPlayer().transform(e.getObjectId() == 35999 ? -4 : 4, 0, 0), 3);
 	});
 
-	public static ObjectClickHandler handleEnterUndergroundPass = new ObjectClickHandler(new Object[] { 36000 }, e -> e.getPlayer().tele(Tile.of(2312, 3217, 0)));
+	public static ObjectClickHandler handleEnterUndergroundPass = new ObjectClickHandler(new Object[] { 36000 }, e -> {
+		if (e.getPlayer().isQuestComplete(Quest.BIOHAZARD)) {
+			e.getPlayer().tele(Tile.of(2312, 3217, 0));
+		} else {
+			e.getPlayer().playerDialogue(HeadE.WORRIED, "I don't think I should go through here. I don't know where I'll end up.");
+		}
+	});
 
 	public static NPCClickHandler handleDarkMage = new NPCClickHandler(new Object[] { 1001 }, e -> e.getPlayer().sendOptionDialogue("Buy an Iban's staff for 100,000 gold?", ops -> {
         ops.add("Yes, I'll pay 100,000 gold for a staff.", () -> {
@@ -312,13 +318,15 @@ public class Ardougne  {
 
 	public static ObjectClickHandler handleExitLegendsGuildBasement = new ObjectClickHandler(new Object[] { 32048 }, Tile.of(2717, 9773, 0), e -> e.getPlayer().tele(e.getPlayer().transform(3, -6400, 0)));
 
-	public static ObjectClickHandler handleMournerTrapdoor = new ObjectClickHandler(new Object[] { 8783 }, e -> e.getPlayer().ladder(Tile.of(2044, 4649, 0)));
-
-	public static ObjectClickHandler handleMournerBasementLadder = new ObjectClickHandler(new Object[] { 8785 }, e -> {
-		PlagueCityUtils pcu = new PlagueCityUtils();
-		if (!pcu.isWearingGasMask(e.getPlayer())) e.getPlayer().playerDialogue(HeadE.WORRIED, "I should wear a gasmask before going up there.");
-		else e.getPlayer().ladder(Tile.of(2543, 3327, 0));
+	public static ObjectClickHandler handleMournerTrapdoor = new ObjectClickHandler(new Object[] { 8783 }, e -> {
+		if (e.getPlayer().isQuestComplete(Quest.BIOHAZARD)) {
+			e.getPlayer().ladder(Tile.of(2044, 4649, 0));
+		} else {
+			e.getPlayer().sendMessage("The trapdoor is bolted on the other side.");
+		}
 	});
+
+	public static ObjectClickHandler handleMournerBasementLadder = new ObjectClickHandler(new Object[] { 8785 }, e -> { e.getPlayer().ladder(Tile.of(2543, 3327, 0)); });
 
 	public static ObjectClickHandler handleRangeGuildEnter = new ObjectClickHandler(false, new Object[] { 2514 }, e -> {
 		if (e.getPlayer().getSkills().getLevelForXp(Constants.RANGE) <= 40) {

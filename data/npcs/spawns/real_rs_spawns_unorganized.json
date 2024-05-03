@@ -2296,15 +2296,6 @@
     }
   },
   {
-    "comment": "Family Crest Quest: Dimitheis",
-    "npcId": 664,
-    "tile": {
-      "x": 3281,
-      "y": 3403,
-      "plane": 0
-    }
-  },
-  {
     "comment": "Witchhaven dungeon: Hellhound 2",
     "npcId": 49,
     "tile": {
@@ -76315,15 +76306,6 @@
   {
     "tile": {
       "plane": 0,
-      "x": 3268,
-      "y": 3393
-    },
-    "comment": "Bartender",
-    "npcId": 732
-  },
-  {
-    "tile": {
-      "plane": 0,
       "x": 3277,
       "y": 3488
     },
@@ -81256,24 +81238,6 @@
   {
     "tile": {
       "plane": 0,
-      "x": 2929,
-      "y": 3222
-    },
-    "comment": "Chancy",
-    "npcId": 338
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3271,
-      "y": 3388
-    },
-    "comment": "Chancy",
-    "npcId": 339
-  },
-  {
-    "tile": {
-      "plane": 0,
       "x": 2561,
       "y": 3355
     },
@@ -81468,15 +81432,6 @@
     },
     "comment": "Cheerleader",
     "npcId": 636
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2934,
-      "y": 3210
-    },
-    "comment": "Chemist",
-    "npcId": 367
   },
   {
     "tile": {
@@ -85257,24 +85212,6 @@
     },
     "comment": "Cyreg Paddlehorn",
     "npcId": 1567
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2927,
-      "y": 3218
-    },
-    "comment": "Da Vinci",
-    "npcId": 336
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3272,
-      "y": 3389
-    },
-    "comment": "Da Vinci",
-    "npcId": 337
   },
   {
     "tile": {
@@ -89730,15 +89667,6 @@
     },
     "comment": "Fancy Dan",
     "npcId": 4361
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3281,
-      "y": 3398
-    },
-    "comment": "Fancy-dress shop owner",
-    "npcId": 554
   },
   {
     "tile": {
@@ -95917,15 +95845,6 @@
   {
     "tile": {
       "plane": 0,
-      "x": 3264,
-      "y": 3383
-    },
-    "comment": "Giant rat",
-    "npcId": 2091
-  },
-  {
-    "tile": {
-      "plane": 0,
       "x": 3265,
       "y": 3348
     },
@@ -95949,15 +95868,6 @@
     },
     "comment": "Giant rat",
     "npcId": 12348
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3266,
-      "y": 3381
-    },
-    "comment": "Giant rat",
-    "npcId": 8829
   },
   {
     "tile": {
@@ -102901,15 +102811,6 @@
   {
     "tile": {
       "plane": 0,
-      "x": 3263,
-      "y": 3407
-    },
-    "comment": "Guard",
-    "npcId": 368
-  },
-  {
-    "tile": {
-      "plane": 0,
       "x": 3204,
       "y": 3496
     },
@@ -103428,24 +103329,6 @@
     },
     "comment": "Guardian",
     "npcId": 8906
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3284,
-      "y": 3382
-    },
-    "comment": "Guidor",
-    "npcId": 343
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3281,
-      "y": 3383
-    },
-    "comment": "Guidor\u0027s wife",
-    "npcId": 342
   },
   {
     "tile": {
@@ -105525,33 +105408,6 @@
     },
     "comment": "Honour guard",
     "npcId": 5516
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3268,
-      "y": 3400
-    },
-    "comment": "Hooknosed Jack",
-    "npcId": 2948
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2930,
-      "y": 3218
-    },
-    "comment": "Hops",
-    "npcId": 340
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3268,
-      "y": 3389
-    },
-    "comment": "Hops",
-    "npcId": 341
   },
   {
     "tile": {
@@ -124202,15 +124058,6 @@
     },
     "comment": "Potter",
     "npcId": 4579
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3268,
-      "y": 3399
-    },
-    "comment": "Pox",
-    "npcId": 2943
   },
   {
     "tile": {
