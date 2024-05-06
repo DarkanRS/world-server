@@ -44,6 +44,7 @@ import com.rs.game.tasks.WorldTasks
 import com.rs.lib.game.*
 import com.rs.lib.net.packets.encoders.Sound
 import com.rs.lib.net.packets.encoders.updatezone.AddObject
+import com.rs.lib.net.packets.encoders.updatezone.CustomizeObject
 import com.rs.lib.util.Logger
 import com.rs.lib.util.MapUtils
 import com.rs.lib.util.Utils
@@ -441,6 +442,8 @@ object World {
     @JvmStatic
     fun refreshObject(obj: GameObject) {
         ChunkManager.getChunk(obj.tile.chunkId).addChunkUpdate(AddObject(obj.tile.chunkLocalHash, obj))
+        if (obj.meshModifier != null)
+            ChunkManager.getChunk(obj.tile.chunkId).addChunkUpdate(CustomizeObject(obj.tile.chunkLocalHash, obj, obj.meshModifier.modelIds, obj.meshModifier.modifiedColors, obj.meshModifier.modifiedTextures))
     }
 
     @JvmStatic
