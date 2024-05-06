@@ -4,6 +4,7 @@ import com.rs.engine.dialogue.HeadE
 import com.rs.engine.quest.Quest
 import com.rs.engine.quest.QuestHandler
 import com.rs.engine.quest.QuestOutline
+import com.rs.game.content.quests.biohazard.utils.STAGE_RETURN_TO_JERICO
 import com.rs.game.content.quests.plaguecity.dialogues.npcs.*
 import com.rs.game.content.quests.plaguecity.dialogues.objects.*
 import com.rs.game.content.quests.plaguecity.instances.npcs.PrisonHouseMourners
@@ -230,18 +231,25 @@ fun mapPlagueCityInteractions() {
  * Sets various VarBits relating to Plague City quest.
  */
 fun setPlagueCityVarBits(player: Player) {
-    val questStage = player.questManager.getStage(Quest.PLAGUE_CITY)
-    val hasOpenedSewerEntrance = questStage >= STAGE_UNCOVERED_SEWER_ENTRANCE
-    val hasAttachedRopeToGrill = questStage >= STAGE_ROPE_TIED_TO_GRILL
-    val hasPulledGrillOff = questStage >= STAGE_GRILL_REMOVED
-    val hasFreedElena = questStage >= STAGE_FREED_ELENA
-    val isQuestComplete = questStage >= STAGE_COMPLETE
+    val plagueCityStage = player.questManager.getStage(Quest.PLAGUE_CITY)
+    val biohazardStarted = player.isQuestStarted(Quest.BIOHAZARD)
+
+    val hasOpenedSewerEntrance = plagueCityStage >= STAGE_UNCOVERED_SEWER_ENTRANCE
+    val hasAttachedRopeToGrill = plagueCityStage >= STAGE_ROPE_TIED_TO_GRILL
+    val hasPulledGrillOff = plagueCityStage >= STAGE_GRILL_REMOVED
+    val hasFreedElena = plagueCityStage >= STAGE_FREED_ELENA
+    val isQuestComplete = plagueCityStage >= STAGE_COMPLETE
 
     player.vars.apply {
         setVarBit(EDMOND_VB, if (isQuestComplete) 0 else if (hasOpenedSewerEntrance) 1 else 0)
         setVarBit(ELENA_VB, if (hasFreedElena) 1 else 0)
-        setVarBit(MUD_PATCH_VB, if (isQuestComplete) 1 else if (hasOpenedSewerEntrance) 1 else 0)
         setVarBit(GRILL_VB, if (hasAttachedRopeToGrill) 1 else 0)
         setVarBit(GRILL_VB, if (isQuestComplete) 2 else if (hasPulledGrillOff) 2 else if (hasAttachedRopeToGrill) 1 else 0)
+
+        if (biohazardStarted) {
+            setVarBit(MUD_PATCH_VB, 0)
+        } else {
+            setVarBit(MUD_PATCH_VB, if (isQuestComplete) 1 else if (hasOpenedSewerEntrance) 1 else 0)
+        }
     }
 }

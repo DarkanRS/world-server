@@ -146,22 +146,32 @@ class PlagueCityUtils {
     fun handleSewerPipe(player: Player) {
         if (player.questManager.getStage(Quest.PLAGUE_CITY) < STAGE_GRILL_REMOVED) {
             player.simpleDialogue("There is a grill blocking your way.")
+        } else if (player.isQuestComplete(Quest.PLAGUE_CITY)) {
+            if (!isWearingGasMask(player) && (!player.isQuestStarted(Quest.BIOHAZARD) && !player.isQuestComplete(Quest.BIOHAZARD))) {
+                player.playerDialogue(WORRIED, "I shouldn't enter without my gasmask.")
+            } else {
+                handleEnteringSewerPipe(player)
+            }
         } else {
             if (isWearingGasMask(player)) {
-                player.schedule {
-                    player.forceMove(Direction.SOUTH, 4, CLIMB_INTO_PIPE_ANIM, 20, 100) {
-                        player.tele(SEWER_PIPE_TELE_LOC)
-                        player.soundEffect(OPEN_MANHOLE_SOUND, false)
-                        player.simpleDialogue("You climb up through the sewer pipe.")
-                        player.questManager.getAttribs(Quest.PLAGUE_CITY).setB(ENTERED_CITY, true)
-                    }
-                    wait(1)
-                    player.fadeScreen {}
-                }
+                handleEnteringSewerPipe(player)
             } else {
                 player.faceTile(Tile.of(EDMOND_SEWER_SPAWN_LOC))
                 player.npcDialogue(EDMOND_BELOW_GROUND, WORRIED, "I can't let you enter the city without your gasmask on.")
             }
+        }
+    }
+
+    private fun handleEnteringSewerPipe(player: Player) {
+        player.schedule {
+            player.forceMove(Direction.SOUTH, 4, CLIMB_INTO_PIPE_ANIM, 20, 100) {
+                player.tele(SEWER_PIPE_TELE_LOC)
+                player.soundEffect(OPEN_MANHOLE_SOUND, false)
+                player.simpleDialogue("You climb up through the sewer pipe.")
+                player.questManager.getAttribs(Quest.PLAGUE_CITY).setB(ENTERED_CITY, true)
+            }
+            wait(1)
+            player.fadeScreen {}
         }
     }
 
@@ -260,10 +270,6 @@ class PlagueCityUtils {
                 player.anim(-1)
             }
         }
-    }
-
-    fun handleWestArdougneWallDoor(player: Player) {
-        player.npcDialogue(NON_COMBAT_MOURNER, FRUSTRATED, "Oi! What are you doing? Get away from there!")
     }
 
     fun isWearingGasMask(player: Player): Boolean {

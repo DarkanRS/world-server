@@ -66,6 +66,9 @@ const val MUD_PILE_SEWERS = 2533
 val GAS_MASK_WARDROBE = intArrayOf(2524, 2525)
 const val SEWER_PIPE = 2542
 const val SEWER_GRILL = 11422
+const val SEWER_CS_GRILL = 11416
+const val SEWER_CS_ROPE_MIDDLE = 11412
+const val SEWER_CS_ROPE_END = 11414
 val MANHOLES = intArrayOf(2543, 2544, 2545)
 const val TED_REHNISON_DOOR = 2537
 const val HEAD_MOURNER_DOORS = 35991
@@ -88,6 +91,8 @@ const val CLIMB_INTO_PIPE_ANIM = 10580
 const val TIE_ROPE_TO_GRILL_ANIM = 3191
 const val GRILL_PULL_ATTEMPT_ANIM = 3192
 const val ROPE_PULL_ANIM = 3187
+const val CS_ROPE_ANIM = 3188
+const val CS_GRILL_ANIM = 3189
 const val POUR_BUCKET_OF_WATER_ANIM = 2283
 const val CLIMB_LADDER_ANIM = 828
 const val DRINK_HANGOVER_CURE_ANIM = 1330
@@ -107,10 +112,6 @@ val CUTSCENE_END_TILE: Tile = Tile.of(2514, 9740, 0)
 val SEWER_PIPE_TELE_LOC: Tile = Tile.of(2529, 3304, 0)
 val EDMOND_SEWER_SPAWN_LOC: Tile = Tile.of(2517, 9752, 0)
 var MANHOLE_TELE_LOC: Tile = Tile.of(2514, 9739, 0)
-
-// Regions
-const val EDMOND_HOUSE_ABOVE_GROUND = 10292
-const val ARDOUGNE_SEWERS = 10136
 
 // Var Keys
 const val WATER_USED_ON_MUD = "waterUsedOnMudPatch"
