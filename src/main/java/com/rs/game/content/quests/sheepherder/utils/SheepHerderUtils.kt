@@ -54,6 +54,7 @@ class SheepHerderUtils {
                 if (player.tile != npc.tile) {
                     if (npc is SickSheepNPC && !npc.enteredEnclosure) {
                         if (currentTick < cooldownTick) return
+                        player.lock(1)
                         player.anim(PROD_SHEEP_ANIM)
                         npc.soundEffect(PROD_SHEEP_SOUND, true)
                         val diffX = npc.tile.x - player.tile.x

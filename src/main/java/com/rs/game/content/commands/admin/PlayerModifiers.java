@@ -161,6 +161,36 @@ public class PlayerModifiers {
                 p.sendMessage("Unable to find player.");
         }));
 
+		Commands.add(Rights.ADMIN, "lock [player name]", "Locks the player, or specified player, if provided.", (p, args) -> {
+			if (args.length == 0) {
+				p.lock();
+				p.sendMessage("You have locked yourself.");
+				return;
+			}
+			Player target = World.getPlayerByDisplay(Utils.concat(args));
+			if (target == null) {
+				p.sendMessage("Couldn't find player " + Utils.concat(args) + ".");
+			} else {
+				target.lock();
+				p.sendMessage("You have locked: " + target.getDisplayName() + ".");
+			}
+		});
+
+		Commands.add(Rights.ADMIN, "unlock [player name]", "Unlocks the player, or specified player, if provided.", (p, args) -> {
+			if (args.length == 0) {
+				p.unlock();
+				p.sendMessage("You have unlocked yourself.");
+				return;
+			}
+			Player target = World.getPlayerByDisplay(Utils.concat(args));
+			if (target == null) {
+				p.sendMessage("Couldn't find player " + Utils.concat(args) + ".");
+			} else {
+				target.unlock();
+				p.sendMessage("You have unlocked: " + target.getDisplayName() + ".");
+			}
+		});
+
 		Commands.add(Rights.ADMIN, "unnull,sendhome [player name]", "Forces the player out of a controller and unlocks them hopefully freeing any stuck-ness.", (p, args) -> {
 			Player target = World.getPlayerByDisplay(Utils.concat(args));
 			if (target == null)

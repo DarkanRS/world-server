@@ -973,21 +973,6 @@ public final class ObjectHandler {
 					return;
 				}
 				Doors.handleDoubleDoor(player, object);
-			} else if (id == 9738 || id == 9330) {
-				// Disabled until Biohazard implemented.
-				/*if (player.isQuestComplete(Quest.BIOHAZARD)) {
-					boolean rightDoor = object.getId() == 9330;
-					GameObject o = new GameObject(object);
-					o.setRotation(rightDoor ? -1 : 1);
-					World.spawnObjectTemporary(o, 2);
-					GameObject o2 = new GameObject(rightDoor ? 9738 : 9330, object.getType(), object.getRotation(), 2558, rightDoor ? 3299 : 3300, object.getPlane());
-					o2.setRotation(rightDoor ? 1 : 3);
-					World.spawnObjectTemporary(o2, 2);
-					player.addWalkSteps(player.getX() + (player.getX() >= 2559 ? -3 : 3), y, -1, false);
-				} else {*/
-					PlagueCityUtils pcu = new PlagueCityUtils();
-					pcu.handleWestArdougneWallDoor(player);
-				//}
 			} else if (id == 70794)
 				player.useStairs(-1, Tile.of(1340, 6488, 0));
 			else if (id == 70795) {

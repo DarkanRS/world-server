@@ -174,5 +174,49 @@
       "plane": 0
     },
     "respawnTicks": 30
+  },
+  {
+    "comment": "Rotten apple added by mr_ashie_b",
+    "itemId": 1984,
+    "amount": 1,
+    "tile": {
+      "x": 2535,
+      "y": 3333,
+      "plane": 0
+    },
+    "respawnTicks": 60
+  },
+  {
+    "comment": "Pigeon cage added by mr_ashie_b",
+    "itemId": 424,
+    "amount": 1,
+    "tile": {
+      "x": 2618,
+      "y": 3323,
+      "plane": 0
+    },
+    "respawnTicks": 1
+  },
+  {
+    "comment": "Pigeon cage added by mr_ashie_b",
+    "itemId": 424,
+    "amount": 1,
+    "tile": {
+      "x": 2618,
+      "y": 3324,
+      "plane": 0
+    },
+    "respawnTicks": 1
+  },
+  {
+    "comment": "Pigeon cage added by mr_ashie_b",
+    "itemId": 424,
+    "amount": 1,
+    "tile": {
+      "x": 2618,
+      "y": 3325,
+      "plane": 0
+    },
+    "respawnTicks": 1
   }
 ]
