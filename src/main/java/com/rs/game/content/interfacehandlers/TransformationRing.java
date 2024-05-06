@@ -37,9 +37,14 @@ public class TransformationRing {
 		}
 		if (e.getItem().getName().equals("Ring of stone"))
 			transformInto(e.getPlayer(), 2626);
-		else if (e.getItem().getName().equals("Easter ring"))
-			transformInto(e.getPlayer(), 3689 + Utils.random(5));
-		else if (e.getItem().getName().equals("Bone brooch")) {
+
+
+		 if (e.getItem().getName().equals("Easter ring")) {
+			 transformInto(e.getPlayer(), 3689 + Utils.random(5));
+			 e.getPlayer().soundEffect(1520, true);
+		 }
+
+		 if (e.getItem().getName().equals("Bone brooch")) {
 			e.getPlayer().stopAll(true, true, true);
 			e.getPlayer().lock();
 			e.getPlayer().setNextAnimation(new Animation(14870));
