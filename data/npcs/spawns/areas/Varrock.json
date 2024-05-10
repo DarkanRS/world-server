@@ -207,5 +207,186 @@
       "x": 3222,
       "y": 3424
     }
-  }
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3263,
+      "y": 3407
+    },
+	"dir": "SOUTH",
+	"clip": "OUTDOOR",
+    "comment": "Guard",
+    "npcId": 368
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3268,
+      "y": 3389
+    },
+	"clip": "INDOOR",
+    "comment": "Hops",
+    "npcId": 341
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3272,
+      "y": 3389
+    },
+	"clip": "INDOOR",
+    "comment": "Da Vinci",
+    "npcId": 337
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3271,
+      "y": 3388
+    },
+	"clip": "INDOOR",
+    "comment": "Chancy",
+    "npcId": 339
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3284,
+      "y": 3382
+    },
+	"clip": "INDOOR",
+    "comment": "Guidor",
+    "npcId": 343
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3281,
+      "y": 3383
+    },
+	"clip": "INDOOR",
+    "comment": "Guidor\u0027s wife",
+    "npcId": 342
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3268,
+      "y": 3400
+    },
+	"clip": "OUTDOOR",
+    "comment": "Hooknosed Jack",
+    "npcId": 2948
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3268,
+      "y": 3399
+    },
+	"clip": "OUTDOOR",
+    "comment": "Pox",
+    "npcId": 2943
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3281,
+      "y": 3403
+    },
+	"clip": "INDOOR",
+    "comment": "Family Crest Quest: Dimintheis",
+    "npcId": 664
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3281,
+      "y": 3398
+    },
+	"clip": "INDOOR",
+    "comment": "Fancy-dress shop owner",
+    "npcId": 554
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3268,
+      "y": 3393
+    },
+	"clip": "INDOOR",
+    "comment": "Bartender",
+    "npcId": 732
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3266,
+      "y": 3381
+    },
+	"clip": "OUTDOOR",
+    "comment": "Giant rat",
+    "npcId": 8829
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3264,
+      "y": 3383
+    },
+	"clip": "OUTDOOR",
+    "comment": "Giant rat",
+    "npcId": 2091
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3276,
+      "y": 3381
+    },
+	"clip": "OUTDOOR",
+    "comment": "Stray dog",
+    "npcId": 5917
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3262,
+      "y": 3410
+    },
+	"clip": "OUTDOOR",
+    "comment": "Stray dog",
+    "npcId": 5917
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3168,
+      "y": 3443
+    },
+	"clip": "OUTDOOR",
+    "comment": "Stray dog",
+    "npcId": 5917
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3200,
+      "y": 3402
+    },
+	"clip": "OUTDOOR",
+    "comment": "Stray dog",
+    "npcId": 5918
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3234,
+      "y": 3393
+    },
+	"clip": "OUTDOOR",
+    "comment": "Stray dog",
+    "npcId": 5918
+  },
 ]

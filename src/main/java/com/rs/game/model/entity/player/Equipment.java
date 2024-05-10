@@ -738,7 +738,7 @@ public final class Equipment {
 		Item item = player.getInventory().getItem(slotId);
 		if (item == null || item.getId() != itemId)
 			return false;
-		if (!overrideWear && (!item.getDefinitions().containsOption("Wear") && !item.getDefinitions().containsOption("Wield")))
+		if (!overrideWear && (!item.getDefinitions().containsOption("Wear") && !item.getDefinitions().containsOption("Wield") && !item.getDefinitions().containsOption("Equip")))
 			return false;
 		if (item.getDefinitions().isNoted() || !item.getDefinitions().isWearItem(player.getAppearance().isMale())) {
 			player.sendMessage("You can't wear that.");

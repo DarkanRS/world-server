@@ -21,6 +21,7 @@ import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.dialogue.Options;
 import com.rs.engine.quest.Quest;
+import com.rs.game.content.quests.plaguecity.utils.PlagueCityUtils;
 import com.rs.game.content.skills.agility.Agility;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.world.AgilityShortcuts;
@@ -147,7 +148,13 @@ public class Tirannwn {
 		AgilityShortcuts.walkLog(e.getPlayer(), e.getPlayer().transform(0, e.getPlayer().getY() > e.getObject().getY() ? -7 : 7, 0), 6);
 	});
 
-	public static ObjectClickHandler handleEnterUndergroundPass = new ObjectClickHandler(new Object[] { 4006 }, e -> e.getPlayer().tele(Tile.of(2438, 3315, 0)));
+	public static ObjectClickHandler handleEnterUndergroundPass = new ObjectClickHandler(new Object[] { 4006 }, e -> {
+		if (e.getPlayer().isQuestComplete(Quest.BIOHAZARD)) {
+			e.getPlayer().tele(Tile.of(2438, 3315, 0));
+		} else {
+			e.getPlayer().playerDialogue(HeadE.WORRIED, "I don't think I should go through here. I don't know where I'll end up.");
+		}
+	});
 
 	public static ObjectClickHandler handleLletyaTreePass = new ObjectClickHandler(new Object[] { 8742 }, e -> {
 		if (!e.getPlayer().isQuestComplete(Quest.ROVING_ELVES, "to navigate the forest."))

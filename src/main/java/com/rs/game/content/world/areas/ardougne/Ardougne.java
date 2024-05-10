@@ -27,6 +27,7 @@ import com.rs.game.content.achievements.AchievementSystemD;
 import com.rs.game.content.achievements.SetReward;
 import com.rs.game.content.quests.monksfriend.dialogues.BrotherCedricMonksFriendD;
 import com.rs.game.content.quests.monksfriend.dialogues.BrotherOmadMonksFriendD;
+import com.rs.game.content.quests.plaguecity.utils.PlagueCityUtils;
 import com.rs.game.content.skills.agility.Agility;
 import com.rs.game.content.skills.thieving.Thieving;
 import com.rs.game.content.world.AgilityShortcuts;
@@ -189,19 +190,6 @@ public class Ardougne  {
 		}
 	});
 
-	public static NPCClickHandler handleDrOrbon = new NPCClickHandler(new Object[] { 290 }, e -> e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
-        {
-            addNPC(e.getNPCId(), HeadE.CHEERFUL, "Hello, what are you after?");
-            addOptions("What would you like to say?", new Options() {
-                @Override
-                public void create() {
-                    option("About the Achievement System...", () -> new AchievementSystemD(player, e.getNPCId(), SetReward.ARDOUGNE_CLOAK));
-                }
-            });
-            create();
-        }
-    }));
-
 	public static NPCClickHandler handleAleck = new NPCClickHandler(new Object[] { 5110 }, e -> {
 		if (e.getOpNum() == 1)
 			e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
@@ -237,7 +225,7 @@ public class Ardougne  {
 
 	public static ObjectClickHandler handleClockTowerDungeonExits = new ObjectClickHandler(new Object[] { 32015 }, new Tile[] {  Tile.of(2566, 9642, 0), Tile.of(2572, 9631, 0), Tile.of(2566, 9631, 0), Tile.of(2566, 9627, 0), Tile.of(2569, 9627, 0), Tile.of(2572, 9627, 0), Tile.of(2576, 9655, 0), Tile.of(2621, 9661, 0) }, e -> e.getPlayer().useLadder(Tile.of(e.getObject().getX(), e.getObject().getY()-6399, 0)));
 
-	public static ObjectClickHandler handleArdougneSewerEntrance = new ObjectClickHandler(new Object[] { "Manhole" }, e -> {
+	public static ObjectClickHandler handleArdougneSewerEntrance = new ObjectClickHandler(new Object[] { 881, 882 }, e -> {
 		Player p = e.getPlayer();
 		GameObject obj = e.getObject();
 		if(e.getOption().equalsIgnoreCase("Open")) {
@@ -264,15 +252,19 @@ public class Ardougne  {
 
 	public static ObjectClickHandler handleClocktowerDungeonLadders = new ObjectClickHandler(new Object[] { 1755, 1756 }, e -> e.getPlayer().ladder(Tile.of(e.getPlayer().getX(), e.getPlayer().getY() + (e.getObjectId() == 1756 ? 6400 : -6400), 0)));
 
-	public static ObjectClickHandler handleWestArdyPrisonStairs = new ObjectClickHandler(new Object[] { 2523, 2522 }, e -> e.getPlayer().useStairs(e.getPlayer().transform(0, e.getPlayer().getY() > 9000 ? -6400 : 6400, 0)));
-
 	public static ObjectClickHandler handleLogBalanceShortcut = new ObjectClickHandler(new Object[] { 35997, 35999 }, e -> {
 		if (!Agility.hasLevel(e.getPlayer(), 33))
 			return;
 		AgilityShortcuts.walkLog(e.getPlayer(), e.getPlayer().transform(e.getObjectId() == 35999 ? -4 : 4, 0, 0), 3);
 	});
 
-	public static ObjectClickHandler handleEnterUndergroundPass = new ObjectClickHandler(new Object[] { 36000 }, e -> e.getPlayer().tele(Tile.of(2312, 3217, 0)));
+	public static ObjectClickHandler handleEnterUndergroundPass = new ObjectClickHandler(new Object[] { 36000 }, e -> {
+		if (e.getPlayer().isQuestComplete(Quest.BIOHAZARD)) {
+			e.getPlayer().tele(Tile.of(2312, 3217, 0));
+		} else {
+			e.getPlayer().playerDialogue(HeadE.WORRIED, "I don't think I should go through here. I don't know where I'll end up.");
+		}
+	});
 
 	public static NPCClickHandler handleDarkMage = new NPCClickHandler(new Object[] { 1001 }, e -> e.getPlayer().sendOptionDialogue("Buy an Iban's staff for 100,000 gold?", ops -> {
         ops.add("Yes, I'll pay 100,000 gold for a staff.", () -> {
@@ -326,9 +318,15 @@ public class Ardougne  {
 
 	public static ObjectClickHandler handleExitLegendsGuildBasement = new ObjectClickHandler(new Object[] { 32048 }, Tile.of(2717, 9773, 0), e -> e.getPlayer().tele(e.getPlayer().transform(3, -6400, 0)));
 
-	public static ObjectClickHandler handleMournerTrapdoor = new ObjectClickHandler(new Object[] { 8783 }, e -> e.getPlayer().ladder(Tile.of(2044, 4649, 0)));
+	public static ObjectClickHandler handleMournerTrapdoor = new ObjectClickHandler(new Object[] { 8783 }, e -> {
+		if (e.getPlayer().isQuestComplete(Quest.BIOHAZARD)) {
+			e.getPlayer().ladder(Tile.of(2044, 4649, 0));
+		} else {
+			e.getPlayer().sendMessage("The trapdoor is bolted on the other side.");
+		}
+	});
 
-	public static ObjectClickHandler handleMournerBasementLadder = new ObjectClickHandler(new Object[] { 8785 }, e -> e.getPlayer().ladder(Tile.of(2543, 3327, 0)));
+	public static ObjectClickHandler handleMournerBasementLadder = new ObjectClickHandler(new Object[] { 8785 }, e -> { e.getPlayer().ladder(Tile.of(2543, 3327, 0)); });
 
 	public static ObjectClickHandler handleRangeGuildEnter = new ObjectClickHandler(false, new Object[] { 2514 }, e -> {
 		if (e.getPlayer().getSkills().getLevelForXp(Constants.RANGE) <= 40) {

@@ -1,0 +1,13 @@
+[
+  {
+    "comment": "Chocolate bar added by mr_ashie_b",
+    "itemId": 1973,
+    "amount": 1,
+    "tile": {
+      "x": 2384,
+      "y": 4439,
+      "plane": 0
+    },
+    "respawnTicks": 60
+  }
+]

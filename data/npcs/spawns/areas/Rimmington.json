@@ -1,0 +1,42 @@
+[
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2934,
+      "y": 3210
+    },
+	"clip": "INDOOR",
+    "comment": "Chemist",
+    "npcId": 367
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2930,
+      "y": 3218
+    },
+	"clip": "OUTDOOR",
+    "comment": "Hops",
+    "npcId": 340
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2927,
+      "y": 3218
+    },
+	"clip": "OUTDOOR",
+    "comment": "Da Vinci",
+    "npcId": 336
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2929,
+      "y": 3222
+    },
+	"clip": "OUTDOOR",
+    "comment": "Chancy",
+    "npcId": 338
+  },
+]
