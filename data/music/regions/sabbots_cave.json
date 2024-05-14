@@ -1,0 +1,15 @@
+[
+  {
+    "genre": "Sabbots Cave",
+    "parent": "Dungeon",
+    "comment": "Sabbot's Cave under Death Plateau.",
+    "isActive": true,
+    "regionIds": [
+      13634,
+      9034
+    ],
+    "songs": [
+      187
+    ]
+  }
+]
