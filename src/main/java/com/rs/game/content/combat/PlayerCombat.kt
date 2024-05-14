@@ -526,24 +526,24 @@ fun getRangeCombatDelay(weaponId: Int, attackStyle: AttackStyle): Int {
     return delay - 1
 }
 
-fun getMultiAttackTargets(player: Player, target: Entity): Array<Entity> {
-    return getMultiAttackTargets(player, target, 1, 9)
+fun getMultiAttackTargets(entity: Entity, target: Entity): Array<Entity> {
+    return getMultiAttackTargets(entity, target, 1, 9)
 }
 
-fun getMultiAttackTargets(player: Player, tile: Tile?, maxDistance: Int, maxAmtTargets: Int): Array<Entity> {
+fun getMultiAttackTargets(entity: Entity, tile: Tile?, maxDistance: Int, maxAmtTargets: Int): Array<Entity> {
     val possibleTargets: MutableList<Entity> = ArrayList()
-    if (!player.isAtMultiArea) {
-        val target = player.tempAttribs.getO<Entity>("last_target")
+    if (!entity.isAtMultiArea) {
+        val target = entity.tempAttribs.getO<Entity>("last_target")
         if (target != null && !target.isDead && !target.hasFinished() && target.withinDistance(tile, maxDistance) && (target !is NPC || target.definitions.hasAttackOption())) possibleTargets.add(target)
         return possibleTargets.toTypedArray<Entity>()
     }
 
-    for (p2 in player.queryNearbyPlayersByTileRange(maxDistance) { p2: Player -> p2 !== player && !p2.isDead && p2.isCanPvp && p2.isAtMultiArea && p2.withinDistance(tile, maxDistance) && player.controllerManager.canHit(p2) }) {
+    for (p2 in entity.queryNearbyPlayersByTileRange(maxDistance) { p2: Player -> p2 !== entity && !p2.isDead && p2.isCanPvp && p2.isAtMultiArea && p2.withinDistance(tile, maxDistance) && (entity is Player && entity.controllerManager.canHit(p2)) }) {
         possibleTargets.add(p2)
         if (possibleTargets.size >= maxAmtTargets) break
     }
     if (possibleTargets.size < maxAmtTargets) {
-        for (n in player.queryNearbyNPCsByTileRange(maxDistance) { n: NPC -> n !== player.familiar && !n.isDead && n.definitions.hasAttackOption() && n.isAtMultiArea && n.withinDistance(tile, maxDistance) && player.controllerManager.canHit(n) }) {
+        for (n in entity.queryNearbyNPCsByTileRange(maxDistance) { n: NPC -> (entity !is Player || n !== entity.familiar) && !n.isDead && n.definitions.hasAttackOption() && n.isAtMultiArea && n.withinDistance(tile, maxDistance) && (entity !is Player || entity.controllerManager.canHit(n)) }) {
             possibleTargets.add(n)
             if (possibleTargets.size >= maxAmtTargets) break
         }
@@ -551,19 +551,19 @@ fun getMultiAttackTargets(player: Player, tile: Tile?, maxDistance: Int, maxAmtT
     return possibleTargets.toTypedArray<Entity>()
 }
 
-fun getMultiAttackTargets(player: Player, target: Entity, maxDistance: Int, maxAmtTargets: Int): Array<Entity> {
-    return getMultiAttackTargets(player, target, maxDistance, maxAmtTargets, true)
+fun getMultiAttackTargets(entity: Entity, target: Entity, maxDistance: Int, maxAmtTargets: Int): Array<Entity> {
+    return getMultiAttackTargets(entity, target, maxDistance, maxAmtTargets, true)
 }
 
-fun getMultiAttackTargets(player: Player, target: Entity, maxDistance: Int, maxAmtTargets: Int, includeOriginalTarget: Boolean): Array<Entity> {
+fun getMultiAttackTargets(entity: Entity, target: Entity, maxDistance: Int, maxAmtTargets: Int, includeOriginalTarget: Boolean): Array<Entity> {
     val possibleTargets: MutableList<Entity> = ArrayList()
     if (!target.isAtMultiArea) return possibleTargets.toTypedArray<Entity>()
-    for (p2 in target.queryNearbyPlayersByTileRange(maxDistance) { p2: Player -> p2 !== player && !p2.isDead && p2.isCanPvp && p2.isAtMultiArea && p2.withinDistance(target.tile, maxDistance) && player.controllerManager.canHit(p2) }) {
+    for (p2 in target.queryNearbyPlayersByTileRange(maxDistance) { p2: Player -> p2 !== entity && !p2.isDead && p2.isCanPvp && p2.isAtMultiArea && p2.withinDistance(target.tile, maxDistance) && (entity is Player && entity.controllerManager.canHit(p2)) }) {
         possibleTargets.add(p2)
         if (possibleTargets.size >= maxAmtTargets) break
     }
     if (possibleTargets.size < maxAmtTargets) {
-        for (n in target.queryNearbyNPCsByTileRange(maxDistance) { n: NPC -> n !== player.familiar && !n.isDead && n.definitions.hasAttackOption() && n.isAtMultiArea && n.withinDistance(target.tile, maxDistance) && player.controllerManager.canHit(n) }) {
+        for (n in target.queryNearbyNPCsByTileRange(maxDistance) { n: NPC -> (entity !is Player || n !== entity.familiar) && !n.isDead && n.definitions.hasAttackOption() && n.isAtMultiArea && n.withinDistance(target.tile, maxDistance) && (entity !is Player || entity.controllerManager.canHit(n)) }) {
             possibleTargets.add(n)
             if (possibleTargets.size >= maxAmtTargets) break
         }
@@ -673,8 +673,13 @@ fun getMagicMaxHit(player: Player, target: Entity, spellBaseDamage: Int, applyMa
     return Hit(player, finalMaxHit, HitLook.MAGIC_DAMAGE).setMaxHit(finalMaxHit)
 }
 
-fun getMagicBonusBoost(player: Player): Double {
-    return player.combatDefinitions.getBonus(Bonus.MAGIC_STR) / 100.0 + 1.0
+fun getMagicBonusBoost(entity: Entity): Double {
+    return if (entity is Player)
+        entity.combatDefinitions.getBonus(Bonus.MAGIC_STR) / 100.0 + 1.0
+    else if (entity is NPC)
+        entity.getBonus(Bonus.MAGIC_STR) / 100.0 + 1.0
+    else
+        1.0
 }
 
 @JvmOverloads
@@ -945,8 +950,8 @@ fun delayHit(target: Entity, delay: Int, hit: Hit) {
 
 @JvmOverloads
 fun delayHit(target: Entity, delay: Int, weaponId: Int, attackStyle: AttackStyle?, hit: Hit, afterDelay: Runnable? = null, hitSucc: Runnable? = null, hitFail: Runnable? = null) {
-    val player = hit.source as Player
-    addAttackedByDelay(player, target)
+    val player = hit.source as? Player
+    player?.let { addAttackedByDelay(player, target) }
     target.applyHit(hit, delay) {
         afterDelay?.run()
         target.setNextAnimationNoPriority(Animation(getDefenceEmote(target)))
@@ -964,7 +969,7 @@ fun delayHit(target: Entity, delay: Int, weaponId: Int, attackStyle: AttackStyle
     if (damage > 0) {
         hitSucc?.run()
     } else hitFail?.run()
-    addXp(player, target, attackStyle?.xpType, hit)
+    player?.let { addXp(player, target, attackStyle?.xpType, hit) }
     checkPoison(target, weaponId, hit)
 }
 

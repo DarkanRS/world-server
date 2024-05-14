@@ -76,7 +76,7 @@ public final class NPCCombat {
 				addAttackedByDelay(target);
 			}
 		}
-		int maxDistance = npc.getCombatDefinitions().getAttackRange();
+		int maxDistance = npc.getAttackRange();
 		if (!(npc instanceof Nex) && !npc.lineOfSightTo(target, maxDistance == 0))
 			return Math.min(combatDelay, npc.getAttackSpeed()); //probably could return 0 but too scared of side effects
 		boolean los = npc.lineOfSightTo(target, maxDistance == 0);
@@ -163,7 +163,7 @@ public final class NPCCombat {
 				return true;
 			}
 
-			maxDistance = npc.isForceFollowClose() ? 0 : npc.getCombatDefinitions().getAttackRange();
+			maxDistance = npc.isForceFollowClose() ? 0 : npc.getAttackRange();
 			npc.resetWalkSteps();
 			boolean los = npc.lineOfSightTo(target, maxDistance == 0);
 			boolean inRange = WorldUtil.isInRange(npc.getX(), npc.getY(), size, target.getX(), target.getY(), targetSize, maxDistance);

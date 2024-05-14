@@ -113,7 +113,8 @@ object World {
             n = if (fObj != null) fObj as NPC
             else NPC(id, tile, direction, permaDeath)
         } else n = NPC(id, tile, direction, permaDeath)
-        n.setPermName(customName)
+        if (customName != null)
+            n.setPermName(customName)
         return n
     }
 

@@ -98,6 +98,7 @@ public class NPC extends Entity {
 	private boolean noDistanceCheck;
 	private transient long timeLastSpawned;
 	private boolean canAggroNPCs;
+	private transient int attackRange;
 
 	// npc masks
 	private transient Transformation nextTransformation;
@@ -143,7 +144,8 @@ public class NPC extends Entity {
 			setRandomWalk(true);
 		if (getDefinitions().combatLevel >= 200)
 			setIgnoreDocile(true);
-		combatLevels = NPCCombatDefinitions.getDefs(id).getLevels();
+		combatLevels = getCombatDefinitions().getLevels();
+		attackRange = getCombatDefinitions().getAttackRange();
 		combat = new NPCCombat(this);
 		capDamage = -1;
 		lureDelay = 12000;
@@ -179,7 +181,7 @@ public class NPC extends Entity {
 	}
 
 	public void resetLevels() {
-		combatLevels = NPCCombatDefinitions.getDefs(id).getLevels();
+		combatLevels = getCombatDefinitions().getLevels();
 	}
 
 	public void transformIntoNPC(int id) {
@@ -190,7 +192,8 @@ public class NPC extends Entity {
 	public void setNPC(int id) {
 		this.id = id;
 		size = getDefinitions().size;
-		combatLevels = NPCCombatDefinitions.getDefs(id).getLevels();
+		combatLevels = getCombatDefinitions().getLevels();
+		attackRange = getCombatDefinitions().getAttackRange();
 	}
 
 	public void setLevels(Map<Skill, Integer> levels) {
@@ -229,6 +232,14 @@ public class NPC extends Entity {
 	@Override
 	public int getMaxHitpoints() {
 		return getCombatDefinitions().getHitpoints();
+	}
+
+	public int getAttackRange() {
+		return attackRange;
+	}
+
+	public void setAttackRange(int attackRange) {
+		this.attackRange = attackRange;
 	}
 
 	public int getId() {
@@ -375,7 +386,7 @@ public class NPC extends Entity {
 		getInteractionManager().forceStop();
 		setFaceAngle(getRespawnDirection());
 		combat.reset();
-		combatLevels = NPCCombatDefinitions.getDefs(id).getLevels(); // back to real bonuses
+		combatLevels = getCombatDefinitions().getLevels(); // back to real bonuses
 		forceWalk = null;
 	}
 
@@ -781,8 +792,8 @@ public class NPC extends Entity {
 	}
 
 	public int getBonus(Bonus bonus) {
-		if (NPCCombatDefinitions.getDefs(id).hasOverriddenBonuses())
-			return NPCCombatDefinitions.getDefs(id).getBonus(bonus);
+		if (getCombatDefinitions().hasOverriddenBonuses())
+			return getCombatDefinitions().getBonus(bonus);
 		else
 			return NPCDefinitions.getDefs(id).getBonus(bonus);
 	}

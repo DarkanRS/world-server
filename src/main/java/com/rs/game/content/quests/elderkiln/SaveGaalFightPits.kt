@@ -143,9 +143,9 @@ val saveGaalFightPitController = object : InstancedController(Instance.of(Tile.o
                 wait(1)
 
                 val xil2 = npcCreatePersistent(15178, 16, 39, 0)
-                val noremorse77 = npcCreatePersistent(15175, 36, 26, 0)
+                val noremorse77 = PKBotNPC(instance.getLocalTile(36, 26))
 
-                val firecapezorz = npcCreatePersistent(15174, 24, 28, 0)
+                val firecapezorz = PKBotNPC(instance.getLocalTile(24, 28, 0))
                 val xil1 = npcCreatePersistent(15178, 22, 27, 0)
                 xil1.combatTarget = firecapezorz
                 firecapezorz.combatTarget = xil1
@@ -155,13 +155,13 @@ val saveGaalFightPitController = object : InstancedController(Instance.of(Tile.o
                 ket1.combatTarget = ket2
                 ket2.combatTarget = ket1
 
-                val odischamp = npcCreatePersistent(15173, 33, 38, 0)
+                val odischamp = PKBotNPC(instance.getLocalTile(33, 38, 0))
                 val gaalXox = npcCreatePersistent(15180, 26, 35, 0)
                 odischamp.combatTarget = gaalXox
                 gaalXox.combatTarget = odischamp
 
-                val fightPitPker = npcCreatePersistent(15176, 28, 46, 0)
-                val lolThenKill = npcCreatePersistent(15172, 20, 46, 0)
+                val fightPitPker = PKBotNPC(instance.getLocalTile(28, 46, 0))
+                val lolThenKill = PKBotNPC(instance.getLocalTile(20, 46, 0))
                 fightPitPker.combatTarget = lolThenKill
                 lolThenKill.combatTarget = fightPitPker
 

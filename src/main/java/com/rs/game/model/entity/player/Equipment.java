@@ -882,14 +882,8 @@ public final class Equipment {
 	}
 
 	public static int getBonus(Player player, Item item, Bonus bonus) {
-		int value = item.getDefinitions().getBonuses()[bonus.ordinal()];
+		int value = getBonus(item, bonus);
 		switch(item.getId()) {
-			case 11283, 11284 -> {
-				return switch(bonus) {
-					case STAB_DEF, SLASH_DEF, CRUSH_DEF, RANGE_DEF -> value + item.getMetaDataI("dfsCharges", 0);
-					default -> value;
-				};
-			}
 			case 19152, 19157, 19162 -> {
 				return switch(bonus) {
 					case RANGE_STR -> value + Utils.clampI((int) (player.getSkills().getLevelForXp(Constants.RANGE) * 0.7), 0, 49);
@@ -900,6 +894,19 @@ public final class Equipment {
 				return value;
 			}
 		}
+	}
+
+	public static int getBonus(Item item, Bonus bonus) {
+		int value = item.getDefinitions().getBonuses()[bonus.ordinal()];
+		switch(item.getId()) {
+			case 11283, 11284 -> {
+				return switch (bonus) {
+					case STAB_DEF, SLASH_DEF, CRUSH_DEF, RANGE_DEF -> value + item.getMetaDataI("dfsCharges", 0);
+					default -> value;
+				};
+			}
+		}
+		return value;
 	}
 
 	public boolean wearingRingOfWealth() {

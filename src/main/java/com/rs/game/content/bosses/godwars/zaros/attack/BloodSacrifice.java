@@ -18,6 +18,7 @@ package com.rs.game.content.bosses.godwars.zaros.attack;
 
 import com.rs.game.World;
 import com.rs.game.content.bosses.godwars.zaros.Nex;
+import com.rs.game.model.entity.BodyGlow;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.Hit;
@@ -37,12 +38,11 @@ public class BloodSacrifice implements NexAttack {
 			return 0;
 		nex.setNextForceTalk(new ForceTalk("I demand a blood sacrifice!"));
 		nex.voiceEffect(3293, true);
-        player.getAppearance().setGlowRed(true);
+		player.setNextBodyGlow(new BodyGlow(nex.getAttackSpeed()*30, 0, 0, 0, 255));
 		player.sendMessage("Nex has marked you as a sacrifice, RUN!");
 		WorldTasks.schedule(new Task() {
 			@Override
 			public void run() {
-				player.getAppearance().setGlowRed(false);
 				if (Utils.getDistance(nex.getTile(), player.getTile()) < 7) {
 					player.sendMessage("You didn't make it far enough in time - Nex fires a punishing attack!");
 					nex.setNextAnimation(new Animation(6987));

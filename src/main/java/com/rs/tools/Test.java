@@ -18,6 +18,9 @@ package com.rs.tools;
 
 import com.google.gson.GsonBuilder;
 import com.rs.Settings;
+import com.rs.cache.Cache;
+import com.rs.cache.loaders.IdentiKitDefinitions;
+import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.lib.file.JsonFileManager;
 import com.rs.lib.json.DateAdapter;
@@ -44,6 +47,9 @@ public class Test {
 				.setPrettyPrinting()
 				.create());
 		Settings.loadConfig();
+		Cache.init(Settings.getConfig().getCachePath());
+
+		System.out.println(ItemDefinitions.getDefs(2414));
 	}
 
 }
