@@ -13819,24 +13819,6 @@
   {
     "tile": {
       "plane": 0,
-      "x": 2270,
-      "y": 4758
-    },
-    "comment": "Sabbot",
-    "npcId": 15095
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2270,
-      "y": 4758
-    },
-    "comment": "Sabbot",
-    "npcId": 15097
-  },
-  {
-    "tile": {
-      "plane": 0,
       "x": 2352,
       "y": 3172
     },
@@ -30537,114 +30519,6 @@
     },
     "comment": "Bob",
     "npcId": 1091
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2839,
-      "y": 3587
-    },
-    "comment": "Soldier",
-    "npcId": 15087
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2839,
-      "y": 3587
-    },
-    "comment": "Soldier",
-    "npcId": 15087
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2839,
-      "y": 3587
-    },
-    "comment": "Soldier",
-    "npcId": 15087
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2853,
-      "y": 3616
-    },
-    "comment": "Archer",
-    "npcId": 15102
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2852,
-      "y": 3613
-    },
-    "comment": "Archer",
-    "npcId": 15102
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2851,
-      "y": 3615
-    },
-    "comment": "Archer",
-    "npcId": 15102
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2853,
-      "y": 3614
-    },
-    "comment": "Archer",
-    "npcId": 15103
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2854,
-      "y": 3614
-    },
-    "comment": "Archer",
-    "npcId": 15103
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2855,
-      "y": 3613
-    },
-    "comment": "Archer",
-    "npcId": 15103
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2854,
-      "y": 3613
-    },
-    "comment": "Ambush Commander",
-    "npcId": 15104
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2853,
-      "y": 3615
-    },
-    "comment": "Ambush Commander",
-    "npcId": 15104
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2851,
-      "y": 3613
-    },
-    "comment": "Ambush Commander",
-    "npcId": 15104
   },
   {
     "tile": {
@@ -92250,15 +92124,6 @@
     },
     "comment": "Fred the Farmer",
     "npcId": 758
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2820,
-      "y": 3556
-    },
-    "comment": "Freda",
-    "npcId": 15099
   },
   {
     "tile": {

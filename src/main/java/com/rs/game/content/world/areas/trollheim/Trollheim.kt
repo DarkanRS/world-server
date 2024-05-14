@@ -16,25 +16,31 @@
 //
 package com.rs.game.content.world.areas.trollheim
 
+import com.rs.engine.cutscenekt.cutscene
+import com.rs.engine.dialogue.HeadE.*
+import com.rs.engine.pathfinder.Direction
 import com.rs.game.World
 import com.rs.game.content.bosses.godwars.GodwarsController
 import com.rs.game.content.skills.agility.Agility
 import com.rs.game.content.world.doors.Doors
 import com.rs.game.map.ChunkManager
 import com.rs.engine.pathfinder.RouteEvent
+import com.rs.engine.quest.Quest
+import com.rs.game.content.quests.death_plateau.instances.PlayerVSTheMapController
+import com.rs.game.content.quests.death_plateau.objects.SabbotCaveEnter
+import com.rs.game.content.quests.death_plateau.objects.SabbotCaveMining
+import com.rs.game.content.quests.death_plateau.utils.*
 import com.rs.game.model.entity.player.Player
 import com.rs.game.model.entity.player.Skills
 import com.rs.game.model.entity.async.schedule
+import com.rs.game.model.entity.player.Equipment
 import com.rs.lib.game.Tile
 import com.rs.lib.net.ClientPacket
 import com.rs.plugin.annotations.ServerStartupEvent
-import com.rs.plugin.kts.onLogin
 import com.rs.plugin.kts.onObjectClick
 
 @ServerStartupEvent
 fun mapTrollheim() {
-    //Unlock Sabbot's cave entrance (1 = mineable, 2 = being mined, 3 = mined)
-    onLogin { it.player.vars.setVarBit(10762, 3) }
 
     onObjectClick(5012) { e -> e.player.tele(Tile.of(2799, 10134, 0)) }
 
@@ -133,7 +139,7 @@ fun mapTrollheim() {
                         wait(3)
                         e.player.anim(-1)
                         e.player.tele(e.player.transform(if (goWest) -2 else 2, 0))
-                        wait(3)
+                        wait(1)
                     }
                     e.player.unlock()
                 }
@@ -142,48 +148,75 @@ fun mapTrollheim() {
     }
 
 
-    onObjectClick(67568, 67569, 67567, 67562, 67572, 67674, 67676, 67678, 67679, 67752, 67570) { e ->
-        when (e.objectId) {
-            67568 -> e.player.tele(Tile.of(2858, 3577, 0))
-            67569 -> e.player.tele(Tile.of(2854, 3617, 0))
-            67572 -> e.player.tele(Tile.of(3435, 4240, 2))
-            67567 -> e.player.tele(Tile.of(2267, 4758, 0))
-            67562 -> e.player.tele(Tile.of(3405, 4284, 2))
+    onObjectClick(67568, 67569, 67567, 67562, 67572, 67674, 67676, 67678, 67679, 67752, 67570) { (player, obj, options) ->
+        when (obj.id) {
+            67567 -> {
+                player.faceDir(Direction.EAST)
+                player.tele(Tile.of(2267, 4759, 0))
+            }
+            67568 -> player.tele(Tile.of(2858, 3577, 0))
+
+            67562 -> {
+                when (options) {
+                    "Mine" -> SabbotCaveMining(player, obj)
+                    "Enter" -> SabbotCaveEnter(player)
+                }
+            }
+
+            67569 -> { // EXIT SABBOT CAVE ONTO DEATH PLATEAU
+                val foundOrAngeredTroll = player.getQuestStage(Quest.DEATH_PLATEAU) == STAGE_FOUND_TROLL || player.getQuestStage(Quest.DEATH_PLATEAU) == STAGE_ANGERED_TROLL
+                if (player.getQuestStage(Quest.DEATH_PLATEAU) in STAGE_MINED_TUNNEL..STAGE_ANGERED_TROLL) {
+                    if (!foundOrAngeredTroll)
+                        player.cutscene {
+                            fadeIn()
+                            player.controllerManager.startController(PlayerVSTheMapController())
+                        }
+                    else player.controllerManager.startController(PlayerVSTheMapController())
+                } else {
+                    player.tele(Tile.of(2854, 3617, 0))
+                }
+            }
+
             67676 -> { //squeeze gaps
-                val deltaX = if (e.getObject().tile.isAt(3421, 4280)) if (e.player.x > e.getObject().x) -2 else 2 else 0
-                val deltaY = if (e.getObject().tile.isAt(3421, 4280)) 0 else if (e.player.y > e.getObject().y) -2 else 2
-                e.player.lock()
-                e.player.schedule {
+                val deltaX = if (obj.tile.isAt(3421, 4280)) if (player.x > obj.x) -2 else 2 else 0
+                val deltaY = if (obj.tile.isAt(3421, 4280)) 0 else if (player.y > obj.y) -2 else 2
+                player.lock()
+                player.schedule {
                     wait(1)
-                    e.player.anim(16025)
+                    player.anim(16025)
                     wait(7)
-                    e.player.anim(-1)
-                    e.player.tele(e.player.transform(deltaX, deltaY))
-                    e.player.unlockNextTick()
+                    player.anim(-1)
+                    player.tele(player.transform(deltaX, deltaY))
+                    player.unlockNextTick()
                 }
             }
 
             67678 -> {
-                e.player.lock()
-                e.player.addWalkSteps(e.getObject().tile, 2, false)
-                e.player.schedule {
+                player.lock()
+                player.addWalkSteps(obj.tile, 2, false)
+                player.schedule {
                     wait(1)
-                    e.player.faceTile(e.player.transform(0, if (e.getObject().tile.isAt(3434, 4275)) 2 else -2))
+                    player.faceTile(player.transform(0, if (obj.tile.isAt(3434, 4275)) 2 else -2))
                     wait(1)
-                    e.player.anim(13495)
+                    player.anim(13495)
                     wait(3)
-                    e.player.anim(-1)
-                    e.player.tele(e.player.transform(0, if (e.getObject().tile.isAt(3434, 4275)) 2 else -2))
-                    e.player.unlockNextTick()
+                    player.anim(-1)
+                    player.tele(player.transform(0, if (obj.tile.isAt(3434, 4275)) 2 else -2))
+                    player.unlockNextTick()
                 }
             }
 
             67674, 67570 -> {
-                val horizontal = e.getObject().rotation == 0 || e.getObject().rotation == 2
-                val dx = if (horizontal) (if (e.getObject().id == 67674) -4 else 4) else 0
-                val dy = if (!horizontal) (if (e.getObject().id == 67674) -4 else 4) else 0
-                val dz = if (e.getObject().id == 67674) -1 else 1
-                climbCliff(e.player, e.player.tile, e.player.transform(dx, dy, dz), e.getObject().id == 67570)
+                val horizontal = obj.rotation == 0 || obj.rotation == 2
+                val dx = if (horizontal) (if (obj.id == 67674) -4 else 4) else 0
+                val dy = if (!horizontal) (if (obj.id == 67674) -4 else 4) else 0
+                val dz = if (obj.id == 67674) -1 else 1
+                climbCliff(player, if (obj.x == 3405) Tile.of(3407, 4279, 1) else if (obj.x == 3422) Tile.of(3421, 4238, 1) else player.tile, player.transform(dx, dy, dz), obj.id == 67570)
+            }
+
+            67572 -> {
+                if (player.getQuestStage(Quest.DEATH_PLATEAU) >= STAGE_FOUND_TROLL) player.tele(Tile.of(3435, 4240, 2))
+                else player.sendMessage("It is cold and dark in there. You have no reason to go in.")
             }
         }
     }
@@ -200,11 +233,29 @@ fun mapTrollheim() {
             else
                 Agility.handleObstacle(e.player, 3303, 1, e.player.transform(0, if (e.player.y < e.getObject().y) 2 else -2, 0), 1.0)
         } else if (e.getObject().id == 3748) {
-            if (e.getObject().rotation == 3 || e.getObject().rotation == 1)
-                Agility.handleObstacle(e.player, 3377, 2, e.player.transform(if (e.player.x < e.getObject().x) 2 else -2, 0, 0), 1.0)
+            if (e.player.isQuestComplete(Quest.DEATH_PLATEAU))
+                if (e.player.equipment.getId(Equipment.FEET) == CLIMBING_BOOTS || e.player.equipment.getId(Equipment.FEET) == ROCK_CLIMBING_BOOTS)
+                    if (e.getObject().rotation == 3 || e.getObject().rotation == 1)
+                        Agility.handleObstacle(e.player, 3377, 2, e.player.transform(if (e.player.x < e.getObject().x) 2 else -2, 0, 0), 1.0)
+                    else
+                        Agility.handleObstacle(e.player, 3377, 2, e.player.transform(0, if (e.player.y < e.getObject().y) 2 else -2, 0), 1.0)
+                else
+                    e.player.sendMessage("That looks dangerous. I should wear appropriate footwear before climbing up there.")
             else
-                Agility.handleObstacle(e.player, 3377, 2, e.player.transform(0, if (e.player.y < e.getObject().y) 2 else -2, 0), 1.0)
-        } else if (e.getObject().id == 34877 || e.getObject().id == 34889 || e.objectId == 34878 || e.getObject().id == 3803 || e.getObject().id == 9304 || e.getObject().id == 9303) {
+                e.player.playerDialogue(CALM_TALK, "That looks dangerous. I'll need a good reason before I venture that way.")
+
+        } else if (e.objectId == 34878) {
+            if (e.player.isQuestComplete(Quest.DEATH_PLATEAU))
+                if (e.player.equipment.getId(Equipment.FEET) == CLIMBING_BOOTS || e.player.equipment.getId(Equipment.FEET) == ROCK_CLIMBING_BOOTS)
+                    if (e.getObject().rotation == 0 || e.getObject().rotation == 2)
+                        Agility.handleObstacle(e.player, if (e.player.x < e.getObject().x) 3381 else 3382, 3, e.player.transform(if (e.player.x < e.getObject().x) 4 else -4, 0, 0), 1.0)
+                    else
+                        Agility.handleObstacle(e.player, if (e.player.y < e.getObject().y) 3381 else 3382, 3, e.player.transform(0, if (e.player.y < e.getObject().y) 4 else -4, 0), 1.0)
+                else
+                    e.player.sendMessage("That looks dangerous. I should wear appropriate footwear before climbing up there.")
+            else
+                e.player.sendMessage("That looks dangerous. I'll need a good reason before I venture that way.")
+        } else if (e.getObject().id == 34877 || e.getObject().id == 34889 || e.getObject().id == 3803 || e.getObject().id == 9304 || e.getObject().id == 9303) {
             if (e.getObject().rotation == 0 || e.getObject().rotation == 2)
                 Agility.handleObstacle(e.player, if (e.player.x < e.getObject().x) 3381 else 3382, 3, e.player.transform(if (e.player.x < e.getObject().x) 4 else -4, 0, 0), 1.0)
             else
