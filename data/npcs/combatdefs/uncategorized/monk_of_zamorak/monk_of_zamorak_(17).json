@@ -12,7 +12,7 @@
   "deathSound": 512,
   "respawnDelay": 59,
   "hitpoints": 100,
-  "maxHit": 20,
+  "maxHit": 50,
   "attackStyle": "MELEE",
   "attackBonus": "CRUSH_ATT",
   "combatLevels": {

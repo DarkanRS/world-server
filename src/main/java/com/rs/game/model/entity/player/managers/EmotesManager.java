@@ -308,7 +308,7 @@ public final class EmotesManager {
 				player.setNextSpotAnim(new SpotAnim(3016));
 			} else if (emote == Emote.EVIL_LAUGH) {
 				player.setNextAnimation(new Animation(player.getAppearance().isMale() ? 15535 : 15536));
-				player.setNextSpotAnim(new SpotAnim(2191));
+				player.setNextSpotAnim(new SpotAnim(-1));
 			} else if (emote == Emote.LIVING_BORROWED_TIME) {
 				final NPC grim = new NPC(14388, Tile.of(player.getX(), player.getY() + 1, player.getPlane()));
 				World.addNPC(grim);

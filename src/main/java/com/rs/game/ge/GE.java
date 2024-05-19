@@ -69,62 +69,147 @@ public class GE {
 		
 		switch(e.getComponentId()) {
 		//Buy box selection
-		case 31 -> openBuy(e.getPlayer(), 0);
-		case 47 -> openBuy(e.getPlayer(), 1);
-		case 63 -> openBuy(e.getPlayer(), 2);
-		case 82 -> openBuy(e.getPlayer(), 3);
-		case 101 -> openBuy(e.getPlayer(), 4);
-		case 120 -> openBuy(e.getPlayer(), 5);
+            case 31 -> {
 
-		//Sell box selection
-		case 32 -> openSell(e.getPlayer(), 0);
-		case 48 -> openSell(e.getPlayer(), 1);
-		case 64 -> openSell(e.getPlayer(), 2);
-		case 83 -> openSell(e.getPlayer(), 3);
-		case 102 -> openSell(e.getPlayer(), 4);
-		case 121 -> openSell(e.getPlayer(), 5);
+                openBuy(e.getPlayer(), 0);
+                e.getPlayer().soundEffect(2266, false);
+            }
+            case 47 -> {
+                openBuy(e.getPlayer(), 1);
+				e.getPlayer().soundEffect(2266, false);
+            }
+            case 63 -> {
+                openBuy(e.getPlayer(), 2);
+				e.getPlayer().soundEffect(2266, false);
+            }
+            case 82 -> {
+                openBuy(e.getPlayer(), 3);
+				e.getPlayer().soundEffect(2266, false);
+            }
+            case 101 -> {
+                openBuy(e.getPlayer(), 4);
+				e.getPlayer().soundEffect(2266, false);
+            }
+            case 120 -> {
+                openBuy(e.getPlayer(), 5);
+				e.getPlayer().soundEffect(2266, false);
 
-		case 19 -> clickBox(e.getPlayer(), 0, e.getPacket() != ClientPacket.IF_OP1);
+
+                //Sell box selection
+            }
+            case 32 -> {
+                openSell(e.getPlayer(), 0);
+				e.getPlayer().soundEffect(2266, false);
+            }
+            case 48 -> {
+                openSell(e.getPlayer(), 1);
+				e.getPlayer().soundEffect(2266, false);
+            }
+            case 64 -> {
+                openSell(e.getPlayer(), 2);
+				e.getPlayer().soundEffect(2266, false);
+            }
+            case 83 -> {
+                openSell(e.getPlayer(), 3);
+				e.getPlayer().soundEffect(2266, false);
+            }
+            case 102 -> {
+                openSell(e.getPlayer(), 4);
+				e.getPlayer().soundEffect(2266, false);
+            }
+            case 121 -> {
+                openSell(e.getPlayer(), 5);
+                e.getPlayer().soundEffect(2266, false);
+            }
+
+			case 19 -> clickBox(e.getPlayer(), 0, e.getPacket() != ClientPacket.IF_OP1);
 		case 35 -> clickBox(e.getPlayer(), 1, e.getPacket() != ClientPacket.IF_OP1);
 		case 51 -> clickBox(e.getPlayer(), 2, e.getPacket() != ClientPacket.IF_OP1);
 		case 70 -> clickBox(e.getPlayer(), 3, e.getPacket() != ClientPacket.IF_OP1);
 		case 89 -> clickBox(e.getPlayer(), 4, e.getPacket() != ClientPacket.IF_OP1);
 		case 108 -> clickBox(e.getPlayer(), 5, e.getPacket() != ClientPacket.IF_OP1);
-		case 200 -> clickBox(e.getPlayer(), e.getPlayer().getVars().getVar(VAR_CURR_BOX), true);
+            case 200 -> {
+                clickBox(e.getPlayer(), e.getPlayer().getVars().getVar(VAR_CURR_BOX), true);
+                e.getPlayer().soundEffect(4039, true);
 
-		//Back button
-		case 128 -> open(e.getPlayer());
+                //Back button
+            }
+            case 128 -> {
+                open(e.getPlayer());
+                e.getPlayer().soundEffect(2266, false);
+            }
 
-		case 206, 208 -> collectItems(e.getPlayer(), e.getPlayer().getVars().getVar(VAR_CURR_BOX), e.getComponentId() == 206 ? 0 : 1, e.getPacket() == ClientPacket.IF_OP1);
+            case 206, 208 -> collectItems(e.getPlayer(), e.getPlayer().getVars().getVar(VAR_CURR_BOX), e.getComponentId() == 206 ? 0 : 1, e.getPacket() == ClientPacket.IF_OP1);
 
 		//Amount adjustments
-		case 155 -> e.getPlayer().getVars().setVar(VAR_ITEM_AMOUNT, Utils.clampI(e.getPlayer().getVars().getVar(VAR_ITEM_AMOUNT) - 1, 0, Integer.MAX_VALUE));
-		case 157 -> e.getPlayer().getVars().setVar(VAR_ITEM_AMOUNT, Utils.clampI(e.getPlayer().getVars().getVar(VAR_ITEM_AMOUNT) + 1, 0, Integer.MAX_VALUE));
-		case 160 -> e.getPlayer().getVars().setVar(VAR_ITEM_AMOUNT, e.getPlayer().getVars().getVar(VAR_IS_SELLING) == 1 ? 1 : Utils.clampI(e.getPlayer().getVars().getVar(VAR_ITEM_AMOUNT) + 1, 0, Integer.MAX_VALUE));
-		case 162 -> e.getPlayer().getVars().setVar(VAR_ITEM_AMOUNT, e.getPlayer().getVars().getVar(VAR_IS_SELLING) == 1 ? 10 : Utils.clampI(e.getPlayer().getVars().getVar(VAR_ITEM_AMOUNT) + 10, 0, Integer.MAX_VALUE));
-		case 164 -> e.getPlayer().getVars().setVar(VAR_ITEM_AMOUNT, e.getPlayer().getVars().getVar(VAR_IS_SELLING) == 1 ? 100 : Utils.clampI(e.getPlayer().getVars().getVar(VAR_ITEM_AMOUNT) + 100, 0, Integer.MAX_VALUE));
-		case 166 -> e.getPlayer().getVars().setVar(VAR_ITEM_AMOUNT, e.getPlayer().getVars().getVar(VAR_IS_SELLING) == 1 ? e.getPlayer().getInventory().getAmountOf(e.getPlayer().getVars().getVar(VAR_ITEM)) : Utils.clampI(e.getPlayer().getVars().getVar(VAR_ITEM_AMOUNT) + 1000, 0, Integer.MAX_VALUE));
-		case 168 -> e.getPlayer().sendInputInteger("Enter amount", amount -> e.getPlayer().getVars().setVar(VAR_ITEM_AMOUNT, Utils.clampI(amount, 0, Integer.MAX_VALUE)));
+            case 155 -> {
+                e.getPlayer().getVars().setVar(VAR_ITEM_AMOUNT, Utils.clampI(e.getPlayer().getVars().getVar(VAR_ITEM_AMOUNT) - 1, 0, Integer.MAX_VALUE));
+                e.getPlayer().soundEffect(4041, false);
+            }
+            case 157 -> {
+                e.getPlayer().getVars().setVar(VAR_ITEM_AMOUNT, Utils.clampI(e.getPlayer().getVars().getVar(VAR_ITEM_AMOUNT) + 1, 0, Integer.MAX_VALUE));
+                e.getPlayer().soundEffect(4041, false);
+            }
+            case 160 -> {
+                e.getPlayer().getVars().setVar(VAR_ITEM_AMOUNT, e.getPlayer().getVars().getVar(VAR_IS_SELLING) == 1 ? 1 : Utils.clampI(e.getPlayer().getVars().getVar(VAR_ITEM_AMOUNT) + 1, 0, Integer.MAX_VALUE));
+                e.getPlayer().soundEffect(4041, false);
+            }
+            case 162 -> {
+                e.getPlayer().getVars().setVar(VAR_ITEM_AMOUNT, e.getPlayer().getVars().getVar(VAR_IS_SELLING) == 1 ? 10 : Utils.clampI(e.getPlayer().getVars().getVar(VAR_ITEM_AMOUNT) + 10, 0, Integer.MAX_VALUE));
+                e.getPlayer().soundEffect(4041, false);
+            }
+            case 164 -> {
+                e.getPlayer().getVars().setVar(VAR_ITEM_AMOUNT, e.getPlayer().getVars().getVar(VAR_IS_SELLING) == 1 ? 100 : Utils.clampI(e.getPlayer().getVars().getVar(VAR_ITEM_AMOUNT) + 100, 0, Integer.MAX_VALUE));
+                e.getPlayer().soundEffect(4041, false);
+            }
+            case 166 -> {
+                e.getPlayer().getVars().setVar(VAR_ITEM_AMOUNT, e.getPlayer().getVars().getVar(VAR_IS_SELLING) == 1 ? e.getPlayer().getInventory().getAmountOf(e.getPlayer().getVars().getVar(VAR_ITEM)) : Utils.clampI(e.getPlayer().getVars().getVar(VAR_ITEM_AMOUNT) + 1000, 0, Integer.MAX_VALUE));
+                e.getPlayer().soundEffect(4041, false);
+            }
+            case 168 -> e.getPlayer().sendInputInteger("Enter amount", amount -> e.getPlayer().getVars().setVar(VAR_ITEM_AMOUNT, Utils.clampI(amount, 0, Integer.MAX_VALUE)));
 
 		//Price adjustments
-		case 169 -> e.getPlayer().getVars().setVar(VAR_FOR_PRICE_TEXT, Utils.clampI(e.getPlayer().getVars().getVar(VAR_FOR_PRICE_TEXT) - 1, 0, Integer.MAX_VALUE));
-		case 171 -> e.getPlayer().getVars().setVar(VAR_FOR_PRICE_TEXT, Utils.clampI(e.getPlayer().getVars().getVar(VAR_FOR_PRICE_TEXT) + 1, 0, Integer.MAX_VALUE));
-		case 175 -> e.getPlayer().getVars().setVar(VAR_FOR_PRICE_TEXT, e.getPlayer().getVars().getVar(VAR_MEDIAN_PRICE));
-		case 179 -> e.getPlayer().getVars().setVar(VAR_FOR_PRICE_TEXT, Utils.clampI((int) (e.getPlayer().getVars().getVar(VAR_FOR_PRICE_TEXT) * 1.05), 0, Integer.MAX_VALUE));
-		case 181 -> e.getPlayer().getVars().setVar(VAR_FOR_PRICE_TEXT, Utils.clampI((int) (e.getPlayer().getVars().getVar(VAR_FOR_PRICE_TEXT) * 0.95), 0, Integer.MAX_VALUE));
-		case 177 -> e.getPlayer().sendInputInteger("Enter desired price", price -> e.getPlayer().getVars().setVar(VAR_FOR_PRICE_TEXT, Utils.clampI(price, 0, Integer.MAX_VALUE)));
+            case 169 -> {
+                e.getPlayer().getVars().setVar(VAR_FOR_PRICE_TEXT, Utils.clampI(e.getPlayer().getVars().getVar(VAR_FOR_PRICE_TEXT) - 1, 0, Integer.MAX_VALUE));
+                e.getPlayer().soundEffect(4041, false);
+            }
+            case 171 -> {
+                e.getPlayer().getVars().setVar(VAR_FOR_PRICE_TEXT, Utils.clampI(e.getPlayer().getVars().getVar(VAR_FOR_PRICE_TEXT) + 1, 0, Integer.MAX_VALUE));
+                e.getPlayer().soundEffect(4041, false);
+            }
+            case 175 -> {
+                e.getPlayer().getVars().setVar(VAR_FOR_PRICE_TEXT, e.getPlayer().getVars().getVar(VAR_MEDIAN_PRICE));
+                e.getPlayer().soundEffect(4041, false);
+            }
+            case 179 -> {
+                e.getPlayer().getVars().setVar(VAR_FOR_PRICE_TEXT, Utils.clampI((int) (e.getPlayer().getVars().getVar(VAR_FOR_PRICE_TEXT) * 1.05), 0, Integer.MAX_VALUE));
+                e.getPlayer().soundEffect(4041, false);
+            }
+            case 181 -> {
+                e.getPlayer().getVars().setVar(VAR_FOR_PRICE_TEXT, Utils.clampI((int) (e.getPlayer().getVars().getVar(VAR_FOR_PRICE_TEXT) * 0.95), 0, Integer.MAX_VALUE));
+                e.getPlayer().soundEffect(4041, false);
+            }
+            case 177 -> e.getPlayer().sendInputInteger("Enter desired price", price -> e.getPlayer().getVars().setVar(VAR_FOR_PRICE_TEXT, Utils.clampI(price, 0, Integer.MAX_VALUE)));
 
 		//Confirm offer
-		case 186 -> confirmOffer(e.getPlayer());
+            case 186 -> {
+                confirmOffer(e.getPlayer());
+                e.getPlayer().soundEffect(4044, false);
 
-		//Search item
-		case 190 -> e.getPlayer().getPackets().openGESearch();
+                //Search item
+            }
+            case 190 -> {
+                e.getPlayer().getPackets().openGESearch();
+                e.getPlayer().soundEffect(2266, false);
+            }
 
-		default -> Logger.debug(GE.class, "mainInterface", "Unhandled GE button: " + e.getComponentId() + ", " + e.getSlotId());
+            default -> Logger.debug(GE.class, "mainInterface", "Unhandled GE button: " + e.getComponentId() + ", " + e.getSlotId());
+
 		}
 	});
 
 	public static ButtonClickHandler sellInv = new ButtonClickHandler(SPECIAL_DEPOSIT_INV, e -> {
+		e.getPlayer().soundEffect(4043, false);
 		if (e.getPlayer().isIronMan()) {
 			e.getPlayer().sendMessage("Ironmen stand alone.");
 			return;
@@ -149,13 +234,22 @@ public class GE {
 		if (e.getPlayer().getTempAttribs().getB("geLocked"))
 			return;
 		switch(e.getComponentId()) {
-		case 19 -> collectItems(e.getPlayer(), 0, e.getSlotId() / 2, e.getPacket() == ClientPacket.IF_OP1);
-		case 23 -> collectItems(e.getPlayer(), 1, e.getSlotId() / 2, e.getPacket() == ClientPacket.IF_OP1);
-		case 27 -> collectItems(e.getPlayer(), 2, e.getSlotId() / 2, e.getPacket() == ClientPacket.IF_OP1);
-		case 32 -> collectItems(e.getPlayer(), 3, e.getSlotId() / 2, e.getPacket() == ClientPacket.IF_OP1);
-		case 37 -> collectItems(e.getPlayer(), 4, e.getSlotId() / 2, e.getPacket() == ClientPacket.IF_OP1);
-		case 42 -> collectItems(e.getPlayer(), 5, e.getSlotId() / 2, e.getPacket() == ClientPacket.IF_OP1);
-		default -> Logger.debug(GE.class, "collBox", "Unhandled collection box button: " + e.getComponentId() + ", " + e.getSlotId());
+            case 19 ->
+                collectItems(e.getPlayer(), 0, e.getSlotId() / 2, e.getPacket() == ClientPacket.IF_OP1);
+			case 23 ->
+                collectItems(e.getPlayer(), 1, e.getSlotId() / 2, e.getPacket() == ClientPacket.IF_OP1);
+			case 27 ->
+                collectItems(e.getPlayer(), 2, e.getSlotId() / 2, e.getPacket() == ClientPacket.IF_OP1);
+			case 32 ->
+                collectItems(e.getPlayer(), 3, e.getSlotId() / 2, e.getPacket() == ClientPacket.IF_OP1);
+			case 37 ->
+                collectItems(e.getPlayer(), 4, e.getSlotId() / 2, e.getPacket() == ClientPacket.IF_OP1);
+			case 42 ->
+                collectItems(e.getPlayer(), 5, e.getSlotId() / 2, e.getPacket() == ClientPacket.IF_OP1);
+
+			default ->
+                Logger.debug(GE.class, "collBox", "Unhandled collection box button: " + e.getComponentId() + ", " + e.getSlotId());
+
 		}
 	});
 
@@ -174,6 +268,7 @@ public class GE {
 
 	public static void collectItems(Player player, int box, int slot, boolean noted) {
 		Offer offer = player.getGEOffers().get(box);
+		player.soundEffect(4040, true);
 		if (offer == null)
 			return;
 		Item orig = offer.getProcessedItems().get(slot).clone();
@@ -396,10 +491,12 @@ public class GE {
 				if (diff)
 					if (player.getTempAttribs().getL("GENotificationTime") == 0) {
 						player.getTempAttribs().setL("GENotificationTime", System.currentTimeMillis());
+						player.jingle(284);
 						player.soundEffect(4042, false);
 						player.sendMessage("One or more of your grand exchange offers has been updated.");
 					} else if ((System.currentTimeMillis() - player.getTempAttribs().getL("GENotificationTime")) > 1000 * 60) { //1 minute
 						player.getTempAttribs().setL("GENotificationTime", System.currentTimeMillis());
+						player.jingle(284);
 						player.soundEffect(4042, false);
 						player.sendMessage("One or more of your grand exchange offers has been updated.");
 					}

@@ -48,7 +48,7 @@ import com.rs.game.content.clans.ClansManager;
 import com.rs.game.content.combat.CombatDefinitions;
 import com.rs.game.content.death.DeathOfficeController;
 import com.rs.game.content.death.GraveStone;
-import com.rs.game.content.interfacehandlers.TransformationRing;
+
 import com.rs.game.content.minigames.domtower.DominionTower;
 import com.rs.game.content.minigames.duel.DuelRules;
 import com.rs.game.content.minigames.herblorehabitat.HabitatFeature;
@@ -840,7 +840,7 @@ public class Player extends Entity {
 	}
 
 	public void stopAll(boolean stopWalk, boolean stopInterfaces, boolean stopActions) {
-		TransformationRing.triggerDeactivation(this);
+
 		if (stopInterfaces)
 			closeInterfaces();
 		if (stopWalk) {
@@ -2010,7 +2010,7 @@ public class Player extends Entity {
 
 	@Override
 	public void handlePreHit(Hit hit) {
-		TransformationRing.triggerDeactivation(this);
+
 
 		if (hit.getLook() != HitLook.MELEE_DAMAGE && hit.getLook() != HitLook.RANGE_DAMAGE && hit.getLook() != HitLook.MAGIC_DAMAGE)
 			return;

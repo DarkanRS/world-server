@@ -2,11 +2,11 @@
   "names": [
     "Ice troll female"
   ],
-  "attackAnim": -1,
+  "attackAnim": 1142,
   "attackSound": -1,
-  "defenceAnim": -1,
+  "defenceAnim": 285,
   "defendSound": -1,
-  "deathAnim": -1,
+  "deathAnim": 287,
   "deathDelay": 6,
   "deathSound": -1,
   "respawnDelay": 59,

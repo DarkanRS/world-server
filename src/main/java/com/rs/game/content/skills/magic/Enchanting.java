@@ -243,6 +243,7 @@ public class Enchanting {
 				if (Magic.checkMagicAndRunes(player, 7, true, new RuneSet(Rune.COSMIC, 1, Rune.WATER, 1))) {
 					player.setNextAnimation(new Animation(719));
 					player.setNextSpotAnim(new SpotAnim(114, 0, 100));
+					player.soundEffect( 136, true);
 					player.getInventory().deleteItem(sapphire.getUnenchanted(), 1);
 					player.getInventory().addItem(sapphire.getEnchanted(), 1);
 					player.getSkills().addXp(Constants.MAGIC, 17);
@@ -259,6 +260,7 @@ public class Enchanting {
 				if (Magic.checkMagicAndRunes(player, 27, true, new RuneSet(Rune.COSMIC, 1, Rune.AIR, 3))) {
 					player.setNextAnimation(new Animation(719));
 					player.setNextSpotAnim(new SpotAnim(114, 0, 100));
+					player.soundEffect( 141, true);
 					player.getInventory().deleteItem(emerald.getUnenchanted(), 1);
 					player.getInventory().addItem(emerald.getEnchanted(), 1);
 					player.getSkills().addXp(Constants.MAGIC, 37);
@@ -275,6 +277,7 @@ public class Enchanting {
 				if (Magic.checkMagicAndRunes(player, 49, true, new RuneSet(Rune.COSMIC, 1, Rune.FIRE, 5))) {
 					player.setNextAnimation(new Animation(719));
 					player.setNextSpotAnim(new SpotAnim(114, 0, 100));
+					player.soundEffect( -1, true);
 					player.getInventory().deleteItem(ruby.getUnenchanted(), 1);
 					player.getInventory().addItem(ruby.getEnchanted(), 1);
 					player.getSkills().addXp(Constants.MAGIC, 59);
@@ -291,6 +294,7 @@ public class Enchanting {
 				if (Magic.checkMagicAndRunes(player, 57, true, new RuneSet(Rune.COSMIC, 1, Rune.EARTH, 10))) {
 					player.setNextAnimation(new Animation(719));
 					player.setNextSpotAnim(new SpotAnim(114, 0, 100));
+					player.soundEffect( -1, true);
 					player.getInventory().deleteItem(diamond.getUnenchanted(), 1);
 					player.getInventory().addItem(diamond.getEnchanted(), 1);
 					player.getSkills().addXp(Constants.MAGIC, 67);
@@ -307,6 +311,7 @@ public class Enchanting {
 				if (Magic.checkMagicAndRunes(player, 68, true, new RuneSet(Rune.COSMIC, 1, Rune.EARTH, 15, Rune.WATER, 15))) {
 					player.setNextAnimation(new Animation(719));
 					player.setNextSpotAnim(new SpotAnim(114, 0, 100));
+					player.soundEffect( -1, true);
 					player.getInventory().deleteItem(dragonstone.getUnenchanted(), 1);
 					player.getInventory().addItem(dragonstone.getEnchanted(), 1);
 					player.getSkills().addXp(Constants.MAGIC, 78);
@@ -323,6 +328,7 @@ public class Enchanting {
 				if (Magic.checkMagicAndRunes(player, 87, true, new RuneSet(Rune.COSMIC, 1, Rune.FIRE, 20, Rune.EARTH, 20))) {
 					player.setNextAnimation(new Animation(719));
 					player.setNextSpotAnim(new SpotAnim(114, 0, 100));
+					player.soundEffect( -1, true);
 					player.getInventory().deleteItem(onyx.getUnenchanted(), 1);
 					player.getInventory().addItem(onyx.getEnchanted(), 1);
 					player.getSkills().addXp(Constants.MAGIC, 97);

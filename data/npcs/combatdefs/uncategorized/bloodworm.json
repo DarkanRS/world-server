@@ -1,0 +1,31 @@
+{
+  "names": [
+    "Bloodworm"
+  ],
+  "attackAnim": 2070,
+  "attackSound": 604,
+  "defenceAnim": 2072,
+  "defendSound": 603,
+  "deathAnim": 2073,
+  "deathDelay": 6,
+  "deathSound": 602,
+  "respawnDelay": 59,
+  "hitpoints": 440,
+  "maxHit": 70,
+  "attackStyle": "MELEE",
+  "attackBonus": "STAB_ATT",
+  "combatLevels": {
+    "ATTACK": 80,
+    "RANGE": 1,
+    "STRENGTH": 20,
+    "DEFENSE": 35,
+    "MAGE": 1
+  },
+  "attackRange": -1,
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "AGGRESSIVE",
+  "aggroDistance": 4,
+  "deAggroDistance": -1,
+  "maxDistFromSpawn": -1
+}
