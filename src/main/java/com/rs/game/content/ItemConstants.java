@@ -17,6 +17,7 @@
 package com.rs.game.content;
 
 import com.rs.Settings;
+import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.engine.quest.Quest;
 import com.rs.game.content.achievements.SetReward;
 import com.rs.game.content.world.unorganized_dialogue.RepairStandD;
@@ -397,6 +398,12 @@ public class ItemConstants {
 	public static boolean isHouseOnlyItem(int itemId) {
         return itemId >= 7671 && itemId <= 7755;
     }
+
+	public static int noteIfPossible(int originalId) {
+		ItemDefinitions def = ItemDefinitions.getDefs(originalId);
+		if (def.noted || def.certId == -1) return originalId;
+		return def.certId;
+	}
 
 	public static boolean isTradeable(Item item) {
 		if (item.getMetaData() != null)

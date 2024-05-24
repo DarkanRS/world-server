@@ -24,7 +24,7 @@ import com.rs.game.map.instance.Instance;
 import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.Entity.MoveType;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.pathing.Direction;
+import com.rs.engine.pathfinder.Direction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.Animation;
@@ -32,6 +32,7 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.MapUtils;
 import com.rs.lib.util.MapUtils.Structure;
+import kotlin.Pair;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -538,20 +539,20 @@ public abstract class Cutscene {
 		this.dialoguePaused = paused;
 	}
 	
-	public void projectile(int delay, Tile from, Tile to, int graphicId, int startHeight, int endHeight, int startTime, double speed, int angle, int slope, Consumer<WorldProjectile> task) {
-		action(delay, () -> World.sendProjectile(Tile.of(getX(from.getX()), getY(from.getY()), from.getPlane()), Tile.of(getX(to.getX()), getY(to.getY()), to.getPlane()), graphicId, startHeight, endHeight, startTime, speed, angle, task));
+	public void projectile(int delay, Tile from, Tile to, int graphicId, Pair<Integer, Integer> startHeightEndHeight, int startTime, int inAirClientCyclesPerTile, int angle, Consumer<WorldProjectile> task) {
+		action(delay, () -> World.sendProjectile(Tile.of(getX(from.getX()), getY(from.getY()), from.getPlane()), Tile.of(getX(to.getX()), getY(to.getY()), to.getPlane()), graphicId, startHeightEndHeight, startTime, inAirClientCyclesPerTile, angle, 0, task));
 	}
 	
-	public void projectile(int delay, Tile from, Tile to, int graphicId, int startHeight, int endHeight, int startTime, double speed, int angle, int slope) {
-		action(delay, () -> World.sendProjectile(Tile.of(getX(from.getX()), getY(from.getY()), from.getPlane()), Tile.of(getX(to.getX()), getY(to.getY()), to.getPlane()), graphicId, startHeight, endHeight, startTime, speed, angle, slope));
+	public void projectile(int delay, Tile from, Tile to, int graphicId, Pair<Integer, Integer> startHeightEndHeight, int startTime, int inAirClientCyclesPerTile, int angle) {
+		action(delay, () -> World.sendProjectile(Tile.of(getX(from.getX()), getY(from.getY()), from.getPlane()), Tile.of(getX(to.getX()), getY(to.getY()), to.getPlane()), graphicId, startHeightEndHeight, startTime, inAirClientCyclesPerTile, angle));
 	}
 	
-	public void projectile(Tile from, Tile to, int graphicId, int startHeight, int endHeight, int startTime, double speed, int angle, int slope, Consumer<WorldProjectile> task) {
-		projectile(-1, from, to, graphicId, startHeight, endHeight, startTime, speed, angle, slope, task);
+	public void projectile(Tile from, Tile to, int graphicId, Pair<Integer, Integer> startHeightEndHeight, int startTime, int inAirClientCyclesPerTile, int angle, Consumer<WorldProjectile> task) {
+		projectile(-1, from, to, graphicId, startHeightEndHeight, startTime, inAirClientCyclesPerTile, angle, task);
 	}
 	
-	public void projectile(Tile from, Tile to, int graphicId, int startHeight, int endHeight, int startTime, double speed, int angle, int slope) {
-		projectile(-1, from, to, graphicId, startHeight, endHeight, startTime, speed, angle, slope);
+	public void projectile(Tile from, Tile to, int graphicId, Pair<Integer, Integer> startHeightEndHeight, int startTime, int inAirClientCyclesPerTile, int angle) {
+		projectile(-1, from, to, graphicId, startHeightEndHeight, startTime, inAirClientCyclesPerTile, angle);
 	}
 
 	public void npcFaceNPC(String key, String targetKey, int delay) {
@@ -563,7 +564,7 @@ public abstract class Cutscene {
 	}
 
 	public void playerFaceDir(Direction dir, int delay) {
-		action(delay, () -> player.setNextFaceTile(player.transform(dir.getDx(), dir.getDy())));
+		action(delay, () -> player.setNextFaceTile(player.transform(dir.dx, dir.dy)));
 	}
 	
 	public void playerFaceDir(Direction dir) {
@@ -571,7 +572,7 @@ public abstract class Cutscene {
 	}
 
 	public void npcFaceDir(String key, Direction dir, int delay) {
-		action(delay, () -> getNPC(key).setNextFaceTile(getNPC(key).transform(dir.getDx(), dir.getDy())));
+		action(delay, () -> getNPC(key).setNextFaceTile(getNPC(key).transform(dir.dx, dir.dy)));
 	}
 	
 	public void npcFaceDir(String key, Direction dir) {

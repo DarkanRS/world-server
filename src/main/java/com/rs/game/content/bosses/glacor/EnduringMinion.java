@@ -21,6 +21,7 @@ import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
+import kotlin.Pair;
 
 public class EnduringMinion extends NPC {
 
@@ -38,7 +39,7 @@ public class EnduringMinion extends NPC {
 		super.processEntity();
 		if (getHitpoints() <= 0 || isDead()) {
 			if (!defeated)
-				World.sendProjectile(this, parent, 634, 34, 16, 30, 35, 16, 15);
+				World.sendProjectile(this, parent, 634, new Pair<>(34, 16), 30, 5, 16);
 			defeated = true;
 		}
 	}

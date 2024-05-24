@@ -18,6 +18,7 @@ package com.rs.game.content.world.npcs;
 
 import com.rs.game.World;
 import com.rs.game.content.combat.PlayerCombat;
+import com.rs.game.content.combat.PlayerCombatKt;
 import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
@@ -27,6 +28,7 @@ import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
+import kotlin.Pair;
 
 public class BrutalDragonCombat extends CombatScript {
 
@@ -47,20 +49,20 @@ public class BrutalDragonCombat extends CombatScript {
 				delayHit(npc, 0, target, getMeleeHit(npc, damage));
 			} else {
 				damage = Utils.getRandomInclusive(500);
-				int protection = PlayerCombat.getAntifireLevel(target, true);
+				int protection = PlayerCombatKt.getAntifireLevel(target, true);
 				if (protection == 1)
 					damage = Utils.getRandomInclusive(50);
 				else if (protection == 2)
 					damage = 0;
 				npc.setNextAnimation(new Animation(12259));
-				WorldProjectile p = World.sendProjectile(npc, target, 393, 28, 32, 50, 2, 16, 0);
+				WorldProjectile p = World.sendProjectile(npc, target, 393, new Pair<>(28, 32), 50, 5, 16);
 				delayHit(npc, p.getTaskDelay(), target, getRegularHit(npc, damage));
 			}
 			break;
 		case 1: // Dragon breath
 			if (npc.withinDistance(target.getTile(), 3)) {
 				damage = Utils.getRandomInclusive(650);
-				int protection = PlayerCombat.getAntifireLevel(target, true);
+				int protection = PlayerCombatKt.getAntifireLevel(target, true);
 				if (protection == 1)
 					damage = Utils.getRandomInclusive(300);
 				else if (protection == 2)
@@ -70,13 +72,13 @@ public class BrutalDragonCombat extends CombatScript {
 				delayHit(npc, 1, target, getRegularHit(npc, damage));
 			} else {
 				damage = Utils.getRandomInclusive(650);
-				int protection = PlayerCombat.getAntifireLevel(target, true);
+				int protection = PlayerCombatKt.getAntifireLevel(target, true);
 				if (protection == 1)
 					damage = Utils.getRandomInclusive(40);
 				else if (protection == 2)
 					damage = 0;
 				npc.setNextAnimation(new Animation(12259));
-				WorldProjectile p = World.sendProjectile(npc, target, 393, 28, 32, 50, 2, 16, 0);
+				WorldProjectile p = World.sendProjectile(npc, target, 393, new Pair<>(28, 32), 50, 5, 16);
 				delayHit(npc, p.getTaskDelay(), target, getRegularHit(npc, damage));
 			}
 			break;
@@ -84,7 +86,7 @@ public class BrutalDragonCombat extends CombatScript {
 		case 3:
 			damage = Utils.getRandomInclusive(180);
 			npc.setNextAnimation(new Animation(12259));
-			WorldProjectile p = World.sendProjectile(npc, target, 2705, 28, 32, 50, 2, 16, 0);
+			WorldProjectile p = World.sendProjectile(npc, target, 2705, new Pair<>(28, 32), 50, 5, 16);
 			delayHit(npc, p.getTaskDelay(), target, getMagicHit(npc, damage));
 			break;
 		}

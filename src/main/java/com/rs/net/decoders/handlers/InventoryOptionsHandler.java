@@ -102,7 +102,7 @@ public class InventoryOptionsHandler {
 					if (usedId == WickedHoodRune.ELEMENTAL.getTalismanId() && !player.getUsedElementalTalisman()) {
 						player.getInventory().deleteItem(usedId, 1);
 						player.setUsedElementalTalisman(true);
-						player.sendMessage("You unlock the ability to receive pure essence from the wicked hood.");
+						player.sendMessage("You unlock the ability to take extra runes from the wicked hood.");
 						return true;
 					}
 					player.sendMessage("The hood doesn't appear to be interested in that anymore.");
@@ -110,9 +110,10 @@ public class InventoryOptionsHandler {
 				}
 				player.getInventory().deleteItem(usedId, 1);
 				player.getSkills().addXp(Constants.RUNECRAFTING, 50);
-				if (usedId == WickedHoodRune.OMNI.getTalismanId()) {
+				if (usedId == WickedHoodRune.OMNI.getTalismanId() || usedId == WickedHoodRune.OMNI.getTiaraId()) {
 					for (WickedHoodRune r : WickedHoodRune.values())
 						player.unlockWickedHoodRune(r);
+					player.sendMessage("You unlock the ability to receive pure essence from the wicked hood.");
 					player.setUsedOmniTalisman(true);
 				} else if (usedId == WickedHoodRune.ELEMENTAL.getTalismanId()) {
 					player.unlockWickedHoodRune(WickedHoodRune.AIR);
@@ -120,7 +121,7 @@ public class InventoryOptionsHandler {
 					player.unlockWickedHoodRune(WickedHoodRune.EARTH);
 					player.unlockWickedHoodRune(WickedHoodRune.FIRE);
 					player.setUsedElementalTalisman(true);
-					player.sendMessage("You unlock the ability to receive pure essence from the wicked hood.");
+					player.sendMessage("You unlock the ability to take extra runes from the wicked hood.");
 				}
 				player.unlockWickedHoodRune(rune);
 			}

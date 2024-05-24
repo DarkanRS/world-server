@@ -19,11 +19,13 @@ package com.rs.game.model.entity.npc;
 import com.rs.cache.loaders.Bonus;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.cache.loaders.interfaces.IFEvents;
-import com.rs.engine.thread.LowPriorityTaskExecutor;
+import com.rs.engine.pathfinder.*;
+import com.rs.engine.pathfinder.collision.CollisionStrategyType;
+import com.rs.engine.thread.AsyncTaskExecutor;
 import com.rs.game.World;
 import com.rs.game.content.Effect;
 import com.rs.game.content.bosses.godwars.GodwarsController;
-import com.rs.game.content.combat.PolyporeStaff;
+import com.rs.game.content.combat.PolyporeStaffKt;
 import com.rs.game.content.minigames.treasuretrails.TreasureTrailsManager;
 import com.rs.game.content.skills.hunter.BoxHunterType;
 import com.rs.game.content.skills.slayer.SlayerMonsters;
@@ -39,7 +41,6 @@ import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AggressiveType;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.Skill;
-import com.rs.game.model.entity.pathing.*;
 import com.rs.game.model.entity.player.Bank;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.AuraManager;
@@ -51,8 +52,6 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Tile;
-import com.rs.lib.net.packets.encoders.Sound;
-import com.rs.lib.net.packets.encoders.Sound.SoundType;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.PluginManager;
@@ -130,7 +129,7 @@ public class NPC extends Entity {
 		setHitpoints(getMaxHitpoints());
 		setFaceAngle(direction == null ? getRespawnDirection() : direction.getAngle());
 		setRandomWalk((getDefinitions().walkMask & 0x2) != 0 || forceRandomWalk(id));
-		setClipType((getDefinitions().walkMask & 0x4) != 0 ? ClipType.WATER : ClipType.NORMAL);
+		setCollisionStrategyType((getDefinitions().walkMask & 0x4) != 0 ? CollisionStrategyType.WATER : CollisionStrategyType.NORMAL);
 		size = getDefinitions().size;
 		if (getDefinitions().hasAttackOption())
 			setRandomWalk(true);
@@ -185,10 +184,6 @@ public class NPC extends Entity {
 	public void transformIntoNPC(int id) {
 		setNPC(id);
 		nextTransformation = new Transformation(id);
-	}
-
-	public void setNextNPCTransformation(int id) {
-		transformIntoNPC(id);
 	}
 
 	public void setNPC(int id) {
@@ -274,9 +269,9 @@ public class NPC extends Entity {
 						if (Utils.random(2) == 0)
 							moveY = -moveY;
 						resetWalkSteps();
-						DumbRouteFinder.addDumbPathfinderSteps(this, respawnTile.transform(moveX, moveY, 0), getDefinitions().hasAttackOption() ? 7 : 3, getClipType());
+						DumbRouteFinder.addDumbPathfinderSteps(this, respawnTile.transform(moveX, moveY, 0), getDefinitions().hasAttackOption() ? 7 : 3, getCollisionStrategy());
 						if (Utils.getDistance(this.getTile(), respawnTile) > 3 && !getDefinitions().hasAttackOption())
-							DumbRouteFinder.addDumbPathfinderSteps(this, respawnTile, getDefinitions().hasAttackOption() ? 7 : 3, getClipType());
+							DumbRouteFinder.addDumbPathfinderSteps(this, respawnTile, getDefinitions().hasAttackOption() ? 7 : 3, getCollisionStrategy());
 					}
 				}
 			}
@@ -285,14 +280,12 @@ public class NPC extends Entity {
 			if (!hasEffect(Effect.FREEZE))
 				if (getX() != forceWalk.getX() || getY() != forceWalk.getY()) {
 					if (!hasWalkSteps()) {
-						Route route = RouteFinder.find(getX(), getY(), getPlane(), getSize(), new FixedTileStrategy(forceWalk.getX(), forceWalk.getY()), true);
-						for (int i = route.getStepCount() - 1; i >= 0; i--)
-							if (!addWalkSteps(route.getBufferX()[i], route.getBufferY()[i], 25, true, true))
-								break;
-					}
-					if (!hasWalkSteps()) { // failing finding route
-						tele(Tile.of(forceWalk));
-						forceWalk = null; // so ofc reached forcewalk place
+						Route route = RouteFinderKt.routeEntityToTile(this, forceWalk, 25);
+						if (route.getFailed()) {
+							tele(Tile.of(forceWalk));
+							forceWalk = null;
+						} else
+							RouteFinderKt.walkRoute(this, route, true);
 					}
 				} else
 					// walked till forcewalk place
@@ -665,7 +658,7 @@ public class NPC extends Entity {
 
 	public static void displayDropsFor(Player player, int npcId, int npcAmount) {
 		player.sendMessage("<col=FF0000><shad=000000>Calculating drops...");
-		LowPriorityTaskExecutor.execute(() -> {
+		AsyncTaskExecutor.execute(() -> {
 			long start = System.currentTimeMillis();
 			ItemsContainer<Item> dropCollection = getDropsFor(npcId, npcAmount, player.getEquipment().wearingRingOfWealth());
 			if (dropCollection == null) {
@@ -705,44 +698,44 @@ public class NPC extends Entity {
 		return maxHit;
 	}
 
-	public void lowerDefense(double multiplier, double maxDrain) {
-		lowerStat(Skill.DEFENSE, multiplier, maxDrain);
+	public int lowerDefense(double multiplier, double maxDrain) {
+		return lowerStat(Skill.DEFENSE, multiplier, maxDrain);
 	}
 
-	public void lowerDefense(int drain, double maxDrain) {
-		lowerStat(Skill.DEFENSE, drain, maxDrain);
+	public int lowerDefense(int drain, double maxDrain) {
+		return lowerStat(Skill.DEFENSE, drain, maxDrain);
 	}
 
-	public void lowerAttack(double multiplier, double maxDrain) {
-		lowerStat(Skill.ATTACK, multiplier, maxDrain);
+	public int lowerAttack(double multiplier, double maxDrain) {
+		return lowerStat(Skill.ATTACK, multiplier, maxDrain);
 	}
 
-	public void lowerAttack(int drain, double maxDrain) {
-		lowerStat(Skill.ATTACK, drain, maxDrain);
+	public int lowerAttack(int drain, double maxDrain) {
+		return lowerStat(Skill.ATTACK, drain, maxDrain);
 	}
 
-	public void lowerStrength(double multiplier, double maxDrain) {
-		lowerStat(Skill.STRENGTH, multiplier, maxDrain);
+	public int lowerStrength(double multiplier, double maxDrain) {
+		return lowerStat(Skill.STRENGTH, multiplier, maxDrain);
 	}
 
-	public void lowerStrength(int drain, double maxDrain) {
-		lowerStat(Skill.STRENGTH, drain, maxDrain);
+	public int lowerStrength(int drain, double maxDrain) {
+		return lowerStat(Skill.STRENGTH, drain, maxDrain);
 	}
 
-	public void lowerMagic(double multiplier, double maxDrain) {
-		lowerStat(Skill.MAGE, multiplier, maxDrain);
+	public int lowerMagic(double multiplier, double maxDrain) {
+		return lowerStat(Skill.MAGE, multiplier, maxDrain);
 	}
 
-	public void lowerMagic(int drain, double maxDrain) {
-		lowerStat(Skill.MAGE, drain, maxDrain);
+	public int lowerMagic(int drain, double maxDrain) {
+		return lowerStat(Skill.MAGE, drain, maxDrain);
 	}
 	
-	public void lowerRange(double multiplier, double maxDrain) {
-		lowerStat(Skill.RANGE, multiplier, maxDrain);
+	public int lowerRange(double multiplier, double maxDrain) {
+		return lowerStat(Skill.RANGE, multiplier, maxDrain);
 	}
 
-	public void lowerRange(int drain, double maxDrain) {
-		lowerStat(Skill.RANGE, drain, maxDrain);
+	public int lowerRange(int drain, double maxDrain) {
+		return lowerStat(Skill.RANGE, drain, maxDrain);
 	}
 	
 	public int getStat(Skill skill) {
@@ -762,14 +755,16 @@ public class NPC extends Entity {
 		combatLevels.put(skill, level);
 	}
 
-	public void lowerStat(Skill stat, double multiplier, double maxDrain) {
+	public int lowerStat(Skill stat, double multiplier, double maxDrain) {
 		if (combatLevels != null)
 			setStat(stat, Utils.clampI((int) (getStat(stat) - (getStat(stat) * multiplier)), (int) ((double) getCombatDefinitions().getLevels().get(stat) * maxDrain), getStat(stat)));
+		return getStat(stat);
 	}
 
-	public void lowerStat(Skill stat, int levelDrain, double maxDrain) {
+	public int lowerStat(Skill stat, int levelDrain, double maxDrain) {
 		if (combatLevels != null)
 			setStat(stat, Utils.clampI(getStat(stat) - levelDrain, (int) ((double) getCombatDefinitions().getLevels().get(stat) * maxDrain), getStat(stat)));
+		return getStat(stat);
 	}
 
 	public int getBonus(Bonus bonus) {
@@ -853,18 +848,18 @@ public class NPC extends Entity {
 		return forceWalk != null;
 	}
 
-	public Entity getTarget() {
+	public Entity getCombatTarget() {
 		return combat.getTarget();
 	}
 
-	public void setTarget(Entity entity) {
+	public void setCombatTarget(Entity entity) {
 		if (isForceWalking()) // if force walk not gonna get target
 			return;
 		combat.setTarget(entity);
 		lastAttackedByTarget = System.currentTimeMillis();
 	}
 
-	public void removeTarget() {
+	public void removeCombatTarget() {
 		if (combat.getTarget() == null)
 			return;
 		combat.removeTarget();
@@ -954,7 +949,7 @@ public class NPC extends Entity {
 		List<Entity> possibleTarget = getPossibleTargets();
 		if (!possibleTarget.isEmpty()) {
 			Entity target = possibleTarget.get(Utils.random(possibleTarget.size()));
-			setTarget(target);
+			setCombatTarget(target);
 			target.setAttackedBy(target);
 			//target.setFindTargetDelay(System.currentTimeMillis() + 10000); //TODO makes everything possible aggro to you
 			return true;
@@ -1171,7 +1166,7 @@ public class NPC extends Entity {
 
 	public boolean canBeAttackedBy(Player player) {
 		if (getId() == 879 || getId() == 14578)
-			if (player.getEquipment().getWeaponId() != 2402 && player.getCombatDefinitions().getSpell() != null && !PolyporeStaff.isWielding(player)) {
+			if (player.getEquipment().getWeaponId() != 2402 && player.getCombatDefinitions().getSpell() != null && !PolyporeStaffKt.usingPolypore(player)) {
 				player.sendMessage("I'd better wield Silverlight first.");
 				return false;
 			}

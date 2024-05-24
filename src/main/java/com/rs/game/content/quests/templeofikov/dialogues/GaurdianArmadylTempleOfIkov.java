@@ -23,7 +23,7 @@ public class GaurdianArmadylTempleOfIkov extends Conversation {
 			addNPC(NPC, HeadE.CALM_TALK, "Okay, I shall cleanse you with holy water...");
 				addSimple("He splashes water on your face...", ()->{
 					guardian.setLockedForTicks(4);
-					guardian.faceEntity(player);
+					guardian.faceEntityTile(player);
 					WorldTasks.delay(1, () -> guardian.setNextAnimation(new Animation(805)));
 				});
 				addNPC(NPC, HeadE.CALM_TALK, "You have been cleansed!");
@@ -46,7 +46,7 @@ public class GaurdianArmadylTempleOfIkov extends Conversation {
 						);
 						option("No! I shall not turn against my employer!", new Dialogue()
 								.addPlayer(HeadE.HAPPY_TALKING, "No! I shall not turn against my employer!")
-								.addNPC(NPC, HeadE.CALM_TALK, "Fool! You will die for your sins!", ()-> WorldTasks.delay(3, () -> guardian.setTarget(player)))
+								.addNPC(NPC, HeadE.CALM_TALK, "Fool! You will die for your sins!", ()-> WorldTasks.delay(3, () -> guardian.setCombatTarget(player)))
 						);
 						option("I need to think.", new Dialogue()
 								.addPlayer(HeadE.HAPPY_TALKING, "I need to think.")
@@ -95,11 +95,11 @@ public class GaurdianArmadylTempleOfIkov extends Conversation {
 													public void create() {
 														option("How dare you call me a fool?", new Dialogue()
 																.addPlayer(HeadE.HAPPY_TALKING, "How dare you call me a fool?")
-																.addNPC(NPC, HeadE.CALM_TALK, "We must cleanse the temple!", ()-> WorldTasks.delay(3, () -> guardian.setTarget(player)))
+																.addNPC(NPC, HeadE.CALM_TALK, "We must cleanse the temple!", ()-> WorldTasks.delay(3, () -> guardian.setCombatTarget(player)))
 														);
 														option("I just thought of something I must do!", new Dialogue()
 																.addPlayer(HeadE.HAPPY_TALKING, "I just thought of something I must do!")
-																.addNPC(NPC, HeadE.CALM_TALK, "An agent of evil cannot be allowed to leave!", ()-> WorldTasks.delay(3, () -> guardian.setTarget(player)))
+																.addNPC(NPC, HeadE.CALM_TALK, "An agent of evil cannot be allowed to leave!", ()-> WorldTasks.delay(3, () -> guardian.setCombatTarget(player)))
 														);
 														option("You're right, it's time for my yearly bath.", new Dialogue()
 																.addPlayer(HeadE.HAPPY_TALKING, "You're right, it's time for my yearly bath.")
@@ -131,7 +131,7 @@ public class GaurdianArmadylTempleOfIkov extends Conversation {
 										);
 										option("Then you must die!", new Dialogue()
 												.addPlayer(HeadE.HAPPY_TALKING, "Then you must die!")
-												.addNPC(NPC, HeadE.CALM_TALK, "So be it!", ()-> WorldTasks.delay(3, () -> guardian.setTarget(player)))
+												.addNPC(NPC, HeadE.CALM_TALK, "So be it!", ()-> WorldTasks.delay(3, () -> guardian.setCombatTarget(player)))
 										);
 										option("You're right, I will go now.", new Dialogue()
 												.addPlayer(HeadE.HAPPY_TALKING, "You're right, I will go now.")

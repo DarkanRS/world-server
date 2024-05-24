@@ -53,6 +53,18 @@ public class ItemOnNPCEvent implements PluginEvent {
 		return item;
 	}
 
+	public Player component1() {
+		return player;
+	}
+
+	public Item component2() {
+		return item;
+	}
+
+	public NPC component3() {
+		return npc;
+	}
+
 	public boolean isAtNPC() {
 		return atNPC;
 	}

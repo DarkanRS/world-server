@@ -27,6 +27,7 @@ import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.util.Utils;
+import kotlin.Pair;
 
 public class BloodSacrifice implements NexAttack {
 
@@ -46,7 +47,7 @@ public class BloodSacrifice implements NexAttack {
 					player.sendMessage("You didn't make it far enough in time - Nex fires a punishing attack!");
 					nex.setNextAnimation(new Animation(6987));
 					for (final Entity t : nex.getPossibleTargets())
-						World.sendProjectile(nex, t, 374, 41, 16, 41, 35, 16, p -> {
+						World.sendProjectile(nex, t, 374, new Pair<>(41, 16), 41, 5, 16, 0, p -> {
 							nex.heal(t.getHitpoints());
 							t.applyHit(new Hit(nex, (int) (t.getHitpoints() * 0.1), HitLook.TRUE_DAMAGE));
 						});

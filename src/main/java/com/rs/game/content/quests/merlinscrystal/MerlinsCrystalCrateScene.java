@@ -19,6 +19,7 @@ package com.rs.game.content.quests.merlinscrystal;
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.Options;
+import com.rs.engine.pathfinder.Direction;
 import com.rs.game.map.instance.Instance;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.tasks.Task;
@@ -140,7 +141,7 @@ public class MerlinsCrystalCrateScene extends Controller {
 						player.getPackets().sendResetCamera();
 						player.setNextAnimation(new Animation(-1));
 					} else if(tick == 31)
-						player.faceWest();
+						player.faceDir(Direction.WEST);
 					else if(tick == 33) {
 						player.getInterfaceManager().setFadingInterface(170);
 						removeInstance();

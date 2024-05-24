@@ -1,12 +1,12 @@
 package com.rs.game.content.quests.naturespirit
 
+import com.rs.engine.pathfinder.collision.CollisionStrategyType
 import com.rs.game.World
 import com.rs.game.content.skills.cooking.Foods
 import com.rs.game.model.entity.Entity
 import com.rs.game.model.entity.Hit
 import com.rs.game.model.entity.npc.NPC
 import com.rs.game.model.entity.npc.combat.CombatScriptsHandler
-import com.rs.game.model.entity.pathing.ClipType
 import com.rs.game.model.entity.player.Player
 import com.rs.game.model.entity.player.Skills
 import com.rs.lib.game.Tile
@@ -21,7 +21,7 @@ class Ghast(id: Int, tile: Tile) : NPC(id, tile) {
     override fun processNPC() {
         super.processNPC()
         isForceAgressive = true
-        clipType = ClipType.FLYING
+        setCollisionStrategyType(CollisionStrategyType.FLY)
     }
 
     override fun canBeAttackedBy(player: Player): Boolean {
@@ -74,7 +74,7 @@ fun mapGhasts() {
                 }
                 target.inventory.refresh()
                 npc.lock()
-                World.sendProjectile(target, npc, 268, 30, 0, 0.4) {
+                World.sendProjectile(target, npc, 268, 0, 15, 30) {
                     npc.unlock()
                     npc.spotAnim(269, 0, 96)
                     npc.transformIntoNPC(when (npc.id) {

@@ -201,7 +201,7 @@ public class TreasureTrailsManager {
 				final ClueNPC npc = new ClueNPC(player, inWilderness ? isCoordinateClue ? 1007 : 5144 : isCoordinateClue ? 1264 : 5145, tile);
 				npc.setNextSpotAnim(new SpotAnim(74));
 				WorldTasks.schedule(() -> {
-					npc.setTarget(player);
+					npc.setCombatTarget(player);
 					npc.setNextForceTalk(new ForceTalk(npc.getId() == 1007 ? "For Zamorak!" : npc.getId() == 1264 ? "For Saradomin!" : "I expect you to die!"));
 				});
 			}
@@ -209,7 +209,7 @@ public class TreasureTrailsManager {
 		} else if (((cluePhase == 0 && currentClue.dificulty < HARD) || (cluePhase == 2 && currentClue.dificulty >= HARD)) && currentClue.details.type == EMOTE) {
 			final NPC npc = new Ugi(player, 5141, player.getNearestTeleTile(1));
 			npc.setNextSpotAnim(new SpotAnim(74));
-			WorldTasks.schedule(() -> npc.faceEntity(player));
+			WorldTasks.schedule(() -> npc.faceEntityTile(player));
 			cluePhase = ((Emote[]) currentClue.details.parameters[0]).length == 1 ? 4 : 3;
 		} else if (cluePhase == 3)
 			cluePhase = 4; // for emotes
@@ -672,7 +672,7 @@ public class TreasureTrailsManager {
 		COORDINATE_00_9(MEDIUM, COORDINATE, TILE, UNUSED, 1, 24, NORTH, 8, 5, WEST),
 		COORDINATE_00_10(MEDIUM, COORDINATE, TILE, UNUSED, 1, 26, NORTH, 8, 1, EAST),
 		COORDINATE_00_11(MEDIUM, COORDINATE, TILE, UNUSED, 1, 35, SOUTH, 7, 28, EAST),
-		COORDINATE_00_12(MEDIUM, COORDINATE, TILE, UNUSED, 2, 46, NORTH, 29, 11, EAST),
+		COORDINATE_00_12(MEDIUM, COORDINATE, TILE, UNUSED, 2, 31, NORTH, 28, 45, EAST),
 		COORDINATE_00_13(MEDIUM, COORDINATE, TILE, UNUSED, 2, 48, NORTH, 22, 30, EAST),
 		COORDINATE_00_14(MEDIUM, COORDINATE, TILE, UNUSED, 2, 50, NORTH, 6, 20, EAST),
 		COORDINATE_00_15(MEDIUM, COORDINATE, TILE, UNUSED, 3, 35, SOUTH, 13, 35, EAST),

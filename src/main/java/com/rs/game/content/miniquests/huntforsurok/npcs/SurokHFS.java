@@ -9,6 +9,7 @@ import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.player.managers.EmotesManager;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
+import kotlin.Pair;
 
 @PluginEventHandler
 public class SurokHFS {
@@ -22,7 +23,7 @@ public class SurokHFS {
                     .addNPC(ID, HeadE.FRUSTRATED, "Escape from Varrock Palace Library? That cruel imprisonment you left me in?")
                     .addPlayer(HeadE.AMAZED, "Well...er...yes.")
                     .addNPC(ID, HeadE.FRUSTRATED, "Bah! A mere trifle for a powerful mage such as myself. There were plenty of other foolish people to help with my plans and you would do well to stay out of my way.")
-                    .addNextIf(() -> !Miniquest.HUNT_FOR_SUROK.meetsReqs(e.getPlayer(), "to start Hunt for Surok."), new Dialogue()
+                    .addNextIf(() -> !Miniquest.HUNT_FOR_SUROK.meetsReqs(e.getPlayer(), "to start Hunt for Surok.", true), new Dialogue()
                             .addStop())
                     .addPlayer(HeadE.FRUSTRATED, "Stop, Surok! As a member of the Varrock Palace Secret Guard, I arrest you! Again!")
                     .addNPC(ID, HeadE.FRUSTRATED, "Ha! I tire of this meaningless drivel. Catch me if you can.")
@@ -43,7 +44,7 @@ public class SurokHFS {
                         cs.npcSync("surok", 6098, 1009);
                         cs.delay(1);
                         cs.npcAnim("surok", -1);
-                        cs.action(() -> World.sendProjectile(cs.getNPC("surok"), cs.getPlayer().transform(2, -3, 0), 1010, 5, 15, 15, 0.4, 10, 10));
+                        cs.action(() -> World.sendProjectile(cs.getNPC("surok"), cs.getPlayer().transform(2, -3, 0), 1010, new Pair<>(5, 15), 15, 10, 10));
                         cs.delay(1);
                         cs.playerTalk("Whoah!");
                         cs.playerAnim(EmotesManager.Emote.CRY.getAnim());

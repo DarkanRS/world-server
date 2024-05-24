@@ -18,6 +18,7 @@ package com.rs.game.content.bosses.kalphitequeen
 
 import com.rs.game.World.sendProjectile
 import com.rs.game.model.entity.Entity
+import com.rs.game.model.entity.async.schedule
 import com.rs.game.model.entity.npc.NPC
 import com.rs.game.model.entity.npc.combat.CombatScript.*
 import com.rs.game.model.entity.npc.combat.CombatScriptsHandler.getDefaultCombat
@@ -42,28 +43,26 @@ class KalphiteQueen(id: Int, tile: Tile, spawned: Boolean) : NPC(id, tile, spawn
         resetWalkSteps()
         combat.removeTarget()
         anim(-1)
-        WorldTasks.scheduleTimer { loop: Int ->
-            if (loop == 0) anim(combatDefinitions.deathEmote)
-            else if (loop >= combatDefinitions.deathDelay) {
-                if (id == 1158) {
-                    isCantInteract = true
-                    transformIntoNPC(1160)
-                    sync(6270, 1055)
-                    tasks.schedule("kqDeath") {
-                        reset()
-                        isCantInteract = false
-                    }
-                } else {
-                    drop()
+        isCantInteract = true
+
+        schedule {
+            anim(combatDefinitions.deathEmote)
+            wait(combatDefinitions.deathDelay)
+            if (id == 1158) {
+                transformIntoNPC(1160)
+                sync(6270, 1055)
+                schedule {
                     reset()
-                    setLocation(respawnTile)
-                    finish()
-                    if (!isSpawned) setRespawnTask()
-                    transformIntoNPC(1158)
+                    isCantInteract = false
                 }
-                return@scheduleTimer false
+            } else {
+                drop()
+                reset()
+                setLocation(respawnTile)
+                finish()
+                if (!isSpawned) setRespawnTask()
+                transformIntoNPC(1158)
             }
-            return@scheduleTimer true
         }
     }
 }
@@ -78,7 +77,7 @@ fun mapKalphiteQueen() {
         npc.anim(if (npc.id == 1158) 6240 else 6234)
         if (random(2) == 0) {
             //range
-            sendProjectile(npc, target, 288, 30, 15, 1.8) {
+            sendProjectile(npc, target, 288, 30, 5, 15) {
                 delayHit(npc, 0, target, getRangeHit(npc, getMaxHit(npc, npc.combatDefinitions.maxHit, NPCCombatDefinitions.AttackStyle.RANGE, target, 10000.0)))
                 if (target is Player)
                     target.prayer.drainPrayer(10.0)
@@ -87,7 +86,7 @@ fun mapKalphiteQueen() {
         }
         //mage
         npc.spotAnim(if (npc.id == 1158) 278 else 279)
-        projectileBounce(npc, target, mutableSetOf(target), 280, 281, 1.8) { nextTarget ->
+        projectileBounce(npc, target, mutableSetOf(target), 280, 281, 5) { nextTarget ->
             delayHit(npc, 0, nextTarget, getMagicHit(npc, getMaxHit(npc, npc.maxHit, NPCCombatDefinitions.AttackStyle.MAGE, nextTarget, 10000.0)))
         }
         return@npcCombat npc.attackSpeed

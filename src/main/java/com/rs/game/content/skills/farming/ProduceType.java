@@ -119,25 +119,24 @@ public enum ProduceType {
 	Spirit_tree(5375, 83, null, 8, 199.5, 19301.8, 12, PatchType.SPIRIT);
 
 
-	private static final Map<Integer, ProduceType> MAP = new HashMap<>();
+	private static final Map<Integer, ProduceType> SEED_MAP = new HashMap<>();
+	private static final Map<Integer, ProduceType> PRODUCE_MAP = new HashMap<>();
 
 	static {
 		for (ProduceType product : ProduceType.values())
-			MAP.put(product.seedId, product);
+			SEED_MAP.put(product.seedId, product);
+		for (ProduceType product : ProduceType.values()) {
+			if (product.productId == null)
+				continue;
+			PRODUCE_MAP.put(product.productId.getId(), product);
+		}
 	}
 
 	public static ProduceType forSeed(int itemId) {
-		return MAP.get(itemId);
+		return SEED_MAP.get(itemId);
 	}
-
-	public static boolean isProduce(int itemId) {
-		for (ProduceType prod : ProduceType.values()) {
-			if (prod.productId == null)
-				continue;
-			if (prod.productId.getId() == itemId)
-				return true;
-		}
-		return false;
+	public static ProduceType forProduce(int itemId) {
+		return PRODUCE_MAP.get(itemId);
 	}
 
 	public final int seedId;
@@ -151,7 +150,7 @@ public enum ProduceType {
 	public int rate1 = -1, rate99 = -1;
 	public final Item protection;
 
-	private ProduceType(int seedId, int level, Item productId, int varBitPlanted, double plantingExperience, double experience, int stages, PatchType type, int rate1, int rate99, Item protection) {
+	ProduceType(int seedId, int level, Item productId, int varBitPlanted, double plantingExperience, double experience, int stages, PatchType type, int rate1, int rate99, Item protection) {
 		this.seedId = seedId;
 		this.level = level;
 		this.productId = productId;
@@ -165,26 +164,19 @@ public enum ProduceType {
 		this.protection = protection;
 	}
 
-	private ProduceType(int seedId, int level, Item productId, int varBitPlanted, double plantingExperience, double experience, int stages, PatchType type, int rate1, int rate99) {
+	ProduceType(int seedId, int level, Item productId, int varBitPlanted, double plantingExperience, double experience, int stages, PatchType type, int rate1, int rate99) {
 		this(seedId, level, productId, varBitPlanted, plantingExperience, experience, stages, type, rate1, rate99, null);
 	}
 
-	private ProduceType(int seedId, int level, Item productId, int varBitPlanted, double plantingExperience, double experience, int stages, PatchType type, Item protection) {
+	ProduceType(int seedId, int level, Item productId, int varBitPlanted, double plantingExperience, double experience, int stages, PatchType type, Item protection) {
 		this(seedId, level, productId, varBitPlanted, plantingExperience, experience, stages, type, -1, -1, protection);
 	}
 
-	private ProduceType(int seedId, int level, Item productId, int varBitPlanted, double plantingExperience, double experience, int stages, PatchType type) {
+	ProduceType(int seedId, int level, Item productId, int varBitPlanted, double plantingExperience, double experience, int stages, PatchType type) {
 		this(seedId, level, productId, varBitPlanted, plantingExperience, experience, stages, type, -1, -1, null);
 	}
 
-	public static boolean isProduct(Item item) {
-		for (ProduceType info : ProduceType.values())
-			if (info.productId.getId() == item.getId())
-				return true;
-		return false;
-	}
-
-	public boolean decLife(Player player) {
+	public boolean decreaseLife(Player player) {
 		if (rate1 == -1)
 			return true;
 		return !Utils.skillSuccess(player.getSkills().getLevel(Constants.FARMING), player.getInventory().containsItem(7409) ? 1.1 : 1.0, rate1, rate99);

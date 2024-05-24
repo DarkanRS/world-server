@@ -30,6 +30,7 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
+import kotlin.Pair;
 
 public class GeomancerCombat extends CombatScript {
 
@@ -88,7 +89,7 @@ public class GeomancerCombat extends CombatScript {
 			if (!multiAttack && t.getIndex() != target.getIndex())
 				continue;
 			t.setNextSpotAnim(new SpotAnim(2726, 75, 100));
-			World.sendProjectile(npc, t, 2720, 50, 18, 50, 50, 0, 0);
+			World.sendProjectile(npc, t, 2720, new Pair<>(50, 18), 50, 5, 0);
 			delayHit(npc, 1, t, getMagicHit(npc, getMaxHit(npc, (int) (npc.getLevelForStyle(AttackStyle.MAGE) * .7), AttackStyle.MAGE, t)));
 		}
 	}
@@ -96,8 +97,8 @@ public class GeomancerCombat extends CombatScript {
 	private void sendEntangle(NPC npc, Entity target) {
 		npc.setNextSpotAnim(new SpotAnim(177, 0, 50));
 		npc.setNextAnimation(new Animation(12992));
-		npc.removeTarget();
-		World.sendProjectile(npc, target, 178, 40, 18, 55, 70, 5, 0);
+		npc.removeCombatTarget();
+		World.sendProjectile(npc, target, 178, new Pair<>(40, 18), 55, 7, 5);
 
 		int damage = getMaxHit(npc, (int) (npc.getLevelForStyle(AttackStyle.MAGE) * 0.95), AttackStyle.MAGE, target);
 
@@ -115,7 +116,7 @@ public class GeomancerCombat extends CombatScript {
 	private void sendWeaken(NPC npc, Entity target) {
 		npc.setNextSpotAnim(new SpotAnim(105, 0, 60));
 		npc.setNextAnimation(new Animation(12992));
-		World.sendProjectile(npc, target, 106, 40, 18, 55, 70, 5, 0);
+		World.sendProjectile(npc, target, 106, new Pair<>(40, 18), 55, 7, 5);
 
 		int damage = getMaxHitFromAttackStyleLevel(npc, AttackStyle.MAGE, target);
 
@@ -160,7 +161,7 @@ public class GeomancerCombat extends CombatScript {
 					}
 			delayHit(npc, 1, t, getMagicHit(npc, (int) (damage * .50)));
 			t.setNextSpotAnim(new SpotAnim(2147));
-			World.sendProjectile(npc, t, 2368, 50, 18, 55, 70, 5, 0);
+			World.sendProjectile(npc, t, 2368, new Pair<>(50, 18), 55, 7, 5);
 		}
 	}
 }

@@ -25,7 +25,6 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Logger;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.handlers.NPCInstanceHandler;
 import com.rs.utils.Ticks;
 
@@ -39,7 +38,7 @@ public class DoorSupport extends NPC {
 
 	@Override
 	public void processNPC() {
-		cancelFaceEntityNoCheck();
+		stopFaceEntity();
 	}
 
 	public boolean canDestroy(Player player) {
@@ -57,13 +56,13 @@ public class DoorSupport extends NPC {
 
 	@Override
 	public void sendDeath(Entity killer) {
-		setNextNPCTransformation(getId() + 1);
+		transformIntoNPC(getId() + 1);
 		final GameObject door = World.getObjectWithId(getTile(), 8967);
 		if (door != null)
 			World.removeObject(door);
 		WorldTasks.schedule(Ticks.fromSeconds(60), () -> {
 			try {
-				setNextNPCTransformation(getId() - 1);
+				transformIntoNPC(getId() - 1);
 				reset();
 				if (door != null)
 					World.spawnObject(door);
@@ -71,11 +70,6 @@ public class DoorSupport extends NPC {
 				Logger.handle(DoorSupport.class, "DoorSupport.sendDeath", e);
 			}
 		});
-	}
-	
-	@ServerStartupEvent
-	public static void addLoSOverrides() {
-		Entity.addLOSOverrides(2440, 2443, 2446);
 	}
 
 	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { 2440, 2443, 2446 }, DoorSupport::new);

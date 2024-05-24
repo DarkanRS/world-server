@@ -23,7 +23,7 @@ import com.rs.engine.quest.Quest;
 import com.rs.game.World;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.OwnedNPC;
-import com.rs.game.model.entity.pathing.Direction;
+import com.rs.engine.pathfinder.Direction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.Task;
@@ -76,11 +76,11 @@ public class CountDraynorBoss extends OwnedNPC {
 
 	@Override
 	public void sendDeath(Entity source) {
-		removeTarget();
+		removeCombatTarget();
 		setAttackedBy(null);
 		resetHP();
 		setLocked(true);
-		faceEntity(source);
+		faceEntityTile(source);
 
 		WorldTasks.scheduleLooping(new Task() {
 			int tick = 0;
@@ -95,7 +95,7 @@ public class CountDraynorBoss extends OwnedNPC {
 				if(tick == finalTick - 1)
 					setLocked(false);
 				if(tick == finalTick) {
-					setTarget(source);
+					setCombatTarget(source);
 					stop();
 				}
 				tick++;
@@ -232,8 +232,8 @@ public class CountDraynorBoss extends OwnedNPC {
 					countDraynor.setRandomWalk(true);
 				}
 				if(tick == 20) {
-					countDraynor.setTarget(p);
-					p.faceEntity(countDraynor);
+					countDraynor.setCombatTarget(p);
+					p.faceEntityTile(countDraynor);
 				}
 				if(tick == 22) {
 					if(p.getInventory().containsItem(GARLIC, 1)) {

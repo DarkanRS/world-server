@@ -3,6 +3,7 @@ package com.rs.game.content.quests.treegnomevillage;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.dialogue.Options;
+import com.rs.engine.pathfinder.Direction;
 import com.rs.engine.quest.Quest;
 import com.rs.engine.quest.QuestHandler;
 import com.rs.engine.quest.QuestOutline;
@@ -112,12 +113,12 @@ public class TreeGnomeVillage extends QuestOutline {
 					if (tick == 0) {
 						if (p.getY() == 3254) {
 							p.lock(2);
-							p.faceSouth();
+							p.faceDir(Direction.SOUTH);
 							p.setNextAnimation(new Animation(839));
 							isPlayerNorth = true;
 						} else if (p.getY() == 3252) {
 							p.lock(2);
-							p.faceNorth();
+							p.faceDir(Direction.NORTH);
 							p.setNextAnimation(new Animation(839));
 							isPlayerNorth = false;
 						} else
@@ -130,7 +131,7 @@ public class TreeGnomeVillage extends QuestOutline {
 							for(NPC npc : World.getNPCsInChunkRange(p.getChunkId(), 1))
 								if(npc.getId() == 478 && npc.getPlane() == 0) {//Khazard Commander
 									npc.forceTalk("Hey, what are you doing in here?");
-									npc.setTarget(p);
+									npc.setCombatTarget(p);
 								}
 						}
 						stop();
@@ -147,18 +148,18 @@ public class TreeGnomeVillage extends QuestOutline {
 	public static PlayerStepHandler handleCommanderUpstairs = new PlayerStepHandler(new Tile[] { Tile.of(2503, 3254, 1), Tile.of(2504, 3254, 1), Tile.of(2502, 3254, 1) }, e -> {
 		if(e.getPlayer().getQuestManager().getStage(Quest.TREE_GNOME_VILLAGE) == ORB1)
 			for(NPC npc : World.getNPCsInChunkRange(e.getPlayer().getChunkId(), 1))
-				if(npc.getId() == 478 && npc.getPlane() == 1 && npc.getTarget() != e.getPlayer()) {//Khazard Commander
+				if(npc.getId() == 478 && npc.getPlane() == 1 && npc.getCombatTarget() != e.getPlayer()) {//Khazard Commander
 					npc.forceTalk("Hey, get out of here!");
-					npc.setTarget(e.getPlayer());
+					npc.setCombatTarget(e.getPlayer());
 				}
 	});
 
 	public static PlayerStepHandler handleCommanderDownstairs = new PlayerStepHandler(Tile.of(2505, 3256, 0), e -> {
 		if(e.getPlayer().getQuestManager().getStage(Quest.TREE_GNOME_VILLAGE) == ORB1)
 			for(NPC npc : World.getNPCsInChunkRange(e.getPlayer().getChunkId(), 1))
-				if(npc.getId() == 478 && npc.getPlane() == 0 && npc.getTarget() != e.getPlayer()) {//Khazard Commander
+				if(npc.getId() == 478 && npc.getPlane() == 0 && npc.getCombatTarget() != e.getPlayer()) {//Khazard Commander
 					npc.forceTalk("Get out! What are you doing here?!");
-					npc.setTarget(e.getPlayer());
+					npc.setCombatTarget(e.getPlayer());
 				}
 	});
 

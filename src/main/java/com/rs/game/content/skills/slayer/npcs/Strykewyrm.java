@@ -166,7 +166,7 @@ public class Strykewyrm extends NPC {
 			npc.transformIntoNPC(npc.stompId + 1);
 		});
 		WorldTasks.delay(4, () -> {
-			npc.setTarget(player);
+			npc.setCombatTarget(player);
 			npc.setAttackedBy(player);
 			npc.setCantInteract(false);
 		});

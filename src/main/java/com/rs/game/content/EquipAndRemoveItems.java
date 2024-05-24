@@ -24,13 +24,14 @@ import com.rs.plugin.handlers.ItemEquipHandler;
 @PluginEventHandler
 public class EquipAndRemoveItems  {
 
-	public static ItemClickHandler handle = new ItemClickHandler(new String[] { "Wear", "Remove", "Wield" }, e -> {
+	public static ItemClickHandler handle = new ItemClickHandler(new String[] { "Wear", "Equip", "Remove", "Wield" }, e -> {
 		switch(e.getOption()) {
 		case "Remove":
 			Equipment.remove(e.getPlayer(), Equipment.getItemSlot(e.getItem().getId()));
 			break;
 		case "Wear":
 		case "Wield":
+		case "Equip":
 			if (e.getPlayer().isEquipDisabled())
 				return;
 			Equipment.sendWear(e.getPlayer(), e.getSlotId(), e.getItem().getId());

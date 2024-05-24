@@ -18,7 +18,7 @@ package com.rs.game.content.skills.farming;
 
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.game.content.Effect;
-import com.rs.game.content.Potions;
+import com.rs.game.content.PotionsKt;
 import com.rs.game.content.achievements.AchievementDef;
 import com.rs.game.content.achievements.SetReward;
 import com.rs.game.content.skills.woodcutting.TreeType;
@@ -286,7 +286,7 @@ public class FarmPatch {
 			if (item.getId() == 23166)
 				player.getInventory().deleteItem(item);
 			else
-				item.setId(item.getId() == 20026 ? Potions.JUJU_VIAL : item.getId()+1);
+				item.setId(item.getId() == 20026 ? PotionsKt.JUJU_VIAL : item.getId()+1);
 			player.setNextAnimation(CURE_PLANT_ANIMATION);
 			player.addEffect(Effect.JUJU_HUNTER, Ticks.fromMinutes(10));
 			player.sendMessage("You pour the potion onto the blossom.");

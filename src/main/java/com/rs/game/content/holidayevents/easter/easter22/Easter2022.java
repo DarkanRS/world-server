@@ -2,6 +2,7 @@ package com.rs.game.content.holidayevents.easter.easter22;
 
 import com.rs.Settings;
 import com.rs.cache.loaders.ObjectType;
+import com.rs.engine.pathfinder.Direction;
 import com.rs.game.World;
 import com.rs.game.content.holidayevents.easter.easter22.EggHunt.Spawns;
 import com.rs.game.model.entity.npc.NPC;
@@ -105,8 +106,8 @@ public class Easter2022 {
 
         final NPC Chocatrice = new NPC(15259, Tile.of(3208, 3426, 0));
         final NPC EvilChicken = new NPC(15262, Tile.of(3216,3426,0));
-        Chocatrice.faceSouth();
-        EvilChicken.faceSouth();
+        Chocatrice.faceDir(Direction.SOUTH);
+        EvilChicken.faceDir(Direction.SOUTH);
         World.addNPC(Chocatrice);
         World.addNPC(EvilChicken);
 

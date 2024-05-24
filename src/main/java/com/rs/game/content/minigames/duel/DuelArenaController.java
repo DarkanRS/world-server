@@ -19,14 +19,14 @@ package com.rs.game.content.minigames.duel;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.World;
 import com.rs.game.content.ItemConstants;
-import com.rs.game.content.Potions.Potion;
-import com.rs.game.content.combat.PlayerCombat;
+import com.rs.game.content.Potion;
+import com.rs.game.content.combat.PlayerCombatKt;
 import com.rs.game.content.skills.cooking.Foods.Food;
 import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.Teleport;
-import com.rs.game.model.entity.pathing.Direction;
+import com.rs.engine.pathfinder.Direction;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
@@ -475,7 +475,7 @@ public class DuelArenaController extends Controller {
 	@Override
 	public boolean keepCombating(Entity victim) {
 		DuelRules rules = player.getLastDuelRules();
-		boolean isRanging = PlayerCombat.isRanging(player);
+		boolean isRanging = PlayerCombatKt.isRanging(player);
 		if (!player.getTempAttribs().getB("canFight")) {
 			player.sendMessage("The duel hasn't started yet.", true);
 			return false;

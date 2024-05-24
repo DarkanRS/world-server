@@ -26,7 +26,7 @@ public class MastyxTrap extends NPC {
 	private final String playerName;
 	private int ticks;
 
-	public MastyxTrap(String playerName, int id, Tile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea) {
+	public MastyxTrap(String playerName, int id, Tile tile) {
 		super(id, tile);
 		this.playerName = playerName;
 	}
@@ -35,9 +35,8 @@ public class MastyxTrap extends NPC {
 	public void processNPC() {
 		//Doesn't move or do anything so we don't process it.
 		ticks++;
-		if (ticks == 500) {
+		if (ticks == 500)
 			finish();
-		}
 	}
 
 	public String getPlayerName() {

@@ -22,7 +22,7 @@ import com.rs.game.content.bosses.godwars.zaros.NexArena;
 import com.rs.game.content.bosses.godwars.zaros.NexController;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.skills.magic.TeleType;
-import com.rs.game.model.entity.pathing.RouteEvent;
+import com.rs.engine.pathfinder.RouteEvent;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.game.model.object.GameObject;
@@ -32,6 +32,7 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+import kotlin.Pair;
 
 @PluginEventHandler
 public class GodwarsController extends Controller {
@@ -77,9 +78,8 @@ public class GodwarsController extends Controller {
                     e.getPlayer().sendMessage("You need a Constitution level of 70 to enter this area.");
             } else
                 e.getPlayer().useStairs(6999, Tile.of(2885, 5330, 2), 1, 1);
-            return;
         }
-    }, true)));
+    })));
 
 	@Override
 	public boolean processObjectClick1(final GameObject object) {
@@ -142,7 +142,7 @@ public class GodwarsController extends Controller {
 					case 3 -> player.setNextAnimation(new Animation(16635));
 					case 4 -> {
 						player.getAppearance().setHidden(true);
-						World.sendProjectile(Tile.of(player.getTile()), tile, 605, 18, 18, 20, 0.6, 30, 0).getTaskDelay();
+						World.sendProjectile(Tile.of(player.getTile()), tile, 605, new Pair<>(18, 18), 20, 10, 30).getTaskDelay();
 						player.forceMove(tile, 0, 180, false, () -> {
 							player.getAppearance().setHidden(false);
 							player.setNextAnimation(new Animation(16672));

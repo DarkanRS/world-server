@@ -5,7 +5,7 @@ import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.dialogue.Options;
 import com.rs.engine.quest.Quest;
-import com.rs.game.content.achievements.AchievementSystemDialogue;
+import com.rs.game.content.achievements.AchievementSystemD;
 import com.rs.game.content.achievements.SetReward;
 import com.rs.game.content.quests.knightssword.SquireKnightsSwordD;
 import com.rs.game.model.entity.player.Player;
@@ -33,9 +33,7 @@ public class SquireAsrol extends Conversation {
                     option("About Knight's Sword.", new Dialogue()
                             .addNext(()-> player.startConversation(new SquireKnightsSwordD(player)))
                     );
-                option("About the Achievement System...",
-                        new AchievementSystemDialogue(player, npcId, SetReward.FALADOR_SHIELD)
-                                .getStart());
+                option("About the Achievement System...", () -> new AchievementSystemD(player, npcId, SetReward.FALADOR_SHIELD));
             }
         });
     }

@@ -18,6 +18,7 @@ package com.rs.game.content.skills.farming;
 
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.content.Effect;
+import com.rs.game.content.ItemConstants;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
 import com.rs.game.model.entity.player.managers.AuraManager.Aura;
@@ -68,8 +69,7 @@ public class HarvestPatch extends PlayerAction {
 			animation = FarmPatch.FILL_COMPOST_ANIMATION;
 			break;
 		default:
-			tool = -1;
-			break;
+            break;
 		}
 	}
 
@@ -93,11 +93,23 @@ public class HarvestPatch extends PlayerAction {
 
 	@Override
 	public int processWithDelay(Player player) {
-		player.setNextAnimation(animation);
-		if (patch.seed.decLife(player))
+		player.anim(animation);
+		boolean keepPicking = pick(player);
+		if (keepPicking && player.hasEffect(Effect.PATCH_BOMB))
+			for (int i = 0;i < 50;i++) {
+				if (!pick(player)) {
+					keepPicking = false;
+					break;
+				}
+			}
+		return keepPicking ? 1 : -1;
+	}
+
+	public boolean pick(Player player) {
+		if (patch.seed.decreaseLife(player))
 			patch.lives--;
 		if (patch.seed == ProduceType.Willow)
-			player.getInventory().addItemDrop(5933, 1);
+			player.getInventory().addItemDrop(player.hasEffect(Effect.PATCH_BOMB) ? 5934 : 5933, 1);
 		else {
 			int amount = patch.seed == ProduceType.Limpwurt ? 3 : 1;
 			if (player.getAuraManager().isActivated(Aura.GREENFINGERS))
@@ -112,30 +124,30 @@ public class HarvestPatch extends PlayerAction {
 				if (Utils.random(3) == 0)
 					amount++;
 			player.incrementCount(patch.seed.productId.getName() + " harvested", amount);
-			player.getInventory().addItemDrop(patch.seed.productId.getId(), amount);
+			player.getInventory().addItemDrop(player.hasEffect(Effect.PATCH_BOMB) ? ItemConstants.noteIfPossible(patch.seed.productId.getId()) : patch.seed.productId.getId(), amount);
 		}
 		switch (patch.seed.type) {
-		case CALQUAT:
-		case FRUIT_TREE:
-		case BUSH:
-		case VINE_BUSH:
-		case CACTUS:
-		case TREE:
-			player.getSkills().addXp(Constants.FARMING, patch.seed.plantingExperience * 0.375);
-			patch.updateVars(player);
-			if (patch.lives <= 0)
-				return -1;
-			break;
-		default:
-			player.getSkills().addXp(Constants.FARMING, patch.seed.experience);
-			if (patch.lives <= 0) {
-				patch.empty();
+			case CALQUAT:
+			case FRUIT_TREE:
+			case BUSH:
+			case VINE_BUSH:
+			case CACTUS:
+			case TREE:
+				player.getSkills().addXp(Constants.FARMING, patch.seed.plantingExperience * 0.375);
 				patch.updateVars(player);
-				return -1;
-			}
-			break;
+				if (patch.lives <= 0)
+					return false;
+				break;
+			default:
+				player.getSkills().addXp(Constants.FARMING, patch.seed.experience);
+				if (patch.lives <= 0) {
+					patch.empty();
+					patch.updateVars(player);
+					return false;
+				}
+				break;
 		}
-		return 1;
+		return true;
 	}
 
 	@Override

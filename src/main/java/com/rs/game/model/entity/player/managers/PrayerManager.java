@@ -33,6 +33,7 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ButtonClickHandler;
+import kotlin.Pair;
 
 import java.util.concurrent.CopyOnWriteArraySet;
 
@@ -132,109 +133,192 @@ public class PrayerManager {
 		if (!canUsePrayer(prayer))
 			return false;
 		switch(prayer) {
-		case ATK_T1:
-		case ATK_T2:
-		case ATK_T3:
-			closePrayers(Prayer.ATK_T1, Prayer.ATK_T2, Prayer.ATK_T3, Prayer.RNG_T1, Prayer.RNG_T2, Prayer.RNG_T3, Prayer.MAG_T1, Prayer.MAG_T2, Prayer.MAG_T3, Prayer.CHIVALRY, Prayer.PIETY, Prayer.RIGOUR, Prayer.AUGURY);
-			break;
-		case STR_T1:
-		case STR_T2:
-		case STR_T3:
-			closePrayers(Prayer.STR_T1, Prayer.STR_T2, Prayer.STR_T3, Prayer.RNG_T1, Prayer.RNG_T2, Prayer.RNG_T3, Prayer.MAG_T1, Prayer.MAG_T2, Prayer.MAG_T3, Prayer.CHIVALRY, Prayer.PIETY, Prayer.RIGOUR, Prayer.AUGURY);
-			break;
-		case DEF_T1:
-		case DEF_T2:
-		case DEF_T3:
-			closePrayers(Prayer.DEF_T1, Prayer.DEF_T2, Prayer.DEF_T3, Prayer.CHIVALRY, Prayer.PIETY, Prayer.RIGOUR, Prayer.AUGURY);
-			break;
-		case RNG_T1:
-		case RNG_T2:
-		case RNG_T3:
-			closePrayers(Prayer.ATK_T1, Prayer.ATK_T2, Prayer.ATK_T3, Prayer.STR_T1, Prayer.STR_T2, Prayer.STR_T3, Prayer.RNG_T1, Prayer.RNG_T2, Prayer.RNG_T3, Prayer.MAG_T1, Prayer.MAG_T2, Prayer.MAG_T3, Prayer.CHIVALRY, Prayer.PIETY, Prayer.RIGOUR, Prayer.AUGURY);
-			break;
-		case MAG_T1:
-		case MAG_T2:
-		case MAG_T3:
-			closePrayers(Prayer.ATK_T1, Prayer.ATK_T2, Prayer.ATK_T3, Prayer.STR_T1, Prayer.STR_T2, Prayer.STR_T3, Prayer.RNG_T1, Prayer.RNG_T2, Prayer.RNG_T3, Prayer.MAG_T1, Prayer.MAG_T2, Prayer.MAG_T3, Prayer.CHIVALRY, Prayer.PIETY, Prayer.RIGOUR, Prayer.AUGURY);
-			break;
-		case CHIVALRY:
-		case PIETY:
-		case RIGOUR:
-		case AUGURY:
-			closePrayers(Prayer.ATK_T1, Prayer.ATK_T2, Prayer.ATK_T3, Prayer.STR_T1, Prayer.STR_T2, Prayer.STR_T3);
-			closePrayers(Prayer.RNG_T1, Prayer.RNG_T2, Prayer.RNG_T3, Prayer.MAG_T1, Prayer.MAG_T2, Prayer.MAG_T3);
-			closePrayers(Prayer.DEF_T1, Prayer.DEF_T2, Prayer.DEF_T3, Prayer.CHIVALRY, Prayer.PIETY, Prayer.RIGOUR, Prayer.AUGURY);
-			break;
-		case RAPID_RENEWAL:
-		case RAPID_HEAL:
-			closePrayers(Prayer.RAPID_RENEWAL, Prayer.RAPID_HEAL);
-			break;
-		case PROTECT_MAGIC:
-		case PROTECT_RANGE:
-		case PROTECT_MELEE:
-			closePrayers(Prayer.PROTECT_MAGIC, Prayer.PROTECT_RANGE, Prayer.PROTECT_MELEE, Prayer.RETRIBUTION, Prayer.REDEMPTION, Prayer.SMITE);
-			break;
-		case PROTECT_SUMMONING:
-			closePrayers(Prayer.PROTECT_SUMMONING, Prayer.RETRIBUTION, Prayer.REDEMPTION, Prayer.SMITE);
-			break;
-		case SMITE:
-		case REDEMPTION:
-		case RETRIBUTION:
-			closePrayers(Prayer.PROTECT_MAGIC, Prayer.PROTECT_RANGE, Prayer.PROTECT_MELEE, Prayer.PROTECT_SUMMONING, Prayer.RETRIBUTION, Prayer.REDEMPTION, Prayer.SMITE);
-			break;
-		case PROTECT_ITEM_C:
-			if (!settingQuickPrayers) {
-				player.setNextAnimation(new Animation(12567));
-				player.setNextSpotAnim(new SpotAnim(2213));
-			}
-			break;
-		case BERSERKER:
-			if (!settingQuickPrayers) {
-				player.setNextAnimation(new Animation(12589));
-				player.setNextSpotAnim(new SpotAnim(2266));
-			}
-			break;
-		case SAP_WARRIOR:
-			closePrayers(Prayer.TURMOIL, Prayer.LEECH_ATTACK, Prayer.LEECH_STRENGTH, Prayer.LEECH_DEFENSE);
-			break;
-		case SAP_MAGE:
-			closePrayers(Prayer.TURMOIL, Prayer.LEECH_MAGIC);
-			break;
-		case SAP_RANGE:
-			closePrayers(Prayer.TURMOIL, Prayer.LEECH_RANGE);
-			break;
-		case SAP_SPIRIT:
-			closePrayers(Prayer.TURMOIL, Prayer.LEECH_SPECIAL, Prayer.LEECH_ENERGY);
+			case ATK_T1:
+			case ATK_T2:
+			case ATK_T3:
+				closePrayers(Prayer.ATK_T1, Prayer.ATK_T2, Prayer.ATK_T3, Prayer.RNG_T1, Prayer.RNG_T2, Prayer.RNG_T3, Prayer.MAG_T1, Prayer.MAG_T2, Prayer.MAG_T3, Prayer.CHIVALRY, Prayer.PIETY, Prayer.RIGOUR, Prayer.AUGURY);
+				break;
+			case STR_T1:
+			case STR_T2:
+			case STR_T3:
+				closePrayers(Prayer.STR_T1, Prayer.STR_T2, Prayer.STR_T3, Prayer.RNG_T1, Prayer.RNG_T2, Prayer.RNG_T3, Prayer.MAG_T1, Prayer.MAG_T2, Prayer.MAG_T3, Prayer.CHIVALRY, Prayer.PIETY, Prayer.RIGOUR, Prayer.AUGURY);
+				break;
+			case DEF_T1:
+			case DEF_T2:
+			case DEF_T3:
+				closePrayers(Prayer.DEF_T1, Prayer.DEF_T2, Prayer.DEF_T3, Prayer.CHIVALRY, Prayer.PIETY, Prayer.RIGOUR, Prayer.AUGURY);
+				break;
+			case RNG_T1:
+			case RNG_T2:
+			case RNG_T3:
+				closePrayers(Prayer.ATK_T1, Prayer.ATK_T2, Prayer.ATK_T3, Prayer.STR_T1, Prayer.STR_T2, Prayer.STR_T3, Prayer.RNG_T1, Prayer.RNG_T2, Prayer.RNG_T3, Prayer.MAG_T1, Prayer.MAG_T2, Prayer.MAG_T3, Prayer.CHIVALRY, Prayer.PIETY, Prayer.RIGOUR, Prayer.AUGURY);
+				break;
+			case MAG_T1:
+			case MAG_T2:
+			case MAG_T3:
+				closePrayers(Prayer.ATK_T1, Prayer.ATK_T2, Prayer.ATK_T3, Prayer.STR_T1, Prayer.STR_T2, Prayer.STR_T3, Prayer.RNG_T1, Prayer.RNG_T2, Prayer.RNG_T3, Prayer.MAG_T1, Prayer.MAG_T2, Prayer.MAG_T3, Prayer.CHIVALRY, Prayer.PIETY, Prayer.RIGOUR, Prayer.AUGURY);
+				break;
+			case CHIVALRY:
+			case PIETY:
+			case RIGOUR:
+			case AUGURY:
+				closePrayers(Prayer.ATK_T1, Prayer.ATK_T2, Prayer.ATK_T3, Prayer.STR_T1, Prayer.STR_T2, Prayer.STR_T3);
+				closePrayers(Prayer.RNG_T1, Prayer.RNG_T2, Prayer.RNG_T3, Prayer.MAG_T1, Prayer.MAG_T2, Prayer.MAG_T3);
+				closePrayers(Prayer.DEF_T1, Prayer.DEF_T2, Prayer.DEF_T3, Prayer.CHIVALRY, Prayer.PIETY, Prayer.RIGOUR, Prayer.AUGURY);
+				break;
+			case RAPID_RENEWAL:
+			case RAPID_HEAL:
+				closePrayers(Prayer.RAPID_RENEWAL, Prayer.RAPID_HEAL);
+				break;
+			case PROTECT_MAGIC:
+			case PROTECT_RANGE:
+			case PROTECT_MELEE:
+				closePrayers(Prayer.PROTECT_MAGIC, Prayer.PROTECT_RANGE, Prayer.PROTECT_MELEE, Prayer.RETRIBUTION, Prayer.REDEMPTION, Prayer.SMITE);
+				break;
+			case PROTECT_SUMMONING:
+				closePrayers(Prayer.PROTECT_SUMMONING, Prayer.RETRIBUTION, Prayer.REDEMPTION, Prayer.SMITE);
+				break;
+			case SMITE:
+			case REDEMPTION:
+			case RETRIBUTION:
+				closePrayers(Prayer.PROTECT_MAGIC, Prayer.PROTECT_RANGE, Prayer.PROTECT_MELEE, Prayer.PROTECT_SUMMONING, Prayer.RETRIBUTION, Prayer.REDEMPTION, Prayer.SMITE);
+				break;
+			case PROTECT_ITEM_C:
+				if (!settingQuickPrayers) {
+					player.setNextAnimation(new Animation(12567));
+					player.setNextSpotAnim(new SpotAnim(2213));
+				}
+				break;
+			case BERSERKER:
+				if (!settingQuickPrayers) {
+					player.setNextAnimation(new Animation(12589));
+					player.setNextSpotAnim(new SpotAnim(2266));
+				}
+				break;
+			case SAP_WARRIOR:
+				if (!settingQuickPrayers) {
+					player.setNextAnimation(new Animation(12569));
+					player.setNextSpotAnim(new SpotAnim(2214));
+					player.soundEffect(8115, true);
+				}
+				closePrayers(Prayer.TURMOIL, Prayer.LEECH_ATTACK, Prayer.LEECH_STRENGTH, Prayer.LEECH_DEFENSE);
+				break;
+			case SAP_MAGE:
+				if (!settingQuickPrayers) {
+					player.setNextAnimation(new Animation(12569));
+					player.setNextSpotAnim(new SpotAnim(2220));
+					player.soundEffect(8115, true);
+				}
+				closePrayers(Prayer.TURMOIL, Prayer.LEECH_MAGIC);
+				break;
+			case SAP_RANGE:
+				if (!settingQuickPrayers) {
+					player.setNextAnimation(new Animation(12569));
+					player.setNextSpotAnim(new SpotAnim(2217));
+					player.soundEffect(8115, true);
+				}
+				closePrayers(Prayer.TURMOIL, Prayer.LEECH_RANGE);
+				break;
+			case SAP_SPIRIT:
+				if (!settingQuickPrayers) {
+				player.setNextAnimation(new Animation(12569));
+				player.setNextSpotAnim(new SpotAnim(2223));
+				player.soundEffect(8115, true);
+				}
+				closePrayers(Prayer.TURMOIL, Prayer.LEECH_SPECIAL, Prayer.LEECH_ENERGY);
 			break;
 		case LEECH_ATTACK:
+			if (!settingQuickPrayers) {
+				player.setNextAnimation(new Animation(12575));
+				player.setNextSpotAnim(new SpotAnim(2232));
+				player.soundEffect(8110, true);
+			}
 			closePrayers(Prayer.TURMOIL, Prayer.SAP_WARRIOR);
 			break;
 		case LEECH_STRENGTH:
+			if (!settingQuickPrayers) {
+				player.setNextAnimation(new Animation(12575));
+				player.setNextSpotAnim(new SpotAnim(2250));
+				player.soundEffect(8110, true);
+			}
 			closePrayers(Prayer.TURMOIL, Prayer.SAP_WARRIOR);
 			break;
 		case LEECH_DEFENSE:
+			if (!settingQuickPrayers) {
+				player.setNextAnimation(new Animation(12575));
+				player.setNextSpotAnim(new SpotAnim(2246));
+				player.soundEffect(8110, true);
+			}
 			closePrayers(Prayer.TURMOIL, Prayer.SAP_WARRIOR);
 			break;
 		case LEECH_RANGE:
+			if (!settingQuickPrayers) {
+				player.setNextAnimation(new Animation(12575));
+				player.setNextSpotAnim(new SpotAnim(2238));
+				player.soundEffect(8110, true);
+			}
 			closePrayers(Prayer.TURMOIL, Prayer.SAP_RANGE);
 			break;
 		case LEECH_MAGIC:
+			if (!settingQuickPrayers) {
+				player.setNextAnimation(new Animation(12575));
+				player.setNextSpotAnim(new SpotAnim(2242));
+				player.soundEffect(8110, true);
+			}
 			closePrayers(Prayer.TURMOIL, Prayer.SAP_MAGE);
 			break;
 		case LEECH_SPECIAL:
+			if (!settingQuickPrayers) {
+				player.setNextAnimation(new Animation(12575));
+				player.setNextSpotAnim(new SpotAnim(2258));
+				player.soundEffect(8110, true);
+			}
+			break;
 		case LEECH_ENERGY:
+			if (!settingQuickPrayers) {
+				player.setNextAnimation(new Animation(12575));
+				player.setNextSpotAnim(new SpotAnim(2254));
+				player.soundEffect(8110, true);
+			}
 			closePrayers(Prayer.TURMOIL, Prayer.SAP_SPIRIT);
 			break;
 		case DEFLECT_MAGIC:
+			if (!settingQuickPrayers) {
+				player.setNextSpotAnim(new SpotAnim(2228));
+				player.setNextAnimation(new Animation(12573));
+			}
+			closePrayers(Prayer.DEFLECT_MAGIC, Prayer.DEFLECT_MELEE, Prayer.DEFLECT_RANGE, Prayer.WRATH, Prayer.SOUL_SPLIT);
+			break;
 		case DEFLECT_RANGE:
+			if (!settingQuickPrayers) {
+				player.setNextSpotAnim(new SpotAnim(2229));
+				player.setNextAnimation(new Animation(12573));
+			}
+			closePrayers(Prayer.DEFLECT_MAGIC, Prayer.DEFLECT_MELEE, Prayer.DEFLECT_RANGE, Prayer.WRATH, Prayer.SOUL_SPLIT);
+			break;
 		case DEFLECT_MELEE:
+			if (!settingQuickPrayers) {
+				player.setNextSpotAnim(new SpotAnim(2230));
+				player.setNextAnimation(new Animation(12573));
+			}
 			closePrayers(Prayer.DEFLECT_MAGIC, Prayer.DEFLECT_RANGE, Prayer.DEFLECT_MELEE, Prayer.WRATH, Prayer.SOUL_SPLIT);
 			break;
 		case DEFLECT_SUMMONING:
+			if (!settingQuickPrayers) {
+				player.setNextSpotAnim(new SpotAnim(2227));
+				player.setNextAnimation(new Animation(12573));
+			}
 			closePrayers(Prayer.DEFLECT_SUMMONING, Prayer.WRATH, Prayer.SOUL_SPLIT);
 			break;
 		case WRATH:
+			if (!settingQuickPrayers) {
+				player.setNextAnimation(new Animation(12575));
+			}
+			break;
 		case SOUL_SPLIT:
+			player.setNextAnimation(new Animation(12575));
+			player.setNextSpotAnim(new SpotAnim(2264));
+			player.soundEffect(8113, true);
 			closePrayers(Prayer.DEFLECT_MAGIC, Prayer.DEFLECT_MELEE, Prayer.DEFLECT_RANGE, Prayer.DEFLECT_SUMMONING, Prayer.WRATH, Prayer.SOUL_SPLIT);
 			break;
 		case TURMOIL:
@@ -387,9 +471,9 @@ public class PrayerManager {
 		if ((player.getTickCounter() % 10) == 0 && active(Prayer.TURMOIL, Prayer.SAP_MAGE, Prayer.SAP_RANGE, Prayer.SAP_SPIRIT, Prayer.SAP_WARRIOR, Prayer.LEECH_ATTACK, Prayer.LEECH_DEFENSE, Prayer.LEECH_STRENGTH, Prayer.LEECH_MAGIC, Prayer.LEECH_RANGE, Prayer.LEECH_SPECIAL, Prayer.LEECH_ENERGY))
 			if (player.getInteractionManager().getInteraction() instanceof PlayerCombatInteraction combat)
 				if (active(Prayer.TURMOIL))
-					processTurmoil(combat.getAction().getTarget());
+					processTurmoil(combat.getAction().target);
 				else
-					processLeeches(combat.getAction().getTarget());
+					processLeeches(combat.getAction().target);
 	}
 
 	private void processTurmoil(Entity target) {
@@ -408,19 +492,23 @@ public class PrayerManager {
 			if (active(sap.getPrayer()) && Utils.random(4) == 0) {
 				sap.activate(player, target);
 				player.setNextAnimation(new Animation(12569));
+				player.soundEffect(target, 8115, true);
 				player.setNextSpotAnim(new SpotAnim(sap.getSpotAnimStart()));
-				World.sendProjectile(player, target, sap.getProjAnim(), 35, 35, 20, 0.6, 0, p -> {
+				World.sendProjectile(player, target, sap.getProjAnim(), new Pair<>(35, 35), 20, 10, 0, 0, p -> {
 					if (target != null)
 						target.setNextSpotAnim(new SpotAnim(sap.getSpotAnimHit()));
+					player.soundEffect(target, 8116, true);
 				});
 			}
 		for (Leech leech : Leech.values())
 			if (active(leech.getPrayer()) && Utils.random(7) == 0) {
 				leech.activate(player, target);
 				player.setNextAnimation(new Animation(12575));
-				World.sendProjectile(player, target, leech.getProjAnim(), 35, 35, 20, 0.6, 0, p -> {
+				player.soundEffect(target, 8109, true);
+				World.sendProjectile(player, target, leech.getProjAnim(), new Pair<>(35, 35), 20, 10, 0, 0, p -> {
 					if (target != null)
 						target.setNextSpotAnim(new SpotAnim(leech.getSpotAnimHit()));
+					player.soundEffect(target, 8110, true);
 				});
 			}
 	}
@@ -749,11 +837,11 @@ public class PrayerManager {
 	}
 
 	public static boolean isOverhead(Prayer p) {
-        return switch (p) {
-            case PROTECT_MAGIC, PROTECT_SUMMONING, PROTECT_RANGE, PROTECT_MELEE, RETRIBUTION, REDEMPTION, SMITE, DEFLECT_MELEE, DEFLECT_SUMMONING, DEFLECT_MAGIC, DEFLECT_RANGE, WRATH, SOUL_SPLIT ->
-                    true;
-            default -> false;
-        };
+		return switch (p) {
+			case PROTECT_MAGIC, PROTECT_SUMMONING, PROTECT_RANGE, PROTECT_MELEE, RETRIBUTION, REDEMPTION, SMITE, DEFLECT_MELEE, DEFLECT_SUMMONING, DEFLECT_MAGIC, DEFLECT_RANGE, WRATH, SOUL_SPLIT ->
+					true;
+			default -> false;
+		};
 	}
 
 	public boolean isProtectingItem() {
@@ -788,5 +876,25 @@ public class PrayerManager {
 
 	public boolean hasPrayersOn() {
 		return !active.isEmpty();
+	}
+
+	public void worshipAltar(double multiplier) {
+		double maxPray = player.getSkills().getLevelForXp(Constants.PRAYER) * 10.0;
+		maxPray = (int) (maxPray * multiplier);
+		if (points < maxPray) {
+			player.lock();
+			player.sendMessage("You pray to the gods...", true);
+			player.anim(645);
+			double finalMaxPray = maxPray;
+			player.getTasks().schedule(2, () -> {
+				player.unlock();
+				restorePrayer(finalMaxPray);
+				player.sendMessage("...and recharged your prayer.", true);
+			});
+		}
+	}
+
+	public void worshipAltar() {
+		worshipAltar(1.0);
 	}
 }

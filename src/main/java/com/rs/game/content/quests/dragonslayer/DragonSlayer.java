@@ -2,6 +2,7 @@ package com.rs.game.content.quests.dragonslayer;
 
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.pathfinder.Direction;
 import com.rs.engine.quest.Quest;
 import com.rs.engine.quest.QuestHandler;
 import com.rs.engine.quest.QuestOutline;
@@ -292,7 +293,7 @@ public class DragonSlayer extends QuestOutline {
                         p.lock();
                     if (tick == 1)
                         p.walkToAndExecute(Tile.of(3050, 9840, 0), () -> {
-                            p.faceEast();
+                            p.faceDir(Direction.EAST);
                             tick++;
                         });
                     if (tick == 2) {
@@ -446,6 +447,10 @@ public class DragonSlayer extends QuestOutline {
                 tick++;
             }
         }, 0, 1);
+    }
+
+    public static boolean hasHeadAlready(Player player) {
+        return player.getInventory().containsItem(ELVARG_HEAD, 1) || player.getBank().containsItem(ELVARG_HEAD);
     }
 
     @Override

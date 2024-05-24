@@ -4,7 +4,7 @@ import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.dialogue.Options;
 import com.rs.engine.quest.Quest;
-import com.rs.game.content.achievements.AchievementSystemDialogue;
+import com.rs.game.content.achievements.AchievementSystemD;
 import com.rs.game.content.achievements.SetReward;
 import com.rs.game.content.quests.knightssword.KnightsSword;
 import com.rs.game.content.quests.knightssword.ReldoKnightsSwordD;
@@ -25,7 +25,7 @@ public class Reldo {
                     if(e.getPlayer().getQuestManager().getStage(Quest.KNIGHTS_SWORD) >= KnightsSword.TALK_TO_RELDO
                             && !e.getPlayer().isQuestComplete(Quest.KNIGHTS_SWORD))
                         option("About Knight's Sword...", new ReldoKnightsSwordD(player).getStart());
-                    option("About the Achievement System...", new AchievementSystemDialogue(player, e.getNPCId(), SetReward.VARROCK_ARMOR).getStart());
+                    option("About the Achievement System...", () -> new AchievementSystemD(player, e.getNPCId(), SetReward.VARROCK_ARMOR));
                 }
             });
             create();

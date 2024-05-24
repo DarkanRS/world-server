@@ -143,7 +143,7 @@ public class WitchsHouse extends QuestOutline {
 				for (NPC npc : World.getNPCsInChunkRange(e.getPlayer().getChunkId(), 1))
 					if (npc.getId() == EXPERIMENT1 || npc.getId() == EXPERIMENT2 || npc.getId() == EXPERIMENT3 || npc.getId() == EXPERIMENT4)
 						return;
-				World.spawnNPC(EXPERIMENT1, Tile.of(2927, 3359, 0), -1, false, true);
+				World.spawnNPC(EXPERIMENT1, Tile.of(2927, 3359, 0), true, true);
 			}
 		} else
 			p.startConversation(new Conversation(e.getPlayer()) {
@@ -155,18 +155,18 @@ public class WitchsHouse extends QuestOutline {
 	});
 
 	public static NPCDeathHandler handleExperiment1 = new NPCDeathHandler(EXPERIMENT1, e -> {
-		NPC n = World.spawnNPC(EXPERIMENT2, Tile.of(2927, 3363, 0), -1, false, true);
-		n.setTarget(e.getKiller());
+		NPC n = World.spawnNPC(EXPERIMENT2, Tile.of(2927, 3363, 0), true, true);
+		n.setCombatTarget(e.getKiller());
 	});
 
 	public static NPCDeathHandler handleExperiment2 = new NPCDeathHandler(EXPERIMENT2, e -> {
-		NPC n = World.spawnNPC(EXPERIMENT3, Tile.of(2927, 3363, 0), -1, false, true);
-		n.setTarget(e.getKiller());
+		NPC n = World.spawnNPC(EXPERIMENT3, Tile.of(2927, 3363, 0), true, true);
+		n.setCombatTarget(e.getKiller());
 	});
 
 	public static NPCDeathHandler handleExperiment3 = new NPCDeathHandler(EXPERIMENT3, e -> {
-		NPC n = World.spawnNPC(EXPERIMENT4, Tile.of(2927, 3363, 0), -1, false, true);
-		n.setTarget(e.getKiller());
+		NPC n = World.spawnNPC(EXPERIMENT4, Tile.of(2927, 3363, 0), true, true);
+		n.setCombatTarget(e.getKiller());
 	});
 
 	public static NPCDeathHandler handleExperiment4 = new NPCDeathHandler(EXPERIMENT4, e-> {
@@ -187,7 +187,7 @@ public class WitchsHouse extends QuestOutline {
 		if(!p.getQuestManager().getAttribs(Quest.WITCHS_HOUSE).getB("KILLED_EXPERIMENT")) {
 			for(NPC npc : World.getNPCsInChunkRange(e.getPlayer().getChunkId(), 1))
 				if(npc.getId() == EXPERIMENT1 || npc.getId() == EXPERIMENT2 || npc.getId() == EXPERIMENT3 || npc.getId() == EXPERIMENT4)
-					npc.setTarget(p);
+					npc.setCombatTarget(p);
 			e.cancelPickup();
 			p.sendMessage("The experiment won't let you pick up the ball");
 		}
@@ -250,7 +250,7 @@ public class WitchsHouse extends QuestOutline {
 				@Override
 				public void run() {
 					if(tick == 0 )
-						mouse = World.spawnNPC(MOUSE, Tile.of(obj.getX()-1, obj.getY(), obj.getPlane()), -1, false, true);
+						mouse = World.spawnNPC(MOUSE, Tile.of(obj.getX()-1, obj.getY(), obj.getPlane()), true, true);
 					if(tick == 30) {
 						if(!mouse.hasFinished())
 							mouse.finish();

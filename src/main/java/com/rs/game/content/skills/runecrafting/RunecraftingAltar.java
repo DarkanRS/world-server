@@ -22,16 +22,15 @@ import com.rs.game.World;
 import com.rs.game.content.miniquests.abyss.EnterTheAbyss;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.world.areas.wilderness.WildernessController;
-import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTasks;
-import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.*;
+import kotlin.Pair;
+
 import static com.rs.game.content.skills.runecrafting.Runecrafting.RCRune;
 
 import java.util.ArrayList;
@@ -127,7 +126,7 @@ public class RunecraftingAltar {
 	public static void refreshHood(Player player) {
 		player.getPackets().setIFText(WICKED_HOOD_INTER, 139, "" + player.getDailySubI("wickedEss", 100));
 		player.getPackets().setIFText(WICKED_HOOD_INTER, 134, "" + player.getDailySubI("wickedTeles", 2));
-		player.getPackets().setIFText(WICKED_HOOD_INTER, 143, "" + player.getDailySubI("wickedRunes", player.getUsedOmniTalisman() ? 2 : 1));
+		player.getPackets().setIFText(WICKED_HOOD_INTER, 143, "" + player.getDailySubI("wickedRunes", player.getUsedElementalTalisman() ? 2 : 1));
 		for (WickedHoodRune rune : WickedHoodRune.values())
 			if (player.hasWickedHoodTalisman(rune) || player.hasWickedHoodTalisman(rune))
 				player.getPackets().setIFGraphic(WICKED_HOOD_INTER, rune.getSpriteComp(), rune.getSpriteId());
@@ -148,7 +147,7 @@ public class RunecraftingAltar {
 				amountToTake = e.getPlayer().getDailySubI("wickedEss", 100);
 			if (amountToTake > 0 && e.getPlayer().getInventory().hasFreeSlots()) {
 				e.getPlayer().setDailyI("wickedEss", e.getPlayer().getDailyI("wickedEss") + amountToTake);
-				if (e.getPlayer().getUsedElementalTalisman())
+				if (e.getPlayer().getUsedOmniTalisman())
 					e.getPlayer().getInventory().addItem(7936, amountToTake);
 				else
 					e.getPlayer().getInventory().addItem(1436, amountToTake);
@@ -169,7 +168,7 @@ public class RunecraftingAltar {
 						return;
 					}
 					if (e.getPlayer().hasWickedHoodTalisman(selection)) {
-						if (e.getPlayer().getDailySubI("wickedRunes", e.getPlayer().getUsedOmniTalisman() ? 2 : 1) > 0 && e.getPlayer().getInventory().hasFreeSlots()) {
+						if (e.getPlayer().getDailySubI("wickedRunes", e.getPlayer().getUsedElementalTalisman() ? 2 : 1) > 0 && e.getPlayer().getInventory().hasFreeSlots()) {
 							e.getPlayer().incDailyI("wickedRunes");
 							e.getPlayer().getInventory().addItem(selection.getRuneId(), selection.ordinal() > 5 ? 5 : 100);
 							refreshHood(e.getPlayer());
@@ -469,16 +468,16 @@ public class RunecraftingAltar {
 	});
 
 	public static void handleEssTele(Player player, NPC npc) {
-		npc.setNextForceTalk(new ForceTalk("Senventior Disthine Molenko!"));
+		npc.forceTalk("Senventior Disthine Molenko!");
 		npc.resetWalkSteps();
-		npc.faceEntity(player);
-		npc.setNextAnimation(new Animation(722));
-		npc.setNextSpotAnim(new SpotAnim(108, 0, 96));
+		npc.faceEntityTile(player);
+		npc.anim(722);
+		npc.spotAnim(108, 0, 96);
 		player.lock();
 		WorldTasks.scheduleTimer(0, 0, tick -> {
 			switch(tick) {
-				case 0 -> World.sendProjectile(npc, player, 109, 5, 5, 5, 0.6, 5, 0);
-				case 1 -> player.setNextSpotAnim(new SpotAnim(110, 35, 96));
+				case 0 -> World.sendProjectile(npc, player, 109, new Pair<>(5, 5), 5, 5, 5);
+				case 1 -> player.spotAnim(110, 35, 96);
 				case 3 -> {
 					if (player.getMiniquestStage(Miniquest.ENTER_THE_ABYSS) == EnterTheAbyss.SCRYING_ORB) {
 						if (player.getInventory().containsItem(5519, 1)) {
@@ -490,7 +489,8 @@ public class RunecraftingAltar {
 								if (!visited.contains((double) npc.getId()))
 									visited.add((double) npc.getId());
 								item.setMetaDataO("visited", visited);
-								player.sendMessage("The orb in your inventory glows as it absorbs the teleport information. It contains " + visited.size() + " locations.");
+								player.sendMessage("The orb in your inventory glows as it absorbs the teleport information. It contains " + visited.size() + " " + (visited.size() == 1 ? "location" : "locations") + ".");
+
 								if (visited.size() >= 3) {
 									item.setId(5518);
 									item.deleteMetaData();

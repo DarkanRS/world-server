@@ -21,7 +21,7 @@ import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.dialogue.Options;
 import com.rs.engine.quest.Quest;
-import com.rs.game.content.achievements.AchievementSystemDialogue;
+import com.rs.game.content.achievements.AchievementSystemD;
 import com.rs.game.content.achievements.SetReward;
 import com.rs.game.content.quests.holygrail.HolyGrail;
 import com.rs.game.content.quests.holygrail.dialogue.KingArthurHolyGrailD;
@@ -51,10 +51,6 @@ import static com.rs.game.content.world.doors.Doors.handleDoor;
 @PluginEventHandler
 public class SeersVillage {
 
-	public static NPCClickHandler handleStankers = new NPCClickHandler(new Object[] { 383 }, e -> e.getPlayer().startConversation(new Dialogue()
-            .addNPC(e.getNPCId(), HeadE.CHEERFUL, "Hello, what can I do for you?")
-            .addOptions("What would you like to say?", ops -> ops.add("About the Achievement System...", new AchievementSystemDialogue(e.getPlayer(), e.getNPCId(), SetReward.SEERS_HEADBAND).getStart()))));
-	
 	public static ObjectClickHandler beehives = new ObjectClickHandler(new Object[] { 68 }, e -> {
 		if (e.getPlayer().getInventory().containsItem(28)) {
 			if (e.getPlayer().getInventory().containsItem(1925)) {
@@ -97,7 +93,7 @@ public class SeersVillage {
                 public void create() {
                     if (e.getPlayer().getQuestManager().getStage(Quest.SCORPION_CATCHER) == ScorpionCatcher.LOOK_FOR_SCORPIONS)
                         option("About Scorpion Catcher", new SeerScorpionCatcherD(e.getPlayer()).getStart());
-                    option("About the Achievement System...", new AchievementSystemDialogue(player, e.getNPCId(), SetReward.SEERS_HEADBAND).getStart());
+                    option("About the Achievement System...", () -> new AchievementSystemD(player, e.getNPCId(), SetReward.SEERS_HEADBAND));
                 }
             });
         }
@@ -137,7 +133,7 @@ public class SeersVillage {
             addOptions("What would you like to say?", new Options() {
                 @Override
                 public void create() {
-                    option("About the Achievement System...", new AchievementSystemDialogue(player, e.getNPCId(), SetReward.SEERS_HEADBAND).getStart());
+                    option("About the Achievement System...", () -> new AchievementSystemD(player, e.getNPCId(), SetReward.SEERS_HEADBAND));
                     if(e.getPlayer().getQuestManager().getStage(Quest.HOLY_GRAIL) > HolyGrail.NOT_STARTED)
                         option("About Holy Grail", new Dialogue()
                                 .addNext(()-> e.getPlayer().startConversation(new SirKayHolyGrailD(e.getPlayer()).getStart())));

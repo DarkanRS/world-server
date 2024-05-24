@@ -27,7 +27,7 @@ import com.rs.engine.quest.Quest;
 import com.rs.game.World;
 import com.rs.game.content.ItemConstants;
 import com.rs.game.content.combat.CombatDefinitions.Spellbook;
-import com.rs.game.content.combat.PlayerCombat;
+import com.rs.game.content.combat.PlayerCombatKt;
 import com.rs.game.content.items.Spade;
 import com.rs.game.content.minigames.creations.StealingCreationLobbyController;
 import com.rs.game.content.minigames.domtower.DTPreview;
@@ -38,8 +38,8 @@ import com.rs.game.content.minigames.fightpits.FightPits;
 import com.rs.game.content.minigames.partyroom.PartyRoom;
 import com.rs.game.content.minigames.pest.Lander;
 import com.rs.game.content.minigames.pest.PestControlLobbyController;
-import com.rs.game.content.minigames.wguild.WarriorsGuild;
 import com.rs.game.content.pets.Incubator;
+import com.rs.game.content.quests.plaguecity.utils.PlagueCityUtils;
 import com.rs.game.content.skills.agility.Agility;
 import com.rs.game.content.skills.agility.WildernessAgility;
 import com.rs.game.content.skills.agility.agilitypyramid.AgilityPyramidController;
@@ -59,7 +59,7 @@ import com.rs.game.content.world.unorganized_dialogue.StrongholdRewardD;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
-import com.rs.game.model.entity.pathing.RouteEvent;
+import com.rs.engine.pathfinder.RouteEvent;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.EmotesManager.Emote;
 import com.rs.game.model.object.GameObject;
@@ -93,7 +93,6 @@ public final class ObjectHandler {
 		player.setRouteEvent(new RouteEvent(object, () -> {
 			player.stopAll();
 			player.faceObject(object);
-
 			if (!player.getControllerManager().processObjectClick1(object) || player.getTreasureTrailsManager().useObject(object))
 				return;
 
@@ -209,13 +208,6 @@ public final class ObjectHandler {
 						player.tele(Tile.of(2900, 4449, 0));
 					}
 				}, 1);
-            } else if (id == 15653) {
-				if (World.isSpawnedObject(object) || !WarriorsGuild.canEnter(player))
-					return;
-				player.lock(2);
-				GameObject opened = new GameObject(object.getId(), object.getType(), object.getRotation() - 1, object.getX(), object.getY(), object.getPlane());
-				World.spawnObjectTemporary(opened, 1);
-				player.addWalkSteps(2876, 3542, 2, false);
 			} else if (id == 14315) {
 				if (Lander.canEnter(player, 0)) {
                 }
@@ -236,22 +228,9 @@ public final class ObjectHandler {
 						player.useStairs(3303, Tile.of((isTravelingWest ? -2 : 2) + player.getX(), player.getY(), 0), 2, 3, null, true);
 					}
 				});
-			} else if (id == 65371) { // Chaos altar (armored zombie)
-				final int maxPrayer1 = player.getSkills().getLevelForXp(Constants.PRAYER) * 10;
-				if (player.getPrayer().getPoints() < maxPrayer1) {
-					player.lock(5);
-					player.sendMessage("You pray to the gods...", true);
-					player.setNextAnimation(new Animation(645));
-					WorldTasks.schedule(new Task() {
-						@Override
-						public void run() {
-							player.getPrayer().restorePrayer(maxPrayer1);
-							player.sendMessage("...and recharged your prayer.", true);
-						}
-					}, 2);
-				} else
-					player.sendMessage("You already have full prayer.");
-            } else if (id == 65715) // Armored zombie trapdoor
+			} else if (id == 65371) // Chaos altar (armored zombie)
+				player.getPrayer().worshipAltar();
+            else if (id == 65715) // Armored zombie trapdoor
 				player.tele(Tile.of(3241, 9991, 0));
 			else if (id == 12328) // Jadinko lair
 				player.tele(Tile.of(3011, 9276, 0));
@@ -699,10 +678,8 @@ public final class ObjectHandler {
 				player.useStairs(-1, Tile.of(2402, 3419, 0), 0, 1);
 			else if (id == 17209)
 				player.useStairs(-1, Tile.of(2408, 9812, 0), 0, 1);
-			else if (id == 1754 && x == 2594 && y == 3085)
-				player.useStairs(827, Tile.of(2594, 9486, 0));
-			else if (id == 1757 && x == 2594 && y == 9485)
-				player.useStairs(828, Tile.of(2594, 3086, 0));
+			else if (id == 1754)
+				player.useLadder(player.transform(0, 6400));
 			else if (id == 2811 || id == 2812) {
 				player.useStairs(id == 2812 ? 827 : -1, id == 2812 ? Tile.of(2501, 2989, 0) : Tile.of(2574, 3029, 0));
 				WorldTasks.schedule(() -> player.playerDialogue(HeadE.AMAZED, "Wow! That tunnel went a long way."));
@@ -965,37 +942,14 @@ public final class ObjectHandler {
 				player.useStairs(-1, Tile.of(1850, 4385, 1), 0, 1);
 			else if (id == 10224 && x == 1850 && y == 4385)
 				player.useStairs(-1, Tile.of(1850, 4387, 2), 0, 1);
-				// White Wolf Mountain cut
-			else if (id == 56 && x == 2876 && y == 9880)
-				player.useStairs(-1, Tile.of(2879, 3465, 0), 0, 1);
-			else if (id == 66990 && x == 2876 && y == 3462)
-				player.useStairs(-1, Tile.of(2875, 9880, 0), 0, 1);
-			else if (id == 54 && x == 2820 && y == 9883)
-				player.useStairs(-1, Tile.of(2820, 3486, 0), 0, 1);
-			else if (id == 55 && x == 2820 && y == 3484)
-				player.useStairs(-1, Tile.of(2821, 9882, 0), 0, 1);
-				// sabbot lair
+			// sabbot lair
 			else if (id == 19690)
 				player.useStairs(-1, player.transform(0, 4, 1), 0, 1);
 			else if (id == 19691)
 				player.useStairs(-1, player.transform(0, -4, -1), 0, 1);
-			else if (id == 61336) {
-				final int maxPrayer2 = player.getSkills().getLevelForXp(Constants.PRAYER) * 10;
-				if (player.getPrayer().getPoints() < maxPrayer2) {
-					player.lock(5);
-					player.sendMessage("You pray to the gods...", true);
-					player.setNextAnimation(new Animation(645));
-					WorldTasks.schedule(new Task() {
-						@Override
-						public void run() {
-							player.getPrayer().restorePrayer(maxPrayer2);
-							player.sendMessage("...and recharged your prayer.", true);
-						}
-					}, 2);
-				} else
-					player.sendMessage("You already have full prayer.");
-
-			} else if (id == 2878 || id == 2879) {
+			else if (id == 61336)
+				player.getPrayer().worshipAltar();
+			else if (id == 2878 || id == 2879) {
 				player.simpleDialogue("You step into the pool of sparkling water. You feel the energy rush through your veins.");
 				player.forceMove(id == 2879 ? Tile.of(2509, 4687, 0) : Tile.of(2542, 4720, 0), 13842, 0, 60, () -> {
 					player.setNextAnimation(new Animation(-1));
@@ -1019,15 +973,6 @@ public final class ObjectHandler {
 					return;
 				}
 				Doors.handleDoubleDoor(player, object);
-			} else if (id == 9738 || id == 9330) {
-				boolean rightDoor = object.getId() == 9330;
-				GameObject o = new GameObject(object);
-				o.setRotation(rightDoor ? -1 : 1);
-				World.spawnObjectTemporary(o, 2);
-				GameObject o2 = new GameObject(rightDoor ? 9738 : 9330, object.getType(), object.getRotation(), 2558, rightDoor ? 3299 : 3300, object.getPlane());
-				o2.setRotation(rightDoor ? 1 : 3);
-				World.spawnObjectTemporary(o2, 2);
-				player.addWalkSteps(player.getX() + (player.getX() >= 2559 ? -3 : 3), y, -1, false);
 			} else if (id == 70794)
 				player.useStairs(-1, Tile.of(1340, 6488, 0));
 			else if (id == 70795) {
@@ -1240,7 +1185,7 @@ public final class ObjectHandler {
 						break;
 					case "web":
 						if (objectDef.containsOption(0, "Slash")) {
-							player.setNextAnimation(new Animation(PlayerCombat.getWeaponAttackEmote(player.getEquipment().getWeaponId(), player.getCombatDefinitions().getAttackStyle())));
+							player.setNextAnimation(new Animation(PlayerCombatKt.getWeaponAttackEmote(player.getEquipment().getWeaponId(), player.getCombatDefinitions().getAttackStyle())));
 							slashWeb(player, object);
 						}
 						break;
@@ -1266,20 +1211,7 @@ public final class ObjectHandler {
 					case "chaos altar":
 					case "altar of guthix":
 						if (objectDef.containsOption(0, "Pray") || objectDef.containsOption(0, "Pray-at") || objectDef.containsOption(0, "Recharge")) {
-							final int maxPrayer3 = player.getSkills().getLevelForXp(Constants.PRAYER) * 10;
-							if (player.getPrayer().getPoints() < maxPrayer3) {
-								player.lock(5);
-								player.sendMessage("You pray to the gods...", true);
-								player.setNextAnimation(new Animation(645));
-								WorldTasks.schedule(new Task() {
-									@Override
-									public void run() {
-										player.getPrayer().restorePrayer(maxPrayer3);
-										player.sendMessage("...and recharged your prayer.", true);
-									}
-								}, 2);
-							} else
-								player.sendMessage("You already have full prayer.");
+							player.getPrayer().worshipAltar();
 							if (id == 6552) {
 								player.startConversation(new Dialogue().addOptions("Change spellbooks?", ops -> {
 									ops.add("Yes, replace my spellbook.", () -> {
@@ -1577,7 +1509,7 @@ public final class ObjectHandler {
 			else if (object.getId() == 28352 || object.getId() == 28550)
 				Incubator.useEgg(player, itemId);
 			else if (object.getId() == 733 || object.getId() == 64729) {
-				player.setNextAnimation(new Animation(PlayerCombat.getWeaponAttackEmote(player.getEquipment().getWeaponId(), player.getCombatDefinitions().getAttackStyle())));
+				player.setNextAnimation(new Animation(PlayerCombatKt.getWeaponAttackEmote(player.getEquipment().getWeaponId(), player.getCombatDefinitions().getAttackStyle())));
 				slashWeb(player, object);
 			} else if (object.getId() == 48803 && itemId == 954) {
 				if (player.isKalphiteLairSetted())

@@ -19,7 +19,6 @@ package com.rs.game.content.skills.runecrafting;
 import com.rs.game.World;
 import com.rs.game.content.skills.mining.Pickaxe;
 import com.rs.game.content.skills.woodcutting.Hatchet;
-import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.Teleport;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
@@ -28,7 +27,6 @@ import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -259,9 +257,12 @@ public class Abyss {
 
 	public static void teleport(final Player player, NPC npc) {
 		player.lock(2);
-		npc.setNextForceTalk(new ForceTalk("Veniens! Sallkar! Rinnesset!"));
-		npc.setNextSpotAnim(new SpotAnim(343));
-		player.setNextSpotAnim(new SpotAnim(342));
+		npc.resetWalkSteps();
+		npc.faceEntityTile(player);
+		npc.forceTalk("Veniens! Sallkar! Rinnesset!");
+		npc.anim(722);
+		npc.spotAnim(343);
+		player.spotAnim(342);
 		WorldTasks.schedule(2, () -> {
 			int index = Utils.random(ABYSS_TELEPORT_OUTER.length);
 			player.useStairs(-1, Tile.of(ABYSS_TELEPORT_OUTER[index][0], ABYSS_TELEPORT_OUTER[index][1], 0), 0, 1);

@@ -27,7 +27,6 @@ import com.rs.lib.Constants;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
@@ -105,8 +104,8 @@ public class WaterfallQuest extends QuestOutline {
 		if (e.getOpNum() == 1) {				
 			e.getNPC().resetWalkSteps();
 			e.getPlayer().resetWalkSteps();
-			e.getPlayer().faceEntity(e.getNPC());
-			e.getNPC().faceEntity(e.getPlayer());
+			e.getPlayer().faceEntityTile(e.getNPC());
+			e.getNPC().faceEntityTile(e.getPlayer());
 			e.getPlayer().startConversation(new HudonD(e.getPlayer(), e.getNPC().getId()));
 		}
 	});
@@ -123,8 +122,11 @@ public class WaterfallQuest extends QuestOutline {
 			e.getPlayer().sendMessage("You find an old key.");
 		}
 	});
+
+	public static ObjectClickHandler ladderGlarialsTomb = new ObjectClickHandler(new Object[] { 1757 }, e ->
+			e.getPlayer().useLadder(e.getPlayer().transform(0, -6400)));
 	
-	public static ObjectClickHandler onObjectClick = new ObjectClickHandler(new Object[] { 1987, 1990, 5251, 5250, 10283, 2020, 33047, 33066, 2022, 2014, 37247, 31139, 2002, 1991, 1989 }, e -> {
+	public static ObjectClickHandler handleObjects = new ObjectClickHandler(new Object[] { 1987, 1990, 5251, 5250, 10283, 2020, 33047, 33066, 2022, 2014, 37247, 31139, 2002, 1991, 1989 }, e -> {
 		if (e.getObjectId() == 1987) {
 			e.getPlayer().sendMessage("You board the log raft and crash on a small spit of land.");
 			e.getPlayer().tele(Tile.of(2512, 3481, 0));

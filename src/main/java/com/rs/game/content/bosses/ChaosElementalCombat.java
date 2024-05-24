@@ -22,7 +22,7 @@ import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
-import com.rs.game.model.entity.pathing.Direction;
+import com.rs.engine.pathfinder.Direction;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.Task;
@@ -30,6 +30,7 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
+import kotlin.Pair;
 
 public class ChaosElementalCombat extends CombatScript {
 
@@ -43,21 +44,21 @@ public class ChaosElementalCombat extends CombatScript {
 		int atk = Utils.random(100);
 		npc.setNextAnimation(new Animation(npc.getCombatDefinitions().getAttackEmote()));
 		if (atk <= 10) {
-			World.sendProjectile(npc, target, 2966, 30, 30, 45, 30, 15, 0);
+			World.sendProjectile(npc, target, 2966, new Pair<>(30, 30), 45, 10, 15);
 			WorldTasks.schedule(new Task() {
 				@Override
 				public void run() {
 					for (int i = 0;i < 6;i++) {
 						Direction dir = Direction.random();
-						if (World.floorFree(target.getPlane(), target.getX() + dir.getDx()*i, target.getY() + dir.getDy()*i, target.getSize())) {
-							target.tele(Tile.of(target.getX() + dir.getDx()*i, target.getY() + dir.getDy()*i, target.getPlane()));
+						if (World.floorFree(target.getPlane(), target.getX() + dir.dx *i, target.getY() + dir.dy *i, target.getSize())) {
+							target.tele(Tile.of(target.getX() + dir.dx *i, target.getY() + dir.dy *i, target.getPlane()));
 							break;
 						}
 					}
 				}
 			}, Utils.getDistanceI(npc.getTile(), target.getTile())/3);
 		} else if (atk <= 18) {
-			World.sendProjectile(npc, target, 310, 30, 30, 45, 30, 15, 0);
+			World.sendProjectile(npc, target, 310, new Pair<>(30, 30), 45, 10, 15);
 			if (target instanceof Player player)
 				WorldTasks.schedule(new Task() {
 					@Override
@@ -94,7 +95,7 @@ public class ChaosElementalCombat extends CombatScript {
 				damage = getMaxHit(npc, 300, AttackStyle.MELEE, target);
 				hit = getMeleeHit(npc, damage);
 			}
-			World.sendProjectile(npc, target, 1279, 30, 30, 45, 30, 15, 0);
+			World.sendProjectile(npc, target, 1279, new Pair<>(30, 30), 45, 10, 15);
 			delayHit(npc, Utils.getDistanceI(npc.getTile(), target.getTile())/3, target, hit);
 		}
 		return 4;

@@ -1,5 +1,6 @@
 package com.rs.game.content.world.areas.stronghold_of_safety;
 
+import com.rs.engine.pathfinder.Direction;
 import com.rs.game.World;
 import com.rs.game.model.entity.player.managers.EmotesManager;
 import com.rs.lib.game.Item;
@@ -25,7 +26,7 @@ public class StrongholdOfSafety {
             e.getPlayer().sendMessage("This door is locked, maybe there is a way to unlock it?");
         else
         e.getPlayer().useStairs(Tile.of(3177, 4266, 0));
-        e.getPlayer().faceEast();
+        e.getPlayer().faceDir(Direction.EAST);
     });
 
     public static ObjectClickHandler handleSecureZoneDoorWest = new ObjectClickHandler(new Object[] { 29624 }, Tile.of(3141, 4272, 1), e -> {
@@ -33,7 +34,7 @@ public class StrongholdOfSafety {
             e.getPlayer().sendMessage("This door is locked, maybe there is a way to unlock it?");
         else{
         e.getPlayer().useStairs(Tile.of(3143, 4270, 0));
-        e.getPlayer().faceWest();
+        e.getPlayer().faceDir(Direction.WEST);
         }
     });
 

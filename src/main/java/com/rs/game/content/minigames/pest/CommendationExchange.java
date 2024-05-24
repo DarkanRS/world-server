@@ -59,7 +59,7 @@ public class CommendationExchange {
 	});
 
 	public static ItemOnNPCHandler handleEliteUpgrade = new ItemOnNPCHandler(new Object[] { 11681 }, e -> {
-		if (e.getItem().getId() == 10611 || e.getItem().getId() == 8840) {
+		if (e.getItem().getId() == 10611 || e.getItem().getId() == 8840 || e.getItem().getId() == 8839) {
 			if (!e.getPlayer().isQuestComplete(Quest.VOID_STARES_BACK, "to upgrade void knight armor"))
 				return;
 			if (e.getPlayer().getPestPoints() < 100) {
@@ -70,7 +70,8 @@ public class CommendationExchange {
 				ops.add("Yes, upgrade my armor.", () -> {
 					if (e.getPlayer().getPestPoints() >= 100) {
 						e.getPlayer().setPestPoints(e.getPlayer().getPestPoints()-100);
-						e.getItem().setId(e.getItem().getId() == 10611 ? 19785 : 19786);
+						e.getItem().setId(e.getItem().getId() == 8840 ? 19786 : 19785);
+						e.getPlayer().getInventory().refresh(e.getItem().getSlot());
 					}
 				});
 				ops.add("Nevermind.");

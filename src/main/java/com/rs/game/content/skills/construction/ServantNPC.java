@@ -169,7 +169,7 @@ public class ServantNPC extends NPC {
 			owner.npcDialogue(getId(), servant == Servant.DEMON_BUTLER ? HeadE.CAT_CALM_TALK2 : HeadE.CALM_TALK, "I'm sorry. I can only hold " + inventorySize + " items during a trip.");
 			return;
 		}
-		setNextNPCTransformation(1957);
+		transformIntoNPC(1957);
 
 		if (type == RequestType.SAWMILL || type == RequestType.UNNOTE) {
 			int amountOwned = owner.getInventory().getAmountOf(item);
@@ -209,7 +209,7 @@ public class ServantNPC extends NPC {
 		WorldTasks.schedule(new Task() {
 			@Override
 			public void run() {
-				setNextNPCTransformation(servant.getId());
+				transformIntoNPC(servant.getId());
 				setCantInteract(false);
 				if (!owner.isRunning() || !house.isLoaded() || !house.getPlayers().contains(owner)) {
 					if (type == RequestType.SAWMILL || type == RequestType.UNNOTE)

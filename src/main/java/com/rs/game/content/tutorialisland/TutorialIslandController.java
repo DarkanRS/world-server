@@ -1185,13 +1185,13 @@ public final class TutorialIslandController extends Controller {
 				nextStage(Stage.BURN_SHRIMP);
 		} else if (itemId == Cooking.Cookables.RAW_SHRIMP.getBurntItem().getId()) {
 			if (getStage() == Stage.COOK_SHRIMP) {
-				player.getInventory().addItem(Cooking.Cookables.RAW_SHRIMP.getProductItem());
+				player.getInventory().addItem(new Item(Cooking.Cookables.RAW_SHRIMP.getProductItem()[0]));
 				return false;
 			}
 			nextStage(Stage.COOK_SHRIMP);
 		} else if (itemId == 2309 && getStage() == Stage.COOK_DOUGH)
 			nextStage(Stage.OPEN_MUSIC);
-		else if (itemId == Cooking.Cookables.RAW_SHRIMP.getProductItem().getId()) {
+		else if (itemId == new Item(Cooking.Cookables.RAW_SHRIMP.getProductItem()[0]).getId()) {
 			if (getStage() == Stage.BURN_SHRIMP) {
 				player.getInventory().addItem(Cooking.Cookables.RAW_SHRIMP.getBurntItem());
 				return false;

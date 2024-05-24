@@ -21,20 +21,25 @@ import com.rs.Settings;
 import com.rs.cache.ArchiveType;
 import com.rs.cache.Cache;
 import com.rs.cache.IndexType;
-import com.rs.cache.loaders.*;
+import com.rs.cache.loaders.ItemDefinitions;
+import com.rs.cache.loaders.NPCDefinitions;
+import com.rs.cache.loaders.ObjectDefinitions;
+import com.rs.cache.loaders.ObjectType;
 import com.rs.cache.loaders.map.ClipFlag;
 import com.rs.engine.command.Commands;
 import com.rs.engine.cutscene.ExampleCutscene;
 import com.rs.engine.miniquest.Miniquest;
+import com.rs.engine.pathfinder.*;
 import com.rs.engine.quest.Quest;
 import com.rs.game.World;
 import com.rs.game.content.achievements.Achievement;
 import com.rs.game.content.bosses.qbd.QueenBlackDragonController;
 import com.rs.game.content.combat.CombatDefinitions.Spellbook;
-import com.rs.game.content.combat.PlayerCombat;
+import com.rs.game.content.combat.PlayerCombatKt;
 import com.rs.game.content.dnds.eviltree.EvilTreesKt;
 import com.rs.game.content.dnds.shootingstar.ShootingStars;
 import com.rs.game.content.minigames.barrows.BarrowsController;
+import com.rs.game.content.minigames.treasuretrails.TreasureTrailsManager;
 import com.rs.game.content.pets.Pet;
 import com.rs.game.content.randomevents.RandomEvents;
 import com.rs.game.content.skills.runecrafting.runespan.RunespanController;
@@ -51,7 +56,6 @@ import com.rs.game.model.entity.ModelRotator;
 import com.rs.game.model.entity.Rotation;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
-import com.rs.game.model.entity.pathing.*;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.InstancedController;
 import com.rs.game.model.entity.player.Player;
@@ -86,6 +90,7 @@ import com.rs.utils.shop.ShopsHandler;
 import com.rs.utils.spawns.ItemSpawns;
 import com.rs.utils.spawns.NPCSpawn;
 import com.rs.utils.spawns.NPCSpawns;
+import kotlin.Pair;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -120,6 +125,28 @@ public class MiscTest {
 			} catch(Throwable e) {
 				p.sendMessage("Error compiling plugins.");
 			}
+		});
+
+		Commands.add(Rights.ADMIN, "testcoordclue [deg1, min1, dir1, deg2, min2, dir2]", "teleports you to the coordinates for clues", (p, args) -> {
+			int deg1 = Integer.parseInt(args[0]);
+			int min1 = Integer.parseInt(args[1]);
+			int dir1 = switch(args[2].toLowerCase()) {
+				case "north" -> 0;
+				case "south" -> 1;
+				case "west" -> 2;
+				case "east" -> 3;
+				default -> throw new IllegalArgumentException("Must be a direction as a string.");
+			};
+			int deg2 = Integer.parseInt(args[3]);
+			int min2 = Integer.parseInt(args[4]);
+			int dir2 = switch(args[5].toLowerCase()) {
+				case "north" -> 0;
+				case "south" -> 1;
+				case "west" -> 2;
+				case "east" -> 3;
+				default -> throw new IllegalArgumentException("Must be a direction as a string.");
+			};
+			p.tele(TreasureTrailsManager.getTile(deg1, min1, dir1, deg2, min2, dir2));
 		});
 
 		Commands.add(Rights.ADMIN, "shootingstar", "spawn a shooting star", (p, args) -> ShootingStars.spawnStar());
@@ -175,7 +202,7 @@ public class MiscTest {
 			}
 		});
 
-		Commands.add(Rights.DEVELOPER, "spawnmax", "Spawns another max into the world on top of the player.", (p, args) -> World.spawnNPC(3373, Tile.of(p.getTile()), -1, true, true, true));
+		Commands.add(Rights.DEVELOPER, "spawnmax", "Spawns another max into the world on top of the player.", (p, args) -> World.spawnNPC(3373, Tile.of(p.getTile()), true, true));
 
 		Commands.add(Rights.DEVELOPER, "playcs", "Plays a cutscene using new cutscene system", (p, args) -> p.getCutsceneManager().play(new ExampleCutscene()));
 
@@ -338,12 +365,12 @@ public class MiscTest {
 
 		Commands.add(Rights.DEVELOPER, "proj [id]", "Sends a projectile over the player.", (p, args) -> {
 			p.getTempAttribs().setI("tempProjCheck", Integer.parseInt(args[0]));
-			World.sendProjectile(Tile.of(p.getX() + 5, p.getY(), p.getPlane()), Tile.of(p.getX() - 5, p.getY(), p.getPlane()), Integer.parseInt(args[0]), 40, 40, 0, 0.2, 0, 0);
+			World.sendProjectile(Tile.of(p.getX() + 5, p.getY(), p.getPlane()), Tile.of(p.getX() - 5, p.getY(), p.getPlane()), Integer.parseInt(args[0]), new Pair<>(40, 40), 0, 30, 0);
 		});
 
 		Commands.add(Rights.DEVELOPER, "projrot [id next/prev]", "Sends a projectile over the player.", (p, args) -> {
 			int projId = p.getTempAttribs().getI("tempProjCheck", 0);
-			World.sendProjectile(Tile.of(p.getX() + 5, p.getY(), p.getPlane()), Tile.of(p.getX() - 5, p.getY(), p.getPlane()), projId, 0, 0, 0, 0.2, 0, 0);
+			World.sendProjectile(Tile.of(p.getX() + 5, p.getY(), p.getPlane()), Tile.of(p.getX() - 5, p.getY(), p.getPlane()), projId, new Pair<>(40, 40), 0, 30, 0);
 			p.getPackets().sendDevConsoleMessage("Projectile: " + projId);
 			if (args[0].equals("next"))
 				p.getTempAttribs().setI("tempProjCheck", Utils.clampI(projId+1, 0, 5000));
@@ -407,7 +434,7 @@ public class MiscTest {
 			if (dir == null)
 				return;
 			NPC npc = World.spawnNPC(1, player.getTile(), true, false, null);
-			npc.addWalkSteps(player.getTile().getX() + (dir.getDx() * 20), player.getTile().getY() + (dir.getDy() * 20));
+			npc.addWalkSteps(player.getTile().getX() + (dir.dx * 20), player.getTile().getY() + (dir.dy * 20));
 		});
 
 		Commands.add(Rights.DEVELOPER, "headicon", "Set custom headicon.", (player, args) -> {
@@ -430,7 +457,7 @@ public class MiscTest {
 		});
 
 		Commands.add(Rights.DEVELOPER, "spawntestnpc", "Spawns a combat test NPC.", (p, args) -> {
-			NPC n = World.spawnNPC(14256, Tile.of(p.getTile()), -1, true, true);
+			NPC n = World.spawnNPC(14256, Tile.of(p.getTile()), true, true);
 			n.setLoadsUpdateZones();
 			n.setPermName("Losercien (punching bag)");
 			n.setHitpoints(Integer.MAX_VALUE / 2);
@@ -569,7 +596,7 @@ public class MiscTest {
 
 		Commands.add(Rights.ADMIN, "update,restart [ticks]", "Restarts the server after specified number of ticks.", (p, args) -> World.safeShutdown(Integer.parseInt(args[0])));
 
-		Commands.add(Rights.DEVELOPER, "npc [npcId]", "Spawns an NPC with specified ID.", (p, args) -> World.spawnNPC(Integer.parseInt(args[0]), Tile.of(p.getTile()), -1, true, true, false));
+		Commands.add(Rights.DEVELOPER, "npc [npcId]", "Spawns an NPC with specified ID.", (p, args) -> World.spawnNPC(Integer.parseInt(args[0]), Tile.of(p.getTile()), true, false));
 
 		Commands.add(Rights.DEVELOPER, "addnpc [npcId]", "Spawns an NPC permanently with specified ID.", (p, args) -> {
 			if (!Settings.getConfig().isDebug())
@@ -675,8 +702,8 @@ public class MiscTest {
 			if (ChunkManager.getChunk(p.getChunkId()) instanceof InstancedChunk c)
 				p.sendMessage(c.getOriginalBaseX() + ", " + c.getOriginalBaseY() + " - " + c.getRotation());
 
-//			p.setForceNextMapLoadRefresh(true);
-//			p.loadMapRegions();
+			p.setForceNextMapLoadRefresh(true);
+			p.loadMapRegions();
 		});
 
 		Commands.add(Rights.DEVELOPER, "reloadshops", "Reloads the shop data file.", (p, args) -> ShopsHandler.reloadShops());
@@ -770,13 +797,13 @@ public class MiscTest {
 			for (Quest quest : Quest.values())
 				if (quest.name().toLowerCase().contains(args[0]) && quest.isImplemented()) {
 					p.getQuestManager().resetQuest(quest);
-					p.sendMessage("Resetted quest: " + quest.name());
+					p.sendMessage("Reset quest: " + quest.name());
 					return;
 				}
 			for (Miniquest quest : Miniquest.values())
 				if (quest.name().toLowerCase().contains(args[0]) && quest.isImplemented()) {
 					p.getMiniquestManager().reset(quest);
-					p.sendMessage("Resetted miniquest: " + quest.name());
+					p.sendMessage("Reset miniquest: " + quest.name());
 					return;
 				}
 		});
@@ -827,11 +854,18 @@ public class MiscTest {
 			int y = Integer.parseInt(args[1]);
 			int modelId = Integer.parseInt(args[2]);
 			//47868
-			Route route = RouteFinder.find(p.getX(), p.getY(), p.getPlane(), 1, new FixedTileStrategy(x, y), true);
-			p.getSession().writeToQueue(new HintTrail(Tile.of(p.getTile()), modelId, route.getBufferX(), route.getBufferY(), route.getStepCount()));
+			Route route = RouteFinderKt.routeEntityToTile(p, Tile.of(x, y, p.getPlane()), 25);
+			int[] bufferX = new int[route.size()];
+			int[] bufferY = new int[route.size()];
+			int i = 0;
+			for (RouteCoordinates tile : route.getCoords()) {
+				bufferX[i] = tile.getPacked() & 0xFFFF;
+				bufferY[i++] = (tile.getPacked() >> 16) & 0xFFFF;
+			}
+			p.getSession().writeToQueue(new HintTrail(Tile.of(p.getTile()), modelId, bufferX, bufferY, i));
 		});
 
-		Commands.add(Rights.ADMIN, "maxhit", "Displays the player's max hit.", (p, args) -> p.sendMessage("Max hit: " + PlayerCombat.getMaxHit(p, null, p.getEquipment().getWeaponId(), p.getCombatDefinitions().getAttackStyle(), PlayerCombat.isRanging(p), 1.0)));
+		Commands.add(Rights.ADMIN, "maxhit", "Displays the player's max hit.", (p, args) -> p.sendMessage("Max hit: " + PlayerCombatKt.getMaxHit(p, null, p.getEquipment().getWeaponId(), p.getCombatDefinitions().getAttackStyle(), PlayerCombatKt.isRanging(p), 1.0)));
 
 		Commands.add(Rights.DEVELOPER, "searchobj,so [objectId index]", "Searches the entire gameworld for an object matching the ID and teleports you to it.", (p, args) -> {
 			List<GameObject> objs = MapSearcher.getObjectsById(Integer.parseInt(args[0]));

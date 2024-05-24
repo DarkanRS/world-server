@@ -17,7 +17,7 @@
 package com.rs.game.content.skills.prayer.cremation;
 
 import com.rs.engine.dialogue.statements.MakeXStatement;
-import com.rs.game.content.Potions;
+import com.rs.game.content.PotionsKt;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
 import com.rs.lib.Constants;
@@ -75,7 +75,7 @@ public class CraftPyreLogs extends PlayerAction {
 			switch(item.getId()) {
 			case DOSE_4:
 				if (doses >= 4) {
-					item.setId(Potions.VIAL);
+					item.setId(PotionsKt.VIAL);
 					doses -= 4;
 				} else if (doses >= 3) {
 					item.setId(DOSE_1);
@@ -90,7 +90,7 @@ public class CraftPyreLogs extends PlayerAction {
 				break;
 			case DOSE_3:
 				if (doses >= 3) {
-					item.setId(Potions.VIAL);
+					item.setId(PotionsKt.VIAL);
 					doses -= 3;
 				} else if (doses >= 2) {
 					item.setId(DOSE_1);
@@ -102,7 +102,7 @@ public class CraftPyreLogs extends PlayerAction {
 				break;
 			case DOSE_2:
 				if (doses >= 2) {
-					item.setId(Potions.VIAL);
+					item.setId(PotionsKt.VIAL);
 					doses -= 2;
 				} else if (doses >= 1) {
 					item.setId(DOSE_1);
@@ -111,7 +111,7 @@ public class CraftPyreLogs extends PlayerAction {
 				break;
 			case DOSE_1:
 				if (doses >= 1) {
-					item.setId(Potions.VIAL);
+					item.setId(PotionsKt.VIAL);
 					doses -= 1;
 				}
 				break;

@@ -40,7 +40,7 @@ public class Muncher07D extends Conversation {
 		super(player);
 		addPlayer(HeadE.CHEERFUL, "Here, boy!");
 		addPlayer(HeadE.TERRIFIED, "Whoaah!", () -> {
-			muncher.faceEntity(player);
+			muncher.faceEntityTile(player);
 			muncher.forceTalk("Grrrrrr");
 			muncher.setNextAnimation(FLINCH);
 		});
@@ -63,7 +63,7 @@ public class Muncher07D extends Conversation {
 				@Override
 				public void run() {
 					if (stage == 0)
-						player.faceEntity(muncher);
+						player.faceEntityTile(muncher);
 					else if (stage == 1)
 						player.setNextAnimation(Emote.RASPBERRY.getAnim());
 					else if (stage == 3) {

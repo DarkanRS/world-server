@@ -1,0 +1,68 @@
+[
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2270,
+      "y": 4758
+    },
+    "comment": "Sabbot before Death Plateau",
+    "npcId": 15095
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 3403,
+      "y": 4284
+    },
+	"dir": "NORTH",
+    "comment": "Sabbot after Death Plateau",
+    "npcId": 15097
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2820,
+      "y": 3556
+    },
+	"clip": "INDOOR",
+    "comment": "Freda",
+    "npcId": 15099
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2839,
+      "y": 3586
+    },
+	"dir": "SOUTH",
+    "comment": "Soldier",
+    "npcId": 15087
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2851,
+      "y": 3615
+    },
+    "comment": "Archer",
+    "npcId": 15102
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2853,
+      "y": 3614
+    },
+    "comment": "Archer",
+    "npcId": 15103
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2851,
+      "y": 3613
+    },
+    "comment": "Ambush Commander",
+    "npcId": 15104
+  },
+]

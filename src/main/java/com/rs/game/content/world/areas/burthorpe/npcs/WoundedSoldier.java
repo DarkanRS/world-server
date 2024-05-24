@@ -13,11 +13,6 @@ import com.rs.plugin.handlers.NPCInteractionDistanceHandler;
 @PluginEventHandler
 public class WoundedSoldier extends Conversation {
 
-    @ServerStartupEvent
-    public static void addLoSOverrides() {
-        Entity.addLOSOverrides(15019,15021,15022,15023,15024,15025,15026,15027,15028,15029,15030,15031,15033);
-    }
-
     public WoundedSoldier(Player player) {
         super(player);
         String[] whatHappened = new String[]{
@@ -32,9 +27,6 @@ public class WoundedSoldier extends Conversation {
         addPlayer(HeadE.NERVOUS,"I think I'd better leave you to recover.");
         create();
     }
-
-
-    public static NPCInteractionDistanceHandler WoundedSoldierDistance = new NPCInteractionDistanceHandler(new Object[] { 15019,15021,15022,15023,15024,15025,15026,15027,15028,15029,15030,15031,15033 }, (p, n) -> 1);
 
     public static NPCClickHandler WoundedSoldierHandler = new NPCClickHandler(new Object[] { 15019,15021,15022,15023,15024,15025,15026,15027,15028,15029,15030,15031,15033 }, e -> {
         if(e.getOption().equalsIgnoreCase("talk-to")){

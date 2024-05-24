@@ -35,9 +35,7 @@ import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.game.model.item.ItemsContainer;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTasks;
-import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.GenericAttribMap;
@@ -330,10 +328,10 @@ public final class Familiar extends NPC {
 	}
 	
 	@Override
-	public void setTarget(Entity target) {
+	public void setCombatTarget(Entity target) {
 		if (isPassive())
 			return;
-		super.setTarget(target);
+		super.setCombatTarget(target);
 	}
 	
 	public boolean isPassive() {
@@ -431,8 +429,7 @@ public final class Familiar extends NPC {
 			return;
 		if (executeSpecial(target)) {
 			owner.getTempAttribs().setL("familiarSpecTimer", World.getServerTicks() + 4);
-			owner.setNextAnimation(new Animation(7660));
-			owner.setNextSpotAnim(new SpotAnim(1316));
+			owner.sync(7660, 1316);
 			drainSpec();
 			decrementScroll();
 		}
@@ -443,7 +440,7 @@ public final class Familiar extends NPC {
 		case CLICK:
 			return pouch.getScroll().use(owner, this);
 		case COMBAT:
-			if (getTarget() != null && pouch.getScroll().onCombatActivation(owner, this, getTarget()))
+			if (getCombatTarget() != null && pouch.getScroll().onCombatActivation(owner, this, getCombatTarget()))
 				setSpecActive(true);
 			return true;
 		case ITEM:
@@ -685,7 +682,7 @@ public final class Familiar extends NPC {
 		if (login)
 			sendMainConfigs();
 		else
-			removeTarget();
+			removeCombatTarget();
 		Tile teleTile = null;
 		teleTile = owner.getNearestTeleTile(getSize());
 		if (teleTile == null) {
@@ -853,7 +850,7 @@ public final class Familiar extends NPC {
 				return false;
 			}
 		}
-		owner.getFamiliar().setTarget(target);
+		owner.getFamiliar().setCombatTarget(target);
 		return true;
 	}
 }

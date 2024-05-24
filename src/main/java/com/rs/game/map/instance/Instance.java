@@ -1,7 +1,9 @@
 package com.rs.game.map.instance;
 
+import com.rs.Settings;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.MapUtils;
 import com.rs.lib.util.MapUtils.Structure;
@@ -13,6 +15,7 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Instance {
     private static final Map<UUID, Instance> INSTANCES = Object2ObjectMaps.synchronize(new Object2ObjectOpenHashMap<>());
@@ -28,13 +31,21 @@ public class Instance {
 
     private final boolean copyNpcs;
 
-    private transient volatile boolean destroyed;
+    private final transient AtomicBoolean destroyed;
+
+    private Instance() {
+        this.returnTo = Settings.getConfig().getPlayerStartTile();
+        this.width = 1;
+        this.height = 1;
+        destroyed = new AtomicBoolean(false);
+        this.copyNpcs = false;
+    }
 
     private Instance(Tile returnTo, int width, int height, boolean copyNpcs) {
         this.returnTo = returnTo;
         this.width = width;
         this.height = height;
-        destroyed = false;
+        destroyed = new AtomicBoolean(false);
         this.copyNpcs = copyNpcs;
     }
 
@@ -68,7 +79,7 @@ public class Instance {
 
     public CompletableFuture<Boolean> requestChunkBound() {
         CompletableFuture<Boolean> future = new CompletableFuture<>();
-        destroyed = false;
+        destroyed.set(false);
         InstanceBuilder.findEmptyChunkBound(this, future);
         return future;
     }
@@ -154,12 +165,14 @@ public class Instance {
     public CompletableFuture<Boolean> destroy() {
         CompletableFuture<Boolean> future = new CompletableFuture<>();
         INSTANCES.remove(id);
-        if (destroyed) {
+        if (destroyed.get()) {
             future.complete(null);
             return future;
         }
-        destroyed = true;
-        InstanceBuilder.destroyMap(this, future);
+        WorldTasks.schedule(5, () -> {
+            destroyed.set(true);
+            InstanceBuilder.destroyMap(this, future);
+        });
         return future;
     }
 
@@ -228,7 +241,7 @@ public class Instance {
     }
 
     public boolean isDestroyed() {
-        return destroyed;
+        return destroyed.get();
     }
 
     public boolean isCreated() {

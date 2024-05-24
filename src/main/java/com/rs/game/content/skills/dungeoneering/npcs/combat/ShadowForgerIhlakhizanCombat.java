@@ -35,6 +35,7 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
+import kotlin.Pair;
 
 public class ShadowForgerIhlakhizanCombat extends CombatScript {
 
@@ -61,7 +62,7 @@ public class ShadowForgerIhlakhizanCombat extends CombatScript {
 					final Tile tile = ((ShadowForgerIhlakhizan) npc).getManager().getTile(forger.getReference(), 2 + Utils.random(12), 2 + Utils.random(12));
 					if (WorldUtil.collides(npc.getX(), npc.getY(), npc.getSize(), tile.getX(), tile.getY(), 1))
 						continue;
-					World.sendProjectile(npc, tile, 2371, 120, 30, 41, 30, 16, 0);
+					World.sendProjectile(npc, tile, 2371, new Pair<>(120, 30), 41, 5, 16);
 					WorldTasks.delay(2, () -> {
 						World.sendSpotAnim(tile, new SpotAnim(2374));
 						for (Player player : forger.getManager().getParty().getTeam()) {
@@ -103,7 +104,7 @@ public class ShadowForgerIhlakhizanCombat extends CombatScript {
 										if (distance == 0)
 											tile = Tile.of(target.getTile());
 									}
-									target.faceEntity(forger);
+									target.faceEntityTile(forger);
 									target.forceMove(tile, 10070, 5, 60);
 									stop();
 								}
@@ -129,7 +130,7 @@ public class ShadowForgerIhlakhizanCombat extends CombatScript {
 			case 0 -> {
 				npc.setNextAnimation(new Animation(13025));
 				npc.setNextSpotAnim(new SpotAnim(2375));
-				World.sendProjectile(npc, target, 2376, 120, 30, 60, 70, 16, 0);
+				World.sendProjectile(npc, target, 2376, new Pair<>(120, 30), 60, 10, 16);
 				target.setNextSpotAnim(new SpotAnim(2377, 120, 0));
 				delayHit(npc, 3, target, getRegularHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MAGE, target)));
 			}

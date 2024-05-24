@@ -26,6 +26,7 @@ import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.lib.game.Animation;
 import com.rs.lib.util.Utils;
+import kotlin.Pair;
 
 public class GeneralGraardorCombat extends CombatScript {
 
@@ -84,7 +85,7 @@ public class GeneralGraardorCombat extends CombatScript {
 		if (Utils.getRandomInclusive(2) == 0) { // range magical attack
 			npc.setNextAnimation(new Animation(7063));
 			for (Entity t : npc.getPossibleTargets()) {
-				WorldProjectile p = World.sendProjectile(npc, target, 1200, 60, 32, 50, 1, 0, 0);
+				WorldProjectile p = World.sendProjectile(npc, target, 1200, new Pair<>(60, 32), 50, 5, 0);
 				delayHit(npc, p.getTaskDelay(), t, getRangeHit(npc, getMaxHit(npc, 355, AttackStyle.RANGE, t)));
 			}
 		} else { // melee attack

@@ -16,7 +16,7 @@
 //
 package com.rs.plugin.events;
 
-import com.rs.game.model.entity.pathing.WalkStep;
+import com.rs.engine.pathfinder.WalkStep;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Tile;
 import com.rs.plugin.handlers.PlayerStepHandler;
@@ -49,6 +49,18 @@ public class PlayerStepEvent implements PluginEvent {
 
 	public WalkStep getStep() {
 		return step;
+	}
+
+	public Player component1() {
+		return player;
+	}
+
+	public WalkStep component2() {
+		return step;
+	}
+
+	public Tile component3() {
+		return tile;
 	}
 
 	@Override

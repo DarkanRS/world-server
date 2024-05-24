@@ -13,16 +13,14 @@ import java.util.*
 
 @ServerStartupEvent
 fun mapDrops() {
-    onNpcDrop(null, Bone.values().filter { bone -> !listOf(Bone.ACCURSED_ASHES, Bone.IMPIOUS_ASHES, Bone.INFERNAL_ASHES).contains(bone) }.map { it.id }.toTypedArray()) { e ->
+    onNpcDrop(null, Bone.entries.filter { bone -> !listOf(Bone.ACCURSED_ASHES, Bone.IMPIOUS_ASHES, Bone.INFERNAL_ASHES).contains(bone) }.map { it.id }.toTypedArray()) { e ->
         if (bonecrush(e.player, e.item))
             e.deleteItem()
     }
 
-    onNpcDrop(null, HerbicideSetting.values().map { it.herb.herbId }.toTypedArray()) { e ->
-        if (herbicide(e.player, e.item)) {
-            e.deleteItem()
-            return@onNpcDrop
-        }
+    onNpcDrop(null, HerbicideSetting.entries.map { it.herb.herbId }.toTypedArray()) { e ->
+        if (herbicide(e.player, e.item))
+            return@onNpcDrop e.deleteItem()
         if (e.player.familiarPouch === Pouch.MACAW && e.player.familiar.inventory.freeSlot() > 0) {
             e.player.sendMessage("Your macaw picks up the " + e.item.name.lowercase(Locale.getDefault()) + " from the ground.", true)
             e.player.familiar.inventory.add(Item(e.item.id, e.item.amount))

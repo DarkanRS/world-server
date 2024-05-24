@@ -165,8 +165,9 @@ fun mapSoulwars() {
         }
     }
 
-    WorldTasks.scheduleLooping(1, 0) {
+    WorldTasks.scheduleTimer(0, 0) { _ ->
         processSoulwars()
+        return@scheduleTimer true
     }
 }
 
@@ -298,15 +299,15 @@ class SoulWars {
         }
     }
 
-    private fun getObelisk(): GameObject {
+    private fun getObelisk(): GameObject? {
         return World.getObjectWithType(Tile.of(1886, 3231, 0), ObjectType.SCENERY_INTERACT)
     }
 
-    private fun getEastBarrier(): GameObject {
+    private fun getEastBarrier(): GameObject? {
         return World.getObjectWithType(Tile.of(1933, 3243, 0), ObjectType.WALL_STRAIGHT)
     }
 
-    private fun getWestBarrier(): GameObject {
+    private fun getWestBarrier(): GameObject? {
         return World.getObjectWithType(Tile.of(1842, 3220, 0), ObjectType.WALL_STRAIGHT)
     }
 
@@ -355,7 +356,9 @@ class SoulWars {
         }
     }
 
-    private fun updateObjectTeam(obj: GameObject, redId: Int, blueId: Int, neutralId: Int, capVal: Int): String? {
+    private fun updateObjectTeam(obj: GameObject?, redId: Int, blueId: Int, neutralId: Int, capVal: Int): String? {
+        if (obj == null)
+            return null
         val newId = when {
             capVal >= 25 -> redId
             capVal <= 5 -> blueId

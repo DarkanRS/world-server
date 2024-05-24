@@ -18,6 +18,7 @@ package com.rs.game.content.world.npcs;
 
 import com.rs.game.World;
 import com.rs.game.content.combat.PlayerCombat;
+import com.rs.game.content.combat.PlayerCombatKt;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
@@ -27,6 +28,7 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
+import kotlin.Pair;
 
 public class MetalDragonCombat extends CombatScript {
 
@@ -45,7 +47,7 @@ public class MetalDragonCombat extends CombatScript {
 			int damage = 100 + Utils.getRandomInclusive(500);
 			final Player player = target instanceof Player p ? p : null;
 			if (player != null) {
-				int protection = PlayerCombat.getAntifireLevel(target, false);
+				int protection = PlayerCombatKt.getAntifireLevel(target, false);
 				if (protection == 1)
 					damage = Utils.getRandomInclusive(50);
 				else if (protection == 2)
@@ -53,7 +55,7 @@ public class MetalDragonCombat extends CombatScript {
 			}
 
 			npc.setNextAnimation(new Animation(13160));
-			World.sendProjectile(npc, target, 393, 28, 16, 35, 35, 16, 0);
+			World.sendProjectile(npc, target, 393, new Pair<>(28, 16), 35, 10, 16);
 			delayHit(npc, 1, target, getRegularHit(npc, damage));
 		}
 		return npc.getAttackSpeed();

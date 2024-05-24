@@ -15,6 +15,7 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
+import kotlin.Pair;
 
 public class MelzarTheMadCombat extends CombatScript {
 
@@ -46,7 +47,7 @@ public class MelzarTheMadCombat extends CombatScript {
 				WorldTasks.schedule(new Task() {
 					@Override
 					public void run() {
-						WorldProjectile p = World.sendProjectile(npc, target, 103, 80, 30, 40, 5, 5, 0);
+						WorldProjectile p = World.sendProjectile(npc, target, 103, new Pair<>(80, 30), 40, 5, 5);
 						target.setNextSpotAnim(new SpotAnim(104, 0, 100));
 						delayHit(npc, p.getTaskDelay(), target, getMagicHit(npc, getMaxHit(npc, defs.getMaxHit() - 2, AttackStyle.MAGE, target)));
 					}
@@ -58,7 +59,7 @@ public class MelzarTheMadCombat extends CombatScript {
 				WorldTasks.schedule(new Task() {
 					@Override
 					public void run() {
-						WorldProjectile p = World.sendProjectile(npc, target, 103, 80, 30, 40, 5, 5, 0);
+						WorldProjectile p = World.sendProjectile(npc, target, 103, new Pair<>(80, 30), 40, 5, 5);
 						target.setNextSpotAnim(new SpotAnim(2727, 0, 100));
 						delayHit(npc, p.getTaskDelay(), target, getMagicHit(npc, getMaxHit(npc, defs.getMaxHit() - 2, AttackStyle.MAGE, target)));
 					}

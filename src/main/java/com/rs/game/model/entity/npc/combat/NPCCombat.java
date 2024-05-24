@@ -18,7 +18,7 @@ package com.rs.game.model.entity.npc.combat;
 
 import com.rs.game.content.Effect;
 import com.rs.game.content.bosses.godwars.zaros.Nex;
-import com.rs.game.content.combat.PlayerCombat;
+import com.rs.game.content.combat.PlayerCombatKt;
 import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.content.skills.summoning.Summoning.ScrollTarget;
 import com.rs.game.model.entity.Entity;
@@ -72,13 +72,13 @@ public final class NPCCombat {
 			Player player = familiar.getOwner();
 			if (player != null) {
 				target = player;
-				npc.setTarget(target);
+				npc.setCombatTarget(target);
 				addAttackedByDelay(target);
 			}
 		}
 		int maxDistance = npc.getCombatDefinitions().getAttackRange();
 		if (!(npc instanceof Nex) && !npc.lineOfSightTo(target, maxDistance == 0))
-			return npc.getAttackSpeed();
+			return Math.min(combatDelay, npc.getAttackSpeed()); //probably could return 0 but too scared of side effects
 		boolean los = npc.lineOfSightTo(target, maxDistance == 0);
 		boolean inRange = WorldUtil.isInRange(npc, target, maxDistance + (npc.hasWalkSteps() && target.hasWalkSteps() ? (npc.getRun() && target.getRun() ? 2 : 1) : 0));
 		//boolean collidesCheck = !npc.isCantFollowUnderCombat() && WorldUtil.collides(npc, target);
@@ -90,7 +90,7 @@ public final class NPCCombat {
 	}
 
 	void doDefenceEmote(Entity target) {
-		target.setNextAnimationNoPriority(new Animation(PlayerCombat.getDefenceEmote(target)));
+		target.setNextAnimationNoPriority(new Animation(PlayerCombatKt.getDefenceEmote(target)));
 	}
 
 	public Entity getTarget() {

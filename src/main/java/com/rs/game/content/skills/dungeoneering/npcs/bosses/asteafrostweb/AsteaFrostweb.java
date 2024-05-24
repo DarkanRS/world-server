@@ -49,7 +49,7 @@ public final class AsteaFrostweb extends DungeonBoss {
 	}
 
 	public void switchPrayers() {
-		setNextNPCTransformation(getId() == meleeNPCId + 2 ? meleeNPCId : getId() + 1);
+		transformIntoNPC(getId() == meleeNPCId + 2 ? meleeNPCId : getId() + 1);
 	}
 
 	@Override

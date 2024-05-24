@@ -15,6 +15,7 @@ import com.rs.plugin.kts.onNpcClick
 import com.rs.utils.DropSets
 import com.rs.utils.drop.DropTable
 import kotlin.math.floor
+import kotlin.math.min
 
 enum class Imbue(val itemId: Int, val imbuedItemId: Int, val zealCost: Int) {
     GOLD_RING(1635, 15009, 2),
@@ -176,10 +177,10 @@ fun buyXp(player: Player, skillId: Int, packet: ClientPacket) {
 
 fun getXpPerZeal(level: Int, skillId: Int): Int {
     return when(skillId) {
-        Skills.ATTACK, Skills.STRENGTH, Skills.DEFENSE, Skills.HITPOINTS -> floor((level*level) / 600.0).toInt() * 525
-        Skills.RANGE, Skills.MAGIC -> floor((level*level) / 600.0).toInt() * 480
-        Skills.PRAYER -> floor((level*level) / 600.0).toInt() * 270
-        Skills.SLAYER -> floor((level*level) / 349.0).toInt() * 45
+        Skills.ATTACK, Skills.STRENGTH, Skills.DEFENSE, Skills.HITPOINTS -> floor(min(1.0, (level*level) / 600.0)).toInt() * 525
+        Skills.RANGE, Skills.MAGIC -> floor(min(1.0, (level*level) / 600.0)).toInt() * 480
+        Skills.PRAYER -> floor(min(1.0, (level*level) / 600.0)).toInt() * 270
+        Skills.SLAYER -> floor(min(1.0, (level*level) / 349.0)).toInt() * 45
         else -> 1
     }
 }

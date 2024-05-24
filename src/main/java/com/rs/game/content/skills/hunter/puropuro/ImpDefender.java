@@ -1,11 +1,11 @@
 package com.rs.game.content.skills.hunter.puropuro;
 
+import com.rs.engine.pathfinder.collision.CollisionStrategyType;
 import com.rs.game.World;
 import com.rs.game.content.skills.hunter.FlyingEntityHunter;
 import com.rs.game.content.skills.hunter.FlyingEntityHunter.FlyingEntities;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.pathing.ClipType;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
@@ -23,8 +23,8 @@ public class ImpDefender extends NPC {
 
     public ImpDefender(Tile tile) {
         super(6074, tile);
-        setClipType(ClipType.NORMAL);
-        WorldTasks.scheduleLooping(0, Ticks.fromSeconds(5), this::freeImplings);
+        setCollisionStrategyType(CollisionStrategyType.NORMAL);
+        getTasks().scheduleLooping(0, Ticks.fromSeconds(5), this::freeImplings);
     }
 
     public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { 6074 }, (npcId, tile) -> new ImpDefender(tile));
@@ -47,7 +47,7 @@ public class ImpDefender extends NPC {
                         i.addMetaData("used", true);
                     p.sendMessage("Your repellent protects you from the Imp Defender.");
                     if (Utils.random(10000) == 0) {
-                        p.faceEntity(this);
+                        p.faceEntityTile(this);
                         p.setNextAnimation(new Animation(8991));
                         p.setNextForceTalk(new ForceTalk("Swiper, no swiping!"));
                     }
@@ -59,7 +59,7 @@ public class ImpDefender extends NPC {
                        return;
                     p.lock();
                     walkToAndExecute(p.getNearestTeleTile(1), () -> {
-                        p.faceEntity(this);
+                        p.faceEntityTile(this);
                         p.getInventory().replace(jar, FlyingEntityHunter.IMPLING_JAR);
                         setNextForceTalk(new ForceTalk("Be Free!"));
                     });

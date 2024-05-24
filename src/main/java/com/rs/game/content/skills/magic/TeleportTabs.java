@@ -153,6 +153,11 @@ public class TeleportTabs {
 			}
 		}
 
+		if (itemId == 8011 && !p.isQuestComplete(Quest.PLAGUE_CITY)) {
+			p.sendMessage("You must have completed Plague City to use this teleport.");
+			return false;
+		}
+
 		if (itemId == 8012 && !p.isQuestComplete(Quest.WATCHTOWER)) {
 			p.sendMessage("You must have completed Watchtower to use this teleport.");
 			return false;
@@ -164,7 +169,12 @@ public class TeleportTabs {
 		}
 
 		if (itemId == 13609 && !p.isQuestComplete(Quest.MOURNINGS_ENDS_PART_II)) {
-			p.sendMessage("You must have completed Mournings End Part II to use this teleport.");
+			p.sendMessage("You must have completed Mourning's End Part II to use this teleport.");
+			return false;
+		}
+
+		if (itemId == 20175 && !p.isQuestComplete(Quest.DEATH_PLATEAU)) {
+			p.sendMessage("You must have completed Death Plateau to use this teleport.");
 			return false;
 		}
 

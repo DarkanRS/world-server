@@ -17,11 +17,6 @@ public class AnnaJones extends Conversation {
 
     public static NPCClickHandler handle = new NPCClickHandler(new Object[] { ID }, e -> e.getPlayer().startConversation(new AnnaJones(e.getPlayer())));
 
-    @ServerStartupEvent
-    public static void addLoSOverrides() {
-        Entity.addLOSOverride(ID);
-    }
-
     public AnnaJones(Player player) {
         super(player);
         if (player.isQuestComplete(Quest.WHAT_LIES_BELOW) && player.getVars().getVarBit(3524) == 1) {

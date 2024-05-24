@@ -22,7 +22,7 @@ import com.rs.cache.loaders.interfaces.IFEvents;
 import com.rs.cache.loaders.interfaces.IFEvents.UseFlag;
 import com.rs.game.content.Effect;
 import com.rs.game.content.ItemConstants;
-import com.rs.game.content.combat.special_attacks.SpecialAttacks;
+import com.rs.game.content.combat.special_attacks.SpecialAttacksKt;
 import com.rs.game.content.interfacehandlers.ItemsKeptOnDeath;
 import com.rs.game.content.skills.firemaking.Bonfire;
 import com.rs.game.content.transportation.ItemTeleports;
@@ -533,7 +533,7 @@ public final class Equipment {
 
 	public static ButtonClickHandler handle = new ButtonClickHandler(884, e -> {
 		if (e.getComponentId() == 4)
-			SpecialAttacks.handleClick(e.getPlayer());
+			SpecialAttacksKt.handleClick(e.getPlayer());
 		else if (e.getComponentId() >= 7 && e.getComponentId() <= 10)
 			e.getPlayer().getCombatDefinitions().setAttackStyle(e.getComponentId() - 7);
 		else if (e.getComponentId() == 11)
@@ -673,7 +673,7 @@ public final class Equipment {
 			return;
 		}
 		Item item = e.getPlayer().getEquipment().getItem(Equipment.getItemSlot(e.getSlotId2()));
-		if ((item == null) || PluginManager.handle(new ItemClickEvent(e.getPlayer(), item, e.getSlotId(), item.getDefinitions().getEquipmentOption(getOptionForPacket(e.getPacket())), true)))
+		if ((item == null) || PluginManager.handle(new ItemClickEvent(e.getPlayer(), item, Equipment.getItemSlot(e.getSlotId2()), item.getDefinitions().getEquipmentOption(getOptionForPacket(e.getPacket())), true)))
 			return;
 		if (e.getPacket() == ClientPacket.IF_OP10) {
 			e.getPlayer().getEquipment().sendExamine(Equipment.getItemSlot(e.getSlotId2()));
@@ -738,7 +738,7 @@ public final class Equipment {
 		Item item = player.getInventory().getItem(slotId);
 		if (item == null || item.getId() != itemId)
 			return false;
-		if (!overrideWear && (!item.getDefinitions().containsOption("Wear") && !item.getDefinitions().containsOption("Wield")))
+		if (!overrideWear && (!item.getDefinitions().containsOption("Wear") && !item.getDefinitions().containsOption("Wield") && !item.getDefinitions().containsOption("Equip")))
 			return false;
 		if (item.getDefinitions().isNoted() || !item.getDefinitions().isWearItem(player.getAppearance().isMale())) {
 			player.sendMessage("You can't wear that.");

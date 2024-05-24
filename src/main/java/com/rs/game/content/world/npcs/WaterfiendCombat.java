@@ -25,6 +25,7 @@ import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.lib.game.Animation;
 import com.rs.lib.util.Utils;
+import kotlin.Pair;
 
 public class WaterfiendCombat extends CombatScript {
 
@@ -45,16 +46,16 @@ public class WaterfiendCombat extends CombatScript {
 
 		npc.setNextAnimation(new Animation(defs.getAttackEmote()));
 		if (spellType == 0) {
-			World.sendProjectile(npc, target, 11, 20, 20, 25, 30, 25, 0);
+			World.sendProjectile(npc, target, 11, new Pair<>(20, 20), 25, 5, 25);
 			delayHit(npc, 2, target, hit);
 		} else if (spellType == 1) {
-			World.sendProjectile(npc, target, 11, 20, 20, 25, 30, 25, 0);
+			World.sendProjectile(npc, target, 11, new Pair<>(20, 20), 25, 5, 25);
 			delayHit(npc, 2, target, hit);
 		} else if (spellType == 2) {
-			World.sendProjectile(npc, target, 2704, 20, 20, 25, 30, 25, 0);
+			World.sendProjectile(npc, target, 2704, new Pair<>(20, 20), 25, 5, 25);
 			delayHit(npc, 2, target, hit);
 		} else {
-			World.sendProjectile(npc, target, 2704, 20, 20, 25, 30, 25, 0);
+			World.sendProjectile(npc, target, 2704, new Pair<>(20, 20), 25, 5, 25);
 			delayHit(npc, 2, target, hit);
 		}
 

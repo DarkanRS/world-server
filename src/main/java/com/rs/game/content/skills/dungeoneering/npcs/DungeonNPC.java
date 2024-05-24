@@ -185,7 +185,7 @@ public class DungeonNPC extends NPC {
 			drops.add(new Item(17447, 10 + Utils.random(300)));
 
 		for (Item item : drops)
-			World.addGroundItem(item, Tile.of(getCoordFaceX(size), getCoordFaceY(size), getPlane()));
+			World.addGroundItemNoExpire(item, Tile.of(getCoordFaceX(size), getCoordFaceY(size), getPlane()));
 	}
 
 	public DungeonManager getManager() {

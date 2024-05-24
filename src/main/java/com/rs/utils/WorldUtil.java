@@ -21,7 +21,7 @@ import com.rs.cache.loaders.QCMesDefinitions;
 import com.rs.game.World;
 import com.rs.game.content.minigames.soulwars.SoulWarsKt;
 import com.rs.game.model.entity.Entity;
-import com.rs.game.model.entity.pathing.Direction;
+import com.rs.engine.pathfinder.Direction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.social.FCManager;
 import com.rs.game.model.item.ItemsContainer;
@@ -29,6 +29,7 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.Tile;
 import com.rs.lib.game.WorldObject;
 import com.rs.lib.io.OutputStream;
+import com.rs.lib.util.Logger;
 import com.rs.lib.util.Vec2;
 import com.rs.lib.web.dto.FCData;
 
@@ -36,6 +37,7 @@ import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
 import java.lang.management.MemoryUsage;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -122,7 +124,7 @@ public class WorldUtil {
 	}
 
 	public static int getAngleTo(Direction dir) {
-		return ((int) (Math.atan2(-dir.getDx(), -dir.getDy()) * 2607.5945876176133)) & 0x3fff;
+		return ((int) (Math.atan2(-dir.dx, -dir.dy) * 2607.5945876176133)) & 0x3fff;
 	}
 
 	public static Direction getFaceDirection(Tile faceTile, Player player) {
@@ -193,20 +195,39 @@ public class WorldUtil {
 	public static ItemsContainer<Item> gsonTreeMapToItemContainer(Object metadata) {
 		if (metadata == null)
 			return null;
-		ItemsContainer<Item> container = null;
-		if (metadata instanceof List<?> list) {
-			container = new ItemsContainer<>(list.size(), false);
-			for (Object itemObj : list) {
-				if (itemObj instanceof Item item)
-					container.add(item);
-				else if (itemObj instanceof LinkedTreeMap<?,?> item) {
-					if (item.get("metadata") != null)
-						container.add(new Item(((Double) item.get("id")).intValue(), ((Double) item.get("amount")).intValue(), (Map<String, Object>) item.get("metadata")));
-					else
-						container.add(new Item(((Double) item.get("id")).intValue(), ((Double) item.get("amount")).intValue()));
+		try {
+			ItemsContainer<Item> container = null;
+			if (metadata instanceof List<?> list) {
+				container = new ItemsContainer<>(list.size(), false);
+				for (Object itemObj : list) {
+					if (itemObj instanceof Item item)
+						container.add(item);
+					else if (itemObj instanceof LinkedTreeMap<?, ?> item) {
+						if (item.get("metadata") != null) {
+							Object rawMetadata = item.get("metadata");
+							if (rawMetadata instanceof Map<?, ?> rawMap) {
+                                Map<String, Object> metadataMap = new HashMap<>();
+								boolean valid = true;
+								for (Map.Entry<?, ?> entry : rawMap.entrySet()) {
+									if (entry.getKey() instanceof String) {
+										metadataMap.put((String) entry.getKey(), entry.getValue());
+									} else {
+										valid = false;
+										break;
+									}
+								}
+								if (valid)
+									container.add(new Item(((Double) item.get("id")).intValue(), ((Double) item.get("amount")).intValue(), metadataMap));
+							}
+						} else
+							container.add(new Item(((Double) item.get("id")).intValue(), ((Double) item.get("amount")).intValue()));
+					}
 				}
 			}
+			return container != null && container.isEmpty() ? null : container;
+		} catch(Throwable e) {
+			Logger.error(WorldUtil.class, "gsonTreeMapToItemContainer", e);
+			return null;
 		}
-		return container.isEmpty() ? null : container;
 	}
 }

@@ -118,7 +118,6 @@ public class LeatherCraftingD extends Conversation {
 
                 public void setTicks(int ticks) {
                     this.ticks = ticks;
-                    player.getInventory().deleteItem(1734, 1);
                 }
 
                 public boolean checkAll(Player player) {
@@ -161,12 +160,12 @@ public class LeatherCraftingD extends Conversation {
                     if (ticks % 4 == 0)
                         player.getInventory().deleteItem(1734, 1);
                     Item item = POTENTIAL_PRODUCTS[index][componentIndex];
+					Item[] extraItems = REQUIRED_BASE_ITEMS[index];
+					if (extraItems != null)
+						player.getInventory().deleteItem(extraItems[componentIndex]);
                     player.getInventory().deleteItem(new Item(BASE_LEATHER[index], item.getAmount()));
-                    player.getInventory().addItem(item.getId(), 1);
+                    player.getInventory().addItemDrop(item.getId(), 1);
                     player.getSkills().addXp(Constants.CRAFTING, EXPERIENCE[index][componentIndex]);
-                    Item[] extraItems = REQUIRED_BASE_ITEMS[index];
-                    if (extraItems != null)
-                        player.getInventory().deleteItem(extraItems[componentIndex]);
                     player.setNextAnimation(new Animation(1249));
                     return 3;
                 }

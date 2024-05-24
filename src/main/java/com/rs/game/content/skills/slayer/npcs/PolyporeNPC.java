@@ -46,9 +46,9 @@ public class PolyporeNPC extends NPC {
 		super.processNPC();
 		if (neemedTicks-- <= 0 && !canInfect())
 			transformIntoNPC(realId);
-		if (canInfect() && getTarget() != null && inMeleeRange(getTarget())) {
+		if (canInfect() && getCombatTarget() != null && inMeleeRange(getCombatTarget())) {
 			anim(getInfectEmote());
-			getTarget().applyHit(new Hit(this, getFungalDamage(), HitLook.DISEASE_DAMAGE));
+			getCombatTarget().applyHit(new Hit(this, getFungalDamage(), HitLook.DISEASE_DAMAGE));
 		}
 	}
 

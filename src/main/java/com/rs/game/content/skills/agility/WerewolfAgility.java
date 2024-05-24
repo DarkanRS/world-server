@@ -16,6 +16,7 @@
 //
 package com.rs.game.content.skills.agility;
 
+import com.rs.engine.pathfinder.Direction;
 import com.rs.game.World;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.npc.NPC;
@@ -30,6 +31,7 @@ import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+import kotlin.Pair;
 
 import java.util.List;
 
@@ -81,7 +83,7 @@ public class WerewolfAgility {
 					default -> { return true; }
 					case 0 -> {
 						e.getPlayer().lock();
-						e.getPlayer().faceSouth();
+						e.getPlayer().faceDir(Direction.SOUTH);
 						List<NPC> npcs = e.getPlayer().queryNearbyNPCsByTileRange(1, (npc -> npc.getId() == 1663 && npc.withinDistance(e.getPlayer().getTile(), 4)));
 						if(npcs.size() >= 1) {
 							switch(Utils.random(3)) {
@@ -141,11 +143,11 @@ public class WerewolfAgility {
 	private static void yellFetch(ObjectClickEvent e) {
 		List<NPC> npcs = e.getPlayer().queryNearbyNPCsByTileRange(8, (npc -> npc.getId() == 1661));
 		if (npcs.size() >= 1) {
-			npcs.getFirst().faceNorth();
+			npcs.getFirst().faceDir(Direction.NORTH);
 			npcs.getFirst().forceTalk("FETCH!!!!!");
 			WorldTasks.schedule(2, () -> {
 				npcs.getFirst().setNextAnimation(new Animation(6547));
-				World.sendProjectile(npcs.getFirst(), Tile.of(3540, 9911, 0), 1158, 35, 0, 20, 0.6, 20, p -> World.addGroundItem(new Item(4179), Tile.of(3540, 9911, 0), e.getPlayer()));
+				World.sendProjectile(npcs.getFirst(), Tile.of(3540, 9911, 0), 1158, new Pair<>(35, 0), 20, 10, 20, 0, p -> World.addGroundItem(new Item(4179), Tile.of(3540, 9911, 0), e.getPlayer()));
 			});
 		}
 	}

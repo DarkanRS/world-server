@@ -2,9 +2,6 @@ package com.rs.game.content.world.areas.enchanted_valley;
 
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
-import com.rs.game.content.skills.dungeoneering.DungeonConstants;
-import com.rs.game.content.skills.fishing.Fishing;
-import com.rs.game.content.skills.fishing.FishingSpot;
 import com.rs.game.content.skills.mining.Mining;
 import com.rs.game.content.skills.mining.RockType;
 import com.rs.game.content.skills.woodcutting.TreeType;
@@ -15,7 +12,6 @@ import com.rs.game.model.entity.npc.OwnedNPC;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
@@ -41,7 +37,7 @@ public class EnchantedValley {
                 NPC treeSpirit = new OwnedNPC(e.getPlayer(), 4470, e.getPlayer().getNearestTeleTile(1), false);
                 treeSpirit.spotAnim(179, 0, 96);
                 treeSpirit.forceTalk("Leave these woods and never return!");
-                treeSpirit.setTarget(e.getPlayer());
+                treeSpirit.setCombatTarget(e.getPlayer());
             }
         });
     });
@@ -56,16 +52,11 @@ public class EnchantedValley {
             public boolean depleteOre(Entity entity) {
                 NPC rockGolem = new OwnedNPC(e.getPlayer(), 8648, e.getPlayer().getNearestTeleTile(1), false);
                 rockGolem.forceTalk("Raarrrgghh! Flee human!");
-                rockGolem.setTarget(e.getPlayer());
+                rockGolem.setCombatTarget(e.getPlayer());
                 return true;
             }
         });
     });
-
-    @ServerStartupEvent
-    public static void addFishingSpotLOSOverride() {
-        Entity.addLOSOverride(8647);
-    }
 
     public static NPCClickHandler fishFish = new NPCClickHandler(new Object[] { 8647 }, e -> {
         if (e.getPlayer().inCombat()) {
@@ -77,7 +68,7 @@ public class EnchantedValley {
                 e.getPlayer().anim(-1);
                 NPC rockGolem = new OwnedNPC(e.getPlayer(), 8646, e.getPlayer().getNearestTeleTile(1), false);
                 rockGolem.forceTalk("Fishies be mine, leave dem fishies!");
-                rockGolem.setTarget(e.getPlayer());
+                rockGolem.setCombatTarget(e.getPlayer());
                 return false;
             }
             e.getPlayer().anim(622);

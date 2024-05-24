@@ -17,7 +17,7 @@
 package com.rs.game.content.minigames.clanwars;
 
 import com.rs.game.content.Effect;
-import com.rs.game.content.Potions;
+import com.rs.game.content.Potion;
 import com.rs.game.content.minigames.MinigameUtilKt;
 import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.model.entity.Entity;
@@ -69,7 +69,7 @@ public final class FFAController extends Controller {
 	@Override
 	public void start() {
 		if (dangerous) {
-			Potions.checkOverloads(player);
+			Potion.checkPVPPotionBoosts(player);
 			player.addEffect(Effect.OVERLOAD_PVP_REDUCTION, Integer.MAX_VALUE);
 		}
 		sendInterfaces();

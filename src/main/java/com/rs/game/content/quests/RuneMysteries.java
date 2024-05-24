@@ -34,6 +34,7 @@ import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.utils.shop.ShopsHandler;
+import kotlin.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -280,7 +281,7 @@ public class RuneMysteries extends QuestOutline {
 									option("Yes please", new Dialogue()
 											.addNext(() -> {
 												e.getNPC().setNextForceTalk(new ForceTalk("Senventior Disthine Molenko!"));
-												World.sendProjectile(e.getNPC(), e.getPlayer(), 109, 5, 5, 5, 1, 5, 0);
+												World.sendProjectile(e.getNPC(), e.getPlayer(), 109, new Pair<>(5, 5), 5, 10, 5);
 												WorldTasks.schedule(new Task() {
 													@Override
 													public void run() {

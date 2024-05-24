@@ -90,18 +90,23 @@ public class MiniquestManager {
 		return true;
 	}
 
-	public boolean isComplete(Miniquest quest, String actionForUnimplemented) {
+	public boolean isComplete(Miniquest quest, String actionForUnimplemented, boolean outputReqs) {
 		if (!quest.isImplemented())
-			return quest.meetsReqs(player, actionForUnimplemented);
+			return quest.meetsReqs(player, actionForUnimplemented, outputReqs);
 		if (getStage(quest) == quest.getHandler().getCompletedStage())
 			return true;
 		if (actionForUnimplemented != null)
+			if (outputReqs)
 			player.sendMessage("You must have completed " + quest.getName() + " " + actionForUnimplemented);
 		return false;
 	}
-	
+
 	public boolean isComplete(Miniquest quest) {
-		return isComplete(quest, null);
+		return isComplete(quest, null, false);
+	}
+
+	public boolean isComplete(Miniquest quest, boolean outputReqs) {
+		return isComplete(quest, null, outputReqs);
 	}
 
 	public void updateAllStages() {

@@ -9,7 +9,7 @@ import com.rs.game.content.world.areas.varrock.npcs.Zaff;
 import com.rs.game.map.instance.Instance;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.pathing.Direction;
+import com.rs.engine.pathfinder.Direction;
 import com.rs.game.model.entity.player.InstancedController;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.EmotesManager;
@@ -17,6 +17,7 @@ import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
+import kotlin.Pair;
 
 @PluginEventHandler
 public class PlayerVsKingFight extends InstancedController {
@@ -69,7 +70,7 @@ public class PlayerVsKingFight extends InstancedController {
                 cs.npcSpotAnim("surok", 1009);
                 cs.delay(1);
                 cs.npcAnim("surok", -1);
-                cs.action(() -> World.sendProjectile(surok, king, 1010, 5, 15, 15, 0.4, 10, proj -> king.spotAnim(1011)));
+                cs.action(() -> World.sendProjectile(surok, king, 1010, new Pair<>(5, 15), 15, 10, 10, 0, proj -> king.spotAnim(1011)));
                 cs.action(() -> king.forceTalk("What's going on?"));
                 cs.camPos(10, 19, 3048, 0, 10);
                 cs.camLook(10, 8, 715, 0, 10);
@@ -85,7 +86,7 @@ public class PlayerVsKingFight extends InstancedController {
                 cs.delay(4);
                 cs.action(() -> {
                     player.unlock();
-                    king.setTarget(player);
+                    king.setCombatTarget(player);
                 });
             });
         });
@@ -130,7 +131,7 @@ public class PlayerVsKingFight extends InstancedController {
     public void attemptZaffSummon(Player player) {
         player.resetWalkSteps();
         player.lock();
-        king.setTarget(null);
+        king.setCombatTarget(null);
         king.freeze(50);
         if (king.getHitpoints() >= 20) {
             player.playCutscene(cs -> {
@@ -156,13 +157,13 @@ public class PlayerVsKingFight extends InstancedController {
             cs.setEndTile(OUTSIDE);
             cs.action(() -> {
                 player.setQuestStage(Quest.WHAT_LIES_BELOW, 8);
-                cs.getNPC("zaff").faceEntity(king);
-                king.faceEntity(cs.getNPC("zaff"));;
+                cs.getNPC("zaff").faceEntityTile(king);
+                king.faceEntityTile(cs.getNPC("zaff"));;
             });
             cs.delay(3);
             cs.npcSync("zaff", 5633, 1006);
             cs.delay(1);
-            cs.action(() -> World.sendProjectile(cs.getNPC("zaff"), king, 1007, 5, 15, 15, 0.4, 10, proj -> king.spotAnim(1008)));
+            cs.action(() -> World.sendProjectile(cs.getNPC("zaff"), king, 1007, new Pair<>(5, 15), 15, 10, 10, 0, proj -> king.spotAnim(1008)));
             cs.delay(1);
             cs.action(() -> {
                 king.anim(6098);
@@ -172,7 +173,7 @@ public class PlayerVsKingFight extends InstancedController {
             cs.npcAnim("zaff", 1819);
             cs.npcSpotAnim("zaff", new SpotAnim(108, 0, 92));
             cs.delay(1);
-            cs.action(() -> World.sendProjectile(cs.getNPC("zaff"), king, 109, 5, 15, 15, 0.4, 10, proj -> {
+            cs.action(() -> World.sendProjectile(cs.getNPC("zaff"), king, 109, new Pair<>(5, 15), 15, 10, 10, 0, proj -> {
                 king.spotAnim(110);
                 king.finishAfterTicks(2);
             }));
@@ -195,7 +196,7 @@ public class PlayerVsKingFight extends InstancedController {
             cs.delay(2);
             cs.action(() -> {
                 surok.forceTalk("Mirra din namus!!");
-                surok.faceEntity(cs.getNPC("zaff"));
+                surok.faceEntityTile(cs.getNPC("zaff"));
                 surok.anim(6098);
                 surok.spotAnim(108, 0, 92);
             });
@@ -205,7 +206,7 @@ public class PlayerVsKingFight extends InstancedController {
             cs.npcTalk("zaff", "Stop!!");
             cs.delay(1);
             cs.action(() -> surok.anim(-1));
-            cs.action(() -> World.sendProjectile(cs.getNPC("zaff"), surok, 109, 5, 15, 15, 0.4, 10, proj -> {
+            cs.action(() -> World.sendProjectile(cs.getNPC("zaff"), surok, 109, new Pair<>(5, 15), 15, 10, 10, 0, proj -> {
                 surok.spotAnim(345);
                 surok.anim(6098);
             }));

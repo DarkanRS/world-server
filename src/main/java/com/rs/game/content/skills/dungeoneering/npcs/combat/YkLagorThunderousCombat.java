@@ -33,6 +33,7 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
+import kotlin.Pair;
 
 import java.util.List;
 
@@ -159,7 +160,7 @@ public class YkLagorThunderousCombat extends CombatScript {
 			for (Player player : npc.getManager().getParty().getTeam()) {
 				if (player.isDead() || !npc.getManager().isAtBossRoom(player.getTile()))
 					continue;
-				World.sendProjectile(npc, player, 2733, 75, 50, 20, 0, 20, 0);
+				World.sendProjectile(npc, player, 2733, new Pair<>(75, 50), 20, 5, 20);
 				delayHit(npc, 1, player, getMagicHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MAGE, player)));
 				player.setNextSpotAnim(new SpotAnim(2755, 85, 0));
 			}

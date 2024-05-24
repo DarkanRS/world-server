@@ -45,7 +45,7 @@ public class Drag implements NexAttack {
 			player.setNextSpotAnim(new SpotAnim(2767));
 			player.forceMove(nex.getNearestTeleTile(1), 14386, 0, 60);
 			nex.setNextAnimation(new Animation(6986));
-			nex.setTarget(player);
+			nex.setCombatTarget(player);
 			player.setNextAnimation(new Animation(-1));
 			WorldTasks.schedule(new Task() {
 				@Override

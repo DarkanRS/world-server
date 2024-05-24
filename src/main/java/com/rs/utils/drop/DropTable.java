@@ -17,18 +17,14 @@
 package com.rs.utils.drop;
 
 import com.rs.cache.loaders.ItemDefinitions;
-import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.cache.loaders.interfaces.IFEvents;
-import com.rs.engine.thread.LowPriorityTaskExecutor;
+import com.rs.engine.thread.AsyncTaskExecutor;
 import com.rs.game.model.entity.player.Bank;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.item.ItemsContainer;
 import com.rs.lib.game.Item;
 import com.rs.lib.util.Utils;
-import com.rs.tools.old.CharmDrop;
 import com.rs.utils.DropSets;
-import com.rs.utils.EffigyDrop;
-import com.rs.utils.NPCClueDrops;
 
 import java.util.List;
 
@@ -110,7 +106,7 @@ public class DropTable {
 
     public static void displayDropsFor(Player player, String tableName, int amount) {
 		player.sendMessage("<col=FF0000><shad=000000>Calculating drops...");
-		LowPriorityTaskExecutor.execute(() -> {
+		AsyncTaskExecutor.execute(() -> {
 			long start = System.currentTimeMillis();
 			ItemsContainer<Item> dropCollection = new ItemsContainer<>(Bank.MAX_BANK_SIZE, true);
 

@@ -62,10 +62,10 @@ public class KeepLaFayeMerlinsCrystalLoc {
 				mordred = npc;
 				break;
 			}
-		if(mordred == null || mordred.getTarget() != null || !mordred.canAggroPlayer(e.getPlayer()))
+		if(mordred == null || mordred.getCombatTarget() != null || !mordred.canAggroPlayer(e.getPlayer()))
 			return;
 		mordred.forceTalk("You DARE invade MY stronghold?!?! Have at thee knave!!");
-		mordred.setTarget(e.getPlayer());
+		mordred.setCombatTarget(e.getPlayer());
 	});
 
 	public static ObjectClickHandler handleFrontDoor = new ObjectClickHandler(new Object[] { 71, 72 }, e -> {
@@ -115,7 +115,7 @@ public class KeepLaFayeMerlinsCrystalLoc {
 			for (NPC npc : World.getNPCsInChunkRange(e.getPlayer().getChunkId(), 1)) {
 				if (!npc.getName().equalsIgnoreCase("Renegade Knight") || !npc.lineOfSightTo(player, false))
 					continue;
-				npc.setTarget(player);
+				npc.setCombatTarget(player);
 				if (Utils.random(0, 5) == 1)
 					npc.forceTalk("Intruder!");
 			}

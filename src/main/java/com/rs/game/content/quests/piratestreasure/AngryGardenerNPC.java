@@ -26,7 +26,7 @@ public class AngryGardenerNPC extends NPC {
 			player.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).setB("KILLED_GARDENER", true);
 		final NPCCombatDefinitions defs = getCombatDefinitions();
 		resetWalkSteps();
-		removeTarget();
+		removeCombatTarget();
 		setNextAnimation(null);
 		PluginManager.handle(new NPCDeathEvent(this, source));
 		WorldTasks.scheduleTimer(loop -> {

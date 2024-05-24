@@ -16,22 +16,20 @@
 //
 package com.rs.game.model.entity.player.managers;
 
-import com.rs.game.content.Potions.Potion;
+import com.rs.game.content.Potion;
 import com.rs.game.content.skills.cooking.Foods.Food;
 import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Teleport;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.pathing.Direction;
+import com.rs.engine.pathfinder.Direction;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.Tile;
 import com.rs.lib.net.ClientPacket;
-import com.rs.utils.TriFunction;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 
 import java.util.Set;

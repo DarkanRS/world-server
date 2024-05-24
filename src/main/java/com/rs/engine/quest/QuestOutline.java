@@ -46,7 +46,7 @@ public abstract class QuestOutline {
 	}
 
 	public final String getRewardsString() {
-		return getClass().getAnnotation(QuestHandler.class).rewardsText();
+		return getQuest().getQuestPointRewardLine() + getClass().getAnnotation(QuestHandler.class).rewardsText();
 	}
 
 	public void updateStage(Player player, int stage) {
@@ -65,5 +65,6 @@ public abstract class QuestOutline {
 		player.getInterfaceManager().sendInterface(1244);
 		player.getPackets().setIFItem(1244, 24, itemId, 1);
 		player.getPackets().setIFText(1244, 25, "You have completed "+getQuest().getDefs().name+"!");
+		player.getPackets().setIFText(1244, 27, "Quest points: "+player.getQuestManager().getQuestPoints());
 	}
 }

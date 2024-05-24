@@ -22,8 +22,7 @@ import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.dialogue.Options;
 import com.rs.engine.quest.Quest;
 import com.rs.game.content.ItemConstants;
-import com.rs.game.content.Potions;
-import com.rs.game.content.achievements.AchievementSystemDialogue;
+import com.rs.game.content.achievements.AchievementSystemD;
 import com.rs.game.content.achievements.SetReward;
 import com.rs.game.content.quests.RuneMysteries;
 import com.rs.game.content.quests.dragonslayer.DragonSlayer;
@@ -50,7 +49,7 @@ public class Lumbridge {
             addOptions("What would you like to say?", new Options() {
                 @Override
                 public void create() {
-                    option("About the Achievement System...", new AchievementSystemDialogue(player, e.getNPCId(), SetReward.EXPLORERS_RING).getStart());
+                    option("About the Achievement System...", () -> new AchievementSystemD(player, e.getNPCId(), SetReward.EXPLORERS_RING));
                 }
             });
         }
@@ -87,7 +86,7 @@ public class Lumbridge {
 									.addNPC(519, HeadE.CALM_TALK, "Sure just give me the item.")
 									.addSimple("(Use the item on Bob)")
 							);
-							option("About the Achievement System...", new AchievementSystemDialogue(player, e.getNPCId(), SetReward.EXPLORERS_RING).getStart());
+							option("About the Achievement System...", () -> new AchievementSystemD(player, e.getNPCId(), SetReward.EXPLORERS_RING));
 						}
 					});
 				}

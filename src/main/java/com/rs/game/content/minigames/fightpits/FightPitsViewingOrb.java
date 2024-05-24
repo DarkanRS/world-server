@@ -31,7 +31,7 @@ public class FightPitsViewingOrb extends PlayerAction {
 		if (!process(player))
 			return false;
 		tile = Tile.of(player.getTile());
-		player.getAppearance().switchHidden();
+		player.getAppearance().setHidden(true);
 		player.getPackets().setBlockMinimapState(5);
 		player.tele(ORB_TELEPORTS[0]);
 		player.getInterfaceManager().sendInventoryInterface(374);
@@ -60,7 +60,7 @@ public class FightPitsViewingOrb extends PlayerAction {
 	public void stop(final Player player) {
 		player.lock(2);
 		player.getInterfaceManager().removeInventoryInterface();
-		player.getAppearance().switchHidden();
+		player.getAppearance().setHidden(false);
 		player.getPackets().setBlockMinimapState(0);
 		player.tele(tile);
 	}
