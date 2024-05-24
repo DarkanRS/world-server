@@ -1,0 +1,14 @@
+[
+  {
+    "genre": "Runecrafting Guild",
+	"parent": "Runecrafting Guild",
+    "comment": "Played in Runecrafting Guild",
+    "isActive": true,
+    "regionIds": [
+      6741
+    ],
+    "songs": [
+	  561
+    ]
+  }
+]
