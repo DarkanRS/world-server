@@ -2,11 +2,8 @@ package com.rs.game.content.quests.elderkiln
 
 import com.rs.cache.loaders.Bonus
 import com.rs.game.content.Effect
+import com.rs.game.content.combat.*
 import com.rs.game.content.combat.AttackStyle.Companion.getStyles
-import com.rs.game.content.combat.CombatSpell
-import com.rs.game.content.combat.attackTarget
-import com.rs.game.content.combat.getMultiAttackTargets
-import com.rs.game.content.combat.getWeaponAttackEmote
 import com.rs.game.content.world.npcs.max.Max
 import com.rs.game.model.entity.Entity
 import com.rs.game.model.entity.npc.NPC
@@ -29,15 +26,11 @@ import com.rs.plugin.kts.npcCombat
 fun mapPKBotCombat() {
     npcCombat(4336) { npc, target ->
         if (npc is PKBotNPC)
-            npc.attack.attackFunc(npc, target)
+            return@npcCombat npc.attack.attackFunc(npc, target)
         else
-            CombatScriptsHandler.getDefaultCombat().apply(npc, target)
+            return@npcCombat CombatScriptsHandler.getDefaultCombat().apply(npc, target)
     }
     instantiateNpc(4336) { _, tile -> PKBotNPC(tile) }
-}
-
-private fun PKBotNPC.attack(target: Entity): Int {
-    return attack.attackFunc(this, target)
 }
 
 private val RENDER_SLOTS = intArrayOf(
@@ -73,6 +66,13 @@ class PKBotNPC(tile: Tile): NPC(4336, tile) {
             99,
             99
         )
+        maxMelee()
+        updateAppearance()
+        hitpoints = maxHitpoints
+        setPermName("<col=FFFFFF>${randomUsername()}")
+    }
+
+    fun maxMage() {
         wear(Equipment.WEAPON, 15486)
         wear(Equipment.SHIELD, 13738)
         wear(Equipment.HEAD, 20159)
@@ -82,10 +82,33 @@ class PKBotNPC(tile: Tile): NPC(4336, tile) {
         wear(Equipment.HANDS, 22366)
         wear(Equipment.NECK, 18335)
         wear(Equipment.CAPE, 20771)
-        updateAppearance()
-        hitpoints = maxHitpoints
-        setPermName("<col=FFFFFF>${randomUsername()}")
         attack = Attack.ICE_BARRAGE
+    }
+
+    fun maxMelee() {
+        wear(Equipment.WEAPON, 21371)
+        wear(Equipment.SHIELD, 20072)
+        wear(Equipment.HEAD, 10828)
+        wear(Equipment.CHEST, 11724)
+        wear(Equipment.LEGS, 11726)
+        wear(Equipment.FEET, 21787)
+        wear(Equipment.HANDS, 22358)
+        wear(Equipment.NECK, 25028)
+        wear(Equipment.CAPE, 20771)
+        attack = Attack.MELEE
+    }
+
+    fun maxRange() {
+        wear(Equipment.WEAPON, 20171)
+        wear(Equipment.SHIELD, -1)
+        wear(Equipment.HEAD, 20147)
+        wear(Equipment.CHEST, 20151)
+        wear(Equipment.LEGS, 20155)
+        wear(Equipment.FEET, 21790)
+        wear(Equipment.HANDS, 22362)
+        wear(Equipment.NECK, 25034)
+        wear(Equipment.CAPE, 20771)
+        attack = Attack.RANGE
     }
 
     private fun randomUsername() =
@@ -153,8 +176,15 @@ class PKBotNPC(tile: Tile): NPC(4336, tile) {
         val models = RENDER_SLOTS.mapIndexed { index, slot ->
             equipment[slot]?.definitions?.maleEquip1 ?: DEFAULT_MODELS[index]
         }.toMutableList()
-        if (equipment.get(Equipment.HEAD)?.definitions?.faceMask() == true)
+        val showFace = !(equipment.get(Equipment.HEAD)?.definitions?.faceMask() ?: false)
+        if (showFace)
             models.add(252)
+        val showArms = !Equipment.hideArms(equipment.get(Equipment.CHEST))
+        val chestSecondary = equipment.get(Equipment.CHEST)?.definitions?.maleEquip2 ?: -1
+        if (chestSecondary != -1)
+            models.add(chestSecondary)
+        if (showArms)
+            models.add(151)
         models.padEnd(12, -1)
         bas = equipment.get(Equipment.WEAPON)?.definitions?.renderAnimId ?: 1426
         bodyMeshModifier = NPCBodyMeshModifier(definitions).addModels(*models.toIntArray())
@@ -178,7 +208,7 @@ class PKBotNPC(tile: Tile): NPC(4336, tile) {
 
 enum class Attack(val range: Int, val attackFunc: PKBotNPC.(Entity) -> Int) {
     ICE_BARRAGE(10, { target ->
-        val spell = CombatSpell.ICE_BARRAGE
+        val spell = if (target.hasEffect(Effect.FREEZE_BLOCK)) CombatSpell.BLOOD_BARRAGE else CombatSpell.ICE_BARRAGE
         val delay = spell.cast(this, target)
         val baseDamage = spell.getBaseDamage(this)
         if (baseDamage < 0) {
@@ -206,8 +236,25 @@ enum class Attack(val range: Int, val attackFunc: PKBotNPC.(Entity) -> Int) {
     MELEE(0, attack@ { target ->
         val weaponId = equipment.get(Equipment.WEAPON)?.id ?: -1
         anim(getWeaponAttackEmote(weaponId, getStyles(weaponId)[1]!!))
-        delayHit(this, 1, target, getMeleeHit(this, getMaxHit(this, 310, NPCCombatDefinitions.AttackStyle.MELEE, target)))
-        return@attack 3
+        delayHit(this, 0, target, getMeleeHit(this, getMaxHit(this, 310, NPCCombatDefinitions.AttackStyle.MELEE, target)))
+        return@attack getMeleeCombatDelay(weaponId)+1
+    }),
+    RANGE(7, attack@ { target ->
+        val weaponId = equipment.get(Equipment.WEAPON)?.id ?: -1
+        val weapon = RangedWeapon.forId(weaponId) ?: return@attack 0
+        val attackStyle = getStyles(weaponId)[1] ?: return@attack 0
+        val weaponConfig = com.rs.utils.ItemConfig.get(weaponId)
+        val soundId = weaponConfig.getAttackSound(attackStyle.index)
+        val ammoId = equipment.get(Equipment.AMMO)?.id ?: -1
+        val combatDelay = getRangeCombatDelay(weaponId, attackStyle)
+        val p = weapon.sendProjectile(this, target, combatDelay, ammoId)
+        //val hit = calculateHit(this, target, weaponId, attackStyle, true)
+        val hit = getRangeHit(this, getMaxHit(this, NPCCombatDefinitions.AttackStyle.RANGE, target))
+        delayHit(target, p.taskDelay, weaponId, attackStyle, hit)
+        anim(weaponConfig.getAttackAnim(attackStyle.index))
+        val attackSpotAnim = weapon.getAttackSpotAnim(ammoId)
+        if (attackSpotAnim != null) spotAnim(attackSpotAnim)
+        soundEffect(target, soundId, true)
+        return@attack combatDelay
     })
-
 }

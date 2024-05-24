@@ -142,30 +142,100 @@ val saveGaalFightPitController = object : InstancedController(Instance.of(Tile.o
                 entityTeleTo(player, 30, 32)
                 wait(1)
 
-                val xil2 = npcCreatePersistent(15178, 16, 39, 0)
+                val xil2 = npcCreatePersistent(15178, 16, 39, 0) {
+                    isForceAgressive = true
+                    setCanAggroNPCs(true)
+                    isSpawned = true
+                }
                 val noremorse77 = PKBotNPC(instance.getLocalTile(36, 26))
+                noremorse77.apply {
+                    maxMelee()
+                    isForceAgressive = true
+                    setCanAggroNPCs(true)
+                    isSpawned = true
+                }
 
                 val firecapezorz = PKBotNPC(instance.getLocalTile(24, 28, 0))
-                val xil1 = npcCreatePersistent(15178, 22, 27, 0)
-                xil1.combatTarget = firecapezorz
-                firecapezorz.combatTarget = xil1
+                val xil1 = npcCreatePersistent(15178, 22, 27, 0) {
+                    combatTarget = firecapezorz
+                    setCanAggroNPCs(true)
+                    isForceAgressive = true
+                    isSpawned = true
+                }
+                firecapezorz.apply {
+                    maxMelee()
+                    combatTarget = xil1
+                    isForceAgressive = true
+                    setCanAggroNPCs(true)
+                    isSpawned = true
+                }
 
-                val ket1 = npcCreatePersistent(15177, 41, 35, 0)
-                val ket2 = npcCreatePersistent(15177, 41, 33, 0)
+                val ket1 = npcCreatePersistent(15177, 41, 35, 0) {
+                    isForceAgressive = true
+                    setCanAggroNPCs(true)
+                    isSpawned = true
+                }
+                val ket2 = npcCreatePersistent(15177, 41, 33, 0) {
+                    isForceAgressive = true
+                    setCanAggroNPCs(true)
+                    isSpawned = true
+                }
                 ket1.combatTarget = ket2
                 ket2.combatTarget = ket1
 
                 val odischamp = PKBotNPC(instance.getLocalTile(33, 38, 0))
                 val gaalXox = npcCreatePersistent(15180, 26, 35, 0)
-                odischamp.combatTarget = gaalXox
+                val gaalJeh = npcCreatePersistent(15179, 26, 33, 0)
+                odischamp.apply {
+                    maxMage()
+                    combatTarget = gaalXox
+                    isForceAgressive = true
+                    setCanAggroNPCs(true)
+                    isSpawned = true
+                }
+                gaalXox.isSpawned = true
                 gaalXox.combatTarget = odischamp
 
                 val fightPitPker = PKBotNPC(instance.getLocalTile(28, 46, 0))
                 val lolThenKill = PKBotNPC(instance.getLocalTile(20, 46, 0))
-                fightPitPker.combatTarget = lolThenKill
-                lolThenKill.combatTarget = fightPitPker
+                lolThenKill.apply {
+                    maxMage()
+                    combatTarget = fightPitPker
+                    isForceAgressive = true
+                    setCanAggroNPCs(true)
+                    isSpawned = true
+                }
+                fightPitPker.apply {
+                    maxRange()
+                    combatTarget = lolThenKill
+                    isForceAgressive = true
+                    setCanAggroNPCs(true)
+                    isSpawned = true
+                }
 
                 fadeOutAndWait()
+                player.unlock()
+//                wait {
+//                    setOf(gaalXox, gaalJeh).any { it.isDead } ||
+//                    setOf(xil1, xil2, ket1, ket2, noremorse77, firecapezorz, odischamp, lolThenKill, fightPitPker).all { it.isDead }
+//                }
+                player.lock()
+//                if (setOf(gaalXox, gaalJeh).any { it.isDead }) {
+//                    player.safeDeath(instance.returnTo, "You failed to protect one of the Ga'al.") {
+//                        instance.destroy()
+//                        player.controllerManager.forceStop()
+//                    }
+//                    return@cutscene
+//                }
+                fadeInAndWait()
+                entityTeleTo(player, 26, 25)
+                entityTeleTo(gaalXox, 26, 26)
+                entityTeleTo(gaalJeh, 26, 23)
+                val mejAk = npcCreate(15158, )
+                val mejJeh = npcCreate(15166, )
+                camPos(30, 30, 3210)
+                camLook(34, 34, 3210)
+
             }
         }
     }

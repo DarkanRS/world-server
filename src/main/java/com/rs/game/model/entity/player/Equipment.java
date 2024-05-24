@@ -208,6 +208,8 @@ public final class Equipment {
 	}
 
 	public static boolean hideArms(Item item) {
+		if (item == null)
+			return false;
 		return item.getDefinitions().isEquipType(6);
 	}
 

@@ -66,6 +66,7 @@ public class Chunk {
     protected volatile boolean loadedMapData = false;
 
     private int[] musicIds;
+    private boolean multicombat;
 
     public Chunk(int chunkId) {
         this.id = chunkId;
@@ -715,5 +716,13 @@ public class Chunk {
 
     public Set<UpdateZone> getUpdateZones() {
         return updateZones;
+    }
+
+    public boolean isMulticombat() {
+        return multicombat;
+    }
+
+    public void setMulticombat(boolean multicombat) {
+        this.multicombat = multicombat;
     }
 }

@@ -49,7 +49,7 @@ public class Test {
 		Settings.loadConfig();
 		Cache.init(Settings.getConfig().getCachePath());
 
-		System.out.println(ItemDefinitions.getDefs(2414));
+		System.out.println(IdentiKitDefinitions.getDefs(26));
 	}
 
 }

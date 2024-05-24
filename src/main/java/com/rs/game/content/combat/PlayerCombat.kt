@@ -227,7 +227,7 @@ class PlayerCombat(@JvmField val target: Entity) : PlayerAction() {
         var combatDelay = getRangeCombatDelay(weaponId, attackStyle)
 
         if (player.combatDefinitions.isUsingSpecialAttack) return execute(SpecialAttack.Type.RANGE, player, target)
-        val p = weapon.sendProjectile(player, target, combatDelay)
+        val p = weapon.sendProjectile(player, target, combatDelay, player.equipment.ammoId)
         when (weapon) {
             RangedWeapon.DEATHTOUCHED_DART -> {
                 player.anim(weaponConfig.getAttackAnim(0))
@@ -414,7 +414,7 @@ class PlayerCombat(@JvmField val target: Entity) : PlayerAction() {
             }
         }
         player.anim(weaponConfig.getAttackAnim(attackStyle.index))
-        val attackSpotAnim = weapon.getAttackSpotAnim(player, ammo)
+        val attackSpotAnim = weapon.getAttackSpotAnim(player.equipment.ammoId)
         if (attackSpotAnim != null) player.spotAnim(attackSpotAnim)
         player.soundEffect(target, soundId, true)
         return combatDelay
@@ -950,18 +950,18 @@ fun delayHit(target: Entity, delay: Int, hit: Hit) {
 
 @JvmOverloads
 fun delayHit(target: Entity, delay: Int, weaponId: Int, attackStyle: AttackStyle?, hit: Hit, afterDelay: Runnable? = null, hitSucc: Runnable? = null, hitFail: Runnable? = null) {
-    val player = hit.source as? Player
-    player?.let { addAttackedByDelay(player, target) }
+    val source = hit.source
+    source?.let { addAttackedByDelay(source, target) }
     target.applyHit(hit, delay) {
         afterDelay?.run()
         target.setNextAnimationNoPriority(Animation(getDefenceEmote(target)))
-        if (target is NPC) target.soundEffect(player, target.combatDefinitions.defendSound, true)
+        if (target is NPC) target.soundEffect(source, target.combatDefinitions.defendSound, true)
         if (target is Player) {
             target.closeInterfaces()
-            if (!target.isLocked && target.combatDefinitions.isAutoRetaliate && !target.actionManager.hasSkillWorking() && target.interactionManager.interaction == null && !target.hasWalkSteps()) target.interactionManager.setInteraction(PlayerCombatInteraction(target, player))
+            if (!target.isLocked && target.combatDefinitions.isAutoRetaliate && !target.actionManager.hasSkillWorking() && target.interactionManager.interaction == null && !target.hasWalkSteps()) target.interactionManager.setInteraction(PlayerCombatInteraction(target, source))
         } else (target as? NPC)?.let { npc ->
             if (!npc.isUnderCombat || npc.canBeAutoRetaliated())
-                npc.combatTarget = player
+                npc.combatTarget = source
         }
     }
     val damage = min(hit.damage.toDouble(), target.hitpoints.toDouble()).toInt()
@@ -969,7 +969,7 @@ fun delayHit(target: Entity, delay: Int, weaponId: Int, attackStyle: AttackStyle
     if (damage > 0) {
         hitSucc?.run()
     } else hitFail?.run()
-    player?.let { addXp(player, target, attackStyle?.xpType, hit) }
+    (source as? Player)?.let { addXp(source, target, attackStyle?.xpType, hit) }
     checkPoison(target, weaponId, hit)
 }
 
