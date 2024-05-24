@@ -2,12 +2,12 @@
   "names": [
     "Ogre chieftain"
   ],
-  "attackAnim": -1,
+  "attackAnim": 11470,
   "attackSound": -1,
-  "defenceAnim": -1,
+  "defenceAnim": 11473,
   "defendSound": -1,
-  "deathAnim": -1,
-  "deathDelay": 6,
+  "deathAnim": 11476,
+  "deathDelay": 4,
   "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 600,
