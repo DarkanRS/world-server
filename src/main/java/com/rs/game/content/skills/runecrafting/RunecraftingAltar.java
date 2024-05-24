@@ -126,7 +126,7 @@ public class RunecraftingAltar {
 	public static void refreshHood(Player player) {
 		player.getPackets().setIFText(WICKED_HOOD_INTER, 139, "" + player.getDailySubI("wickedEss", 100));
 		player.getPackets().setIFText(WICKED_HOOD_INTER, 134, "" + player.getDailySubI("wickedTeles", 2));
-		player.getPackets().setIFText(WICKED_HOOD_INTER, 143, "" + player.getDailySubI("wickedRunes", player.getUsedOmniTalisman() ? 2 : 1));
+		player.getPackets().setIFText(WICKED_HOOD_INTER, 143, "" + player.getDailySubI("wickedRunes", player.getUsedElementalTalisman() ? 2 : 1));
 		for (WickedHoodRune rune : WickedHoodRune.values())
 			if (player.hasWickedHoodTalisman(rune) || player.hasWickedHoodTalisman(rune))
 				player.getPackets().setIFGraphic(WICKED_HOOD_INTER, rune.getSpriteComp(), rune.getSpriteId());
@@ -147,7 +147,7 @@ public class RunecraftingAltar {
 				amountToTake = e.getPlayer().getDailySubI("wickedEss", 100);
 			if (amountToTake > 0 && e.getPlayer().getInventory().hasFreeSlots()) {
 				e.getPlayer().setDailyI("wickedEss", e.getPlayer().getDailyI("wickedEss") + amountToTake);
-				if (e.getPlayer().getUsedElementalTalisman())
+				if (e.getPlayer().getUsedOmniTalisman())
 					e.getPlayer().getInventory().addItem(7936, amountToTake);
 				else
 					e.getPlayer().getInventory().addItem(1436, amountToTake);
@@ -168,7 +168,7 @@ public class RunecraftingAltar {
 						return;
 					}
 					if (e.getPlayer().hasWickedHoodTalisman(selection)) {
-						if (e.getPlayer().getDailySubI("wickedRunes", e.getPlayer().getUsedOmniTalisman() ? 2 : 1) > 0 && e.getPlayer().getInventory().hasFreeSlots()) {
+						if (e.getPlayer().getDailySubI("wickedRunes", e.getPlayer().getUsedElementalTalisman() ? 2 : 1) > 0 && e.getPlayer().getInventory().hasFreeSlots()) {
 							e.getPlayer().incDailyI("wickedRunes");
 							e.getPlayer().getInventory().addItem(selection.getRuneId(), selection.ordinal() > 5 ? 5 : 100);
 							refreshHood(e.getPlayer());
