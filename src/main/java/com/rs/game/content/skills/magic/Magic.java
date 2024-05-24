@@ -370,6 +370,11 @@ public class Magic {
 				sendNormalTeleportSpell(player, 58, 68, Tile.of(2547, 3113, 2), new RuneSet(Rune.EARTH, 2, Rune.LAW, 2));
 				break;
 			case 69: // troll
+				if (player.isQuestComplete(Quest.DEATH_PLATEAU)) {
+					sendNormalTeleportSpell(player, 51, 61, Tile.of(2664, 3305, 0), new RuneSet(Rune.WATER, 2, Rune.LAW, 2));
+				} else {
+					player.sendMessage("You have not yet learned this spell.");
+				}
 				sendNormalTeleportSpell(player, 61, 68, Tile.of(2888, 3674, 0), new RuneSet(Rune.FIRE, 2, Rune.LAW, 2));
 				break;
 			case 72: // ape

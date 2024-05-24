@@ -173,6 +173,11 @@ public class TeleportTabs {
 			return false;
 		}
 
+		if (itemId == 20175 && !p.isQuestComplete(Quest.DEATH_PLATEAU)) {
+			p.sendMessage("You must have completed Death Plateau to use this teleport.");
+			return false;
+		}
+
 		return true;
 	}
 }
