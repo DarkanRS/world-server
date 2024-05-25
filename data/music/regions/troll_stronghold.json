@@ -1,0 +1,16 @@
+[
+  {
+    "genre": "Troll Stronghold",
+    "parent": "Dungeon",
+    "comment": "Troll Stronghold",
+    "isActive": true,
+    "regionIds": [
+      11676
+    ],
+    "songs": [
+      153,
+	  257,
+	  258
+    ]
+  }
+]

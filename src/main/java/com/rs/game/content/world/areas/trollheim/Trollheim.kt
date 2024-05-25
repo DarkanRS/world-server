@@ -19,21 +19,20 @@ package com.rs.game.content.world.areas.trollheim
 import com.rs.engine.cutscenekt.cutscene
 import com.rs.engine.dialogue.HeadE.*
 import com.rs.engine.pathfinder.Direction
-import com.rs.game.World
-import com.rs.game.content.bosses.godwars.GodwarsController
-import com.rs.game.content.skills.agility.Agility
-import com.rs.game.content.world.doors.Doors
-import com.rs.game.map.ChunkManager
 import com.rs.engine.pathfinder.RouteEvent
 import com.rs.engine.quest.Quest
+import com.rs.game.World
+import com.rs.game.content.bosses.godwars.GodwarsController
 import com.rs.game.content.quests.death_plateau.instances.PlayerVSTheMapController
 import com.rs.game.content.quests.death_plateau.objects.SabbotCaveEnter
 import com.rs.game.content.quests.death_plateau.objects.SabbotCaveMining
 import com.rs.game.content.quests.death_plateau.utils.*
-import com.rs.game.model.entity.player.Player
-import com.rs.game.model.entity.player.Skills
+import com.rs.game.content.quests.troll_stronghold.utils.STAGE_UNLOCKED_BOTH_CELLS
+import com.rs.game.content.skills.agility.Agility
 import com.rs.game.model.entity.async.schedule
 import com.rs.game.model.entity.player.Equipment
+import com.rs.game.model.entity.player.Player
+import com.rs.game.model.entity.player.Skills
 import com.rs.lib.game.Tile
 import com.rs.lib.net.ClientPacket
 import com.rs.plugin.annotations.ServerStartupEvent
@@ -59,62 +58,69 @@ fun mapTrollheim() {
     }
 
     onObjectClick(35390) { e ->
-        val lift = e.opNum == ClientPacket.OBJECT_OP1
-        if (e.player.skills.getLevel(if (lift) Skills.STRENGTH else Skills.AGILITY) < 60) {
-            e.player.sendMessage("You need a " + (if (lift) "Strength" else "Agility") + " of 60 in order to " + (if (lift) "lift" else "squeeze past") + " this boulder.")
-            return@onObjectClick
-        }
-        val isReturning = e.player.y >= 3709
-        val liftAnimation = if (isReturning) 3624 else 3725
-        val squeezeAnimation = if (isReturning) 3465 else 3466
-        val destination = Tile.of(e.player.x, e.player.y + (if (isReturning) -4 else 4), 0)
-        e.player.lock()
+        if (e.player.isQuestComplete(Quest.DEATH_PLATEAU) && e.player.isQuestStarted(Quest.TROLL_STRONGHOLD)) {
+            val lift = e.opNum == ClientPacket.OBJECT_OP1
+            if (e.player.skills.getLevel(if (lift) Skills.STRENGTH else Skills.AGILITY) < 60) {
+                e.player.sendMessage("You need a " + (if (lift) "Strength" else "Agility") + " of 60 in order to " + (if (lift) "lift" else "squeeze past") + " this boulder.")
+                return@onObjectClick
+            }
+            val isReturning = e.player.y >= 3709
+            val liftAnimation = if (isReturning) 3624 else 3725
+            val squeezeAnimation = if (isReturning) 3465 else 3466
+            val destination = Tile.of(e.player.x, e.player.y + (if (isReturning) -4 else 4), 0)
+            e.player.lock()
 
-        e.player.schedule {
-            e.player.faceTile(destination)
-            wait(1)
-            e.player.anim(if (lift) liftAnimation else squeezeAnimation)
-            wait(2)
-            if (lift && isReturning) World.sendObjectAnimation(e.getObject(), 318)
-            wait(1)
-            if (lift && !isReturning) World.sendObjectAnimation(e.getObject(), 318)
-            wait(2)
-            if (!lift) {
+            e.player.schedule {
+                e.player.faceTile(destination)
+                wait(1)
+                e.player.anim(if (lift) liftAnimation else squeezeAnimation)
+                wait(2)
+                if (lift && isReturning) World.sendObjectAnimation(e.getObject(), 318)
+                wait(1)
+                if (lift && !isReturning) World.sendObjectAnimation(e.getObject(), 318)
+                wait(2)
+                if (!lift) {
+                    e.player.anim(-1)
+                    e.player.tele(destination)
+                    e.player.unlockNextTick()
+                    return@schedule
+                }
+                wait(2)
+                if (isReturning) {
+                    e.player.anim(-1)
+                    e.player.tele(destination)
+                    e.player.unlockNextTick()
+                    return@schedule
+                }
+                wait(3)
                 e.player.anim(-1)
                 e.player.tele(destination)
                 e.player.unlockNextTick()
-                return@schedule
             }
-            wait(2)
-            if (isReturning) {
-                e.player.anim(-1)
-                e.player.tele(destination)
-                e.player.unlockNextTick()
-                return@schedule
-            }
-            wait(3)
-            e.player.anim(-1)
-            e.player.tele(destination)
-            e.player.unlockNextTick()
+        } else {
+            e.player.sendMessage("That looks dangerous. I'll need a good reason before I venture that way.")
         }
     }
 
     onObjectClick(34395) { e ->
-        if (e.getObject().tile.isAt(2920, 3654)) e.player.tele(Tile.of(2907, 10035, 0))
-        else if (e.getObject().tile.isAt(2910, 3637)) e.player.tele(Tile.of(2907, 10019, 0))
-        else if (e.getObject().tile.isAt(2857, 3578)) e.player.tele(Tile.of(2269, 4752, 0))
-        else if (e.getObject().tile.isAt(2885, 3673)) e.player.tele(Tile.of(2893, 10074, 2))
-        else if (e.getObject().tile.isAt(2847, 3688)) e.player.tele(Tile.of(2837, 10090, 2))
-        else if (e.getObject().tile.isAt(2885, 3673)) e.player.tele(Tile.of(2893, 10074, 2))
-        else if (e.getObject().tile.isAt(2796, 3614)) e.player.tele(Tile.of(2808, 10002, 0))
-        else e.player.sendMessage("Unhandled TrollheimMisc.handleTrollheimCaveEntrances()")
+        when {
+            e.getObject().tile.isAt(2920, 3654) -> e.player.tele(Tile.of(2907, 10035, 0))
+            e.getObject().tile.isAt(2910, 3637) -> e.player.tele(Tile.of(2907, 10019, 0))
+            e.getObject().tile.isAt(2857, 3578) -> e.player.tele(Tile.of(2269, 4752, 0))
+            e.getObject().tile.isAt(2885, 3673) -> {
+                if (e.player.getQuestStage(Quest.TROLL_STRONGHOLD) >= STAGE_UNLOCKED_BOTH_CELLS) e.player.tele(Tile.of(2893, 10074, 2))
+                else e.player.tele(Tile.of(2893, 10074, 0))
+            }
+            e.getObject().tile.isAt(2847, 3688) -> e.player.tele(Tile.of(2837, 10090, 2))
+            e.getObject().tile.isAt(2796, 3614) -> e.player.tele(Tile.of(2808, 10002, 0))
+            else -> e.player.sendMessage("Unhandled TrollheimMisc.handleTrollheimCaveEntrances()")
+        }
     }
 
-    onObjectClick(32738, 18834, 18833, 4500, 3774) { e ->
+
+    onObjectClick(32738, 4500, 3774) { e ->
         when (e.getObject().id) {
             32738 -> e.player.tele(Tile.of(2889, 3675, 0))
-            18834 -> e.player.ladder(Tile.of(2812, 3669, 0))
-            18833 -> e.player.ladder(Tile.of(2831, 10076, 2))
             4500 -> e.player.tele(Tile.of(2795, 3615, 0))
             3774 -> e.player.tele(Tile.of(2848, 3687, 0))
         }
@@ -221,50 +227,50 @@ fun mapTrollheim() {
         }
     }
 
-    onObjectClick(34836, 34839) { e ->
-        if (!ChunkManager.getChunk(e.getObject().tile.chunkId).baseObjects.contains(e.getObject())) return@onObjectClick
-        Doors.handleDoubleDoor(e.player, e.getObject())
-    }
-
     onObjectClick(35391, 3748, 34877, 34889, 34878, 9306, 9305, 3803, 9304, 9303) { e ->
-        if (e.getObject().id == 35391) {
-            if (e.getObject().rotation == 3 || e.getObject().rotation == 1)
-                Agility.handleObstacle(e.player, 3303, 1, e.player.transform(if (e.player.x < e.getObject().x) 2 else -2, 0, 0), 1.0)
-            else
-                Agility.handleObstacle(e.player, 3303, 1, e.player.transform(0, if (e.player.y < e.getObject().y) 2 else -2, 0), 1.0)
-        } else if (e.getObject().id == 3748) {
-            if (e.player.isQuestComplete(Quest.DEATH_PLATEAU))
-                if (e.player.equipment.getId(Equipment.FEET) == CLIMBING_BOOTS || e.player.equipment.getId(Equipment.FEET) == ROCK_CLIMBING_BOOTS)
+        if (e.player.isQuestComplete(Quest.DEATH_PLATEAU) && e.player.isQuestStarted(Quest.TROLL_STRONGHOLD)) {
+            if (e.player.equipment.getId(Equipment.FEET) == CLIMBING_BOOTS || e.player.equipment.getId(Equipment.FEET) == ROCK_CLIMBING_BOOTS) {
+                if (e.getObject().id == 35391) {
+                    if (!Agility.hasLevel(e.player, 15)) return@onObjectClick
+                    if (e.getObject().rotation == 3 || e.getObject().rotation == 1)
+                        Agility.handleObstacle(e.player, 3303, 1, e.player.transform(if (e.player.x < e.getObject().x) 2 else -2, 0, 0), 1.0)
+                    else
+                        Agility.handleObstacle(e.player, 3303, 1, e.player.transform(0, if (e.player.y < e.getObject().y) 2 else -2, 0), 1.0)
+                } else if (e.getObject().id == 3748) {
                     if (e.getObject().rotation == 3 || e.getObject().rotation == 1)
                         Agility.handleObstacle(e.player, 3377, 2, e.player.transform(if (e.player.x < e.getObject().x) 2 else -2, 0, 0), 1.0)
                     else
                         Agility.handleObstacle(e.player, 3377, 2, e.player.transform(0, if (e.player.y < e.getObject().y) 2 else -2, 0), 1.0)
-                else
-                    e.player.sendMessage("That looks dangerous. I should wear appropriate footwear before climbing up there.")
-            else
-                e.player.playerDialogue(CALM_TALK, "That looks dangerous. I'll need a good reason before I venture that way.")
-
-        } else if (e.objectId == 34878) {
-            if (e.player.isQuestComplete(Quest.DEATH_PLATEAU))
-                if (e.player.equipment.getId(Equipment.FEET) == CLIMBING_BOOTS || e.player.equipment.getId(Equipment.FEET) == ROCK_CLIMBING_BOOTS)
+                } else if (e.objectId == 34878) {
                     if (e.getObject().rotation == 0 || e.getObject().rotation == 2)
                         Agility.handleObstacle(e.player, if (e.player.x < e.getObject().x) 3381 else 3382, 3, e.player.transform(if (e.player.x < e.getObject().x) 4 else -4, 0, 0), 1.0)
                     else
                         Agility.handleObstacle(e.player, if (e.player.y < e.getObject().y) 3381 else 3382, 3, e.player.transform(0, if (e.player.y < e.getObject().y) 4 else -4, 0), 1.0)
+                }
+            } else {
+                e.player.sendMessage("<col=A31818>You'll need some climbing boots to go that way.</col>")
+            }
+            if (e.getObject().id == 34877 || e.getObject().id == 34889 || e.getObject().id == 3803 || e.getObject().id == 9304 || e.getObject().id == 9303) {
+                if (e.getObject().rotation == 0 || e.getObject().rotation == 2)
+                    Agility.handleObstacle(e.player, if (e.player.x < e.getObject().x) 3381 else 3382, 3, e.player.transform(if (e.player.x < e.getObject().x) 4 else -4, 0, 0), 1.0)
                 else
-                    e.player.sendMessage("That looks dangerous. I should wear appropriate footwear before climbing up there.")
-            else
-                e.player.sendMessage("That looks dangerous. I'll need a good reason before I venture that way.")
-        } else if (e.getObject().id == 34877 || e.getObject().id == 34889 || e.getObject().id == 3803 || e.getObject().id == 9304 || e.getObject().id == 9303) {
-            if (e.getObject().rotation == 0 || e.getObject().rotation == 2)
-                Agility.handleObstacle(e.player, if (e.player.x < e.getObject().x) 3381 else 3382, 3, e.player.transform(if (e.player.x < e.getObject().x) 4 else -4, 0, 0), 1.0)
-            else
-                Agility.handleObstacle(e.player, if (e.player.y < e.getObject().y) 3381 else 3382, 3, e.player.transform(0, if (e.player.y < e.getObject().y) 4 else -4, 0), 1.0)
-        } else if (e.getObject().id == 9306 || e.getObject().id == 9305) {
-            if (e.getObject().rotation == 0 || e.getObject().rotation == 2)
-                Agility.handleObstacle(e.player, if (e.player.x < e.getObject().x) 3382 else 3381, 3, e.player.transform(if (e.player.x < e.getObject().x) 4 else -4, 0, 0), 1.0)
-            else
-                Agility.handleObstacle(e.player, if (e.player.y < e.getObject().y) 3382 else 3381, 3, e.player.transform(0, if (e.player.y < e.getObject().y) 4 else -4, 0), 1.0)
+                    Agility.handleObstacle(e.player, if (e.player.y < e.getObject().y) 3381 else 3382, 3, e.player.transform(0, if (e.player.y < e.getObject().y) 4 else -4, 0), 1.0)
+            } else if (e.getObject().id == 9306 || e.getObject().id == 9305) {
+                if (e.getObject().rotation == 0 || e.getObject().rotation == 2)
+                    Agility.handleObstacle(e.player, if (e.player.x < e.getObject().x) 3382 else 3381, 3, e.player.transform(if (e.player.x < e.getObject().x) 4 else -4, 0, 0), 1.0)
+                else
+                    Agility.handleObstacle(e.player, if (e.player.y < e.getObject().y) 3382 else 3381, 3, e.player.transform(0, if (e.player.y < e.getObject().y) 4 else -4, 0), 1.0)
+            }
+        } else {
+            e.player.sendMessage("That looks dangerous. I'll need a good reason before I venture that way.")
+        }
+    }
+
+    onObjectClick(3762) { (player) ->
+        if (player.getQuestStage(Quest.TROLL_STRONGHOLD) >= STAGE_UNLOCKED_BOTH_CELLS) {
+            player.tele(Tile.of(2824, 10050, 0))
+        } else {
+            player.sendMessage("It is cold and dark in there. You have no reason to go in.")
         }
     }
 }
