@@ -219,7 +219,7 @@ val saveGaalFightPitController = object : InstancedController(Instance.of(Tile.o
 //                    setOf(gaalXox, gaalJeh).any { it.isDead } ||
 //                    setOf(xil1, xil2, ket1, ket2, noremorse77, firecapezorz, odischamp, lolThenKill, fightPitPker).all { it.isDead }
 //                }
-                player.lock()
+//                player.lock()
 //                if (setOf(gaalXox, gaalJeh).any { it.isDead }) {
 //                    player.safeDeath(instance.returnTo, "You failed to protect one of the Ga'al.") {
 //                        instance.destroy()
@@ -228,14 +228,18 @@ val saveGaalFightPitController = object : InstancedController(Instance.of(Tile.o
 //                    return@cutscene
 //                }
                 fadeInAndWait()
-                entityTeleTo(player, 26, 25)
-                entityTeleTo(gaalXox, 26, 26)
-                entityTeleTo(gaalJeh, 26, 23)
-                val mejAk = npcCreate(15158, )
-                val mejJeh = npcCreate(15166, )
-                camPos(30, 30, 3210)
-                camLook(34, 34, 3210)
 
+                entityTeleTo(player, 28, 32)
+                entityTeleTo(gaalXox, 29, 36)
+                entityTeleTo(gaalJeh, 25, 35)
+                //25, 44 //champion
+                val mejAk = npcCreate(15158, 31, 28, 0)
+                val mejJeh = npcCreate(15166, 33, 30, 0)
+                camPos(27, 36, 3275)
+                camLook(34, 34, 3210)
+                fadeOutAndWait()
+
+                wait { false }
             }
         }
     }
