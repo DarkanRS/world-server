@@ -38,7 +38,7 @@ public enum TaskMonster {
 	ICE_GIANTS(15, 1, "ice giant"),
 	FIRE_GIANTS(16, 1, "fire giant"),
 	MOSS_GIANTS(17, 1, "moss giant"),
-	TROLLS(18, 1, "troll"),
+	TROLLS(18, 1, "troll", "kraka", "stick", "pee hat"),
 	ICE_WARRIORS(19, 1, "ice warrior"),
 	OGRES(20, 1, "ogre"),
 	HOBGOBLINS(21, 1, "hobgoblin"),
