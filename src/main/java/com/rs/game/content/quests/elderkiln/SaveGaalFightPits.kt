@@ -9,6 +9,7 @@ import com.rs.engine.quest.Quest
 import com.rs.game.World
 import com.rs.game.content.combat.CombatSpell
 import com.rs.game.map.instance.Instance
+import com.rs.game.model.entity.Hit
 import com.rs.game.model.entity.async.schedule
 import com.rs.game.model.entity.npc.NPC
 import com.rs.game.model.entity.player.InstancedController
@@ -215,31 +216,56 @@ val saveGaalFightPitController = object : InstancedController(Instance.of(Tile.o
 
                 fadeOutAndWait()
                 player.unlock()
-//                wait {
-//                    setOf(gaalXox, gaalJeh).any { it.isDead } ||
-//                    setOf(xil1, xil2, ket1, ket2, noremorse77, firecapezorz, odischamp, lolThenKill, fightPitPker).all { it.isDead }
-//                }
-//                player.lock()
-//                if (setOf(gaalXox, gaalJeh).any { it.isDead }) {
-//                    player.safeDeath(instance.returnTo, "You failed to protect one of the Ga'al.") {
-//                        instance.destroy()
-//                        player.controllerManager.forceStop()
-//                    }
-//                    return@cutscene
-//                }
-                fadeInAndWait()
 
+                //TODO debug
+                setOf(xil1, xil2, ket1, ket2, noremorse77, firecapezorz, odischamp, lolThenKill, fightPitPker)
+                    .forEach { it.applyHit(Hit.flat(player, it.hitpoints)) }
+
+                wait {
+                    setOf(gaalXox, gaalJeh).any { it.isDead } ||
+                    setOf(xil1, xil2, ket1, ket2, noremorse77, firecapezorz, odischamp, lolThenKill, fightPitPker).all { it.isDead }
+                }
+                player.lock()
+                if (setOf(gaalXox, gaalJeh).any { it.isDead }) {
+                    player.safeDeath(instance.returnTo, "You failed to protect one of the Ga'al.") {
+                        instance.destroy()
+                        player.controllerManager.forceStop()
+                    }
+                    return@cutscene
+                }
+                fadeInAndWait()
+                lowerAspectRatio()
                 entityTeleTo(player, 28, 32)
                 entityTeleTo(gaalXox, 29, 36)
                 entityTeleTo(gaalJeh, 25, 35)
-                //25, 44 //champion
-                val mejAk = npcCreate(15158, 31, 28, 0)
-                val mejJeh = npcCreate(15166, 33, 30, 0)
-                camPos(27, 36, 3275)
-                camLook(34, 34, 3210)
+                val mejAk = npcCreate(15158, 31, 28, 0) { faceTile(instance.getLocalTile(27, 36)) }
+                camPos(28, 24, 3144)
+                camLook(28, 34, 1023)
+                setOf(player, gaalXox, gaalJeh).forEach { it.faceEntityTile(mejAk) }
                 fadeOutAndWait()
-
-                wait { false }
+                dialogue {
+                    npc(mejAk.id, T_CONFUSED, "You think you can save this...Ga'al?")
+                }
+                waitForDialogue()
+                camPos(28, 34, 2408)
+                camLook(36, 25, 100)
+                val mejJeh = npcCreate(15166, 37, 30, 0)
+                entityWalkTo(mejJeh, 33, 30)
+                dialogue {
+                    npc(mejJeh.id, T_CALM_TALK, "We must talk, TzHaar-Mej-Ak. I know how to give memories to the Ga'al.")
+                    npc(mejAk.id, T_ANGRY, "TzHaar-Mej-Jeh? All you talk of now is Ga'al. You have forgotten what it is to be a TzHaar. It is my duty to remind you...")
+                    npc(mejAk.id, T_ANGRY, "Enter, Champion!")
+                }
+                waitForDialogue()
+                val champion = npcCreate(15182, 25, 44, 0)
+                camPos(28, 24, 3144)
+                camLook(28, 34, 1023)
+                dialogue {
+                    npc(mejAk.id, T_ANGRY, "Kill his Ga'al!")
+                    npc(mejJeh.id, T_ANGRY, "No!")
+                }
+                waitForDialogue()
+                restoreDefaultAspectRatio()
             }
         }
     }
