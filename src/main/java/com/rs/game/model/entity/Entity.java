@@ -1642,7 +1642,7 @@ public abstract class Entity {
 	}
 
 	public Tile getLastTile() {
-		return lastTile;
+		return lastTile != null ? lastTile : Tile.of(tile);
 	}
 
 	public ArrayList<Hit> getNextHits() {
