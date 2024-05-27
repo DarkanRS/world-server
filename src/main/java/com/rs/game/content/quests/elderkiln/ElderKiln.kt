@@ -68,7 +68,5 @@ class ElderKiln : QuestOutline() {
 
 @ServerStartupEvent
 fun mapElderKiln() {
-    onLogin {
-        it.player.setQuestStage(Quest.ELDER_KILN, STAGE_GO_TO_KILN)
-    }
+
 }
