@@ -190,7 +190,7 @@ fun mapSpecials() {
 
     addSpec(RangedWeapon.DORGESHUUN_CBOW.ids, SpecialAttack(SpecialAttack.Type.RANGE, 75) { player, target ->
         player.anim(ItemConfig.get(RangedWeapon.DORGESHUUN_CBOW.ids[0]).getAttackAnim(0))
-        RangedWeapon.DORGESHUUN_CBOW.getAttackSpotAnim(player, forId(player.equipment.ammoId)).let {
+        RangedWeapon.DORGESHUUN_CBOW.getAttackSpotAnim(player.equipment.ammoId).let {
             player.spotAnim(it)
         }
         val hit = calculateHit(player, target, true, true, 1.0, 1.3)
@@ -205,7 +205,7 @@ fun mapSpecials() {
     addSpec(RangedWeapon.DARK_BOW.ids, SpecialAttack(SpecialAttack.Type.RANGE, 65) { player, target ->
         val ammoId = player.equipment.ammoId
         player.anim(ItemConfig.get(RangedWeapon.DARK_BOW.ids[0]).getAttackAnim(0))
-        RangedWeapon.DARK_BOW.getAttackSpotAnim(player, forId(player.equipment.ammoId)).let {
+        RangedWeapon.DARK_BOW.getAttackSpotAnim(player.equipment.ammoId).let {
             player.spotAnim(it)
         }
         if (ammoId == 11212) {

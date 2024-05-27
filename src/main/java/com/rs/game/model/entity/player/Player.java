@@ -1604,10 +1604,10 @@ public class Player extends Entity {
 			return;
 		boolean isAtMultiArea = isForceMultiArea() || World.isMultiArea(getTile());
 		if (isAtMultiArea && !isAtMultiArea()) {
-			setAtMultiArea(isAtMultiArea);
+			setAtMultiArea(true);
 			getPackets().sendVarc(616, 1);
 		} else if (!isAtMultiArea && isAtMultiArea()) {
-			setAtMultiArea(isAtMultiArea);
+			setAtMultiArea(false);
 			getPackets().sendVarc(616, 0);
 		}
 	}

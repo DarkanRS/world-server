@@ -387,19 +387,19 @@ public enum Quest {
 		QuestOutline handler = getHandler();
 		if (handler == null)
 			return getQuestPointRewardLine().replace("<br>", "");
-		return getQuestPointRewardLine()+getHandler().getRewardsString();
+		return getHandler().getRewardsString();
 	}
 
 	public String getRequirementsString(Player player) {
 		StringBuilder lines = new StringBuilder();
 		QuestInformation info = getDefs().getExtraInfo();
 
-		if (info.getPreReqs().size() > 0) {
+		if (!info.getPreReqs().isEmpty()) {
 			for (Quest preReq : info.getPreReqs())
 				lines.append(Utils.strikeThroughIf(preReq.getDefs().getExtraInfo().getName(), () -> player.isQuestComplete(preReq))).append("<br>");
 		}
 
-		if (info.getSkillReq().size() > 0) {
+		if (!info.getSkillReq().isEmpty()) {
 			for (int skillId : info.getSkillReq().keySet()) {
 				if (info.getSkillReq().get(skillId) == 0)
 					continue;

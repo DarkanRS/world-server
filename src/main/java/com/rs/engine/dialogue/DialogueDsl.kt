@@ -187,6 +187,10 @@ class OptionsBuilder(val stages: MutableMap<String, Dialogue>) {
         operations.add(OptionOperation.BuilderOp(name, setup))
     }
 
+    fun ops(vararg names: String, setup: OptionBuilder.() -> Unit = {}) {
+        names.forEach { name -> operations.add(OptionOperation.BuilderOp(name, setup)) }
+    }
+
     fun opExec(name: String, exec: Runnable) {
         operations.add(OptionOperation.ExecOp(name, exec))
     }

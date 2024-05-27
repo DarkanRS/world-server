@@ -144,7 +144,7 @@ public class ItemTeleports {
 		int index = getIndex(item);
 		if (index < 0)
 			return;
-		if (optionIndex > COORDINATES[index].length) {
+		if (optionIndex >= COORDINATES[index].length) {
 			player.sendMessage("Error handling teleport option. Report this to administrators.");
 			return;
 		}

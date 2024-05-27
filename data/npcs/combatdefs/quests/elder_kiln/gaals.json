@@ -1,17 +1,18 @@
 {
-  "names": [
-    "FightpitPKer"
+  "ids": [
+    15179,
+    15180
   ],
-  "attackAnim": -1,
+  "attackAnim": 16220,
   "attackSound": -1,
-  "defenceAnim": -1,
+  "defenceAnim": 16222,
   "defendSound": -1,
-  "deathAnim": -1,
+  "deathAnim": 16259,
   "deathDelay": 6,
   "deathSound": -1,
   "respawnDelay": 59,
-  "hitpoints": 1,
-  "maxHit": 1,
+  "hitpoints": 3000,
+  "maxHit": 130,
   "attackStyle": "MELEE",
   "attackRange": -1,
   "attackGfx": -1,

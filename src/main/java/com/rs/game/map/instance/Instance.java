@@ -29,30 +29,49 @@ public class Instance {
     private final int width;
     private final int height;
 
-    private final boolean copyNpcs;
+    final boolean copyNpcs;
+    final boolean copyMulti;
 
     private final transient AtomicBoolean destroyed;
 
+    //No-args constructor that should never be used other than by GSON's hacky BS.
     private Instance() {
+        this.copyMulti = false;
         this.returnTo = Settings.getConfig().getPlayerStartTile();
         this.width = 1;
         this.height = 1;
-        destroyed = new AtomicBoolean(false);
+        this.copyNpcs = false;
+        this.destroyed = new AtomicBoolean(false);
+    }
+
+    private Instance(boolean multizone) {
+        this.destroyed = new AtomicBoolean(false);
+        this.copyMulti = multizone;
+        this.returnTo = Settings.getConfig().getPlayerStartTile();
+        this.width = 1;
+        this.height = 1;
         this.copyNpcs = false;
     }
 
-    private Instance(Tile returnTo, int width, int height, boolean copyNpcs) {
+    private Instance(Tile returnTo, int width, int height, boolean copyNpcs, boolean copyMulti) {
+        this.destroyed = new AtomicBoolean(false);
         this.returnTo = returnTo;
         this.width = width;
         this.height = height;
-        destroyed = new AtomicBoolean(false);
+        this.copyMulti = copyMulti;
         this.copyNpcs = copyNpcs;
     }
 
-    public static Instance of(Tile returnTo, int width, int height, boolean copyNpcs) {
-        Instance instance = new Instance(returnTo, width, height, copyNpcs);
+    public static Instance of(Tile returnTo, int width, int height, boolean copyNpcs, boolean copyMulti) {
+        Instance instance = new Instance(returnTo, width, height, copyNpcs, copyMulti);
         INSTANCES.put(instance.id, instance);
-        return new Instance(returnTo, width, height, copyNpcs);
+        return instance;
+    }
+
+    public static Instance of(Tile returnTo, int width, int height, boolean copyNpcs) {
+        Instance instance = new Instance(returnTo, width, height, copyNpcs, true);
+        INSTANCES.put(instance.id, instance);
+        return instance;
     }
 
     public static Instance of(Tile returnTo, int width, int height) {
@@ -127,9 +146,9 @@ public class Instance {
     public CompletableFuture<Boolean> copyMap(int localChunkX, int localChunkY, int[] planes, int fromChunkX, int fromChunkY, int[] fromPlanes, int width, int height) {
         CompletableFuture<Boolean> future = new CompletableFuture<>();
         if (chunkBase == null)
-            requestChunkBound().thenAccept(bool -> InstanceBuilder.copyMap(this, localChunkX, localChunkY, planes, fromChunkX, fromChunkY, fromPlanes, width, height, copyNpcs, future)).exceptionally(e -> { future.completeExceptionally(e); return null; });
+            requestChunkBound().thenAccept(bool -> InstanceBuilder.copyMap(this, localChunkX, localChunkY, planes, fromChunkX, fromChunkY, fromPlanes, width, height, copyNpcs, copyMulti, future)).exceptionally(e -> { future.completeExceptionally(e); return null; });
         else
-            InstanceBuilder.copyMap(this, localChunkX, localChunkY, planes, fromChunkX, fromChunkY, fromPlanes, width, height, copyNpcs, future);
+            InstanceBuilder.copyMap(this, localChunkX, localChunkY, planes, fromChunkX, fromChunkY, fromPlanes, width, height, copyNpcs, copyMulti, future);
         return future;
     }
 
