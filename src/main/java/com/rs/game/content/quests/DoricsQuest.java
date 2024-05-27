@@ -24,6 +24,7 @@ import com.rs.engine.quest.Quest;
 import com.rs.engine.quest.QuestHandler;
 import com.rs.engine.quest.QuestOutline;
 import com.rs.game.content.skills.smithing.ForgingInterface;
+import com.rs.game.content.skills.smithing.ForgingInterfaceKt;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -190,6 +191,6 @@ public class DoricsQuest extends QuestOutline {
 		if (!e.getPlayer().isQuestComplete(Quest.DORICS_QUEST))
 			e.getPlayer().startConversation(new DoricD(e.getPlayer()));
 		else if (e.getObject().getDefinitions().containsOption(0, "Smith"))
-			ForgingInterface.openSmithingInterfaceForHighestBar(e.getPlayer(), e.getObject());
+			ForgingInterfaceKt.openSmithingInterfaceForHighestBar(e.getPlayer(), e.getObject());
 	});
 }
