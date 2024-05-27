@@ -14,24 +14,25 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.content.world.areas.dungeons;
+package com.rs.game.content.world.areas.ogre_enclave;
 
-import com.rs.engine.dialogue.Conversation;
-import com.rs.engine.dialogue.Dialogue;
-import com.rs.engine.dialogue.HeadE;
-import com.rs.engine.dialogue.Options;
+
 import com.rs.engine.quest.Quest;
-import com.rs.game.content.skills.magic.Magic;
-import com.rs.game.model.entity.player.Equipment;
-import com.rs.game.model.entity.player.Player;
-import com.rs.lib.game.Item;
 import com.rs.lib.game.Tile;
-import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.handlers.ItemClickHandler;
-import com.rs.plugin.handlers.NPCClickHandler;
+import com.rs.plugin.handlers.ObjectClickHandler;
 
 @PluginEventHandler
-public class TzHaar {
+public class OgreEnclave {
+
+	public static ObjectClickHandler handleogreenclaveentrance = new ObjectClickHandler(new Object[] { 2804 }, e -> {
+		if (e.getPlayer().isQuestComplete(Quest.WATCHTOWER)) {
+			e.getPlayer().tele(Tile.of(2589, 9409, 0));
+		}else
+			e.getPlayer().sendMessage("You do not meet the requirements for Watchtower.");
+	});
+
+	public static ObjectClickHandler handleogreenclaveexit= new ObjectClickHandler(new Object[] { 32494 }, e -> e.getPlayer().tele(Tile.of(2541, 3054, 0)));
+
 
 }

@@ -1,17 +1,17 @@
 {
   "names": [
-    "LolthenKILL"
+    "TzHaar-Xil (Hardened)"
   ],
-  "attackAnim": -1,
+  "attackAnim": 16147,
   "attackSound": -1,
-  "defenceAnim": -1,
+  "defenceAnim": 16146,
   "defendSound": -1,
-  "deathAnim": -1,
+  "deathAnim": 16145,
   "deathDelay": 6,
   "deathSound": -1,
   "respawnDelay": 59,
-  "hitpoints": 1,
-  "maxHit": 1,
+  "hitpoints": 3000,
+  "maxHit": 514,
   "attackStyle": "MELEE",
   "attackRange": -1,
   "attackGfx": -1,

@@ -1,0 +1,327 @@
+[
+  {
+    "tile": {
+      "plane": 0,
+      "x":2565,
+      "y":9443
+    },
+    "comment": "Spider",
+    "npcId": 61
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x":2576,
+      "y":9454
+    },
+    "comment": "Spider",
+    "npcId": 61
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x":2586,
+      "y":9423
+    },
+    "comment": "Spider",
+    "npcId": 61
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x":2588,
+      "y":9431
+    },
+    "comment": "Spider",
+    "npcId": 61
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x":2600,
+      "y":9432
+    },
+    "comment": "Spider",
+    "npcId": 61
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x":2604,
+      "y":9441
+    },
+    "comment": "Spider",
+    "npcId": 61
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x":2607,
+      "y":9460
+    },
+    "comment": "Spider",
+    "npcId": 61
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x":2608,
+      "y":9436
+    },
+    "comment": "Spider",
+    "npcId": 61
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x":2610,
+      "y":9446
+    },
+    "comment": "Spider",
+    "npcId": 61
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x":2617,
+      "y":9451
+    },
+    "comment": "Spider",
+    "npcId": 61
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x":2576,
+      "y":9436
+    },
+    "comment": "Skeleton",
+    "npcId": 5332
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x":2579,
+      "y":9461
+    },
+    "comment": "Skeleton",
+    "npcId": 90
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x":2590,
+      "y":9437
+    },
+    "comment": "Skeleton",
+    "npcId": 5334
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x":2568,
+      "y":9432
+    },
+    "comment": "Ogre Chieftain",
+    "npcId": 852
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x":2573,
+      "y":9447
+    },
+    "comment": "Ogre Chieftain",
+    "npcId": 852
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x":2579,
+      "y":9441
+    },
+    "comment": "Ogre Chieftain",
+    "npcId": 852
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x":2580,
+      "y":9431
+    },
+    "comment": "Ogre Chieftain",
+    "npcId": 852
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x":2611,
+      "y":9454
+    },
+    "comment": "Ogre Chieftain",
+    "npcId": 852
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x":2616,
+      "y":9447
+    },
+    "comment": "Ogre Chieftain",
+    "npcId": 852
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x":2577,
+      "y":9451
+    },
+    "comment": "Ogre Shaman",
+    "npcId": 5183
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x":2582,
+      "y":9437
+    },
+    "comment": "Ogre Shaman",
+    "npcId": 5180
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x":2592,
+      "y":9436
+    },
+    "comment": "Ogre Shaman",
+    "npcId": 5175
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x":2599,
+      "y":9461
+    },
+    "comment": "Ogre Shaman",
+    "npcId": 5186
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x":2606,
+      "y":9438
+    },
+    "comment": "Ogre Shaman",
+    "npcId": 5192
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x":2607,
+      "y":9451
+    },
+    "comment": "Ogre Shaman",
+    "npcId": 5189
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x":2586,
+      "y":9458
+    },
+    "comment": "Greater Demon",
+    "npcId": 83
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x":2612,
+      "y":9423
+    },
+    "comment": "Greater Demon",
+    "npcId": 4700
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x":2615,
+      "y":9423
+    },
+    "comment": "Greater Demon",
+    "npcId": 4699
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x":2615,
+      "y":9426
+    },
+    "comment": "Greater Demon",
+    "npcId": 83
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x":2618,
+      "y":9424
+    },
+    "comment": "Greater Demon",
+    "npcId": 4698
+  },
+
+  {
+    "tile": {
+      "plane": 0,
+      "x":2568,
+      "y":9437
+    },
+    "comment": "Blue Dragon",
+    "npcId": 4684
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x":2579,
+      "y":9445
+    },
+    "comment": "Blue Dragon",
+    "npcId": 4683
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x":2590,
+      "y":9461
+    },
+    "comment": "Blue Dragon",
+    "npcId": 55
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x":2592,
+      "y":9431
+    },
+    "comment": "Blue Dragon",
+    "npcId": 55
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x":2604,
+      "y":9443
+    },
+    "comment": "Blue Dragon",
+    "npcId": 4681
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x":2609,
+      "y":9459
+    },
+    "comment": "Blue Dragon",
+    "npcId": 4682
+  }
+]

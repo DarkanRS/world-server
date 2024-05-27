@@ -698,32 +698,33 @@ enum class RangedWeapon {
         return true
     }
 
-    fun getAttackSpotAnim(player: Player, ammo: AmmoType?): SpotAnim? {
+    fun getAttackSpotAnim(ammoId: Int): SpotAnim? {
+        val ammo = AmmoType.forId(ammoId)
         when (this) {
             DARK_BOW -> {
-                return SpotAnim(ammo!!.getDoubleDrawbackSpotAnim(player.equipment.ammoId), 0, 100)
+                return SpotAnim(ammo!!.getDoubleDrawbackSpotAnim(ammoId), 0, 100)
             }
 
             HAND_CANNON -> {
-                return SpotAnim(ammo!!.getDrawbackSpotAnim(player.equipment.ammoId))
+                return SpotAnim(ammo!!.getDrawbackSpotAnim(ammoId))
             }
 
             else -> {
                 if (isThrown || ammos == null) return SpotAnim(drawbackSpotAnim, 0, 100)
-                if (ammo != null) return SpotAnim(ammo.getDrawbackSpotAnim(player.equipment.ammoId), 0, 100)
+                if (ammo != null) return SpotAnim(ammo.getDrawbackSpotAnim(ammoId), 0, 100)
             }
         }
         return null
     }
 
-    fun sendProjectile(player: Player, target: Entity, attackSpeed: Int): WorldProjectile {
+    fun sendProjectile(player: Entity, target: Entity, attackSpeed: Int, ammoId: Int): WorldProjectile {
         when (this) {
             SLING -> return World.sendProjectile(player, target, projAnim, 30, 5, 20)
             else -> {
                 if (isThrown) return World.sendProjectile(player, target, projAnim, 5 + (attackSpeed * 5), 5, 20)
                 if (ammos == null) return World.sendProjectile(player, target, projAnim, 35, 5, 20)
-                val ammo = AmmoType.forId(player.equipment.ammoId)!!
-                return World.sendProjectile(player, target, ammo.getProjAnim(player.equipment.ammoId), 40, 5, 20)
+                val ammo = AmmoType.forId(ammoId)!!
+                return World.sendProjectile(player, target, ammo.getProjAnim(ammoId), 40, 5, 20)
             }
         }
     }

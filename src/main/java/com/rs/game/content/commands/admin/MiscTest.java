@@ -597,6 +597,7 @@ public class MiscTest {
 		Commands.add(Rights.ADMIN, "update,restart [ticks]", "Restarts the server after specified number of ticks.", (p, args) -> World.safeShutdown(Integer.parseInt(args[0])));
 
 		Commands.add(Rights.DEVELOPER, "npc [npcId]", "Spawns an NPC with specified ID.", (p, args) -> World.spawnNPC(Integer.parseInt(args[0]), Tile.of(p.getTile()), true, false));
+		Commands.add(Rights.DEVELOPER, "npcwithfunc [npcId]", "Spawns an NPC with specified ID with its custom functionality.", (p, args) -> World.spawnNPC(Integer.parseInt(args[0]), Tile.of(p.getTile()), true, true));
 
 		Commands.add(Rights.DEVELOPER, "addnpc [npcId]", "Spawns an NPC permanently with specified ID.", (p, args) -> {
 			if (!Settings.getConfig().isDebug())

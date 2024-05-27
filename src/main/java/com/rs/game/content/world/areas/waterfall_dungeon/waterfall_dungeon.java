@@ -14,24 +14,19 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.content.world.areas.dungeons;
+package com.rs.game.content.world.areas.waterfall_dungeon;
 
-import com.rs.engine.dialogue.Conversation;
-import com.rs.engine.dialogue.Dialogue;
-import com.rs.engine.dialogue.HeadE;
-import com.rs.engine.dialogue.Options;
-import com.rs.engine.quest.Quest;
-import com.rs.game.content.skills.magic.Magic;
-import com.rs.game.model.entity.player.Equipment;
-import com.rs.game.model.entity.player.Player;
-import com.rs.lib.game.Item;
+
+import com.rs.game.content.skills.agility.Agility;
 import com.rs.lib.game.Tile;
-import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.handlers.ItemClickHandler;
-import com.rs.plugin.handlers.NPCClickHandler;
+import com.rs.plugin.handlers.ItemOnObjectHandler;
+import com.rs.plugin.handlers.ObjectClickHandler;
 
+//wrong animations
 @PluginEventHandler
-public class TzHaar {
+public class waterfall_dungeon {
+
+	public static ObjectClickHandler handlewaterfallexit = new ObjectClickHandler(new Object[] { 32711 }, e -> e.getPlayer().tele(Tile.of(2511, 3463, 0)));
 
 }

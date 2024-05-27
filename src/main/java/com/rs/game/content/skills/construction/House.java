@@ -1322,7 +1322,7 @@ public class House {
 				for (int chunkId : this.instance.getChunkIds()) {
 					Chunk chunk = ChunkManager.getChunk(chunkId, true);
 					if (chunk instanceof InstancedChunk instancedChunk)
-						instancedChunk.loadMap(false); //Due to chunks being loaded next to each other when copied, we want to make sure all the collision gets written properly
+						instancedChunk.loadMap(false, false); //Due to chunks being loaded next to each other when copied, we want to make sure all the collision gets written properly
 					for (GameObject object : chunk.getSpawnedObjects())
 						chunk.removeObject(object);
 				}
