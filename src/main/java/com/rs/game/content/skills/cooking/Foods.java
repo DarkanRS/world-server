@@ -150,7 +150,7 @@ public class Foods {
         CHOPPED_TOMATO(new int[] { 1869 }, 1923, 50),
         CHOPPED_TUNA(new int[] { 7086 }, 1923, 50),
         COATED_FROGS_LEGS(10963, 20),
-        COD(339, 180),
+        COD(339, 70),
         COMMON_FRUIT(21376, 150),
         COOKED_CHICKEN(2140, 30),
         COOKED_CHOMPY(2878, 30),
