@@ -2,6 +2,7 @@ package com.rs.game.content.quests.elderkiln
 
 import com.rs.cache.loaders.Bonus
 import com.rs.game.content.Effect
+import com.rs.game.content.ItemConstants
 import com.rs.game.content.combat.*
 import com.rs.game.content.combat.AttackStyle.Companion.getStyles
 import com.rs.game.content.world.npcs.max.Max
@@ -162,7 +163,7 @@ class PKBotNPC(tile: Tile): NPC(4336, tile) {
     override fun drop(killer: Player?) {
         killer?.let {
             equipment.array().forEach { item ->
-                if (item == null) return@forEach
+                if (item == null || !ItemConstants.isTradeable(item)) return@forEach
                 killer.packets.sendGroundItem(GroundItem(item, Tile.of(this.tile)))
             }
         }
