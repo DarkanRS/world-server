@@ -7,10 +7,12 @@ import com.rs.game.model.entity.player.Player
 import com.rs.game.model.entity.player.Skills
 import com.rs.lib.game.Item
 import com.rs.plugin.annotations.ServerStartupEvent
+import com.rs.plugin.kts.onLogin
 
 const val STAGE_UNSTARTED = 0
 const val STAGE_HATCH_EGG = 1
 const val STAGE_SAVE_GAAL_FIGHTPITS = 2
+const val STAGE_GO_TO_KILN = 3
 const val STAGE_COMPLETE = 45
 
 @QuestHandler(
@@ -53,12 +55,20 @@ class ElderKiln : QuestOutline() {
                 player.vars.setVarBit(10811, 1)
                 player.vars.setVarBit(10832, 1)
             }
-
+            STAGE_GO_TO_KILN -> {
+                player.vars.setVarBit(10809, 40)
+                player.vars.setVarBit(10833, 2)
+                player.vars.setVarBit(10811, 1)
+                player.vars.setVarBit(10832, 1)
+                player.vars.setVarBit(10810, 1)
+            }
         }
     }
 }
 
 @ServerStartupEvent
 fun mapElderKiln() {
-
+    onLogin {
+        it.player.setQuestStage(Quest.ELDER_KILN, STAGE_GO_TO_KILN)
+    }
 }
