@@ -15,7 +15,7 @@ const val TZHAAR_MEJ_AK_BPOOL = 15164
 const val TZHAAR_MEJ_JEH_AK_PLAZA = 15165
 
 @ServerStartupEvent
-fun mapMejJahDialogues() {
+fun mapMejJehDialogues() {
     onNpcClick(TZHAAR_MEJ_JEH_BPOOL, TZHAAR_MEJ_AK_BPOOL) { (player) -> mejJahBirthingPoolDialogue(player) }
     onNpcClick(TZHAAR_MEJ_JEH_AK_PLAZA) { (player, npc) -> mejDialogueCenterRing(player, npc) }
 }
