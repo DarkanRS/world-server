@@ -22,7 +22,6 @@ import com.rs.game.model.entity.player.actions.PlayerAction;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
-import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
@@ -55,7 +54,8 @@ public class ShadesOfMortton {
 	public static TempleWall getRandomWall() {
 		if (WALLS.isEmpty())
 			return null;
-		return WALLS.get(WALLS.keySet().toArray()[Utils.random(WALLS.size())]);
+		Integer[] keys = WALLS.keySet().toArray(new Integer[0]);
+		return WALLS.get(keys[Utils.random(WALLS.size())]);
 	}
 
 	public static void addWall(TempleWall wall) {
@@ -70,7 +70,7 @@ public class ShadesOfMortton {
 
 	@ServerStartupEvent
 	public static void initUpdateTask() {
-		WorldTasks.scheduleLooping(Ticks.fromSeconds(30), Ticks.fromSeconds(30), () -> {
+		WorldTasks.scheduleTimer(Ticks.fromSeconds(30), Ticks.fromSeconds(30), (ticks) -> {
 			updateRepairState();
 			for (Player player : World.getPlayersInChunkRange(Tile.of(3497, 3298, 0).getChunkId(), 4)) {
 				if (!player.hasStarted() || player.hasFinished())
@@ -90,6 +90,7 @@ public class ShadesOfMortton {
 				World.removeObject(altar);
 				World.sendSpotAnim(altar.getTile(), new SpotAnim(1605));
 			}
+			return true;
 		});
 	}
 
@@ -206,7 +207,7 @@ public class ShadesOfMortton {
 		GameObject altar = World.getObject(Tile.of(3506, 3316, 0));
 		if (altar.getId() == 4091) {
 			altar.setId(4090);
-			e.getPlayer().setNextAnimation(new Animation(3687));
+			e.getPlayer().anim(3687);
 			e.getPlayer().getSkills().addXp(Constants.FIREMAKING, 100);
 		}
 	});
@@ -225,7 +226,7 @@ public class ShadesOfMortton {
             int anim = player.getInventory().containsItem(3678) ? inside ? 8861 : 8890 : inside ? 8865 : 8888;
             if (getWall(e.getObject()).getRepairPerc() > 50)
                 anim = player.getInventory().containsItem(3678) ? 8950 : 8893;
-            player.setNextAnimation(new Animation(anim));
+            player.anim(anim);
             return true;
         }
 
@@ -258,7 +259,7 @@ public class ShadesOfMortton {
 
         @Override
         public void stop(Player player) {
-            player.setNextAnimation(new Animation(-1));
+            player.anim(-1);
         }
     }));
 
