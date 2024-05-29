@@ -109,12 +109,15 @@ public class DropTable {
 		AsyncTaskExecutor.execute(() -> {
 			long start = System.currentTimeMillis();
 			ItemsContainer<Item> dropCollection = new ItemsContainer<>(Bank.MAX_BANK_SIZE, true);
-
 			double modifier = 1.0;
 			if (player.getEquipment().wearingRingOfWealth())
 				modifier -= 0.01;
+			DropSet set = DropSets.getDropSet(tableName);
+			if (set == null)
+				return;
 			for (int i = 0; i < amount; i++) {
-				List<Item> drops = DropSets.getDropSet(tableName).getDropList().genDrop(modifier);
+
+				List<Item> drops = set.getDropList().genDrop(modifier);
 				for (Item item : drops)
 					dropCollection.add(item);
 			}

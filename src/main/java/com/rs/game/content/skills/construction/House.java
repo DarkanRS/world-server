@@ -1321,6 +1321,8 @@ public class House {
 			CompletableFuture.allOf(regionBuilding.toArray(new CompletableFuture[0])).thenRun(() -> {
 				for (int chunkId : this.instance.getChunkIds()) {
 					Chunk chunk = ChunkManager.getChunk(chunkId, true);
+					if (chunk instanceof InstancedChunk instancedChunk)
+						instancedChunk.loadMap(false, false); //Due to chunks being loaded next to each other when copied, we want to make sure all the collision gets written properly
 					for (GameObject object : chunk.getSpawnedObjects())
 						chunk.removeObject(object);
 				}

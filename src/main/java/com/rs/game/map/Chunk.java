@@ -7,7 +7,7 @@ import com.rs.game.content.pets.Pet;
 import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.pathing.WorldCollision;
+import com.rs.engine.pathfinder.WorldCollision;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.*;
@@ -66,6 +66,7 @@ public class Chunk {
     protected volatile boolean loadedMapData = false;
 
     private int[] musicIds;
+    private boolean multicombat;
 
     public Chunk(int chunkId) {
         this.id = chunkId;
@@ -85,7 +86,7 @@ public class Chunk {
     }
 
     public void addProjectile(WorldProjectile projectile) {
-        addChunkUpdate(new ProjAnim(projectile.getFromTile().getChunkLocalHash(), projectile));
+        addChunkUpdate(new ProjAnim(projectile.getSource().getChunkLocalHash(), projectile));
     }
 
     public void addSpotAnim(Tile tile, SpotAnim spotAnim) {
@@ -715,5 +716,13 @@ public class Chunk {
 
     public Set<UpdateZone> getUpdateZones() {
         return updateZones;
+    }
+
+    public boolean isMulticombat() {
+        return multicombat;
+    }
+
+    public void setMulticombat(boolean multicombat) {
+        this.multicombat = multicombat;
     }
 }

@@ -30,6 +30,7 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
+import kotlin.Pair;
 
 public class IcePrison implements NexAttack {
 
@@ -38,7 +39,7 @@ public class IcePrison implements NexAttack {
 		nex.setNextForceTalk(new ForceTalk("Die now, in a prison of ice!"));
 		nex.voiceEffect(target, 3308, true);
 		nex.setNextAnimation(new Animation(6987));
-		World.sendProjectile(nex, target, 362, 20, 20, 20, 0.45, 10, 0);
+		World.sendProjectile(nex, target, 362, new Pair<>(20, 20), 20, 15, 10);
 		final Tile base = Tile.of(target.getX(), target.getY(), target.getPlane());
 		target.getTempAttribs().setB("inIcePrison", true);
 		for (int x = -1; x <= 1; x++)

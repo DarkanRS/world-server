@@ -43,5 +43,13 @@
     "isActive": true,
     "regionIds": [10039],
     "songs": [66, 141, 367, 519, 898, 949]
+  },
+  {
+    "genre": "Ardougne Sewers",
+    "parent": "Kandarin",
+    "comment": "During Hazeel Cult & Plague City quests.",
+    "isActive": true,
+    "regionIds": [10135, 10136],
+    "songs": [478]
   }
 ]

@@ -24,6 +24,7 @@ import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
+import kotlin.Pair;
 
 public class GeyserTitan extends FamiliarCombatScript {
 
@@ -40,7 +41,7 @@ public class GeyserTitan extends FamiliarCombatScript {
 		} else {
 			npc.setNextAnimation(new Animation(7883));
 			npc.setNextSpotAnim(new SpotAnim(1375));
-			delayHit(npc, World.sendProjectile(npc, target, 1374, 34, 16, 30, 35, 16, 0).getTaskDelay(), target, getRangeHit(npc, getMaxHit(npc, 190, AttackStyle.RANGE, target)));
+			delayHit(npc, World.sendProjectile(npc, target, 1374, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, getRangeHit(npc, getMaxHit(npc, 190, AttackStyle.RANGE, target)));
 		}
 		return npc.getAttackSpeed();
 	}

@@ -217,7 +217,7 @@ public class HolyGrail extends QuestOutline {
 			return;
 		}
 		OwnedNPC percival = new OwnedNPC(e.getPlayer(), 211, Tile.of(2961, 3504, 0), true);
-		percival.faceEntity(e.getPlayer());
+		percival.faceEntityTile(e.getPlayer());
 		percival.setRandomWalk(false);
 	});
 

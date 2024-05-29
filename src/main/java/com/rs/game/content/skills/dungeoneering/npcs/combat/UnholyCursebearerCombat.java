@@ -32,6 +32,7 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
+import kotlin.Pair;
 
 public class UnholyCursebearerCombat extends CombatScript {
 
@@ -80,11 +81,11 @@ public class UnholyCursebearerCombat extends CombatScript {
 				if (multiTarget) {
 					npc.setNextSpotAnim(new SpotAnim(2441));
 					for (Entity t : npc.getPossibleTargets()) {
-						World.sendProjectile(npc, t, 88, 50, 30, 41, 40, 0, 0);
+						World.sendProjectile(npc, t, 88, new Pair<>(50, 30), 41, 4, 0);
 						delayHit(npc, 1, t, getMagicHit(npc, getMaxHit(npc, (int) (npc.getLevelForStyle(AttackStyle.MAGE) * 0.6), AttackStyle.MAGE, t)));
 					}
 				} else {
-					World.sendProjectile(npc, target, 88, 50, 30, 41, 30, 0, 0);
+					World.sendProjectile(npc, target, 88, new Pair<>(50, 30), 41, 5, 0);
 					delayHit(npc, 1, target, getMagicHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MAGE, target)));
 				}
 			}

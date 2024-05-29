@@ -19,7 +19,7 @@ package com.rs.game.content.skills.agility;
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.game.World;
-import com.rs.game.model.entity.pathing.Direction;
+import com.rs.engine.pathfinder.Direction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTasks;
@@ -144,7 +144,7 @@ public class Agility {
 		player.setRunHidden(false);
 		WorldTasks.schedule(1, () -> {
 			player.setBas(renderEmote);
-			player.addWalkSteps(player.transform(direction.getDx()*distance, direction.getDy()*distance), distance,false);
+			player.addWalkSteps(player.transform(direction.dx *distance, direction.dy *distance), distance,false);
 		});
 		WorldTasks.schedule(delay+1, () -> {
 			if (xp > 0)

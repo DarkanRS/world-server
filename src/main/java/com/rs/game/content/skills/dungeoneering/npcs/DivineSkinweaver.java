@@ -146,7 +146,7 @@ public final class DivineSkinweaver extends DungeonBoss {
 		setNextAnimation(new Animation(13678));
 		setNextSpotAnim(new SpotAnim(2445));
 		healTarget.setNextSpotAnim(new SpotAnim(2443, 60, 0));
-		faceEntity(healTarget);
+		faceEntityTile(healTarget);
 		healDelay = 4;
 	}
 

@@ -18,7 +18,7 @@ package com.rs.game.content.quests.ernestthechicken;
 
 import com.rs.game.World;
 import com.rs.game.content.world.doors.Doors.Door;
-import com.rs.game.model.entity.pathing.RouteEvent;
+import com.rs.engine.pathfinder.RouteEvent;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.Tile;
@@ -137,13 +137,21 @@ public class PuzzleRoom {
 	});
 
 	public static ObjectClickHandler handleDoors = new ObjectClickHandler(false, new Object[] { DOOR1, DOOR2, DOOR3, DOOR4, DOOR5, DOOR6, DOOR7, DOOR8, DOOR9 }, e -> e.getPlayer().setRouteEvent(new RouteEvent(e.getObject(), () -> {
-        if (!WorldUtil.isInRange(e.getPlayer().getTile(), e.getObject().getTile(), 2))
-            return;
-        if(e.getObject().getId() == DOOR1 || e.getObject().getId() == DOOR3 || e.getObject().getId() == DOOR8 || e.getObject().getId() == DOOR5)
-            handlePuzzle2Door(e.getPlayer(), e.getObject(), 2);
-        else
-            handlePuzzleDoor(e.getPlayer(), e.getObject(), 2);
-    }, true)));
+		if(e.getObject().getId() == DOOR1 || e.getObject().getId() == DOOR3 || e.getObject().getId() == DOOR8 || e.getObject().getId() == DOOR5)
+			handlePuzzle2Door(e.getPlayer(), e.getObject(), 2);
+		else
+			handlePuzzleDoor(e.getPlayer(), e.getObject(), 2);
+	}, () -> {
+		if (!WorldUtil.isInRange(e.getPlayer().getTile(), e.getObject().getTile(), 2)) {
+			e.getPlayer().sendMessage("You can't reach that.");
+			return false;
+		}
+		if(e.getObject().getId() == DOOR1 || e.getObject().getId() == DOOR3 || e.getObject().getId() == DOOR8 || e.getObject().getId() == DOOR5)
+			handlePuzzle2Door(e.getPlayer(), e.getObject(), 2);
+		else
+			handlePuzzleDoor(e.getPlayer(), e.getObject(), 2);
+		return true;
+	})));
 
 	private static void handlePuzzleDoor(Player player, GameObject object, int offset) {
 		boolean open = object.getDefinitions(player).containsOption("Open");

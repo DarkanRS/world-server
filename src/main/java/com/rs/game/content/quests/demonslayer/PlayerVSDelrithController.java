@@ -21,7 +21,7 @@ import com.rs.engine.dialogue.HeadE;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.map.instance.Instance;
 import com.rs.game.model.entity.Entity;
-import com.rs.game.model.entity.pathing.Direction;
+import com.rs.engine.pathfinder.Direction;
 import com.rs.game.model.entity.player.InstancedController;
 import com.rs.lib.game.Tile;
 import com.rs.utils.music.Genre;
@@ -161,12 +161,12 @@ public class PlayerVSDelrithController extends InstancedController {
 					cs.getNPC(label).setRandomWalk(true);
 					cs.getNPC(label).setForceMultiArea(true);
 					cs.getNPC(label).setForceAggroDistance(20);
-					cs.getNPC(label).setTarget(player);
+					cs.getNPC(label).setCombatTarget(player);
 				});
 				cs.getNPC("delrith").setRandomWalk(true);
 				cs.getNPC("delrith").setForceMultiArea(true);
 				cs.getNPC("delrith").setForceAggroDistance(20);
-				cs.getNPC("delrith").setTarget(player);
+				cs.getNPC("delrith").setCombatTarget(player);
 			});
 		}));
 	}

@@ -16,15 +16,12 @@
 //
 package com.rs.game.content.world.areas.morytania;
 
-import com.rs.cache.loaders.ItemDefinitions;
-import com.rs.cache.loaders.ObjectType;
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.dialogue.Options;
 import com.rs.engine.quest.Quest;
-import com.rs.game.World;
-import com.rs.game.content.achievements.AchievementSystemDialogue;
+import com.rs.game.content.achievements.AchievementSystemD;
 import com.rs.game.content.achievements.SetReward;
 import com.rs.game.content.skills.agility.Agility;
 import com.rs.game.content.skills.magic.Magic;
@@ -34,21 +31,15 @@ import com.rs.game.content.world.doors.Doors;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
-import com.rs.lib.net.ClientPacket;
-import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
-import com.rs.plugin.handlers.ItemOnObjectHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
-import com.rs.utils.Ticks;
 
 @PluginEventHandler
 public class Morytania  {
@@ -59,7 +50,7 @@ public class Morytania  {
             addOptions("What would you like to say?", new Options() {
                 @Override
                 public void create() {
-                    option("About the Achievement System...", new AchievementSystemDialogue(player, e.getNPCId(), SetReward.MORYTANIA_LEGS).getStart());
+                    option("About the Achievement System...", () -> new AchievementSystemD(player, e.getNPCId(), SetReward.MORYTANIA_LEGS));
                 }
             });
         }
@@ -71,7 +62,7 @@ public class Morytania  {
             addOptions("What would you like to say?", new Options() {
                 @Override
                 public void create() {
-                    option("About the Achievement System...", new AchievementSystemDialogue(player, e.getNPCId(), SetReward.MORYTANIA_LEGS).getStart());
+                    option("About the Achievement System...", () -> new AchievementSystemD(player, e.getNPCId(), SetReward.MORYTANIA_LEGS));
                 }
             });
         }
@@ -83,7 +74,7 @@ public class Morytania  {
             addOptions("What would you like to say?", new Options() {
                 @Override
                 public void create() {
-                    option("About the Achievement System...", new AchievementSystemDialogue(player, e.getNPCId(), SetReward.MORYTANIA_LEGS).getStart());
+                    option("About the Achievement System...", () -> new AchievementSystemD(player, e.getNPCId(), SetReward.MORYTANIA_LEGS));
                 }
             });
         }
@@ -95,7 +86,7 @@ public class Morytania  {
             addOptions("What would you like to say?", new Options() {
                 @Override
                 public void create() {
-                    option("About the Achievement System...", new AchievementSystemDialogue(player, e.getNPCId(), SetReward.MORYTANIA_LEGS).getStart());
+                    option("About the Achievement System...", () -> new AchievementSystemD(player, e.getNPCId(), SetReward.MORYTANIA_LEGS));
                 }
             });
         }
@@ -239,7 +230,8 @@ public class Morytania  {
 		else if (e.getObjectId() == 5207)
 			e.getPlayer().tele(e.getPlayer().transform(e.getObject().getRotation() == 0 ? 0 : e.getObject().getRotation() == 1 ? -0 : 0, e.getObject().getRotation() == 0 ? -4 : e.getObject().getRotation() == 1 ? -0 : 0, -1));
 	});
-	public static ObjectClickHandler experimentcavegraveentrance = new ObjectClickHandler(new Object[] { 5167 }, e -> e.getPlayer().tele(Tile.of(3577, 9927, 0)));
+	public static ObjectClickHandler experimentcavegraveentrance = new ObjectClickHandler(new Object[] { 5167 }, e ->
+			e.getPlayer().useLadder(e.getPlayer().transform(0, 6400)));
 
 	//TakenTemple
 	public static ObjectClickHandler handleTemplespiralstairsup = new ObjectClickHandler(new Object[] { 30722 }, e -> e.getPlayer().tele(Tile.of(3415, 3485, 1)));

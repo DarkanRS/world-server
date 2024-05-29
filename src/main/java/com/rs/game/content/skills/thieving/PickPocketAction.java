@@ -56,7 +56,7 @@ public class PickPocketAction extends PlayerAction {
 	public boolean start(Player player) {
 		if (checkAll(player)) {
 			success = successful(player);
-			player.faceEntity(npc);
+			player.faceEntityTile(npc);
 			if (npcData.equals(PickPocketableNPC.DESERT_PHOENIX))
 				player.sendMessage("You attempt to grab the phoenix's tail-feather.");
 			else
@@ -85,7 +85,7 @@ public class PickPocketAction extends PlayerAction {
 			else
 				player.sendMessage("You fail to pick the " + npc.getDefinitions().getName().toLowerCase() + "'s pocket.");
 			npc.setNextAnimation(npcData.getStunAnimation() != null ? npcData.getStunAnimation() : STUN_ANIMATION);
-			npc.faceEntity(player);
+			npc.faceEntityTile(player);
 			player.setNextAnimation(new Animation(424));
 			player.setNextSpotAnim(new SpotAnim(80, 5, 60));
 			player.sendMessage("You've been stunned.");

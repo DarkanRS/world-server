@@ -1,0 +1,35 @@
+[
+  {
+    "comment": "Rope added by mr_ashie_b",
+    "itemId": 954,
+    "amount": 1,
+    "tile": {
+      "x": 2786,
+      "y": 3288,
+      "plane": 0
+    },
+    "respawnTicks": 60
+  },
+  {
+    "comment": "Rope added by mr_ashie_b",
+    "itemId": 954,
+    "amount": 1,
+    "tile": {
+      "x": 2786,
+      "y": 3285,
+      "plane": 0
+    },
+    "respawnTicks": 60
+  },
+  {
+    "comment": "Rope added by mr_ashie_b",
+    "itemId": 954,
+    "amount": 1,
+    "tile": {
+      "x": 2784,
+      "y": 3279,
+      "plane": 0
+    },
+    "respawnTicks": 60
+  }
+]

@@ -39,6 +39,7 @@ import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.ItemOnNPCHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+import kotlin.Pair;
 
 @PluginEventHandler
 public class RunespanController extends Controller {
@@ -490,7 +491,7 @@ public class RunespanController extends Controller {
 							gfx = 2718;
 						else
 							gfx = 2729;
-						World.sendProjectile(player, toTile, gfx, 18, 18, 20, 50, 145, 0);
+						World.sendProjectile(player, toTile, gfx, new Pair<>(18, 18), 20, 10, 145);
 					} else if (plataform.middleGraphic == -3) {
 						int gfx;
 						if (plataform.runes[0] == AIR_RUNE)
@@ -501,7 +502,7 @@ public class RunespanController extends Controller {
 							gfx = 2719;
 						else
 							gfx = 2731;
-						World.sendProjectile(player, toTile, gfx, 18, 18, 20, 50, 145, 0);
+						World.sendProjectile(player, toTile, gfx, new Pair<>(18, 18), 20, 10, 145);
 					} else if (plataform.middleGraphic != -1)
 						player.setNextSpotAnim(new SpotAnim(plataform.middleGraphic));
 					if (plataform.invisible)
@@ -516,7 +517,8 @@ public class RunespanController extends Controller {
 				} else if (stage == 6)
 					World.sendSpotAnim(toTile, new SpotAnim(getPlatformSpotAnim(plataform.runes.length)));
 				stage++;
-
+				if (stage >= 7)
+					stop();
 			}
 
 		}, 0, 0);

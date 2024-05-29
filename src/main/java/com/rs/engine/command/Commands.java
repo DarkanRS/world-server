@@ -34,6 +34,7 @@ import com.rs.lib.game.Rights;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
+import kotlin.Pair;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -221,10 +222,6 @@ public final class Commands {
 			p.getKeldagrimBrewery().updateVars();
 			p.getPhasmatysBrewery().ferment();
 			p.getPhasmatysBrewery().updateVars();
-			return true;
-
-		case "proj":
-			World.sendProjectile(Tile.of(p.getX() + 5, p.getY(), p.getPlane()), Tile.of(p.getX() - 5, p.getY(), p.getPlane()), Integer.valueOf(args[1]), 40, 40, 0, 0.2, 0, 0);
 			return true;
 
 		case "house":

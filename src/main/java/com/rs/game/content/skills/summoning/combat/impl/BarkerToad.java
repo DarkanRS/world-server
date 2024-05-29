@@ -26,6 +26,7 @@ import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemOnNPCHandler;
+import kotlin.Pair;
 
 @PluginEventHandler
 public class BarkerToad extends FamiliarCombatScript {
@@ -63,6 +64,6 @@ public class BarkerToad extends FamiliarCombatScript {
 		f.getAttribs().removeB("storedCannonball");
 		f.sync(7703, 1401);
 		delayHit(f, 1, target, PlayerCombatKt.calculateHit(f.getOwner(), target, 0, 300, f.getOwner().getEquipment().getWeaponId(), f.getOwner().getCombatDefinitions().getAttackStyle(), PlayerCombatKt.isRanging(f.getOwner()), true, 1.0)).setSource(f);
-		World.sendProjectile(f, target, 1402, 10, 16, 30, 1.5, 16, 0);
+		World.sendProjectile(f, target, 1402, new Pair<>(10, 16), 30, 5, 16);
 	}
 }

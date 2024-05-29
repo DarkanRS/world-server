@@ -279,8 +279,8 @@ public class WorldEncoder extends Encoder {
 	}
 
 	public void sendProjectile(WorldProjectile projectile) {
-		session.writeToQueue(new UpdateZonePartial(player.getSceneBaseChunkId(), projectile.getFromTile().getChunkId()));
-		session.writeToQueue(new ProjAnim(projectile.getFromTile().getChunkLocalHash(), projectile));
+		session.writeToQueue(new UpdateZonePartial(player.getSceneBaseChunkId(), projectile.getSource().getChunkId()));
+		session.writeToQueue(new ProjAnim(projectile.getSource().getChunkLocalHash(), projectile));
 	}
 
 	public void sendTileMessage(String message, Tile tile, int delay, int height, int color) {

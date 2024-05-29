@@ -20,16 +20,18 @@ import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 
 import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class StageSelectDialogue extends Dialogue {
 
 	private String stageName;
-	private Conversation conversation;
+	private Map<String, Dialogue> markedStages;
 	private Dialogue directNextReference;
 
-	public StageSelectDialogue(String stageName, Conversation conversation) {
+	public StageSelectDialogue(String stageName, Map<String, Dialogue> markedStages) {
 		this.stageName = stageName;
-		this.conversation = conversation;
+		this.markedStages = markedStages;
 	}
 
 	public StageSelectDialogue(Dialogue directNextReference) {
@@ -40,8 +42,8 @@ public class StageSelectDialogue extends Dialogue {
 		return stageName;
 	}
 
-	public Conversation getConversation() {
-		return conversation;
+	public Map<String, Dialogue> getStages() {
+		return markedStages;
 	}
 
 	public Dialogue getDirectNextReference() {

@@ -34,6 +34,6 @@ public class Wolverine extends NPC {
 		setForceAgressive(true);
 		setAttackedBy(target);
 		setAtMultiArea(true);
-		faceEntity(target);
+		faceEntityTile(target);
 	}
 }

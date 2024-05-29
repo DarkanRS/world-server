@@ -23,7 +23,6 @@ import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.dialogue.statements.ItemStatement;
 import com.rs.engine.dialogue.statements.PlayerStatement;
 import com.rs.game.World;
-import com.rs.game.content.minigames.pyramidplunder.SimonTempleton;
 import com.rs.game.content.skills.agility.Agility;
 import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.model.entity.ForceTalk;
@@ -118,13 +117,6 @@ public class AgilityPyramidController extends Controller {
 			forceClose();
 			climbRocks(player, object);
 		}
-		return false;
-	}
-
-	@Override
-	public boolean processNPCClick1(NPC npc) {
-		if (npc.getId() == 3123)
-			player.startConversation(new SimonTempleton(player));
 		return false;
 	}
 

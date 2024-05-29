@@ -29,6 +29,7 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
+import kotlin.Pair;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -65,13 +66,13 @@ public class FamishedEyeCombat extends CombatScript {
 				if (cycles == 1) {
 					tiles = new LinkedList<>();
 					targetTile = Tile.of(target.getTile());
-					World.sendProjectile(eye, targetTile, 2849, 35, 30, 41, 0, 15, 0);
+					World.sendProjectile(eye, targetTile, 2849, new Pair<>(35, 30), 41, 5, 15);
 				} else if (cycles == 2)
 					for (int x = -1; x < 2; x++)
 						for (int y = -1; y < 2; y++) {
 							Tile attackedTile = targetTile.transform(x, y, 0);
 							if (x != y)
-								World.sendProjectile(targetTile, attackedTile, 2851, 35, 0, 26, 40, 16, 0);
+								World.sendProjectile(targetTile, attackedTile, 2851, new Pair<>(35, 0), 26, 10, 16);
 							tiles.add(attackedTile);
 						}
 				else if (cycles == 3) {

@@ -190,7 +190,7 @@ public class Thieving {
 		}
 		if (guard != null) {
 			guard.setNextForceTalk(new ForceTalk("Hey, what do you think you are doing!"));
-			guard.setTarget(player);
+			guard.setCombatTarget(player);
 		}
 	}
 

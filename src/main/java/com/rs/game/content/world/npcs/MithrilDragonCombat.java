@@ -28,6 +28,7 @@ import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
+import kotlin.Pair;
 
 public class MithrilDragonCombat extends CombatScript {
 
@@ -54,7 +55,7 @@ public class MithrilDragonCombat extends CombatScript {
 				else if (protection == 2)
 					damage = 0;
 				npc.setNextAnimation(new Animation(14252));
-				WorldProjectile p = World.sendProjectile(npc, target, 393, 28, 32, 50, 2, 16, 0);
+				WorldProjectile p = World.sendProjectile(npc, target, 393, new Pair<>(28, 32), 50, 5, 16);
 				delayHit(npc, p.getTaskDelay(), target, getRegularHit(npc, damage));
 			}
 			break;
@@ -77,20 +78,20 @@ public class MithrilDragonCombat extends CombatScript {
 				else if (protection == 2)
 					damage = 0;
 				npc.setNextAnimation(new Animation(14252));
-				WorldProjectile p = World.sendProjectile(npc, target, 393, 28, 32, 50, 2, 16, 0);
+				WorldProjectile p = World.sendProjectile(npc, target, 393, new Pair<>(28, 32), 50, 5, 16);
 				delayHit(npc, p.getTaskDelay(), target, getRegularHit(npc, damage));
 			}
 			break;
 		case 2: // Range
 			damage = Utils.getRandomInclusive(250);
 			npc.setNextAnimation(new Animation(14252));
-			World.sendProjectile(npc, target, 2707, 28, 16, 35, 35, 16, 0);
+			World.sendProjectile(npc, target, 2707, new Pair<>(28, 16), 35, 5, 16);
 			delayHit(npc, 1, target, getRangeHit(npc, damage));
 			break;
 		case 3: // Ice arrows range
 			damage = Utils.getRandomInclusive(250);
 			npc.setNextAnimation(new Animation(14252));
-			WorldProjectile p = World.sendProjectile(npc, target, 2705, 28, 32, 50, 2, 16, 0);
+			WorldProjectile p = World.sendProjectile(npc, target, 2705, new Pair<>(28, 32), 50, 5, 16);
 			delayHit(npc, p.getTaskDelay(), target, getMagicHit(npc, damage));
 			break;
 		}

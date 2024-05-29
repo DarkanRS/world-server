@@ -18,7 +18,6 @@ package com.rs.game.content.bosses.godwars.zaros;
 
 import com.rs.game.World;
 import com.rs.game.content.bosses.godwars.zaros.attack.NexAttack;
-import com.rs.game.content.combat.PlayerCombat;
 import com.rs.game.content.combat.PlayerCombatKt;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.ForceTalk;
@@ -35,6 +34,7 @@ import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.WorldUtil;
+import kotlin.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -119,9 +119,9 @@ public final class Nex extends NPC {
 			return;
 		if (!getCombat().process()) {
 			checkAggressivity();
-			if (getTarget() == null)
+			if (getCombatTarget() == null)
 				return;
-			Entity target = getTarget();
+			Entity target = getCombatTarget();
 			int maxDistance = isFollowTarget() ? 0 : 9;
 			if ((!lineOfSightTo(target, isFollowTarget())) || !WorldUtil.isInRange(getX(), getY(), getSize(), target.getX(), target.getY(), target.getSize(), maxDistance)) {
 				resetWalkSteps();
@@ -164,18 +164,18 @@ public final class Nex extends NPC {
 
 	public void sendWrath() {
 		setNextSpotAnim(new SpotAnim(2259));
-		sendWrathProj(this, Tile.of(getX() + 3, getY() + 3, getPlane()), 0.4);
-		sendWrathProj(this, Tile.of(getX() + 3, getY(), getPlane()), 0.4);
-		sendWrathProj(this, Tile.of(getX() + 3, getY() - 3, getPlane()), 0.4);
-		sendWrathProj(this, Tile.of(getX() - 3, getY() + 3, getPlane()), 0.4);
-		sendWrathProj(this, Tile.of(getX() - 3, getY(), getPlane()), 0.4);
-		sendWrathProj(this, Tile.of(getX() - 3, getY() - 3, getPlane()), 0.4);
-		sendWrathProj(this, Tile.of(getX(), getY() + 3, getPlane()), 0.4);
-		sendWrathProj(this, Tile.of(getX(), getY() - 3, getPlane()), 0.4);
-		sendWrathProj(this, Tile.of(getX() + 2, getY() - 2, getPlane()), 0.4);
-		sendWrathProj(this, Tile.of(getX() - 2, getY() + 2, getPlane()), 0.4);
-		sendWrathProj(this, Tile.of(getX() + 2, getY() + 2, getPlane()), 0.4);
-		sendWrathProj(this, Tile.of(getX() - 2, getY() - 2, getPlane()), 0.4);
+		sendWrathProj(this, Tile.of(getX() + 3, getY() + 3, getPlane()), 15);
+		sendWrathProj(this, Tile.of(getX() + 3, getY(), getPlane()), 15);
+		sendWrathProj(this, Tile.of(getX() + 3, getY() - 3, getPlane()), 15);
+		sendWrathProj(this, Tile.of(getX() - 3, getY() + 3, getPlane()), 15);
+		sendWrathProj(this, Tile.of(getX() - 3, getY(), getPlane()), 15);
+		sendWrathProj(this, Tile.of(getX() - 3, getY() - 3, getPlane()), 15);
+		sendWrathProj(this, Tile.of(getX(), getY() + 3, getPlane()), 15);
+		sendWrathProj(this, Tile.of(getX(), getY() - 3, getPlane()), 15);
+		sendWrathProj(this, Tile.of(getX() + 2, getY() - 2, getPlane()), 15);
+		sendWrathProj(this, Tile.of(getX() - 2, getY() + 2, getPlane()), 15);
+		sendWrathProj(this, Tile.of(getX() + 2, getY() + 2, getPlane()), 15);
+		sendWrathProj(this, Tile.of(getX() - 2, getY() - 2, getPlane()), 15);
 		WorldTasks.schedule(new Task() {
 			@Override
 			public void run() {
@@ -191,8 +191,8 @@ public final class Nex extends NPC {
 		}, 5);
 	}
 
-	public static void sendWrathProj(Entity nex, Tile tile, double speed) {
-		World.sendProjectile(nex, tile, 2261, 24, 0, 1, speed, 30, p -> World.sendSpotAnim(tile, new SpotAnim(2260)));
+	public static void sendWrathProj(Entity nex, Tile tile, int projStepDelay) {
+		World.sendProjectile(nex, tile, 2261, new Pair<>(24, 0), 0, projStepDelay, 30, 0, p -> World.sendSpotAnim(tile, new SpotAnim(2260)));
 	}
 
 	public ArrayList<Entity> calculatePossibleTargets(Tile current, Tile position, boolean northSouth) {
@@ -209,20 +209,20 @@ public final class Nex extends NPC {
 		if (phase == Phase.SMOKE && minionStage == 1) {
 			setCapDamage(500);
 			setNextForceTalk(new ForceTalk("Darken my shadow!"));
-			World.sendProjectile(arena.umbra, this, 2244, 18, 18, 60, 30, 0, 0);
+			World.sendProjectile(arena.umbra, this, 2244, new Pair<>(18, 18), 60, 5, 0);
 			getCombat().addCombatDelay(1);
 			voiceEffect(3302, true);
 		} else if (phase == Phase.SHADOW && minionStage == 2) {
 			setCapDamage(500);
 			setNextForceTalk(new ForceTalk("Flood my lungs with blood!"));
-			World.sendProjectile(arena.cruor, this, 2244, 18, 18, 60, 30, 0, 0);
+			World.sendProjectile(arena.cruor, this, 2244, new Pair<>(18, 18), 60, 5, 0);
 			getCombat().addCombatDelay(1);
 			voiceEffect(3306, true);
 		} else if (phase == Phase.BLOOD && minionStage == 3) {
 			setCapDamage(500);
 			killBloodReavers();
 			setNextForceTalk(new ForceTalk("Infuse me with the power of ice!"));
-			World.sendProjectile(arena.glacies, this, 2244, 18, 18, 60, 30, 0, 0);
+			World.sendProjectile(arena.glacies, this, 2244, new Pair<>(18, 18), 60, 5, 0);
 			getCombat().addCombatDelay(1);
 			voiceEffect(3303, true);
 		} else if (phase == Phase.ICE && minionStage == 4) {

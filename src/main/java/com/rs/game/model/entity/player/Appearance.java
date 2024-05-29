@@ -35,7 +35,6 @@ public class Appearance {
 	private int[] lookI;
 	private int[] colour;
 	private boolean male;
-	private transient boolean glowRed;
 	private transient byte[] appearanceData;
 	private transient byte[] md5AppearanceDataHash;
 	private transient short transformedNpcId;
@@ -57,11 +56,6 @@ public class Appearance {
 		resetAppearance();
 	}
 
-	public void setGlowRed(boolean glowRed) {
-		this.glowRed = glowRed;
-		generateAppearanceData();
-	}
-
 	public void setPlayer(Player player) {
 		this.player = player;
 		transformedNpcId = -1;
@@ -74,11 +68,6 @@ public class Appearance {
 		generateAppearanceData();
 	}
 
-	public void switchHidden() {
-		hidePlayer = !hidePlayer;
-		generateAppearanceData();
-	}
-
 	public void setHidden(boolean hidden) {
 		hidePlayer = hidden;
 		generateAppearanceData();
@@ -86,10 +75,6 @@ public class Appearance {
 
 	public boolean isHidden() {
 		return hidePlayer;
-	}
-
-	public boolean isGlowRed() {
-		return glowRed;
 	}
 
 	private int getHatHairStyle(int baseStyle, boolean isFaceMask) {
@@ -104,8 +89,6 @@ public class Appearance {
 		OutputStream stream = new OutputStream();
 		boolean pvpArea = World.isPvpArea(player);
 		boolean showSkillTotal = player.getTempAttribs().getB("showSkillTotal") && !pvpArea;
-		if (glowRed && player.getNextBodyGlow() == null)
-			player.setNextBodyGlow(new BodyGlow(90, 0, 0, 0, 255));
 		int flag = 0;
 		if (!male)
 			flag |= 0x1;

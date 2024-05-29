@@ -27,7 +27,6 @@ import com.rs.engine.quest.Quest;
 import com.rs.game.World;
 import com.rs.game.content.ItemConstants;
 import com.rs.game.content.combat.CombatDefinitions.Spellbook;
-import com.rs.game.content.combat.PlayerCombat;
 import com.rs.game.content.combat.PlayerCombatKt;
 import com.rs.game.content.items.Spade;
 import com.rs.game.content.minigames.creations.StealingCreationLobbyController;
@@ -39,8 +38,8 @@ import com.rs.game.content.minigames.fightpits.FightPits;
 import com.rs.game.content.minigames.partyroom.PartyRoom;
 import com.rs.game.content.minigames.pest.Lander;
 import com.rs.game.content.minigames.pest.PestControlLobbyController;
-import com.rs.game.content.minigames.wguild.WarriorsGuild;
 import com.rs.game.content.pets.Incubator;
+import com.rs.game.content.quests.plaguecity.utils.PlagueCityUtils;
 import com.rs.game.content.skills.agility.Agility;
 import com.rs.game.content.skills.agility.WildernessAgility;
 import com.rs.game.content.skills.agility.agilitypyramid.AgilityPyramidController;
@@ -60,7 +59,7 @@ import com.rs.game.content.world.unorganized_dialogue.StrongholdRewardD;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
-import com.rs.game.model.entity.pathing.RouteEvent;
+import com.rs.engine.pathfinder.RouteEvent;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.EmotesManager.Emote;
 import com.rs.game.model.object.GameObject;
@@ -94,7 +93,6 @@ public final class ObjectHandler {
 		player.setRouteEvent(new RouteEvent(object, () -> {
 			player.stopAll();
 			player.faceObject(object);
-
 			if (!player.getControllerManager().processObjectClick1(object) || player.getTreasureTrailsManager().useObject(object))
 				return;
 
@@ -210,13 +208,6 @@ public final class ObjectHandler {
 						player.tele(Tile.of(2900, 4449, 0));
 					}
 				}, 1);
-            } else if (id == 15653) {
-				if (World.isSpawnedObject(object) || !WarriorsGuild.canEnter(player))
-					return;
-				player.lock(2);
-				GameObject opened = new GameObject(object.getId(), object.getType(), object.getRotation() - 1, object.getX(), object.getY(), object.getPlane());
-				World.spawnObjectTemporary(opened, 1);
-				player.addWalkSteps(2876, 3542, 2, false);
 			} else if (id == 14315) {
 				if (Lander.canEnter(player, 0)) {
                 }
@@ -687,10 +678,8 @@ public final class ObjectHandler {
 				player.useStairs(-1, Tile.of(2402, 3419, 0), 0, 1);
 			else if (id == 17209)
 				player.useStairs(-1, Tile.of(2408, 9812, 0), 0, 1);
-			else if (id == 1754 && x == 2594 && y == 3085)
-				player.useStairs(827, Tile.of(2594, 9486, 0));
-			else if (id == 1757 && x == 2594 && y == 9485)
-				player.useStairs(828, Tile.of(2594, 3086, 0));
+			else if (id == 1754)
+				player.useLadder(player.transform(0, 6400));
 			else if (id == 2811 || id == 2812) {
 				player.useStairs(id == 2812 ? 827 : -1, id == 2812 ? Tile.of(2501, 2989, 0) : Tile.of(2574, 3029, 0));
 				WorldTasks.schedule(() -> player.playerDialogue(HeadE.AMAZED, "Wow! That tunnel went a long way."));
@@ -984,15 +973,6 @@ public final class ObjectHandler {
 					return;
 				}
 				Doors.handleDoubleDoor(player, object);
-			} else if (id == 9738 || id == 9330) {
-				boolean rightDoor = object.getId() == 9330;
-				GameObject o = new GameObject(object);
-				o.setRotation(rightDoor ? -1 : 1);
-				World.spawnObjectTemporary(o, 2);
-				GameObject o2 = new GameObject(rightDoor ? 9738 : 9330, object.getType(), object.getRotation(), 2558, rightDoor ? 3299 : 3300, object.getPlane());
-				o2.setRotation(rightDoor ? 1 : 3);
-				World.spawnObjectTemporary(o2, 2);
-				player.addWalkSteps(player.getX() + (player.getX() >= 2559 ? -3 : 3), y, -1, false);
 			} else if (id == 70794)
 				player.useStairs(-1, Tile.of(1340, 6488, 0));
 			else if (id == 70795) {

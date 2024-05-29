@@ -120,11 +120,6 @@ public class QuestDefinitions {
 		quest = QUESTS.get(41);
 		quest.varbitValues[0][1] = 10;
 
-		//death plat
-		quest = QUESTS.get(140);
-		quest.varValues = null;
-		quest.varbitValues = new int[][] { new int[] { 10761, 1, 65 } };
-
 		//workshop I
 		quest = QUESTS.get(8);
 		quest.varValues[0][1] = (1 << 1);
@@ -177,6 +172,10 @@ public class QuestDefinitions {
 		//Black knights fortress, wrong qp, for some reason it was 0
 		quest = QUESTS.get(53);
 		quest.questpointReward = 3;
+
+		//Gunnar's Ground - 0 in cache for some reason
+		quest = QUESTS.get(179);
+		quest.questpointReward = 5;
 	}
 
 	public static QuestDefinitions getQuestDefinitions(int id) {

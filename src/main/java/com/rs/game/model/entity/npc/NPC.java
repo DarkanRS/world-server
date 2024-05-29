@@ -19,12 +19,15 @@ package com.rs.game.model.entity.npc;
 import com.rs.cache.loaders.Bonus;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.cache.loaders.interfaces.IFEvents;
+import com.rs.engine.pathfinder.*;
+import com.rs.engine.pathfinder.collision.CollisionStrategyType;
 import com.rs.engine.thread.AsyncTaskExecutor;
 import com.rs.game.World;
 import com.rs.game.content.Effect;
 import com.rs.game.content.bosses.godwars.GodwarsController;
 import com.rs.game.content.combat.PolyporeStaffKt;
 import com.rs.game.content.minigames.treasuretrails.TreasureTrailsManager;
+import com.rs.game.content.quests.elderkiln.TokkulZoKt;
 import com.rs.game.content.skills.hunter.BoxHunterType;
 import com.rs.game.content.skills.slayer.SlayerMonsters;
 import com.rs.game.content.skills.summoning.Familiar;
@@ -39,7 +42,6 @@ import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AggressiveType;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.Skill;
-import com.rs.game.model.entity.pathing.*;
 import com.rs.game.model.entity.player.Bank;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.AuraManager;
@@ -96,6 +98,7 @@ public class NPC extends Entity {
 	private boolean noDistanceCheck;
 	private transient long timeLastSpawned;
 	private boolean canAggroNPCs;
+	private transient int attackRange;
 
 	// npc masks
 	private transient Transformation nextTransformation;
@@ -128,7 +131,7 @@ public class NPC extends Entity {
 		setHitpoints(getMaxHitpoints());
 		setFaceAngle(direction == null ? getRespawnDirection() : direction.getAngle());
 		setRandomWalk((getDefinitions().walkMask & 0x2) != 0 || forceRandomWalk(id));
-		setClipType((getDefinitions().walkMask & 0x4) != 0 ? ClipType.WATER : ClipType.NORMAL);
+		setCollisionStrategyType((getDefinitions().walkMask & 0x4) != 0 ? CollisionStrategyType.WATER : CollisionStrategyType.NORMAL);
 		size = getDefinitions().size;
 		if (getDefinitions().hasAttackOption())
 			setRandomWalk(true);
@@ -141,7 +144,8 @@ public class NPC extends Entity {
 			setRandomWalk(true);
 		if (getDefinitions().combatLevel >= 200)
 			setIgnoreDocile(true);
-		combatLevels = NPCCombatDefinitions.getDefs(id).getLevels();
+		combatLevels = getCombatDefinitions().getLevels();
+		attackRange = getCombatDefinitions().getAttackRange();
 		combat = new NPCCombat(this);
 		capDamage = -1;
 		lureDelay = 12000;
@@ -177,7 +181,7 @@ public class NPC extends Entity {
 	}
 
 	public void resetLevels() {
-		combatLevels = NPCCombatDefinitions.getDefs(id).getLevels();
+		combatLevels = getCombatDefinitions().getLevels();
 	}
 
 	public void transformIntoNPC(int id) {
@@ -188,7 +192,8 @@ public class NPC extends Entity {
 	public void setNPC(int id) {
 		this.id = id;
 		size = getDefinitions().size;
-		combatLevels = NPCCombatDefinitions.getDefs(id).getLevels();
+		combatLevels = getCombatDefinitions().getLevels();
+		attackRange = getCombatDefinitions().getAttackRange();
 	}
 
 	public void setLevels(Map<Skill, Integer> levels) {
@@ -227,6 +232,14 @@ public class NPC extends Entity {
 	@Override
 	public int getMaxHitpoints() {
 		return getCombatDefinitions().getHitpoints();
+	}
+
+	public int getAttackRange() {
+		return attackRange;
+	}
+
+	public void setAttackRange(int attackRange) {
+		this.attackRange = attackRange;
 	}
 
 	public int getId() {
@@ -268,9 +281,9 @@ public class NPC extends Entity {
 						if (Utils.random(2) == 0)
 							moveY = -moveY;
 						resetWalkSteps();
-						DumbRouteFinder.addDumbPathfinderSteps(this, respawnTile.transform(moveX, moveY, 0), getDefinitions().hasAttackOption() ? 7 : 3, getClipType());
+						DumbRouteFinder.addDumbPathfinderSteps(this, respawnTile.transform(moveX, moveY, 0), getDefinitions().hasAttackOption() ? 7 : 3, getCollisionStrategy());
 						if (Utils.getDistance(this.getTile(), respawnTile) > 3 && !getDefinitions().hasAttackOption())
-							DumbRouteFinder.addDumbPathfinderSteps(this, respawnTile, getDefinitions().hasAttackOption() ? 7 : 3, getClipType());
+							DumbRouteFinder.addDumbPathfinderSteps(this, respawnTile, getDefinitions().hasAttackOption() ? 7 : 3, getCollisionStrategy());
 					}
 				}
 			}
@@ -279,14 +292,12 @@ public class NPC extends Entity {
 			if (!hasEffect(Effect.FREEZE))
 				if (getX() != forceWalk.getX() || getY() != forceWalk.getY()) {
 					if (!hasWalkSteps()) {
-						Route route = RouteFinder.find(getX(), getY(), getPlane(), getSize(), new FixedTileStrategy(forceWalk.getX(), forceWalk.getY()), true);
-						for (int i = route.getStepCount() - 1; i >= 0; i--)
-							if (!addWalkSteps(route.getBufferX()[i], route.getBufferY()[i], 25, true, true))
-								break;
-					}
-					if (!hasWalkSteps()) { // failing finding route
-						tele(Tile.of(forceWalk));
-						forceWalk = null; // so ofc reached forcewalk place
+						Route route = RouteFinderKt.routeEntityToTile(this, forceWalk, 25);
+						if (route.getFailed()) {
+							tele(Tile.of(forceWalk));
+							forceWalk = null;
+						} else
+							RouteFinderKt.walkRoute(this, route, true);
 					}
 				} else
 					// walked till forcewalk place
@@ -331,8 +342,20 @@ public class NPC extends Entity {
 					hit.setDamage(0);
 					player.sendMessage("You do not have the slayer level required to damage this monster.");
 				}
-			if (hit.getDamage() > 0 && isTzhaarMonster() && TzHaar.depleteTokkulZo(player))
+			if (hit.getDamage() > 0 && isTzhaarMonster() && TokkulZoKt.depleteTokkulZo(player))
 				hit.setDamage((int) (hit.getDamage() * 1.1));
+		}
+		if (hit.getDamage() >= 200) {
+			Bonus bonus = switch(hit.getLook()) {
+				case MELEE_DAMAGE -> Bonus.ABSORB_MELEE;
+				case RANGE_DAMAGE -> Bonus.ABSORB_RANGE;
+				default -> Bonus.ABSORB_MAGIC;
+			};
+			int reducedDamage = hit.getDamage() * getBonus(bonus) / 100;
+			if (reducedDamage > 0) {
+				hit.setDamage(hit.getDamage() - reducedDamage);
+				hit.addSoaking(reducedDamage);
+			}
 		}
 		handlePostHit(hit);
 	}
@@ -363,7 +386,7 @@ public class NPC extends Entity {
 		getInteractionManager().forceStop();
 		setFaceAngle(getRespawnDirection());
 		combat.reset();
-		combatLevels = NPCCombatDefinitions.getDefs(id).getLevels(); // back to real bonuses
+		combatLevels = getCombatDefinitions().getLevels(); // back to real bonuses
 		forceWalk = null;
 	}
 
@@ -769,8 +792,8 @@ public class NPC extends Entity {
 	}
 
 	public int getBonus(Bonus bonus) {
-		if (NPCCombatDefinitions.getDefs(id).hasOverriddenBonuses())
-			return NPCCombatDefinitions.getDefs(id).getBonus(bonus);
+		if (getCombatDefinitions().hasOverriddenBonuses())
+			return getCombatDefinitions().getBonus(bonus);
 		else
 			return NPCDefinitions.getDefs(id).getBonus(bonus);
 	}
@@ -849,18 +872,18 @@ public class NPC extends Entity {
 		return forceWalk != null;
 	}
 
-	public Entity getTarget() {
+	public Entity getCombatTarget() {
 		return combat.getTarget();
 	}
 
-	public void setTarget(Entity entity) {
+	public void setCombatTarget(Entity entity) {
 		if (isForceWalking()) // if force walk not gonna get target
 			return;
 		combat.setTarget(entity);
 		lastAttackedByTarget = System.currentTimeMillis();
 	}
 
-	public void removeTarget() {
+	public void removeCombatTarget() {
 		if (combat.getTarget() == null)
 			return;
 		combat.removeTarget();
@@ -950,7 +973,7 @@ public class NPC extends Entity {
 		List<Entity> possibleTarget = getPossibleTargets();
 		if (!possibleTarget.isEmpty()) {
 			Entity target = possibleTarget.get(Utils.random(possibleTarget.size()));
-			setTarget(target);
+			setCombatTarget(target);
 			target.setAttackedBy(target);
 			//target.setFindTargetDelay(System.currentTimeMillis() + 10000); //TODO makes everything possible aggro to you
 			return true;

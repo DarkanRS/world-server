@@ -21,7 +21,7 @@ import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.dialogue.Options;
 import com.rs.engine.quest.Quest;
-import com.rs.game.content.achievements.AchievementSystemDialogue;
+import com.rs.game.content.achievements.AchievementSystemD;
 import com.rs.game.content.achievements.SetReward;
 import com.rs.game.content.quests.holygrail.HolyGrail;
 import com.rs.game.content.quests.holygrail.dialogue.KingArthurHolyGrailD;
@@ -93,7 +93,7 @@ public class SeersVillage {
                 public void create() {
                     if (e.getPlayer().getQuestManager().getStage(Quest.SCORPION_CATCHER) == ScorpionCatcher.LOOK_FOR_SCORPIONS)
                         option("About Scorpion Catcher", new SeerScorpionCatcherD(e.getPlayer()).getStart());
-                    option("About the Achievement System...", new AchievementSystemDialogue(player, e.getNPCId(), SetReward.SEERS_HEADBAND).getStart());
+                    option("About the Achievement System...", () -> new AchievementSystemD(player, e.getNPCId(), SetReward.SEERS_HEADBAND));
                 }
             });
         }
@@ -133,7 +133,7 @@ public class SeersVillage {
             addOptions("What would you like to say?", new Options() {
                 @Override
                 public void create() {
-                    option("About the Achievement System...", new AchievementSystemDialogue(player, e.getNPCId(), SetReward.SEERS_HEADBAND).getStart());
+                    option("About the Achievement System...", () -> new AchievementSystemD(player, e.getNPCId(), SetReward.SEERS_HEADBAND));
                     if(e.getPlayer().getQuestManager().getStage(Quest.HOLY_GRAIL) > HolyGrail.NOT_STARTED)
                         option("About Holy Grail", new Dialogue()
                                 .addNext(()-> e.getPlayer().startConversation(new SirKayHolyGrailD(e.getPlayer()).getStart())));

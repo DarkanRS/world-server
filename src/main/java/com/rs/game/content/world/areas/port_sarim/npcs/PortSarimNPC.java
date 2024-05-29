@@ -4,7 +4,7 @@ import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.quest.Quest;
-import com.rs.game.content.achievements.AchievementSystemDialogue;
+import com.rs.game.content.achievements.AchievementSystemD;
 import com.rs.game.content.achievements.SetReward;
 import com.rs.game.content.quests.piratestreasure.RedbeardFrankPiratesTreasureD;
 import com.rs.game.model.entity.Entity;
@@ -26,15 +26,9 @@ public class PortSarimNPC {
     private static final int JACK_SEAGULL = 2690;
     private static final int LONGBOW_BEN = 2691;
     private static final int REDBEARD_FRANK = 375;
-    private static final int BARTENDER = 734;
     private static final int STANKY_MORGAN = 6667;
     private static final int THAKI = 7115;
     private static final int THE_FACE = 2950;
-
-    @ServerStartupEvent
-    public static void addLoSOverrides() {
-        Entity.addLOSOverride( AHAB );
-    }
 
     public static NPCClickHandler Ahab = new NPCClickHandler(new Object[]{ AHAB }, e -> {
         switch (e.getOption()) {
@@ -227,45 +221,9 @@ public class PortSarimNPC {
                             ops.add("About Pirate's Treasure", new Dialogue()
                                     .addNext(() -> e.getPlayer().startConversation(new RedbeardFrankPiratesTreasureD(e.getPlayer()))));
 
-                        ops.add("About the Achievement System...",
-                                new AchievementSystemDialogue(e.getPlayer(), REDBEARD_FRANK, SetReward.FALADOR_SHIELD)
-                                        .getStart());
+                        ops.add("About the Achievement System...", () -> new AchievementSystemD(e.getPlayer(), REDBEARD_FRANK, SetReward.FALADOR_SHIELD));
                     }));
         }
-    });
-
-    public static NPCClickHandler handleBartenders = new NPCClickHandler(new Object[]{ BARTENDER }, e -> {
-        boolean hasCoins = e.getPlayer().getInventory().hasCoins(3);
-        boolean hasSlots = e.getPlayer().getInventory().hasFreeSlots();
-        String name = e.getNPC().getName();
-        if (e.getOption().equalsIgnoreCase("talk-to"))
-            e.getPlayer().startConversation(new Dialogue()
-                    .addNPC(BARTENDER, HeadE.HAPPY_TALKING, "Heya! What can I get you?")
-                    .addOptions(ops -> {
-                        ops.add("Could I buy a beer please?")
-                                .addPlayer(HeadE.HAPPY_TALKING, "Could I buy a beer please?")
-                                .addNPC(BARTENDER, HeadE.HAPPY_TALKING, "Sure, that will be 2 gold coins please.")
-                                .addNext(() -> {
-                                    if (!hasCoins)
-                                        e.getPlayer().startConversation(new Dialogue()
-                                                .addNPC(BARTENDER, HeadE.FRUSTRATED, "I said 2 coins! You haven't got 2 coins!"));
-                                    if (!hasSlots)
-                                        e.getPlayer().startConversation(new Dialogue()
-                                                .addNPC(BARTENDER, HeadE.SHAKING_HEAD, "You don't have the space for a beer!"));
-                                    if (hasCoins && hasSlots) {
-                                        e.getPlayer().getInventory().removeCoins(2);
-                                        e.getPlayer().getInventory().addItem(1917);
-                                        e.getPlayer().startConversation(new Dialogue()
-                                                .addNPC(BARTENDER, HeadE.HAPPY_TALKING, "There you go.")
-                                                .addPlayer(HeadE.HAPPY_TALKING, "Thanks, " + name + ""));
-                                    }
-                                });
-                        ops.add("Have you heard any rumours here?")
-                                .addPlayer(HeadE.HAPPY_TALKING, "Have you heard any rumours here?")
-                                .addNPC(BARTENDER, HeadE.SHAKING_HEAD, "No, it hasn't been very busy lately.");
-                    })
-            );
-
     });
 
     public static NPCClickHandler StankyMorgan = new NPCClickHandler(new Object[]{ STANKY_MORGAN }, e -> {

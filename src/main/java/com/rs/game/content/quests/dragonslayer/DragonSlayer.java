@@ -2,6 +2,7 @@ package com.rs.game.content.quests.dragonslayer;
 
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.pathfinder.Direction;
 import com.rs.engine.quest.Quest;
 import com.rs.engine.quest.QuestHandler;
 import com.rs.engine.quest.QuestOutline;
@@ -283,35 +284,25 @@ public class DragonSlayer extends QuestOutline {
 
         if (attr.getB(DOOR_BOMB_ATTR) && attr.getB(DOOR_BOWL_ATTR) && attr.getB(DOOR_SILK_ATTR) && attr.getB(DOOR_CAGE_ATTR)) {
             obj.animate(new Animation(6636));
-            WorldTasks.scheduleLooping(new Task() {
-                int tick;
-
-                @Override
-                public void run() {
-                    if (tick == 0)
-                        p.lock();
-                    if (tick == 1)
-                        p.walkToAndExecute(Tile.of(3050, 9840, 0), () -> {
-                            p.faceEast();
-                            tick++;
-                        });
-                    if (tick == 2) {
-                        p.sendMessage("The magic door opens...");
-                        obj.animate(new Animation(6636));
+            p.walkToAndExecute(Tile.of(3050, 9840, 0), () -> {
+               p.lock();
+                WorldTasks.scheduleTimer(tick -> {
+                    switch(tick) {
+                        case 0 -> p.faceDir(Direction.EAST);
+                        case 1 -> {
+                            p.sendMessage("The magic door opens...");
+                            obj.animate(new Animation(6636));
+                        }
+                        case 2 -> p.addWalkSteps(Tile.of(3051, 9840, 0), 3, false);
+                        case 4 -> obj.animate(new Animation(6637));
+                        case 7 -> {
+                            p.unlock();
+                            return false;
+                        }
                     }
-                    if (tick == 3)
-                        p.addWalkSteps(Tile.of(3051, 9840, 0), 3, false);
-                    if (tick == 5)
-                        obj.animate(new Animation(6637));
-                    if (tick == 7) {
-                        p.unlock();
-                        stop();
-                    }
-
-                    if (tick != 1)
-                        tick++;
-                }
-            }, 0, 1);
+                    return true;
+                });
+            });
         } else
             p.startConversation(new Conversation(e.getPlayer()) {
                 {
@@ -446,6 +437,10 @@ public class DragonSlayer extends QuestOutline {
                 tick++;
             }
         }, 0, 1);
+    }
+
+    public static boolean hasHeadAlready(Player player) {
+        return player.getInventory().containsItem(ELVARG_HEAD, 1) || player.getBank().containsItem(ELVARG_HEAD);
     }
 
     @Override

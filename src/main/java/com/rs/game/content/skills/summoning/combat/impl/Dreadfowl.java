@@ -25,6 +25,7 @@ import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
+import kotlin.Pair;
 
 public class Dreadfowl extends FamiliarCombatScript {
 
@@ -41,7 +42,7 @@ public class Dreadfowl extends FamiliarCombatScript {
 		npc.setNextAnimation(new Animation(7810));
 		npc.setNextSpotAnim(new SpotAnim(1523));
 		delayHit(npc, 1, target, getMagicHit(npc, getMaxHit(npc, 30, AttackStyle.MAGE, target)));
-		World.sendProjectile(npc, target, 1318, 34, 16, 30, 35, 16, 0);
+		World.sendProjectile(npc, target, 1318, new Pair<>(34, 16), 30, 5, 16);
 		return npc.getAttackSpeed();
 	}
 }

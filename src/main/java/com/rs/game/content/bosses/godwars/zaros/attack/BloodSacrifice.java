@@ -18,6 +18,7 @@ package com.rs.game.content.bosses.godwars.zaros.attack;
 
 import com.rs.game.World;
 import com.rs.game.content.bosses.godwars.zaros.Nex;
+import com.rs.game.model.entity.BodyGlow;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.Hit;
@@ -27,6 +28,7 @@ import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.util.Utils;
+import kotlin.Pair;
 
 public class BloodSacrifice implements NexAttack {
 
@@ -36,17 +38,16 @@ public class BloodSacrifice implements NexAttack {
 			return 0;
 		nex.setNextForceTalk(new ForceTalk("I demand a blood sacrifice!"));
 		nex.voiceEffect(3293, true);
-        player.getAppearance().setGlowRed(true);
+		player.setNextBodyGlow(new BodyGlow(nex.getAttackSpeed()*30, 0, 0, 0, 255));
 		player.sendMessage("Nex has marked you as a sacrifice, RUN!");
 		WorldTasks.schedule(new Task() {
 			@Override
 			public void run() {
-				player.getAppearance().setGlowRed(false);
 				if (Utils.getDistance(nex.getTile(), player.getTile()) < 7) {
 					player.sendMessage("You didn't make it far enough in time - Nex fires a punishing attack!");
 					nex.setNextAnimation(new Animation(6987));
 					for (final Entity t : nex.getPossibleTargets())
-						World.sendProjectile(nex, t, 374, 41, 16, 41, 35, 16, p -> {
+						World.sendProjectile(nex, t, 374, new Pair<>(41, 16), 41, 5, 16, 0, p -> {
 							nex.heal(t.getHitpoints());
 							t.applyHit(new Hit(nex, (int) (t.getHitpoints() * 0.1), HitLook.TRUE_DAMAGE));
 						});

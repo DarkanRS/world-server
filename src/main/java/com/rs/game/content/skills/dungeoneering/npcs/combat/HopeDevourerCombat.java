@@ -108,7 +108,7 @@ public class HopeDevourerCombat extends CombatScript {
 							if (distance == 0)
 								tile = Tile.of(target.getTile());
 						}
-						target.faceEntity(boss);
+						target.faceEntityTile(boss);
 						target.forceMove(tile, 10070, 1, 60);
 						stop();
 					}

@@ -34,6 +34,7 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.Ticks;
+import kotlin.Pair;
 
 public class GlacorCombat extends CombatScript {
 
@@ -52,9 +53,8 @@ public class GlacorCombat extends CombatScript {
 	@Override
 	public int attack(NPC npc, final Entity target) {
 		if (target instanceof NPC) {
-			npc.setNextAnimation(new Animation(9968));
-			npc.setNextSpotAnim(new SpotAnim(905));
-			WorldProjectile p = World.sendProjectile(npc, target, SPECIAL_PROJECTILE, 60, 32, 50, 2, 0, 0);
+			npc.sync(9968, 905);
+			WorldProjectile p = World.sendProjectile(npc, target, SPECIAL_PROJECTILE, new Pair<>(60, 32), 50, 5, 0);
 			final Tile targetPosition = Tile.of(target.getX(), target.getY(), target.getPlane());
 			WorldTasks.schedule(new Task() {
 				@Override
@@ -80,23 +80,21 @@ public class GlacorCombat extends CombatScript {
 				attackType = 3;
 
 			if (attackType == 1) {
-				npc.setNextAnimation(new Animation(9967));
-				npc.setNextSpotAnim(new SpotAnim(902));
-				WorldProjectile p = World.sendProjectile(npc, target, MAGE_PROJECTILE, 60, 32, 50, 2, 0, 0);
+				npc.sync(9967, 902);
+				WorldProjectile p = World.sendProjectile(npc, target, MAGE_PROJECTILE, new Pair<>(60, 32), 50, 5, 0);
 				WorldTasks.schedule(new Task() {
 					@Override
 					public void run() {
 						delayHit(npc, -1, target, getMagicHit(npc, getMaxHit(npc, 255, AttackStyle.MAGE, player)));
 					}
 				}, p.getTaskDelay());
-				if ((Utils.getRandomInclusive(100) > 80) && !player.hasEffect(Effect.FREEZE)) {
-					player.setNextSpotAnim(new SpotAnim(369));
+				if ((Utils.getRandomInclusive(100) > 80) && !player.hasEffect(Effect.FREEZE) && !player.getPrayer().isProtectingMage()) {
+					player.spotAnim(369);
 					player.freeze(Ticks.fromSeconds(10));
 				}
 			} else if (attackType == 2) {
-				npc.setNextAnimation(new Animation(9968));
-				npc.setNextSpotAnim(new SpotAnim(905));
-				WorldProjectile p = World.sendProjectile(npc, target, RANGE_PROJECTILE, 60, 32, 50, 2, 0, 0);
+				npc.sync(9968, 905);
+				WorldProjectile p = World.sendProjectile(npc, target, RANGE_PROJECTILE, new Pair<>(60, 32), 50, 5, 0);
 				WorldTasks.schedule(new Task() {
 					@Override
 					public void run() {
@@ -104,9 +102,8 @@ public class GlacorCombat extends CombatScript {
 					}
 				}, p.getTaskDelay());
 			} else if (attackType == 3) {
-				npc.setNextAnimation(new Animation(9955));
-				npc.setNextSpotAnim(new SpotAnim(905));
-				WorldProjectile p = World.sendProjectile(npc, target, SPECIAL_PROJECTILE, 60, 32, 50, 1, 0, 0);
+				npc.sync(9955, 905);
+				WorldProjectile p = World.sendProjectile(npc, target, SPECIAL_PROJECTILE, new Pair<>(60, 32), 50, 5, 0);
 				final Tile targetPosition = Tile.of(player.getX(), player.getY(), player.getPlane());
 				WorldTasks.schedule(new Task() {
 					@Override

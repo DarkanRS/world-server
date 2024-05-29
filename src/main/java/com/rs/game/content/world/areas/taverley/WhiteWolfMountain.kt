@@ -4,7 +4,7 @@ import com.rs.engine.quest.Quest
 import com.rs.game.World
 import com.rs.game.content.quests.fishingcontest.DwarfBrothersFishingContestD
 import com.rs.game.content.quests.fishingcontest.FishingContest.QUEST_COMPLETE
-import com.rs.game.model.entity.pathing.RouteEvent
+import com.rs.engine.pathfinder.RouteEvent
 import com.rs.lib.game.Tile
 import com.rs.plugin.annotations.ServerStartupEvent
 import com.rs.plugin.kts.onNpcClick
@@ -29,8 +29,8 @@ fun handleShortcutStairs() {
             val npcId = if (obj.id == 66990) AUSTRI_ID else VESTRI_ID
             World.getNPCsInChunkRange(player.chunkId, 2).firstOrNull { it.id == npcId }?.let {
                 player.setRouteEvent(RouteEvent(it) {
-                    player.faceEntity(it)
-                    it.faceEntity(player)
+                    player.faceEntityTile(it)
+                    it.faceEntityTile(player)
                     player.startConversation(DwarfBrothersFishingContestD(player, npcId).start)
                 })
             }

@@ -24,10 +24,7 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.lib.util.Utils;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 
@@ -82,8 +79,12 @@ public class Dialogue {
 		return event;
 	}
 
+	public Dialogue addGotoStage(String stageName, Map<String, Dialogue> stages) {
+		return addNext(new StageSelectDialogue(stageName, stages));
+	}
+
 	public Dialogue addGotoStage(String stageName, Conversation conversation) {
-		return addNext(new StageSelectDialogue(stageName, conversation));
+		return addNext(new StageSelectDialogue(stageName, conversation.getStages()));
 	}
 
 	public Dialogue addGotoStage(Dialogue directNextReference) {
@@ -221,7 +222,7 @@ public class Dialogue {
 			for (String opName : options.getOptions().keySet()) {
 				Option op = options.getOptions().get(opName);
 				if (op.show() && op.getDialogue() != null)
-					addNext(op.getDialogue());
+					return addNext(op.getDialogue());
 			}
 			if (options.getConv() != null)
 				options.getConv().addStage(options.getStageName(), getNext(0));
@@ -238,9 +239,9 @@ public class Dialogue {
 				if (o.show() && o.getDialogue() != null)
 					op.addNext(o.getDialogue());
 			}
-			addNext(op);
 			if (options.getConv() != null)
 				options.getConv().addStage(options.getStageName(), op);
+			return addNext(op);
 		} else {
 			String[] ops = new String[options.getOptions().keySet().size()];
 			options.getOptions().keySet().toArray(ops);
@@ -268,9 +269,9 @@ public class Dialogue {
 				}
 			}
 			currPage.addNext(baseOption);
-			addNext(baseOption);
 			if (options.getConv() != null)
 				options.getConv().addStage(options.getStageName(), baseOption);
+			return addNext(baseOption);
 		}
 		return this;
 	}

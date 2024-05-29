@@ -39,7 +39,7 @@ import com.rs.game.content.skills.magic.RuneSet;
 import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.content.transportation.ItemTeleports;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.pathing.Direction;
+import com.rs.engine.pathfinder.Direction;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
@@ -96,7 +96,7 @@ public class HouseController extends Controller {
 	@Override
 	public boolean processNPCClick1(NPC npc) {
 		if (npc instanceof ServantNPC servant) {
-			npc.faceEntity(player);
+			npc.faceEntityTile(player);
 			if (!house.isOwner(player)) {
 				player.npcDialogue(npc.getId(), HeadE.CALM_TALK, "Sorry, I only serve my master.");
 				return false;
@@ -110,7 +110,7 @@ public class HouseController extends Controller {
 	@Override
 	public boolean processNPCClick2(NPC npc) {
 		if (npc instanceof ServantNPC servant) {
-			npc.faceEntity(player);
+			npc.faceEntityTile(player);
 			if (!house.isOwner(player)) {
 				player.npcDialogue(npc.getId(), HeadE.CALM_TALK, "The servant ignores your request.");
 				return false;
@@ -124,7 +124,7 @@ public class HouseController extends Controller {
 	@Override
 	public boolean processItemOnNPC(NPC npc, Item item) {
 		if (npc instanceof ServantNPC) {
-			npc.faceEntity(player);
+			npc.faceEntityTile(player);
 			if (!house.isOwner(player)) {
 				player.npcDialogue(npc.getId(), HeadE.CALM_TALK, "The servant ignores your request.");
 				return false;

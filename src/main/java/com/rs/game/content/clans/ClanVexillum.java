@@ -6,7 +6,7 @@ import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.OwnedNPC;
-import com.rs.game.model.entity.pathing.Direction;
+import com.rs.engine.pathfinder.Direction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Rights;
@@ -40,11 +40,6 @@ public class ClanVexillum extends OwnedNPC {
 		setIgnoreNPCClipping(true);
 		setHidden(true);
 		CLAN_VEXES.put(clan.getName(), this);
-	}
-	
-	@ServerStartupEvent
-	public static void addLoSOverrides() {
-		Entity.addLOSOverride(13634);
 	}
 	
 	public static NPCClickHandler interact = new NPCClickHandler(new Object[] { 13634 }, e -> {
@@ -115,7 +110,7 @@ public class ClanVexillum extends OwnedNPC {
 			player.sendMessage("You can't place a vexillum here.");
 			return;
 		}
-		final Tile tile = player.transform(player.getDirection().getDx(), player.getDirection().getDy());
+		final Tile tile = player.transform(player.getDirection().dx, player.getDirection().dy);
 		if (checkClip && !World.canLightFire(tile.getPlane(), tile.getX(), tile.getY())) {
 			player.sendMessage("You can't place a vexillum here.");
 			return;

@@ -30,6 +30,7 @@ import com.rs.game.model.entity.player.Player
 import com.rs.lib.Constants
 import com.rs.lib.game.Animation
 import com.rs.lib.game.SpotAnim
+import com.rs.lib.game.Tile
 import com.rs.lib.util.Utils
 import com.rs.utils.Ticks
 import java.util.*
@@ -84,9 +85,9 @@ enum class CombatSpell(
     FIRE_BLAST(59, 34.5, 160, Animation(2791), SpotAnim(2728), 2733, SpotAnim(2739), 155, 156, RuneSet(Rune.AIR, 4, Rune.FIRE, 5, Rune.DEATH, 1)),
     FIRE_WAVE(75, 42.5, 200, Animation(2791), SpotAnim(2728), 2735, SpotAnim(2740), 162, 163, RuneSet(Rune.AIR, 5, Rune.FIRE, 7, Rune.BLOOD, 1)),
     FIRE_SURGE(95, 90.0, 280, Animation(2791), SpotAnim(2728), 2735, SpotAnim(2741), 7932, 7933, RuneSet(Rune.AIR, 7, Rune.FIRE, 10, Rune.DEATH, 1, Rune.BLOOD, 1)) {
-        override fun onCast(caster: Entity?, target: Entity?) {
-            World.sendProjectile(caster, target, 2736, -25, 50, 1.0)
-            World.sendProjectile(caster, target, 2736, 25, 50, 1.0)
+        override fun onCast(caster: Entity, target: Entity) {
+            World.sendProjectile(caster, target, 2736, 50, 5, -25)
+            World.sendProjectile(caster, target, 2736, 50, 5, 25)
         }
     },
     CRUMBLE_UNDEAD(39, 24.5, 150, Animation(724), SpotAnim(145, 0, 96), 146, SpotAnim(147, 0, 96), 122, 124, RuneSet(Rune.AIR, 2, Rune.EARTH, 2, Rune.CHAOS, 1)) {
@@ -548,14 +549,14 @@ enum class CombatSpell(
                 else -> false
             }
 
-    private fun getCastSpotAnim(caster: Entity): SpotAnim {
+    private fun getCastSpotAnim(caster: Entity): SpotAnim? {
         return when (this) {
             WATER_BLAST,
             WATER_BOLT,
             WATER_STRIKE,
             WATER_SURGE,
-            WATER_WAVE -> (if (caster is Player && caster.equipment.weaponName.lowercase(Locale.getDefault()).contains("staff")) SpotAnim(2702) else castSpotAnim)!!
-            else -> castSpotAnim!!
+            WATER_WAVE -> (if (caster is Player && caster.equipment.weaponName.lowercase(Locale.getDefault()).contains("staff")) SpotAnim(2702) else castSpotAnim)
+            else -> castSpotAnim
         }
     }
 
@@ -563,16 +564,28 @@ enum class CombatSpell(
         return baseDamage
     }
 
-    fun cast(caster: Entity, target: Entity?): Int {
+    fun cast(caster: Entity, target: Entity): Int {
         val castAnim = getCastAnim(caster)
         val castSpotAnim = getCastSpotAnim(caster)
-        caster.sync(castAnim, castSpotAnim)
+        caster.anim(castAnim)
+        if (castSpotAnim != null)
+            caster.spotAnim(castSpotAnim)
         if (castSound != -1) caster.soundEffect(target, castSound, true)
         onCast(caster, target)
-        return World.sendProjectile(caster, target, projAnim, if (castSpotAnim.height > 50) 20 else 0, 50, 1.0).taskDelay
+        return World.sendProjectile(caster, target, projAnim, 30 to 30, 45, 5, (if ((castSpotAnim?.height ?: 0) > 50) 20 else 0)).taskDelay
     }
 
-    open fun onCast(caster: Entity?, target: Entity?) {}
+    fun cast(caster: Entity, target: Tile, targetHeight: Int): Int {
+        val castAnim = getCastAnim(caster)
+        val castSpotAnim = getCastSpotAnim(caster)
+        caster.anim(castAnim)
+        if (castSpotAnim != null)
+            caster.spotAnim(castSpotAnim)
+        if (castSound != -1) caster.soundEffect(castSound, false)
+        return World.sendProjectile(caster, target, projAnim, 30 to targetHeight, 45, 5, (if ((castSpotAnim?.height ?: 0) > 50) 20 else 0)).taskDelay
+    }
+
+    open fun onCast(caster: Entity, target: Entity) {}
 
     open fun onHit(caster: Entity, target: Entity, hit: Hit) {}
 
@@ -721,7 +734,7 @@ enum class CombatSpell(
 
         @JvmStatic
         fun forId(spellBook: Int, spellId: Int): CombatSpell? {
-            return SPELL_MAP[spellBook]!![spellId]
+            return SPELL_MAP[spellBook]?.get(spellId)
         }
     }
 }

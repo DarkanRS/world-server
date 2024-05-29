@@ -4,7 +4,8 @@ import com.rs.cache.loaders.ObjectType
 import com.rs.game.World
 import com.rs.game.content.skills.woodcutting.Hatchet
 import com.rs.game.model.entity.async.schedule
-import com.rs.game.model.entity.pathing.RouteEvent
+import com.rs.engine.pathfinder.RouteEvent
+import com.rs.game.content.world.areas.wilderness.WildernessController
 import com.rs.game.model.entity.player.Player
 import com.rs.game.model.entity.player.Skills
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub.ALL_GAME_TABS
@@ -367,6 +368,9 @@ fun sendTravel(player: Player, interfaceAnimation: Animation, origin: CanoeStati
         player.interfaceManager.removeSubs(*ALL_GAME_TABS)
 
         wait(interfaceAnimation.defs.emoteGameTicks + 1)
+        if (destination == CanoeStations.WILDERNESS) {
+            player.controllerManager.startController(WildernessController())
+        }
         player.tele(destination.playerDestination)
         player.interfaceManager.sendOverlay(170, true)
         player.closeInterfaces()

@@ -23,6 +23,7 @@ import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.lib.util.Utils;
+import kotlin.Pair;
 
 public class Hydra extends FamiliarCombatScript {
 
@@ -36,7 +37,7 @@ public class Hydra extends FamiliarCombatScript {
 		if (Utils.random(2) != 0)
 			return CANCEL;
 		npc.anim(npc.getCombatDefinitions().getAttackEmote());
-		delayHit(npc, World.sendProjectile(npc, target, 1489, 34, 16, 30, 1.8, 16, 0).getTaskDelay(), target, getMagicHit(npc, getMaxHit(npc, npc.getCombatDefinitions().getMaxHit(), AttackStyle.MAGE, target)));
+		delayHit(npc, World.sendProjectile(npc, target, 1489, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, getMagicHit(npc, getMaxHit(npc, npc.getCombatDefinitions().getMaxHit(), AttackStyle.MAGE, target)));
 		return npc.getAttackSpeed();
 	}
 }

@@ -24,6 +24,7 @@ import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.lib.game.Animation;
 import com.rs.lib.util.Utils;
+import kotlin.Pair;
 
 public class TokXilCombat extends CombatScript {
 
@@ -51,7 +52,7 @@ public class TokXilCombat extends CombatScript {
 		case 1:
 			hit = getMaxHit(npc, defs.getMaxHit(), AttackStyle.RANGE, target);
 			npc.setNextAnimation(new Animation(16132));
-			World.sendProjectile(npc, target, 2993, 34, 16, 30, 2, 16, 0);
+			World.sendProjectile(npc, target, 2993, new Pair<>(34, 16), 30, 5, 16);
 			delayHit(npc, 2, target, getRangeHit(npc, hit));
 			break;
 		}

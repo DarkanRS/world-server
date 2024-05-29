@@ -1,0 +1,50 @@
+{
+  "names": [
+    "LolthenKILL"
+  ],
+  "attackAnim": -1,
+  "attackSound": -1,
+  "defenceAnim": -1,
+  "defendSound": -1,
+  "deathAnim": 836,
+  "deathDelay": 6,
+  "deathSound": -1,
+  "respawnDelay": 59,
+  "hitpoints": 1410,
+  "maxHit": 350,
+  "attackStyle": "MAGE",
+  "combatLevels": {
+    "ATTACK": 99,
+    "RANGE": 99,
+    "STRENGTH": 99,
+    "DEFENSE": 99,
+    "MAGE": 99
+  },
+  "bonuses": {
+    "STAB_ATT": 65,
+    "SLASH_ATT": 80,
+    "CRUSH_ATT": 10,
+    "MAGIC_ATT": 116,
+    "RANGE_ATT": -12,
+    "STAB_DEF": 136,
+    "SLASH_DEF": 126,
+    "CRUSH_DEF": 147,
+    "MAGIC_DEF": 121,
+    "RANGE_DEF": 14,
+    "SUMM_DEF": 134,
+    "ABSORB_MELEE": 26,
+    "ABSORB_MAGIC": 13,
+    "ABSORB_RANGE": 0,
+    "MELEE_STR": 80,
+    "RANGE_STR": 0,
+    "PRAYER": 8,
+    "MAGIC_STR": 15
+  },
+  "attackRange": 10,
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "AGGRESSIVE",
+  "aggroDistance": 10,
+  "deAggroDistance": -1,
+  "maxDistFromSpawn": -1
+}

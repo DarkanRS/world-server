@@ -30,7 +30,7 @@ public class BrotherBrace extends Conversation {
 
 	public BrotherBrace(Player player, NPC npc, TutorialIslandController ctrl) {
 		super(player);
-		npc.faceEntity(player);
+		npc.faceEntityTile(player);
 		npc.resetWalkSteps();
 
 		createStage("Intro", new PlayerStatement(HeadE.NO_EXPRESSION, "Good day, brother."))

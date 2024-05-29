@@ -54,7 +54,7 @@ public final class TimeStopAttack implements QueenAttack {
 			@Override
 			public void run() {
 				stage++;
-				if (stage == 8) {
+				if (stage >= 8) {
 					stop();
 					npc.getTempAttribs().setI("_time_stop_atk", npc.getTicks() + Utils.random(50) + 40);
 					for (TorturedSoul s : npc.getSouls())

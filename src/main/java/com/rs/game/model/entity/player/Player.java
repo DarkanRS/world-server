@@ -25,6 +25,7 @@ import com.rs.cache.loaders.ObjectType;
 import com.rs.db.WorldDB;
 import com.rs.engine.book.Book;
 import com.rs.engine.cutscene.Cutscene;
+import com.rs.engine.cutscenekt.CutscenePresenter;
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
@@ -32,6 +33,7 @@ import com.rs.engine.dialogue.Options;
 import com.rs.engine.dialogue.statements.SimpleStatement;
 import com.rs.engine.miniquest.Miniquest;
 import com.rs.engine.miniquest.MiniquestManager;
+import com.rs.engine.pathfinder.Direction;
 import com.rs.engine.quest.Quest;
 import com.rs.engine.quest.QuestManager;
 import com.rs.game.World;
@@ -51,7 +53,6 @@ import com.rs.game.content.minigames.domtower.DominionTower;
 import com.rs.game.content.minigames.duel.DuelRules;
 import com.rs.game.content.minigames.herblorehabitat.HabitatFeature;
 import com.rs.game.content.minigames.treasuretrails.TreasureTrailsManager;
-import com.rs.game.content.minigames.wguild.WarriorsGuild;
 import com.rs.game.content.pets.Pet;
 import com.rs.game.content.pets.PetManager;
 import com.rs.game.content.skills.construction.House;
@@ -86,7 +87,6 @@ import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.interactions.PlayerCombatInteraction;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.pathing.*;
 import com.rs.game.model.entity.player.managers.*;
 import com.rs.game.model.entity.player.managers.InterfaceManager.ScreenMode;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
@@ -126,6 +126,7 @@ import com.rs.utils.record.Recorder;
 import com.rs.utils.reflect.ReflectionAnalysis;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import it.unimi.dsi.fastutil.ints.IntSets;
+import kotlin.Pair;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.InetAddress;
@@ -232,6 +233,7 @@ public class Player extends Entity {
 	private transient InterfaceManager interfaceManager;
 	private transient HintIconsManager hintIconsManager;
 	private transient CutsceneManager cutsceneManager;
+	public transient CutscenePresenter cutscenePresenter;
 	private transient Trade trade;
 	private transient DuelRules lastDuelRules;
 	private transient Pet pet;
@@ -392,9 +394,6 @@ public class Player extends Entity {
 	private TaskMonster[] taskBlocks;
 	public int slayerPoints = 0;
 	public int consecutiveTasks = 0;
-
-	private int[] warriorPoints = new int[6];
-
 	private transient boolean cantWalk;
 
 	private Map<PatchLocation, FarmPatch> patches;
@@ -635,6 +634,7 @@ public class Player extends Entity {
 		varManager.setSession(session);
 		sounds = new HashSet<>();
 		cutsceneManager = new CutsceneManager(this);
+		cutscenePresenter = new CutscenePresenter();
 		trade = new Trade(this);
 		// loads player on saved instances
 		appearence.setPlayer(this);
@@ -839,15 +839,15 @@ public class Player extends Entity {
 		stopAll(stopWalk, stopInterface, true);
 	}
 
-	// as walk done clientsided
 	public void stopAll(boolean stopWalk, boolean stopInterfaces, boolean stopActions) {
 		TransformationRing.triggerDeactivation(this);
-		setRouteEvent(null);
-		walkRequest = null;
 		if (stopInterfaces)
 			closeInterfaces();
-		if (stopWalk)
+		if (stopWalk) {
+			setRouteEvent(null);
+			walkRequest = null;
 			resetWalkSteps();
+		}
 		if (stopActions) {
 			getActionManager().forceStop();
 			getInteractionManager().forceStop();
@@ -938,6 +938,7 @@ public class Player extends Entity {
 				finish(0);
 			processPackets();
 			cutsceneManager.process();
+			cutscenePresenter.tick();
 			super.processEntity();
 			if (hasStarted() && isIdle() && !hasRights(Rights.ADMIN) && !getNSV().getB("idleLogImmune")) {
 				if (getInteractionManager().getInteraction() instanceof PlayerCombatInteraction combat) {
@@ -1047,7 +1048,10 @@ public class Player extends Entity {
 								}
 								break;
 							}
-							getEquipment().setSlot(i, new Item(deg.getBrokenId(), item.getAmount()));
+							if (deg.getBrokenId() == -1)
+								getEquipment().setSlot(i, null);
+							else
+								getEquipment().setSlot(i, new Item(deg.getBrokenId(), item.getAmount()));
 							getAppearance().generateAppearanceData();
 							sendMessage("<col=FF0000>Your " + ItemDefinitions.getDefs(item.getId()).getName() + " has fully degraded!");
 						} else {
@@ -1603,10 +1607,10 @@ public class Player extends Entity {
 			return;
 		boolean isAtMultiArea = isForceMultiArea() || World.isMultiArea(getTile());
 		if (isAtMultiArea && !isAtMultiArea()) {
-			setAtMultiArea(isAtMultiArea);
+			setAtMultiArea(true);
 			getPackets().sendVarc(616, 1);
 		} else if (!isAtMultiArea && isAtMultiArea()) {
-			setAtMultiArea(isAtMultiArea);
+			setAtMultiArea(false);
 			getPackets().sendVarc(616, 0);
 		}
 	}
@@ -2039,8 +2043,7 @@ public class Player extends Entity {
 					hit.setDamage((int) (hit.getDamage() * source.getMagePrayerMultiplier()));
 					if (deflectedDamage > 0 && Math.random() < 0.6) {
 						source.applyHit(new Hit(this, deflectedDamage, HitLook.REFLECTED_DAMAGE));
-						setNextSpotAnim(new SpotAnim(2228));
-						setNextAnimation(new Animation(12573));
+						sync(12573, 2228);
 					}
 				}
 			} else if (hit.getLook() == HitLook.RANGE_DAMAGE) {
@@ -2051,8 +2054,7 @@ public class Player extends Entity {
 					hit.setDamage((int) (hit.getDamage() * source.getRangePrayerMultiplier()));
 					if (deflectedDamage > 0 && Math.random() < 0.6) {
 						source.applyHit(new Hit(this, deflectedDamage, HitLook.REFLECTED_DAMAGE));
-						setNextSpotAnim(new SpotAnim(2229));
-						setNextAnimation(new Animation(12573));
+						sync(12573, 2229);
 					}
 				}
 			} else if (hit.getLook() == HitLook.MELEE_DAMAGE)
@@ -2063,8 +2065,7 @@ public class Player extends Entity {
 					hit.setDamage((int) (hit.getDamage() * source.getMeleePrayerMultiplier()));
 					if (deflectedDamage > 0 && Math.random() < 0.6) {
 						source.applyHit(new Hit(this, deflectedDamage, HitLook.REFLECTED_DAMAGE));
-						setNextSpotAnim(new SpotAnim(2230));
-						setNextAnimation(new Animation(12573));
+						sync(12573, 2230);
 					}
 				}
 		if (hit.getDamage() >= 200) {
@@ -2245,7 +2246,7 @@ public class Player extends Entity {
 	public void retribution(Entity source) {
 		setNextSpotAnim(new SpotAnim(437));
 		for (Direction dir : Direction.values())
-			World.sendSpotAnim(Tile.of(getX() - dir.getDx(), getY() - dir.getDy(), getPlane()), new SpotAnim(438, 20, 10, dir.getId()));
+			World.sendSpotAnim(Tile.of(getX() - dir.dx, getY() - dir.dy, getPlane()), new SpotAnim(438, 20, 10, dir.id));
 		if (isAtMultiArea()) {
 			for (Player player : queryNearbyPlayersByTileRange(1, player -> !player.isDead() && player.isCanPvp() && player.withinDistance(getTile(), 1) || getControllerManager().canHit(player)))
 				player.applyHit(new Hit(this, Utils.getRandomInclusive((int) (skills.getLevelForXp(Constants.PRAYER) * 2.5)), HitLook.TRUE_DAMAGE));
@@ -2263,8 +2264,8 @@ public class Player extends Entity {
 
 	public void wrath(Entity source) {
 		for (Direction dir : Direction.values())
-			World.sendProjectile(this, Tile.of(getX() + (dir.getDx()*2), getY() + (dir.getDy()*2), getPlane()), 2261, 0, 0, 15, 0.4, 35,
-					proj -> World.sendSpotAnim(proj.getToTile(), new SpotAnim(2260)));
+			World.sendProjectile(this, Tile.of(getX() + (dir.dx *2), getY() + (dir.dy *2), getPlane()), 2261, new Pair<>(0, 0), 15, 10, 35, 0,
+					proj -> World.sendSpotAnim(proj.getDestination(), new SpotAnim(2260)));
 		setNextSpotAnim(new SpotAnim(2259));
 		WorldTasks.schedule(() -> {
 			if (isAtMultiArea()) {
@@ -2278,16 +2279,16 @@ public class Player extends Entity {
 	}
 
 	public Tile getRandomGraveyardTile() {
-		return Tile.of(Tile.of(2745, 3474, 0), 4);
+		return Tile.of(Tile.of(2900, 3537, 0), 4);
 	}
 
 	public void sendPVEItemsOnDeath(Player killer, boolean dropItems) {
 		Integer[][] slots = GraveStone.getItemSlotsKeptOnDeath(this, true, dropItems, prayer.isProtectingItem());
-		sendPVEItemsOnDeath(killer, Tile.of(getTile()), Tile.of(getTile()), true, slots);
+		sendPVEItemsOnDeath(killer, Tile.of(getTile()), true, slots);
 	}
 
-	public void sendPVEItemsOnDeath(Player killer, Tile deathTile, Tile respawnTile, boolean noGravestone, Integer[][] slots) {
-		if (hasRights(Rights.ADMIN) || Settings.getConfig().isDebug())
+	public void sendPVEItemsOnDeath(Player killer, Tile deathTile, boolean noGravestone, Integer[][] slots) {
+		if ((Settings.getConfig().isDebug() && !hasRights(Rights.ADMIN)) || (!Settings.getConfig().isDebug() && hasRights(Rights.ADMIN)))
 			return;
 		auraManager.removeAura();
 		Item[][] items = GraveStone.getItemsKeptOnDeath(this, slots);
@@ -2391,7 +2392,7 @@ public class Player extends Entity {
 			List<Item> foodItems = new ArrayList<>();
 			List<Item> trophyItems = new ArrayList<>();
 			for (Item item : droppedItems) {
-				if (Foods.isConsumable(item) || Potions.Potion.POTS.containsKey(item.getId()) || item.getId() == 24444)
+				if (Foods.isConsumable(item) || Potion.POTS.containsKey(item.getId()) || item.getId() == 24444)
 					foodItems.add(item);
 				else
 					trophyItems.add(item);
@@ -3586,7 +3587,7 @@ public class Player extends Entity {
 				tilesUnlocked = new HashSet<>();
 				tilesAvailable = 50;
 			}
-			int tileHash = getTile().transform(dir.getDx(), dir.getDy()).getTileHash();
+			int tileHash = getTile().transform(dir.dx, dir.dy).getTileHash();
 			if (!tilesUnlocked.contains(tileHash)) {
 				if (tilesAvailable <= 0)
 					return false;
@@ -3784,36 +3785,6 @@ public class Player extends Entity {
 		});
 	}
 
-	public int[] getWarriorPoints() {
-		if (warriorPoints == null || warriorPoints.length != 6)
-			warriorPoints = new int[6];
-		return warriorPoints;
-	}
-
-	public void setWarriorPoints(int index, int pointsDifference) {
-		if (warriorPoints == null || warriorPoints.length != 6)
-			warriorPoints = new int[6];
-
-		warriorPoints[index] += pointsDifference;
-		if (warriorPoints[index] < 0) {
-			Controller controller = getControllerManager().getController();
-			if (controller == null || !(controller instanceof WarriorsGuild guild))
-				return;
-			guild.inCyclopse = false;
-			tele(WarriorsGuild.CYCLOPS_LOBBY);
-			warriorPoints[index] = 0;
-		} else if (warriorPoints[index] > 65535)
-			warriorPoints[index] = 65535;
-		refreshWarriorPoints(index);
-	}
-
-	public void refreshWarriorPoints(int index) {
-		if (warriorPoints == null || warriorPoints.length != 6)
-			warriorPoints = new int[6];
-
-		getVars().setVarBit(index + 8662, warriorPoints[index]);
-	}
-
 	public Brewery getKeldagrimBrewery() {
 		if (keldagrimBrewery == null)
 			keldagrimBrewery = new Brewery(true);
@@ -3931,58 +3902,6 @@ public class Player extends Entity {
 
 	public long getTimePlayedThisSession() {
 		return timePlayedThisSession;
-	}
-
-	public Map<StorableItem, Item> getLeprechaunStorage() {
-		if (leprechaunStorage == null)
-			leprechaunStorage = new HashMap<>();
-		return leprechaunStorage;
-	}
-
-	public int getNumInLeprechaun(StorableItem item) {
-		return leprechaunStorage.get(item) == null ? 0 : leprechaunStorage.get(item).getAmount();
-	}
-
-	public void storeLeprechaunItem(StorableItem item, int itemId, int amount) {
-		Item curr = leprechaunStorage.get(item);
-		if (curr == null) {
-			if (amount > item.maxAmount)
-				amount = item.maxAmount;
-			if (amount > getInventory().getNumberOf(itemId))
-				amount = getInventory().getNumberOf(itemId);
-			if (amount <= 0)
-				return;
-			curr = new Item(itemId, amount);
-			getInventory().deleteItem(itemId, amount);
-		} else {
-			if ((curr.getAmount()+amount) > item.maxAmount)
-				amount = item.maxAmount - curr.getAmount();
-			if (amount > getInventory().getNumberOf(itemId))
-				amount = getInventory().getNumberOf(itemId);
-			if (amount <= 0)
-				return;
-			curr.setAmount(curr.getAmount() + amount);
-			getInventory().deleteItem(itemId, amount);
-		}
-		leprechaunStorage.put(item, curr);
-		item.updateVars(this);
-	}
-
-	public void takeLeprechaunItem(StorableItem item, int amount) {
-		Item curr = leprechaunStorage.get(item);
-		if (curr == null)
-			return;
-		if (amount > curr.getAmount())
-			amount = curr.getAmount();
-		if (amount > getInventory().getFreeSlots())
-			amount = getInventory().getFreeSlots();
-		curr.setAmount(curr.getAmount() - amount);
-		getInventory().addItem(curr.getId(), amount);
-		if (curr.getAmount() == 0)
-			leprechaunStorage.remove(item);
-		else
-			leprechaunStorage.put(item, curr);
-		item.updateVars(this);
 	}
 
 	public int getUuid() {
@@ -4226,6 +4145,12 @@ public class Player extends Entity {
 		}
 	}
 
+	public Map<StorableItem, Item> getLeprechaunStorage() {
+		if (leprechaunStorage == null)
+			leprechaunStorage = new HashMap<>();
+		return leprechaunStorage;
+	}
+
 	public Recorder getRecorder() {
 		return recorder;
 	}
@@ -4238,8 +4163,8 @@ public class Player extends Entity {
 		return isQuestComplete(quest, null);
 	}
 
-	public boolean isMiniquestComplete(Miniquest quest, String actionString) {
-		return getMiniquestManager().isComplete(quest, actionString);
+	public boolean isMiniquestComplete(Miniquest quest, String actionString, boolean outputReqs) {
+		return getMiniquestManager().isComplete(quest, actionString, outputReqs);
 	}
 
 	public boolean isQuestStarted(Quest quest) {
@@ -4250,7 +4175,10 @@ public class Player extends Entity {
 		return getMiniquestStage(quest) > 0;
 	}
 	public boolean isMiniquestComplete(Miniquest quest) {
-		return isMiniquestComplete(quest, null);
+		return isMiniquestComplete(quest, null, false);
+	}
+	public boolean isMiniquestComplete(Miniquest quest, boolean outputReqs) {
+		return isMiniquestComplete(quest, null, outputReqs);
 	}
 
 	public void delayLock(int ticks, Runnable task) {

@@ -16,6 +16,7 @@
 //
 package com.rs.game.content.quests.merlinscrystal;
 
+import com.rs.engine.pathfinder.Direction;
 import com.rs.game.World;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.OwnedNPC;
@@ -46,7 +47,7 @@ public class MerlinsCrystalRitualScene extends Controller {
 			player.musicTrack(449);
 			spirit.setNextSpotAnim(new SpotAnim(1605, 0, 0));
 			spirit.setCantInteract(true);
-			spirit.faceSouth();
+			spirit.faceDir(Direction.SOUTH);
 			spirit.setRandomWalk(false);
 		}
 		player.startConversation(new ThrantaxMerlinsCrystalD(player).getStart());

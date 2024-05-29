@@ -25,6 +25,7 @@ import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.lib.game.Animation;
 import com.rs.lib.util.Utils;
+import kotlin.Pair;
 
 public class HarAkenTentacleCombat extends CombatScript {
 
@@ -49,7 +50,7 @@ public class HarAkenTentacleCombat extends CombatScript {
 			break;
 		case 1:
 			npc.setNextAnimation(new Animation(npc.getId() == 15209 ? 16253 : 16242));
-			WorldProjectile p = World.sendProjectile(npc, target, npc.getId() == 15209 ? 3004 : 2922, 140, 35, 80, 1.0, 16, 0);
+			WorldProjectile p = World.sendProjectile(npc, target, npc.getId() == 15209 ? 3004 : 2922, new Pair<>(140, 35), 80, 10, 16);
 			if (npc.getId() == 15209)
 				delayHit(npc, p.getTaskDelay(), target, getRangeHit(npc, getMaxHit(npc, defs.getMaxHit(), AttackStyle.RANGE, target)));
 			else

@@ -28,6 +28,7 @@ import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
+import kotlin.Pair;
 
 public class BrutalDragonCombat extends CombatScript {
 
@@ -54,7 +55,7 @@ public class BrutalDragonCombat extends CombatScript {
 				else if (protection == 2)
 					damage = 0;
 				npc.setNextAnimation(new Animation(12259));
-				WorldProjectile p = World.sendProjectile(npc, target, 393, 28, 32, 50, 2, 16, 0);
+				WorldProjectile p = World.sendProjectile(npc, target, 393, new Pair<>(28, 32), 50, 5, 16);
 				delayHit(npc, p.getTaskDelay(), target, getRegularHit(npc, damage));
 			}
 			break;
@@ -77,7 +78,7 @@ public class BrutalDragonCombat extends CombatScript {
 				else if (protection == 2)
 					damage = 0;
 				npc.setNextAnimation(new Animation(12259));
-				WorldProjectile p = World.sendProjectile(npc, target, 393, 28, 32, 50, 2, 16, 0);
+				WorldProjectile p = World.sendProjectile(npc, target, 393, new Pair<>(28, 32), 50, 5, 16);
 				delayHit(npc, p.getTaskDelay(), target, getRegularHit(npc, damage));
 			}
 			break;
@@ -85,7 +86,7 @@ public class BrutalDragonCombat extends CombatScript {
 		case 3:
 			damage = Utils.getRandomInclusive(180);
 			npc.setNextAnimation(new Animation(12259));
-			WorldProjectile p = World.sendProjectile(npc, target, 2705, 28, 32, 50, 2, 16, 0);
+			WorldProjectile p = World.sendProjectile(npc, target, 2705, new Pair<>(28, 32), 50, 5, 16);
 			delayHit(npc, p.getTaskDelay(), target, getMagicHit(npc, damage));
 			break;
 		}

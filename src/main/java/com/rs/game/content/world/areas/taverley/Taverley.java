@@ -130,7 +130,7 @@ public class Taverley {
 				if (n.isDead())
 					continue;
 				n.forceTalk("Hands off Zamorak's wine!");
-				n.setTarget(e.getPlayer());
+				n.setCombatTarget(e.getPlayer());
 			}
 			e.cancelPickup();
 		}

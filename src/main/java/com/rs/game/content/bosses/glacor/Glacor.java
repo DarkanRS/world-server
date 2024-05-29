@@ -35,6 +35,7 @@ import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
+import kotlin.Pair;
 
 @PluginEventHandler
 public class Glacor extends NPC {
@@ -119,8 +120,8 @@ public class Glacor extends NPC {
 			hit.setDamage(hit.getDamage() * 2);
 		if (!isMinionsSpawned() && getHitpoints() < 2500) {
 			spawnMinions();
-			unstable.setTarget(lastAttacked);
-			sapping.setTarget(lastAttacked);
+			unstable.setCombatTarget(lastAttacked);
+			sapping.setCombatTarget(lastAttacked);
 		}
 		super.handlePreHit(hit);
 	}
@@ -221,9 +222,9 @@ public class Glacor extends NPC {
 		unstable = new UnstableMinion(14302, Tile.of(getX() + 1, getY() + 1, getPlane()), -1, true, true, this);
 		sapping = new SappingMinion(14303, Tile.of(getX() + 1, getY(), getPlane()), -1, true, true, this);
 		enduring = new EnduringMinion(14304, Tile.of(getX() + 1, getY() - 1, getPlane()), -1, true, true, this);
-		World.sendProjectile(this, unstable, 634, 60, 32, 50, 0.7, 0, 0);
-		World.sendProjectile(this, sapping, 634, 60, 32, 50, 0.7, 0, 0);
-		World.sendProjectile(this, enduring, 634, 60, 32, 50, 0.7, 0, 0);
+		World.sendProjectile(this, unstable, 634, new Pair<>(60, 32), 50, 10, 0);
+		World.sendProjectile(this, sapping, 634, new Pair<>(60, 32), 50, 10, 0);
+		World.sendProjectile(this, enduring, 634, new Pair<>(60, 32), 50, 10, 0);
 		minionsSpawned = true;
 		setStage(Stage.MINIONS);
 		setCapDamage(0);

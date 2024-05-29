@@ -29,6 +29,7 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
+import kotlin.Pair;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -75,7 +76,7 @@ public class FleshspoilerHaasghenahk extends DungeonBoss {
 		final List<Tile> tiles = new LinkedList<>();
 		for (int i = 0; i < 5; i++) {
 			Tile tile = World.getFreeTile(centerTile, 6);
-			World.sendProjectile(this, tile, 2765, 150, 0, 30, 1, 40, 0);
+			World.sendProjectile(this, tile, 2765, new Pair<>(150, 0), 30, 5, 40);
 			tiles.add(tile);
 		}
 		final FleshspoilerHaasghenahk boss = this;

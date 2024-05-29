@@ -39,7 +39,7 @@ public final class GluttonousBehemoth extends DungeonBoss {
 	public void setHeal(GameObject food) {
 		ticks = 0;
 		heal = food;
-		removeTarget();
+		removeCombatTarget();
 	}
 
 	@Override

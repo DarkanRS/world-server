@@ -28,6 +28,7 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
+import kotlin.Pair;
 
 public class MetalDragonCombat extends CombatScript {
 
@@ -54,7 +55,7 @@ public class MetalDragonCombat extends CombatScript {
 			}
 
 			npc.setNextAnimation(new Animation(13160));
-			World.sendProjectile(npc, target, 393, 28, 16, 35, 35, 16, 0);
+			World.sendProjectile(npc, target, 393, new Pair<>(28, 16), 35, 10, 16);
 			delayHit(npc, 1, target, getRegularHit(npc, damage));
 		}
 		return npc.getAttackSpeed();

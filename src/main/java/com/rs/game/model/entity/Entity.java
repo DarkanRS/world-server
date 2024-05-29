@@ -21,9 +21,11 @@ import com.rs.cache.loaders.NPCDefinitions.MovementType;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.cache.loaders.animations.AnimationDefinitions;
 import com.rs.cache.loaders.map.RegionSize;
+import com.rs.engine.pathfinder.*;
+import com.rs.engine.pathfinder.collision.CollisionStrategy;
+import com.rs.engine.pathfinder.collision.CollisionStrategyType;
 import com.rs.game.World;
 import com.rs.game.content.Effect;
-import com.rs.game.content.combat.PlayerCombat;
 import com.rs.game.content.combat.PlayerCombatKt;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.skills.prayer.Prayer;
@@ -35,17 +37,16 @@ import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.actions.Action;
 import com.rs.game.model.entity.actions.EntityFollow;
 import com.rs.game.model.entity.async.AsyncTaskScheduler;
+import com.rs.game.model.entity.interactions.EntityInteraction;
 import com.rs.game.model.entity.interactions.InteractionManager;
 import com.rs.game.model.entity.interactions.PlayerCombatInteraction;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.pathing.*;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.game.model.entity.player.actions.ActionManager;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.Task;
-import com.rs.game.tasks.TaskInformation;
 import com.rs.game.tasks.TaskManager;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
@@ -53,7 +54,6 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
 import com.rs.lib.net.packets.decoders.Walk;
-import com.rs.lib.net.packets.encoders.MinimapFlag;
 import com.rs.lib.net.packets.encoders.Sound;
 import com.rs.lib.util.*;
 import com.rs.lib.util.MapUtils.Structure;
@@ -64,6 +64,7 @@ import com.rs.utils.WorldUtil;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import it.unimi.dsi.fastutil.ints.IntSets;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import kotlin.Pair;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -113,7 +114,7 @@ public abstract class Entity {
 	protected transient RouteEvent routeEvent;
 	private transient ActionManager actionManager;
 	private transient InteractionManager interactionManager;
-	private transient ClipType clipType = ClipType.NORMAL;
+	private transient CollisionStrategy collisionStrategy = CollisionStrategyType.NORMAL.getStrategy();
 	private transient long lockDelay; // used for doors and stuff like that
 
 	private transient BodyGlow nextBodyGlow;
@@ -216,21 +217,11 @@ public abstract class Entity {
 	}
 
 	public void walkToAndExecute(Tile startTile, Runnable event) {
-		Route route = RouteFinder.find(getX(), getY(), getPlane(), getSize(), new FixedTileStrategy(startTile.getX(), startTile.getY()), true);
-		int last = -1;
-		if (route.getStepCount() == -1)
-			return;
-		for (int i = route.getStepCount() - 1; i >= 0; i--)
-			if (!addWalkSteps(route.getBufferX()[i], route.getBufferY()[i], 25, true, true))
-				break;
-		if (this instanceof Player player) {
-			if (last != -1) {
-				Tile tile = Tile.of(route.getBufferX()[last], route.getBufferY()[last], getPlane());
-				player.getSession().writeToQueue(new MinimapFlag(tile.getXInScene(getSceneBaseChunkId()), tile.getYInScene(getSceneBaseChunkId())));
-			} else
-				player.getSession().writeToQueue(new MinimapFlag());
-		}
 		setRouteEvent(new RouteEvent(startTile, event));
+	}
+
+	public void walkToAndExecute(GameObject object, Runnable event) {
+		setRouteEvent(new RouteEvent(object, event));
 	}
 
 	private void processEffects() {
@@ -420,7 +411,7 @@ public abstract class Entity {
 
 	public void sendSoulSplit(Hit hit, Entity user) {
 		if (hit.getDamage() > 0)
-			World.sendProjectile(user, this, 2263, 11, 11, 0, -1, 0, 0);
+			World.sendProjectile(user, this, 2263, new Pair<>(11, 11), 0, 50, 0);
 		user.heal(hit.getDamage() / 5);
 		if (user instanceof Player p)
 			p.incrementCount("Health soulsplitted back", hit.getDamage() / 5);
@@ -431,7 +422,7 @@ public abstract class Entity {
 			public void run() {
 				setNextSpotAnim(new SpotAnim(2264));
 				if (hit.getDamage() > 0)
-					World.sendProjectile(Entity.this, user, 2263, 11, 11, 0, -1, 0, 0);
+					World.sendProjectile(Entity.this, user, 2263, new Pair<>(11, 11), 0, 50, 0);
 			}
 		}, 0);
 	}
@@ -610,17 +601,15 @@ public abstract class Entity {
 
 	public boolean calcFollow(Object target, int maxStepsCount, boolean intelligent) {
 		if (intelligent) {
-			Route route = RouteFinder.find(getX(), getY(), getPlane(), getSize(), target instanceof GameObject go ? new ObjectStrategy(go) : target instanceof Entity e ? new EntityStrategy(e) : new FixedTileStrategy(((Tile) target).getX(), ((Tile) target).getY()), true);
-			if (route.getStepCount() == -1)
+			Route route = RouteFinderKt.routeEntityTo(this, target, maxStepsCount < 0 ? 25 : maxStepsCount);
+			if (route.getFailed())
 				return false;
 //			if (route.getStepCount() == 0) //TODO why did I add this?
 //				return DumbRouteFinder.addDumbPathfinderSteps(this, target, getClipType());
-			for (int step = route.getStepCount() - 1; step >= 0; step--)
-				if (!addWalkSteps(route.getBufferX()[step], route.getBufferY()[step], maxStepsCount, true, true))
-					break;
+			RouteFinderKt.addSteps(this, route,true, maxStepsCount);
 			return true;
 		}
-		return DumbRouteFinder.addDumbPathfinderSteps(this, target, getClipType());
+		return DumbRouteFinder.addDumbPathfinderSteps(this, target, getCollisionStrategy());
 	}
 
 	public Player getMostDamageReceivedSourcePlayer() {
@@ -753,28 +742,29 @@ public abstract class Entity {
 				if (npc.switchWalkStep())
 					return;
 
+		StepValidator step = new StepValidator(WorldCollision.INSTANCE.getAllFlags());
 		for (int stepCount = 0; stepCount < (moveType == MoveType.RUN ? 2 : 1); stepCount++) {
 			WalkStep nextStep = getNextWalkStep();
 			if (nextStep == null)
 				break;
 			if (player != null)
-				PluginManager.handle(new PlayerStepEvent(player, nextStep, Tile.of(getX() + nextStep.getDir().getDx(), getY() + nextStep.getDir().getDy(), getPlane())));
-			if ((nextStep.checkClip() && !World.checkWalkStep(getPlane(), getX(), getY(), nextStep.getDir(), getSize(), getClipType())) || (nextStep.checkClip() && npc != null && !npc.checkNPCCollision(nextStep.getDir())) || !canMove(nextStep.getDir())) {
+				PluginManager.handle(new PlayerStepEvent(player, nextStep, Tile.of(getX() + nextStep.dir.dx, getY() + nextStep.dir.dy, getPlane())));
+			if ((nextStep.checkClip() && !step.canTravel(getPlane(), getX(), getY(), nextStep.dir.dx, nextStep.dir.dy, getSize(), 0, getCollisionStrategy())) || (nextStep.checkClip() && npc != null && !npc.checkNPCCollision(nextStep.dir)) || !canMove(nextStep.dir)) {
 				resetWalkSteps();
 				break;
 			}
 			if (stepCount == 0)
-				nextWalkDirection = nextStep.getDir();
+				nextWalkDirection = nextStep.dir;
 			else
-				nextRunDirection = nextStep.getDir();
+				nextRunDirection = nextStep.dir;
 			tileBehind = Tile.of(getTile());
-			moveLocation(nextStep.getDir().getDx(), nextStep.getDir().getDy(), 0);
+			moveLocation(nextStep.dir.dx, nextStep.dir.dy, 0);
 			if (moveType == MoveType.RUN && stepCount == 0) { // fixes impossible steps TODO is this even necessary?
 				WalkStep previewStep = previewNextWalkStep();
 				if (previewStep == null)
 					break;
-				int dx = nextStep.getDir().getDx() + previewStep.getDir().getDx();
-				int dy = nextStep.getDir().getDy() + previewStep.getDir().getDy();
+				int dx = nextStep.dir.dx + previewStep.dir.dx;
+				int dy = nextStep.dir.dy + previewStep.dir.dy;
 				if (Utils.getPlayerRunningDirection(dx, dy) == -1 && Utils.getPlayerWalkingDirection(dx, dy) == -1)
 					break;
 			}
@@ -859,30 +849,13 @@ public abstract class Entity {
 		if (target instanceof NPC npc) {
 			if (LOS_NPC_OVERRIDES.contains(npc.getId()) || LOS_NPC_OVERRIDES.contains(npc.getName()))
 				return true;
-			switch(npc.getId()) {
-				case 233: //Fishing contest player spot
-				case 234: //Fishing contest big carp spot
-				case 9712: //dung tutor
-				case 9710: //frem banker
-				case 706: //wizard mizgog
-				case 14860: //Head Farmer Jones
-				case 14864: //Ayleth Beaststalker
-				case 14858: //Alison Elmshaper
-				case 14883: //Marcus Everburn
-				case 2290:
-					return true;
-			}
-			switch(npc.getName()) {
-				case "Fremennik shipmaster":
-					return true;
-			}
 		}
 		for (TriFunction<Entity, Object, Boolean, Boolean> func : LOS_FUNCTION_OVERRIDES)
 			if (func.apply(this, target, melee))
 				return true;
 		if (melee && !(target instanceof Entity e && e.ignoreWallsWhenMeleeing()))
-			return World.checkMeleeStep(this, this.getSize(), target, targSize) && World.hasLineOfSight(getMiddleTile(), target instanceof Entity e ? e.getMiddleTile() : tile);
-		return World.hasLineOfSight(getMiddleTile(), target instanceof Entity e ? e.getMiddleTile() : tile);
+			return World.checkMeleeStep(this, this.getSize(), target, targSize) && World.hasLineOfSight(getMiddleTile(), getSize(), target instanceof Entity e ? e.getMiddleTile() : tile, targSize);
+		return World.hasLineOfSight(getMiddleTile(), getSize(), target instanceof Entity e ? e.getMiddleTile() : tile, targSize);
 	}
 
 	public boolean addWalkSteps(final int destX, final int destY, int maxStepsCount) {
@@ -924,7 +897,7 @@ public abstract class Entity {
 		if (steps.length == 0)
 			return new int[] { getX(), getY() };
 		WalkStep step = (WalkStep) steps[steps.length - 1];
-		return new int[] { step.getX(), step.getY() };
+		return new int[] {step.x, step.y};
 	}
 
 	public boolean walkOneStep(int x, int y, boolean clipped) {
@@ -938,9 +911,10 @@ public abstract class Entity {
 	public boolean addWalkStep(int nextX, int nextY, int lastX, int lastY, boolean check, boolean force) {
 		//World.sendSpotAnim(Tile.of(nextX, nextY, getPlane()), new SpotAnim(2000));
 		Direction dir = Direction.forDelta(nextX - lastX, nextY - lastY);
+		StepValidator step = new StepValidator(WorldCollision.INSTANCE.getAllFlags());
 		if (dir == null)
 			return false;
-		if (!force && check && !World.checkWalkStep(getPlane(), lastX, lastY, dir, getSize(), getClipType()) || (check && this instanceof NPC n && !n.checkNPCCollision(dir)))// double
+		if (!force && check && !step.canTravel(getPlane(), lastX, lastY, dir.dx, dir.dy, getSize(), 0, getCollisionStrategy()) || (check && this instanceof NPC n && !n.checkNPCCollision(dir)))// double
 			return false;
 		if (this instanceof Player player)
 			if (!player.getControllerManager().checkWalkStep(lastX, lastY, nextX, nextY))
@@ -1009,21 +983,8 @@ public abstract class Entity {
 	public void processEntity() {
 		tickCounter++;
 		if (walkRequest != null) {
-			Route route = RouteFinder.find(getX(), getY(), getPlane(), getSize(), new FixedTileStrategy(walkRequest.getX(), walkRequest.getY()), true);
-			int last = -1;
-			if (route.getStepCount() == -1)
-				return;
-			if (this instanceof Player player)
-				player.stopAll();
-			setNextFaceEntity(null);
-			for (int i = route.getStepCount() - 1; i >= 0; i--)
-				if (!addWalkSteps(route.getBufferX()[i], route.getBufferY()[i], 25, true, true))
-					break;
-			if (last != -1) {
-				Tile tile = Tile.of(route.getBufferX()[last], route.getBufferY()[last], getPlane());
-				if (this instanceof Player player)
-					player.getSession().writeToQueue(new MinimapFlag(tile.getXInScene(getSceneBaseChunkId()), tile.getYInScene(getSceneBaseChunkId())));
-			}
+			resetWalkSteps();
+			RouteFinderKt.addSteps(this, RouteFinderKt.routeEntityWalkRequest(this, walkRequest), true);
 			walkRequest = null;
 		}
 		RouteEvent prevEvent = routeEvent;
@@ -1277,29 +1238,21 @@ public abstract class Entity {
 		this.fixedFaceTile = tile;
 	}
 
-	public void faceNorth() {
-		setNextFaceTile(Tile.of(getX(), getY()+1, getPlane()));
-	}
-
-	public void faceEast() {
-		setNextFaceTile(Tile.of(getX()+1, getY(), getPlane()));
-	}
-
-	public void faceSouth() {
-		setNextFaceTile(Tile.of(getX(), getY()-1, getPlane()));
-	}
-
-	public void faceWest() {
-		setNextFaceTile(Tile.of(getX()-1, getY(), getPlane()));
+	public void faceDir(Direction dir) {
+		setNextFaceTile(transform(dir.dx, dir.dy));
 	}
 
 	public abstract int getSize();
 
-	public void cancelFaceEntityNoCheck() {
-		nextFaceEntity = -2;
-		lastFaceEntity = -1;
+	public void stopFaceEntity() {
+		setNextFaceEntity(null);
 	}
 
+	/**
+	 * Use faceEntity() instead
+	 * @param entity
+	 */
+	@Deprecated
 	public void setNextFaceEntity(Entity entity) {
 		if (entity == null) {
 			nextFaceEntity = -1;
@@ -1308,6 +1261,10 @@ public abstract class Entity {
 			nextFaceEntity = entity.getClientIndex();
 			lastFaceEntity = nextFaceEntity;
 		}
+	}
+
+	public void faceEntity(Entity entity) {
+		setNextFaceEntity(entity);
 	}
 
 	public int getNextFaceEntity() {
@@ -1339,6 +1296,22 @@ public abstract class Entity {
 		addEffect(Effect.FREEZE, ticks);
 		if (freezeBlock)
 			addEffect(Effect.FREEZE_BLOCK, ticks + 15);
+	}
+
+	public void interactWithEntity(Entity target, int distance, Runnable action) {
+		interactionManager.setInteraction(new EntityInteraction(target, distance) {
+			@Override
+			public boolean canStart(Entity entity) { return true; }
+
+			@Override
+			public boolean checkAll(Entity entity) { return true; }
+
+			@Override
+			public void interact(Entity entity) { action.run(); }
+
+			@Override
+			public void onStop(Entity entity) { }
+		});
 	}
 
 	public abstract double getMagePrayerMultiplier();
@@ -1422,7 +1395,7 @@ public abstract class Entity {
 	public void forceMoveVisually(Direction dir, int distance, int animation, int startClientCycles, int speedClientCycles) {
 		if (animation != -1)
 			anim(animation);
-		setNextForceMovement(new ForceMovement(getTile(), transform(dir.getDx()*distance, dir.getDy()*distance), startClientCycles, speedClientCycles));
+		setNextForceMovement(new ForceMovement(getTile(), transform(dir.dx *distance, dir.dy *distance), startClientCycles, speedClientCycles));
 	}
 
 	public void forceMoveVisually(Tile destination, int startClientCycles, int speedClientCycles) {
@@ -1492,7 +1465,7 @@ public abstract class Entity {
 	}
 
 	public void forceMove(Direction dir, int distance, int anim, int startClientCycles, int speedClientCycles, boolean autoUnlock, Runnable afterComplete) {
-		forceMove(transform(dir.getDx()*distance, dir.getDy()*distance), anim, startClientCycles, speedClientCycles, autoUnlock, afterComplete);
+		forceMove(transform(dir.dx *distance, dir.dy *distance), anim, startClientCycles, speedClientCycles, autoUnlock, afterComplete);
 	}
 
 	public void forceMove(Direction dir, int distance, int anim, int startClientCycles, int speedClientCycles, Runnable afterComplete) {
@@ -1512,7 +1485,7 @@ public abstract class Entity {
 	}
 
 	public void forceMove(Direction dir, int distance, int startClientCycles, int speedClientCycles, boolean autoUnlock, Runnable afterComplete) {
-		forceMove(transform(dir.getDx()*distance, dir.getDy()*distance), -1, startClientCycles, speedClientCycles, autoUnlock, afterComplete);
+		forceMove(transform(dir.dx *distance, dir.dy *distance), -1, startClientCycles, speedClientCycles, autoUnlock, afterComplete);
 	}
 
 	public void forceMove(Direction dir, int distance, int startClientCycles, int speedClientCycles, Runnable afterComplete) {
@@ -1544,7 +1517,7 @@ public abstract class Entity {
 		setNextForceTalk(new ForceTalk(message));
 	}
 
-	public void faceEntity(Entity target) {
+	public void faceEntityTile(Entity target) {
 		setNextFaceTile(Tile.of(target.getCoordFaceX(target.getSize()), target.getCoordFaceY(target.getSize()), target.getPlane()));
 	}
 
@@ -1669,7 +1642,7 @@ public abstract class Entity {
 	}
 
 	public Tile getLastTile() {
-		return lastTile;
+		return lastTile != null ? lastTile : Tile.of(tile);
 	}
 
 	public ArrayList<Hit> getNextHits() {
@@ -1713,6 +1686,7 @@ public abstract class Entity {
 	}
 
 	public void setRouteEvent(RouteEvent routeEvent) {
+		this.resetWalkSteps();
 		this.routeEvent = routeEvent;
 	}
 
@@ -1739,14 +1713,20 @@ public abstract class Entity {
 		this.forceUpdateEntityRegion = forceUpdateEntityRegion;
 	}
 
-	public ClipType getClipType() {
-		if (clipType == null)
-			clipType = ClipType.NORMAL;
-		return clipType;
+	public CollisionStrategy getCollisionStrategy() {
+		if (collisionStrategy == null)
+			collisionStrategy = CollisionStrategyType.NORMAL.getStrategy();
+		return collisionStrategy;
 	}
 
-	public void setClipType(ClipType clipType) {
-		this.clipType = clipType;
+	public Entity setCollisionStrategy(CollisionStrategy strategy) {
+		this.collisionStrategy = strategy;
+		return this;
+	}
+
+	public Entity setCollisionStrategyType(CollisionStrategyType type) {
+		setCollisionStrategy(type == null ? CollisionStrategyType.NORMAL.getStrategy() : type.getStrategy());
+		return this;
 	}
 
 	public Tile getNearestTeleTile(Entity toMove) {
@@ -1758,7 +1738,7 @@ public abstract class Entity {
 	}
 
 	public Tile getNearestTeleTile(Direction... blacklistedDirections) {
-		return World.findAdjacentFreeSpace(this.getTile(), blacklistedDirections);
+		return World.findAdjacentFreeTile(this.getTile(), blacklistedDirections);
 	}
 
 	public Tile getTile() {
@@ -1957,6 +1937,14 @@ public abstract class Entity {
 
 	public void anim(int anim) {
 		setNextAnimation(new Animation(anim));
+	}
+
+	public void stopAnim() {
+		anim(-1);
+	}
+
+	public void anim(Animation anim) {
+		setNextAnimation(anim);
 	}
 
 	public void spotAnim(int spotAnim, int speed, int height) {

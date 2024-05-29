@@ -18,9 +18,9 @@ package com.rs.game.content.combat
 
 import com.rs.cache.loaders.ItemDefinitions
 
-class AttackStyle(@JvmField val index: Int, @JvmField val name: String, @JvmField val xpType: XPType, @JvmField val attackType: AttackType) {
+data class AttackStyle(@JvmField val index: Int, @JvmField val name: String, @JvmField val xpType: XPType, @JvmField val attackType: AttackType) {
     companion object {
-        private val UNARMED: Map<Int, AttackStyle> = mapOf(
+        val UNARMED: Map<Int, AttackStyle> = mapOf(
             0 to AttackStyle(0, "Punch", XPType.ACCURATE, AttackType.CRUSH),
             1 to AttackStyle(1, "Kick", XPType.AGGRESSIVE, AttackType.CRUSH),
             2 to AttackStyle(2, "Block", XPType.DEFENSIVE, AttackType.CRUSH)
@@ -178,7 +178,7 @@ class AttackStyle(@JvmField val index: Int, @JvmField val name: String, @JvmFiel
         fun getStyles(itemId: Int): Map<Int, AttackStyle> {
             val defs = ItemDefinitions.getDefs(itemId)
             val weaponType = defs.getParamVal(686)
-            return if (ATTACK_STYLES[weaponType] == null) UNARMED else ATTACK_STYLES[weaponType]!!
+            return ATTACK_STYLES[weaponType] ?: UNARMED
         }
     }
 }

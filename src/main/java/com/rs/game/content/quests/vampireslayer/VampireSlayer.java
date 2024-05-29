@@ -22,7 +22,6 @@ import com.rs.engine.quest.QuestOutline;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.handlers.NPCInteractionDistanceHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,6 +101,4 @@ public class VampireSlayer extends QuestOutline {
 		player.getSkills().addXpQuest(Skills.ATTACK, 4825);
 		sendQuestCompleteInterface(player, STAKE);
 	}
-
-	public static NPCInteractionDistanceHandler bartenderBlueMoonDistance = new NPCInteractionDistanceHandler(733, (player, npc) -> 5);
 }

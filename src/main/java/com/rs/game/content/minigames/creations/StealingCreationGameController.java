@@ -369,7 +369,7 @@ public class StealingCreationGameController {
 				player.getFamiliar().removeItem(item);
 			else
 				player.getInventory().deleteItem(item);
-			World.addGroundItem(item, object.getTile());
+			World.addGroundItemNoExpire(item, object.getTile());
 			Controller controller = player.getControllerManager().getController();
 			if (controller instanceof StealingCreationController ctrl)
 				ctrl.sendScore(score);

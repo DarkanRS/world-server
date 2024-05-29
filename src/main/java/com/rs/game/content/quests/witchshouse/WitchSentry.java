@@ -41,7 +41,7 @@ public class WitchSentry extends NPC {
     public WitchSentry(Tile tile) {
         super(WITCH, tile, true);
         setRandomWalk(false);
-        WorldTasks.scheduleLooping(new Task() {
+        getTasks().scheduleLooping(new Task() {
             int tick = 10;
             Player player;
 
@@ -52,15 +52,15 @@ public class WitchSentry extends NPC {
                         if (p == null)
                             continue;
                         if (lineOfSightTo(p, false)) {
-							player = p;
-							p.lock();
+                            player = p;
+                            p.lock();
                             resetWalkSteps();
-                            faceEntity(p);
+                            faceEntityTile(p);
                             setNextSpotAnim(new SpotAnim(108));
                             setNextAnimation(new Animation(711));
                             forceTalk("Get out!");
                             tick = 3;
-							break;
+                            break;
                         }
                     }
                 }
@@ -69,7 +69,7 @@ public class WitchSentry extends NPC {
                 if (tick == 2) {
                     player.unlock();
                     Magic.sendObjectTeleportSpell(player, false, Tile.of(2892, 3373, 0));
-					player = null;
+                    player = null;
                     tick--;
                 }
                 if (tick == 3)
@@ -93,12 +93,13 @@ public class WitchSentry extends NPC {
     @Override
     public boolean lineOfSightTo(Object target, boolean melee) {
         Tile tile = WorldUtil.targetToTile(target);
-        if (World.hasLineOfSight(getMiddleTile(), target instanceof Entity e ? e.getMiddleTile() : tile)) {
-            Logger.debug(WitchSentry.class, "lineOfSightTo", "dX:" + getDirection().getDx());
-            if (getDirection().getDx() == 1) {
+        int targSize = target instanceof Entity ? ((Entity) target).getSize() : 1;
+        if (World.hasLineOfSight(getMiddleTile(), getSize(), target instanceof Entity e ? e.getMiddleTile() : tile, targSize)) {
+            Logger.debug(WitchSentry.class, "lineOfSightTo", "dX:" + getDirection().dx);
+            if (getDirection().dx == 1) {
                 if (tile.getX() > getX() && checkByConeSightX(tile))
                     return true;
-            } else if (getDirection().getDx() == -1 && checkByConeSightX(tile))
+            } else if (getDirection().dx == -1 && checkByConeSightX(tile))
                 if (tile.getX() < getX())
                     return true;
         }

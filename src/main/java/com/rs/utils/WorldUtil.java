@@ -21,7 +21,7 @@ import com.rs.cache.loaders.QCMesDefinitions;
 import com.rs.game.World;
 import com.rs.game.content.minigames.soulwars.SoulWarsKt;
 import com.rs.game.model.entity.Entity;
-import com.rs.game.model.entity.pathing.Direction;
+import com.rs.engine.pathfinder.Direction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.social.FCManager;
 import com.rs.game.model.item.ItemsContainer;
@@ -124,7 +124,7 @@ public class WorldUtil {
 	}
 
 	public static int getAngleTo(Direction dir) {
-		return ((int) (Math.atan2(-dir.getDx(), -dir.getDy()) * 2607.5945876176133)) & 0x3fff;
+		return ((int) (Math.atan2(-dir.dx, -dir.dy) * 2607.5945876176133)) & 0x3fff;
 	}
 
 	public static Direction getFaceDirection(Tile faceTile, Player player) {

@@ -5,7 +5,7 @@ import com.rs.engine.quest.Quest;
 import com.rs.game.World;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.pathing.Direction;
+import com.rs.engine.pathfinder.Direction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.Task;
@@ -33,15 +33,21 @@ public class ElvargBoss extends NPC {
 
 	@Override
 	public boolean canBeAttackedBy(Player player) {
-		if(player.getQuestManager().getStage(Quest.DRAGON_SLAYER) != PREPARE_FOR_CRANDOR)
+		int dragonSlayerStage = player.getQuestManager().getStage(Quest.DRAGON_SLAYER);
+		if (dragonSlayerStage >= PREPARE_FOR_CRANDOR && dragonSlayerStage <= REPORT_TO_OZIACH && hasHeadAlready(player)) {
+			player.stopFaceEntity();
+			player.sendMessage("That's not very nice!");
 			return false;
+		}
 		return true;
 	}
 
 	@Override
 	public boolean canAggroPlayer(Player player) {
-		if(player.getQuestManager().getStage(Quest.DRAGON_SLAYER) != PREPARE_FOR_CRANDOR)
+		int dragonSlayerStage = player.getQuestManager().getStage(Quest.DRAGON_SLAYER);
+		if (dragonSlayerStage >= PREPARE_FOR_CRANDOR && dragonSlayerStage <= REPORT_TO_OZIACH && hasHeadAlready(player)) {
 			return false;
+		}
 		return true;
 	}
 
@@ -50,7 +56,7 @@ public class ElvargBoss extends NPC {
 		if(source instanceof Player p) {
 			p.lock();
 			ElvargBoss elvarg = this;
-			removeTarget();
+			removeCombatTarget();
 			elvarg.setCantInteract(true);
 			WorldTasks.scheduleLooping(new Task() {
 				int tick = 0;
@@ -60,12 +66,13 @@ public class ElvargBoss extends NPC {
 
 				@Override
 				public void run() {
-					if(tick == 0)
-						elvarg.walkToAndExecute(Tile.of(2854, 9638, 0), ()->{
-							animTile = Tile.of(elvarg.getX()-1, elvarg.getY()+1, elvarg.getPlane());
-							elvarg.setNextFaceTile(Tile.of(getX()-1, getY()+1, getPlane()));
+					if(tick == 0) {
+                        elvarg.walkToAndExecute(Tile.of(2854, 9638, 0), () -> {
+							animTile = Tile.of(elvarg.getX() - 1, elvarg.getY() + 1, elvarg.getPlane());
+							elvarg.setNextFaceTile(Tile.of(getX() - 1, getY() + 1, getPlane()));
 							tick++;
 						});
+					}
 
 					if (tick == 2)
 						setNextAnimation(new Animation(ELVARG_DEATH_ANIM));
@@ -74,7 +81,7 @@ public class ElvargBoss extends NPC {
 						elvarg.setCantInteract(false);
 						elvarg.setRespawnTask(200);
 
-						elvargObj = new GameObject(ELVARG_OBJ, ObjectDefinitions.getDefs(ELVARG_HEADLESS_OBJ).types[0], Direction.rotateClockwise(Direction.WEST, 4).getId()/2, 2854, 9638, 0);
+						elvargObj = new GameObject(ELVARG_OBJ, ObjectDefinitions.getDefs(ELVARG_HEADLESS_OBJ).types[0], Direction.rotateClockwise(Direction.WEST, 4).id /2, 2854, 9638, 0);
 						World.spawnObject(elvargObj);
 					}
 
@@ -91,9 +98,10 @@ public class ElvargBoss extends NPC {
 
 					if(tick == 11) {
 						World.removeObject(elvargObj);
-						elvargObj = new GameObject(ELVARG_HEADLESS_OBJ, ObjectDefinitions.getDefs(ELVARG_HEADLESS_OBJ).types[0], Direction.rotateClockwise(Direction.WEST, 4).getId()/2, 2854, 9638, 0);
+						elvargObj = new GameObject(ELVARG_HEADLESS_OBJ, ObjectDefinitions.getDefs(ELVARG_HEADLESS_OBJ).types[0], Direction.rotateClockwise(Direction.WEST, 4).id /2, 2854, 9638, 0);
 						World.spawnObjectTemporary(elvargObj, 150);
-						if(p.getQuestManager().getStage(Quest.DRAGON_SLAYER) == PREPARE_FOR_CRANDOR) {
+                        int dragonSlayerStage = p.getQuestManager().getStage(Quest.DRAGON_SLAYER);
+						if(dragonSlayerStage >= PREPARE_FOR_CRANDOR && dragonSlayerStage <= REPORT_TO_OZIACH && !hasHeadAlready(p)) {
 							p.getInventory().addItem(new Item(ELVARG_HEAD, 1), true);
 							p.getQuestManager().setStage(Quest.DRAGON_SLAYER, REPORT_TO_OZIACH);
 						}
@@ -101,6 +109,7 @@ public class ElvargBoss extends NPC {
 					}
 
 					if(tick == 13) {
+						p.getPackets().sendResetCamera();
 						p.unlock();
 						stop();
 					}

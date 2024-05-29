@@ -57,7 +57,7 @@ import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.Teleport;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.pathing.Direction;
+import com.rs.engine.pathfinder.Direction;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Inventory;
 import com.rs.game.model.entity.player.Player;
@@ -159,20 +159,20 @@ public class DungeonController extends Controller {
 	@Override
 	public boolean canMove(Direction dir) {
 		VisibleRoom vr = dungeon.getVisibleRoom(dungeon.getCurrentRoomReference(player.getTile()));
-		Tile to = Tile.of(player.getX() + dir.getDx(), player.getY() + dir.getDy(), 0);
+		Tile to = Tile.of(player.getX() + dir.dx, player.getY() + dir.dy, 0);
 		if(vr != null && !vr.canMove(player, to))
 			return false;
 
 		Room room = dungeon.getRoom(dungeon.getCurrentRoomReference(player.getTile()));
 		if (room != null)
 			if (room.getRoom() == DungeonUtils.getBossRoomWithChunk(DungeonConstants.FROZEN_FLOORS, 26, 624)) {
-				if (!player.isCantWalk() && World.getObjectWithType(Tile.of(player.getX() + dir.getDx(), player.getY() + dir.getDy(), 0), ObjectType.GROUND_DECORATION) == null) {
+				if (!player.isCantWalk() && World.getObjectWithType(Tile.of(player.getX() + dir.dx, player.getY() + dir.dy, 0), ObjectType.GROUND_DECORATION) == null) {
 					player.getAppearance().setBAS(1429);
 					player.setRun(true);
 					player.setCantWalk(true);
 				}
 				if (player.isCantWalk()) {
-					Tile nextStep = Tile.of(player.getX() + dir.getDx() * 2, player.getY() + dir.getDy() * 2, 0);
+					Tile nextStep = Tile.of(player.getX() + dir.dx * 2, player.getY() + dir.dy * 2, 0);
 					NPC boss = getNPC(player, "Plane-freezer Lakhrahnaz");
 					boolean collides = boss != null && WorldUtil.collides(nextStep.getX(), nextStep.getY(), player.getSize(), boss.getX(), boss.getY(), boss.getSize());
 					player.resetWalkSteps();
@@ -269,14 +269,14 @@ public class DungeonController extends Controller {
 		if (player.getInventory().containsItem(DungeonConstants.GROUP_GATESTONE, 1)) {
 			Tile tile = Tile.of(player.getTile());
 			dungeon.setGroupGatestone(Tile.of(player.getTile()));
-			World.addGroundItem(new Item(DungeonConstants.GROUP_GATESTONE), tile);
+			World.addGroundItemNoExpire(new Item(DungeonConstants.GROUP_GATESTONE), tile);
 			player.getInventory().deleteItem(DungeonConstants.GROUP_GATESTONE, 1);
 			player.sendMessage("Your group gatestone drops to the floor as you die.");
 		}
 		if (player.getInventory().containsItem(DungeonConstants.GATESTONE, 1)) {
 			Tile tile = Tile.of(player.getTile());
 			setGatestone(Tile.of(player.getTile()));
-			World.addGroundItem(new Item(DungeonConstants.GATESTONE), tile);
+			World.addGroundItemNoExpire(new Item(DungeonConstants.GATESTONE), tile);
 			player.getInventory().deleteItem(DungeonConstants.GATESTONE, 1);
 			player.sendMessage("Your gatestone drops to the floor as you die.");
 		}
@@ -459,7 +459,7 @@ public class DungeonController extends Controller {
 		if (vRoom == null || !vRoom.processNPCClick1(player, npc))
 			return false;
 		if (npc.getId() == DungeonConstants.FISH_SPOT_NPC_ID) {
-			player.faceEntity(npc);
+			player.faceEntityTile(npc);
 			player.getActionManager().setAction(new DungeoneeringFishing((DungeonFishSpot) npc));
 			return false;
 		}
@@ -469,7 +469,7 @@ public class DungeonController extends Controller {
 			return false;
 		}
 		if (npc.getId() == DungeonConstants.SMUGGLER) {
-			npc.faceEntity(player);
+			npc.faceEntityTile(player);
 			player.startConversation(new Dialogue()
 					.addNPC(DungeonConstants.SMUGGLER, HeadE.CALM_TALK, "Hail, " + player.getDisplayName() + ". Need something?")
 					.addOptions(ops -> {
@@ -1227,11 +1227,11 @@ public class DungeonController extends Controller {
 			dungeon.setGroupGatestone(currentTile);
 		else if (item.getId() == DungeonConstants.GATESTONE) {
 			setGatestone(currentTile);
-			World.addGroundItem(item, currentTile, player, true, -1, DropMethod.NORMAL, -1);
+			World.addGroundItemNoExpire(item, currentTile, player);
 			player.sendMessage("You place the gatestone. You can teleport back to it at any time.");
 			return false;
 		}
-		World.addGroundItem(item, currentTile);
+		World.addGroundItemNoExpire(item, currentTile);
 		return false;
 	}
 

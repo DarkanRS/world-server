@@ -23,6 +23,7 @@ import com.rs.plugin.handlers.EnterChunkHandler;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
 import com.rs.plugin.handlers.LoginHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+import kotlin.Pair;
 
 import java.util.*;
 
@@ -126,7 +127,7 @@ public class BlackKnightsFortress extends QuestOutline {
 				for (NPC npc : World.getNPCsInChunkRange(e.getPlayer().getChunkId(), 1)) {
 					if (npc.getName().equalsIgnoreCase("Black Knight"))
 						if (npc.lineOfSightTo(p, false)) {
-							npc.setTarget(p);
+							npc.setCombatTarget(p);
 							if (Utils.random(0, 5) == 1)
 								npc.forceTalk("Die intruder!");
 						}
@@ -220,7 +221,7 @@ public class BlackKnightsFortress extends QuestOutline {
 
 				if (tick == 0) {
 					p.setNextAnimation(new Animation(TOSS_CABBAGE));
-					World.sendProjectile(p, Tile.of(p.getX() + 1, p.getY(), p.getPlane()), CABBAGE_PROJECTILE, 40, 0, 2, 0.1, 20, 0);
+					World.sendProjectile(p, p.transform(1, 0 ,0), CABBAGE_PROJECTILE, new Pair<>(40, 0), 2, 60, 20);
 				}
 				if (tick == 3)
 					p.getInterfaceManager().setFadingInterface(115);
@@ -258,7 +259,7 @@ public class BlackKnightsFortress extends QuestOutline {
 					});
 
 				if (tick == 14)
-					World.sendProjectile(Tile.of(3030, 3507, 0), cauldron, CABBAGE_PROJECTILE, 150, 0, 0, 0.1, 0, proj -> World.sendSpotAnim(Tile.of(p.getX(), p.getY(), p.getPlane()), new SpotAnim(CAULDRON_EXPLOSION_GFX)));
+					World.sendProjectile(Tile.of(3030, 3507, 0), cauldron, CABBAGE_PROJECTILE, new Pair<>(150, 0), 0, 60, 0, 0, proj -> World.sendSpotAnim(Tile.of(p.getX(), p.getY(), p.getPlane()), new SpotAnim(CAULDRON_EXPLOSION_GFX)));
 
 				if (tick == POTION_RUINED) {
 					p.getVars().setVarBit(CAULDRON_STATUS_VAR, 1);

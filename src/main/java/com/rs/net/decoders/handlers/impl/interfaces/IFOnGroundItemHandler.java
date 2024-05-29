@@ -25,7 +25,7 @@ import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.skills.magic.Rune;
 import com.rs.game.content.skills.magic.RuneSet;
 import com.rs.game.map.ChunkManager;
-import com.rs.game.model.entity.pathing.RouteEvent;
+import com.rs.engine.pathfinder.RouteEvent;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
 import com.rs.lib.Constants;
@@ -35,6 +35,7 @@ import com.rs.lib.net.packets.decoders.interfaces.IFOnGroundItem;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.PluginManager;
 import com.rs.plugin.events.PickupItemEvent;
+import kotlin.Pair;
 
 public class IFOnGroundItemHandler implements PacketHandler<Player, IFOnGroundItem> {
 
@@ -100,7 +101,7 @@ public class IFOnGroundItemHandler implements PacketHandler<Player, IFOnGroundIt
 						player.setNextAnimation(new Animation(711));
 						player.getSkills().addXp(Constants.MAGIC, 43);
 						player.setNextSpotAnim(new SpotAnim(142, 2, 50, Utils.getAngleTo(tile.getX() - player.getX(), tile.getY() - player.getY())));
-						World.sendProjectile(player, tile, 143, 35, 0, 60, 1, 0, p -> {
+						World.sendProjectile(player, tile, 143, new Pair<>(35, 0), 60, 10, 0, 0, p -> {
 							final GroundItem gItem = ChunkManager.getChunk(tile.getChunkId()).getGroundItem(packet.getItemId(), tile, player);
 							if (gItem == null) {
 								player.sendMessage("Too late. It's gone!");

@@ -23,6 +23,7 @@ import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 import com.rs.lib.game.Animation;
 import com.rs.utils.WorldUtil;
+import kotlin.Pair;
 
 public class DarkBeastCombat extends CombatScript {
 
@@ -39,7 +40,7 @@ public class DarkBeastCombat extends CombatScript {
 			delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, 170, def.getAttackStyle(), target)));
 		else {
 			final int damage = getMaxHit(npc, 90, def.getAttackStyle(), target);
-			World.sendProjectile(npc, target, 2181, 41, 16, 41, 35, 16, 0);
+			World.sendProjectile(npc, target, 2181, new Pair<>(41, 16), 41, 5, 16);
 			delayHit(npc, 2, target, getMagicHit(npc, damage));
 		}
 		return npc.getAttackSpeed();

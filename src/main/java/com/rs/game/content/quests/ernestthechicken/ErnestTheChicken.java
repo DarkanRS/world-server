@@ -250,7 +250,7 @@ public class ErnestTheChicken extends QuestOutline {
 		List<NPC> npcs = World.getNPCsInChunkRange(p.getChunkId(), 1);
 		for(NPC npc : npcs)
 			if(npc.getId() == 3291)
-				npc.setTarget(p);
+				npc.setCombatTarget(p);
 	});
 
 	public static ObjectClickHandler handleDraynorManorLadders = new ObjectClickHandler(new Object[] { 47574, 47575, 133, 32015 }, e -> {

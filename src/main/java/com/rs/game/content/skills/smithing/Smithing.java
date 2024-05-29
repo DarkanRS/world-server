@@ -39,12 +39,12 @@ public class Smithing extends PlayerAction {
 
 	public static ItemOnObjectHandler barsOnAnvil = new ItemOnObjectHandler(new Object[] { "Anvil" }, Arrays.stream(Smelting.SmeltingBar.values()).map(bar -> bar.getProducedBar().getId()).toArray(), e -> {
 		if (e.getObject().getDefinitions(e.getPlayer()).containsOption("Smith"))
-			ForgingInterface.sendSmithingInterface(e.getPlayer(), e.getObject(), e.getItem().getId());
+			ForgingInterfaceKt.sendSmithingInterface(e.getPlayer(), e.getObject(), e.getItem().getId());
 	});
 
 	public static ObjectClickHandler smithAnvil = new ObjectClickHandler(new Object[] { "Anvil", "Kethsian anvil" }, e -> {
 		if (e.getOption().equals("Smith"))
-			ForgingInterface.openSmithingInterfaceForHighestBar(e.getPlayer(), e.getObject());
+			ForgingInterfaceKt.openSmithingInterfaceForHighestBar(e.getPlayer(), e.getObject());
 	});
 	
 	public enum Smithable {

@@ -17,7 +17,7 @@
 package com.rs.net.decoders.handlers.impl.interfaces;
 
 import com.rs.game.World;
-import com.rs.game.model.entity.pathing.RouteEvent;
+import com.rs.engine.pathfinder.RouteEvent;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.net.packets.PacketHandler;
 import com.rs.lib.net.packets.decoders.interfaces.IFOnPlayer;
@@ -40,7 +40,7 @@ public class IFOnPlayerHandler implements PacketHandler<Player, IFOnPlayer> {
 		if (PluginManager.handle(new IFOnPlayerEvent(player, p2, packet.getInterfaceId(), packet.getComponentId(), packet.getSlotId(), packet.getItemId(), false)))
 			return;
 		player.setRouteEvent(new RouteEvent(p2, () -> {
-			player.faceEntity(p2);
+			player.faceEntityTile(p2);
 			PluginManager.handle(new IFOnPlayerEvent(player, p2, packet.getInterfaceId(), packet.getComponentId(), packet.getSlotId(), packet.getItemId(), true));
 		}));
 	}

@@ -91,7 +91,7 @@ public class CrystalPuzzleRoom extends PuzzleRoom {
 					return false;
 				}
 				giveXP(p, Constants.MAGIC);
-				p.setNextAnimation(new Animation(ANIM_CHARGE_LODESTONE));
+				p.anim(ANIM_CHARGE_LODESTONE);
 				p.lock(1);
 				resetPosition(color);
 				World.spawnObject(new GameObject(LODESTONE_ACTIVE[color][type], ObjectType.SCENERY_INTERACT, 0, manager.getTile(reference, POS_BASE_LODESTONE[0] + color, POS_BASE_LODESTONE[1] + color)));
@@ -117,7 +117,7 @@ public class CrystalPuzzleRoom extends PuzzleRoom {
 		@Override
 		public void run() {
 			synchronized (manager) {
-				if (manager.isDestroyed() || reference == null) {
+				if (manager.isDestroyed() || reference == null || manager.getTile(reference, POS_CENTER[0], POS_CENTER[1]) == null) {
 					stop();
 					return;
 				}

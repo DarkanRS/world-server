@@ -18,7 +18,6 @@ package com.rs.game.model.entity.npc.combat;
 
 import com.rs.game.content.Effect;
 import com.rs.game.content.bosses.godwars.zaros.Nex;
-import com.rs.game.content.combat.PlayerCombat;
 import com.rs.game.content.combat.PlayerCombatKt;
 import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.content.skills.summoning.Summoning.ScrollTarget;
@@ -73,13 +72,13 @@ public final class NPCCombat {
 			Player player = familiar.getOwner();
 			if (player != null) {
 				target = player;
-				npc.setTarget(target);
+				npc.setCombatTarget(target);
 				addAttackedByDelay(target);
 			}
 		}
-		int maxDistance = npc.getCombatDefinitions().getAttackRange();
+		int maxDistance = npc.getAttackRange();
 		if (!(npc instanceof Nex) && !npc.lineOfSightTo(target, maxDistance == 0))
-			return npc.getAttackSpeed();
+			return Math.min(combatDelay, npc.getAttackSpeed()); //probably could return 0 but too scared of side effects
 		boolean los = npc.lineOfSightTo(target, maxDistance == 0);
 		boolean inRange = WorldUtil.isInRange(npc, target, maxDistance + (npc.hasWalkSteps() && target.hasWalkSteps() ? (npc.getRun() && target.getRun() ? 2 : 1) : 0));
 		//boolean collidesCheck = !npc.isCantFollowUnderCombat() && WorldUtil.collides(npc, target);
@@ -164,7 +163,7 @@ public final class NPCCombat {
 				return true;
 			}
 
-			maxDistance = npc.isForceFollowClose() ? 0 : npc.getCombatDefinitions().getAttackRange();
+			maxDistance = npc.isForceFollowClose() ? 0 : npc.getAttackRange();
 			npc.resetWalkSteps();
 			boolean los = npc.lineOfSightTo(target, maxDistance == 0);
 			boolean inRange = WorldUtil.isInRange(npc.getX(), npc.getY(), size, target.getX(), target.getY(), targetSize, maxDistance);

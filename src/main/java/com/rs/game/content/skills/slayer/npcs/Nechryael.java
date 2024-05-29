@@ -43,9 +43,9 @@ public class Nechryael extends NPC {
 		deathSpawns = new NPC[2];
 		Entity target = getCombat().getTarget();
 		for (int idx = 0; idx < deathSpawns.length; idx++) {
-			deathSpawns[idx] = World.spawnNPC(getId() + 1, World.getFreeTile(getTile(), 2), -1, true, true);
+			deathSpawns[idx] = World.spawnNPC(getId() + 1, World.getFreeTile(getTile(), 2), true, true);
 			if (target != null)
-				deathSpawns[idx].setTarget(target);
+				deathSpawns[idx].setCombatTarget(target);
 		}
 	}
 

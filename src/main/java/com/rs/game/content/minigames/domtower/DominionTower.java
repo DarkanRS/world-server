@@ -257,12 +257,12 @@ public final class DominionTower {
 				player.voiceEffect(7882, false);
 			} else if (count == 8) {
 				if (nextBossIndex != -1 && BOSSES[index].item != null)
-					World.addGroundItem(BOSSES[index].item, Tile.of(getBaseX() + 26, getBaseY() + 33, 2));
+					World.addGroundItemNoExpire(BOSSES[index].item, Tile.of(getBaseX() + 26, getBaseY() + 33, 2));
 				player.closeInterfaces();
 				player.getPackets().sendResetCamera();
 				for (NPC boss : bosses) {
 					boss.setCantInteract(false);
-					boss.setTarget(player);
+					boss.setCombatTarget(player);
 				}
 				player.unlock();
 				return false;
@@ -395,7 +395,7 @@ public final class DominionTower {
 	public NPC[] createBosses() {
 		NPC[] bosses = new NPC[BOSSES[getNextBossIndex()].ids.length];
 		for (int i = 0; i < BOSSES[getNextBossIndex()].ids.length; i++)
-			bosses[i] = World.spawnNPC(BOSSES[getNextBossIndex()].ids[i], Tile.of(getBaseX() + 37 + (i * 2), getBaseY() + 31, 2), -1, true, true);
+			bosses[i] = World.spawnNPC(BOSSES[getNextBossIndex()].ids[i], Tile.of(getBaseX() + 37 + (i * 2), getBaseY() + 31, 2), true, true);
 		return bosses;
 	}
 
@@ -508,7 +508,7 @@ public final class DominionTower {
                 player.getBank().addItem(item, false);
                 player.sendMessage("Your reward have been sent to your bank.");
             } else {
-                World.addGroundItem(item, player.getTile(), player);
+                World.addGroundItemNoExpire(item, player.getTile(), player);
                 player.sendMessage("You don't have bank space, so your reward has been dropped on the ground.");
             }
 

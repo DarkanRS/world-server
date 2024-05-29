@@ -27,11 +27,11 @@ public class BarbarianVillageNPC {
         };
         e.getPlayer().startConversation(new Dialogue()
                 .addNPC(e.getNPCId(), HeadE.VERY_FRUSTRATED, responses[(Utils.random(1,6))])
-                .addNext(() -> e.getNPC().setTarget(e.getPlayer()))
+                .addNext(() -> e.getNPC().setCombatTarget(e.getPlayer()))
         );
     });
 
-    public static NPCClickHandler talkToGunthor = new NPCClickHandler(new Object[]{ CHEIFTAIN_GUNTHOR }, new String[] { "Talk-to" }, e -> {
+    /*public static NPCClickHandler talkToGunthor = new NPCClickHandler(new Object[]{ CHEIFTAIN_GUNTHOR }, new String[] { "Talk-to" }, e -> {
         String[] responses = new String[]{
                 "Ah, you've come for fight!",
                 "You look funny!",
@@ -42,34 +42,12 @@ public class BarbarianVillageNPC {
         };
         e.getPlayer().startConversation(new Dialogue()
                 .addNPC(CHEIFTAIN_GUNTHOR, HeadE.VERY_FRUSTRATED, responses[(Utils.random(1,6))])
-                .addNext(() -> e.getNPC().setTarget(e.getPlayer()))
+                .addNext(() -> e.getNPC().setCombatTarget(e.getPlayer()))
         );
-    });
+    });*/
 
 
-    public static NPCClickHandler HandleGudrun = new NPCClickHandler(new Object[]{ GUDRUN }, new String[] { "Talk-to" }, e -> {
-        if (!Quest.GUNNARS_GROUND.isImplemented() || !e.getPlayer().getQuestManager().isComplete(Quest.GUNNARS_GROUND))
-            e.getPlayer().startConversation(new Dialogue()
-                    .addNPC(GUDRUN, HeadE.SKEPTICAL, "Can I help you, stranger?")
-                    .addNPC(KJELL, HeadE.ANGRY, "Why are you talking to that outerlander?")
-                    .addNPC(GUDRUN, HeadE.ANGRY, "It's none of your business, Kjell! Just guard the hut!")
-                    .addNPC(GUDRUN, HeadE.CALM_TALK, "Sorry about that. Did you want something?")
-                    .addOptions(ops -> {
-                        ops.add("What is this place?")
-                                .addPlayer(HeadE.CALM_TALK, "What is this place?")
-                                .addNPC(GUDRUN, HeadE.SKEPTICAL, "Outerlanders call this the barbarian village. It doesn't have a name because... it's complicated.")
-                                .addNPC(GUDRUN, HeadE.CALM_TALK, "If you wish to know more, you should talk to Hunding. He's up in the tower at the east entrance.");
-
-                        ops.add("Who are you?")
-                                .addPlayer(HeadE.CALM_TALK, "Who are you?")
-                                .addNPC(GUDRUN, HeadE.CALM_TALK, "My name is Gudrun. My father, Gunthor, is chieftain of the village.");
-
-
-                        ops.add("Goodbye.")
-                                .addPlayer(HeadE.CALM_TALK, "Goodbye.")
-                                .addNPC(GUDRUN, HeadE.CALM_TALK, "Goodbye.");
-                    })
-            );
+    /*public static NPCClickHandler HandleGudrun = new NPCClickHandler(new Object[]{ GUDRUN }, new String[] { "Talk-to" }, e -> {
         if (Quest.GUNNARS_GROUND.isImplemented() && e.getPlayer().getQuestManager().isComplete(Quest.GUNNARS_GROUND)) {
             e.getPlayer().startConversation(new Dialogue()
                     .addNPC(GUDRUN, HeadE.HAPPY_TALKING, "Hello!")
@@ -101,7 +79,7 @@ public class BarbarianVillageNPC {
                     })
             );
         }
-    });
+    });*/
 
     public static NPCClickHandler talkToHaakon = new NPCClickHandler(new Object[]{ HAAKON }, new String[] { "Talk-to" }, e -> {
         if (!Quest.GUNNARS_GROUND.isImplemented() || !e.getPlayer().getQuestManager().isComplete(Quest.GUNNARS_GROUND))
@@ -110,7 +88,7 @@ public class BarbarianVillageNPC {
                     .addOptions(ops -> {
                         ops.add("I challenge you!")
                                 .addNPC(HAAKON, HeadE.EVIL_LAUGH, "Make peace with your god, outerlander!")
-                                .addNext(() -> e.getNPC().setTarget(e.getPlayer()));
+                                .addNext(() -> e.getNPC().setCombatTarget(e.getPlayer()));
 
                         ops.add("Er, no.")
                                 .addPlayer(HeadE.SHAKING_HEAD, "Er, no.");
@@ -121,10 +99,10 @@ public class BarbarianVillageNPC {
                     .addOptions(ops -> {
                         ops.add("I challenge you!")
                                 .addNPC(HAAKON, HeadE.EVIL_LAUGH, "I am Haakon, champion of this village. Do you seek to challenge me?")
-                                .addNext(() -> e.getNPC().setTarget(e.getPlayer()));
+                                .addNext(() -> e.getNPC().setCombatTarget(e.getPlayer()));
 
                         ops.add("Are you glad the village has settled finally?")
-                                .addPlayer(HeadE.SHAKING_HEAD, "I do as my chieftain commands. I respect his wisdom.");
+                                .addNPC(HAAKON, HeadE.SHAKING_HEAD, "I do as my chieftain commands. I respect his wisdom.");
 
                         ops.add("Er, no.")
                                 .addPlayer(HeadE.SHAKING_HEAD, "Er, no.");

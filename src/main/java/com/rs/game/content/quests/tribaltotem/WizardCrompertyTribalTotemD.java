@@ -14,6 +14,7 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
+import kotlin.Pair;
 
 import static com.rs.game.content.quests.tribaltotem.TribalTotem.*;
 
@@ -31,7 +32,7 @@ public class WizardCrompertyTribalTotemD extends Conversation {
 			addNPC(NPC, HeadE.CALM_TALK, "Okey dokey! Ready?");
 			addNext(()->{
 				npc.setNextForceTalk(new ForceTalk("Dipsolum sentento sententi!"));
-				World.sendProjectile(npc, p, 50, 5, 5, 5, 1, 5, 0);
+				World.sendProjectile(npc, p, 50, new Pair<>(5, 5), 5, 10, 5);
 				p.lock(3);
 				WorldTasks.schedule(new Task() {
 					@Override
@@ -72,7 +73,7 @@ public class WizardCrompertyTribalTotemD extends Conversation {
 													if(npc.getId() == NPC)
 														wizard = npc;
 												wizard.setNextForceTalk(new ForceTalk("Dipsolum sentento sententi!"));
-												World.sendProjectile(wizard, p, 50, 5, 5, 5, 1, 5, 0);
+												World.sendProjectile(wizard, p, 50, new Pair<>(5, 5), 5, 10, 5);
 												p.lock(3);
 												WorldTasks.schedule(new Task() {
 													@Override

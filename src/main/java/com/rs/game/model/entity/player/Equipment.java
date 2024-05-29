@@ -208,6 +208,8 @@ public final class Equipment {
 	}
 
 	public static boolean hideArms(Item item) {
+		if (item == null)
+			return false;
 		return item.getDefinitions().isEquipType(6);
 	}
 
@@ -673,7 +675,7 @@ public final class Equipment {
 			return;
 		}
 		Item item = e.getPlayer().getEquipment().getItem(Equipment.getItemSlot(e.getSlotId2()));
-		if ((item == null) || PluginManager.handle(new ItemClickEvent(e.getPlayer(), item, e.getSlotId(), item.getDefinitions().getEquipmentOption(getOptionForPacket(e.getPacket())), true)))
+		if ((item == null) || PluginManager.handle(new ItemClickEvent(e.getPlayer(), item, Equipment.getItemSlot(e.getSlotId2()), item.getDefinitions().getEquipmentOption(getOptionForPacket(e.getPacket())), true)))
 			return;
 		if (e.getPacket() == ClientPacket.IF_OP10) {
 			e.getPlayer().getEquipment().sendExamine(Equipment.getItemSlot(e.getSlotId2()));
@@ -738,7 +740,7 @@ public final class Equipment {
 		Item item = player.getInventory().getItem(slotId);
 		if (item == null || item.getId() != itemId)
 			return false;
-		if (!overrideWear && (!item.getDefinitions().containsOption("Wear") && !item.getDefinitions().containsOption("Wield")))
+		if (!overrideWear && (!item.getDefinitions().containsOption("Wear") && !item.getDefinitions().containsOption("Wield") && !item.getDefinitions().containsOption("Equip")))
 			return false;
 		if (item.getDefinitions().isNoted() || !item.getDefinitions().isWearItem(player.getAppearance().isMale())) {
 			player.sendMessage("You can't wear that.");
@@ -882,14 +884,8 @@ public final class Equipment {
 	}
 
 	public static int getBonus(Player player, Item item, Bonus bonus) {
-		int value = item.getDefinitions().getBonuses()[bonus.ordinal()];
+		int value = getBonus(item, bonus);
 		switch(item.getId()) {
-			case 11283, 11284 -> {
-				return switch(bonus) {
-					case STAB_DEF, SLASH_DEF, CRUSH_DEF, RANGE_DEF -> value + item.getMetaDataI("dfsCharges", 0);
-					default -> value;
-				};
-			}
 			case 19152, 19157, 19162 -> {
 				return switch(bonus) {
 					case RANGE_STR -> value + Utils.clampI((int) (player.getSkills().getLevelForXp(Constants.RANGE) * 0.7), 0, 49);
@@ -900,6 +896,19 @@ public final class Equipment {
 				return value;
 			}
 		}
+	}
+
+	public static int getBonus(Item item, Bonus bonus) {
+		int value = item.getDefinitions().getBonuses()[bonus.ordinal()];
+		switch(item.getId()) {
+			case 11283, 11284 -> {
+				return switch (bonus) {
+					case STAB_DEF, SLASH_DEF, CRUSH_DEF, RANGE_DEF -> value + item.getMetaDataI("dfsCharges", 0);
+					default -> value;
+				};
+			}
+		}
+		return value;
 	}
 
 	public boolean wearingRingOfWealth() {
