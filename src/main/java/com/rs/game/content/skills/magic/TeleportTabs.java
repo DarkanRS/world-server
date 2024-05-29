@@ -154,27 +154,27 @@ public class TeleportTabs {
 		}
 
 		if (itemId == 8011 && !p.isQuestComplete(Quest.PLAGUE_CITY)) {
-			p.sendMessage("You must have completed Plague City to use this teleport.");
+			p.sendMessage("You must have completed Plague City to be able to use this teleport.");
 			return false;
 		}
 
 		if (itemId == 8012 && !p.isQuestComplete(Quest.WATCHTOWER)) {
-			p.sendMessage("You must have completed Watchtower to use this teleport.");
+			p.sendMessage("You must have completed Watchtower to be able to use this teleport.");
 			return false;
 		}
 
 		if (itemId == 13610 && !p.isQuestComplete(Quest.LEGACY_OF_SEERGAZE)) {
-			p.sendMessage("You must have completed Legacy of Seergaze to use this teleport.");
+			p.sendMessage("You must have completed Legacy of Seergaze to be able to use this teleport.");
 			return false;
 		}
 
 		if (itemId == 13609 && !p.isQuestComplete(Quest.MOURNINGS_ENDS_PART_II)) {
-			p.sendMessage("You must have completed Mourning's End Part II to use this teleport.");
+			p.sendMessage("You must have completed Mourning's End Part II to be able to use this teleport.");
 			return false;
 		}
 
-		if (itemId == 20175 && !p.isQuestComplete(Quest.DEATH_PLATEAU)) {
-			p.sendMessage("You must have completed Death Plateau to use this teleport.");
+		if (itemId == 20175 && !p.isQuestComplete(Quest.TROLL_STRONGHOLD)) {
+			p.sendMessage("You must have completed Troll Stronghold to be able to use this teleport.");
 			return false;
 		}
 

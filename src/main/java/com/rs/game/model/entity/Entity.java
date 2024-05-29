@@ -1313,6 +1313,11 @@ public abstract class Entity {
 			public void onStop(Entity entity) { }
 		});
 	}
+	
+	public void stun(int ticks) {
+		resetWalkSteps();
+		addEffect(Effect.STUN, ticks);
+	}
 
 	public abstract double getMagePrayerMultiplier();
 

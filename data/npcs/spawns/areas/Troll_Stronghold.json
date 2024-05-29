@@ -1,0 +1,409 @@
+[
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2839,
+      "y": 3683
+    },
+    "comment": "Mushroom",
+    "npcId": 1139
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2837,
+      "y": 3676
+    },
+    "comment": "Mountain troll",
+    "npcId": 1108
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2833,
+      "y": 3670
+    },
+    "comment": "Mountain troll",
+    "npcId": 1110
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2835,
+      "y": 3667
+    },
+    "comment": "Mountain troll",
+    "npcId": 1106
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2831,
+      "y": 3673
+    },
+    "comment": "Mountain troll",
+    "npcId": 1109
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2827,
+      "y": 3675
+    },
+    "comment": "Mountain troll",
+    "npcId": 1107
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2829,
+      "y": 3678
+    },
+    "comment": "Mountain troll",
+    "npcId": 1107
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2833,
+      "y": 3685
+    },
+    "comment": "Mountain troll",
+    "npcId": 1112
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2834,
+      "y": 3683
+    },
+    "comment": "Mountain troll",
+    "npcId": 1111
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2810,
+      "y": 3676
+    },
+    "comment": "Tool Leprechaun",
+    "npcId": 4965
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2815,
+      "y": 3683
+    },
+    "comment": "My Arm",
+    "npcId": 4947
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 2836,
+      "y": 10090
+    },
+    "comment": "Mountain troll",
+    "npcId": 1111
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 2836,
+      "y": 10097
+    },
+    "comment": "Mountain troll",
+    "npcId": 1110
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 2852,
+      "y": 10109
+    },
+    "comment": "Mountain troll",
+    "npcId": 1110
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 2837,
+      "y": 10083
+    },
+    "comment": "Mountain troll",
+    "npcId": 1138
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 2836,
+      "y": 10077
+    },
+    "comment": "Mountain troll",
+    "npcId": 1112
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 2857,
+      "y": 10055
+    },
+    "comment": "Mountain troll",
+    "npcId": 1111
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 2855,
+      "y": 10058
+    },
+    "comment": "Mountain troll",
+    "npcId": 1108
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 2831,
+      "y": 10087
+    },
+    "comment": "Troll general",
+    "npcId": 1115
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 2822,
+      "y": 10073
+    },
+    "comment": "Troll general",
+    "npcId": 1116
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 2829,
+      "y": 10101
+    },
+    "comment": "Troll general",
+    "npcId": 1117
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 2840,
+      "y": 10101
+    },
+    "comment": "Mountain troll",
+    "npcId": 1111
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 2831,
+      "y": 10088
+    },
+    "comment": "Mountain troll",
+    "npcId": 1112
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 2836,
+      "y": 10088
+    },
+    "comment": "Mountain troll",
+    "npcId": 1107
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 2836,
+      "y": 10080
+    },
+    "comment": "Mountain troll",
+    "npcId": 1109
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 2845,
+      "y": 10058
+    },
+    "comment": "Burntmeat",
+    "npcId": 1151
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 2843,
+      "y": 10057
+    },
+    "comment": "Cook",
+    "npcId": 1135
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 2840,
+      "y": 10056
+    },
+    "comment": "Cook",
+    "npcId": 1136
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 2847,
+      "y": 10056
+    },
+    "comment": "Cook",
+    "npcId": 1137
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 2856,
+      "y": 10054
+    },
+    "comment": "Mountain goat",
+    "npcId": 1140
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 2860,
+      "y": 10057
+    },
+    "comment": "Mountain goat",
+    "npcId": 1140
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 2857,
+      "y": 10059
+    },
+    "comment": "Mountain goat",
+    "npcId": 1141
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 2857,
+      "y": 10057
+    },
+    "comment": "Mountain goat",
+    "npcId": 1141
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 2860,
+      "y": 10054
+    },
+    "comment": "Mountain goat",
+    "npcId": 5171
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 2828,
+      "y": 10065
+    },
+    "comment": "Ug",
+    "npcId": 1553
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 2829,
+      "y": 10104
+    },
+    "comment": "Aga",
+    "npcId": 1554
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 2829,
+      "y": 10096
+    },
+    "comment": "Arrg",
+    "npcId": 1555
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 2826,
+      "y": 10083
+    },
+    "comment": "Mountain troll",
+    "npcId": 1138
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 2829,
+      "y": 10080
+    },
+    "comment": "Mountain troll",
+    "npcId": 1110
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 2825,
+      "y": 10087
+    },
+    "comment": "Mountain troll",
+    "npcId": 1109
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 2827,
+      "y": 10078
+    },
+    "comment": "Mountain troll",
+    "npcId": 1106
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2831,
+      "y": 10083
+    },
+    "comment": "Eadgar",
+    "npcId": 1113
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2826,
+      "y": 10078
+    },
+    "comment": "Godric",
+    "npcId": 1114
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2832,
+      "y": 10079
+    },
+	"dir": "SOUTH",
+    "comment": "Twig",
+    "npcId": 1128
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2832,
+      "y": 10083
+    },
+	"dir": "SOUTH",
+    "comment": "Berry",
+    "npcId": 1129
+  },
+]

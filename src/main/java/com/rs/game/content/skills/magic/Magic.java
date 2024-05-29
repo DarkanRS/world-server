@@ -335,49 +335,48 @@ public class Magic {
 				player.stopAll();
 				player.getInterfaceManager().sendInterface(432);
 				break;
-			case 24:
+			case 24: // Home teleport
 				useHomeTele(player);
 				break;
-			case 37: // mobi
+			case 37: // Mobilising Armies teleport
 				sendNormalTeleportSpell(player, 10, 19, Tile.of(2413, 2848, 0), new RuneSet(Rune.LAW, 1, Rune.WATER, 1, Rune.AIR, 1));
 				break;
-			case 40: // varrock
+			case 40: // Varrock teleport
 				sendNormalTeleportSpell(player, 25, 19, Tile.of(3212, 3424, 0), new RuneSet(Rune.FIRE, 1, Rune.AIR, 3, Rune.LAW, 1));
 				break;
-			case 43: // lumby
+			case 43: // Lumbridge teleport
 				sendNormalTeleportSpell(player, 31, 41, Tile.of(3222, 3218, 0), new RuneSet(Rune.EARTH, 1, Rune.AIR, 3, Rune.LAW, 1));
 				break;
-			case 46: // fally
+			case 46: // Falador teleport
 				sendNormalTeleportSpell(player, 37, 48, Tile.of(2964, 3379, 0), new RuneSet(Rune.WATER, 1, Rune.AIR, 3, Rune.LAW, 1));
 				break;
-			case 48:
+			case 48: // PoH teleport
 				sendNormalTeleportSpell(player, 40, 48, Tile.of(player.getHouse().getLocation().getTile()), new RuneSet(Rune.AIR, 1, Rune.EARTH, 1, Rune.LAW, 1), () -> {
 					player.tele(Tile.of(player.getTile())); //cancel teleport tile movement
 					enterHouseAndResetDamage(player);
 				});
 				break;
-			case 51: // camelot
+			case 51: // Camelot teleport
 				sendNormalTeleportSpell(player, 45, 55.5, Tile.of(2757, 3478, 0), new RuneSet(Rune.AIR, 5, Rune.LAW, 1));
 				break;
-			case 57: // ardy
+			case 57: // Ardougne teleport
 				if (player.isQuestComplete(Quest.PLAGUE_CITY) && player.getBool(ARDOUGNE_TELEPORT_UNLOCKED)) {
 					sendNormalTeleportSpell(player, 51, 61, Tile.of(2664, 3305, 0), new RuneSet(Rune.WATER, 2, Rune.LAW, 2));
 				} else {
 					player.sendMessage("You have not yet learned this spell.");
 				}
 				break;
-			case 62: // watch
+			case 62: // Watchtower teleport
 				sendNormalTeleportSpell(player, 58, 68, Tile.of(2547, 3113, 2), new RuneSet(Rune.EARTH, 2, Rune.LAW, 2));
 				break;
-			case 69: // troll
-				if (player.isQuestComplete(Quest.DEATH_PLATEAU)) {
-					sendNormalTeleportSpell(player, 51, 61, Tile.of(2664, 3305, 0), new RuneSet(Rune.WATER, 2, Rune.LAW, 2));
+			case 69: // Trollheim teleport
+				if (player.isQuestComplete(Quest.TROLL_STRONGHOLD)) {
+					sendNormalTeleportSpell(player, 51, 61, Tile.of(2882, 3668, 0), new RuneSet(Rune.FIRE, 2, Rune.LAW, 2));
 				} else {
 					player.sendMessage("You have not yet learned this spell.");
 				}
-				sendNormalTeleportSpell(player, 61, 68, Tile.of(2888, 3674, 0), new RuneSet(Rune.FIRE, 2, Rune.LAW, 2));
 				break;
-			case 72: // ape
+			case 72: // Ape Atoll teleport
 				sendNormalTeleportSpell(player, 64, 76, Tile.of(2797, 2798, 1), new RuneSet(Rune.FIRE, 2, Rune.WATER, 2, Rune.LAW, 2));
 				break;
 		}

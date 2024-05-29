@@ -57,8 +57,7 @@ class DeathPlateau : QuestOutline() {
         player.interfaceManager.sendAchievementComplete(Achievement.DEATH_PLATEAU_441)
         player.packets.setIFGraphic(1244, 18, 9570)
         sendQuestCompleteInterface(player, SURVEY)
-        player.inventory.addItemDrop(QUEST_REWARD_LAMP, 3)
-        player.save(DEATH_PLATEAU_SUPPLY_LAMPS_LOST, 0)
+        player.inventory.addItem(QUEST_REWARD_LAMP, 3)
     }
 }
 

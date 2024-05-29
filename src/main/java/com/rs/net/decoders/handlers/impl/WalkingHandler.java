@@ -33,6 +33,10 @@ public class WalkingHandler implements PacketHandler<Player, Walk> {
 			player.sendMessage("A magical force prevents you from moving.");
 			return;
 		}
+		if (player.hasEffect(Effect.STUN)) {
+			player.sendMessage("You are stunned.");
+			return;
+		}
 		player.stopAll();
 		player.walkRequest = packet;
 	}
