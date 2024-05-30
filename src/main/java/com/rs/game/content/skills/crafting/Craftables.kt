@@ -13,8 +13,8 @@ import com.rs.net.decoders.handlers.InventoryOptionsHandler
 class Craftables(private val craftable: Craftable, private var quantity: Int) : PlayerAction() {
     private var success = false
 
-    enum class Craftable(val uncraftedItem: Int, val craftedItem: Int, val wasteItem: Int?, val requiredTool: Int, val successExperience: Double, val failExperience: Double?, val levelRequired: Int, val rate1: Int?, val rate99: Int?, val emote: Int) {
-        LIMESTONE(3211, 3420, 968, 1755, 6.0, 1.5, 12, 80, 256, 1309)
+    enum class Craftable(val uncraftedItem: Int, val craftedItem: Int, val wasteItem: Int?, val requiredTool: Int, val successExperience: Double, val failExperience: Double?, val levelRequired: Int, val stopFailLvl: Int, val rate1: Int?, val rate99: Int?, val emote: Int) {
+        LIMESTONE(3211, 3420, 968, 1755, 6.0, 1.5, 12, 40, 80, 256, 1309)
     }
 
     private fun checkAll(player: Player): Boolean {
@@ -39,27 +39,20 @@ class Craftables(private val craftable: Craftable, private var quantity: Int) : 
         return player.inventory.containsOneItem(craftable.requiredTool) || player.containsTool(craftable.requiredTool)
     }
 
-    fun rollSuccess(player: Player): Boolean {
-        return if (craftable.failExperience != null && craftable.wasteItem != null && craftable.rate1 != null && craftable.rate99 != null) {
-            val level = player.skills.getLevel(Constants.CRAFTING)
-            val modifiedRate1 = modifyRate(craftable.rate1, level)
-            val modifiedRate99 = modifyRate(craftable.rate99, level)
-            if (modifiedRate1 != null && modifiedRate99 != null) {
-                Utils.skillSuccess(level, modifiedRate1, modifiedRate99)
-            } else {
-                false
-            }
-        } else {
-            true
-        }
-    }
+    private fun rollSuccess(player: Player): Boolean {
+        val level = player.skills.getLevel(Constants.CRAFTING)
 
-    private fun modifyRate(rate: Int?, craftingLevel: Int): Int? {
-        return if (rate != null && (craftable == Craftable.LIMESTONE && craftingLevel >= 40)) {
-            // Adjust rate to 100% success if player level is 40 or higher for LIMESTONE
-            256
-        } else {
-            rate
+        return when {
+            craftable.failExperience == null || craftable.wasteItem == null -> true
+            craftable == Craftable.LIMESTONE -> {
+                val failureRate = when {
+                    level < craftable.levelRequired -> 0.33
+                    level > craftable.stopFailLvl -> 0.0
+                    else -> 0.33 - (level - craftable.levelRequired) * 0.33 / (craftable.stopFailLvl - craftable.levelRequired)
+                }
+                Math.random() >= failureRate
+            }
+            else -> Utils.skillSuccess(level, craftable.rate1 ?: 0, craftable.rate99 ?: 0)
         }
     }
 
