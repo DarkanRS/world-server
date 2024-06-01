@@ -123,7 +123,7 @@ class Genie(owner: Player, tile: Tile) : RandomEventNPC(owner, NPC_ID, tile, DUR
             owner.stopAll()
             owner.fadeScreen {
                 spotAnim(1605)
-                owner.tele(RandomEvents.getRandomTile())
+                owner.move(RandomEvents.getRandomTile())
                 owner.sendMessage("The genie knocks you out and you wake up somewhere... different.")
                 owner.anim(-1)
                 owner.schedule {
