@@ -468,6 +468,61 @@ public class FarmPatch {
 		return false;
 	}
 
+	public void empty(Player player) {
+		if (!player.hasScrollOfLife) {
+			this.empty();
+			return;
+		}
+
+		/**
+		 * https://runescape.wiki/w/Scroll_of_life?oldid=6151122
+		 *
+		 * The wiki states the following:
+		 *
+		 * When harvesting non-tree non-flower patches (including dead ones), the player will have a 10% chance of receiving seeds back
+		 * There is also a 5% chance of getting a seed back from a dead tree or stump.
+		 * Seeds returned from dead herb patches will be random, but seeds returned from a live herb patch will be the same type as the herb being harvested
+		 * The Scroll of Life works on all patches within the Herblore Habitat.
+		 * Special patches, however, (including Spirit trees and Calquat trees) do not give replacement seeds.
+		 */
+		switch(this.seed.type) {
+			case SPIRIT:
+			case CALQUAT:
+			case FLOWER:
+				/**
+				 * Spirit tree's and calquats specifically do not give replacement seeds.
+				 * Although strange, the wiki seems to state that flowers do not give seeds back either.
+				 */
+				break;
+			case TREE:
+			case FRUIT_TREE:
+				/**
+				 * Tree's have a 5% chance of giving seeds back. The wiki does not state "fruit" tree's however
+				 * from a balancing point of view I think giving fruit tree's a 5% chance is good as well.
+				 */
+				if (5 > Utils.random(100)) {
+					player.getInventory().addItem(this.seed.seedId);
+					player.sendMessage("As you harvest " + this.seed.name() + " you pickup a seed.");
+				}
+				break;
+			default:
+				// Give a 10% chance for all other types of seeds.
+				if (10 > Utils.random(100)) {
+					// Dead herbs return a random herb seed back
+					if (this.seed.type == HERB && this.dead == true) {
+						int[] eligibleHerbSeedIds = {5291, 5292, 5293, 5294, 5295, 12176, 5296, 5297, 5298, 5299, 5300, 5301, 5302, 5303, 5304, 21621, 14870};
+						player.getInventory().addItem(eligibleHerbSeedIds[Utils.random(eligibleHerbSeedIds.length)]);
+					} else {
+						player.getInventory().addItem(this.seed.seedId);
+					}
+					player.sendMessage("As you harvest " + this.seed.name() + " you pickup a seed.");
+				}
+				break;
+		}
+
+		this.empty();
+	}
+
 	public void empty() {
 		seed = null;
 		weeds = 0;
