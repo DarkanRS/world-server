@@ -95,6 +95,8 @@ public class NPCHandler {
 			player.faceEntityTile(npc);
 			npc.faceEntityTile(player);
 
+			if (player.getTreasureTrailsManager().useNPC(npc))
+				return;
 			Object[] shipAttributes = BoatingD.getBoatForShip(player, npc.getId());
 			if (shipAttributes != null) {
 				player.startConversation(new BoatingD(player, npc.getId()));
@@ -105,8 +107,6 @@ public class NPCHandler {
 				npc.resetDirection();
 				return;
 			}
-			if (player.getTreasureTrailsManager().useNPC(npc))
-				return;
 			if (npc.getId() == 2825)
 				player.sendOptionDialogue("Would you like to travel to Braindeath Island?", ops -> {
 					ops.add("Yes", () -> player.tele(Tile.of(2163, 5112, 1)));
