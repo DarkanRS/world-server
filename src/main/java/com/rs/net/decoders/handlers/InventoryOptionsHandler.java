@@ -25,6 +25,7 @@ import com.rs.game.content.minigames.sorcgarden.SorceressGardenController;
 import com.rs.game.content.skills.cooking.CookingCombos;
 import com.rs.game.content.skills.cooking.FruitCutting.CuttableFruit;
 import com.rs.game.content.skills.cooking.FruitCuttingD;
+import com.rs.game.content.skills.crafting.Craftables;
 import com.rs.game.content.skills.crafting.GemCutting;
 import com.rs.game.content.skills.crafting.GemCutting.Gem;
 import com.rs.game.content.skills.crafting.GemTipCutting;
@@ -199,7 +200,7 @@ public class InventoryOptionsHandler {
 			player.startConversation(new LeatherCraftingD(player, leatherIndex));
 			return true;
 		}
-		if (Firemaking.isFiremaking(player, used, usedWith) || GemCutting.isCutting(player, used, usedWith))
+		if (Firemaking.isFiremaking(player, used, usedWith) || GemCutting.isCutting(player, used, usedWith) || Craftables.isCrafting(player, used, usedWith))
 			return true;
 		if (contains(1755, Gem.OPAL.getCut(), used, usedWith))
 			GemTipCutting.cut(player, GemTips.OPAL);

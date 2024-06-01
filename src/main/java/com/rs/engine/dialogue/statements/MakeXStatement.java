@@ -36,6 +36,7 @@ public class MakeXStatement implements Statement {
 		SELL,
 		BAKE,
 		CUT,
+		CRAFT,
 		DEPOSIT,
 		MAKE_INTERVAL,
 		TELEPORT,
