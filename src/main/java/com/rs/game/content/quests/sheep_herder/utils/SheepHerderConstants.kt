@@ -1,4 +1,4 @@
-package com.rs.game.content.quests.sheepherder.utils
+package com.rs.game.content.quests.sheep_herder.utils
 
 // Quest Stages
 const val STAGE_UNSTARTED = 0
@@ -45,5 +45,7 @@ const val PROD_SHEEP_ANIM = 799
 const val SHEEP_DEATH_ANIM = 5336
 const val INCINERATE_BONES_ANIM = 3243
 
-// Timers
-const val PROD_COOLDOWN_TICKS = 3
+// Tile Checks
+val NO_GO_ZONES: Array<IntArray> = arrayOf(
+    intArrayOf(2616, 2623, 3347, 3364),
+    intArrayOf(2602, 2611, 3330, 3341))

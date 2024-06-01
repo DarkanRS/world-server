@@ -1,10 +1,10 @@
-package com.rs.game.content.quests.sheepherder.dialogues
+package com.rs.game.content.quests.sheep_herder.dialogues
 
 import com.rs.engine.dialogue.HeadE.*
 import com.rs.engine.dialogue.startConversation
 import com.rs.engine.quest.Quest
-import com.rs.game.content.quests.sheepherder.completeSheepHerder
-import com.rs.game.content.quests.sheepherder.utils.*
+import com.rs.game.content.quests.sheep_herder.completeSheepHerder
+import com.rs.game.content.quests.sheep_herder.utils.*
 import com.rs.game.model.entity.npc.NPC
 import com.rs.game.model.entity.player.Player
 import com.rs.lib.game.Item
