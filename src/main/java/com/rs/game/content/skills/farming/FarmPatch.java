@@ -501,7 +501,7 @@ public class FarmPatch {
 				 * from a balancing point of view I think giving fruit tree's a 5% chance is good as well.
 				 */
 				if (5 > Utils.random(100)) {
-					player.getInventory().addItem(this.seed.seedId);
+					player.getInventory().addItemDrop(this.seed.seedId);
 					player.sendMessage("As you harvest " + this.seed.name() + " you pickup a seed.");
 				}
 				break;
@@ -511,9 +511,9 @@ public class FarmPatch {
 					// Dead herbs return a random herb seed back
 					if (this.seed.type == HERB && this.dead == true) {
 						int[] eligibleHerbSeedIds = {5291, 5292, 5293, 5294, 5295, 12176, 5296, 5297, 5298, 5299, 5300, 5301, 5302, 5303, 5304, 21621, 14870};
-						player.getInventory().addItem(eligibleHerbSeedIds[Utils.random(eligibleHerbSeedIds.length)]);
+						player.getInventory().addItemDrop(eligibleHerbSeedIds[Utils.random(eligibleHerbSeedIds.length)]);
 					} else {
-						player.getInventory().addItem(this.seed.seedId);
+						player.getInventory().addItemDrop(this.seed.seedId);
 					}
 					player.sendMessage("As you harvest " + this.seed.name() + " you pickup a seed.");
 				}
