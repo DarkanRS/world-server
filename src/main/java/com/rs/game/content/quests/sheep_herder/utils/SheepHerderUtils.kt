@@ -1,4 +1,4 @@
-package com.rs.game.content.quests.sheepherder.utils
+package com.rs.game.content.quests.sheep_herder.utils
 
 import com.rs.engine.dialogue.HeadE.*
 import com.rs.engine.dialogue.startConversation
@@ -9,6 +9,7 @@ import com.rs.game.model.entity.npc.NPC
 import com.rs.game.model.entity.player.Equipment
 import com.rs.game.model.entity.player.Player
 import com.rs.lib.game.Item
+import com.rs.lib.game.Tile
 import com.rs.lib.util.Utils
 
 class SheepHerderUtils {
@@ -18,9 +19,6 @@ class SheepHerderUtils {
         val cattleprodEquipped = player.equipment.getId(Equipment.WEAPON) == CATTLE_PROD
         val plagueTrousersEquipped = player.equipment.getId(Equipment.LEGS) == PLAGUE_TROUSERS
         val plagueJacketEquipped = player.equipment.getId(Equipment.CHEST) == PLAGUE_JACKET
-
-        var currentTick = npc.tickCounter
-        var cooldownTick = player.tempAttribs.getL("prodCooldownExpiration")
 
         when (stage) {
             STAGE_UNSTARTED, STAGE_RECEIVED_SHEEP_FEED -> {
@@ -52,33 +50,61 @@ class SheepHerderUtils {
                 }
 
                 if (player.tile != npc.tile) {
-                    if (npc is SickSheepNPC && !npc.enteredEnclosure) {
-                        if (currentTick < cooldownTick) return
-                        player.lock(1)
-                        player.anim(PROD_SHEEP_ANIM)
-                        npc.soundEffect(PROD_SHEEP_SOUND, true)
-                        val diffX = npc.tile.x - player.tile.x
-                        val diffY = npc.tile.y - player.tile.y
-                        val randomSteps = Utils.random(3, 5)
-                        val destination = npc.tile.transform(diffX * randomSteps, diffY * randomSteps)
-                        npc.forceTalk("BAAAAA!")
-                        npc.setForceWalk(destination)
-                        npc.setRandomWalk(false)
-                        npc.tempAttribs.setB("proddedRecently", true)
-                        npc.tempAttribs.setO<Player>("player", player)
-                        npc.tempAttribs.setL("lastProddedTick", npc.tickCounter)
-                        player.tempAttribs.setL("prodCooldownExpiration", currentTick + PROD_COOLDOWN_TICKS)
+                    if (npc is SickSheepNPC) {
+                        val ownedNPC = npc.convertToOwnedNPC(player)
+                        ownedNPC.officialRespawnTile = npc.officialRespawnTile
+                        ownedNPC.spawn()
+                        moveSheep(player, ownedNPC)
                         return
-                    } else {
-                        player.sendMessage("The sheep is already in the enclosure. You don't need to prod it.")
+                    } else if (npc is SickSheepOwnedNPC) {
+                        if (npc.owner != player) {
+                            player.sendMessage("Someone else is dealing with this sheep.")
+                            return
+                        }
+                        if (!npc.enteredEnclosure) {
+                            moveSheep(player, npc)
+                        } else {
+                            player.sendMessage("The sheep is already in the enclosure. You don't need to prod it.")
+                        }
                         return
                     }
                 }
             }
+
             STAGE_SHEEP_INCINERATED, STAGE_COMPLETE -> {
                 player.sendMessage("You've already cleared the plague from these sheep.")
             }
         }
+    }
+
+    private fun moveSheep(player: Player, npc: NPC) {
+        player.lock(1)
+        player.anim(PROD_SHEEP_ANIM)
+        npc.soundEffect(PROD_SHEEP_SOUND, true)
+
+        val diffX = npc.tile.x - player.tile.x
+        val diffY = npc.tile.y - player.tile.y
+        val randomSteps = Utils.random(3, 5)
+        val directionX = if (diffX > 0) -1 else if (diffX < 0) 1 else 0
+        val directionY = if (diffY > 0) -1 else if (diffY < 0) 1 else 0
+        var destination = npc.tile.transform(diffX * randomSteps, diffY * randomSteps)
+        npc.forceTalk("BAAAAA!")
+
+        if (isInNoGoZone(destination)) {
+            destination = findClosestTileOutsideNoGoZone(destination, directionX, directionY)
+        }
+        npc.setForceWalk(destination)
+        npc.setRandomWalk(false)
+        npc.tempAttribs.setB("proddedRecently", true)
+        npc.tempAttribs.setL("lastProddedTick", npc.tickCounter)
+    }
+
+    private fun findClosestTileOutsideNoGoZone(tile: Tile, directionX: Int, directionY: Int): Tile {
+        var currentTile = tile
+        while (isInNoGoZone(currentTile)) {
+            currentTile = currentTile.transform(directionX, directionY)
+        }
+        return currentTile
     }
 
     fun feedSheep(player: Player, npc: NPC) {
@@ -90,25 +116,26 @@ class SheepHerderUtils {
             else -> null
         }
 
-        if (sheepItemId != null && npc is SickSheepNPC && npc.tile.withinArea(2595, 3351, 2609, 3364)) {
-            player.schedule {
-                player.startConversation { simple("You feed some poisoned sheep food to the sheep.<br>It happily eats it.") }
-                wait(2)
-                npc.anim(SHEEP_DEATH_ANIM)
-                npc.soundEffect(DYING_SHEEP_SOUND, true)
-                wait(2)
-                player.startConversation { simple("You watch as the sheep collapses dead onto the floor.") }
-                World.addGroundItem(Item(sheepItemId), npc.tile, player)
-                wait(1)
-                npc.tele(npc.respawnTile)
-                npc.setForceWalk(npc.respawnTile)
-                npc.tempAttribs.removeB("prodded")
-                npc.tempAttribs.removeL("lastProddedTick")
-                npc.enteredEnclosure = false
-                npc.timeInEnclosureTicks = 0
+        if (npc is SickSheepOwnedNPC) {
+            if (npc.owner != player) {
+                player.sendMessage("Someone else is dealing with this sheep.")
+                return
             }
-        } else {
-            player.startConversation { player(WORRIED, "I don't think I should kill the sheep outside the enclosure. The councillor was worried that it might spread the disease.") }
+            if (sheepItemId != null && npc.tile.withinArea(2595, 3351, 2609, 3364)) {
+                    player.schedule {
+                        player.startConversation { simple("You feed some poisoned sheep food to the sheep.<br>It happily eats it.") }
+                        wait(2)
+                        npc.anim(SHEEP_DEATH_ANIM)
+                        npc.soundEffect(DYING_SHEEP_SOUND, true)
+                        wait(2)
+                        player.startConversation { simple("You watch as the sheep collapses dead onto the floor.") }
+                        World.addGroundItem(Item(sheepItemId), npc.tile, player)
+                        wait(1)
+                        npc.resetSheep(true)
+                    }
+            } else {
+                player.startConversation { player(WORRIED, "I don't think I should kill the sheep outside the enclosure. The councillor was worried that it might spread the disease.") }
+            }
         }
     }
 
@@ -154,6 +181,11 @@ class SheepHerderUtils {
         val questAttribs = player.questManager.getAttribs(Quest.SHEEP_HERDER)
         return listOf("RED", "GREEN", "BLUE", "YELLOW")
             .all { questAttribs.getB("${it}_SHEEP_BONES") }
+    }
+
+    fun isInNoGoZone(tile: Tile): Boolean {
+        for (range in NO_GO_ZONES) if (tile.x() >= range[0] && tile.x() <= range[1] && tile.y() >= range[2] && tile.y() <= range[3]) return true
+        return false
     }
 
 }
