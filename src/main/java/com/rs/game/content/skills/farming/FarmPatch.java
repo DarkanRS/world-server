@@ -323,7 +323,7 @@ public class FarmPatch {
 				player.setNextAnimation(SPADE_ANIMATION);
 				if (seed != null && seed.type == PatchType.TREE && lives == -1)
 					player.getInventory().addItemDrop(seed.productId.getId(), 1);
-				empty();
+				empty(player);
 				updateVars(player);
 			});
 			ops.add("No thanks.");
