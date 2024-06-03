@@ -1,12 +1,13 @@
-package com.rs.game.content.quests.sheepherder
+package com.rs.game.content.quests.sheep_herder
 
 import com.rs.engine.dialogue.HeadE.*
 import com.rs.engine.dialogue.startConversation
+import com.rs.engine.pathfinder.Direction
 import com.rs.engine.quest.Quest
 import com.rs.engine.quest.QuestHandler
 import com.rs.engine.quest.QuestOutline
-import com.rs.game.content.quests.sheepherder.dialogues.*
-import com.rs.game.content.quests.sheepherder.utils.*
+import com.rs.game.content.quests.sheep_herder.dialogues.*
+import com.rs.game.content.quests.sheep_herder.utils.*
 import com.rs.game.content.world.doors.Doors.handleGate
 import com.rs.game.model.entity.player.Equipment
 import com.rs.game.model.entity.player.Player
@@ -52,6 +53,7 @@ class SheepHerder : QuestOutline() {
 
 @ServerStartupEvent
 fun handleSheepHerderInteractions() {
+
     onItemEquip(PLAGUE_JACKET, PLAGUE_TROUSERS) { e ->
         e.apply {
             if (e.dequip() && player.tile.withinArea(2595, 3351, 2609, 3364)) {
@@ -60,6 +62,7 @@ fun handleSheepHerderInteractions() {
             }
         }
     }
+
     onObjectClick(NORTH_GATE, SOUTH_GATE) { (player, obj) ->
         if (player.equipment.getId(Equipment.LEGS) != PLAGUE_TROUSERS || player.equipment.getId(Equipment.CHEST) != PLAGUE_JACKET) {
             player.startConversation { player(WORRIED, "It doesn't look very safe in there. I'm not going in without decent protective clothing.") }
@@ -67,6 +70,7 @@ fun handleSheepHerderInteractions() {
         }
         handleGate(player, obj);
     }
+
     onNpcClick(COUNCILLOR_HALGRIVE, FARMER_BRUMTY, RED_SHEEP, GREEN_SHEEP, BLUE_SHEEP, YELLOW_SHEEP) { (player, npc) ->
         when (npc.id) {
             COUNCILLOR_HALGRIVE -> { CouncillorHalgrivesD(player, npc) }
@@ -74,16 +78,20 @@ fun handleSheepHerderInteractions() {
             RED_SHEEP, GREEN_SHEEP, BLUE_SHEEP, YELLOW_SHEEP -> { SheepHerderUtils().prodSheep(player, npc) }
         }
     }
-    instantiateNpc(RED_SHEEP, GREEN_SHEEP, BLUE_SHEEP, YELLOW_SHEEP) { id, tile -> SickSheepNPC(id, tile) }
+
+    instantiateNpc(RED_SHEEP, GREEN_SHEEP, BLUE_SHEEP, YELLOW_SHEEP) { id, tile -> SickSheepNPC(id, tile, tile, Direction.random()) }
+
     onItemOnNpc(RED_SHEEP, GREEN_SHEEP, BLUE_SHEEP, YELLOW_SHEEP) { e ->
         when (e.item.id) {
             SHEEP_FEED -> { SheepHerderUtils().feedSheep(e.player, e.npc) }
             POISON -> { e.player.sendMessage("The sheep isn't going to drink the poison from the bottle. Perhaps you should try feeding it something else more appropriate.") }
         }
     }
+
     onItemOnObject(objectNamesOrIds = arrayOf(INCINERATOR), itemNamesOrIds = arrayOf(RED_SHEEP_BONES, GREEN_SHEEP_BONES, BLUE_SHEEP_BONES, YELLOW_SHEEP_BONES)) { e ->
         SheepHerderUtils().incinerateBones(e.player, e.item)
     }
+
 }
 
 fun completeSheepHerder(player: Player) {

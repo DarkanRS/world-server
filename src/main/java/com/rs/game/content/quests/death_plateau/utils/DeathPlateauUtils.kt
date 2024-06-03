@@ -82,9 +82,18 @@ class DeathPlateauUtils(val player: Player) {
         setDeathPlateauVarBits(player)
     }
 
-    fun returnLostLamps() {
+    fun returnLostSupplyLamps() {
         player.inventory.addItem(SUPPLY_REWARD_LAMP, lampsLost)
-        player.delete(DEATH_PLATEAU_SUPPLY_LAMPS_LOST)
+        val updatedAmount = player.getI(DEATH_PLATEAU_SUPPLY_LAMPS_LOST) - lampsLost
+        if (updatedAmount == 0) player.delete(DEATH_PLATEAU_SUPPLY_LAMPS_LOST)
+        else player.save(DEATH_PLATEAU_SUPPLY_LAMPS_LOST, updatedAmount)
+    }
+
+    fun returnLostQuestLamps(amount: Int) {
+        player.inventory.addItem(QUEST_REWARD_LAMP, amount)
+        val updatedAmount = player.getI(DEATH_PLATEAU_QUEST_LAMPS_LOST) - amount
+        if (updatedAmount == 0) player.delete(DEATH_PLATEAU_QUEST_LAMPS_LOST)
+        else player.save(DEATH_PLATEAU_QUEST_LAMPS_LOST, updatedAmount)
     }
 
 }

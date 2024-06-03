@@ -1,17 +1,17 @@
 {
   "names": [
-    "Troll spectator"
+    "Berry"
   ],
-  "attackAnim": -1,
+  "attackAnim": 13786,
   "attackSound": -1,
-  "defenceAnim": -1,
+  "defenceAnim": 9023,
   "defendSound": -1,
-  "deathAnim": -1,
-  "deathDelay": 6,
+  "deathAnim": 13785,
+  "deathDelay": 3,
   "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 900,
-  "maxHit": 134,
+  "maxHit": 120,
   "attackStyle": "MELEE",
   "combatLevels": {
     "ATTACK": 40,

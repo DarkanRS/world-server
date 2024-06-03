@@ -461,9 +461,9 @@ class PlayerCombat(@JvmField val target: Entity) : PlayerAction() {
         val hit = calculateHit(player, target, weaponId, attackStyle, false)
 
         if (weaponId == -2 && hit.damage <= 0) {
-            if (Utils.random(10) == 0) {
+            if (Utils.random(1) == 0) {
                 player.anim(14417)
-                attackTarget(getMultiAttackTargets(player, target, 6, Int.MAX_VALUE, true)) { nextTarget ->
+                attackTarget(getMultiAttackTargets(player, target, 6, 10, true)) { nextTarget ->
                     nextTarget.freeze(Ticks.fromSeconds(10), true)
                     nextTarget.spotAnim(181, 0, 96)
                     nextTarget.tasks.schedule(1) { nextTarget.applyHit(calculateHit(player, nextTarget, -2, attackStyle, false, false, 1.0, 1.0).setLook(HitLook.TRUE_DAMAGE)) }
@@ -508,7 +508,7 @@ class PlayerCombat(@JvmField val target: Entity) : PlayerAction() {
     }
 }
 
-fun attackTarget(targets: Array<Entity>, perform: (Entity) -> Boolean) {
+fun attackTarget(targets: Set<Entity>, perform: (Entity) -> Boolean) {
     for (target in targets) {
         if (!perform(target)) break
     }
@@ -526,7 +526,7 @@ fun getRangeCombatDelay(weaponId: Int, attackStyle: AttackStyle): Int {
     return delay - 1
 }
 
-fun getMultiAttackTargets(entity: Entity, target: Entity): Array<Entity> {
+fun getMultiAttackTargets(entity: Entity, target: Entity): MutableSet<Entity> {
     return getMultiAttackTargets(entity, target, 1, 9)
 }
 
@@ -551,13 +551,15 @@ fun getMultiAttackTargets(entity: Entity, tile: Tile?, maxDistance: Int, maxAmtT
     return possibleTargets.toTypedArray<Entity>()
 }
 
-fun getMultiAttackTargets(entity: Entity, target: Entity, maxDistance: Int, maxAmtTargets: Int): Array<Entity> {
+fun getMultiAttackTargets(entity: Entity, target: Entity, maxDistance: Int, maxAmtTargets: Int): MutableSet<Entity> {
     return getMultiAttackTargets(entity, target, maxDistance, maxAmtTargets, true)
 }
 
-fun getMultiAttackTargets(entity: Entity, target: Entity, maxDistance: Int, maxAmtTargets: Int, includeOriginalTarget: Boolean): Array<Entity> {
+fun getMultiAttackTargets(entity: Entity, target: Entity, maxDistance: Int, maxAmtTargets: Int, includeOriginalTarget: Boolean): MutableSet<Entity> {
     val possibleTargets: MutableList<Entity> = ArrayList()
-    if (!target.isAtMultiArea) return possibleTargets.toTypedArray<Entity>()
+    if (includeOriginalTarget)
+        possibleTargets.add(target)
+    if (!target.isAtMultiArea) return possibleTargets.toMutableSet()
     for (p2 in target.queryNearbyPlayersByTileRange(maxDistance) { p2: Player -> p2 !== entity && !p2.isDead && p2.isCanPvp && p2.isAtMultiArea && p2.withinDistance(target.tile, maxDistance) && (entity is Player && entity.controllerManager.canHit(p2)) }) {
         possibleTargets.add(p2)
         if (possibleTargets.size >= maxAmtTargets) break
@@ -568,8 +570,9 @@ fun getMultiAttackTargets(entity: Entity, target: Entity, maxDistance: Int, maxA
             if (possibleTargets.size >= maxAmtTargets) break
         }
     }
-    if (!includeOriginalTarget) possibleTargets.remove(target)
-    return possibleTargets.toTypedArray<Entity>()
+    if (!includeOriginalTarget)
+        possibleTargets.remove(target)
+    return possibleTargets.toMutableSet()
 }
 
 fun getRangeCombatDelay(player: Player): Int {

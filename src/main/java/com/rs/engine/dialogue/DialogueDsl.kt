@@ -1,5 +1,6 @@
 package com.rs.engine.dialogue
 
+import com.rs.engine.dialogue.statements.MakeXStatement
 import com.rs.engine.dialogue.statements.Statement
 import com.rs.engine.quest.Quest
 import com.rs.game.model.entity.npc.NPC
@@ -74,6 +75,16 @@ open class DialogueBuilder(val stages: MutableMap<String, Dialogue> = mutableMap
 
     fun makeX(itemIds: IntArray, maxAmt: Int = 60) {
         dialogue = dialogue.addMakeX(itemIds, maxAmt)
+        applyPendingLabel()
+    }
+
+    fun makeX(makeXType: MakeXStatement.MakeXType, itemIds: IntArray, maxAmt: Int = 60) {
+        dialogue = dialogue.addMakeX(makeXType, itemIds, maxAmt)
+        applyPendingLabel()
+    }
+
+    fun makeX(makeXType: MakeXStatement.MakeXType, question: String, itemIds: IntArray, maxAmt: Int = 60) {
+        dialogue = dialogue.addMakeX(makeXType, question, itemIds, maxAmt)
         applyPendingLabel()
     }
 

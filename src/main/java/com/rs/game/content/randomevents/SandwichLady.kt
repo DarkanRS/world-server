@@ -54,18 +54,18 @@ fun handleSandwichLady() {
 			val lady = e.player.tempAttribs.getO<SandwichLady>("sandwichLady")
 			e.player.closeInterfaces()
 			if (lady == null) {
-				e.player.sendMessage("An error has occurred.")
+				e.player.sendMessage("An error has occurred - please report a bug.")
 				return@onButtonClick
 			}
 			if (e.componentId == lady.selectedSandwich.componentId) {
 				e.player.sendMessage("The sandwich lady gives you a ${lady.selectedSandwich.description.lowercase(Locale.getDefault())}!")
 				e.player.inventory.addItemDrop(lady.selectedSandwich.itemId, 1)
 				lady.forceTalk("Hope that fills you up!")
-				lady.ticks = SandwichLady.DURATION + 4
+				lady.ticks = SandwichLady.DURATION + 3
 			} else {
 				e.player.sendMessage("The sandwich lady knocks you out and you wake up somewhere... different.")
 				lady.forceTalk("Hey, I didn't say you could have that!")
-				lady.ticks = SandwichLady.DURATION - 1
+				lady.ticks = SandwichLady.DURATION - 3
 			}
 			lady.claimed = true
 		}
@@ -102,7 +102,7 @@ class SandwichLady(owner: Player, tile: Tile) : RandomEventNPC(owner, NPC_ID, ti
 		if (!claimed && (owner.interfaceManager.containsChatBoxInter() || owner.interfaceManager.containsScreenInter())) return
 		when {
 			ticks == DURATION - 3 -> forceTalk("Take that, ${owner.displayName}!")
-			ticks == DURATION - 2-> {
+			ticks == DURATION - 2 -> {
 				anim(3045)
 				owner.spotAnim(80, 5, 60)
 				owner.lock()

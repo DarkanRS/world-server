@@ -218,7 +218,7 @@ public final class ObjectHandler {
 				if (Lander.canEnter(player, 2)) {
                 }
 			} else if (id == 35391 || id == 2832) {
-				if (!Agility.hasLevel(player, id == 2832 ? 20 : 41))
+				if (!Agility.hasLevel(player, id == 2832 ? 20 : 15))
 					return;
 				player.addWalkSteps(x, y);
 				WorldTasks.schedule(new Task() {

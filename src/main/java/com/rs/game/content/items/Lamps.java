@@ -64,7 +64,8 @@ public class Lamps {
 			{ 23749, 23750, 23751, 23752 } 
 	};
 
-	public static final int[] OTHER_SELECTABLE_LAMPS = { 2528, 4447, 19775, 23085, 23086, 24151 }; // 2528:random event genie lamp, 4447: Shield Of Arrav Lamp, 19775: Gunnar's Ground
+	// 2528: RE Genie, 4447: Shield Of Arrav, 13227: Troll Stronghold, 19775: Gunnar's Ground, 23085: Death Plateau, 23086: Death Plateau Post-Quest
+	public static final int[] OTHER_SELECTABLE_LAMPS = { 2528, 4447, 13227, 19775, 23085, 23086, 24151 };
 
 	private static final int[] DIALOGUE_INTERFACE_CS2 = { Skills.ATTACK, Skills.MAGIC, Skills.MINING, Skills.WOODCUTTING, Skills.AGILITY, Skills.FLETCHING, Skills.THIEVING, Skills.STRENGTH, Skills.RANGE, Skills.SMITHING, Skills.FIREMAKING, Skills.HERBLORE, Skills.SLAYER, Skills.CONSTRUCTION, Skills.DEFENSE, Skills.PRAYER, Skills.FISHING, Skills.CRAFTING, Skills.FARMING, Skills.HUNTER, Skills.SUMMONING, Skills.HITPOINTS, Skills.DUNGEONEERING, Skills.COOKING, Skills.RUNECRAFTING };
 
@@ -103,9 +104,11 @@ public class Lamps {
 	private static int getLampsLevelReq(int id) {
         return switch (id) {
 			case 4447 ->// Shield of Arrav
-					20;
+				20;
+			case 13227 -> // Troll Stronghold
+				30;
 			case 19775 -> // Gunnar's Ground
-					5;
+				5;
             default -> 1;
         };
     }
@@ -142,6 +145,8 @@ public class Lamps {
 				xpAmt = 100;
 			else if (lamp.getId() == 23086) // Death Plateau - Post-Quest Rewards
 				xpAmt = 180;
+			else if (lamp.getId() == 13227) // Troll Stronghold
+				xpAmt = 10000;
 			double exp = player.getSkills().addXpLamp(lamp.getSelectedSkill(), xpAmt);
 			player.sendMessage("You have been awarded " + Utils.getFormattedNumber(exp, ',') + " XP in " + Skills.SKILL_NAME[lamp.getSelectedSkill()] + "!");
 			player.getTempAttribs().removeO("lampInstance");

@@ -65,4 +65,80 @@
     "comment": "Ambush Commander",
     "npcId": 15104
   },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2920,
+      "y": 3606
+    },
+	"dir": "WEST",
+    "comment": "Dad",
+    "npcId": 1125
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2913,
+      "y": 3602
+    },
+	"dir": "EAST",
+    "comment": "Troll spectator",
+    "npcId": 1123
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2917,
+      "y": 3603
+    },
+    "comment": "Troll spectator",
+    "npcId": 1122
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2919,
+      "y": 3612
+    },
+    "comment": "Troll spectator",
+    "npcId": 1118
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2924,
+      "y": 3599
+    },
+    "comment": "Troll spectator",
+    "npcId": 1124
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2926,
+      "y": 3607
+    },
+    "comment": "Troll spectator",
+    "npcId": 1120
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2929,
+      "y": 3599
+    },
+	"dir": "NORTHWEST",
+    "comment": "Troll spectator",
+    "npcId": 1121
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2929,
+      "y": 3613
+    },
+	"dir": "WEST",
+    "comment": "Troll spectator",
+    "npcId": 1119
+  },
 ]
