@@ -3,10 +3,10 @@ package com.rs.game.content.world.areas.burthorpe.npcs
 import com.rs.engine.dialogue.DialogueBuilder
 import com.rs.engine.dialogue.HeadE.*
 import com.rs.engine.dialogue.startConversation
-import com.rs.engine.pathfinder.Direction
 import com.rs.engine.quest.Quest
 import com.rs.game.content.quests.death_plateau.utils.*
 import com.rs.game.content.quests.troll_stronghold.utils.*
+import com.rs.game.model.entity.Entity
 import com.rs.game.model.entity.npc.NPC
 import com.rs.game.model.entity.player.Player
 import com.rs.lib.game.Tile
@@ -15,9 +15,7 @@ import com.rs.plugin.kts.instantiateNpc
 import com.rs.plugin.kts.onNpcClick
 
 class Dunstan(id: Int, tile: Tile) : NPC(id, tile) {
-    override fun processNPC() {
-        faceDir(Direction.SOUTH)
-    }
+    override fun faceEntityTile(target: Entity?) { }
 }
 
 class DunstanD(val player: Player, npc: NPC) {

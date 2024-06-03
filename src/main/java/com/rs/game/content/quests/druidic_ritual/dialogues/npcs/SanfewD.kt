@@ -33,7 +33,7 @@ class SanfewD(player: Player, npc: NPC) {
                     npc(npc, CALM_TALK, "Did you bring me the required ingredients for the potion?")
                     if (DruidicRitualUtils(player).hasEnchantedItems()) {
                         player(CALM_TALK, "Yes, I have all four now!")
-                        npc(npc, CALM_TALK, "Well hand 'em over then lad! Thank you so much adventurer! These meats will allow our potion to honour Guthix to be completed, and bring one step closer to reclaiming our stone circle!")
+                        npc(npc, CALM_TALK, "Well hand 'em over then lad! Thank you so much adventurer! These meats will allow our potion, to honour Guthix, to be completed, and bring us one step closer to reclaiming our stone circle!")
                         npc(npc, CALM_TALK, "Now go and talk to Kaqemeex and he will introduce you to the wonderful world of herblore and potion making!") {
                             player.inventory.deleteItem(ENCHANTED_RAW_BEAR_MEAT, 1)
                             player.inventory.deleteItem(ENCHANTED_RAW_CHICKEN, 1)
@@ -46,6 +46,11 @@ class SanfewD(player: Player, npc: NPC) {
                         npc(npc, CALM_TALK, "Well, let me know when you do young 'un.")
                         player(CALM_TALK, "I'll get on with it.")
                     }
+                }
+
+                STAGE_RETURN_TO_KAQEMEEX -> {
+                    npc(npc, CALM_TALK, "Thank you so much adventurer! These meats will allow our potion, to honour Guthix, to be completed, and bring us one step closer to reclaiming our stone circle!")
+                    npc(npc, CALM_TALK, "Now go and talk to Kaqemeex and he will introduce you to the wonderful world of herblore and potion making!")
                 }
 
             }

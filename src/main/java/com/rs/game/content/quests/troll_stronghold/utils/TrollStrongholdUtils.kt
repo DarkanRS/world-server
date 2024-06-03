@@ -30,7 +30,7 @@ class TrollStrongholdUtils(val player: Player) {
 
                 in STAGE_ACCEPTED_QUEST..STAGE_ENTERED_ARENA -> {
                     if (dad != null) {
-                        if (dad.combatTarget != null || dad.hitpoints < dad.maxHitpoints) {
+                        if (dad.combatTarget != null) {
                             player.sendMessage("Someone else is currently fighting Dad right now.")
                             return
                         }
@@ -45,12 +45,14 @@ class TrollStrongholdUtils(val player: Player) {
                             returnPlayerFromInstance()
                             if (stage < STAGE_ENTERED_ARENA) player.setQuestStage(Quest.TROLL_STRONGHOLD, STAGE_ENTERED_ARENA)
                         }
+                    } else {
+                        player.sendMessage("Someone has very recently gone through here. I should wait a moment or so...")
                     }
                 }
 
                 STAGE_ENGAGED_DAD -> {
                     if (dad != null) {
-                        if (dad.combatTarget != null || dad.hitpoints < dad.maxHitpoints) {
+                        if (dad.combatTarget != null) {
                             player.sendMessage("Someone else is currently fighting Dad right now.")
                             return
                         }
@@ -66,6 +68,8 @@ class TrollStrongholdUtils(val player: Player) {
                             player.hintIconsManager.addHintIcon(dad, 0, -1, false)
                             dad.combatTarget = player
                         }
+                    } else {
+                        player.sendMessage("Someone has very recently gone through here. I should wait a moment or so...")
                     }
                 }
 

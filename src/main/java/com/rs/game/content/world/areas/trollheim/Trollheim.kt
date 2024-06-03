@@ -99,6 +99,7 @@ fun mapTrollheim() {
             }
         } else {
             e.player.sendMessage("That looks dangerous. I'll need a good reason before I venture that way.")
+            return@onObjectClick
         }
     }
 
@@ -221,8 +222,13 @@ fun mapTrollheim() {
             }
 
             67572 -> {
-                if (player.getQuestStage(Quest.DEATH_PLATEAU) >= STAGE_FOUND_TROLL) player.tele(Tile.of(3435, 4240, 2))
-                else player.sendMessage("It is cold and dark in there. You have no reason to go in.")
+                if (player.getQuestStage(Quest.DEATH_PLATEAU) >= STAGE_FOUND_TROLL) {
+                    player.tele(Tile.of(3435, 4240, 2))
+                } else {
+                    player.sendMessage("It is cold and dark in there. You have no reason to go in.")
+                    return@onObjectClick
+                }
+
             }
         }
     }
@@ -242,13 +248,17 @@ fun mapTrollheim() {
                     else
                         Agility.handleObstacle(e.player, 3377, 2, e.player.transform(0, if (e.player.y < e.getObject().y) 2 else -2, 0), 1.0)
                 } else if (e.objectId == 34878) {
-                    if (e.getObject().rotation == 0 || e.getObject().rotation == 2)
+                    e.player.walkToAndExecute(Tile(2876, 3598, 0)) {
+                        e.player.sendMessage("Help")
+                    }
+                    /*if (e.getObject().rotation == 0 || e.getObject().rotation == 2)
                         Agility.handleObstacle(e.player, if (e.player.x < e.getObject().x) 3381 else 3382, 3, e.player.transform(if (e.player.x < e.getObject().x) 4 else -4, 0, 0), 1.0)
                     else
-                        Agility.handleObstacle(e.player, if (e.player.y < e.getObject().y) 3381 else 3382, 3, e.player.transform(0, if (e.player.y < e.getObject().y) 4 else -4, 0), 1.0)
+                        Agility.handleObstacle(e.player, if (e.player.y < e.getObject().y) 3381 else 3382, 3, e.player.transform(0, if (e.player.y < e.getObject().y) 4 else -4, 0), 1.0)*/
                 }
             } else {
                 e.player.sendMessage("<col=A31818>You'll need some climbing boots to go that way.</col>")
+                return@onObjectClick
             }
             if (e.getObject().id == 34877 || e.getObject().id == 34889 || e.getObject().id == 3803 || e.getObject().id == 9304 || e.getObject().id == 9303) {
                 if (e.getObject().rotation == 0 || e.getObject().rotation == 2)
@@ -263,6 +273,7 @@ fun mapTrollheim() {
             }
         } else {
             e.player.sendMessage("That looks dangerous. I'll need a good reason before I venture that way.")
+            return@onObjectClick
         }
     }
 
@@ -271,6 +282,7 @@ fun mapTrollheim() {
             player.tele(Tile.of(2824, 10050, 0))
         } else {
             player.sendMessage("It is cold and dark in there. You have no reason to go in.")
+            return@onObjectClick
         }
     }
 }

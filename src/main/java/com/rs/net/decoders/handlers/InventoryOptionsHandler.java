@@ -18,11 +18,14 @@ package com.rs.net.decoders.handlers;
 
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.ObjectType;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.statements.Statement;
 import com.rs.game.World;
 import com.rs.game.content.items.Lamps;
 import com.rs.game.content.minigames.fightkiln.FightKilnController;
 import com.rs.game.content.minigames.sorcgarden.SorceressGardenController;
 import com.rs.game.content.skills.cooking.CookingCombos;
+import com.rs.game.content.skills.cooking.FruitCutting;
 import com.rs.game.content.skills.cooking.FruitCutting.CuttableFruit;
 import com.rs.game.content.skills.cooking.FruitCuttingD;
 import com.rs.game.content.skills.crafting.Craftables;
@@ -447,6 +450,15 @@ public class InventoryOptionsHandler {
 		if (player.isLocked() || player.getEmotesManager().isAnimating() || PluginManager.handle(new ItemClickEvent(player, item, slotId, item.getDefinitions().getInventoryOption(3))))
 			return;
 		player.stopAll(false);
+
+		FruitCutting.CuttableFruit fruit = FruitCutting.CuttableFruit.forId(itemId);
+		if (fruit != null) {
+			if (player.getInventory().containsItem(946)) {
+				player.startConversation(new FruitCuttingD(player, fruit));
+			} else {
+				player.sendMessage("You need a knife to cut the " + item.getDefinitions().name.toLowerCase() + ".");
+			}
+		}
 
 		if (itemId == 1438)
 			Runecrafting.locate(player, 3127, 3405);
