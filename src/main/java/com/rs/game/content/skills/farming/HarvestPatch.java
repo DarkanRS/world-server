@@ -141,7 +141,7 @@ public class HarvestPatch extends PlayerAction {
 			default:
 				player.getSkills().addXp(Constants.FARMING, patch.seed.experience);
 				if (patch.lives <= 0) {
-					patch.empty(player);
+					patch.clear(player);
 					patch.updateVars(player);
 					return false;
 				}
