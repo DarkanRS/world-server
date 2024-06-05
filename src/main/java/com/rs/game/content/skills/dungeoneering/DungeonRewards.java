@@ -278,7 +278,7 @@ public class DungeonRewards {
 				 */
 				if (5 > Utils.random(100)) {
 					player.getInventory().addItemDrop(patch.seed.seedId, 1);
-					player.sendMessage("As you harvest " + patch.seed.name() + " you pickup a seed.");
+					player.sendMessage("<col=00EE00>Your Scroll of Life saves you a seed!");
 				}
 				break;
 			default:
@@ -290,7 +290,7 @@ public class DungeonRewards {
 					} else {
 						player.getInventory().addItemDrop(patch.seed.seedId, 1);
 					}
-					player.sendMessage("As you harvest " + patch.seed.name() + " you pickup a seed.");
+					player.sendMessage("<col=00EE00>Your Scroll of Life saves you a seed!");
 				}
 				break;
 		}
