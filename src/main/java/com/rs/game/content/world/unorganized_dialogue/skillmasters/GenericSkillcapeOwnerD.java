@@ -26,7 +26,7 @@ public class GenericSkillcapeOwnerD extends Conversation {
 		super(player);
 
 		addOption("Choose an option", "What is that cape you're wearing?", "Bye.")
-		.addNext(cape.getOffer99CapeDialogue(player, npcId));
+		.addNext(() -> cape.getOffer99CapeDialogue(player, npcId));
 
 		create();
 	}
