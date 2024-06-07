@@ -4,15 +4,11 @@ import com.rs.engine.cutscenekt.cutscene
 import com.rs.engine.dialogue.HeadE
 import com.rs.engine.dialogue.HeadE.*
 import com.rs.engine.dialogue.startConversation
-import com.rs.engine.pathfinder.Direction
 import com.rs.engine.quest.Quest
-import com.rs.game.World
-import com.rs.game.content.combat.CombatSpell
+import com.rs.game.content.world.npcs.PKBotNPC
 import com.rs.game.map.instance.Instance
-import com.rs.game.model.entity.Entity
 import com.rs.game.model.entity.Hit
 import com.rs.game.model.entity.async.schedule
-import com.rs.game.model.entity.interactions.EntityInteraction
 import com.rs.game.model.entity.npc.NPC
 import com.rs.game.model.entity.player.InstancedController
 import com.rs.game.model.entity.player.Player

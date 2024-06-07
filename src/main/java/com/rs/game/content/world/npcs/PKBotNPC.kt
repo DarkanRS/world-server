@@ -1,4 +1,4 @@
-package com.rs.game.content.quests.elderkiln
+package com.rs.game.content.world.npcs
 
 import com.rs.cache.loaders.Bonus
 import com.rs.game.content.Effect

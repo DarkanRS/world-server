@@ -15,21 +15,21 @@ const val STAGE_SAVE_GAAL_FIGHTPITS = 2
 const val STAGE_GO_TO_KILN = 3
 const val STAGE_COMPLETE = 45
 
-//@QuestHandler(
-//    quest = Quest.ELDER_KILN,
-//    startText = "Speak to TzHaar-Mej-Jeh by the Birthing Pools in the TzHaar City.",
-//    itemsText = "Adamant pickaxe (or better), melee, magic, or ranged armor, weapons, potions, and food.",
-//    combatText = "Several waves of Tok-Haar creatures and a few high level players.",
-//    rewardsText =
-//            "100,000 XP lamp (for either Attack<br>" +
-//            "Strength, Defence, Magic, or Ranged)<br>" +
-//            "50,000 Magic XP<br>" +
-//            "30,000 Agility XP<br>" +
-//            "Tokkul-Zo (boosts 10% damage when<br>" +
-//            "fighting against lava or obsidian creatures)<br>" +
-//            "Access to the Fight Kiln",
-//    completedStage = STAGE_COMPLETE
-//)
+@QuestHandler(
+    quest = Quest.ELDER_KILN,
+    startText = "Speak to TzHaar-Mej-Jeh by the Birthing Pools in the TzHaar City.",
+    itemsText = "Adamant pickaxe (or better), melee, magic, or ranged armor, weapons, potions, and food.",
+    combatText = "Several waves of Tok-Haar creatures and a few high level players.",
+    rewardsText =
+            "100,000 XP lamp (for either Attack<br>" +
+            "Strength, Defence, Magic, or Ranged)<br>" +
+            "50,000 Magic XP<br>" +
+            "30,000 Agility XP<br>" +
+            "Tokkul-Zo (boosts 10% damage when<br>" +
+            "fighting against lava or obsidian creatures)<br>" +
+            "Access to the Fight Kiln",
+    completedStage = STAGE_COMPLETE
+)
 class ElderKiln : QuestOutline() {
     override fun getJournalLines(player: Player, stage: Int) = when (stage) {
         STAGE_UNSTARTED -> listOf("I should speak to TzHaar-Mej-Jeh by the Birthing Pools in the TzHaar City.")
@@ -68,7 +68,7 @@ class ElderKiln : QuestOutline() {
 
 @ServerStartupEvent
 fun mapElderKiln() {
-//    onLogin {
-//        it.player.setQuestStage(Quest.ELDER_KILN, STAGE_GO_TO_KILN)
-//    }
+    onLogin {
+        it.player.setQuestStage(Quest.ELDER_KILN, STAGE_GO_TO_KILN)
+    }
 }
