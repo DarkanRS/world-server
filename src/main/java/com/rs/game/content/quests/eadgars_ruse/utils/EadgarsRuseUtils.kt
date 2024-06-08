@@ -44,7 +44,7 @@ class EadgarsRuseUtils(val player: Player) {
                         player.inventory.replace(ALCOCHUNKS, DRUNK_PARROT)
                     }
                     player(HAPPY_TALKING, "Hah! Got you now!")
-                    npc(PARROT, NONE, "Sqwaawk...*hic*")
+                    npc(PARROT, T_CALM_TALK, "Sqwaawk...*hic*")
                     npc(PARROTY_PETE, FRUSTRATED, "Hey! What are you doing with that parrot?") { player.faceEntityTile(parrotyPete) }
                     player(CALM_TALK, "Nothing.")
                     npc(PARROTY_PETE, WORRIED, "It looks drunk! You should NEVER feed alcohol to a parrot!") { player.faceEntityTile(parrotyPete) }
@@ -79,7 +79,7 @@ class EadgarsRuseUtils(val player: Player) {
             in STAGE_HIDDEN_PARROT..STAGE_NEED_TROLL_POTION -> {
                 player.startConversation {
                     simple("You look under the rack and find the drunk parrot.")
-                    npc(PARROT, NONE, "Who's a pretty boy then?")
+                    npc(PARROT, T_CALM_TALK, "Who's a pretty boy then?")
                     player(CALM_TALK, "I don't think it's done yet.")
                 }
             }
@@ -87,7 +87,7 @@ class EadgarsRuseUtils(val player: Player) {
                 if (player.inventory.hasFreeSlots()) {
                     player.startConversation {
                         simple("You look under the rack and find the drunk parrot.")
-                        npc(PARROT, NONE, "Ah, hello Sir. Could you please free me?<br>I seem to have ... OW! What are you doing?<br>That's my spleen!")
+                        npc(PARROT, T_CALM_TALK, "Ah, hello Sir. Could you please free me?<br>I seem to have ... OW! What are you doing?<br>That's my spleen!")
                         player(CALM_TALK, "I think it's probably heard enough.") {
                             player.anim(PICKUP_ANIM)
                             player.inventory.addItem(DRUNK_PARROT)

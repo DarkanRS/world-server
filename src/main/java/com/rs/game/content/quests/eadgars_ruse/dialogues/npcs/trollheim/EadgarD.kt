@@ -63,7 +63,7 @@ class EadgarD(player: Player, npc: NPC) {
                             }
                         }
                     } else {
-                        npc(PARROT, NONE, "Raaawk! Polly wanna cracker!")
+                        npc(PARROT, T_CALM_TALK, "Raaawk! Polly wanna cracker!")
                         player(TALKING_ALOT, "Here it is! Now are you going to explain your plan?")
                         npc(npc, HAPPY_TALKING, "Yes, yes, of course. It's quite ingenious really!")
                         npc(npc, CALM_TALK, "What we need is something that looks like a human, sounds like a human, smells like a human and tastes like a human.")
@@ -71,7 +71,7 @@ class EadgarD(player: Player, npc: NPC) {
                         npc(npc, CALM_TALK, "We'll just make a scarecrow. We'll need logs, and 10 sheaves of wheat for stuffing.")
                         player(SKEPTICAL_THINKING, "How are we going to make it sound like a human?")
                         npc(npc, HAPPY_TALKING, "That's what the parrot's for, of course.")
-                        npc(PARROT, NONE, "Who's a pretty boy then?")
+                        npc(PARROT, T_CALM_TALK, "Who's a pretty boy then?")
                         npc(npc, CALM_TALK, "Although the trolls might get suspicious if it doesn't say what they expect a human to say...")
                         npc(npc, CALM_TALK, "You should hide it for a while somewhere it can pick up some more appropriate catchphrases.")
                         player(SKEPTICAL_THINKING, "How are we going to make it smell like a human?")

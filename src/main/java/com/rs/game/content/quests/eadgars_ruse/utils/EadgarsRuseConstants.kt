@@ -23,7 +23,7 @@ const val STAGE_COMPLETE = 14
 const val GOUTWEED_GUARD = 1150
 const val THISTLE = 1214
 const val PARROTY_PETE = 1216
-const val PARROT = 4374
+const val PARROT = 4535
 const val FAKE_MAN_NPC = 4460
 
 // Items
