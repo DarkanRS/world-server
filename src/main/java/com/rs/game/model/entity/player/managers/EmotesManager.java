@@ -564,7 +564,7 @@ public final class EmotesManager {
 						}
 					}, 0, 0);
 					break;
-				case 20763: // Veteran cape
+				case 20763: // Veteran cape (5 Year)
 					if (player.getControllerManager().getController() != null) {
 						player.sendMessage("You cannot do this here!");
 						return;
@@ -572,6 +572,16 @@ public final class EmotesManager {
 					player.setNextAnimation(new Animation(352));
 					player.setNextSpotAnim(new SpotAnim(1446));
 					break;
+
+					case 24709: // Veteran cape (10 Year)
+						if (player.getControllerManager().getController() != null) {
+							player.sendMessage("You cannot do this here!");
+							return;
+						}
+						player.setNextAnimation(new Animation(17118));
+						player.setNextSpotAnim(new SpotAnim(3227));
+						break;
+
 				case 20765: // Classic cape
 					if (player.getControllerManager().getController() != null) {
 						player.sendMessage("You cannot do this here!");

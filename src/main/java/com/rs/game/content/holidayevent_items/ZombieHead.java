@@ -7,7 +7,7 @@ import com.rs.plugin.handlers.ItemClickHandler;
 @PluginEventHandler
 public class ZombieHead {
 
-    public static ItemClickHandler ZombieHead = new ItemClickHandler(new Object[]{6722, 10731}, new String[]{"Talk-At", "Display"}, e -> {
+    public static ItemClickHandler ZombieHead = new ItemClickHandler(new Object[]{6722, 10731}, new String[]{"Talk-At", "Display", "Question"}, e -> {
         switch (e.getOption()) {
 
             case "Talk-At":
@@ -15,12 +15,10 @@ public class ZombieHead {
                 e.getPlayer().forceTalk("Alas!");
                 break;
 
-                case "Display":
+            case "Display":
                 e.getPlayer().setNextAnimation(new Animation(2844));
-                    e.getPlayer().forceTalk("MWAHAHAHAHAHAHAH");
+                e.getPlayer().forceTalk("MWAHAHAHAHAHAHAH");
                 break;
         }
     });
-
 }
-
