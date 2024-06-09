@@ -10,6 +10,7 @@ import com.rs.plugin.annotations.ServerStartupEvent
 import com.rs.plugin.kts.onNpcClick
 
 const val TZHAAR_MEJ_JEH_BPOOL = 15161
+const val TZHAAR_MEJ_JEH_PLAZA = 15162
 const val TZHAAR_MEJ_JEH_LIBRARY = 15163
 const val TZHAAR_MEJ_AK_BPOOL = 15164
 const val TZHAAR_MEJ_JEH_AK_PLAZA = 15165
@@ -17,7 +18,7 @@ const val TZHAAR_MEJ_JEH_AK_PLAZA = 15165
 @ServerStartupEvent
 fun mapMejJehDialogues() {
     onNpcClick(TZHAAR_MEJ_JEH_BPOOL, TZHAAR_MEJ_AK_BPOOL) { (player) -> mejJahBirthingPoolDialogue(player) }
-    onNpcClick(TZHAAR_MEJ_JEH_AK_PLAZA) { (player, npc) -> mejDialogueCenterRing(player, npc) }
+    onNpcClick(TZHAAR_MEJ_JEH_AK_PLAZA, TZHAAR_MEJ_JEH_PLAZA) { (player, npc) -> mejDialogueCenterRing(player, npc) }
 }
 
 private fun mejJahBirthingPoolDialogue(player: Player) {
@@ -53,6 +54,8 @@ private fun mejJahBirthingPoolDialogue(player: Player) {
 private fun mejDialogueCenterRing(player: Player, npc: NPC) {
     when(player.getQuestStage(Quest.ELDER_KILN)) {
         STAGE_SAVE_GAAL_FIGHTPITS -> saveGaalFightPitsAkDialogue(player, npc)
+//        STAGE_WRAP_UP_FIGHT_PITS -> wrapUpFightPits(player, npc)
+//        STAGE_GO_TO_KILN -> escortGaalThroughKiln(player, npc)
         else -> mejJahDialoguePostQuest(player, npc)
     }
 }

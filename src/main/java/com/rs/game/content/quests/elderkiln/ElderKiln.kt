@@ -12,7 +12,8 @@ import com.rs.plugin.kts.onLogin
 const val STAGE_UNSTARTED = 0
 const val STAGE_HATCH_EGG = 1
 const val STAGE_SAVE_GAAL_FIGHTPITS = 2
-const val STAGE_GO_TO_KILN = 3
+const val STAGE_WRAP_UP_FIGHT_PITS = 4
+const val STAGE_GO_TO_KILN = 5
 const val STAGE_COMPLETE = 45
 
 @QuestHandler(
@@ -35,6 +36,8 @@ class ElderKiln : QuestOutline() {
         STAGE_UNSTARTED -> listOf("I should speak to TzHaar-Mej-Jeh by the Birthing Pools in the TzHaar City.")
         STAGE_HATCH_EGG -> listOf("I need to help the TzHaar-Mej hatch their egg by regulating the temperature.")
         STAGE_SAVE_GAAL_FIGHTPITS -> listOf("The Ga'al is going to be honor killed in the Fight Pits and I need to get him back to Jeh.")
+        STAGE_WRAP_UP_FIGHT_PITS -> listOf("I successfully defended the Ga'al in the Fight Pits and took out the champion.", "I should speak with the Mej's in the marketplace.")
+        STAGE_GO_TO_KILN -> listOf("TzHaar-Mej-Ak has reluctantly decided to allow our attempt to restore the memories.", "I should take Ga'al to the Fight Kiln.")
         STAGE_COMPLETE -> listOf("QUEST COMPLETE!")
         else -> listOf("Invalid quest stage. Report this to an administrator.")
     }
@@ -55,7 +58,7 @@ class ElderKiln : QuestOutline() {
                 player.vars.setVarBit(10811, 1)
                 player.vars.setVarBit(10832, 1)
             }
-            STAGE_GO_TO_KILN -> {
+            STAGE_WRAP_UP_FIGHT_PITS, STAGE_GO_TO_KILN -> {
                 player.vars.setVarBit(10809, 40)
                 player.vars.setVarBit(10833, 2)
                 player.vars.setVarBit(10811, 1)
