@@ -4,13 +4,11 @@ import com.rs.engine.pathfinder.Direction
 import com.rs.engine.quest.Quest
 import com.rs.game.content.quests.troll_stronghold.utils.*
 import com.rs.game.model.entity.Entity
-import com.rs.game.model.entity.async.schedule
 import com.rs.game.model.entity.npc.NPC
 import com.rs.game.model.entity.player.Player
 import com.rs.lib.game.Item
 import com.rs.lib.game.Tile
 import com.rs.lib.util.Utils
-import kotlin.random.Random
 
 enum class NPCType(
     val guardTile: Tile,

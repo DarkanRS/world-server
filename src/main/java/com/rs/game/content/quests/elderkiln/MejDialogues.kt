@@ -10,6 +10,7 @@ import com.rs.plugin.annotations.ServerStartupEvent
 import com.rs.plugin.kts.onNpcClick
 
 const val TZHAAR_MEJ_JEH_BPOOL = 15161
+const val TZHAAR_MEJ_JEH_PLAZA = 15162
 const val TZHAAR_MEJ_JEH_LIBRARY = 15163
 const val TZHAAR_MEJ_AK_BPOOL = 15164
 const val TZHAAR_MEJ_JEH_AK_PLAZA = 15165
@@ -17,7 +18,7 @@ const val TZHAAR_MEJ_JEH_AK_PLAZA = 15165
 @ServerStartupEvent
 fun mapMejJehDialogues() {
     onNpcClick(TZHAAR_MEJ_JEH_BPOOL, TZHAAR_MEJ_AK_BPOOL) { (player) -> mejJahBirthingPoolDialogue(player) }
-    onNpcClick(TZHAAR_MEJ_JEH_AK_PLAZA) { (player, npc) -> mejDialogueCenterRing(player, npc) }
+    onNpcClick(TZHAAR_MEJ_JEH_AK_PLAZA, TZHAAR_MEJ_JEH_PLAZA) { (player, npc) -> mejDialogueCenterRing(player, npc) }
 }
 
 private fun mejJahBirthingPoolDialogue(player: Player) {
@@ -53,6 +54,8 @@ private fun mejJahBirthingPoolDialogue(player: Player) {
 private fun mejDialogueCenterRing(player: Player, npc: NPC) {
     when(player.getQuestStage(Quest.ELDER_KILN)) {
         STAGE_SAVE_GAAL_FIGHTPITS -> saveGaalFightPitsAkDialogue(player, npc)
+//        STAGE_WRAP_UP_FIGHT_PITS -> wrapUpFightPits(player, npc)
+//        STAGE_GO_TO_KILN -> escortGaalThroughKiln(player, npc)
         else -> mejJahDialoguePostQuest(player, npc)
     }
 }
@@ -65,7 +68,7 @@ private fun mejJahDialoguePostQuest(player: Player, npc: NPC) {
             if (!player.containsAnyItems(TOKKUL_ZO_UNCHARGED, TOKKUL_ZO_CHARGED)) if (player.isQuestComplete(Quest.ELDER_KILN, "to obtain a Tokkul-Zo.")) {
                 op("Can I have a Tokkul-Zo?" + (if (recTZ) " I've lost mine." else "")) {
                     player(CONFUSED, "Can I have a Tokkul-Zo?" + (if (player.getBool("recTokkulZo")) " I've lost mine." else ""))
-                    npc(npc.id, CALM_TALK, "Alright, you have proven yourself. Try not to lose it." + (if (recTZ) "" else " As this is your first time receiving the ring, I have fully charged it for you for free."))
+                    npc(npc.id, T_CALM_TALK, "Alright, you have proven yourself. Try not to lose it." + (if (recTZ) "" else " As this is your first time receiving the ring, I have fully charged it for you for free."))
                     player(CHEERFUL, "Thank you!")
                     item(TOKKUL_ZO_CHARGED, "TzHaar-Mej-Jeh hands you a ring. It is extremely hot.") {
                         if (!player.inventory.hasFreeSlots()) return@item player.sendMessage("You don't have enough inventory space.")
@@ -78,19 +81,19 @@ private fun mejJahDialoguePostQuest(player: Player, npc: NPC) {
             }
 
             op("About the Tokkul-Zo") {
-                npc(npc.id, CONFUSED, "You want to know more about Tokkul-Zo?")
+                npc(npc.id, T_CONFUSED, "You want to know more about Tokkul-Zo?")
                 player(CONFUSED, "Yes, what does it do?")
-                npc(npc.id, CALM_TALK, "This ring has a piece of Tokkul in it. When worn, it will guide your hand and make you better when fighting TzHaar, fire creatures, and maybe even TokHaar.")
+                npc(npc.id, T_CALM_TALK, "This ring has a piece of Tokkul in it. When worn, it will guide your hand and make you better when fighting TzHaar, fire creatures, and maybe even TokHaar.")
                 player(CONFUSED, "How does it do that?")
-                npc(npc.id, CALM_TALK, "My magic taps into the memories in the ring, so you better at fighting like a TzHaar. The magic will fade after time. When this happens, return to me and I will recharge it for you... for a price.")
+                npc(npc.id, T_CALM_TALK, "My magic taps into the memories in the ring, so you better at fighting like a TzHaar. The magic will fade after time. When this happens, return to me and I will recharge it for you... for a price.")
                 player(CONFUSED, "What's your price?")
-                npc(npc.id, CALM_TALK, "48,000 Tokkul for a full recharge. Normally I would do it for free, but we need all the Tokkul we can get, so they we can melt it down in the sacred lave, and release our ancestors from their suffering.")
+                npc(npc.id, T_CALM_TALK, "48,000 Tokkul for a full recharge. Normally I would do it for free, but we need all the Tokkul we can get, so they we can melt it down in the sacred lave, and release our ancestors from their suffering.")
             }
 
             if (player.getItemWithPlayer(TOKKUL_ZO_UNCHARGED) != null || player.getItemWithPlayer(TOKKUL_ZO_CHARGED) != null) {
                 op("Recharging the Tokkul-Zo") {
                     player(CONFUSED, "Could you please recharge my ring?")
-                    npc(npc.id, CALM_TALK, if (player.inventory.containsItem(TOKKUL, 16)) "Of course. Here you go." else "You don't have enough Tokkul with you.") { rechargeTokkulZo(player) }
+                    npc(npc.id, T_CALM_TALK, if (player.inventory.containsItem(TOKKUL, 16)) "Of course. Here you go." else "You don't have enough Tokkul with you.") { rechargeTokkulZo(player) }
                 }
             }
         }

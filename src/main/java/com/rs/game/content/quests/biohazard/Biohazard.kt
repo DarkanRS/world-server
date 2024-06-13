@@ -7,7 +7,7 @@ import com.rs.game.content.quests.biohazard.dialogue.npcs.east_ardougne.*
 import com.rs.game.content.quests.biohazard.dialogue.npcs.west_ardougne.KilronD
 import com.rs.game.content.quests.biohazard.instances.npcs.MournerWithKey
 import com.rs.game.content.quests.biohazard.utils.*
-import com.rs.game.content.quests.plaguecity.setPlagueCityVarBits
+import com.rs.game.content.quests.plague_city.setPlagueCityVarBits
 import com.rs.game.model.entity.player.Player
 import com.rs.game.model.entity.player.Skills
 import com.rs.lib.util.Utils

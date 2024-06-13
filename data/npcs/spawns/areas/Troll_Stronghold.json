@@ -236,8 +236,8 @@
   {
     "tile": {
       "plane": 1,
-      "x": 2843,
-      "y": 10057
+      "x": 2838,
+      "y": 10056
     },
     "comment": "Cook",
     "npcId": 1135
@@ -245,8 +245,8 @@
   {
     "tile": {
       "plane": 1,
-      "x": 2840,
-      "y": 10056
+      "x": 2842,
+      "y": 10058
     },
     "comment": "Cook",
     "npcId": 1136
@@ -406,4 +406,86 @@
     "comment": "Berry",
     "npcId": 1129
   },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2850,
+      "y": 10092
+    },
+    "comment": "Guard",
+    "npcId": 1142
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2859,
+      "y": 10086
+    },
+    "comment": "Guard",
+    "npcId": 1143
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2855,
+      "y": 10086
+    },
+    "comment": "Guard",
+    "npcId": 1144
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2851,
+      "y": 10086
+    },
+    "comment": "Guard",
+    "npcId": 1145
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2864,
+      "y": 10081
+    },
+    "comment": "Guard",
+    "npcId": 1146
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2855,
+      "y": 10078
+    },
+    "comment": "Guard",
+    "npcId": 1147
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2858,
+      "y": 10078
+    },
+    "comment": "Guard",
+    "npcId": 1148
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2861,
+      "y": 10081
+    },
+    "comment": "Guard",
+    "npcId": 1149
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2857,
+      "y": 10075
+    },
+	"dir": "NORTH",
+    "comment": "Guard",
+    "npcId": 1150
+  }
 ]

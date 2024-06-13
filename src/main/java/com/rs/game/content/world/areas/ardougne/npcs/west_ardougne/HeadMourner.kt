@@ -2,8 +2,8 @@ package com.rs.game.content.world.areas.ardougne.npcs.west_ardougne
 
 import com.rs.engine.dialogue.startConversation
 import com.rs.engine.quest.Quest
-import com.rs.game.content.quests.plaguecity.dialogues.npcs.HeadMournerD
-import com.rs.game.content.quests.plaguecity.utils.STAGE_UNSTARTED
+import com.rs.game.content.quests.plague_city.dialogues.npcs.HeadMournerD
+import com.rs.game.content.quests.plague_city.utils.STAGE_UNSTARTED
 import com.rs.game.model.entity.npc.NPC
 import com.rs.game.model.entity.player.Player
 import com.rs.plugin.annotations.ServerStartupEvent

@@ -247,6 +247,8 @@ public class DungeonRewards {
 	private static final int[] ELIGIBLE_HERB_SEED_IDS = { 5291, 5292, 5293, 5294, 5295, 12176, 5296, 5297, 5298, 5299, 5300, 5301, 5302, 5303, 5304, 21621, 14870 };
 
 	public static void checkScrollOfLife(FarmPatch patch, Player player) {
+		if (!player.hasScrollOfLife)
+			return;
 		/**
 		 * https://runescape.wiki/w/Scroll_of_life?oldid=6151122
 		 *
@@ -262,6 +264,7 @@ public class DungeonRewards {
 			case SPIRIT:
 			case CALQUAT:
 			case FLOWER:
+			case COMPOST:
 				/**
 				 * Spirit tree's and calquats specifically do not give replacement seeds.
 				 * Although strange, the wiki seems to state that flowers do not give seeds back either.
@@ -275,7 +278,7 @@ public class DungeonRewards {
 				 */
 				if (5 > Utils.random(100)) {
 					player.getInventory().addItemDrop(patch.seed.seedId, 1);
-					player.sendMessage("As you harvest " + patch.seed.name() + " you pickup a seed.");
+					player.sendMessage("<col=00EE00>Your Scroll of Life saves you a seed!");
 				}
 				break;
 			default:
@@ -287,7 +290,7 @@ public class DungeonRewards {
 					} else {
 						player.getInventory().addItemDrop(patch.seed.seedId, 1);
 					}
-					player.sendMessage("As you harvest " + patch.seed.name() + " you pickup a seed.");
+					player.sendMessage("<col=00EE00>Your Scroll of Life saves you a seed!");
 				}
 				break;
 		}

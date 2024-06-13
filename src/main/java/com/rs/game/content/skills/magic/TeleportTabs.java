@@ -173,7 +173,7 @@ public class TeleportTabs {
 			return false;
 		}
 
-		if (itemId == 20175 && !p.isQuestComplete(Quest.TROLL_STRONGHOLD)) {
+		if (itemId == 20175 && !p.isQuestComplete(Quest.EADGARS_RUSE)) {
 			p.sendMessage("You must have completed Troll Stronghold to be able to use this teleport.");
 			return false;
 		}

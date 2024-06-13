@@ -27,7 +27,6 @@ import com.rs.game.content.achievements.AchievementSystemD;
 import com.rs.game.content.achievements.SetReward;
 import com.rs.game.content.quests.monksfriend.dialogues.BrotherCedricMonksFriendD;
 import com.rs.game.content.quests.monksfriend.dialogues.BrotherOmadMonksFriendD;
-import com.rs.game.content.quests.plaguecity.utils.PlagueCityUtils;
 import com.rs.game.content.skills.agility.Agility;
 import com.rs.game.content.skills.thieving.Thieving;
 import com.rs.game.content.world.AgilityShortcuts;

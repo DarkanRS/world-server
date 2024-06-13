@@ -1,0 +1,79 @@
+{
+  "names": [
+    "goutweed_herbs"
+  ],
+  "tables": [
+    {
+      "chance": 561, "outOf": 2545,
+      "drops": [
+        { "id": 199, "min": 1, "max": 1 }
+      ]
+    },
+    {
+      "chance": 317, "outOf": 2545,
+      "drops": [
+        { "id": 203, "min": 1, "max": 1 }
+      ]
+    },
+    {
+      "chance": 416, "outOf": 2545,
+      "drops": [
+        { "id": 201, "min": 1, "max": 1 }
+      ]
+    },
+    {
+      "chance": 266, "outOf": 2545,
+      "drops": [
+        { "id": 205, "min": 1, "max": 1 }
+      ]
+    },
+    {
+      "chance": 222, "outOf": 2545,
+      "drops": [
+        { "id": 207, "min": 1, "max": 1 }
+      ]
+    },
+    {
+      "chance": 152, "outOf": 2545,
+      "drops": [
+        { "id": 209, "min": 1, "max": 1 }
+      ]
+    },
+    {
+      "chance": 225, "outOf": 2545,
+      "drops": [
+        { "id": 14836, "min": 1, "max": 1 }
+      ]
+    },
+    {
+      "chance": 104, "outOf": 2545,
+      "drops": [
+        { "id": 211, "min": 1, "max": 1 }
+      ]
+    },
+    {
+      "chance": 94, "outOf": 2545,
+      "drops": [
+        { "id": 213, "min": 1, "max": 1 }
+      ]
+    },
+    {
+      "chance": 73, "outOf": 2545,
+      "drops": [
+        { "id": 215, "min": 1, "max": 1 }
+      ]
+    },
+	{
+      "chance": 59, "outOf": 2545,
+      "drops": [
+        { "id": 2485, "min": 1, "max": 1 }
+      ]
+    },
+	{
+      "chance": 56, "outOf": 2545,
+      "drops": [
+        { "id": 217, "min": 1, "max": 1 }
+      ]
+    }
+  ]
+}

@@ -17,6 +17,8 @@
 package com.rs.game.content.skills.farming;
 
 import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.quest.Quest;
 import com.rs.game.content.Effect;
 import com.rs.game.content.PotionsKt;
 import com.rs.game.content.achievements.AchievementDef;
@@ -187,6 +189,15 @@ public class FarmPatch {
 			}
 			if (seed != null) {
 				player.sendMessage("You already have something growing here.");
+				return;
+			}
+			if (produce == ProduceType.Gout && !player.isQuestComplete(Quest.EADGARS_RUSE)) {
+				player.playerDialogue(HeadE.CALM_TALK, "I'm not sure how to grow these...");
+				player.sendMessage("You must complete Eadgar's Ruse to learn how to grow these.");
+				return;
+			}
+			if (location == PatchLocation.Trollheim_herbs && produce == ProduceType.Gout) {
+				player.playerDialogue(HeadE.CALM_TALK, "Murcaily said those wouldn't survive up here.");
 				return;
 			}
 			if (produce.type != location.type || (location == PatchLocation.Wilderness_flower && produce != ProduceType.Limpwurt) || (location == PatchLocation.Burthorpe_potato_patch && produce != ProduceType.Potato)) {

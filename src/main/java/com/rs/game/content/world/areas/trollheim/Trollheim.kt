@@ -36,6 +36,7 @@ import com.rs.game.model.entity.player.Skills
 import com.rs.lib.game.Tile
 import com.rs.lib.net.ClientPacket
 import com.rs.plugin.annotations.ServerStartupEvent
+import com.rs.plugin.events.ObjectClickEvent
 import com.rs.plugin.kts.onObjectClick
 
 @ServerStartupEvent
@@ -99,6 +100,7 @@ fun mapTrollheim() {
             }
         } else {
             e.player.sendMessage("That looks dangerous. I'll need a good reason before I venture that way.")
+            return@onObjectClick
         }
     }
 
@@ -221,48 +223,35 @@ fun mapTrollheim() {
             }
 
             67572 -> {
-                if (player.getQuestStage(Quest.DEATH_PLATEAU) >= STAGE_FOUND_TROLL) player.tele(Tile.of(3435, 4240, 2))
-                else player.sendMessage("It is cold and dark in there. You have no reason to go in.")
+                if (player.getQuestStage(Quest.DEATH_PLATEAU) >= STAGE_FOUND_TROLL) {
+                    player.tele(Tile.of(3435, 4240, 2))
+                } else {
+                    player.sendMessage("It is cold and dark in there. You have no reason to go in.")
+                    return@onObjectClick
+                }
+
             }
         }
     }
 
     onObjectClick(35391, 3748, 34877, 34889, 34878, 9306, 9305, 3803, 9304, 9303) { e ->
-        if (e.player.isQuestComplete(Quest.DEATH_PLATEAU) && e.player.isQuestStarted(Quest.TROLL_STRONGHOLD)) {
-            if (e.player.equipment.getId(Equipment.FEET) == CLIMBING_BOOTS || e.player.equipment.getId(Equipment.FEET) == ROCK_CLIMBING_BOOTS) {
-                if (e.getObject().id == 35391) {
-                    if (!Agility.hasLevel(e.player, 15)) return@onObjectClick
-                    if (e.getObject().rotation == 3 || e.getObject().rotation == 1)
-                        Agility.handleObstacle(e.player, 3303, 1, e.player.transform(if (e.player.x < e.getObject().x) 2 else -2, 0, 0), 1.0)
-                    else
-                        Agility.handleObstacle(e.player, 3303, 1, e.player.transform(0, if (e.player.y < e.getObject().y) 2 else -2, 0), 1.0)
-                } else if (e.getObject().id == 3748) {
-                    if (e.getObject().rotation == 3 || e.getObject().rotation == 1)
-                        Agility.handleObstacle(e.player, 3377, 2, e.player.transform(if (e.player.x < e.getObject().x) 2 else -2, 0, 0), 1.0)
-                    else
-                        Agility.handleObstacle(e.player, 3377, 2, e.player.transform(0, if (e.player.y < e.getObject().y) 2 else -2, 0), 1.0)
-                } else if (e.objectId == 34878) {
-                    if (e.getObject().rotation == 0 || e.getObject().rotation == 2)
-                        Agility.handleObstacle(e.player, if (e.player.x < e.getObject().x) 3381 else 3382, 3, e.player.transform(if (e.player.x < e.getObject().x) 4 else -4, 0, 0), 1.0)
-                    else
-                        Agility.handleObstacle(e.player, if (e.player.y < e.getObject().y) 3381 else 3382, 3, e.player.transform(0, if (e.player.y < e.getObject().y) 4 else -4, 0), 1.0)
+        if (e.player.isQuestStarted(Quest.TROLL_STRONGHOLD)) {
+            when (e.objectId) {
+                3803, 9303, 9305, 9306, 34877, 34878, 34889 -> {
+                    handleObstacleInteractions(e)
                 }
-            } else {
-                e.player.sendMessage("<col=A31818>You'll need some climbing boots to go that way.</col>")
-            }
-            if (e.getObject().id == 34877 || e.getObject().id == 34889 || e.getObject().id == 3803 || e.getObject().id == 9304 || e.getObject().id == 9303) {
-                if (e.getObject().rotation == 0 || e.getObject().rotation == 2)
-                    Agility.handleObstacle(e.player, if (e.player.x < e.getObject().x) 3381 else 3382, 3, e.player.transform(if (e.player.x < e.getObject().x) 4 else -4, 0, 0), 1.0)
-                else
-                    Agility.handleObstacle(e.player, if (e.player.y < e.getObject().y) 3381 else 3382, 3, e.player.transform(0, if (e.player.y < e.getObject().y) 4 else -4, 0), 1.0)
-            } else if (e.getObject().id == 9306 || e.getObject().id == 9305) {
-                if (e.getObject().rotation == 0 || e.getObject().rotation == 2)
-                    Agility.handleObstacle(e.player, if (e.player.x < e.getObject().x) 3382 else 3381, 3, e.player.transform(if (e.player.x < e.getObject().x) 4 else -4, 0, 0), 1.0)
-                else
-                    Agility.handleObstacle(e.player, if (e.player.y < e.getObject().y) 3382 else 3381, 3, e.player.transform(0, if (e.player.y < e.getObject().y) 4 else -4, 0), 1.0)
+                else -> {
+                    if (e.player.equipment.getId(Equipment.FEET) == CLIMBING_BOOTS || e.player.equipment.getId(Equipment.FEET) == ROCK_CLIMBING_BOOTS) {
+                        handleObstacleInteractions(e)
+                    } else {
+                        e.player.sendMessage("<col=A31818>You'll need some climbing boots to go that way.</col>")
+                        return@onObjectClick
+                    }
+                }
             }
         } else {
             e.player.sendMessage("That looks dangerous. I'll need a good reason before I venture that way.")
+            return@onObjectClick
         }
     }
 
@@ -271,6 +260,43 @@ fun mapTrollheim() {
             player.tele(Tile.of(2824, 10050, 0))
         } else {
             player.sendMessage("It is cold and dark in there. You have no reason to go in.")
+            return@onObjectClick
+        }
+    }
+}
+
+fun handleObstacleInteractions (e: ObjectClickEvent) {
+    when (e.getObject().id) {
+        35391 -> {
+            if (!Agility.hasLevel(e.player, 15)) return
+            if (e.getObject().rotation == 3 || e.getObject().rotation == 1)
+                Agility.handleObstacle(e.player, 3303, 1, e.player.transform(if (e.player.x < e.getObject().x) 2 else -2, 0, 0), 1.0)
+            else
+                Agility.handleObstacle(e.player, 3303, 1, e.player.transform(0, if (e.player.y < e.getObject().y) 2 else -2, 0), 1.0)
+        }
+        3748 -> {
+            if (e.getObject().rotation == 3 || e.getObject().rotation == 1)
+                Agility.handleObstacle(e.player, 3377, 2, e.player.transform(if (e.player.x < e.getObject().x) 2 else -2, 0, 0), 1.0)
+            else
+                Agility.handleObstacle(e.player, 3377, 2, e.player.transform(0, if (e.player.y < e.getObject().y) 2 else -2, 0), 1.0)
+        }
+        34878 -> {
+            if (e.getObject().rotation == 0 || e.getObject().rotation == 2)
+                Agility.handleObstacle(e.player, if (e.player.x < e.getObject().x) 3381 else 3382, 3, e.player.transform(if (e.player.x < e.getObject().x) 4 else -4, 0, 0), 1.0)
+            else
+                Agility.handleObstacle(e.player, if (e.player.y < e.getObject().y) 3381 else 3382, 3, e.player.transform(0, if (e.player.y < e.getObject().y) 4 else -4, 0), 1.0)
+        }
+        34877, 34889, 3803, 9304, 9303 -> {
+            if (e.getObject().rotation == 0 || e.getObject().rotation == 2)
+                Agility.handleObstacle(e.player, if (e.player.x < e.getObject().x) 3381 else 3382, 3, e.player.transform(if (e.player.x < e.getObject().x) 4 else -4, 0, 0), 1.0)
+            else
+                Agility.handleObstacle(e.player, if (e.player.y < e.getObject().y) 3381 else 3382, 3, e.player.transform(0, if (e.player.y < e.getObject().y) 4 else -4, 0), 1.0)
+        }
+        9306, 9305 -> {
+            if (e.getObject().rotation == 0 || e.getObject().rotation == 2)
+                Agility.handleObstacle(e.player, if (e.player.x < e.getObject().x) 3382 else 3381, 3, e.player.transform(if (e.player.x < e.getObject().x) 4 else -4, 0, 0), 1.0)
+            else
+                Agility.handleObstacle(e.player, if (e.player.y < e.getObject().y) 3382 else 3381, 3, e.player.transform(0, if (e.player.y < e.getObject().y) 4 else -4, 0), 1.0)
         }
     }
 }
