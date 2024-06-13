@@ -4,7 +4,7 @@ import com.rs.engine.quest.Quest
 import com.rs.game.content.items.Spade.dig
 import com.rs.game.content.minigames.barrows.BarrowsController
 import com.rs.game.content.quests.piratestreasure.PiratesTreasure
-import com.rs.game.content.quests.plaguecity.utils.*
+import com.rs.game.content.quests.plague_city.utils.*
 import com.rs.game.model.entity.async.schedule
 import com.rs.game.model.entity.player.Player
 import com.rs.lib.game.Tile

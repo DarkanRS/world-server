@@ -6,6 +6,7 @@ import com.rs.engine.quest.Quest
 import com.rs.game.World
 import com.rs.game.content.quests.troll_stronghold.utils.*
 import com.rs.game.model.entity.Entity
+import com.rs.game.model.entity.Hit
 import com.rs.game.model.entity.async.schedule
 import com.rs.game.model.entity.npc.NPC
 import com.rs.game.model.entity.npc.combat.CombatScript
@@ -31,49 +32,55 @@ class Dad(id: Int, tile: Tile) : NPC(id, tile) {
 
         if (hitpoints <= 330) {
             if (target is Player && combat.target != null && !choseToKill) {
-                combat.target = null
-                target.actionManager.forceStop()
-                target.interactionManager.forceStop()
-                follow(target)
-                target.lock()
-                target.cutscene {
-                    wait(2)
-                    dialogue{
-                        npc(DAD, T_SCARED, "Stop! You win. Not hurt Dad.")
-                        options {
-                            op("I'll be going now.") {
-                                player(CALM_TALK, "I'll be going now.")
-                                exec {
-                                    player.unlock()
-                                    hitpoints = maxHitpoints
-                                    actionManager.forceStop()
-                                    player.actionManager.forceStop()
-                                    player.stopFaceEntity()
-                                    player.setQuestStage(Quest.TROLL_STRONGHOLD, STAGE_FINISHED_DAD)
-                                    player.hintIconsManager.removeUnsavedHintIcon()
-                                    player.sendMessage("You have defeated Dad.")
-                                }
-                            }
-                            op("I'm not done yet! Prepare to die!") {
-                                player(CALM_TALK, "I'm not done yet! Prepare to die!") { target.stopFaceEntity() }
-                                exec {
-                                    combat.target = target
-                                    target.setForceMultiArea(true)
-                                    setForceMultiArea(true)
-                                    val spectators = World.getNPCsInChunkRange(target.chunkId, 2).filter { it.id in SPECTATORS }
-                                    spectators.forEach { spectator ->
-                                        spectator.combatTarget = target
-                                        spectator.setForceMultiArea(true)
-                                    }
-                                    choseToKill = true
-                                    target.stopFaceEntity()
-                                }
-                            }
+                killDialogue(target)
+            }
+        }
+
+        if (combatTarget == null) hitpoints = maxHitpoints
+    }
+
+    private fun killDialogue(target: Player) {
+        combat.target = null
+        target.actionManager.forceStop()
+        target.interactionManager.forceStop()
+        follow(target)
+        target.lock()
+        target.cutscene {
+            wait(2)
+            dialogue{
+                npc(DAD, T_SCARED, "Stop! You win. Not hurt Dad.")
+                options {
+                    op("I'll be going now.") {
+                        player(CALM_TALK, "I'll be going now.")
+                        exec {
+                            player.unlock()
+                            hitpoints = maxHitpoints
+                            actionManager.forceStop()
+                            player.actionManager.forceStop()
+                            player.stopFaceEntity()
+                            player.setQuestStage(Quest.TROLL_STRONGHOLD, STAGE_FINISHED_DAD)
+                            player.hintIconsManager.removeUnsavedHintIcon()
+                            player.sendMessage("You have defeated Dad.")
                         }
                     }
-                    waitForDialogue()
+                    op("I'm not done yet! Prepare to die!") {
+                        player(CALM_TALK, "I'm not done yet! Prepare to die!") { target.stopFaceEntity() }
+                        exec {
+                            combat.target = target
+                            target.setForceMultiArea(true)
+                            setForceMultiArea(true)
+                            val spectators = World.getNPCsInChunkRange(target.chunkId, 2).filter { it.id in SPECTATORS }
+                            spectators.forEach { spectator ->
+                                spectator.combatTarget = target
+                                spectator.setForceMultiArea(true)
+                            }
+                            choseToKill = true
+                            target.stopFaceEntity()
+                        }
+                    }
                 }
             }
+            waitForDialogue()
         }
     }
 
@@ -102,8 +109,19 @@ class Dad(id: Int, tile: Tile) : NPC(id, tile) {
         }
     }
 
+    override fun handlePreHit(hit: Hit) {
+        super.handlePreHit(hit)
+        if (hit.source is Player) {
+            if (hit.damage > hitpoints && !choseToKill && (hit.source as Player).getQuestStage(Quest.TROLL_STRONGHOLD) in STAGE_ENTERED_ARENA..STAGE_ENGAGED_DAD) {
+                killDialogue(hit.source as Player)
+                hit.setDamage(0)
+            }
+        }
+    }
+
     override fun reset() {
         super.reset()
+        hitpoints = maxHitpoints
         isIgnoreNPCClipping = false
         choseToKill = false
     }

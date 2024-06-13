@@ -36,7 +36,7 @@ import com.rs.plugin.handlers.InterfaceOnPlayerHandler;
 import java.util.List;
 import java.util.function.Consumer;
 
-import static com.rs.game.content.quests.plaguecity.utils.PlagueCityConstantsKt.ARDOUGNE_TELEPORT_UNLOCKED;
+import static com.rs.game.content.quests.plague_city.utils.PlagueCityConstantsKt.ARDOUGNE_TELEPORT_UNLOCKED;
 
 @PluginEventHandler
 public class Magic {
@@ -370,7 +370,7 @@ public class Magic {
 				sendNormalTeleportSpell(player, 58, 68, Tile.of(2547, 3113, 2), new RuneSet(Rune.EARTH, 2, Rune.LAW, 2));
 				break;
 			case 69: // Trollheim teleport
-				if (player.isQuestComplete(Quest.TROLL_STRONGHOLD)) {
+				if (player.isQuestComplete(Quest.EADGARS_RUSE)) {
 					sendNormalTeleportSpell(player, 51, 61, Tile.of(2882, 3668, 0), new RuneSet(Rune.FIRE, 2, Rune.LAW, 2));
 				} else {
 					player.sendMessage("You have not yet learned this spell.");
