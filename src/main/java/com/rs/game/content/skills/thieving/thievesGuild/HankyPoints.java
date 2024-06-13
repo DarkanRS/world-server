@@ -208,6 +208,7 @@ public class HankyPoints {
 
     public static ObjectClickHandler handleNorthDoors = new ObjectClickHandler(new Object[] { 52302 }, e -> {
         if(e.getOption().equalsIgnoreCase("Open")) {
+            e.getPlayer().lock();
             if(e.getPlayer().getTile().getY() >= e.getObject().getY()) {
                 World.removeObjectTemporary(e.getObject(), Ticks.fromSeconds(10));
                 World.spawnObjectTemporary(new GameObject(e.getObjectId() + 1, e.getObject().getType(), e.getObject().getRotation() - 1, e.getObject().getTile().transform(0, -1, 0)), Ticks.fromSeconds(10), true);
