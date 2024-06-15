@@ -129318,24 +129318,6 @@
   {
     "tile": {
       "plane": 0,
-      "x": 2989,
-      "y": 3944
-    },
-    "comment": "Skeleton",
-    "npcId": 5338
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2992,
-      "y": 3942
-    },
-    "comment": "Skeleton",
-    "npcId": 92
-  },
-  {
-    "tile": {
-      "plane": 0,
       "x": 3008,
       "y": 3595
     },
