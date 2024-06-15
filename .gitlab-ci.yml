@@ -1,4 +1,4 @@
-image: titandino/darkan-runner:v1
+image: gradle:8.8.0-jdk-21-and-22-alpine
 
 stages:
   - build
