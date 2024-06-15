@@ -593,6 +593,10 @@ enum class Potion(val emptyId: Int, val ids: IntArray, val effect: (Player) -> U
         p.skills.adjustStat(-5, 0.0, STRENGTH)
         p.heal(50)
     }),
+    VODKA(-1, 2015, { p ->
+        p.skills.adjustStat(-3, 0.0, ATTACK)
+        p.skills.adjustStat(3, 0.0, STRENGTH)
+    }),
     BANDITS_BREW(BEER_GLASS, 4627, { p ->
         p.skills.adjustStat(1, 0.0, ATTACK, THIEVING)
         p.skills.adjustStat(-1, 0.0, STRENGTH)

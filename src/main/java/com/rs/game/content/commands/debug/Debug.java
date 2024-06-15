@@ -28,9 +28,11 @@ import com.rs.game.content.quests.death_plateau.instances.PlayerVSTheMapControll
 import com.rs.game.content.quests.demonslayer.PlayerVSDelrithController;
 import com.rs.game.content.quests.demonslayer.WallyVSDelrithCutscene;
 import com.rs.game.content.quests.dragonslayer.DragonSlayer_BoatScene;
-import com.rs.game.content.quests.gunnarsground.cutscene.GunnarsGroundCutscenes;
+import com.rs.game.content.quests.gunnars_ground.cutscene.GunnarsGroundCutscenes;
 import com.rs.game.content.quests.merlinscrystal.MerlinsCrystalCrateScene;
-import com.rs.game.content.quests.plaguecity.cutscene.PlagueCityCutscene;
+import com.rs.game.content.quests.plague_city.cutscene.PlagueCityCutscene;
+import com.rs.game.model.entity.Hit;
+import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.lib.Constants;
@@ -135,6 +137,18 @@ public class Debug {
 		});
 
 		Commands.add(Rights.PLAYER, "random", "Forces a random event.", (p, args) -> attemptSpawnRandom(p, true));
+
+		Commands.add(Rights.PLAYER, "resetgoutweedguards", "Resets the patrolling Goutweed Guards at Troll Stronghold.", (p, args) -> {
+			int[] guardIDs = {1142, 1143, 1144, 1145, 1146, 1147, 1148, 1149, 1150};
+			for (NPC npc : World.getNPCs()) {
+				for (int npcId : guardIDs) {
+					if (npc.getId() == npcId) {
+						npc.applyHit(new Hit(p, 10000, Hit.HitLook.TRUE_DAMAGE));
+						break;
+					}
+				}
+			}
+		});
 
 		Commands.add(Rights.PLAYER, "fightcaves", "Marks fight caves as having been completed.", (p, args) -> p.incrementCount("Fight Caves clears"));
 		

@@ -169,5 +169,70 @@
     },
     "comment": "Mess Sergeant Ramsey",
     "npcId": 14881
-  }
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2921,
+      "y": 3418
+    },
+    "comment": "Tegid",
+    "npcId": 1213
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2915,
+      "y": 3440
+    },
+	"clip": "INDOOR",
+    "comment": "Sanfew",
+    "npcId": 454
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2895,
+      "y": 3403
+    },
+    "comment": "Farmer",
+    "npcId": 1758
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2925,
+      "y": 3412
+    },
+    "comment": "The Lady of the Lake",
+    "npcId": 250
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2888,
+      "y": 3415
+    },
+    "comment": "Jatix",
+    "npcId": 587
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2925,
+      "y": 3427
+    },
+    "comment": "Alain",
+    "npcId": 2339
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2920,
+      "y": 3434
+    },
+	"clip": "OUTDOOR",
+    "comment": "Farmer",
+    "npcId": 7
+  },
 ]

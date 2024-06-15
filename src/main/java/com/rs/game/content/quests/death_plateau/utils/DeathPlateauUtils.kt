@@ -59,7 +59,6 @@ class DeathPlateauUtils(val player: Player) {
                     dialogue.npc(npc, CALM_TALK, "Plus a few luxuries like cakes, and letters from friends and family. That sort of thing.")
                     dialogue.npc(npc, CALM_TALK, "The Ambush Commander has some reward lamps. Once they get this gear he will give you some to help with your training.")
                     dialogue.player(CALM_TALK, "All right, I will drop this off immediately.")
-                    dialogue.goto("initialOps")
                 } else {
                     dialogue.npc(npc, CALM_TALK, "But you don't have room to take any supplies right now. Please come back when you've got room.")
                     dialogue.goto("initialOps")
