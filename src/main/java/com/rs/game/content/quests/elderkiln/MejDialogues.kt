@@ -1,5 +1,6 @@
 package com.rs.game.content.quests.elderkiln
 
+import com.rs.engine.dialogue.HeadE
 import com.rs.engine.dialogue.HeadE.*
 import com.rs.engine.dialogue.startConversation
 import com.rs.engine.quest.Quest
@@ -54,9 +55,39 @@ private fun mejJahBirthingPoolDialogue(player: Player) {
 private fun mejDialogueCenterRing(player: Player, npc: NPC) {
     when(player.getQuestStage(Quest.ELDER_KILN)) {
         STAGE_SAVE_GAAL_FIGHTPITS -> saveGaalFightPitsAkDialogue(player, npc)
-//        STAGE_WRAP_UP_FIGHT_PITS -> wrapUpFightPits(player, npc)
-//        STAGE_GO_TO_KILN -> escortGaalThroughKiln(player, npc)
+        STAGE_WRAP_UP_FIGHT_PITS -> wrapUpFightPits(player, npc)
+        STAGE_GO_TO_KILN -> escortGaalThroughKiln(player, npc)
         else -> mejJahDialoguePostQuest(player, npc)
+    }
+}
+
+private fun wrapUpFightPits(player: Player, npc: NPC) {
+    player.startConversation {
+        npc(TZHAAR_MEJ_JEH_AK_PLAZA, T_CALM_TALK, "Now, champion TzHaar-Ket-Yit'tal is dead, TzHaar-Mej-Jeh. Like you, his memories are lost. He did not lay and egg.")
+        npc(TZHAAR_MEJ_JEH_AK_PLAZA, T_CALM_TALK, "You and your Jal'Yt have murdered a good TzHaar. His memories die with him!")
+        npc(TZHAAR_MEJ_JEH_PLAZA, T_CALM_TALK, "He died in the Pit. Death in the Pits is not murder, and, if you listened to us, this would not have happened. I have a plan, TzHaar-Mej-Ak...")
+        npc(TZHAAR_MEJ_JEH_AK_PLAZA, T_CALM_TALK, "Enough of this madness! Your Ga'al is dead! These plans, these schemes... they are not work of good TzHaar. Our Champion is dead, because of your plans.")
+        npc(TZHAAR_MEJ_JEH_PLAZA, T_CALM_TALK, "There is a way to bring the Champion back! ${player.displayName}, what do you know about Tokkul?")
+        cosmeticOptions(
+            "It's the remains of your dead that you use as currency.",
+            "It's a type of money, right?",
+            "Not that much."
+        )
+        npc(TZHAAR_MEJ_JEH_PLAZA, T_CALM_TALK, "When TzHaar die we turn into Tokkul; small rocks with our memories trapped inside.")
+        npc(TZHAAR_MEJ_JEH_PLAZA, T_CALM_TALK, "Our memories make it valuable, so TzHaar trade it with each other as currency.")
+        npc(TZHAAR_MEJ_JEH_PLAZA, T_CALM_TALK, "It has never been possible to get memories from TokKul. And TzHaar who have not laid eggs before they turn to TokKul... their memories are lost forever.")
+        npc(TZHAAR_MEJ_JEH_PLAZA, T_CALM_TALK, "What would you say if I told you there was a way of recovering these memories?")
+        npc(TZHAAR_MEJ_JEH_AK_PLAZA, T_CALM_TALK, "It – it is not possible.")
+        npc(TZHAAR_MEJ_JEH_PLAZA, T_CALM_TALK, "It is! Our Kiln has that power, TzHaar-Mej-Ak. The power to forge TokKul, fusing them with the body of another. The Ga'al are empty bodies that we can use.")
+        player(CONFUSED, "Hold on - your Kiln?")
+        npc(TZHAAR_MEJ_JEH_PLAZA, T_CALM_TALK, "The Kiln is where TzHaar were first made. Its lava is able to give life and melt down even the hardest of metals.")
+        npc(TZHAAR_MEJ_JEH_AK_PLAZA, T_CALM_TALK, "And we are not permitted to visit it! Kiln is sacred to TzHaar. It is out of bounds!")
+    }
+}
+
+private fun escortGaalThroughKiln(player: Player, npc: NPC) {
+    player.startConversation {
+
     }
 }
 
