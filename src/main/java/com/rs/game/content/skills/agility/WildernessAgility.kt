@@ -5,7 +5,6 @@ import com.rs.game.World.sendObjectAnimation
 import com.rs.game.model.entity.Hit
 import com.rs.game.model.entity.async.schedule
 import com.rs.game.model.entity.player.Player
-import com.rs.game.model.entity.player.Skills
 import com.rs.lib.Constants
 import com.rs.lib.game.Animation
 import com.rs.lib.game.Tile
@@ -44,6 +43,8 @@ fun mapWildernessAgility() {
         val initialX = 2998
         val initialY = if (obj.id == 65365) 3916 else 3931
         val initialTile = Tile.of(initialX, initialY, obj.plane)
+        val westSide = Tile.of(2995, 3923, 0)
+        val eastSide = Tile.of(3001, 3924, 0)
 
         val movePlayer = {
             val running = player.run
@@ -53,10 +54,43 @@ fun mapWildernessAgility() {
             player.schedule {
                 player.appearance.setBAS(155)
                 player.addWalkSteps(targetTile.x, targetTile.y, -1, false)
-                wait(17)
+                wait(8)
+
+                if (!Agility.rollSuccess(player, 150, 250)) {
+                    val fallToWest = Math.random() < 0.5
+                    val headingSouth = targetTile.y == 3915
+                    if (fallToWest) {
+                        if (headingSouth) {
+                            player.anim(771)
+                        } else {
+                            player.anim(770)
+                        }
+                        wait(1)
+                        player.tele(westSide)
+                    } else {
+                        if (headingSouth) {
+                            player.anim(770)
+                        } else {
+                            player.anim(771)
+                        }
+                        wait(1)
+                        player.tele(eastSide)
+                    }
+                    player.sendMessage("You lose your balance and fall off the ridge.", true)
+                    player.appearance.setBAS(-1)
+                    player.anim(-1)
+                    wait(1)
+                    val damage = min((player.hitpoints * 26.6 / 100).roundToInt(), 200)
+                    player.applyHit(Hit.flat(player, damage))
+                    player.unlock()
+                    return@schedule
+                }
+
+                wait(9)
                 player.appearance.setBAS(-1)
                 player.setRunHidden(running)
                 player.sendMessage("You skillfully balance across the ridge...", true)
+                player.skills.addXp(Constants.AGILITY, 15.0)
                 player.unlock()
             }
         }
@@ -118,7 +152,7 @@ fun mapWildernessAgility() {
 
     // Ropeswing
     onObjectClick(64696) { (player, obj) ->
-        if (!Agility.hasLevel(player, 52)) return@onObjectClick
+        if (!Agility.hasLevel(player, 49)) return@onObjectClick
         if (player.y > 3953) {
             player.sendMessage("You can't see a good way to jump from here.")
             return@onObjectClick
@@ -136,16 +170,11 @@ fun mapWildernessAgility() {
                 player.faceObject(obj)
                 player.anim(751)
                 sendObjectAnimation(obj, Animation(497))
-                val agilityLevel = player.skills.getLevel(Skills.AGILITY)
-                val failureRate = when {
-                    agilityLevel > 85 -> 0.0
-                    else -> 0.33 - (agilityLevel - 52) * 0.33 / (85 - 52)
-                }
+                val fail = Agility.rollSuccess(player, 150, 250)
 
-                val swingSuccess = Math.random() >= failureRate
-                val toTile = Tile.of(obj.x, if (swingSuccess) 3958 else 3955, obj.plane)
+                val toTile = Tile.of(obj.x, if (fail) 3958 else 3955, obj.plane)
 
-                if (swingSuccess) {
+                if (fail) {
                     player.forceMove(toTile, 30, 90)
                     wait(4)
                     player.sendMessage("You skillfully swing across the rope.", true)
@@ -173,20 +202,16 @@ fun mapWildernessAgility() {
 
     // Stepping stone
     onObjectClick(64699) { (player) ->
-        if (!Agility.hasLevel(player, 52)) return@onObjectClick
+        if (!Agility.hasLevel(player, 49)) return@onObjectClick
         if (player.tile != Tile(3002, 3960, 0)) return@onObjectClick
 
         player.sendMessage("You carefully start crossing the stepping stones...")
         player.schedule {
-            val agilityLevel = player.skills.getLevel(Skills.AGILITY)
             for (i in 0..5) {
                 val toTile = Tile.of(3002 - (i + 1), player.y, player.plane)
-                val failureRate = when {
-                    agilityLevel > 85 -> 0.0
-                    else -> 0.33 - (agilityLevel - 52) * 0.33 / (85 - 52)
-                }
+                val fail = i == 3 && !Agility.rollSuccess(player, 150, 250)
 
-                if (i == 3 && Math.random() < failureRate) {
+                if (fail) {
                     player.sendMessage("...You lose your footing and fall into the lava.")
                     player.anim(771)
                     wait(1)
@@ -209,7 +234,7 @@ fun mapWildernessAgility() {
 
     // Log balance
     onObjectClick(64698) { (player) ->
-        if (!Agility.hasLevel(player, 52)) return@onObjectClick
+        if (!Agility.hasLevel(player, 49)) return@onObjectClick
         if (player.tile != Tile(3002, 3945, 0)) {
             player.addWalkSteps(3002, 3945, -1, false)
         }
@@ -225,13 +250,9 @@ fun mapWildernessAgility() {
             player.appearance.setBAS(155)
             wait(5)
 
-            val agilityLevel = player.skills.getLevel(Skills.AGILITY)
-            val failureRate = when {
-                agilityLevel > 85 -> 0.0
-                else -> 0.33 - (agilityLevel - 52) * 0.33 / (85 - 52)
-            }
+            val fail = !Agility.rollSuccess(player, 150, 250)
 
-            if (Math.random() < failureRate) {
+            if (fail) {
                 player.sendMessage("...You lose your footing and fall below.")
                 player.anim(2582)
                 wait(1)
@@ -263,7 +284,7 @@ fun mapWildernessAgility() {
 
     // Cliffside
     onObjectClick(65734) { (player, obj) ->
-        if (!Agility.hasLevel(player, 52)) return@onObjectClick
+        if (!Agility.hasLevel(player, 49)) return@onObjectClick
         if (player.y != 3939) return@onObjectClick
 
         player.setRouteEvent(RouteEvent(Tile.of(2993, 3939, 0)) {
@@ -272,10 +293,9 @@ fun mapWildernessAgility() {
                 wait(1)
                 player.anim(3378)
                 val toTile = Tile.of(player.x + 2, 3935, 0)
-                wait(4) // Additional wait before teleportation (adjust as needed)
+                wait(4)
                 player.tele(toTile)
                 player.anim(-1)
-                player.appearance.setBAS(-1)
                 player.sendMessage("You reach the top.", true)
                 if (getWildernessStage(player) == 3) {
                     player.incrementCount("Wilderness laps")
