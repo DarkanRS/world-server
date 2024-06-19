@@ -229,13 +229,13 @@ public class DraynorVillageNPC {
         switch (e.getOption()) {
             case "Trade" -> ShopsHandler.openShop(e.getPlayer(), "draynor_seed_market");
             case "Talk-to" -> e.getPlayer().startConversation(new Dialogue()
-                    .addNPC(DIANGO, HeadE.HAPPY_TALKING, "Would you like to trade in seeds?")
+                    .addNPC(OLIVIA, HeadE.HAPPY_TALKING, "Would you like to trade in seeds?")
                     .addOptions(ops -> {
-                        ops.add("Yes.")
+                        ops.add("Yes, please.")
                                 .addNext(() ->
                                         ShopsHandler.openShop(e.getPlayer(), "draynor_seed_market"));
 
-                        ops.add("No.!")
+                        ops.add("No, thanks.")
                                 .addPlayer(HeadE.CALM, "No, thanks.");
 
                         ops.add("Where do I get rarer seeds from?")
