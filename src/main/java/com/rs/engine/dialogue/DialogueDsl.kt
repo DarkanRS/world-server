@@ -62,6 +62,11 @@ open class DialogueBuilder(val stages: MutableMap<String, Dialogue> = mutableMap
         applyPendingLabel()
     }
 
+    fun jump(next: Dialogue) {
+        dialogue = dialogue.addNext(next)
+        applyPendingLabel()
+    }
+
     fun options(title: String? = null, setup: OptionsBuilder.() -> Unit) {
         dialogue = dialogue.addOptions(title) { options ->
             OptionsBuilder(stages).apply(setup).applyToOptions(options)
