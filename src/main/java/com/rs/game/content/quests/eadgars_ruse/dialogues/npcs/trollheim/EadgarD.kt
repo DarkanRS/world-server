@@ -167,20 +167,20 @@ class EadgarD(player: Player, npc: NPC) {
 
                         player(CALM_TALK, "I have $logsDescription, $chickensDescription, $wheatDescription, and $clothesDescription.") {
                             if (logsCount > 0 && handedInLogs < 1) {
-                                EadgarsRuseUtils(player).handInItems(NORMAL_LOGS, logsCount)
-                                questAttribs.setI(NORMAL_LOGS.toString(), handedInLogs + logsCount)
+                                EadgarsRuseUtils(player).handInItems(NORMAL_LOGS, 1)
+                                questAttribs.setI(NORMAL_LOGS.toString(), handedInLogs + 1)
                             }
                             if (chickensCount >= 5 && handedInChickens < 5) {
-                                EadgarsRuseUtils(player).handInItems(RAW_CHICKEN, chickensCount)
-                                questAttribs.setI(RAW_CHICKEN.toString(), handedInChickens + chickensCount)
+                                EadgarsRuseUtils(player).handInItems(RAW_CHICKEN, 5)
+                                questAttribs.setI(RAW_CHICKEN.toString(), handedInChickens + 5)
                             }
                             if (wheatCount >= 10 && handedInWheat < 10) {
-                                EadgarsRuseUtils(player).handInItems(WHEAT, wheatCount)
-                                questAttribs.setI(WHEAT.toString(), handedInWheat + wheatCount)
+                                EadgarsRuseUtils(player).handInItems(WHEAT, 10)
+                                questAttribs.setI(WHEAT.toString(), handedInWheat + 10)
                             }
                             if (clothesCount > 0 && handedInClothes < 1) {
-                                EadgarsRuseUtils(player).handInItems(DIRTY_ROBE, clothesCount)
-                                questAttribs.setI(DIRTY_ROBE.toString(), handedInClothes + clothesCount)
+                                EadgarsRuseUtils(player).handInItems(DIRTY_ROBE, 1)
+                                questAttribs.setI(DIRTY_ROBE.toString(), handedInClothes + 1)
                             }
                         }
 
