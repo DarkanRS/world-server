@@ -527,7 +527,7 @@ fun mapSpecials() {
     }
 
     //Rune claws
-    addSpec(intArrayOf(3101, 13764), SpecialAttack(SpecialAttack.Type.MELEE, 25) { player, target ->
+    addSpec(intArrayOf(3101, 13764), SpecialAttack(SpecialAttack.Type.MELEE, 50) { player, target ->
         player.anim(923)
         clawSpec(player, target, doubleArrayOf(0.75, 0.75, 0.75, 1.25))
         return@SpecialAttack getMeleeCombatDelay(player.equipment.weaponId)
