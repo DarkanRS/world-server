@@ -2,7 +2,6 @@ package com.rs.game.content.world.areas.rimmington;
 
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
-import com.rs.engine.miniquest.Miniquest;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.utils.shop.ShopsHandler;
@@ -59,26 +58,4 @@ public class Rimmington {
                     }));
         }
     });
-
-    /**
-     * Purely Biohazard related Quest NPCs that will need to be eventually moved into
-     * a Biohazard class once the quest gets added.
-     */
-    public static NPCClickHandler CHANCY = new NPCClickHandler(new Object[]{ 338 }, e ->
-            e.getPlayer().startConversation(new Dialogue()
-                    .addPlayer(HeadE.HAPPY_TALKING, "Hello! Playing Solitaire?")
-                    .addNPC(338, HeadE.FRUSTRATED, "Hush - I'm trying to perfect the art of dealing off the bottom of the deck. Whatever you want, come back later.")
-                    .addSimple("Chancy doesn't feel like talking.")));
-
-    public static NPCClickHandler DA_VINCI = new NPCClickHandler(new Object[]{ 336 }, e ->
-            e.getPlayer().startConversation(new Dialogue()
-                    .addPlayer(HeadE.HAPPY_TALKING, "Hello!")
-                    .addNPC(336, HeadE.FRUSTRATED, "Bah! A great artist such as myself should not have to suffer the HUMILIATION of spending time where commoners wander everywhere!")
-                    .addSimple("Da Vinci does not feel sufficiently moved to talk.")));
-
-    public static NPCClickHandler HOPS = new NPCClickHandler(new Object[]{ 340 }, e ->
-            e.getPlayer().startConversation(new Dialogue()
-                    .addPlayer(HeadE.HAPPY_TALKING, "Hello!")
-                    .addNPC(340, HeadE.DRUNK, "Hops don't wanna talk now. HIC!")
-                    .addSimple("He isn't in a fit state to talk.")));
 }

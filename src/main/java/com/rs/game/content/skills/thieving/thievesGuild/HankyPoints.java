@@ -213,6 +213,7 @@ public class HankyPoints {
                 World.spawnObjectTemporary(new GameObject(e.getObjectId() + 1, e.getObject().getType(), e.getObject().getRotation() - 1, e.getObject().getTile().transform(0, -1, 0)), Ticks.fromSeconds(10), true);
                 return;
             }
+            e.getPlayer().lock();
             WorldTasks.scheduleTimer(i -> {
                 switch(i) {
                     case 1 -> {
@@ -225,7 +226,7 @@ public class HankyPoints {
                             e.getPlayer().sendMessage("The door swings open.");
                             e.getPlayer().getSkills().addXp(Constants.THIEVING, 210);
                             World.removeObjectTemporary(e.getObject(), Ticks.fromMinutes(5));
-                            World.spawnObjectTemporary(new GameObject(e.getObjectId() + 1, e.getObject().getType(), e.getObject().getRotation() - 1, e.getObject().getTile().transform(0, -1, 0)), Ticks.fromMinutes(5), true);
+                            World.spawnObjectTemporary(new GameObject(e.getObjectId() + 1, e.getObject().getType(), e.getObject().getRotation() - 3, e.getObject().getTile().transform(0, -1, 0)), Ticks.fromMinutes(5), true);
                         } else {
                             e.getPlayer().sendMessage("You fail to pick the lock.");
                             e.getPlayer().unlock();
@@ -254,6 +255,7 @@ public class HankyPoints {
                 e.getPlayer().sendMessage("This lock is too complex. You need a lockpick to be able to pick the lock.");
                 return;
             }
+            e.getPlayer().lock();
             WorldTasks.scheduleTimer(i -> {
                 switch(i) {
                     case 1 -> {

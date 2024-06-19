@@ -50,6 +50,8 @@ public abstract class InstancedController extends Controller {
                 player.setForceNextMapLoadRefresh(true);
                 player.loadMapRegions();
             });
+        else
+            player.tele(instance.getReturnTo());
         return !instance.isPersistent();
     }
 

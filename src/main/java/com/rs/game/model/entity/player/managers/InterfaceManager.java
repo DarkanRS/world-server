@@ -411,6 +411,10 @@ public class InterfaceManager {
 		sendSub(Sub.INVENTORY_OVERLAY, interfaceId, false);
 	}
 
+	public void sendInventoryOverlay(int interfaceId) {
+		sendSub(Sub.INVENTORY_OVERLAY, interfaceId, true);
+	}
+
 	public boolean containsReplacedChatBoxInter() {
 		return isSubOpen(CHATBOX_TOP, 11);
 	}

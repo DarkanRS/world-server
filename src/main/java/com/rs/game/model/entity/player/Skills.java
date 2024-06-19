@@ -137,14 +137,14 @@ public final class Skills {
 
 	public void trimCapes() {
 		if (checkMulti99s())
-			for (Skillcapes cape : Skillcapes.values()) {
-				if (player.getEquipment().getCapeId() == cape.untrimmed) {
-					player.getEquipment().setSlot(Equipment.CAPE, new Item(cape.trimmed, 1));
+			for (Skillcapes cape : Skillcapes.getEntries()) {
+				if (player.getEquipment().getCapeId() == cape.getUntrimmed()) {
+					player.getEquipment().setSlot(Equipment.CAPE, new Item(cape.getTrimmed(), 1));
 					player.getAppearance().generateAppearanceData();
 				}
 				for(int i = 0;i < player.getInventory().getItems().getSize();i++) {
-					if (player.getInventory().getItem(i) != null && player.getInventory().getItem(i).getId() == cape.untrimmed)
-						player.getInventory().replaceItem(cape.trimmed, 1, i);
+					if (player.getInventory().getItem(i) != null && player.getInventory().getItem(i).getId() == cape.getUntrimmed())
+						player.getInventory().replaceItem(cape.getTrimmed(), 1, i);
 					player.getInventory().refresh();
 				}
 				for(int tab = 0;tab < player.getBank().getBankTabs().length;tab++) {
@@ -153,8 +153,8 @@ public final class Skills {
 					for (int i = 0;i < player.getBank().getBankTabs()[tab].length;i++) {
 						if (player.getBank().getBankTabs()[tab][i] == null)
 							continue;
-						if (player.getBank().getBankTabs()[tab][i].getId() == cape.untrimmed) {
-							player.getBank().getBankTabs()[tab][i].setId(cape.trimmed);
+						if (player.getBank().getBankTabs()[tab][i].getId() == cape.getUntrimmed()) {
+							player.getBank().getBankTabs()[tab][i].setId(cape.getTrimmed());
 							player.getBank().refreshItems();
 						}
 					}

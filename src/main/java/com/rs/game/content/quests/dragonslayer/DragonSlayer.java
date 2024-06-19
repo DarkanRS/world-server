@@ -283,36 +283,32 @@ public class DragonSlayer extends QuestOutline {
             return;
 
         if (attr.getB(DOOR_BOMB_ATTR) && attr.getB(DOOR_BOWL_ATTR) && attr.getB(DOOR_SILK_ATTR) && attr.getB(DOOR_CAGE_ATTR)) {
-            obj.animate(new Animation(6636));
-            WorldTasks.scheduleLooping(new Task() {
-                int tick;
-
-                @Override
-                public void run() {
-                    if (tick == 0)
-                        p.lock();
-                    if (tick == 1)
-                        p.walkToAndExecute(Tile.of(3050, 9840, 0), () -> {
-                            p.faceDir(Direction.EAST);
-                            tick++;
-                        });
-                    if (tick == 2) {
-                        p.sendMessage("The magic door opens...");
+            boolean running = p.getRun();
+            p.walkToAndExecute(Tile.of(3049, 9840, 0), () -> {
+                p.playCutscene(cs -> {
+                    cs.setEndTile(Tile.of(3051, 9840, 0));
+                    cs.action(() -> {
                         obj.animate(new Animation(6636));
-                    }
-                    if (tick == 3)
+                        p.lock();
+                    });
+                    cs.delay(1);
+                    cs.playerFaceDir(Direction.EAST);
+                    cs.delay(1);
+                    cs.action(() -> {p.sendMessage("The magic door opens...");});
+                    cs.delay(1);
+                    cs.action(() -> {
+                        p.setRunHidden(false);
                         p.addWalkSteps(Tile.of(3051, 9840, 0), 3, false);
-                    if (tick == 5)
+                    });
+                    cs.delay(2);
+                    cs.action(() -> {
                         obj.animate(new Animation(6637));
-                    if (tick == 7) {
-                        p.unlock();
-                        stop();
-                    }
-
-                    if (tick != 1)
-                        tick++;
-                }
-            }, 0, 1);
+                        p.setRunHidden(running);
+                    });
+                    cs.delay(3);
+                    cs.action(() -> p.unlock());
+                });
+            });
         } else
             p.startConversation(new Conversation(e.getPlayer()) {
                 {

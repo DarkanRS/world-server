@@ -190,7 +190,7 @@ public enum Ore {
 			player.getBank().addItem(ore, true);
 			player.spotAnim(2896);
 		} else
-			player.getInventory().addItem(id, 1);
+			player.getInventory().addItem(ore);
 		player.getSkills().addXp(Constants.MINING, totalXp);
 		player.incrementCount(ore.getDefinitions().getName()+" mined");
 		onGiveOre(player);

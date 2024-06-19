@@ -1048,7 +1048,10 @@ public class Player extends Entity {
 								}
 								break;
 							}
-							getEquipment().setSlot(i, new Item(deg.getBrokenId(), item.getAmount()));
+							if (deg.getBrokenId() == -1)
+								getEquipment().setSlot(i, null);
+							else
+								getEquipment().setSlot(i, new Item(deg.getBrokenId(), item.getAmount()));
 							getAppearance().generateAppearanceData();
 							sendMessage("<col=FF0000>Your " + ItemDefinitions.getDefs(item.getId()).getName() + " has fully degraded!");
 						} else {
@@ -1604,10 +1607,10 @@ public class Player extends Entity {
 			return;
 		boolean isAtMultiArea = isForceMultiArea() || World.isMultiArea(getTile());
 		if (isAtMultiArea && !isAtMultiArea()) {
-			setAtMultiArea(isAtMultiArea);
+			setAtMultiArea(true);
 			getPackets().sendVarc(616, 1);
 		} else if (!isAtMultiArea && isAtMultiArea()) {
-			setAtMultiArea(isAtMultiArea);
+			setAtMultiArea(false);
 			getPackets().sendVarc(616, 0);
 		}
 	}

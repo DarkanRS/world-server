@@ -738,6 +738,56 @@
   {
     "tile": {
       "plane": 0,
+      "x": 2545,
+      "y": 3331
+    },
+	"dir": "WEST",
+    "comment": "Lvl 11 Mourner added by mr_ashie_b",
+    "npcId": 347
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2550,
+      "y": 3332
+    },
+	"dir": "SOUTH",
+    "comment": "Lvl 12 Mourner added by mr_ashie_b",
+    "npcId": 371
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2554,
+      "y": 3332
+    },
+	"dir": "SOUTH",
+    "comment": "Lvl 12 Mourner added by mr_ashie_b",
+    "npcId": 371
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2554,
+      "y": 3329
+    },
+	"dir": "NORTH",
+    "comment": "Lvl 12 Mourner added by mr_ashie_b",
+    "npcId": 371
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2548,
+      "y": 3329
+    },
+	"dir": "NORTH",
+    "comment": "Lvl 24 Mourner added by mr_ashie_b",
+    "npcId": 348
+  },
+  {
+    "tile": {
+      "plane": 0,
       "x": 2044,
       "y": 4632
     },
@@ -766,5 +816,15 @@
 	"clip": "OUTDOOR",
     "comment": "Carla added by mr_ashie_b",
     "npcId": 712
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 2575,
+      "y": 3297
+    },
+	"clip": "INDOOR",
+    "comment": "King Lathas added by mr_ashie_b",
+    "npcId": 364
   },
 ]

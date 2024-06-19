@@ -1117,6 +1117,10 @@ public class DungManager {
 			party.setSize(DungeonConstants.SMALL_DUNGEON);
 		}
 		for (Player p2 : party.getTeam()) {
+			if (party.getFloor() > p2.getDungManager().maxFloor) {
+				player.sendMessage(p2.getDisplayName() + " does not have that floor unlocked.");
+				return;
+			}
 			for (Item item : p2.getInventory().getItems().array())
 				if (isBannedDungItem(item)) {
 					player.sendMessage(p2.getDisplayName() + " is carrying items that cannot be taken into Daemonheim.");

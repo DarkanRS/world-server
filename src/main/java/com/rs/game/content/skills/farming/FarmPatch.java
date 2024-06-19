@@ -17,10 +17,13 @@
 package com.rs.game.content.skills.farming;
 
 import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.quest.Quest;
 import com.rs.game.content.Effect;
 import com.rs.game.content.PotionsKt;
 import com.rs.game.content.achievements.AchievementDef;
 import com.rs.game.content.achievements.SetReward;
+import com.rs.game.content.skills.dungeoneering.DungeonRewards;
 import com.rs.game.content.skills.woodcutting.TreeType;
 import com.rs.game.content.skills.woodcutting.Woodcutting;
 import com.rs.game.model.entity.player.Player;
@@ -75,7 +78,7 @@ public class FarmPatch {
 
 	public FarmPatch(PatchLocation location) {
 		this.location = location;
-		empty();
+		reset();
 		weeds = 3;
 	}
 
@@ -186,6 +189,15 @@ public class FarmPatch {
 			}
 			if (seed != null) {
 				player.sendMessage("You already have something growing here.");
+				return;
+			}
+			if (produce == ProduceType.Gout && !player.isQuestComplete(Quest.EADGARS_RUSE)) {
+				player.playerDialogue(HeadE.CALM_TALK, "I'm not sure how to grow these...");
+				player.sendMessage("You must complete Eadgar's Ruse to learn how to grow these.");
+				return;
+			}
+			if (location == PatchLocation.Trollheim_herbs && produce == ProduceType.Gout) {
+				player.playerDialogue(HeadE.CALM_TALK, "Murcaily said those wouldn't survive up here.");
 				return;
 			}
 			if (produce.type != location.type || (location == PatchLocation.Wilderness_flower && produce != ProduceType.Limpwurt) || (location == PatchLocation.Burthorpe_potato_patch && produce != ProduceType.Potato)) {
@@ -323,7 +335,7 @@ public class FarmPatch {
 				player.setNextAnimation(SPADE_ANIMATION);
 				if (seed != null && seed.type == PatchType.TREE && lives == -1)
 					player.getInventory().addItemDrop(seed.productId.getId(), 1);
-				empty();
+				clear(player);
 				updateVars(player);
 			});
 			ops.add("No thanks.");
@@ -468,7 +480,12 @@ public class FarmPatch {
 		return false;
 	}
 
-	public void empty() {
+	public void clear(Player player) {
+		DungeonRewards.checkScrollOfLife(this, player);
+		reset();
+	}
+
+	private void reset() {
 		seed = null;
 		weeds = 0;
 		diseased = false;

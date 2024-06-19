@@ -42,7 +42,7 @@ public class Ajjat extends Conversation {
 		addNPC(npcId, HeadE.NO_EXPRESSION, "Greetings, fellow warrior. I am Ajjat, former Black Knight and now training officer here in the Warriors' Guild.");
 		Dialogue options = addOption("Select an option", "What is that cape you are wearing?", "Black Knight? Why are you here?", "What's the dummy room all about?");
 
-		options.addNext(Skillcapes.Attack.getOffer99CapeDialogue(player, npcId));
+		options.addNext(() -> Skillcapes.Attack.getOffer99CapeDialogue(player, npcId));
 
 		options.addPlayer(HeadE.CONFUSED, "Black Knight? Why are you here?")
 		.addNPC(npcId, HeadE.NO_EXPRESSION, "Indeed I was, however, their...methods did not match with my ideals, so I left. Harrallak, recognizing my talent as a warrior, took me in and offered me a job here.")

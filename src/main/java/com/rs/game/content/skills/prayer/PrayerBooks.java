@@ -55,6 +55,8 @@ public class PrayerBooks {
 		for (int i = 0;i < BOOKS.length;i++)
 			if (BOOKS[i] == bookId)
 				god = i;
+		if (god == -1)
+			return;
 		boolean containsGodPages = true;
 
 		for (int pageIndex = 0; pageIndex < 4; pageIndex++)

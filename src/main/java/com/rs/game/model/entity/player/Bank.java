@@ -573,7 +573,7 @@ public class Bank {
 			break;
 		case 759:
 			int num = (e.getComponentId() / 4) - 1;
-			e.getPlayer().getTempAttribs().setI("enteredPin", e.getPlayer().getTempAttribs().getI("enteredPin") + (num << (e.getPlayer().getTempAttribs().getI("pinStage") * 4)));
+			e.getPlayer().getTempAttribs().setI("enteredPin", e.getPlayer().getTempAttribs().getI("enteredPin") + (num << ((3 - e.getPlayer().getTempAttribs().getI("pinStage")) * 4)));
 			e.getPlayer().getTempAttribs().incI("pinStage");
 			if (e.getPlayer().getTempAttribs().getI("pinStage") == 3)
 				for (Object ifComp : EnumDefinitions.getEnum(3554).getValues().values())

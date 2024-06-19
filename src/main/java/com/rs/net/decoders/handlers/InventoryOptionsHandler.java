@@ -18,13 +18,17 @@ package com.rs.net.decoders.handlers;
 
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.ObjectType;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.statements.Statement;
 import com.rs.game.World;
 import com.rs.game.content.items.Lamps;
 import com.rs.game.content.minigames.fightkiln.FightKilnController;
 import com.rs.game.content.minigames.sorcgarden.SorceressGardenController;
 import com.rs.game.content.skills.cooking.CookingCombos;
+import com.rs.game.content.skills.cooking.FruitCutting;
 import com.rs.game.content.skills.cooking.FruitCutting.CuttableFruit;
 import com.rs.game.content.skills.cooking.FruitCuttingD;
+import com.rs.game.content.skills.crafting.Craftables;
 import com.rs.game.content.skills.crafting.GemCutting;
 import com.rs.game.content.skills.crafting.GemCutting.Gem;
 import com.rs.game.content.skills.crafting.GemTipCutting;
@@ -102,7 +106,7 @@ public class InventoryOptionsHandler {
 					if (usedId == WickedHoodRune.ELEMENTAL.getTalismanId() && !player.getUsedElementalTalisman()) {
 						player.getInventory().deleteItem(usedId, 1);
 						player.setUsedElementalTalisman(true);
-						player.sendMessage("You unlock the ability to receive pure essence from the wicked hood.");
+						player.sendMessage("You unlock the ability to take extra runes from the wicked hood.");
 						return true;
 					}
 					player.sendMessage("The hood doesn't appear to be interested in that anymore.");
@@ -110,9 +114,10 @@ public class InventoryOptionsHandler {
 				}
 				player.getInventory().deleteItem(usedId, 1);
 				player.getSkills().addXp(Constants.RUNECRAFTING, 50);
-				if (usedId == WickedHoodRune.OMNI.getTalismanId()) {
+				if (usedId == WickedHoodRune.OMNI.getTalismanId() || usedId == WickedHoodRune.OMNI.getTiaraId()) {
 					for (WickedHoodRune r : WickedHoodRune.values())
 						player.unlockWickedHoodRune(r);
+					player.sendMessage("You unlock the ability to receive pure essence from the wicked hood.");
 					player.setUsedOmniTalisman(true);
 				} else if (usedId == WickedHoodRune.ELEMENTAL.getTalismanId()) {
 					player.unlockWickedHoodRune(WickedHoodRune.AIR);
@@ -120,7 +125,7 @@ public class InventoryOptionsHandler {
 					player.unlockWickedHoodRune(WickedHoodRune.EARTH);
 					player.unlockWickedHoodRune(WickedHoodRune.FIRE);
 					player.setUsedElementalTalisman(true);
-					player.sendMessage("You unlock the ability to receive pure essence from the wicked hood.");
+					player.sendMessage("You unlock the ability to take extra runes from the wicked hood.");
 				}
 				player.unlockWickedHoodRune(rune);
 			}
@@ -198,7 +203,7 @@ public class InventoryOptionsHandler {
 			player.startConversation(new LeatherCraftingD(player, leatherIndex));
 			return true;
 		}
-		if (Firemaking.isFiremaking(player, used, usedWith) || GemCutting.isCutting(player, used, usedWith))
+		if (Firemaking.isFiremaking(player, used, usedWith) || GemCutting.isCutting(player, used, usedWith) || Craftables.isCrafting(player, used, usedWith))
 			return true;
 		if (contains(1755, Gem.OPAL.getCut(), used, usedWith))
 			GemTipCutting.cut(player, GemTips.OPAL);
@@ -441,6 +446,15 @@ public class InventoryOptionsHandler {
 		if (player.isLocked() || player.getEmotesManager().isAnimating() || PluginManager.handle(new ItemClickEvent(player, item, slotId, item.getDefinitions().getInventoryOption(3))))
 			return;
 		player.stopAll(false);
+
+		FruitCutting.CuttableFruit fruit = FruitCutting.CuttableFruit.forId(itemId);
+		if (fruit != null) {
+			if (player.getInventory().containsItem(946)) {
+				player.startConversation(new FruitCuttingD(player, fruit));
+			} else {
+				player.sendMessage("You need a knife to cut the " + item.getDefinitions().name.toLowerCase() + ".");
+			}
+		}
 
 		if (itemId == 1438)
 			Runecrafting.locate(player, 3127, 3405);

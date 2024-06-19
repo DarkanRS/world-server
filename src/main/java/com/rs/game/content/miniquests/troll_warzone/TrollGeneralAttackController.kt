@@ -31,7 +31,6 @@ class TrollGeneralAttackController : InstancedController(Instance.of(OUTSIDE, 8,
         player.lock()
         instance.copyMapAllPlanes(272, 544).thenAccept {
             player.cutscene {
-                val instance = this@TrollGeneralAttackController.instance ?: return@cutscene
                 fadeIn()
                 wait(5)
                 instance.teleportLocal(player, 32, 12, 0)
@@ -92,7 +91,6 @@ class TrollGeneralAttackController : InstancedController(Instance.of(OUTSIDE, 8,
                         npc(npc, HeadE.CALM_TALK, "It came from over there.")
                         exec {
                             player.cutscene {
-                                val instance = this@TrollGeneralAttackController.instance ?: return@cutscene
                                 val ozan = ozan ?: return@cutscene
                                 fadeIn()
                                 wait(5)
@@ -133,7 +131,6 @@ class TrollGeneralAttackController : InstancedController(Instance.of(OUTSIDE, 8,
                             npc(npc, HeadE.CALM_TALK, "Thanks again for your help. You should check in with Captain Jute outside the cave.")
                             exec {
                                 player.cutscene {
-                                    val instance = this@TrollGeneralAttackController.instance ?: return@cutscene
                                     val ozan = ozan ?: return@cutscene
                                     val keymans = keymans ?: return@cutscene
                                     ozan.addWalkSteps(ozan.transform(0, -10, 0).x, ozan.transform(0, -10, 0).y)
@@ -211,7 +208,6 @@ class TrollGeneralAttackController : InstancedController(Instance.of(OUTSIDE, 8,
             player.stopAll()
             player.lock()
             player.cutscene {
-                val instance = this@TrollGeneralAttackController.instance ?: return@cutscene
                 val ozan = ozan ?: return@cutscene
                 val keymans = keymans ?: return@cutscene
                 val trollGeneral = trollGeneral ?: return@cutscene
