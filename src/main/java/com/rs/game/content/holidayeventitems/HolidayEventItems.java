@@ -1,4 +1,4 @@
-package com.rs.game.content.holidayevent_items;
+package com.rs.game.content.holidayeventitems;
 
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.game.model.entity.ForceTalk;

@@ -1,4 +1,4 @@
-package com.rs.game.content.Gielinor_games_reward_shop;
+package com.rs.game.content.gielinorgamesrewardshop;
 
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;

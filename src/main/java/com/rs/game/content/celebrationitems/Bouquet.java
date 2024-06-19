@@ -1,4 +1,4 @@
-package com.rs.game.content.Celebration_items;
+package com.rs.game.content.celebrationitems;
 
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
