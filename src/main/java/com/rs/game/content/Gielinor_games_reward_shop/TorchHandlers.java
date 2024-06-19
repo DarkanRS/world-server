@@ -13,13 +13,14 @@ public class TorchHandlers {
         e.getPlayer().setNextSpotAnim(new SpotAnim(3246));
     });
 
-    public static ItemClickHandler GoldTorch = new ItemClickHandler(new Object[] { 24549 }, new String[] { "Emote" }, e -> {
-        e.getPlayer().setNextAnimation(new Animation(17135 ));
-        e.getPlayer().setNextSpotAnim(new SpotAnim(3248));
-    });
 
     public static ItemClickHandler SilverTorch = new ItemClickHandler(new Object[] { 24548 }, new String[] { "Emote" }, e -> {
         e.getPlayer().setNextAnimation(new Animation(17135));
         e.getPlayer().setNextSpotAnim(new SpotAnim(3247));
+    });
+
+    public static ItemClickHandler GoldTorch = new ItemClickHandler(new Object[] { 24549 }, new String[] { "Emote" }, e -> {
+        e.getPlayer().setNextAnimation(new Animation(17135 ));
+        e.getPlayer().setNextSpotAnim(new SpotAnim(3248));
     });
 }

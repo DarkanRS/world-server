@@ -15,3 +15,6 @@ public class Bouquet {
         //e.getPlayer().setNextAnimation(new Animation(10964)); // This is the picking up the bouquet animation.
     });
 }
+
+
+// This one is not fully finished yet. Still missing some animations.

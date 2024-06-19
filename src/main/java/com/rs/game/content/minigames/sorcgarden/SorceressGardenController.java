@@ -136,14 +136,18 @@ public class SorceressGardenController extends Controller {
 		else
 			Magic.sendTeleportSpell(player, 10538, 10537, 1867, 1868, 0, 0, MIDDLE, 4, true, TeleType.MAGIC, () -> player.getControllerManager().startController(new SorceressGardenController()));
 
-		class Broomstick {
-			final ItemClickHandler Broomstick = new ItemClickHandler(new Object[]{14057}, new String[]{"Sweep"}, e -> {
-				e.getPlayer().setNextAnimation(new Animation(10532));
-				e.getPlayer().setNextSpotAnim(new SpotAnim(1866));
-
-			});
-
 		}
+
+
+	@PluginEventHandler
+	public class Broomstick {
+
+		public static ItemClickHandler Broomstick = new ItemClickHandler(new Object[]{14057}, new String[]{"Sweep"}, e -> {
+			e.getPlayer().setNextAnimation(new Animation(10532));
+			e.getPlayer().setNextSpotAnim(new SpotAnim(1866));
+
+		});
+
 	}
 
 	@Override
