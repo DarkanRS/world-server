@@ -477,7 +477,7 @@ fun mapSpecials() {
         val multiplier = Utils.random(if (!target.isAtMultiArea && !player.isAtMultiArea && !target.isForceMultiArea && !player.isForceMultiArea) 0.5 else 0.0, 1.5)
         damage *= multiplier
         delayNormalHit(target, Hit(player, damage.toInt(), HitLook.MAGIC_DAMAGE).setMaxHit(damage.toInt()))
-        WorldTasks.schedule(0) { target.spotAnim(1730) }
+        WorldTasks.schedule(0) { target.spotAnim(2795) }
         player.soundEffect(target, 3853, true)
         return@SpecialAttack getMeleeCombatDelay(player.equipment.weaponId)
     })
@@ -527,7 +527,7 @@ fun mapSpecials() {
 
     //Rune claws
     addSpec(intArrayOf(3101, 13764), SpecialAttack(SpecialAttack.Type.MELEE, 50) { player, target ->
-        player.anim(10961)
+        player.anim(923)
         clawSpec(player, target, doubleArrayOf(0.75, 0.75, 0.75, 1.25))
         return@SpecialAttack getMeleeCombatDelay(player.equipment.weaponId)
     })

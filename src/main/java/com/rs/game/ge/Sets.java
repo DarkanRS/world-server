@@ -133,9 +133,9 @@ public class Sets {
 		GREEN_BLESS(11920, 10382, 10378, 10380, 10376),
 		BLUE_BLESS(11922, 10390, 10386, 10388, 10384),
 		RED_BLESS(11924, 10374, 10370, 10372, 10368),
-		BROWN_DHIDE(19582, 19457, 19453, 19455, 19451),
-		PURPLE_DHIDE(19584, 19449, 19445, 19449, 19443),
-		SILVER_DHIDE(19586, 19465, 19461, 19463, 19459),
+		BANDOS_DHIDE(19582, 19457, 19453, 19455, 19451),
+		ANCIENT_DHIDE(19584, 19449, 19445, 19447, 19443),
+		ARMADYL_DHIDE(19586, 19465, 19461, 19463, 19459),
 		ARMA_LG(19588, 19422, 19413, 19416, 19410),
 		ARMA_SK(19590, 19422, 19413, 19419, 19410),
 		BAND_LG(19592, 19437, 19428, 19431, 19440),
@@ -197,6 +197,7 @@ public class Sets {
 			for (int itemId : set.getItems())
 				player.getInventory().addItem(new Item(itemId, 1));
 			player.getInventory().deleteItem(set.getId(), 1);
+			player.soundEffect(4044, false);
 		}
 	}
 
@@ -210,6 +211,7 @@ public class Sets {
 			for (int itemId : set.getItems())
 				player.getInventory().deleteItem(new Item(itemId, 1));
 			player.getInventory().addItem(set.getId(), 1);
+			player.soundEffect(4044, false);
 		}
 	}
 

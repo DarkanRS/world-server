@@ -1,16 +1,17 @@
 {
   "ids": [
-    195
+    195,
+    196
   ],
-  "attackAnim": 422,
-  "attackSound": -1,
-  "defenceAnim": 425,
-  "defendSound": -1,
+  "attackAnim": 386,
+  "attackSound": 2549,
+  "defenceAnim": 388,
+  "defendSound": 513,
   "deathAnim": 836,
   "deathDelay": 6,
-  "deathSound": -1,
+  "deathSound": 512,
   "respawnDelay": 59,
-  "hitpoints": 650,
+  "hitpoints": 270,
   "maxHit": 70,
   "attackStyle": "MELEE",
   "attackBonus": "STAB_ATT",

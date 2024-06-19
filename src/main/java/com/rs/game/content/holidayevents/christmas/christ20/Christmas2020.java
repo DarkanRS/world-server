@@ -47,26 +47,4 @@ public class Christmas2020 {
 			return;
 		e.getPlayer().getVars().setVarBit(6934, 1);
 	});
-
-	public static ItemClickHandler handleYoyo = new ItemClickHandler(new Object[] { 4079 }, new String[] { "Play", "Loop", "Walk", "Crazy" }, e -> {
-		switch(e.getOption()) {
-		case "Play":
-			e.getPlayer().setNextAnimation(new Animation(1457));
-			break;
-		case "Loop":
-			e.getPlayer().setNextAnimation(new Animation(1458));
-			break;
-		case "Walk":
-			e.getPlayer().setNextAnimation(new Animation(1459));
-			break;
-		case "Crazy":
-			e.getPlayer().setNextAnimation(new Animation(1460));
-			break;
-		}
-	});
-
-	public static ItemClickHandler handleReinhat = new ItemClickHandler(new Object[] { 10507 }, new String[] { "Emote" }, e -> {
-		e.getPlayer().setNextAnimation(new Animation(5059));
-		e.getPlayer().setNextSpotAnim(new SpotAnim(859));
-	});
 }
