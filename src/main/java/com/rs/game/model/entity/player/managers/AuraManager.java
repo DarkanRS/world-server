@@ -421,16 +421,25 @@ public class AuraManager {
         };
 	}
 
+	public boolean isSurefootedAura() {
+		if (currAura == null)
+			return false;
+		return switch (currAura) {
+			case SUREFOOTED, GREATER_SUREFOOTED -> true;
+			default -> false;
+		};
+	}
+
 	public double getThievingMul() {
 		if (currAura == null)
 			return 1.0;
-        return switch (currAura) {
-            case FIVE_FINGER_DISCOUNT -> 1.03;
-            case GREATER_FIVE_FINGER_DISCOUNT -> 1.05;
-            case MASTER_FIVE_FINGER_DISCOUNT -> 1.07;
-            case SUPREME_FIVE_FINGER_DISCOUNT -> 1.1;
-            default -> 1.0;
-        };
+		return switch (currAura) {
+			case FIVE_FINGER_DISCOUNT -> 1.03;
+			case GREATER_FIVE_FINGER_DISCOUNT -> 1.05;
+			case MASTER_FIVE_FINGER_DISCOUNT -> 1.07;
+			case SUPREME_FIVE_FINGER_DISCOUNT -> 1.1;
+			default -> 1.0;
+		};
 	}
 
 	public double getFishingMul() {
