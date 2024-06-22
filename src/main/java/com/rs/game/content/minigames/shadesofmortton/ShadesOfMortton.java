@@ -67,7 +67,6 @@ public class ShadesOfMortton {
 
 	public static void deleteWall(TempleWall wall) {
 		WALLS.remove(wall.getTile().getTileHash());
-		World.removeObject(wall);
 	}
 
 	public static List<TempleWall> getWalls() {
@@ -224,6 +223,17 @@ public class ShadesOfMortton {
 
         @Override
         public boolean start(Player player) {
+			player.faceTile(e.getObject().getTile());
+			if (player.getI("shadeResources", 0) <= 95 && player.getInventory().containsItem(8837) && player.getInventory().containsItem(3420) && player.getInventory().containsItem(1941, 5)) {
+				player.getInventory().deleteItem(8837, 1);
+				player.getInventory().deleteItem(3420, 1);
+				player.getInventory().deleteItem(1941, 5);
+				addResources(player, 5);
+			}
+			if (player.getI("shadeResources", 0) <= 0) {
+				player.sendMessage("You don't have enough resources!");
+				return false;
+			}
             player.getActionManager().setActionDelay(4);
             return true;
         }
