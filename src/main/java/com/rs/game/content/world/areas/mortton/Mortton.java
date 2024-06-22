@@ -33,14 +33,22 @@ public class Mortton {
 			return;
 		}
 		switch(e.getItem().getId()) {
-		case 3408:
-		case 3410:
-		case 3412:
-		case 3414:
-			e.getItem().setId(e.getItem().getId() == 3414 ? PotionsKt.VIAL : e.getItem().getId()+2);
-			e.getPlayer().getVars().setVarBit(e.getNPC().getDefinitions().varpBit, 1);
-			e.getPlayer().getInventory().refresh();
-			break;
+			case 3408:
+			case 3410:
+			case 3412:
+			case 3414:
+				e.getItem().setId(e.getItem().getId() == 3414 ? PotionsKt.VIAL : e.getItem().getId()+2);
+				e.getPlayer().getVars().setVarBit(e.getNPC().getDefinitions().varpBit, 1);
+				e.getPlayer().getInventory().refresh();
+				break;
+			case 3416:
+			case 3417:
+			case 3418:
+			case 3419:
+				e.getItem().setId(e.getItem().getId() == 3419 ? PotionsKt.VIAL : e.getItem().getId()+2);
+				e.getPlayer().getVars().saveVarBit(e.getNPC().getDefinitions().varpBit, 1);
+				e.getPlayer().getInventory().refresh();
+				break;
 		}
 	});
 
