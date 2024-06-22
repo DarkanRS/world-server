@@ -31,6 +31,8 @@ import com.rs.plugin.handlers.*;
 import com.rs.utils.Areas;
 import com.rs.utils.Ticks;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -60,12 +62,16 @@ public class ShadesOfMortton {
 
 	public static void addWall(TempleWall wall) {
 		WALLS.put(wall.getTile().getTileHash(), wall);
-		World.spawnObject(wall);
+		World.spawnObject(new GameObject(wall));
 	}
 
 	public static void deleteWall(TempleWall wall) {
 		WALLS.remove(wall.getTile().getTileHash());
 		World.removeObject(wall);
+	}
+
+	public static List<TempleWall> getWalls() {
+		return new ArrayList<>(WALLS.values());
 	}
 
 	@ServerStartupEvent
@@ -80,14 +86,16 @@ public class ShadesOfMortton {
 			GameObject altar = World.getObject(Tile.of(3506, 3316, 0));
 			if (REPAIR_STATE >= 99) {
 				if (altar != null && altar.getId() == 4092) {
-					World.spawnObject(new GameObject(altar).setId(4091));
+					altar.setId(4091);
+					World.spawnObject(new GameObject(altar));
 					World.sendSpotAnim(altar.getTile(), new SpotAnim(1605));
 				} else if (altar != null && altar.getId() == 4090 && Utils.random(2) == 0) {
 					altar.setId(4091);
 					World.sendSpotAnim(altar.getTile(), new SpotAnim(1605));
 				}
 			} else if (altar != null && altar.getId() != 4092) {
-				World.removeObject(altar);
+				altar.setId(4092);
+				World.spawnObject(new GameObject(altar));
 				World.sendSpotAnim(altar.getTile(), new SpotAnim(1605));
 			}
 			return true;
