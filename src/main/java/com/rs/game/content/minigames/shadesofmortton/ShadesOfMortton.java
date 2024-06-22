@@ -62,7 +62,6 @@ public class ShadesOfMortton {
 
 	public static void addWall(TempleWall wall) {
 		WALLS.put(wall.getTile().getTileHash(), wall);
-		World.spawnObject(new GameObject(wall));
 	}
 
 	public static void deleteWall(TempleWall wall) {
