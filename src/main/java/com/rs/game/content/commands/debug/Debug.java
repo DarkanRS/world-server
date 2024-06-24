@@ -24,6 +24,7 @@ import com.rs.engine.quest.Quest;
 import com.rs.game.World;
 import com.rs.game.content.combat.CombatDefinitions.Spellbook;
 import com.rs.game.content.minigames.fightkiln.FightKilnController;
+import com.rs.game.content.minigames.shadesofmortton.TempleWall;
 import com.rs.game.content.quests.death_plateau.instances.PlayerVSTheMapController;
 import com.rs.game.content.quests.demonslayer.PlayerVSDelrithController;
 import com.rs.game.content.quests.demonslayer.WallyVSDelrithCutscene;
@@ -45,6 +46,8 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.handlers.EnterChunkHandler;
 import com.rs.utils.music.Music;
+import com.rs.game.content.minigames.shadesofmortton.ShadesOfMortton;
+
 
 import java.util.Arrays;
 
@@ -148,6 +151,19 @@ public class Debug {
 					}
 				}
 			}
+		});
+
+		Commands.add(Rights.PLAYER, "shadesresources", "Sets Shades of Morton to requested amount (0-100).", (p, args) -> {
+			p.save("shadeResources", Utils.clampI(Integer.valueOf(args[0]), 0, 100));
+			p.sendMessage("Your Shades of Mort'ton resources has been set to " + Utils.clampI(Integer.valueOf(args[0]), 0, 100) + ".");
+		});
+
+		Commands.add(Rights.PLAYER, "shadesrepairwalls", "Sets repair percentage of all known about walls in Shades of Mort'ton to requested amount (0-100).", (player, args) -> {
+			for (TempleWall wall : ShadesOfMortton.getWalls()) {
+				wall.setRepairPerc(Utils.clampI(Integer.valueOf(args[0]), 0, 100));
+				wall.update();
+			}
+			player.sendMessage("All known about walls in Shades of Mort'ton have been set to " + Utils.clampI(Integer.valueOf(args[0]), 0, 100) + "% build progress.");
 		});
 
 		Commands.add(Rights.PLAYER, "fightcaves", "Marks fight caves as having been completed.", (p, args) -> p.incrementCount("Fight Caves clears"));
