@@ -72,7 +72,8 @@ private fun wrapUpFightPits(player: Player, npc: NPC) {
         npc(TZHAAR_MEJ_JEH_PLAZA, T_CALM_TALK, "Here is TzHaar-Ket-Yit'tal's TokKul. Take it with you to the Kiln. We shall speak to the other TzHaar-Mej about our plan whilst you are away.")
         player(CONFUSED, "What should we do when we arrive at the Kiln?")
         npc(TZHAAR_MEJ_JEH_PLAZA, T_CALM_TALK, "Kiln is very old. The lava inside is powerful and ancient. That we know. Lava will be able to join Ga'al and memories inside TokKul as one.")
-
+        player(CONFUSED, "Is there anything I should know about the Kiln?")
+        npc(TZHAAR_MEJ_JEH_PLAZA, T_CALM_TALK, "It is where TzHaar came from in the beginning. We protect it, but do not go inside. It is sacred ground. TzHaar have not even walked down the tunnels leading to Kiln for very long time. They may have become dangerous.")
     }
     player.startConversation {
         npc(TZHAAR_MEJ_JEH_AK_PLAZA, T_CALM_TALK, "Now, champion TzHaar-Ket-Yit'tal is dead, TzHaar-Mej-Jeh. Like you, his memories are lost. He did not lay and egg.")
