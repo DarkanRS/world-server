@@ -255,8 +255,12 @@ public class Magic {
 				Lunars.handleDisruptionShield(player);
 				break;
 			case 75:
-				player.stopAll(false);
-				sendLunarTeleportSpell(player, 92, 101, Tile.of(2814, 3677, 0), new RuneSet(Rune.LAW, 3, Rune.ASTRAL, 3, Rune.WATER, 10));
+				if (player.isQuestComplete(Quest.EADGARS_RUSE)) {
+					player.stopAll(false);
+					sendLunarTeleportSpell(player, 92, 101, Tile.of(2814, 3677, 0), new RuneSet(Rune.LAW, 3, Rune.ASTRAL, 3, Rune.WATER, 10));
+				} else {
+					player.sendMessage("You have not yet learned this spell.");
+				}
 				break;
 			case 76:
 				player.stopAll(false);
