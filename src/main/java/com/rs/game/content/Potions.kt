@@ -39,6 +39,7 @@ const val FLASK: Int = 23191
 const val JUJU_VIAL: Int = 19996
 const val BEER_GLASS: Int = 1919
 const val EMPTY_KEG: Int = 5769
+const val COCKTAIL_GLASS: Int = 2026
 private const val EMPTY_CUP = 4244
 private const val BOWL = 1923
 private const val EMPTY_JUG = 1935
@@ -103,7 +104,12 @@ fun mapPotionOps() {
 enum class Potion(val emptyId: Int, val ids: IntArray, val effect: (Player) -> Unit) {
     CHOCOLATEY_MILK(1925, 1977, { it.heal(40) }),
     BUCKET_OF_MILK(1925, 1927, { }),
-    CUP_OF_TEA(1980, intArrayOf(712, 1978, 4242, 4243, 4245, 4246, 4838, 7730, 7731, 7733, 7734, 7736, 7737), { p ->
+    CUP_OF_TEA_DIG_SITE(1980, 712, { p ->
+        p.heal(30)
+        p.skills.adjustStat(3, 0.0, ATTACK)
+        p.forceTalk("Aaah, nothing like a nice cuppa tea!")
+    }),
+    CUP_OF_TEA(1980, intArrayOf(1978, 4242, 4243, 4245, 4246, 4838, 7730, 7731, 7733, 7734, 7736, 7737), { p ->
         p.heal(30)
         p.skills.adjustStat(3, 0.0, ATTACK)
         p.forceTalk("Aaah, nothing like a nice cuppa tea!")
@@ -768,6 +774,13 @@ enum class Potion(val emptyId: Int, val ids: IntArray, val effect: (Player) -> U
         p.skills.adjustStat(2, 0.0, WOODCUTTING)
         p.skills.adjustStat(-4, 0.0, ATTACK, STRENGTH)
         p.heal(20)
+    }),
+
+    FRUIT_BLAST(COCKTAIL_GLASS, 2084, { p ->
+        p.heal(9)
+    }),
+    PRE_MADE_FRUIT_BLAST(COCKTAIL_GLASS, 2034, { p ->
+        p.heal(9)
     }),
 
     CHEFS_DELIGHT(BEER_GLASS, 5755, { p ->
