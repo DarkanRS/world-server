@@ -27,6 +27,9 @@ import com.rs.plugin.handlers.ItemClickHandler;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.rs.game.content.world.areas.yanille.npcs.AleckKt.DEFAULT_TELEPORT_LOCATION;
+import static com.rs.game.content.world.areas.yanille.npcs.AleckKt.WATCHTOWER_TELEPORT_LOCATION_KEY;
+
 @PluginEventHandler
 public class TeleportTabs {
 
@@ -36,7 +39,7 @@ public class TeleportTabs {
 		FALADOR(8009, Tile.of(2965, 3379, 0)),
 		CAMELOT(8010, Tile.of(2758, 3478, 0)),
 		ARDOUGNE(8011, Tile.of(2660, 3306, 0)),
-		WATCHTOWER(8012, Tile.of(2549, 3114, 2)),
+		WATCHTOWER(8012, Tile.of(2549, 3114, 2)), // Deafult Watchtower tele loc
 		HOUSE(8013, null),
 
 		RIMMINGTON(18809, Tile.of(2954, 3225, 0)),
@@ -101,8 +104,14 @@ public class TeleportTabs {
 				return;
 			}
 
-			TeleTab t = TeleTab.forId(e.getItem().getId());
-			Magic.useTeleTab(e.getPlayer(), t.teleToTile, e.getItem().getId());
+			Tile teleportTile;
+			if (e.getItem().getId() == 8012) { // Watchtower tele tab
+				teleportTile = getWatchtowerTeleportTile(e.getPlayer());
+			} else {
+				TeleTab t = TeleTab.forId(e.getItem().getId());
+				teleportTile = t.tile();
+			}
+			Magic.useTeleTab(e.getPlayer(), teleportTile, e.getItem().getId());
 		}
 		case "Modify" -> {
 			if (!e.getPlayer().isQuestComplete(Quest.LOVE_STORY, "to modify house teleports."))
@@ -130,6 +139,11 @@ public class TeleportTabs {
 		}
 		}
 	});
+
+	private static Tile getWatchtowerTeleportTile(Player player) {
+		String teleportLocation = (String) player.getSavingAttributes().getOrDefault(WATCHTOWER_TELEPORT_LOCATION_KEY, DEFAULT_TELEPORT_LOCATION);
+		return "Yanille".equals(teleportLocation) ? Tile.of(2576, 3089, 0) : Tile.of(2549, 3114, 2);
+	}
 
 	public static boolean meetsTabReqs(int itemId, Player p) {
 		if (itemId == 20175 || (itemId >= 18809 && itemId <= 18814)) {
