@@ -906,7 +906,6 @@ public class House {
 	}
 
 	public boolean joinHouse(final Player player) {
-		player.lock();
 		if (!isOwner(player)) { // not owner
 			if (!isOwnerInside() || !loaded) {
 				player.sendMessage("That player is offline, or has privacy mode enabled.");
@@ -917,6 +916,7 @@ public class House {
 				return false;
 			}
 		}
+		player.lock();
 		players.add(player);
 		sendStartInterface(player);
 		player.getControllerManager().startController(new HouseController(this));
