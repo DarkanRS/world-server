@@ -233,19 +233,36 @@ public class ShadesOfMortton {
 				player.sendMessage("You don't have enough resources!");
 				return false;
 			}
+			if (!player.getInventory().containsItem(3678) && !player.getInventory().containsItem(2347)) {
+				player.sendMessage("You need a hammer to do that.");
+				return false;
+			}
             player.getActionManager().setActionDelay(4);
             return true;
         }
 
-        @Override
-        public boolean process(Player player) {
-            boolean inside = player.getX() >= 3505 && player.getX() <= 3507 && player.getY() >= 3315 && player.getY() <= 3317;
-            int anim = player.getInventory().containsItem(3678) ? inside ? 8861 : 8890 : inside ? 8865 : 8888;
-            if (getWall(e.getObject()).getRepairPerc() > 50)
-                anim = player.getInventory().containsItem(3678) ? 8950 : 8893;
-            player.anim(anim);
-            return true;
-        }
+		@Override
+		public boolean process(Player player) {
+			boolean inside = player.getX() >= 3505 && player.getX() <= 3507 && player.getY() >= 3315 && player.getY() <= 3317;
+			int anim = -1;
+
+			if (player.getInventory().containsItem(3678)) {
+				if (getWall(e.getObject()).getRepairPerc() > 50) {
+					anim = 8950;
+				} else {
+					anim = inside ? 8865 : 8890;
+				}
+			} else if (player.getInventory().containsItem(2347)) {
+				if (getWall(e.getObject()).getRepairPerc() > 50) {
+					anim = 8893;
+				} else {
+					anim = inside ? 8861 : 8888;
+				}
+			}
+
+			player.anim(anim);
+			return true;
+		}
 
         @Override
         public int processWithDelay(Player player) {
