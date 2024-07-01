@@ -371,8 +371,8 @@ public class Magic {
 			case 62: // Watchtower teleport
 				final Tile WATCHTOWER_TILE = Tile.of(2547, 3113, 2);
 				final Tile YANILLE_TILE = Tile.of(2576, 3089, 0);
-				String teleportLocation = (String) player.getSavingAttributes().getOrDefault(WATCHTOWER_TELEPORT_LOCATION_KEY, DEFAULT_TELEPORT_LOCATION);
-				Tile teleportTile = "Yanille".equals(teleportLocation) ? YANILLE_TILE : WATCHTOWER_TILE;
+				Boolean teleportLocation = (Boolean) player.getSavingAttributes().getOrDefault(WATCHTOWER_TELEPORT_LOCATION_KEY, DEFAULT_TELEPORT_LOCATION);
+				Tile teleportTile = teleportLocation ? YANILLE_TILE : WATCHTOWER_TILE;
 				sendNormalTeleportSpell(player, 58, 68, teleportTile, new RuneSet(Rune.EARTH, 2, Rune.LAW, 2));
 				break;
 			case 69: // Trollheim teleport

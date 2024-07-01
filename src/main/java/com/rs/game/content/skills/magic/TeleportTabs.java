@@ -141,8 +141,8 @@ public class TeleportTabs {
 	});
 
 	private static Tile getWatchtowerTeleportTile(Player player) {
-		String teleportLocation = (String) player.getSavingAttributes().getOrDefault(WATCHTOWER_TELEPORT_LOCATION_KEY, DEFAULT_TELEPORT_LOCATION);
-		return "Yanille".equals(teleportLocation) ? Tile.of(2576, 3089, 0) : Tile.of(2549, 3114, 2);
+		Boolean teleportLocation = (Boolean) player.getSavingAttributes().getOrDefault(WATCHTOWER_TELEPORT_LOCATION_KEY, DEFAULT_TELEPORT_LOCATION);
+		return teleportLocation ? Tile.of(2576, 3089, 0) : Tile.of(2549, 3114, 2);
 	}
 
 	public static boolean meetsTabReqs(int itemId, Player p) {

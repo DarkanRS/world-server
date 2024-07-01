@@ -11,8 +11,8 @@ import com.rs.plugin.annotations.ServerStartupEvent
 import com.rs.plugin.kts.onNpcClick
 import com.rs.utils.shop.ShopsHandler
 
-const val WATCHTOWER_TELEPORT_LOCATION_KEY = "watchtowerTeleportLocation"
-const val DEFAULT_TELEPORT_LOCATION = "Watchtower"
+const val WATCHTOWER_TELEPORT_LOCATION_KEY = "watchtowerTeleport"
+const val DEFAULT_TELEPORT_LOCATION = false // false = Watchtower, true = Yanille
 
 class Aleck(player: Player, npc: NPC) {
     private val hardRequirementMet = SetReward.ARDOUGNE_CLOAK.hasRequirements(player, AchievementDef.Area.ARDOUGNE, AchievementDef.Difficulty.HARD, false)
@@ -27,11 +27,11 @@ class Aleck(player: Player, npc: NPC) {
                     op("I'd like to change my Watchtower Teleport point.") {
                         player(CALM_TALK, "I'd like to change my Watchtower Teleport point.")
                         val currentLocation = getTeleportLocation(player)
-                        val nextLocation = getNextTeleportLocation(currentLocation)
-                        options("Toggle Watchtower Teleport to $nextLocation?") {
+                        val nextLocation = !currentLocation
+                        options("Toggle Watchtower Teleport to ${if (!nextLocation) "Watchtower" else "Yanille"}?") {
                             opExec("Yes.") {
                                 setTeleportLocation(player, nextLocation)
-                                val locationMessage = if (nextLocation == "Watchtower") "Watchtower" else "centre of Yanille"
+                                val locationMessage = if (!nextLocation) "Watchtower" else "centre of Yanille"
                                 player.sendMessage("Watchtower Teleport will now teleport you to the $locationMessage.")
                             }
                             op("No.")
@@ -42,16 +42,11 @@ class Aleck(player: Player, npc: NPC) {
         }
     }
 
-    private fun getNextTeleportLocation(currentLocation: String): String {
-        return if (currentLocation == "Watchtower") "Yanille" else "Watchtower"
+    private fun getTeleportLocation(player: Player): Boolean {
+        return player.getBool(WATCHTOWER_TELEPORT_LOCATION_KEY)
     }
 
-    private fun getTeleportLocation(player: Player): String {
-        val location = player.get(WATCHTOWER_TELEPORT_LOCATION_KEY)
-        return location as? String ?: DEFAULT_TELEPORT_LOCATION
-    }
-
-    private fun setTeleportLocation(player: Player, location: String) {
+    private fun setTeleportLocation(player: Player, location: Boolean) {
         player.save(WATCHTOWER_TELEPORT_LOCATION_KEY, location)
     }
 }
