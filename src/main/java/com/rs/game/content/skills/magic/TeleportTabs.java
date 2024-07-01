@@ -174,7 +174,7 @@ public class TeleportTabs {
 		}
 
 		if (itemId == 20175 && !p.isQuestComplete(Quest.EADGARS_RUSE)) {
-			p.sendMessage("You must have completed Troll Stronghold to be able to use this teleport.");
+			p.sendMessage("You must have completed Eadgar's Ruse to be able to use this teleport.");
 			return false;
 		}
 
