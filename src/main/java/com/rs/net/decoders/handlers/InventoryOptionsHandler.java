@@ -338,12 +338,8 @@ public class InventoryOptionsHandler {
 			}, 0, 0);
 		}
 
-		if (itemId >= 2520 && itemId <= 2526) {
-			String[] phrases = { "Come on Dobbin, we can win the race!", "Hi-ho Silver, and away!", "Neaahhhyyy! Giddy-up horsey!" };
-			player.setNextAnimation(new Animation(918+((itemId-2520)/2)));
-			player.setNextForceTalk(new ForceTalk(phrases[Utils.random(phrases.length)]));
-			return;
-		}
+
+
 
 		if (itemId == 18336) {
 			player.hasScrollOfLife = true;

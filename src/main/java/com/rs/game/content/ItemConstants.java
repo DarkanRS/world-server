@@ -175,29 +175,8 @@ public class ItemConstants {
 		GANODERMIC_PONCHO(22490, 22492, 22456, Ticks.fromHours(10), -1),
 		GANODERMIC_LEGGINGS(22486, 22488, 22454, Ticks.fromHours(10), -1),
 
-		CRYSTAL_BOW_NEW(4212, 4214, 4215, Ticks.fromHours(1), -1),
-		CRYSTAL_BOW_FULL(4214, 4214, 4215, Ticks.fromHours(1), -1), //not certain how, but edge case to cover if someone got a fresh "full" bow without meta data instead of a new bow.
-		CRYSTAL_BOW_NINE(4215, 4215, 4216, Ticks.fromHours(1), -1),
-		CRYSTAL_BOW_EIGHT(4216, 4216, 4217, Ticks.fromHours(1), -1),
-		CRYSTAL_BOW_SEVEN(4217, 4217, 4218, Ticks.fromHours(1), -1),
-		CRYSTAL_BOW_SIX(4218, 4218, 4219, Ticks.fromHours(1), -1),
-		CRYSTAL_BOW_FIVE(4219, 4219, 4220, Ticks.fromHours(1), -1),
-		CRYSTAL_BOW_FOUR(4220, 4220, 4221, Ticks.fromHours(1), -1),
-		CRYSTAL_BOW_THREE(4221, 4221, 4222, Ticks.fromHours(1), -1),
-		CRYSTAL_BOW_TWO(4222, 4222, 4223, Ticks.fromHours(1), -1),
-		CRYSTAL_BOW_ONE(4223, 4223, 4207, Ticks.fromHours(1), -1),
-
-		CRYSTAL_SHIELD_NEW(4224, 4225, 4226, Ticks.fromHours(1), -1),
-		CRYSTAL_SHIELD_FULL(4225, 4225, 4226, Ticks.fromHours(1), -1), //not certain how, but edge case to cover if someone got a fresh "full" shield without meta data instead of a new bow.
-		CRYSTAL_SHIELD_NINE(4226, 4226, 4227, Ticks.fromHours(1), -1),
-		CRYSTAL_SHIELD_EIGHT(4227, 4227, 4228, Ticks.fromHours(1), -1),
-		CRYSTAL_SHIELD_SEVEN(4228, 4228, 4229, Ticks.fromHours(1), -1),
-		CRYSTAL_SHIELD_SIX(4229, 4229, 4230, Ticks.fromHours(1), -1),
-		CRYSTAL_SHIELD_FIVE(4230, 4230, 4231, Ticks.fromHours(1), -1),
-		CRYSTAL_SHIELD_FOUR(4231, 4231, 4232, Ticks.fromHours(1), -1),
-		CRYSTAL_SHIELD_THREE(4232, 4232, 4233, Ticks.fromHours(1), -1),
-		CRYSTAL_SHIELD_TWO(4233, 4233, 4234, Ticks.fromHours(1), -1),
-		CRYSTAL_SHIELD_ONE(4234, 4234, 4207, Ticks.fromHours(1), -1),
+		CRYSTAL_BOW_NEW(4212, 4214, 4207, Ticks.fromHours(10), -1),
+		CRYSTAL_SHIELD_NEW(4224, 4225, 4207, Ticks.fromHours(10), -1),
 
 		ROYAL_CROSSBOW(24338, 24338, 24339, Ticks.fromHours(10), -1),
 

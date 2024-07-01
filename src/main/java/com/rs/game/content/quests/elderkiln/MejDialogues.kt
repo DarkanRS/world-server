@@ -1,6 +1,8 @@
 package com.rs.game.content.quests.elderkiln
 
+import com.rs.engine.dialogue.HeadE
 import com.rs.engine.dialogue.HeadE.*
+import com.rs.engine.dialogue.dialogue
 import com.rs.engine.dialogue.startConversation
 import com.rs.engine.quest.Quest
 import com.rs.game.model.entity.npc.NPC
@@ -54,9 +56,78 @@ private fun mejJahBirthingPoolDialogue(player: Player) {
 private fun mejDialogueCenterRing(player: Player, npc: NPC) {
     when(player.getQuestStage(Quest.ELDER_KILN)) {
         STAGE_SAVE_GAAL_FIGHTPITS -> saveGaalFightPitsAkDialogue(player, npc)
-//        STAGE_WRAP_UP_FIGHT_PITS -> wrapUpFightPits(player, npc)
-//        STAGE_GO_TO_KILN -> escortGaalThroughKiln(player, npc)
+        STAGE_WRAP_UP_FIGHT_PITS -> wrapUpFightPits(player, npc)
+        STAGE_GO_TO_KILN -> escortGaalThroughKiln(player, npc)
         else -> mejJahDialoguePostQuest(player, npc)
+    }
+}
+
+private fun wrapUpFightPits(player: Player, npc: NPC) {
+    val instructKiln = dialogue {
+        npc(TZHAAR_MEJ_JEH_AK_PLAZA, T_CALM_TALK, "This Ga'al that survived the Fight Pit – it can go with you. It will meet you at entrance.")
+        player(CONFUSED, "Shouldn't you ask the Ga'al if he wants to go?")
+        npc(TZHAAR_MEJ_JEH_AK_PLAZA, T_CALM_TALK, "It only Ga'al.")
+        npc(TZHAAR_MEJ_JEH_PLAZA, T_CALM_TALK, "No, ${player.displayName} is right. Ga'al must have its say.")
+        npc(GAAL_XOX, T_CALM_TALK, "If this make Ga'al-Xox real TzHaar, Ga'al-Xox go.")
+        npc(TZHAAR_MEJ_JEH_PLAZA, T_CALM_TALK, "Here is TzHaar-Ket-Yit'tal's TokKul. Take it with you to the Kiln. We shall speak to the other TzHaar-Mej about our plan whilst you are away.")
+        player(CONFUSED, "What should we do when we arrive at the Kiln?")
+        npc(TZHAAR_MEJ_JEH_PLAZA, T_CALM_TALK, "Kiln is very old. The lava inside is powerful and ancient. That we know. Lava will be able to join Ga'al and memories inside TokKul as one.")
+        player(CONFUSED, "Is there anything I should know about the Kiln?")
+        npc(TZHAAR_MEJ_JEH_PLAZA, T_CALM_TALK, "It is where TzHaar came from in the beginning. We protect it, but do not go inside. It is sacred ground. TzHaar have not even walked down the tunnels leading to Kiln for very long time. They may have become dangerous.")
+    }
+    player.startConversation {
+        npc(TZHAAR_MEJ_JEH_AK_PLAZA, T_CALM_TALK, "Now, champion TzHaar-Ket-Yit'tal is dead, TzHaar-Mej-Jeh. Like you, his memories are lost. He did not lay and egg.")
+        npc(TZHAAR_MEJ_JEH_AK_PLAZA, T_CALM_TALK, "You and your Jal'Yt have murdered a good TzHaar. His memories die with him!")
+        npc(TZHAAR_MEJ_JEH_PLAZA, T_CALM_TALK, "He died in the Pit. Death in the Pits is not murder, and, if you listened to us, this would not have happened. I have a plan, TzHaar-Mej-Ak...")
+        npc(TZHAAR_MEJ_JEH_AK_PLAZA, T_CALM_TALK, "Enough of this madness! Your Ga'al is dead! These plans, these schemes... they are not work of good TzHaar. Our Champion is dead, because of your plans.")
+        npc(TZHAAR_MEJ_JEH_PLAZA, T_CALM_TALK, "There is a way to bring the Champion back! ${player.displayName}, what do you know about Tokkul?")
+        cosmeticOptions(
+            "It's the remains of your dead that you use as currency.",
+            "It's a type of money, right?",
+            "Not that much."
+        )
+        npc(TZHAAR_MEJ_JEH_PLAZA, T_CALM_TALK, "When TzHaar die we turn into Tokkul; small rocks with our memories trapped inside.")
+        npc(TZHAAR_MEJ_JEH_PLAZA, T_CALM_TALK, "Our memories make it valuable, so TzHaar trade it with each other as currency.")
+        npc(TZHAAR_MEJ_JEH_PLAZA, T_CALM_TALK, "It has never been possible to get memories from TokKul. And TzHaar who have not laid eggs before they turn to TokKul... their memories are lost forever.")
+        npc(TZHAAR_MEJ_JEH_PLAZA, T_CALM_TALK, "What would you say if I told you there was a way of recovering these memories?")
+        npc(TZHAAR_MEJ_JEH_AK_PLAZA, T_CALM_TALK, "It – it is not possible.")
+        npc(TZHAAR_MEJ_JEH_PLAZA, T_CALM_TALK, "It is! Our Kiln has that power, TzHaar-Mej-Ak. The power to forge TokKul, fusing them with the body of another. The Ga'al are empty bodies that we can use.")
+        player(CONFUSED, "Hold on - your Kiln?")
+        npc(TZHAAR_MEJ_JEH_PLAZA, T_CALM_TALK, "The Kiln is where TzHaar were first made. Its lava is able to give life and melt down even the hardest of metals.")
+        npc(TZHAAR_MEJ_JEH_AK_PLAZA, T_CALM_TALK, "And we are not permitted to visit it! Kiln is sacred to TzHaar. It is out of bounds!")
+        npc(TZHAAR_MEJ_JEH_PLAZA, T_CALM_TALK, "But it has the power to join TokKul with Ga'al! To bring back lost memories! The JalYt – it would not have to break our rules – it could go.")
+        npc(TZHAAR_MEJ_JEH_AK_PLAZA, T_CALM_TALK, "This is too drastic, TzHaar-Mej-Jeh, we must think on this.")
+        npc(TZHAAR_MEJ_JEH_PLAZA, T_CALM_TALK, "Think of all the TzHaar born without eggs – all the Ket-Champions, the Mej-Elders whose memories we have in TokKul. We can bring them back.")
+        npc(TZHAAR_MEJ_JEH_PLAZA, T_CALM_TALK, "What else can we do? More and more Ga'al keep being born. If we cannot pass on our memories then it is the end of the TzHaar.")
+        npc(TZHAAR_MEJ_JEH_AK_PLAZA, T_CALM_TALK, "You are... right, TzHaar-Mej-Jeh, we must take action, but only if the JalYt will help. TzHaar will not step foot in there.")
+        options {
+            op("This only helps the TzHaar, not the Ga'al!") {
+                npc(TZHAAR_MEJ_JEH_AK_PLAZA, T_CALM_TALK, "Once Ga'als have memories of TzHaar, they will be able to work and be real TzHaar. This will help both the Ga'al and the TzHaar.")
+                player(CALM_TALK, "Fine, I'll help, but only for the good of the Ga'al.")
+                jump(instructKiln)
+            }
+
+            op("Of course I'll help the TzHaar.") {
+                npc(TZHAAR_MEJ_JEH_AK_PLAZA, T_CALM_TALK, "You good ally of TzHaar, JalYt.")
+                npc(TZHAAR_MEJ_JEH_PLAZA, T_CALM_TALK, "You must journey to the Kiln. You will need to travel through many tunnels, east of Main Plaza. Just south of Birthing Pool there is passage heading to the Kiln entrance. Guards will let you pass.")
+                jump(instructKiln)
+            }
+
+            op("The kiln sounds powerful – I'm there.") {
+                npc(TZHAAR_MEJ_JEH_AK_PLAZA, T_CALM_TALK, "Be careful - Kiln is sacred. Do not think you can use it for your own means, JalYt. Do just what we say or regret it.")
+                jump(instructKiln)
+            }
+
+            op("I can't be part of this right now.") {
+                npc(TZHAAR_MEJ_JEH_AK_PLAZA, T_CALM_TALK, "That is your choice, JalYt.")
+            }
+        }
+    }
+}
+
+private fun escortGaalThroughKiln(player: Player, npc: NPC) {
+    player.startConversation {
+
     }
 }
 

@@ -477,7 +477,7 @@ fun mapSpecials() {
         val multiplier = Utils.random(if (!target.isAtMultiArea && !player.isAtMultiArea && !target.isForceMultiArea && !player.isForceMultiArea) 0.5 else 0.0, 1.5)
         damage *= multiplier
         delayNormalHit(target, Hit(player, damage.toInt(), HitLook.MAGIC_DAMAGE).setMaxHit(damage.toInt()))
-        WorldTasks.schedule(0) { target.spotAnim(1730) }
+        WorldTasks.schedule(0) { target.spotAnim(2795) }
         player.soundEffect(target, 3853, true)
         return@SpecialAttack getMeleeCombatDelay(player.equipment.weaponId)
     })

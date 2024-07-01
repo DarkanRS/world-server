@@ -155,7 +155,7 @@ public class Varrock {
 		e.getPlayer().getSkills().addXp(Constants.ATTACK, 5);
 	});
 
-	public static ObjectClickHandler handleVarrockSewerEntrance = new ObjectClickHandler(new Object[] { "Manhole" }, e -> {
+	public static ObjectClickHandler handleVarrockSewerEntrance = new ObjectClickHandler(new Object[] { 882 }, e -> {
 		Player p = e.getPlayer();
 		GameObject obj = e.getObject();
 		if(e.getOption().equalsIgnoreCase("Climb-Down"))

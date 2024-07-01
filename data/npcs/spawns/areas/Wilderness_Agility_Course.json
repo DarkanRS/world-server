@@ -1,0 +1,93 @@
+[
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2989,
+      "y": 3944
+    },
+    "comment": "Skeleton",
+    "npcId": 5338
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2992,
+      "y": 10347
+    },
+    "comment": "Skeleton",
+    "npcId": 5338
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2999,
+      "y": 10342
+    },
+    "comment": "Skeleton",
+    "npcId": 5338
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3003,
+      "y": 10350
+    },
+    "comment": "Skeleton",
+    "npcId": 5338
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3003,
+      "y": 10359
+    },
+    "comment": "Skeleton",
+    "npcId": 5338
+  },
+  
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2992,
+      "y": 3942
+    },
+    "comment": "Skeleton",
+    "npcId": 92
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2995,
+      "y": 10343
+    },
+    "comment": "Skeleton",
+    "npcId": 92
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3003,
+      "y": 10346
+    },
+    "comment": "Skeleton",
+    "npcId": 92
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2998,
+      "y": 10351
+    },
+    "comment": "Skeleton",
+    "npcId": 92
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3005,
+      "y": 10352
+    },
+    "comment": "Skeleton",
+    "npcId": 92
+  }
+]

@@ -1,51 +1,5 @@
 [
   {
-    "comment": "Werewolf Agility trainer, added by jesse",
-    "npcId": 1664,
-    "tile": {
-      "x": 3528,
-      "y": 9865,
-      "plane": 0
-    }
-  },
-  {
-    "dir": "NORTH",
-    "comment": "Werewolf Agility Boss, added by jesse",
-    "npcId": 1661,
-    "tile": {
-      "x": 3540,
-      "y": 9873,
-      "plane": 0
-    }
-  },
-  {
-    "comment": "Werewolf Agility trainer, added by jesse",
-    "npcId": 1663,
-    "tile": {
-      "x": 3542,
-      "y": 9888,
-      "plane": 0
-    }
-  },
-  {
-    "comment": "Werewolf Agility trainer, added by jesse",
-    "npcId": 1663,
-    "tile": {
-      "x": 3544,
-      "y": 9912,
-      "plane": 0
-    }
-  },
-  {
-    "comment": "Werewolf Agility trainer, added by jesse",
-    "npcId": 1663,
-    "tile": {
-      "x": 3527,
-      "y": 9909,
-      "plane": 0
-    }
-  },
-  {
     "comment": "Baba Yaga added by trent",
     "npcId": 4513,
     "tile": {
@@ -129314,24 +129268,6 @@
     },
     "comment": "Skeleton",
     "npcId": 5340
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2989,
-      "y": 3944
-    },
-    "comment": "Skeleton",
-    "npcId": 5338
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2992,
-      "y": 3942
-    },
-    "comment": "Skeleton",
-    "npcId": 92
   },
   {
     "tile": {

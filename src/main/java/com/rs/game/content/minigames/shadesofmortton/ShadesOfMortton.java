@@ -31,6 +31,8 @@ import com.rs.plugin.handlers.*;
 import com.rs.utils.Areas;
 import com.rs.utils.Ticks;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -60,12 +62,14 @@ public class ShadesOfMortton {
 
 	public static void addWall(TempleWall wall) {
 		WALLS.put(wall.getTile().getTileHash(), wall);
-		World.spawnObject(wall);
 	}
 
 	public static void deleteWall(TempleWall wall) {
 		WALLS.remove(wall.getTile().getTileHash());
-		World.removeObject(wall);
+	}
+
+	public static List<TempleWall> getWalls() {
+		return new ArrayList<>(WALLS.values());
 	}
 
 	@ServerStartupEvent
@@ -80,14 +84,16 @@ public class ShadesOfMortton {
 			GameObject altar = World.getObject(Tile.of(3506, 3316, 0));
 			if (REPAIR_STATE >= 99) {
 				if (altar != null && altar.getId() == 4092) {
-					World.spawnObject(new GameObject(altar).setId(4091));
+					altar.setId(4091);
+					World.spawnObject(new GameObject(altar));
 					World.sendSpotAnim(altar.getTile(), new SpotAnim(1605));
 				} else if (altar != null && altar.getId() == 4090 && Utils.random(2) == 0) {
 					altar.setId(4091);
 					World.sendSpotAnim(altar.getTile(), new SpotAnim(1605));
 				}
 			} else if (altar != null && altar.getId() != 4092) {
-				World.removeObject(altar);
+				altar.setId(4092);
+				World.spawnObject(new GameObject(altar));
 				World.sendSpotAnim(altar.getTile(), new SpotAnim(1605));
 			}
 			return true;
@@ -216,19 +222,47 @@ public class ShadesOfMortton {
 
         @Override
         public boolean start(Player player) {
+			player.faceTile(e.getObject().getTile());
+			if (player.getI("shadeResources", 0) <= 95 && player.getInventory().containsItem(8837) && player.getInventory().containsItem(3420) && player.getInventory().containsItem(1941, 5)) {
+				player.getInventory().deleteItem(8837, 1);
+				player.getInventory().deleteItem(3420, 1);
+				player.getInventory().deleteItem(1941, 5);
+				addResources(player, 5);
+			}
+			if (player.getI("shadeResources", 0) <= 0) {
+				player.sendMessage("You don't have enough resources!");
+				return false;
+			}
+			if (!player.getInventory().containsItem(3678) && !player.getInventory().containsItem(2347)) {
+				player.sendMessage("You need a hammer to do that.");
+				return false;
+			}
             player.getActionManager().setActionDelay(4);
             return true;
         }
 
-        @Override
-        public boolean process(Player player) {
-            boolean inside = player.getX() >= 3505 && player.getX() <= 3507 && player.getY() >= 3315 && player.getY() <= 3317;
-            int anim = player.getInventory().containsItem(3678) ? inside ? 8861 : 8890 : inside ? 8865 : 8888;
-            if (getWall(e.getObject()).getRepairPerc() > 50)
-                anim = player.getInventory().containsItem(3678) ? 8950 : 8893;
-            player.anim(anim);
-            return true;
-        }
+		@Override
+		public boolean process(Player player) {
+			boolean inside = player.getX() >= 3505 && player.getX() <= 3507 && player.getY() >= 3315 && player.getY() <= 3317;
+			int anim = -1;
+
+			if (player.getInventory().containsItem(3678)) {
+				if (getWall(e.getObject()).getRepairPerc() > 50) {
+					anim = 8950;
+				} else {
+					anim = inside ? 8865 : 8890;
+				}
+			} else if (player.getInventory().containsItem(2347)) {
+				if (getWall(e.getObject()).getRepairPerc() > 50) {
+					anim = 8893;
+				} else {
+					anim = inside ? 8861 : 8888;
+				}
+			}
+
+			player.anim(anim);
+			return true;
+		}
 
         @Override
         public int processWithDelay(Player player) {

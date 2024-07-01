@@ -4,11 +4,11 @@ plugins {
 	application
 	`maven-publish`
 	id("com.github.johnrengelman.shadow") version "8.1.1"
-	kotlin("jvm") version("1.9.21")
+	kotlin("jvm") version("2.0.0")
 }
 
-val darkanVersion: String = "1.9.5"
-val ktVer: String = "1.9.21"
+val darkanVersion: String = "2.0.0"
+val ktVer: String = "2.0.0"
 
 application {
 	group = "rs.darkan"
@@ -17,7 +17,7 @@ application {
 }
 
 java {
-	toolchain.languageVersion = JavaLanguageVersion.of(21)
+	toolchain.languageVersion = JavaLanguageVersion.of(22)
 }
 
 repositories {
@@ -27,7 +27,7 @@ repositories {
 }
 
 dependencies {
-	implementation("rs.darkan:core:1.6.11")
+	implementation("rs.darkan:core:2.0.0")
 
 	implementation("org.jetbrains.kotlin:kotlin-stdlib:$ktVer")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-common:$ktVer")
@@ -36,7 +36,7 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-scripting-jvm-host:$ktVer")
 	implementation("org.jetbrains.kotlin:kotlin-main-kts:$ktVer")
 	implementation("org.jetbrains.kotlin:kotlin-script-runtime:$ktVer")
-	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0-RC2")
+	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
 
 	implementation("org.openjdk.jmh:jmh-core:1.37")
 	implementation("com.google.code.gson:gson:2.10.1")

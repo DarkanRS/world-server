@@ -24,6 +24,7 @@ import com.rs.engine.quest.Quest;
 import com.rs.game.World;
 import com.rs.game.content.combat.CombatDefinitions.Spellbook;
 import com.rs.game.content.minigames.fightkiln.FightKilnController;
+import com.rs.game.content.minigames.shadesofmortton.TempleWall;
 import com.rs.game.content.quests.death_plateau.instances.PlayerVSTheMapController;
 import com.rs.game.content.quests.demonslayer.PlayerVSDelrithController;
 import com.rs.game.content.quests.demonslayer.WallyVSDelrithCutscene;
@@ -45,6 +46,8 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.handlers.EnterChunkHandler;
 import com.rs.utils.music.Music;
+import com.rs.game.content.minigames.shadesofmortton.ShadesOfMortton;
+
 
 import java.util.Arrays;
 
@@ -77,10 +80,6 @@ public class Debug {
 
 		Commands.add(Rights.ADMIN, "shapemusic", "Starts showing music shape.", (p, args) -> musicMoveOn = !musicMoveOn);
 
-		Commands.add(Rights.ADMIN, "sshift", "Transforms into specified NPC.", (p, args) -> {
-			p.getAppearance().transformIntoNPC(Integer.valueOf(args[0]));
-		});
-
 		Commands.add(Rights.ADMIN, "cleartoolbelt", "Clears your toolbelt.", (p, args) -> {
 			p.clearToolbelt();
 			p.sendMessage("You have cleared your toolbelt.");
@@ -107,7 +106,7 @@ public class Debug {
 		});
 
 		Commands.add(Rights.PLAYER, "cutscene2 [id]", "Starts crate scene.", (p, args) -> {
-			switch (Integer.valueOf(args[0])) {
+			switch (Integer.parseInt(args[0])) {
 				case 0 -> p.playCutscene(new WallyVSDelrithCutscene());
 				case 1 -> p.getControllerManager().startController(new PlayerVSDelrithController());
 				case 2 -> p.getControllerManager().startController(new DragonSlayer_BoatScene());
@@ -129,11 +128,11 @@ public class Debug {
 				p.sendMessage("You are already in a minigame, dedicated area(controller)!");
 				return;
 			}
-			if(Integer.valueOf(args[0]) > 37 || Integer.valueOf(args[0]) < 1) {
+			if(Integer.parseInt(args[0]) > 37 || Integer.parseInt(args[0]) < 1) {
 				p.sendMessage("Invalid wave, must be between 1 and 37.");
 				return;
 			}
-			p.getControllerManager().startController(new FightKilnController(Integer.valueOf(args[0]), true));
+			p.getControllerManager().startController(new FightKilnController(Integer.parseInt(args[0]), true));
 		});
 
 		Commands.add(Rights.PLAYER, "random", "Forces a random event.", (p, args) -> attemptSpawnRandom(p, true));
@@ -150,6 +149,19 @@ public class Debug {
 			}
 		});
 
+		Commands.add(Rights.PLAYER, "shadesresources", "Sets Shades of Morton to requested amount (0-100).", (p, args) -> {
+			p.save("shadeResources", Utils.clampI(Integer.parseInt(args[0]), 0, 100));
+			p.sendMessage("Your Shades of Mort'ton resources has been set to " + Utils.clampI(Integer.parseInt(args[0]), 0, 100) + ".");
+		});
+
+		Commands.add(Rights.PLAYER, "shadesrepairwalls", "Sets repair percentage of all known about walls in Shades of Mort'ton to requested amount (0-100).", (player, args) -> {
+			for (TempleWall wall : ShadesOfMortton.getWalls()) {
+				wall.setRepairPerc(Utils.clampI(Integer.parseInt(args[0]), 0, 100));
+				wall.update();
+			}
+			player.sendMessage("All known about walls in Shades of Mort'ton have been set to " + Utils.clampI(Integer.parseInt(args[0]), 0, 100) + "% build progress.");
+		});
+
 		Commands.add(Rights.PLAYER, "fightcaves", "Marks fight caves as having been completed.", (p, args) -> p.incrementCount("Fight Caves clears"));
 		
 		Commands.add(Rights.PLAYER, "showhitchance", "Toggles the display of your hit chance when attacking opponents.", (p, args) -> {
@@ -158,11 +170,11 @@ public class Debug {
 		});
 
 		Commands.add(Rights.PLAYER, "item,spawn [itemId (amount)]", "Spawns an item with specified id and amount.", (p, args) -> {
-			if (ItemDefinitions.getDefs(Integer.valueOf(args[0])).getName().equals("null")) {
+			if (ItemDefinitions.getDefs(Integer.parseInt(args[0])).getName().equals("null")) {
 				p.sendMessage("That item is unused.");
 				return;
 			}
-			p.getInventory().addItem(Integer.valueOf(args[0]), args.length >= 2 ? Integer.valueOf(args[1]) : 1);
+			p.getInventory().addItem(Integer.parseInt(args[0]), args.length >= 2 ? Integer.parseInt(args[1]) : 1);
 			p.stopAll();
 		});
 

@@ -1,6 +1,7 @@
 package com.rs.engine.dialogue
 
 import com.rs.engine.dialogue.statements.MakeXStatement
+import com.rs.engine.dialogue.statements.OptionStatement
 import com.rs.engine.dialogue.statements.Statement
 import com.rs.engine.quest.Quest
 import com.rs.game.model.entity.npc.NPC
@@ -61,11 +62,24 @@ open class DialogueBuilder(val stages: MutableMap<String, Dialogue> = mutableMap
         applyPendingLabel()
     }
 
+    fun jump(next: Dialogue) {
+        dialogue = dialogue.addNext(next)
+        applyPendingLabel()
+    }
+
     fun options(title: String? = null, setup: OptionsBuilder.() -> Unit) {
         dialogue = dialogue.addOptions(title) { options ->
             OptionsBuilder(stages).apply(setup).applyToOptions(options)
         }
         applyPendingLabel()
+    }
+
+    fun cosmeticOptions(vararg options: String) {
+        dialogue = dialogue.addNext(OptionStatement("Select an Option", *options))
+        val nextChain = Dialogue()
+        options.forEach { _ -> dialogue.addNext(nextChain) }
+        applyPendingLabel()
+        dialogue = nextChain
     }
 
     fun makeX(itemId: Int, maxAmt: Int = 60) {

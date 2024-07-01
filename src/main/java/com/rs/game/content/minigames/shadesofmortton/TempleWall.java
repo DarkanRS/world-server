@@ -16,6 +16,7 @@
 //
 package com.rs.game.content.minigames.shadesofmortton;
 
+import com.rs.game.World;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.util.Utils;
 
@@ -51,10 +52,15 @@ public class TempleWall extends GameObject {
 
 	public void update() {
 		setId(baseId + Utils.clampI(buildProgress / 10, 0, 10));
+		World.spawnObject(new GameObject(this));
 	}
 
 	public int getRepairPerc() {
 		return Utils.clampI(buildProgress, 0, 100);
+	}
+
+	public void setRepairPerc(int perc) {
+		this.buildProgress = perc;
 	}
 
 }

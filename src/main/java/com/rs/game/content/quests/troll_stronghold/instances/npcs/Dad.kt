@@ -36,7 +36,7 @@ class Dad(id: Int, tile: Tile) : NPC(id, tile) {
             }
         }
 
-        if (combatTarget == null) hitpoints = maxHitpoints
+        if (combatTarget == null && choseToKill) hitpoints = maxHitpoints
     }
 
     private fun killDialogue(target: Player) {

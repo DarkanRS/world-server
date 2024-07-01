@@ -157,4 +157,9 @@ public class Agility {
 		});
 	}
 
+	public static boolean rollSuccess(final Player player, final int rate1, final int rate99) {
+		if (player.getAuraManager().isSurefootedAura()) return true;
+		else return Utils.skillSuccess(player.getSkills().getLevel(Constants.AGILITY), rate1, rate99);
+	}
+
 }

@@ -37,6 +37,8 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import static com.rs.game.content.quests.plague_city.utils.PlagueCityConstantsKt.ARDOUGNE_TELEPORT_UNLOCKED;
+import static com.rs.game.content.world.areas.yanille.npcs.AleckKt.DEFAULT_TELEPORT_LOCATION;
+import static com.rs.game.content.world.areas.yanille.npcs.AleckKt.WATCHTOWER_TELEPORT_LOCATION_KEY;
 
 @PluginEventHandler
 public class Magic {
@@ -255,8 +257,12 @@ public class Magic {
 				Lunars.handleDisruptionShield(player);
 				break;
 			case 75:
-				player.stopAll(false);
-				sendLunarTeleportSpell(player, 92, 101, Tile.of(2814, 3677, 0), new RuneSet(Rune.LAW, 3, Rune.ASTRAL, 3, Rune.WATER, 10));
+				if (player.isQuestComplete(Quest.EADGARS_RUSE)) {
+					player.stopAll(false);
+					sendLunarTeleportSpell(player, 92, 101, Tile.of(2814, 3677, 0), new RuneSet(Rune.LAW, 3, Rune.ASTRAL, 3, Rune.WATER, 10));
+				} else {
+					player.sendMessage("You have not yet learned this spell.");
+				}
 				break;
 			case 76:
 				player.stopAll(false);
@@ -367,7 +373,11 @@ public class Magic {
 				}
 				break;
 			case 62: // Watchtower teleport
-				sendNormalTeleportSpell(player, 58, 68, Tile.of(2547, 3113, 2), new RuneSet(Rune.EARTH, 2, Rune.LAW, 2));
+				final Tile WATCHTOWER_TILE = Tile.of(2547, 3113, 2);
+				final Tile YANILLE_TILE = Tile.of(2576, 3089, 0);
+				Boolean teleportLocation = (Boolean) player.getSavingAttributes().getOrDefault(WATCHTOWER_TELEPORT_LOCATION_KEY, DEFAULT_TELEPORT_LOCATION);
+				Tile teleportTile = teleportLocation ? YANILLE_TILE : WATCHTOWER_TILE;
+				sendNormalTeleportSpell(player, 58, 68, teleportTile, new RuneSet(Rune.EARTH, 2, Rune.LAW, 2));
 				break;
 			case 69: // Trollheim teleport
 				if (player.isQuestComplete(Quest.EADGARS_RUSE)) {
