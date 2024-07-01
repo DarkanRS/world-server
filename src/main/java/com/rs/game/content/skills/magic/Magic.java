@@ -37,6 +37,8 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import static com.rs.game.content.quests.plague_city.utils.PlagueCityConstantsKt.ARDOUGNE_TELEPORT_UNLOCKED;
+import static com.rs.game.content.world.areas.yanille.npcs.AleckKt.DEFAULT_TELEPORT_LOCATION;
+import static com.rs.game.content.world.areas.yanille.npcs.AleckKt.WATCHTOWER_TELEPORT_LOCATION_KEY;
 
 @PluginEventHandler
 public class Magic {
@@ -371,7 +373,11 @@ public class Magic {
 				}
 				break;
 			case 62: // Watchtower teleport
-				sendNormalTeleportSpell(player, 58, 68, Tile.of(2547, 3113, 2), new RuneSet(Rune.EARTH, 2, Rune.LAW, 2));
+				final Tile WATCHTOWER_TILE = Tile.of(2547, 3113, 2);
+				final Tile YANILLE_TILE = Tile.of(2576, 3089, 0);
+				Boolean teleportLocation = (Boolean) player.getSavingAttributes().getOrDefault(WATCHTOWER_TELEPORT_LOCATION_KEY, DEFAULT_TELEPORT_LOCATION);
+				Tile teleportTile = teleportLocation ? YANILLE_TILE : WATCHTOWER_TILE;
+				sendNormalTeleportSpell(player, 58, 68, teleportTile, new RuneSet(Rune.EARTH, 2, Rune.LAW, 2));
 				break;
 			case 69: // Trollheim teleport
 				if (player.isQuestComplete(Quest.EADGARS_RUSE)) {
