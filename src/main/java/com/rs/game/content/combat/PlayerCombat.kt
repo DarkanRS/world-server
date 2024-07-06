@@ -461,7 +461,7 @@ class PlayerCombat(@JvmField val target: Entity) : PlayerAction() {
         val hit = calculateHit(player, target, weaponId, attackStyle, false)
 
         if (weaponId == -2 && hit.damage <= 0) {
-            if (Utils.random(1) == 0) {
+            if (Utils.random(10) == 0) {
                 player.anim(14417)
                 attackTarget(getMultiAttackTargets(player, target, 6, 10, true)) { nextTarget ->
                     nextTarget.freeze(Ticks.fromSeconds(10), true)
