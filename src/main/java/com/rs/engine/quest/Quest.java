@@ -354,7 +354,7 @@ public enum Quest {
 				player.getPackets().sendRunScript(4249, 81461283, 81461284, 81461285, 81461286, 81461291, questState, height, "<col=ebe076>" + "Rewards:" + "</col>", rewardsStr);
 				height += Utils.getIFStringHeightAbs(rewardsStr, 495, 388);
 
-				//player.getPackets().sendRunScript(5510, -1, 81461264, height, 0);
+				//player.getPackets().sendRunScript(5510, -1, 81461264, height, 0); //TODO figure out what -1 is for and proper value
 				player.getPackets().sendRunScript(31, 81461292, 81461264, 5666, 5663, 5664, 5665, 5686, 5685);
 			});
 		} else
