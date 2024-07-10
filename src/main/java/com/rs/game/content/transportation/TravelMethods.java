@@ -210,7 +210,7 @@ public class TravelMethods {
 			player.getInventory().removeCoins(cost);
 			player.sendMessage("You pay the fare and sail to " + ship.getFixedName(returning) + ".");
 		}
-		final boolean isFare = ship.toString().toLowerCase().contains("fare");
+		final boolean isFare = ship.toString().contains("FARE");
 		if (isFare) {
 			if (ship.ordinal() == Carrier.ENTRANA_FARE.ordinal() && !returning) {
 				boolean hasEquip = false;
