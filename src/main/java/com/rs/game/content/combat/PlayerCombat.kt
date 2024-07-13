@@ -974,8 +974,8 @@ fun delayHit(target: Entity, delay: Int, weaponId: Int, attackStyle: AttackStyle
     } else hitFail?.run()
     (source as? Player)?.let { addXp(source, target, attackStyle?.xpType, hit) }
 
-    // if player equips a (cross)bow, check poison on ammo rather than weapon
-    // (this also prevents poison applying when using a melee or other weapon type with poison ammo equipped)
+    // If player equips a (cross)bow, check poison on ammo rather than weapon.
+    // This also prevents (the wrong) poison applying when using a melee or other weapon type with poison ammo equipped.
     var ammoId = -1
     (source as? Player)?.let {
         val weaponName = ItemDefinitions.getDefs(weaponId).getName().toLowerCase()
@@ -1159,7 +1159,7 @@ fun chargeDragonfireShield(target: Entity) {
                 if (charges < 50) {
                     p.equipment.getItem(Equipment.SHIELD).addMetaData("dfsCharges", charges + 1)
                     p.sync(6695, 1164)
-                    p.sendMessage("Your shield becomes a little stronger as it absorbs the dragonfire.", true)
+                    p.sendMess age("Your shield becomes a little stronger as it absorbs the dragonfire.", true)
                     p.soundEffect(3740, true)
                     p.combatDefinitions.refreshBonuses()
                 }
