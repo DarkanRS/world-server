@@ -28,7 +28,6 @@ import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
-import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
@@ -40,9 +39,148 @@ import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
 
+import java.util.Arrays;
+
 public class AgilityPyramidController extends Controller {
 
+	/**
+	 * ALL AGILITY PYRAMID STAGES (the indices of the obstacles at each plane/level)
+	 *
+	 * Plane 1:
+	 * JUMP ROLLER: 0
+	 * CLIMB OVER: 1
+	 * SHIMMY SIDEWAYS: 2
+	 * WALK LOG: 3
+	 * JUMP ROLLER: 4
+	 * SHIMMY HANDHOLDS: 5
+	 * SHIMMY SIDEWAYS: 6
+	 *
+	 * Plane 2:
+	 * SHIMMY HANDHOLDS: 7
+	 * JUMP GAP: 8
+	 * SHIMMY HANDHOLDS: 9
+	 * JUMP ROLLER: 10
+	 * SHIMMY SIDEWAYS: 11
+	 * CLIMB OVER: 12
+	 * JUMP GAP: 13
+	 *
+	 * Plane 3:
+	 * CLIMB OVER: 14
+	 * SHIMMY SIDEWAYS: 15
+	 * JUMP GAP: 16
+	 * WALK LOG: 17
+	 *
+	 * Plane 4:
+	 * JUMP GAP: 18
+	 * CLIMB OVER: 19
+	 * JUMP ROLLER: 20
+	 * JUMP GAP: 21
+	 * CLIMB OVER: 22
+	 *
+	 * Plane 5:
+	 * JUMP ROLLER: 23
+	 * JUMP GAP: 24
+	 */
+
 	private boolean grabbedTop;
+	private final int N_STAGES = 25;
+	private final String MAX_OBSTACLE_IDX_KEY = "AgilityPyramidMaxObstacleIdx";
+	private final String VIRTUAL_PLANE_KEY = "AgilityPyramidVirtualPlane";
+	private final int[][] jumpRollerStages = {
+			{0,4}, 	// plane 1
+			{10},	// plane 2
+			{-1},	// plane 3 (none)
+			{20},	// plane 4
+			{23}	// plane 5
+	};
+
+	private final int[][] climbOverStages = {
+			{1}, 		// plane 1
+			{12},		// plane 2
+			{14},		// plane 3
+			{19,22},	// plane 4
+			{-1}		// plane 5 (none)
+	};
+
+	private final int[][] jumpGapStages = {
+			{-1},		// plane 1 (none)
+			{8,13},		// plane 2
+			{16},		// plane 3
+			{18,21},	// plane 4
+			{24}		// plane 5
+	};
+
+	private final int[][] walkLogStages = {
+			{3},	// plane 1
+			{-1},	// plane 2 (none)
+			{17},	// plane 3
+			{-1},	// plane 4 (none)
+			{-1}	// plane 5 (none)
+	};
+
+	private final int[][] shimmySidewaysStages = {
+			{2,6},		// plane 1
+			{11},		// plane 2
+			{15},		// plane 3
+			{-1},		// plane 4 (none)
+			{-1}		// plane 5 (none)
+	};
+
+	private final int[][] shimmyHandholdsStages = {
+			{5},	// plane 1
+			{7,9},	// plane 2
+			{-1},	// plane 3 (none)
+			{-1},	// plane 4 (none)
+			{-1}	// plane 5 (none)
+	};
+
+	private int[] getObstacleIndicesAtPlane(final Obstacle obstacle) {
+		int virtualPlane = player.getTempAttribs().getI(VIRTUAL_PLANE_KEY);
+
+		// This only applies when a player logs in while already on the pyramid.
+		// However, player.getPlane() is not entirely accurate so this is a "best guess."
+		// Usually, above plane/level 3 the plane resets to 0 so things can get a little weird there...
+		if (virtualPlane < 1) {
+			virtualPlane = player.getPlane() == 0 ? 1 : player.getPlane();
+			player.getTempAttribs().setI(VIRTUAL_PLANE_KEY, virtualPlane);
+		}
+
+		return switch (obstacle) {
+			case Obstacle.JUMP_ROLLER -> jumpRollerStages[virtualPlane - 1];
+			case Obstacle.CLIMB_OVER -> climbOverStages[virtualPlane - 1];
+			case Obstacle.JUMP_GAP -> jumpGapStages[virtualPlane - 1];
+			case Obstacle.SHIMMY_HANDHOLDS -> shimmyHandholdsStages[virtualPlane - 1];
+			case Obstacle.SHIMMY_SIDEWAYS -> shimmySidewaysStages[virtualPlane - 1];
+			case Obstacle.WALK_LOG -> walkLogStages[virtualPlane - 1];
+		};
+	}
+
+	/*
+	 * Agility pyramid's state management is a little complex.
+	 * Instead of trying to pinpoint every exact object clicked,
+	 * we instead maintain the "maximum" index reached based off
+	 * the object ID and current plane the player is on. When a
+	 * player encounters a new obstacle type, we check if the index
+	 * (according to ID and plane) is greater than our current max.
+	 * If so, then this is a "new" obstacle. Otherwise, we have already
+	 * encountered it (e.g., getting pushed down a level.) This will
+	 * help in determining whether to apply the aura effect
+	 * since it should not trigger for already completed obstacles.
+	 */
+
+	private void updateMaxObstacleIdx(final Obstacle obstacle) {
+		Agility.initStagesIfNotAlready(player, Agility.AGILITY_PYRAMID, N_STAGES);
+
+		int[] stageIndices = getObstacleIndicesAtPlane(obstacle);
+
+		int maxObstacleIdx = player.getTempAttribs().getI(MAX_OBSTACLE_IDX_KEY);
+        for (int stageIdx : stageIndices) {
+			if (stageIdx != -1 && maxObstacleIdx == stageIdx - 1) {
+				player.getTempAttribs().setI(MAX_OBSTACLE_IDX_KEY, stageIdx);
+				break;
+			}
+		}
+	}
 
 	private enum RollingBlock {
 		A(1551, Tile.of(3354, 2841, 1), 1),
@@ -69,11 +207,12 @@ public class AgilityPyramidController extends Controller {
 
 	@Override
 	public void process() {
-		for (RollingBlock block : RollingBlock.values())
+		for (RollingBlock block : RollingBlock.values()) {
 			if (WorldUtil.collides(player.getTile(), block.tile, 1, 2) && !player.hasWalkSteps() && !player.isLocked()) {
-				jumpRoller(block, false); //TODO fail calc
+				jumpRoller(block);
 				return;
 			}
+		}
 	}
 
 	@Override
@@ -82,10 +221,15 @@ public class AgilityPyramidController extends Controller {
 		if (id == 10857) {
 			if (!Agility.hasLevel(player, 30))
 				return false;
-			if (player.getPlane() == 3)
+			if (player.getPlane() == 3) {
 				player.useStairs(-1, player.transform(-320, 1859, -1), 1, 1);
-			else
+				player.getTempAttribs().setI(VIRTUAL_PLANE_KEY, 4);
+			}
+			else {
 				player.useStairs(-1, player.transform(0, 3, 1), 1, 1);
+				int virtualPlane = player.getTempAttribs().getI(VIRTUAL_PLANE_KEY);
+				player.getTempAttribs().setI(VIRTUAL_PLANE_KEY, virtualPlane + 1);
+			}
 		} else if (id == 10858) {
 			if (player.getY() > 4000 && player.getPlane() == 2)
 				player.useStairs(-1, player.transform(320, -1859, 1), 1, 1);
@@ -126,17 +270,16 @@ public class AgilityPyramidController extends Controller {
 	}
 
 	@Override
-	public boolean login() {
-		return false;
-	}
+	public boolean login() { return false; }
 
 	@Override
-	public boolean logout() {
-		return false;
-	}
+	public boolean logout() { return false; }
 
 	public boolean failed() {
-		return (player.getSkills().getLevel(Constants.AGILITY) / 75.0) < Math.random();
+		int agilityLevel = player.getSkills().getLevel(Constants.AGILITY);
+		double successProbability = Math.min((double)agilityLevel / 75.0, 1.0);
+		int maxObstacleIdx = player.getTempAttribs().getI(MAX_OBSTACLE_IDX_KEY);
+		return !Agility.rollSuccess(player, successProbability, Agility.AGILITY_PYRAMID, maxObstacleIdx);
 	}
 
 	private void updateTop() {
@@ -151,6 +294,9 @@ public class AgilityPyramidController extends Controller {
 			grabbedTop = false;
 			updateTop();
 			player.incrementCount("Agility Pyramid laps");
+			Agility.removeStage(player, Agility.AGILITY_PYRAMID);
+			player.getTempAttribs().removeI(VIRTUAL_PLANE_KEY);
+			player.getTempAttribs().removeI(MAX_OBSTACLE_IDX_KEY);
 		} else
 			player.startConversation(new Conversation(player, new Dialogue(new PlayerStatement(HeadE.CONFUSED, "I feel like I am forgetting something..."))));
 	}
@@ -170,6 +316,7 @@ public class AgilityPyramidController extends Controller {
 
 	//3056 fail
 	public void shimmyHandholds(GameObject object) {
+		updateMaxObstacleIdx(Obstacle.SHIMMY_HANDHOLDS);
 		int startAnim = 3057; //3053 alt
 		int renderEmote = 387;
 		int endAnim = 3058;
@@ -187,6 +334,7 @@ public class AgilityPyramidController extends Controller {
 
 	//760 761 fail
 	public void shimmySideways(GameObject object) {
+		updateMaxObstacleIdx(Obstacle.SHIMMY_SIDEWAYS);
 		int startAnim = 752;
 		int renderEmote = 156;
 		int endAnim = 758;
@@ -227,9 +375,13 @@ public class AgilityPyramidController extends Controller {
 					if (fail) {
 						player.tele(World.findClosestAdjacentFreeTile(player.transform(0, 0, -1), 2));
 						player.applyHit(new Hit(null, 100, HitLook.TRUE_DAMAGE));
+						int virtualPlane = player.getTempAttribs().getI(VIRTUAL_PLANE_KEY);
+						player.getTempAttribs().setI(VIRTUAL_PLANE_KEY, virtualPlane - 1);
 					} else {
 						player.setNextAnimation(new Animation(endAnim));
 						player.getSkills().addXp(Constants.AGILITY, 52);
+						int maxObstacleIdx = player.getTempAttribs().getI(MAX_OBSTACLE_IDX_KEY);
+						Agility.setStageProgress(player, Agility.AGILITY_PYRAMID, maxObstacleIdx, true);
 					}
 					player.getAppearance().setBAS(-1);
 					player.setRunHidden(running);
@@ -270,6 +422,7 @@ public class AgilityPyramidController extends Controller {
 	}
 
 	public void walkLog(GameObject object) {
+		updateMaxObstacleIdx(Obstacle.WALK_LOG);
 		final boolean running = player.getRun();
 		final Tile toTile;
 		if (object.getRotation() % 2 == 0)
@@ -289,8 +442,11 @@ public class AgilityPyramidController extends Controller {
 				} else {
 					player.getAppearance().setBAS(-1);
 					player.setRunHidden(running);
-					if (object.getId() == 10868)
+					if (object.getId() == 10868) {
 						player.getSkills().addXp(Constants.AGILITY, 56.4);
+						int maxObstacleIdx = player.getTempAttribs().getI(MAX_OBSTACLE_IDX_KEY);
+						Agility.setStageProgress(player, Agility.AGILITY_PYRAMID, maxObstacleIdx, true);
+					}
 					player.unlock();
 					stop();
 				}
@@ -299,6 +455,7 @@ public class AgilityPyramidController extends Controller {
 	}
 
 	public void jumpGap(GameObject object) {
+		updateMaxObstacleIdx(Obstacle.JUMP_GAP);
 		final Tile toTile;
 		if (object.getRotation() % 2 == 0)
 			toTile = player.transform(0, player.getY() < object.getY() ? 3 : -3, 0);
@@ -307,9 +464,12 @@ public class AgilityPyramidController extends Controller {
 		player.lock();
 		player.setNextAnimation(new Animation(3067));
 		player.forceMove(toTile, 5, 60, () -> player.getSkills().addXp(Constants.AGILITY, 22));
+		int maxObstacleIdx = player.getTempAttribs().getI(MAX_OBSTACLE_IDX_KEY);
+		Agility.setStageProgress(player, Agility.AGILITY_PYRAMID, maxObstacleIdx, true);
 	}
 
 	public void climbOver(GameObject object) {
+		updateMaxObstacleIdx(Obstacle.CLIMB_OVER);
 		final Tile toTile;
 		if (failed()) {
 			player.applyHit(new Hit(null, 40, HitLook.TRUE_DAMAGE));
@@ -324,9 +484,15 @@ public class AgilityPyramidController extends Controller {
 		player.lock();
 		player.setNextAnimation(new Animation(1560));
 		player.forceMove(toTile, 5, 60, () -> player.getSkills().addXp(Constants.AGILITY, 8));
+		int maxObstacleIdx = player.getTempAttribs().getI(MAX_OBSTACLE_IDX_KEY);
+		Agility.setStageProgress(player, Agility.AGILITY_PYRAMID, maxObstacleIdx, true);
 	}
 
-	public void jumpRoller(RollingBlock block, boolean failed) {
+	public void jumpRoller(RollingBlock block) {
+		updateMaxObstacleIdx(Obstacle.JUMP_ROLLER);
+		int virtualPlane = player.getTempAttribs().getI(VIRTUAL_PLANE_KEY);
+		virtualPlane -= 1;
+		boolean failed = failed();
 		byte[] dir = Utils.getDirection(player.getFaceAngle());
 		if (dir[0] != 0 && dir[1] != 0 || failed) {
 			int x = 0, y = 0, z = -1;
@@ -357,6 +523,8 @@ public class AgilityPyramidController extends Controller {
 			player.lock();
 			player.getVars().setVarBit(block.configId, 1);
 			player.setNextAnimation(new Animation(3064));
+			if (failed)
+				player.getTempAttribs().setI(VIRTUAL_PLANE_KEY, virtualPlane);
 			player.forceMove(player.transform(x, y, z), 10, 60, () -> {
 				player.getVars().setVarBit(block.configId, 0);
 				player.applyHit(new Hit(null, 60, HitLook.TRUE_DAMAGE));
@@ -371,5 +539,4 @@ public class AgilityPyramidController extends Controller {
 			player.getSkills().addXp(Constants.AGILITY, 12);
 		});
 	}
-
 }
