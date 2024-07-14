@@ -31,8 +31,9 @@ fun mapWildernessAgility() {
     }
 
     // Ladder up
-    onObjectClick(32015) { (player) ->
-        player.useStairs(828, Tile(3005, 3962, 0))
+    onObjectClick(32015) { (player, obj) ->
+        if (obj.tile.x == 3005 && obj.tile.y == 10363)
+            player.useStairs(828, Tile(3005, 3962, 0))
     }
 
     // Gates to & from Wilderness Agility Course
