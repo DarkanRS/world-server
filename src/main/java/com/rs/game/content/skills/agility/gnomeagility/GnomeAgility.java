@@ -14,9 +14,10 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.content.skills.agility;
+package com.rs.game.content.skills.agility.gnomeagility;
 
 import com.rs.engine.pathfinder.RouteEvent;
+import com.rs.game.content.skills.agility.Agility;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
@@ -29,6 +30,17 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 
 @PluginEventHandler
 public class GnomeAgility {
+
+	private static void initAdvancedCourse(final Player player) {
+		boolean[] previousStages = Agility.getStages(player, Agility.GNOME_COURSE);
+		Agility.initStages(player, Agility.GNOME_COURSE, AdvancedObstacle.getEntries().size());
+		// the log balance, obstacle net and tree branch carry over from the normal course to the advanced course
+		if (previousStages != null) {
+			Agility.setStageProgress(player, Agility.GNOME_COURSE, AdvancedObstacle.LOG_BALANCE.ordinal(), previousStages[NormalObstacle.LOG_BALANCE.ordinal()]);
+			Agility.setStageProgress(player, Agility.GNOME_COURSE, AdvancedObstacle.OBSTACLE_NET.ordinal(), previousStages[NormalObstacle.OBSTACLE_NET.ordinal()]);
+			Agility.setStageProgress(player, Agility.GNOME_COURSE, AdvancedObstacle.TREE_BRANCH.ordinal(), previousStages[NormalObstacle.TREE_BRANCH.ordinal()]);
+		}
+	}
 
 	public static ObjectClickHandler handle = new ObjectClickHandler(false, new Object[] { 43529 }, e -> {
 		if (!Agility.hasLevel(e.getPlayer(), 85))
@@ -56,8 +68,7 @@ public class GnomeAgility {
 					case 15 -> {
 						e.getPlayer().tele(Tile.of(x, 3432, 3));
 						e.getPlayer().getSkills().addXp(Constants.AGILITY, 25);
-						if (getGnomeStage(e.getPlayer()) == 1)
-							setGnomeStage(e.getPlayer(), 2);
+						Agility.setStageProgress(e.getPlayer(), Agility.GNOME_COURSE, AdvancedObstacle.POLE_SWING.ordinal(), true);
 						e.getPlayer().unlock();
 						return false;
 					}
@@ -72,18 +83,17 @@ public class GnomeAgility {
 			return;
 		e.getPlayer().setRouteEvent(new RouteEvent(Tile.of(2476, 3418, 3), () -> e.getPlayer().forceMove(Tile.of(2484, 3418, 3), 2922, 25, 90, () -> {
             e.getPlayer().getSkills().addXp(Constants.AGILITY, 22);
-            if (getGnomeStage(e.getPlayer()) == 0)
-                setGnomeStage(e.getPlayer(), 1);
+			Agility.setStageProgress(e.getPlayer(), Agility.GNOME_COURSE, AdvancedObstacle.RUN_BOARD.ordinal(), true);
         })));
 	});
 
 	public static ObjectClickHandler handleTreeBranch2 = new ObjectClickHandler(new Object[] { 69506 }, e -> {
 		if (!Agility.hasLevel(e.getPlayer(), 85))
 			return;
+		initAdvancedCourse(e.getPlayer());
+		Agility.setStageProgress(e.getPlayer(), Agility.GNOME_COURSE, AdvancedObstacle.CLIMB_TREE.ordinal(), true);
 		e.getPlayer().sendMessage("You climb the tree...", true);
 		e.getPlayer().useStairs(828, Tile.of(2472, 3419, 3), 1, 2, "... to the platform above.");
-		if (getGnomeStage(e.getPlayer()) == 0)
-			setGnomeStage(e.getPlayer(), 1);
 		e.getPlayer().getSkills().addXp(Constants.AGILITY, 19);
 	});
 
@@ -103,9 +113,9 @@ public class GnomeAgility {
 				} else if (tick == 5) {
 					e.getPlayer().unlock();
 					e.getPlayer().getSkills().addXp(Constants.AGILITY, 25);
-					if (getGnomeStage(e.getPlayer()) == 2) {
+					if (Agility.completedCourse(e.getPlayer(), Agility.GNOME_COURSE)) {
 						e.getPlayer().incrementCount("Gnome advanced laps");
-						removeGnomeStage(e.getPlayer());
+						Agility.removeStage(e.getPlayer(), Agility.GNOME_COURSE);
 						e.getPlayer().getSkills().addXp(Constants.AGILITY, 605);
 					}
 					stop();
@@ -116,6 +126,7 @@ public class GnomeAgility {
 	});
 
 	public static ObjectClickHandler handleLogWalk = new ObjectClickHandler(new Object[] { 69526 }, e -> {
+		Agility.initStages(e.getPlayer(), Agility.GNOME_COURSE, NormalObstacle.getEntries().size());
 		final boolean running = e.getPlayer().getRun();
 		e.getPlayer().setRunHidden(false);
 		e.getPlayer().lock();
@@ -132,7 +143,7 @@ public class GnomeAgility {
 				} else {
 					e.getPlayer().getAppearance().setBAS(-1);
 					e.getPlayer().setRunHidden(running);
-					setGnomeStage(e.getPlayer(), 0);
+					Agility.setStageProgress(e.getPlayer(), Agility.GNOME_COURSE, NormalObstacle.LOG_BALANCE.ordinal(), true);
 					e.getPlayer().getSkills().addXp(Constants.AGILITY, 7.5);
 					e.getPlayer().sendMessage("... and make it safely to the other side.", true);
 					e.getPlayer().unlock();
@@ -148,8 +159,7 @@ public class GnomeAgility {
 		WorldTasks.schedule(new Task() {
 			@Override
 			public void run() {
-				if (getGnomeStage(e.getPlayer()) == 0)
-					setGnomeStage(e.getPlayer(), 1);
+				Agility.setStageProgress(e.getPlayer(), Agility.GNOME_COURSE, NormalObstacle.OBSTACLE_NET.ordinal(), true);
 				e.getPlayer().getSkills().addXp(Constants.AGILITY, 7.5);
 			}
 		}, 1);
@@ -161,8 +171,7 @@ public class GnomeAgility {
 		WorldTasks.schedule(new Task() {
 			@Override
 			public void run() {
-				if (getGnomeStage(e.getPlayer()) == 1)
-					setGnomeStage(e.getPlayer(), 2);
+				Agility.setStageProgress(e.getPlayer(), Agility.GNOME_COURSE, NormalObstacle.TREE_BRANCH.ordinal(), true);
 				e.getPlayer().getSkills().addXp(Constants.AGILITY, 5);
 			}
 		}, 1);
@@ -186,8 +195,7 @@ public class GnomeAgility {
 				} else {
 					e.getPlayer().getAppearance().setBAS(-1);
 					e.getPlayer().setRunHidden(running);
-					if (getGnomeStage(e.getPlayer()) == 2)
-						setGnomeStage(e.getPlayer(), 3);
+					Agility.setStageProgress(e.getPlayer(), Agility.GNOME_COURSE, NormalObstacle.ROPE.ordinal(), true);
 					e.getPlayer().getSkills().addXp(Constants.AGILITY, 7);
 					e.getPlayer().sendMessage("You passed the obstacle succesfully.", true);
 					stop();
@@ -202,8 +210,7 @@ public class GnomeAgility {
 		WorldTasks.schedule(new Task() {
 			@Override
 			public void run() {
-				if (getGnomeStage(e.getPlayer()) == 3)
-					setGnomeStage(e.getPlayer(), 4);
+				Agility.setStageProgress(e.getPlayer(), Agility.GNOME_COURSE, NormalObstacle.TREE_BRANCH.ordinal(), true);
 				e.getPlayer().getSkills().addXp(Constants.AGILITY, 5);
 			}
 		}, 1);
@@ -215,8 +222,7 @@ public class GnomeAgility {
         WorldTasks.schedule(new Task() {
             @Override
             public void run() {
-                if (getGnomeStage(e.getPlayer()) == 4)
-                    setGnomeStage(e.getPlayer(), 5);
+				Agility.setStageProgress(e.getPlayer(), Agility.GNOME_COURSE, NormalObstacle.OBSTACLE_NET.ordinal(), true);
                 e.getPlayer().getSkills().addXp(Constants.AGILITY, 8);
             }
         }, 1);
@@ -240,9 +246,9 @@ public class GnomeAgility {
 					e.getPlayer().getAppearance().setBAS(-1);
 					e.getPlayer().setRunHidden(running);
 					e.getPlayer().getSkills().addXp(Constants.AGILITY, 7);
-					if (getGnomeStage(e.getPlayer()) == 5) {
+					if (Agility.completedCourse(e.getPlayer(), Agility.GNOME_COURSE)) {
 						e.getPlayer().incrementCount("Gnome normal laps");
-						removeGnomeStage(e.getPlayer());
+						Agility.removeStage(e.getPlayer(), Agility.GNOME_COURSE);
 						e.getPlayer().getSkills().addXp(Constants.AGILITY, 39.5);
 
 					}
@@ -251,22 +257,4 @@ public class GnomeAgility {
 			}
 		}, 0, 6);
 	});
-
-	public static void removeGnomeStage(Player player) {
-		player.getTempAttribs().removeI("GnomeCourse");
-		player.getTempAttribs().removeI("GnomeCourseAdv");
-	}
-
-	public static void setGnomeStage(Player player, int stage) {
-		player.getTempAttribs().setI("GnomeCourse", stage);
-		player.getTempAttribs().setI("GnomeCourseAdv", stage);
-	}
-
-	public static int getGnomeStageAdv(Player player) {
-		return player.getTempAttribs().getI("GnomeCourseAdv");
-	}
-
-	public static int getGnomeStage(Player player) {
-		return player.getTempAttribs().getI("GnomeCourse");
-	}
 }

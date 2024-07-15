@@ -1,10 +1,10 @@
-package com.rs.game.content.skills.agility
+package com.rs.game.content.skills.agility.wilderness
 
 import com.rs.engine.pathfinder.RouteEvent
 import com.rs.game.World.sendObjectAnimation
+import com.rs.game.content.skills.agility.Agility
 import com.rs.game.model.entity.Hit
 import com.rs.game.model.entity.async.schedule
-import com.rs.game.model.entity.player.Player
 import com.rs.lib.Constants
 import com.rs.lib.game.Animation
 import com.rs.lib.game.Tile
@@ -15,16 +15,6 @@ import kotlin.math.roundToInt
 
 @ServerStartupEvent
 fun mapWildernessAgility() {
-    fun removeWildernessStage(player: Player) {
-        player.tempAttribs.removeI("WildernessCourse")
-    }
-    fun setWildernessStage(player: Player, stage: Int) {
-        player.tempAttribs.setI("WildernessCourse", stage)
-    }
-    fun getWildernessStage(player: Player): Int {
-        return player.tempAttribs.getI("WildernessCourse")
-    }
-
     // Ladder down
     onObjectClick(14758) { (player) ->
         player.useStairs(828, Tile(3005, 10362, 0))
@@ -142,10 +132,11 @@ fun mapWildernessAgility() {
                 player.forceMove(Tile.of(obj.x, if (obj.y == 3938) 3950 else 3937, 0), 10, 60, false) {}
                 wait(3)
                 player.appearance.setBAS(-1)
-                setWildernessStage(player, 0)
                 player.setRunHidden(running)
                 player.skills.addXp(Constants.AGILITY, 12.5)
                 player.unlock()
+                Agility.initStages(player, Agility.WILDERNESS_COURSE, Obstacle.entries.size)
+                Agility.setStageProgress(player, Agility.WILDERNESS_COURSE, Obstacle.OBSTACLE_PIPE.ordinal, true)
             }
         })
     }
@@ -170,7 +161,8 @@ fun mapWildernessAgility() {
                 player.faceObject(obj)
                 player.anim(751)
                 sendObjectAnimation(obj, Animation(497))
-                val fail = Agility.rollSuccess(player, 150, 250)
+
+                val fail = Agility.rollSuccess(player, 150, 250, Agility.WILDERNESS_COURSE, Obstacle.ROPE_SWING.ordinal)
 
                 val toTile = Tile.of(obj.x, if (fail) 3958 else 3955, obj.plane)
 
@@ -179,7 +171,7 @@ fun mapWildernessAgility() {
                     wait(4)
                     player.sendMessage("You skillfully swing across the rope.", true)
                     player.skills.addXp(Constants.AGILITY, 20.0)
-                    if (getWildernessStage(player) == 0) setWildernessStage(player, 1)
+                    Agility.setStageProgress(player, Agility.WILDERNESS_COURSE, Obstacle.ROPE_SWING.ordinal, true)
                 } else {
                     player.forceMove(toTile, 30, 55)
                     wait(4)
@@ -209,7 +201,8 @@ fun mapWildernessAgility() {
         player.schedule {
             for (i in 0..5) {
                 val toTile = Tile.of(3002 - (i + 1), player.y, player.plane)
-                val fail = i == 3 && !Agility.rollSuccess(player, 150, 250)
+
+                val fail = i == 3 && !Agility.rollSuccess(player, 150, 250, Agility.WILDERNESS_COURSE, Obstacle.STEPPING_STONES.ordinal)
 
                 if (fail) {
                     player.sendMessage("...You lose your footing and fall into the lava.")
@@ -228,7 +221,7 @@ fun mapWildernessAgility() {
             player.unlock()
             player.sendMessage("...You safely cross to the other side.")
             player.skills.addXp(Constants.AGILITY, 20.0)
-            if (getWildernessStage(player) == 1) setWildernessStage(player, 2)
+            Agility.setStageProgress(player, Agility.WILDERNESS_COURSE, Obstacle.STEPPING_STONES.ordinal, true)
         }
     }
 
@@ -250,7 +243,7 @@ fun mapWildernessAgility() {
             player.appearance.setBAS(155)
             wait(5)
 
-            val fail = !Agility.rollSuccess(player, 150, 250)
+            val fail = !Agility.rollSuccess(player, 150, 250, Agility.WILDERNESS_COURSE, Obstacle.LOG_BALANCE.ordinal)
 
             if (fail) {
                 player.sendMessage("...You lose your footing and fall below.")
@@ -275,10 +268,7 @@ fun mapWildernessAgility() {
             player.sendMessage("...You skillfully edge across the gap.", true)
             if (running) player.run = true
             player.unlock()
-
-            if (getWildernessStage(player) == 2) {
-                setWildernessStage(player, 3)
-            }
+            Agility.setStageProgress(player, Agility.WILDERNESS_COURSE, Obstacle.LOG_BALANCE.ordinal, true)
         }
     }
 
@@ -297,9 +287,9 @@ fun mapWildernessAgility() {
                 player.tele(toTile)
                 player.anim(-1)
                 player.sendMessage("You reach the top.", true)
-                if (getWildernessStage(player) == 3) {
+                if (Agility.completedCourse(player, Agility.WILDERNESS_COURSE)) {
                     player.incrementCount("Wilderness laps")
-                    removeWildernessStage(player)
+                    Agility.removeStage(player, Agility.WILDERNESS_COURSE)
                     player.skills.addXp(Constants.AGILITY, 499.0)
                 }
             }

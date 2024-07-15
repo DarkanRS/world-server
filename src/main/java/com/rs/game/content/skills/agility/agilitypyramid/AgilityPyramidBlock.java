@@ -62,6 +62,8 @@ public class AgilityPyramidBlock extends NPC {
 				p.setNextAnimation(new Animation(3066));
 				final Tile tile = p.transform(getId() == 3125 ? dist : 0, getId() == 3125 ? 0 : dist, -1);
 				p.forceMove(tile, 10, 30, () -> p.applyHit(new Hit(null, 80, HitLook.TRUE_DAMAGE)));
+				int virtualPlane = p.getTempAttribs().getI("AgilityPyramidVirtualPlane");
+				p.getTempAttribs().setI("AgilityPyramidVirtualPlane", Math.max(virtualPlane - 1, 0));
 			}
 		if (timer == 4)
 			for (Player player : World.getPlayersInChunkRange(getChunkId(), 1))
