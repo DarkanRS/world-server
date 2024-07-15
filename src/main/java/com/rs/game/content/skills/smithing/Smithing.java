@@ -232,7 +232,7 @@ public class Smithing extends PlayerAction {
 
 		public final Slot slot;
 		public final Item product;
-        public final Item bar;
+		public final Item bar;
 		public final int level;
 		public final double xp;
 		
@@ -351,5 +351,20 @@ public class Smithing extends PlayerAction {
 	@Override
 	public void stop(Player player) {
 		setActionDelay(player, 3);
+	}
+
+	// check both player inventory and coal bag for required items to make bar
+	public static boolean hasRequiredItems(Player player, Item[] requiredItems) {
+		for (Item required : requiredItems) {
+			// if item is not in player's inventory, check the coal bag
+			if (!player.getInventory().containsItem(required.getId(), required.getAmount())) {
+				if (required.getId() == 453 && player.getInventory().containsItem(18339) && player.getI("coalBag") >= required.getAmount())
+					continue;
+				else
+					return false;
+			}
+		}
+
+		return true;
 	}
 }
