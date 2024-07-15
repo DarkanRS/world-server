@@ -179,7 +179,7 @@ public enum ProduceType {
 	public boolean decreaseLife(Player player) {
 		if (rate1 == -1)
 			return true;
-		return !Utils.skillSuccess(player.getSkills().getLevel(Constants.FARMING), player.getInventory().containsItem(7409) ? 1.1 : 1.0, rate1, rate99);
+		return !Utils.skillSuccess(player.getSkills().getLevel(Constants.FARMING), player.getEquipment().getWeaponId() == 7409 ? 1.1 : 1.0, rate1, rate99);
 	}
 
 	public ProduceType getFlowerProtection() {
