@@ -978,9 +978,9 @@ fun delayHit(target: Entity, delay: Int, weaponId: Int, attackStyle: AttackStyle
     // This also prevents (the wrong) poison applying when using a melee or other weapon type with poison ammo equipped.
     var ammoId = -1
     (source as? Player)?.let {
-        val weaponName = ItemDefinitions.getDefs(weaponId).getName().toLowerCase()
+        val weaponName = ItemDefinitions.getDefs(weaponId).getName().lowercase()
         if (weaponName.contains("longbow") || weaponName.contains("shortbow") || weaponName.contains("crossbow"))
-            ammoId = source.getEquipment().getAmmoId()
+            ammoId = source.equipment.ammoId
     }
 
     if (ammoId != -1)
@@ -1159,7 +1159,7 @@ fun chargeDragonfireShield(target: Entity) {
                 if (charges < 50) {
                     p.equipment.getItem(Equipment.SHIELD).addMetaData("dfsCharges", charges + 1)
                     p.sync(6695, 1164)
-                    p.sendMess age("Your shield becomes a little stronger as it absorbs the dragonfire.", true)
+                    p.sendMessage("Your shield becomes a little stronger as it absorbs the dragonfire.", true)
                     p.soundEffect(3740, true)
                     p.combatDefinitions.refreshBonuses()
                 }
