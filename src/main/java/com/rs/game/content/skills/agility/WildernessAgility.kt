@@ -31,7 +31,7 @@ fun mapWildernessAgility() {
     }
 
     // Ladder up
-    onObjectClick(32015) { (player) ->
+    onObjectClick(32015, tiles = arrayOf(Tile.of(3005, 10363, 0))) { (player) ->
         player.useStairs(828, Tile(3005, 3962, 0))
     }
 
