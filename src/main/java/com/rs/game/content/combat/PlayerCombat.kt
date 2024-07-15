@@ -977,10 +977,12 @@ fun delayHit(target: Entity, delay: Int, weaponId: Int, attackStyle: AttackStyle
     // If player equips a (cross)bow, check poison on ammo rather than weapon.
     // This also prevents (the wrong) poison applying when using a melee or other weapon type with poison ammo equipped.
     var ammoId = -1
-    (source as? Player)?.let {
-        val weaponName = ItemDefinitions.getDefs(weaponId).getName().lowercase()
-        if (weaponName.contains("longbow") || weaponName.contains("shortbow") || weaponName.contains("crossbow"))
-            ammoId = source.equipment.ammoId
+    if (weaponId != -1) {
+        (source as? Player)?.let {
+            val weaponName = ItemDefinitions.getDefs(weaponId).getName().lowercase()
+            if (weaponName.contains("longbow") || weaponName.contains("shortbow") || weaponName.contains("crossbow"))
+                ammoId = source.equipment.ammoId
+        }
     }
 
     if (ammoId != -1)
