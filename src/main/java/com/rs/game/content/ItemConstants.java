@@ -319,9 +319,9 @@ public class ItemConstants {
 	public static boolean canWear(Item item, Player player) {
 		if (player.hasRights(Rights.ADMIN))
 			return true;
-		if (item.getId() == 9813 || item.getId() == 10662)
+		if (item.getId() == 9813 || item.getId() == 9814 || item.getId() == 10662)
 			if (!player.getQuestManager().completedAllQuests()) {
-				player.sendMessage("You need to have completed all quests to wear this.");
+				player.sendMessage("You need to have completed all quests to be able to wear this.");
 				return false;
 			}
 		Quest quest = Quest.forSlot(item.getDefinitions().getWieldQuestReq());
@@ -329,19 +329,19 @@ public class ItemConstants {
 			if (!player.isQuestComplete(quest, "to wear this."))
 				return false;
 		}
-		HashMap<Integer, Integer> requiriments = item.getDefinitions().getWearingSkillRequiriments();
+		HashMap<Integer, Integer> requirements = item.getDefinitions().getWearingSkillRequiriments();
 		boolean hasRequirements = true;
-		if (requiriments != null)
-			for (int skillId : requiriments.keySet()) {
+		if (requirements != null)
+			for (int skillId : requirements.keySet()) {
 				if (skillId > 24 || skillId < 0)
 					continue;
-				int level = requiriments.get(skillId);
+				int level = requirements.get(skillId);
 				if (level < 0 || level > 120)
 					continue;
 				if (player.getSkills().getLevelForXp(skillId) < level) {
 					if (hasRequirements)
 						if (player.getSession() != null)
-							player.sendMessage("You are not high enough level to use this item.");
+							player.sendMessage("You are not a high enough level to use this item.");
 					hasRequirements = false;
 					String name = Constants.SKILL_NAME[skillId].toLowerCase();
 					if (player.getSession() != null)
@@ -361,7 +361,7 @@ public class ItemConstants {
 		String itemName = item.getName();
 		if (itemName.contains("goliath gloves") || itemName.contains("spellcaster glove") || itemName.contains("swift glove"))
 			if (player.getDominionTower().getKilledBossesCount() < 50 && !Settings.getConfig().isDebug()) {
-				player.sendMessage("You need to have kill at least 50 bosses in the dominion tower to wear these gloves.");
+				player.sendMessage("You need to have kill at least 50 bosses in the Dominion Tower to wear these gloves.");
 				return true;
 			}
 		return true;
