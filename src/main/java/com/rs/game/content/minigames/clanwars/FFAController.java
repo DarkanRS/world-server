@@ -125,6 +125,7 @@ public final class FFAController extends Controller {
 
 	private void remove(boolean needRemove) {
 		MinigameUtilKt.checkAndDeleteFoodAndPotions(player);
+		player.reset();
 		if (needRemove)
 			removeController();
 		if (wasInArea)

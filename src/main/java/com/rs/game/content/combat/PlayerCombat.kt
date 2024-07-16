@@ -973,7 +973,22 @@ fun delayHit(target: Entity, delay: Int, weaponId: Int, attackStyle: AttackStyle
         hitSucc?.run()
     } else hitFail?.run()
     (source as? Player)?.let { addXp(source, target, attackStyle?.xpType, hit) }
-    checkPoison(target, weaponId, hit)
+
+    // If player equips a (cross)bow, check poison on ammo rather than weapon.
+    // This also prevents (the wrong) poison applying when using a melee or other weapon type with poison ammo equipped.
+    var ammoId = -1
+    if (weaponId != -1) {
+        (source as? Player)?.let {
+            val weaponName = ItemDefinitions.getDefs(weaponId).getName().lowercase()
+            if (weaponName.contains("longbow") || weaponName.contains("shortbow") || weaponName.contains("crossbow"))
+                ammoId = source.equipment.ammoId
+        }
+    }
+
+    if (ammoId != -1)
+        checkPoison(target, ammoId, hit)
+    else
+        checkPoison(target, weaponId, hit)
 }
 
 fun checkPoison(target: Entity, weaponId: Int, hit: Hit) {
