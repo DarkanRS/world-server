@@ -189,6 +189,7 @@ fun mapWerewolfAgility() {
                 player.sendMessage("You bravely cling on to the death slide by your teeth ...")
                 wait(2)
                 player.forceTalk("WAAAAAARRRGGGHHH!!!!!!")
+                player.incrementCount("Werewolf laps")
 
                 if (Agility.rollSuccess(player, rate1, rate99)) {
                     player.forceMove(endTile, 1602, 0, 240) {

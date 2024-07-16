@@ -151,7 +151,7 @@ public class Bonfire extends PlayerAction {
 	public int processWithDelay(Player player) {
 		player.incrementCount(ItemDefinitions.getDefs(log.logId).getName()+" burned in bonfire");
 		player.getInventory().deleteItem(log.logId, 1);
-		player.getSkills().addXp(Constants.FIREMAKING, Firemaking.increasedExperience(player, log.xp));
+		player.getSkills().addXp(Constants.FIREMAKING, Firemaking.increasedExperience(player, log.xp, true));
 		player.setNextAnimation(new Animation(16703));
 		player.setNextSpotAnim(new SpotAnim(log.gfxId));
 		player.sendMessage("You add a log to the fire.", true);

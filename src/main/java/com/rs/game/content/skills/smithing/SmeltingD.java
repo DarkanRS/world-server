@@ -34,7 +34,7 @@ public class SmeltingD extends Conversation {
 		
 		List<SmeltingBar> bars = new ArrayList<>();
 		for (SmeltingBar bar : SmeltingBar.values())
-			if (player.getInventory().containsItems(bar.getItemsRequired()) && player.getSkills().getLevel(Skills.SMITHING) >= bar.getLevelRequired())
+			if (Smithing.hasRequiredItems(player, bar.getItemsRequired()) && player.getSkills().getLevel(Skills.SMITHING) >= bar.getLevelRequired())
 				bars.add(bar);
 		
 		if (bars.isEmpty()) {
