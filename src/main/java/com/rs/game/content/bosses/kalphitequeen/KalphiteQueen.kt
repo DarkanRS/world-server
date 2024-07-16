@@ -43,12 +43,11 @@ class KalphiteQueen(id: Int, tile: Tile, spawned: Boolean) : NPC(id, tile, spawn
         resetWalkSteps()
         combat.removeTarget()
         anim(-1)
-        isCantInteract = true
-
         schedule {
             anim(combatDefinitions.deathEmote)
             wait(combatDefinitions.deathDelay)
             if (id == 1158) {
+                isCantInteract = true
                 transformIntoNPC(1160)
                 sync(6270, 1055)
                 schedule {
