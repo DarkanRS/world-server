@@ -69,6 +69,8 @@ public class Revenant extends NPC {
 		try {
 			if (!getDefinitions().getName().equals("null"))
 				killer.sendNPCKill(getDefinitions().getName());
+			if (killer.hasSlayerTask() && killer.getSlayer().isOnTaskAgainst(this))
+				killer.getSlayer().sendKill(killer, this);
 			List<Item> drops = genDrop(killer, getDefinitions().getName(), getDefinitions().combatLevel);
 			for (Item item : drops)
 				sendDrop(killer, item);
