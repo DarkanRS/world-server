@@ -150,5 +150,14 @@ enum class AmmoType(
 
         @JvmStatic
         fun forId(itemId: Int): AmmoType? = MAP[itemId]
+
+        @JvmStatic
+        fun isDungAmmo(itemId: Int): Boolean {
+            val ammoType = this.forId(itemId)
+            return when (ammoType) {
+                NOVITE_ARROWS, BATHUS_ARROWS, MARMAROS_ARROWS, KRATONITE_ARROWS, FRACTITE_ARROWS, ZEPHYRIUM_ARROWS, ARGONITE_ARROWS, KATAGON_ARROWS, GORGONITE_ARROWS, PROMETHIUM_ARROWS, SAGITTARIAN_ARROWS -> true
+                else -> false
+            }
+        }
     }
 }
