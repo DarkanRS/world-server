@@ -142,6 +142,8 @@ public class LoyaltyShop {
 				player.getBank().removeItem(curr.getItem().getId());
 			if (player.getInventory().containsItem(curr.getItem().getId(), 1))
 				player.getInventory().deleteItem(curr.getItem().getId(), Integer.MAX_VALUE);
+			if (player.getEquipment().getAuraId() == curr.getItem().getId())
+				player.getEquipment().deleteItem(curr.getItem().getId(), 1);
 			curr = Reward.forId(curr.getPreReq());
 		}
 	}
