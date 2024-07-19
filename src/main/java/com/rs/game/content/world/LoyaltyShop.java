@@ -148,7 +148,7 @@ public class LoyaltyShop {
 		}
 	}
 
-	private static Reward getHighestTierUnlocked(Player player, Reward reward) {
+	public static Reward getHighestTierUnlocked(Player player, Reward reward) {
 		Reward highest = reward.getLowestTier();
 		while(player.unlockedLoyaltyReward(Reward.forPreReq(highest.getItem().getId())))
 			highest = Reward.forPreReq(highest.getItem().getId());
