@@ -39,9 +39,92 @@ public class AuraManager {
 	private transient Player player;
 	private transient boolean warned;
 	private Map<Aura, Long> auraCds;
+	// map aura IDs to a group of related IDs (e.g., tier 1-4 for an aura)
+	// does not store auras with a single tier (e.g., ODDBALL)
+	private Map<Integer, int[]> auraGroupId;
 	private long currActivated;
 	private Aura currAura;
 	private int jotFlags;
+
+	public AuraManager() {
+		auraGroupId = new HashMap<Integer, int[]>();
+
+		auraGroupId.put(Aura.POISON_PURGE.itemId, AuraManagerConstants.POISON_PURGE_IDS);
+		auraGroupId.put(Aura.GREATER_POISON_PURGE.itemId, AuraManagerConstants.POISON_PURGE_IDS);
+		auraGroupId.put(Aura.SUPREME_POISON_PURGE.itemId, AuraManagerConstants.POISON_PURGE_IDS);
+		auraGroupId.put(Aura.MASTER_POISON_PURGE.itemId, AuraManagerConstants.POISON_PURGE_IDS);
+
+		auraGroupId.put(Aura.KNOCK_OUT.itemId, AuraManagerConstants.KNOCK_OUT_IDS);
+		auraGroupId.put(Aura.MASTER_KNOCK_OUT.itemId, AuraManagerConstants.KNOCK_OUT_IDS);
+
+		auraGroupId.put(Aura.SHARPSHOOTER.itemId, AuraManagerConstants.SHARPSHOOTER_IDS);
+		auraGroupId.put(Aura.GREATER_SHARPSHOOTER.itemId, AuraManagerConstants.SHARPSHOOTER_IDS);
+		auraGroupId.put(Aura.SUPREME_SHARPSHOOTER.itemId, AuraManagerConstants.SHARPSHOOTER_IDS);
+		auraGroupId.put(Aura.MASTER_SHARPSHOOTER.itemId, AuraManagerConstants.SHARPSHOOTER_IDS);
+
+		auraGroupId.put(Aura.RUNIC_ACCURACY.itemId, AuraManagerConstants.RUNIC_ACCURACY_IDS);
+		auraGroupId.put(Aura.GREATER_RUNIC_ACCURACY.itemId, AuraManagerConstants.RUNIC_ACCURACY_IDS);
+		auraGroupId.put(Aura.SUPREME_RUNIC_ACCURACY.itemId, AuraManagerConstants.RUNIC_ACCURACY_IDS);
+		auraGroupId.put(Aura.MASTER_RUNIC_ACCURACY.itemId, AuraManagerConstants.RUNIC_ACCURACY_IDS);
+
+		auraGroupId.put(Aura.SUREFOOTED.itemId, AuraManagerConstants.SUREFOOTED_IDS);
+		auraGroupId.put(Aura.GREATER_SUREFOOTED.itemId, AuraManagerConstants.SUREFOOTED_IDS);
+
+		auraGroupId.put(Aura.REVERENCE.itemId, AuraManagerConstants.REVERENCE_IDS);
+		auraGroupId.put(Aura.GREATER_REVERENCE.itemId, AuraManagerConstants.REVERENCE_IDS);
+		auraGroupId.put(Aura.SUPREME_REVERENCE.itemId, AuraManagerConstants.REVERENCE_IDS);
+		auraGroupId.put(Aura.MASTER_REVERENCE.itemId, AuraManagerConstants.REVERENCE_IDS);
+
+		auraGroupId.put(Aura.CALL_OF_THE_SEA.itemId, AuraManagerConstants.CALL_OF_THE_SEA_IDS);
+		auraGroupId.put(Aura.GREATER_CALL_OF_THE_SEA.itemId, AuraManagerConstants.CALL_OF_THE_SEA_IDS);
+		auraGroupId.put(Aura.SUPREME_CALL_OF_THE_SEA.itemId, AuraManagerConstants.CALL_OF_THE_SEA_IDS);
+		auraGroupId.put(Aura.MASTER_CALL_OF_THE_SEA.itemId, AuraManagerConstants.CALL_OF_THE_SEA_IDS);
+
+		auraGroupId.put(Aura.LUMBERJACK.itemId, AuraManagerConstants.LUMBERJACK_IDS);
+		auraGroupId.put(Aura.GREATER_LUMBERJACK.itemId, AuraManagerConstants.LUMBERJACK_IDS);
+		auraGroupId.put(Aura.SUPREME_LUMBERJACK.itemId, AuraManagerConstants.LUMBERJACK_IDS);
+		auraGroupId.put(Aura.MASTER_LUMBERJACK.itemId, AuraManagerConstants.LUMBERJACK_IDS);
+
+		auraGroupId.put(Aura.QUARRYMASTER.itemId, AuraManagerConstants.QUARRYMASTER_IDS);
+		auraGroupId.put(Aura.GREATER_QUARRYMASTER.itemId, AuraManagerConstants.QUARRYMASTER_IDS);
+		auraGroupId.put(Aura.SUPREME_QUARRYMASTER.itemId, AuraManagerConstants.QUARRYMASTER_IDS);
+		auraGroupId.put(Aura.MASTER_QUARRYMASTER.itemId, AuraManagerConstants.QUARRYMASTER_IDS);
+
+		auraGroupId.put(Aura.FIVE_FINGER_DISCOUNT.itemId, AuraManagerConstants.FIVE_FINGER_DISCOUNT_IDS);
+		auraGroupId.put(Aura.GREATER_FIVE_FINGER_DISCOUNT.itemId, AuraManagerConstants.FIVE_FINGER_DISCOUNT_IDS);
+		auraGroupId.put(Aura.SUPREME_FIVE_FINGER_DISCOUNT.itemId, AuraManagerConstants.FIVE_FINGER_DISCOUNT_IDS);
+		auraGroupId.put(Aura.MASTER_FIVE_FINGER_DISCOUNT.itemId, AuraManagerConstants.FIVE_FINGER_DISCOUNT_IDS);
+
+		auraGroupId.put(Aura.GREENFINGERS.itemId, AuraManagerConstants.GREENFINGERS_IDS);
+		auraGroupId.put(Aura.GREATER_GREENFINGERS.itemId, AuraManagerConstants.GREENFINGERS_IDS);
+		auraGroupId.put(Aura.SUPREME_GREENFINGERS.itemId, AuraManagerConstants.GREENFINGERS_IDS);
+		auraGroupId.put(Aura.MASTER_GREENFINGERS.itemId, AuraManagerConstants.GREENFINGERS_IDS);
+
+		auraGroupId.put(Aura.TRACKER.itemId, AuraManagerConstants.TRACKER_IDS);
+		auraGroupId.put(Aura.GREATER_TRACKER.itemId, AuraManagerConstants.TRACKER_IDS);
+		auraGroupId.put(Aura.SUPREME_TRACKER.itemId, AuraManagerConstants.TRACKER_IDS);
+		auraGroupId.put(Aura.MASTER_TRACKER.itemId, AuraManagerConstants.TRACKER_IDS);
+
+		auraGroupId.put(Aura.SALVATION.itemId, AuraManagerConstants.SALVATION_IDS);
+		auraGroupId.put(Aura.GREATER_SALVATION.itemId, AuraManagerConstants.SALVATION_IDS);
+		auraGroupId.put(Aura.SUPREME_SALVATION.itemId, AuraManagerConstants.SALVATION_IDS);
+		auraGroupId.put(Aura.MASTER_SALVATION.itemId, AuraManagerConstants.SALVATION_IDS);
+
+		auraGroupId.put(Aura.CORRUPTION.itemId, AuraManagerConstants.CORRUPTION_IDS);
+		auraGroupId.put(Aura.GREATER_CORRUPTION.itemId, AuraManagerConstants.CORRUPTION_IDS);
+		auraGroupId.put(Aura.SUPREME_CORRUPTION.itemId, AuraManagerConstants.CORRUPTION_IDS);
+		auraGroupId.put(Aura.MASTER_CORRUPTION.itemId, AuraManagerConstants.CORRUPTION_IDS);
+
+		auraGroupId.put(Aura.HARMONY.itemId, AuraManagerConstants.HARMONY_IDS);
+		auraGroupId.put(Aura.GREATER_HARMONY.itemId, AuraManagerConstants.HARMONY_IDS);
+		auraGroupId.put(Aura.SUPREME_HARMONY.itemId, AuraManagerConstants.HARMONY_IDS);
+		auraGroupId.put(Aura.MASTER_HARMONY.itemId, AuraManagerConstants.HARMONY_IDS);
+
+		auraGroupId.put(Aura.INVIGORATE.itemId, AuraManagerConstants.INVIGORATE_IDS);
+		auraGroupId.put(Aura.GREATER_INVIGORATE.itemId, AuraManagerConstants.INVIGORATE_IDS);
+		auraGroupId.put(Aura.SUPREME_INVIGORATE.itemId, AuraManagerConstants.INVIGORATE_IDS);
+		auraGroupId.put(Aura.MASTER_INVIGORATE.itemId, AuraManagerConstants.INVIGORATE_IDS);
+	}
 
 	public enum Aura {
 		ODDBALL						(20957, Millis.fromHours(1), 0),
@@ -249,6 +332,16 @@ public class AuraManager {
 		return getCooldownTime(aura) > 0;
 	}
 
+	public boolean auraGroupOnCooldown(Aura aura) {
+		int[] groupIds = auraGroupId.get(aura.itemId);
+		if (groupIds == null)
+			return false;
+		for (int id : groupIds)
+			if (onCooldown(Aura.forId(id)))
+				return true;
+		return false;
+	}
+
 	public long getCooldownTime(Aura aura) {
 		if (auraCds == null)
 			auraCds = new HashMap<>();
@@ -279,6 +372,10 @@ public class AuraManager {
 		}
 		if (getCooldownTime(aura) > 0) {
 			player.sendMessage("Your aura has not recharged yet.");
+			return;
+		}
+		if (auraGroupOnCooldown(aura)) {
+			player.sendMessage("This aura of a different tier is on cooldown.");
 			return;
 		}
 		currAura = aura;
