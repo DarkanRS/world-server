@@ -212,7 +212,9 @@ public class ServantNPC extends NPC {
 				transformIntoNPC(servant.getId());
 				setCantInteract(false);
 				if (!owner.isRunning() || !house.isLoaded() || !house.getPlayers().contains(owner)) {
-					if (type == RequestType.SAWMILL || type == RequestType.UNNOTE)
+					if (type == RequestType.SAWMILL)
+						bank.addItem(new Item(plank[0], completeQuantity), false);
+					else if (type == RequestType.UNNOTE)
 						bank.addItem(new Item(finalItem, completeQuantity), false);
 					return;
 				}
