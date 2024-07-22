@@ -50,13 +50,10 @@ public class JadCombat extends CombatScript {
 			npc.sync(16202, 2994);
 			WorldTasks.scheduleTimer((ticks) -> {
 				switch (ticks) {
-					case 2 -> {
-						target.spotAnim(3000);
-						return true;
-					}
+					case 2 -> target.spotAnim(3000);
+					case 3 -> target.spotAnim(new SpotAnim(2741, 0, 100));
 					case 4 -> {
-						target.spotAnim(new SpotAnim(2741, 0, 100));
-						delayHit(npc, 0, target, getRangeHit(npc, getMaxHit(npc, defs.getMaxHit() - 2, AttackStyle.RANGE, target)));
+						delayHit(npc, 1, target, getRangeHit(npc, getMaxHit(npc, defs.getMaxHit() - 2, AttackStyle.RANGE, target)));
 						return false;
 					}
 				}
@@ -66,13 +63,10 @@ public class JadCombat extends CombatScript {
 			npc.sync(16195, 2995);
 			WorldTasks.scheduleTimer((ticks) -> {
 				switch (ticks) {
-					case 2 -> {
-						World.sendProjectile(npc, target, 2996, new Pair<>(80, 30), 40, 10, 5);
-						return true;
-					}
+					case 2 -> World.sendProjectile(npc, target, 2996, new Pair<>(80, 30), 40, 10, 5);
+					case 3 -> delayHit(npc, 1, target, getMagicHit(npc, getMaxHit(npc, defs.getMaxHit() - 2, AttackStyle.MAGE, target)));
 					case 4 -> {
 						target.spotAnim(new SpotAnim(2741, 0, 100));
-						delayHit(npc, 0, target, getMagicHit(npc, getMaxHit(npc, defs.getMaxHit() - 2, AttackStyle.MAGE, target)));
 						return false;
 					}
 				}
