@@ -533,10 +533,6 @@ public class Player extends Entity {
 
 	private int summoningLeftClickOption;
 
-	// objects
-	private boolean khalphiteLairEntranceSetted;
-	private boolean khalphiteLairSetted;
-
 	// voting
 	private int votes;
 
@@ -1347,10 +1343,7 @@ public class Player extends Entity {
 	}
 
 	private void sendUnlockedObjectConfigs() {
-		refreshKalphiteLairEntrance();
-		refreshKalphiteLair();
 		refreshLodestoneNetwork();
-		refreshFightKilnEntrance();
 	}
 
 	private boolean[] lodestones = new boolean[Lodestone.values().length];
@@ -1404,44 +1397,6 @@ public class Player extends Entity {
 		for (Lodestone stone : Lodestone.values())
 			if (stone.getConfigId() != -1 && unlockedLodestone(stone))
 				getVars().setVarBit(stone.getConfigId(), 1);
-
-		//		// unlocks bandit camp lodestone
-		//		getPackets().sendConfigByFile(358, 15);
-		//		// unlocks lunar isle lodestone
-		//		getPackets().sendConfigByFile(2448, 190);
-	}
-
-	private void refreshKalphiteLair() {
-		if (khalphiteLairSetted)
-			getVars().setVarBit(7263, 1);
-	}
-
-	public void setKalphiteLair() {
-		khalphiteLairSetted = true;
-		refreshKalphiteLair();
-	}
-
-	public void refreshFightKilnEntrance() {
-		if (getCounterValue("Fight Caves clears") > 0)
-			getVars().setVarBit(10838, 1);
-	}
-
-	private void refreshKalphiteLairEntrance() {
-		if (khalphiteLairEntranceSetted)
-			getVars().setVarBit(7262, 1);
-	}
-
-	public void setKalphiteLairEntrance() {
-		khalphiteLairEntranceSetted = true;
-		refreshKalphiteLairEntrance();
-	}
-
-	public boolean isKalphiteLairEntranceSetted() {
-		return khalphiteLairEntranceSetted;
-	}
-
-	public boolean isKalphiteLairSetted() {
-		return khalphiteLairSetted;
 	}
 
 	public void save(String key, Object value) {

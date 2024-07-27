@@ -73,10 +73,14 @@ private fun wrapUpFightPits(player: Player, npc: NPC) {
         player(CONFUSED, "What should we do when we arrive at the Kiln?")
         npc(TZHAAR_MEJ_JEH_PLAZA, T_CALM_TALK, "Kiln is very old. The lava inside is powerful and ancient. That we know. Lava will be able to join Ga'al and memories inside TokKul as one.")
         player(CONFUSED, "Is there anything I should know about the Kiln?")
-        npc(TZHAAR_MEJ_JEH_PLAZA, T_CALM_TALK, "It is where TzHaar came from in the beginning. We protect it, but do not go inside. It is sacred ground. TzHaar have not even walked down the tunnels leading to Kiln for very long time. They may have become dangerous.")
+        npc(TZHAAR_MEJ_JEH_PLAZA, T_CALM_TALK, "It is where TzHaar came from in the beginning. We protect it, but do not go inside. It is sacred ground. TzHaar have not even walked down the tunnels leading to Kiln for very long time. They may have become dangerous.") {
+            player.setQuestStage(Quest.ELDER_KILN, STAGE_GO_TO_KILN)
+            if (!player.containsItem(23647))
+                player.inventory.addItem(23647)
+        }
     }
     player.startConversation {
-        npc(TZHAAR_MEJ_JEH_AK_PLAZA, T_CALM_TALK, "Now, champion TzHaar-Ket-Yit'tal is dead, TzHaar-Mej-Jeh. Like you, his memories are lost. He did not lay and egg.")
+        npc(TZHAAR_MEJ_JEH_AK_PLAZA, T_CALM_TALK, "Now, champion TzHaar-Ket-Yit'tal is dead, TzHaar-Mej-Jeh. Like you, his memories are lost. He did not lay an egg.")
         npc(TZHAAR_MEJ_JEH_AK_PLAZA, T_CALM_TALK, "You and your Jal'Yt have murdered a good TzHaar. His memories die with him!")
         npc(TZHAAR_MEJ_JEH_PLAZA, T_CALM_TALK, "He died in the Pit. Death in the Pits is not murder, and, if you listened to us, this would not have happened. I have a plan, TzHaar-Mej-Ak...")
         npc(TZHAAR_MEJ_JEH_AK_PLAZA, T_CALM_TALK, "Enough of this madness! Your Ga'al is dead! These plans, these schemes... they are not work of good TzHaar. Our Champion is dead, because of your plans.")
@@ -127,7 +131,19 @@ private fun wrapUpFightPits(player: Player, npc: NPC) {
 
 private fun escortGaalThroughKiln(player: Player, npc: NPC) {
     player.startConversation {
-
+        npc(TZHAAR_MEJ_JEH_AK_PLAZA, T_CALM_TALK, "This Ga'al that survived the Fight Pit – it can go with you. It will meet you at entrance.")
+        player(CONFUSED, "Shouldn't you ask the Ga'al if he wants to go?")
+        npc(TZHAAR_MEJ_JEH_AK_PLAZA, T_CALM_TALK, "It only Ga'al.")
+        npc(TZHAAR_MEJ_JEH_PLAZA, T_CALM_TALK, "No, ${player.displayName} is right. Ga'al must have its say.")
+        npc(GAAL_XOX, T_CALM_TALK, "If this make Ga'al-Xox real TzHaar, Ga'al-Xox go.")
+        npc(TZHAAR_MEJ_JEH_PLAZA, T_CALM_TALK, "Here is TzHaar-Ket-Yit'tal's TokKul. Take it with you to the Kiln. We shall speak to the other TzHaar-Mej about our plan whilst you are away.") {
+            if (!player.containsItem(23647))
+                player.inventory.addItem(23647)
+        }
+        player(CONFUSED, "What should we do when we arrive at the Kiln?")
+        npc(TZHAAR_MEJ_JEH_PLAZA, T_CALM_TALK, "Kiln is very old. The lava inside is powerful and ancient. That we know. Lava will be able to join Ga'al and memories inside TokKul as one.")
+        player(CONFUSED, "Is there anything I should know about the Kiln?")
+        npc(TZHAAR_MEJ_JEH_PLAZA, T_CALM_TALK, "It is where TzHaar came from in the beginning. We protect it, but do not go inside. It is sacred ground. TzHaar have not even walked down the tunnels leading to Kiln for very long time. They may have become dangerous.")
     }
 }
 

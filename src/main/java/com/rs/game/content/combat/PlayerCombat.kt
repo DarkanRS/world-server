@@ -710,8 +710,10 @@ fun calculateHit(player: Player, target: Entity, minHit: Int, maxHit: Int, weapo
         var atkLvl = floor(player.skills.getLevel(if (ranging) Constants.RANGE else Constants.ATTACK) * (if (ranging) player.prayer.rangeMultiplier else player.prayer.attackMultiplier))
         atkLvl += (if (attackStyle.attackType == AttackType.ACCURATE || attackStyle.xpType == XPType.ACCURATE) 3 else if (attackStyle.xpType == XPType.CONTROLLED) 1 else 0).toDouble()
         atkLvl += 8.0
-        if (fullVoidEquipped(player, *if (ranging) (intArrayOf(11664, 11675)) else (intArrayOf(11665, 11676)))) atkLvl *= 1.1
-        if (ranging) atkLvl *= player.auraManager.rangeAcc
+        if (fullVoidEquipped(player, *if (ranging) (intArrayOf(11664, 11675)) else (intArrayOf(11665, 11676))))
+            atkLvl *= 1.1
+        if (ranging)
+            atkLvl *= player.auraManager.rangeAcc
         var atkBonus = player.combatDefinitions.attackBonusForStyle.toDouble()
         if (weaponId == -2) //goliath gloves
             atkBonus += 82.0
@@ -719,27 +721,32 @@ fun calculateHit(player: Player, target: Entity, minHit: Int, maxHit: Int, weapo
         var atk = floor(atkLvl * (atkBonus + 64))
         atk *= accuracyModifier
 
-        if (!ranging && attackStyle.xpType == XPType.ACCURATE && player.dungManager.activePerk == KinshipPerk.TACTICIAN && player.controllerManager.isIn(DungeonController::class.java)) atk = floor(atk * 1.1 + (player.dungManager.getKinshipTier(KinshipPerk.TACTICIAN) * 0.01))
+        if (!ranging && attackStyle.xpType == XPType.ACCURATE && player.dungManager.activePerk == KinshipPerk.TACTICIAN && player.controllerManager.isIn(DungeonController::class.java))
+            atk = floor(atk * 1.1 + (player.dungManager.getKinshipTier(KinshipPerk.TACTICIAN) * 0.01))
 
-        if (player.hasSlayerTask()) if (target is NPC) if (player.slayer.isOnTaskAgainst(target as NPC?)) if (ranging) {
-            if (player.equipment.wearingFocusSight() || player.equipment.wearingSlayerHelmet()) {
-                atk *= (7.0 / 6.0)
-                finalMaxHit = (finalMaxHit * (7.0 / 6.0)).toInt()
-            }
-        } else {
-            if (player.equipment.wearingBlackMask() || player.equipment.wearingSlayerHelmet()) {
-                atk *= (7.0 / 6.0)
-                finalMaxHit = (finalMaxHit * (7.0 / 6.0)).toInt()
-            }
-            if (player.equipment.salveAmulet != -1 && target.definitions.isUndead) when (player.equipment.salveAmulet) {
-                0 -> {
-                    atk *= 1.15
-                    finalMaxHit = (finalMaxHit * 1.15).toInt()
-                }
+        if (target is NPC) {
+            if (ranging) {
+                if (player.hasSlayerTask() && player.slayer.isOnTaskAgainst(target as NPC?))
+                    if (player.equipment.wearingFocusSight() || player.equipment.wearingSlayerHelmet()) {
+                        atk *= (7.0 / 6.0)
+                        finalMaxHit = (finalMaxHit * (7.0 / 6.0)).toInt()
+                    }
+            } else {
+                if (player.hasSlayerTask() && player.slayer.isOnTaskAgainst(target as NPC?))
+                    if (player.equipment.wearingBlackMask() || player.equipment.wearingSlayerHelmet()) {
+                        atk *= (7.0 / 6.0)
+                        finalMaxHit = (finalMaxHit * (7.0 / 6.0)).toInt()
+                    }
+                if (player.equipment.salveAmulet != -1 && target.definitions.isUndead) when (player.equipment.salveAmulet) {
+                    0 -> {
+                        atk *= 1.15
+                        finalMaxHit = (finalMaxHit * 1.15).toInt()
+                    }
 
-                1 -> {
-                    atk *= 1.20
-                    finalMaxHit = (finalMaxHit * 1.20).toInt()
+                    1 -> {
+                        atk *= 1.20
+                        finalMaxHit = (finalMaxHit * 1.20).toInt()
+                    }
                 }
             }
         }
