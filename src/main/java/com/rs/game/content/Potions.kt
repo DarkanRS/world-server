@@ -913,6 +913,7 @@ enum class Potion(val emptyId: Int, val ids: IntArray, val effect: (Player) -> U
             for (pot in entries) for (id in pot.ids) POTS[id] = pot
         }
 
+        @JvmStatic
         fun forId(itemId: Int): Potion? {
             return POTS[itemId]
         }
