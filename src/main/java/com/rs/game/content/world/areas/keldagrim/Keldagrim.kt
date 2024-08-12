@@ -21,6 +21,8 @@ import com.rs.engine.dialogue.startConversation
 import com.rs.game.model.entity.player.Player
 import com.rs.lib.game.Tile
 import com.rs.plugin.annotations.ServerStartupEvent
+import com.rs.plugin.events.ObjectClickEvent
+import com.rs.plugin.handlers.ObjectClickHandler
 import com.rs.plugin.kts.onNpcClick
 import com.rs.plugin.kts.onObjectClick
 import com.rs.utils.shop.ShopsHandler
@@ -69,15 +71,85 @@ fun mapKeldagrim() {
     }
 
     onObjectClick(6085, 6086) { e ->
-        if (e.objectId == 6085) e.player.tele(e.player.transform(if (e.getObject().rotation == 1) 3 else if (e.getObject().rotation == 3) -3 else 0, if (e.getObject().rotation == 2) -3 else if (e.getObject().rotation == 0) 3 else 0, 1))
-        else if (e.objectId == 6086) e.player.tele(e.player.transform(if (e.getObject().rotation == 1) -3 else if (e.getObject().rotation == 3) 3 else 0, if (e.getObject().rotation == 2) 3 else if (e.getObject().rotation == 0) -3 else 0, -1))
+        var xOffset = when(e.getObject().rotation) {
+            0 -> 0
+            1 -> 3
+            2 -> 0
+            3 -> -3
+            else -> 0
+        }
+        var yOffset = when(e.getObject().rotation) {
+            0 -> 3
+            1 -> 0
+            2 -> -3
+            3 -> 0
+            else -> 0
+        }
+        if (e.objectId == 6085)
+            e.player.tele(e.player.transform(xOffset, yOffset, 1))
+        else if (e.objectId == 6086)
+            e.player.tele(e.player.transform(-xOffset, -yOffset, -1))
     }
+
     onObjectClick(6089, 6090) { e ->
-        if (e.objectId == 6089) e.player.tele(e.player.transform(if (e.getObject().rotation == 3) -3 else if (e.getObject().rotation == 1) 3 else 0, if (e.getObject().rotation == 3) 0 else if (e.getObject().rotation == 1) -0 else 0, 1))
-        else if (e.objectId == 6090) e.player.tele(e.player.transform(if (e.getObject().rotation == 3) 3 else if (e.getObject().rotation == 1) -3 else 0, if (e.getObject().rotation == 3) -0 else if (e.getObject().rotation == 1) -0 else 0, -1))
+        var xOffset = when(e.getObject().rotation) {
+            0 -> 0
+            1 -> 3
+            2 -> 0
+            3 -> -3
+            else -> 0
+        }
+        var yOffset = when(e.getObject().rotation) {
+            0 -> 3
+            1 -> 0
+            2 -> -3
+            3 -> 0
+            else -> 0
+        }
+        if (e.objectId == 6089)
+            e.player.tele(e.player.transform(xOffset, yOffset, 1))
+        else if (e.objectId == 6090)
+            e.player.tele(e.player.transform(-xOffset, -yOffset, -1))
     }
     onObjectClick(6087, 6088) { e ->
-        if (e.objectId == 6087) e.player.tele(e.player.transform(if (e.getObject().rotation == 2) 0 else if (e.getObject().rotation == 0) -0 else 0, if (e.getObject().rotation == 2) -3 else if (e.getObject().rotation == 0) -0 else 0, 1))
-        else if (e.objectId == 6088) e.player.tele(e.player.transform(if (e.getObject().rotation == 2) -0 else if (e.getObject().rotation == 0) -0 else 0, if (e.getObject().rotation == 2) 3 else if (e.getObject().rotation == 0) -0 else 0, -1))
+        var xOffset = when(e.getObject().rotation) {
+            0 -> -0
+            1 -> 3
+            2 -> 0
+            3 -> -3
+            else -> 0
+        }
+        var yOffset = when(e.getObject().rotation) {
+            0 -> 0
+            1 -> 0
+            2 -> -3
+            3 -> 0
+            else -> 0
+        }
+        if (e.objectId == 6087)
+            e.player.tele(e.player.transform(xOffset, yOffset, 1))
+        else if (e.objectId == 6088)
+            e.player.tele(e.player.transform(-xOffset, -yOffset, -1))
+    }
+
+    onObjectClick(34040, 34041) { e ->
+        var xOffset = when(e.getObject().rotation) {
+            0 -> 0
+            1 -> 3
+            2 -> 0
+            3 -> -3
+            else -> 0
+        }
+        var yOffset = when(e.getObject().rotation) {
+            0 -> 3
+            1 -> 0
+            2 -> -3
+            3 -> 0
+            else -> 0
+        }
+        if (e.objectId == 34040)
+            e.player.tele(e.player.transform(xOffset, yOffset, 1))
+        else if (e.objectId == 34041)
+            e.player.tele(e.player.transform(-xOffset, -yOffset, -1))
     }
 }

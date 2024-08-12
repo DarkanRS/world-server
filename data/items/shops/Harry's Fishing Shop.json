@@ -1,8 +1,8 @@
 {
-  "name": "Inventory 217",
+  "name": "Harry's Fishing Shop",
   "generalStore": false,
   "buyOnly": false,
-  "currency": -1,
+  "currency": 995,
   "items": [
     {
       "item": {
@@ -18,14 +18,8 @@
     },
     {
       "item": {
-        "id": 309,
-        "amount": 10
-      }
-    },
-    {
-      "item": {
         "id": 311,
-        "amount": 30
+        "amount": 1000
       }
     },
     {
@@ -37,12 +31,6 @@
     {
       "item": {
         "id": 313,
-        "amount": 1000
-      }
-    },
-    {
-      "item": {
-        "id": 314,
         "amount": 1000
       }
     },
@@ -61,7 +49,7 @@
     {
       "item": {
         "id": 327,
-        "amount": 10
+        "amount": 0
       }
     },
     {
@@ -85,24 +73,6 @@
     {
       "item": {
         "id": 321,
-        "amount": 0
-      }
-    },
-    {
-      "item": {
-        "id": 335,
-        "amount": 0
-      }
-    },
-    {
-      "item": {
-        "id": 349,
-        "amount": 0
-      }
-    },
-    {
-      "item": {
-        "id": 331,
         "amount": 0
       }
     },
@@ -136,5 +106,8 @@
         "amount": 0
       }
     }
+  ],
+  "npcIds": [
+    576
   ]
 }
