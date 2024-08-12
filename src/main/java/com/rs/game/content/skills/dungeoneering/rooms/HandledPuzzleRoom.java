@@ -48,7 +48,7 @@ public class HandledPuzzleRoom extends HandledRoom {
 	}
 
 	@Override
-	public boolean isAvailableOnFloorType(int floorType) {
+	public boolean isAvailableOnFloorType(DungeonConstants.FloorType floorType) {
 		return puzzle.isAvailableOnFloorType(floorType);
 	}
 

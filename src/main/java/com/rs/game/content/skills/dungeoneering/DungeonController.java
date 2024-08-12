@@ -22,7 +22,6 @@ import com.rs.cache.loaders.ObjectType;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.game.World;
-import com.rs.game.World.DropMethod;
 import com.rs.game.content.combat.AttackType;
 import com.rs.game.content.skills.cooking.Foods;
 import com.rs.game.content.skills.dungeoneering.DungeonConstants.KeyDoors;
@@ -165,7 +164,7 @@ public class DungeonController extends Controller {
 
 		Room room = dungeon.getRoom(dungeon.getCurrentRoomReference(player.getTile()));
 		if (room != null)
-			if (room.getRoom() == DungeonUtils.getBossRoomWithChunk(DungeonConstants.FROZEN_FLOORS, 26, 624)) {
+			if (room.getRoom() == DungeonUtils.getBossRoomWithChunk(DungeonConstants.FloorType.Frozen, 26, 624)) {
 				if (!player.isCantWalk() && World.getObjectWithType(Tile.of(player.getX() + dir.dx, player.getY() + dir.dy, 0), ObjectType.GROUND_DECORATION) == null) {
 					player.getAppearance().setBAS(1429);
 					player.setRun(true);
@@ -380,12 +379,12 @@ public class DungeonController extends Controller {
 		return true;
 	}
 
-	private void openSkillDoor(final SkillDoors s, final GameObject object, final Room room, final int floorType) {
+	private void openSkillDoor(final SkillDoors s, final GameObject object, final Room room, final DungeonConstants.FloorType floorType) {
 		final int index = room.getDoorIndexByRotation(object.getRotation());
 		if (index == -1)
 			return;
 		final Door door = room.getDoor(index);
-		if (door == null || door.getType() != DungeonConstants.SKILL_DOOR)
+		if (door == null || door.getType() != DungeonConstants.DoorType.SKILL)
 			return;
 		if (door.getLevel() > (player.getSkills().getLevel(s.getSkillId()) + player.getInvisibleSkillBoost(s.getSkillId()))) {
 			player.sendMessage("You need a " + Constants.SKILL_NAME[s.getSkillId()] + " level of " + door.getLevel() + " to remove this " + object.getDefinitions().getName().toLowerCase() + ".");
@@ -588,7 +587,7 @@ public class DungeonController extends Controller {
 		VisibleRoom vr = dungeon.getVisibleRoom(dungeon.getCurrentRoomReference(player.getTile()));
 		if (vr == null || !vr.processObjectClick1(player, object))
 			return false;
-		int floorType = DungeonUtils.getFloorType(dungeon.getParty().getFloor());
+		DungeonConstants.FloorType floorType = DungeonUtils.getFloorType(dungeon.getParty().getFloor());
 		for (SkillDoors s : SkillDoors.values())
 			if (s.getClosedObject(floorType) == object.getId()) {
 				openSkillDoor(s, object, room, floorType);
@@ -657,7 +656,7 @@ public class DungeonController extends Controller {
 			if (index == -1)
 				return false;
 			Door door = room.getDoor(index);
-			if (door == null || door.getType() != DungeonConstants.KEY_DOOR)
+			if (door == null || door.getType() != DungeonConstants.DoorType.KEY)
 				return false;
 			KeyDoors key = KeyDoors.values()[door.getId()];
 			if (!Settings.getConfig().isDebug() && !dungeon.hasKey(key) && !player.getInventory().containsItem(key.getKeyId(), 1)) {
@@ -673,9 +672,9 @@ public class DungeonController extends Controller {
 			room.setDoor(index, null);
 			World.removeObject(object);
 			return false;
-		} else if (object.getId() == DungeonConstants.DUNGEON_DOORS[floorType] || object.getId() == DungeonConstants.DUNGEON_GUARDIAN_DOORS[floorType] || object.getId() == DungeonConstants.DUNGEON_BOSS_DOORS[floorType] || DungeonUtils.isOpenSkillDoor(object.getId(), floorType) || (object.getId() >= KeyDoors.getLowestDoorId(floorType) && object.getId() <= KeyDoors.getMaxDoorId(floorType)) || (object.getDefinitions().getName().equals("Door") && object.getDefinitions().containsOption(0, "Enter")) // there's many ids for challenge doors
+		} else if (object.getId() == DungeonConstants.DUNGEON_DOORS[floorType.ordinal()] || object.getId() == DungeonConstants.DUNGEON_GUARDIAN_DOORS[floorType.ordinal()] || object.getId() == DungeonConstants.DUNGEON_BOSS_DOORS[floorType.ordinal()] || DungeonUtils.isOpenSkillDoor(object.getId(), floorType) || (object.getId() >= KeyDoors.getLowestDoorId(floorType) && object.getId() <= KeyDoors.getMaxDoorId(floorType)) || (object.getDefinitions().getName().equals("Door") && object.getDefinitions().containsOption(0, "Enter")) // there's many ids for challenge doors
 				) {
-			if (object.getId() == DungeonConstants.DUNGEON_BOSS_DOORS[floorType] && player.inCombat()) {
+			if (object.getId() == DungeonConstants.DUNGEON_BOSS_DOORS[floorType.ordinal()] && player.inCombat()) {
 				player.sendMessage("This door is too complex to unlock while in combat.");
 				return false;
 			}
@@ -684,14 +683,14 @@ public class DungeonController extends Controller {
 				openDoor(object);
 				return false;
 			}
-			if (door.getType() == DungeonConstants.GUARDIAN_DOOR)
+			if (door.getType() == DungeonConstants.DoorType.GUARDIAN)
 				player.sendMessage("The door won't unlock until all of the guardians in the room have been slain.");
-			else if (door.getType() == DungeonConstants.KEY_DOOR || door.getType() == DungeonConstants.SKILL_DOOR)
+			else if (door.getType() == DungeonConstants.DoorType.KEY || door.getType() == DungeonConstants.DoorType.SKILL)
 				player.sendMessage("The door is locked.");
-			else if (door.getType() == DungeonConstants.CHALLENGE_DOOR)
+			else if (door.getType() == DungeonConstants.DoorType.CHALLENGE)
 				player.sendMessage(((PuzzleRoom) vr).getLockMessage());
 			return false;
-		} else if (object.getId() == DungeonConstants.THIEF_CHEST_LOCKED[floorType]) {
+		} else if (object.getId() == DungeonConstants.THIEF_CHEST_LOCKED[floorType.ordinal()]) {
 			room = dungeon.getRoom(dungeon.getCurrentRoomReference(player.getTile()));
 			int type = room.getThiefChest();
 			if (type == -1)
@@ -705,7 +704,7 @@ public class DungeonController extends Controller {
 			player.setNextAnimation(new Animation(536));
 			player.lock(2);
 			GameObject openedChest = new GameObject(object);
-			openedChest.setId(DungeonConstants.THIEF_CHEST_OPEN[floorType]);
+			openedChest.setId(DungeonConstants.THIEF_CHEST_OPEN[floorType.ordinal()]);
 			World.spawnObject(openedChest);
 			player.getInventory().addItemDrop(DungeonConstants.RUSTY_COINS, Utils.random((type + 1) * 10000) + 1);
 			if (Utils.random(2) == 0)
@@ -718,7 +717,7 @@ public class DungeonController extends Controller {
 				player.getInventory().addItemDrop(DungeonUtils.getRandomWeapon(type + 1), 1);
 			player.getSkills().addXp(Constants.THIEVING, DungeonConstants.THIEF_CHEST_XP[type]);
 			return false;
-		} else if (object.getId() == DungeonConstants.THIEF_CHEST_OPEN[floorType]) {
+		} else if (object.getId() == DungeonConstants.THIEF_CHEST_OPEN[floorType.ordinal()]) {
 			player.sendMessage("You already looted this chest.");
 			return false;
 		} else if (DungeonUtils.isLadder(object.getId(), floorType)) {

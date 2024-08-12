@@ -36,7 +36,9 @@ import java.util.Random;
 @SuppressWarnings("unused")
 public final class Dungeon {
 
-	private final int type, complexity, size;
+	private final DungeonConstants.FloorType type;
+	private final int complexity;
+	private final DungeonConstants.Size size;
 	private final Room[][] map;
 
     private final RoomReference startRoom;
@@ -68,7 +70,7 @@ public final class Dungeon {
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
 		long lastDung = System.currentTimeMillis();
-		test = new Dungeon(null, 1, 6, DungeonConstants.LARGE_DUNGEON);
+		test = new Dungeon(null, 1, 6, DungeonConstants.Size.Large);
 		Logger.debug(Dungeon.class, "main", "Generated dungeon in " + (System.currentTimeMillis() - lastDung) + "ms...");
 		frame.repaint();
 	}
@@ -149,7 +151,7 @@ public final class Dungeon {
 					for (int l = 0; l < map[x][y].getRoom().getDoorDirections().length; l++) {
 						int lock0 = 0;// (map[x][y].getDoorTypes()[l] >> 16 & 0xFFFF) - 50208;
 						Door door = map[x][y].getDoor(l);
-						lock0 = door != null && door.getType() == DungeonConstants.KEY_DOOR ? door.getId() : -1;
+						lock0 = door != null && door.getType() == DungeonConstants.DoorType.KEY ? door.getId() : -1;
 						int rotation = (map[x][y].getRoom().getDoorDirections()[l] + map[x][y].getRotation()) & 0x3;
 						if (lock0 >= 0 && lock0 < 64)
 							if (rotation == DungeonConstants.NORTH_DOOR) {
@@ -187,7 +189,7 @@ public final class Dungeon {
 		return String.format("%1$-" + n + "s", s);
 	}
 
-	public Dungeon(DungeonManager manager, int floorId, int complexity, int size) {
+	public Dungeon(DungeonManager manager, int floorId, int complexity, DungeonConstants.Size size) {
         type = DungeonUtils.getFloorType(floorId);
 		this.complexity = complexity;
 		this.size = size;
@@ -202,7 +204,7 @@ public final class Dungeon {
 		Random random = new Random(seed);
 		DungeonStructure structure = new DungeonStructure(size, random, complexity);
 		// map structure to matrix dungeon
-		map = new Room[DungeonConstants.DUNGEON_RATIO[size][0]][DungeonConstants.DUNGEON_RATIO[size][1]];
+		map = new Room[DungeonConstants.DUNGEON_RATIO[size.ordinal()][0]][DungeonConstants.DUNGEON_RATIO[size.ordinal()][1]];
 		RoomNode base = structure.getBase();
 
 		Room[] possibilities;
@@ -235,18 +237,18 @@ public final class Dungeon {
 				RoomNode neighbor = structure.getRoom(node.x + Utils.ROTATION_DIR_X[rotation], node.y + Utils.ROTATION_DIR_Y[rotation]);
 				if (neighbor.parent == node)
 					if (puzzle)
-						map[node.x][node.y].setDoor(doorDir, new Door(DungeonConstants.CHALLENGE_DOOR));
+						map[node.x][node.y].setDoor(doorDir, new Door(DungeonConstants.DoorType.CHALLENGE));
 					else if (neighbor.lock != -1)
-						map[node.x][node.y].setDoor(doorDir, new Door(DungeonConstants.KEY_DOOR, neighbor.lock));
+						map[node.x][node.y].setDoor(doorDir, new Door(DungeonConstants.DoorType.KEY, neighbor.lock));
 					else if (complexity >= 5 && random.nextInt(3) == 0) {
 						int doorIndex = random.nextInt(DungeonConstants.SkillDoors.values().length);
 						SkillDoors sd = DungeonConstants.SkillDoors.values()[doorIndex];
 						if (sd.getClosedObject(type) == -1) // some frozen skill doors dont exist
 							continue;
 						int level = manager == null ? 1 : neighbor.isCritPath ? (manager.getParty().getMaxLevel(sd.getSkillId()) - random.nextInt(10)) : random.nextInt(sd.getSkillId() == Constants.SUMMONING || sd.getSkillId() == Constants.PRAYER ? 100 : 106);
-						map[node.x][node.y].setDoor(doorDir, new Door(DungeonConstants.SKILL_DOOR, doorIndex, level < 1 ? 1 : level));
+						map[node.x][node.y].setDoor(doorDir, new Door(DungeonConstants.DoorType.SKILL, doorIndex, level < 1 ? 1 : level));
 					} else if (complexity >= 3 && random.nextInt(2) == 0)
-						map[node.x][node.y].setDoor(doorDir, new Door(DungeonConstants.GUARDIAN_DOOR));
+						map[node.x][node.y].setDoor(doorDir, new Door(DungeonConstants.DoorType.GUARDIAN));
 			}
 		}
 
@@ -282,7 +284,7 @@ public final class Dungeon {
 		return startRoom;
 	}
 
-	public int getType() {
+	public DungeonConstants.FloorType getType() {
 		return type;
 	}
 
@@ -290,7 +292,7 @@ public final class Dungeon {
 		return complexity;
 	}
 
-	public int getSize() {
+	public DungeonConstants.Size getSize() {
 		return size;
 	}
 

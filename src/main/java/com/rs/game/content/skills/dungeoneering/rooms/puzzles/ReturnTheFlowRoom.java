@@ -65,7 +65,7 @@ public class ReturnTheFlowRoom extends PuzzleRoom {
 		for (int x = 5; x <= 10; x++)
 			for (int y = 5; y <= 10; y++) {
 				GameObject object = manager.getObjectWithType(reference, ObjectType.SCENERY_INTERACT, x, y);
-				if (object != null && object.getId() == RUBBLE_PIECE[type])
+				if (object != null && object.getId() == RUBBLE_PIECE[type.ordinal()])
 					World.removeObject(object);
 			}
 
@@ -84,7 +84,7 @@ public class ReturnTheFlowRoom extends PuzzleRoom {
 			if (coinFlip()) {
 				tasks++;
 				broken = true;
-				pillar.setId(PILLAR_BROKEN[type]);
+				pillar.setId(PILLAR_BROKEN[type.ordinal()]);
 			}
 			World.spawnObject(pillar);
 
@@ -107,14 +107,14 @@ public class ReturnTheFlowRoom extends PuzzleRoom {
 				}
 				node.rotation += i;
 				if (!broken && !node.blocked)
-					manager.spawnObject(reference, node.corner ? CORNER_PIECE_PATH_FLOW[type] : STRAIGHT_PIECE_PATH_FLOW[type], ObjectType.GROUND_DECORATION, node.rotation, 5 + node.x, 6 + node.y);
+					manager.spawnObject(reference, node.corner ? CORNER_PIECE_PATH_FLOW[type.ordinal()] : STRAIGHT_PIECE_PATH_FLOW[type.ordinal()], ObjectType.GROUND_DECORATION, node.rotation, 5 + node.x, 6 + node.y);
 				else
-					manager.spawnObject(reference, node.corner ? CORNER_PIECE_PATH[type] : STRAIGHT_PIECE_PATH[type], ObjectType.GROUND_DECORATION, node.rotation, 5 + node.x, 6 + node.y);
+					manager.spawnObject(reference, node.corner ? CORNER_PIECE_PATH[type.ordinal()] : STRAIGHT_PIECE_PATH[type.ordinal()], ObjectType.GROUND_DECORATION, node.rotation, 5 + node.x, 6 + node.y);
 				if (node.blocked) {
 					if (!broken)
-						manager.spawnObject(reference, RUBBLE_PIECE_FLOW[type], ObjectType.SCENERY_INTERACT, node.rotation, 5 + node.x, 6 + node.y);
+						manager.spawnObject(reference, RUBBLE_PIECE_FLOW[type.ordinal()], ObjectType.SCENERY_INTERACT, node.rotation, 5 + node.x, 6 + node.y);
 					else
-						manager.spawnObject(reference, RUBBLE_PIECE[type], ObjectType.SCENERY_INTERACT, node.rotation, 5 + node.x, 6 + node.y);
+						manager.spawnObject(reference, RUBBLE_PIECE[type.ordinal()], ObjectType.SCENERY_INTERACT, node.rotation, 5 + node.x, 6 + node.y);
 					broken = true;
 				}
 				node = node.next;
@@ -125,14 +125,14 @@ public class ReturnTheFlowRoom extends PuzzleRoom {
 		//very small chance to have it not generate anything at the start
 		if (tasks == 0) {
 			setComplete();
-			manager.spawnObject(reference, PEDESTAL_FLOW[type], ObjectType.SCENERY_INTERACT, 0, 7, 7);
+			manager.spawnObject(reference, PEDESTAL_FLOW[type.ordinal()], ObjectType.SCENERY_INTERACT, 0, 7, 7);
 		}
 		manager.spawnRandomNPCS(reference);
 	}
 
 	@Override
 	public boolean processObjectClick1(final Player player, final GameObject object) {
-		if (object.getId() == RUBBLE_PIECE[type] || object.getId() == RUBBLE_PIECE_FLOW[type]) {
+		if (object.getId() == RUBBLE_PIECE[type.ordinal()] || object.getId() == RUBBLE_PIECE_FLOW[type.ordinal()]) {
 			if (!hasRequirement(player, Constants.MINING)) {
 				player.sendMessage("You need a mining level of " + getRequirement(Constants.MINING) + " to mine this rock.");
 				return false;
@@ -151,18 +151,18 @@ public class ReturnTheFlowRoom extends PuzzleRoom {
 					giveXP(player, Constants.MINING);
 					player.setNextAnimation(new Animation(-1));
 					GameObject rubble = new GameObject(object);
-					rubble.setId(object.getId() == RUBBLE_PIECE[type] ? RUBBLE_PIECE_CLEARED[type] : RUBBLE_PIECE_CLEARED_FLOW[type]);
+					rubble.setId(object.getId() == RUBBLE_PIECE[type.ordinal()] ? RUBBLE_PIECE_CLEARED[type.ordinal()] : RUBBLE_PIECE_CLEARED_FLOW[type.ordinal()]);
 					World.spawnObject(rubble);
 					node.blocked = false;
 					advance();
-					if (object.getId() == RUBBLE_PIECE_FLOW[type])
+					if (object.getId() == RUBBLE_PIECE_FLOW[type.ordinal()])
 						startFlow(node);
 				}
 				return false;
 			});
 			return false;
 		}
-		if (object.getId() == PILLAR_BROKEN[type]) {
+		if (object.getId() == PILLAR_BROKEN[type.ordinal()]) {
 			if (!hasRequirement(player, Constants.CONSTRUCTION)) {
 				player.sendMessage("You need a construction level of " + getRequirement(Constants.CONSTRUCTION) + " to repair this pillar.");
 				return false;
@@ -173,7 +173,7 @@ public class ReturnTheFlowRoom extends PuzzleRoom {
 					giveXP(player, Constants.CONSTRUCTION);
 					player.setNextAnimation(new Animation(14566));
 					player.lock(2);
-					replaceObject(object, PILLAR_REPAIRED[type]);
+					replaceObject(object, PILLAR_REPAIRED[type.ordinal()]);
 					advance();
 					startFlow(flow.flow.start);
 					return false;
@@ -186,7 +186,7 @@ public class ReturnTheFlowRoom extends PuzzleRoom {
 	private void advance() {
 		if (--tasks == 0) {
 			setComplete();
-			manager.spawnObject(reference, PEDESTAL_FLOW[type], ObjectType.SCENERY_INTERACT, 0, 7, 7);
+			manager.spawnObject(reference, PEDESTAL_FLOW[type.ordinal()], ObjectType.SCENERY_INTERACT, 0, 7, 7);
 		}
 
 	}
@@ -194,11 +194,11 @@ public class ReturnTheFlowRoom extends PuzzleRoom {
 	private void startFlow(FlowPiece node) {
 		while (node.next != null) {
 			if (node.corner)
-				manager.spawnObject(reference, CORNER_PIECE_PATH_FLOW[type], ObjectType.GROUND_DECORATION, node.rotation, 5 + node.x, 6 + node.y);
+				manager.spawnObject(reference, CORNER_PIECE_PATH_FLOW[type.ordinal()], ObjectType.GROUND_DECORATION, node.rotation, 5 + node.x, 6 + node.y);
 			else if (!node.blocked)
-				manager.spawnObject(reference, STRAIGHT_PIECE_PATH_FLOW[type], ObjectType.GROUND_DECORATION, node.rotation, 5 + node.x, 6 + node.y);
+				manager.spawnObject(reference, STRAIGHT_PIECE_PATH_FLOW[type.ordinal()], ObjectType.GROUND_DECORATION, node.rotation, 5 + node.x, 6 + node.y);
 			else {
-				manager.spawnObject(reference, RUBBLE_PIECE_FLOW[type], ObjectType.SCENERY_INTERACT, node.rotation, 5 + node.x, 6 + node.y);
+				manager.spawnObject(reference, RUBBLE_PIECE_FLOW[type.ordinal()], ObjectType.SCENERY_INTERACT, node.rotation, 5 + node.x, 6 + node.y);
 				return;
 			}
 			node = node.next;

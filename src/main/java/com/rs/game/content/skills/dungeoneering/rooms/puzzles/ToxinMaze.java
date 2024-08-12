@@ -62,7 +62,7 @@ public class ToxinMaze extends PuzzleRoom {
 	public boolean processObjectClick1(final Player player, GameObject object) {
 		if (object.getDefinitions().getName().equals("Switch")) {
 			GameObject down = new GameObject(object);
-			down.setId(SWITCH_DOWN[type]);
+			down.setId(SWITCH_DOWN[type.ordinal()]);
 			World.spawnObject(down);
 			player.lock(1);
 			player.setNextAnimation(new Animation(832));
@@ -81,7 +81,7 @@ public class ToxinMaze extends PuzzleRoom {
 				//fall through to default chest handler
 				return true;
 			}
-			replaceObject(object, DungeonConstants.THIEF_CHEST_OPEN[type]);
+			replaceObject(object, DungeonConstants.THIEF_CHEST_OPEN[type.ordinal()]);
 			player.setNextAnimation(new Animation(536));
 			player.lock(2);
 			player.sendMessage("You open the chest, but it appears to be empty.");
@@ -285,7 +285,7 @@ public class ToxinMaze extends PuzzleRoom {
 
 		for (Connector connector : connectors)
 			if (connector.blocked)
-				World.spawnObject(new GameObject(OBSTACLES[type][Utils.random(5)], ObjectType.SCENERY_INTERACT, 0, manager.getTile(reference, connector.x, connector.y)));
+				World.spawnObject(new GameObject(OBSTACLES[type.ordinal()][Utils.random(5)], ObjectType.SCENERY_INTERACT, 0, manager.getTile(reference, connector.x, connector.y)));
 
 	}
 

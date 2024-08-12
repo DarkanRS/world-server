@@ -117,7 +117,7 @@ public final class NightGazerKhighorahk extends DungeonBoss {
 
 			}
 
-		}, Ticks.fromSeconds(30) - getManager().getParty().getSize() * Ticks.fromSeconds(3));
+		}, Ticks.fromSeconds(30) - getManager().getParty().getTeam().size() * Ticks.fromSeconds(3));
 
 	}
 

@@ -816,7 +816,7 @@ public class DungManager {
 				player.sendMessage("You can't do that right now.");
 				return;
 			}
-			if (party.getSize() >= 5) {
+			if (party.getTeam().size() >= 5) {
 				player.sendMessage("Your party is full.");
 				return;
 			}
@@ -1114,7 +1114,7 @@ public class DungManager {
 				player.startConversation(new DungeonSize(player));
 				return;
 			}
-			party.setSize(DungeonConstants.SMALL_DUNGEON);
+			party.setSize(DungeonConstants.Size.Small);
 		}
 		for (Player p2 : party.getTeam()) {
 			if (party.getFloor() > p2.getDungManager().maxFloor) {
@@ -1152,7 +1152,7 @@ public class DungManager {
 		};
 	}
 
-	public void setSize(int size) {
+	public void setSize(DungeonConstants.Size size) {
 		if (party == null || !party.isLeader(player) || party.getComplexity() != 6)
 			return;
 		party.setSize(size);
