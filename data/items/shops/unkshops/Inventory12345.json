@@ -1,9 +1,15 @@
 {
-  "name": "Harry's Fishing Shop",
+  "name": "Inventory 12345",
   "generalStore": false,
   "buyOnly": false,
   "currency": 995,
   "items": [
+    {
+      "item": {
+        "id": 13431,
+        "amount": 10
+      }
+    },
     {
       "item": {
         "id": 303,
@@ -136,8 +142,5 @@
         "amount": 0
       }
     }
-  ],
-  "npcIds": [
-    576
   ]
 }
