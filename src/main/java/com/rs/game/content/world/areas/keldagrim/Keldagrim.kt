@@ -77,7 +77,21 @@ fun mapKeldagrim() {
         else if (e.objectId == 6090) e.player.tele(e.player.transform(if (e.getObject().rotation == 3) 3 else if (e.getObject().rotation == 1) -3 else 0, if (e.getObject().rotation == 3) -0 else if (e.getObject().rotation == 1) -0 else 0, -1))
     }
     onObjectClick(6087, 6088) { e ->
-        if (e.objectId == 6087) e.player.tele(e.player.transform(if (e.getObject().rotation == 2) 0 else if (e.getObject().rotation == 0) -0 else 0, if (e.getObject().rotation == 2) -3 else if (e.getObject().rotation == 0) -0 else 0, 1))
-        else if (e.objectId == 6088) e.player.tele(e.player.transform(if (e.getObject().rotation == 2) -0 else if (e.getObject().rotation == 0) -0 else 0, if (e.getObject().rotation == 2) 3 else if (e.getObject().rotation == 0) -0 else 0, -1))
+        var xOffset = when(e.getObject().rotation) {
+            0 -> -1
+            1 -> 0
+            2 -> 1
+            else -> 0
+        }
+        var yOffset = when(e.getObject().rotation) {
+            0 -> 0
+            1 -> 1
+            2 -> 0
+            else -> -1
+        }
+        if (e.objectId == 6087)
+            e.player.tele(e.player.transform(xOffset, yOffset, 1))
+        else if (e.objectId == 6088)
+            e.player.tele(e.player.transform(-xOffset, -yOffset, -1))
     }
 }

@@ -1,10 +1,12 @@
 package com.rs.game.content.quests.elderkiln
 
+import com.rs.engine.cutscenekt.cutscene
 import com.rs.engine.dialogue.HeadE
 import com.rs.engine.dialogue.startConversation
 import com.rs.engine.quest.Quest
 import com.rs.game.content.minigames.fightkiln.FightKilnController
 import com.rs.game.model.entity.player.Player
+import com.rs.lib.game.Tile
 import com.rs.plugin.annotations.ServerStartupEvent
 import com.rs.plugin.kts.onObjectClick
 
@@ -34,9 +36,12 @@ private fun enterQuestKiln(player: Player) {
         STAGE_GO_TO_KILN -> player.startConversation {
             npc(15194, HeadE.T_CALM_TALK, "TzHaar-Mej-Jeh say you may pass through here. This go to ancient Kiln. Be careful, loud noises through there, sound like wild Ket-Zek. Take pickaxe too. No one been through for long time.")
             exec {
-                player.playCutscene {
+                player.cutscene {
+                    fadeInAndWait()
+                    dynamicRegion(Tile.of(player.tile), 592, 645, 2, 2, copyNpcs = true)
+                    entityTeleTo(player, 2, 2)
                     //Ga'al-Xox:
-                    //Ga'al-Xox and [Player] go now?
+                    //Ga'al-Xox and ${player.displayName} go now?
                     //Player:
                     //Are you sure about this?
                     //Ga'al-Xox:
