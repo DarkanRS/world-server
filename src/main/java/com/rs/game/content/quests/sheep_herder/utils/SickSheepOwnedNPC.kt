@@ -5,6 +5,7 @@ import com.rs.game.model.entity.Entity
 import com.rs.game.model.entity.npc.OwnedNPC
 import com.rs.game.model.entity.player.Player
 import com.rs.lib.game.Tile
+import com.rs.lib.util.Utils
 import com.rs.utils.Ticks
 import kotlin.math.abs
 import kotlin.random.Random
@@ -34,7 +35,7 @@ class SickSheepOwnedNPC(owner: Player, id: Int, tile: Tile, var officialRespawnT
 
         super.processNPC()
 
-        if (proddedRecently && !enteredEnclosure && tickCounter - tempAttribs.getL("lastProddedTick") >= Ticks.fromSeconds(10)) {
+        if (proddedRecently && !enteredEnclosure && tickCounter - tempAttribs.getL("lastProddedTick") >= Ticks.fromSeconds(Utils.random(5, 8))) {
             handleNotProddedRecently()
         }
 
