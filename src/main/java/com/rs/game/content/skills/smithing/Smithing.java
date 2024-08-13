@@ -17,6 +17,7 @@
 package com.rs.game.content.skills.smithing;
 
 import com.rs.engine.quest.Quest;
+import com.rs.game.World;
 import com.rs.game.content.skills.firemaking.Bonfire;
 import com.rs.game.content.skills.smithing.ForgingInterface.Slot;
 import com.rs.game.model.entity.player.Player;
@@ -25,6 +26,7 @@ import com.rs.game.model.object.GameObject;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
+import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
@@ -318,6 +320,7 @@ public class Smithing extends PlayerAction {
 		player.getInventory().addItemDrop(new Item(item.product));
 		player.incrementCount(item.product.getName() + " smithed", item.product.getAmount());
 		player.getSkills().addXp(Constants.SMITHING, item.xp);
+		World.sendSpotAnim(anvil.getTile(), 2123);
 		if (ticks > 0)
 			return 3;
 		return -1;
