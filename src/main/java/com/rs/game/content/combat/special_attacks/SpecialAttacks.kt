@@ -1,16 +1,17 @@
 package com.rs.game.content.combat.special_attacks
 
+import com.rs.engine.pathfinder.Direction
 import com.rs.game.World
 import com.rs.game.content.Effect
+import com.rs.game.content.achievements.AchievementDef
+import com.rs.game.content.achievements.SetReward
 import com.rs.game.content.combat.*
-import com.rs.game.content.combat.AmmoType.Companion.forId
 import com.rs.game.model.entity.Entity
 import com.rs.game.model.entity.Hit
 import com.rs.game.model.entity.Hit.HitLook
 import com.rs.game.model.entity.async.schedule
 import com.rs.game.model.entity.interactions.PlayerCombatInteraction
 import com.rs.game.model.entity.npc.NPC
-import com.rs.engine.pathfinder.Direction
 import com.rs.game.model.entity.player.Equipment
 import com.rs.game.model.entity.player.Player
 import com.rs.game.model.entity.player.Skills
@@ -83,7 +84,8 @@ fun mapSpecials() {
         player.forceTalk("For Camelot!")
         val enhanced = player.equipment.weaponId == 14632
         player.skills.adjustStat(if (enhanced) 0 else 8, if (enhanced) 0.15 else 0.0, Skills.DEFENSE)
-        player.addEffect(Effect.EXCALIBUR_HEAL, (if (enhanced) 70 else 35).toLong())
+        if (enhanced)
+            player.addEffect(Effect.EXCALIBUR_HEAL, (if (SetReward.SEERS_HEADBAND.hasRequirements(player, AchievementDef.Area.MORYTANIA, AchievementDef.Difficulty.ELITE, false)) 70 else 35).toLong())
         var specAmt = 100.0
         if (player.combatDefinitions.hasRingOfVigour()) specAmt *= 0.9
         player.combatDefinitions.drainSpec(specAmt.toInt())
