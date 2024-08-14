@@ -2,9 +2,9 @@
   "names": [
     "Al-Kharid warrior"
   ],
-  "attackAnim":386,
-  "attackSound": 2500,
-  "defenceAnim": 1156,
+  "attackAnim": 390,
+  "attackSound": -1,
+  "defenceAnim": 388,
   "defendSound": 1976,
   "deathAnim": 836,
   "deathDelay": 6,

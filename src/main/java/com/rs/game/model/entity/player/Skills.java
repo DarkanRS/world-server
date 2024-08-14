@@ -30,6 +30,7 @@ import com.rs.lib.game.Rights;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
 import com.rs.lib.net.ClientPacket;
+import com.rs.lib.net.packets.encoders.Sound;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.PluginManager;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -880,6 +881,7 @@ public final class Skills {
 			player.setNextSpotAnim(new SpotAnim(2456, 0, 254));
 			player.setNextSpotAnim(new SpotAnim(2457, 25, 254));
 			player.setNextSpotAnim(new SpotAnim(2456, 50, 220));
+			player.getPackets().sendSound(new Sound(307, 0, Sound.SoundType.VORB_EFFECT));
 			if (newLevel == 99 || newLevel == 120)
 				World.sendSpotAnim(Tile.of(player.getTile()), new SpotAnim(1765));
 			if (skill == Constants.SUMMONING || (skill >= Constants.ATTACK && skill <= Constants.MAGIC)) {
@@ -935,6 +937,7 @@ public final class Skills {
 			player.setNextSpotAnim(new SpotAnim(2456, 0, 254));
 			player.setNextSpotAnim(new SpotAnim(2457, 25, 254));
 			player.setNextSpotAnim(new SpotAnim(2456, 50, 220));
+			player.getPackets().sendSound(new Sound(307, 0, Sound.SoundType.VORB_EFFECT));
 			if (newLevel == 99 || newLevel == 120)
 				player.setNextSpotAnim(new SpotAnim(1765));
 			if (skill == Constants.SUMMONING || (skill >= Constants.ATTACK && skill <= Constants.MAGIC)) {
@@ -1017,6 +1020,7 @@ public final class Skills {
 			player.setNextSpotAnim(new SpotAnim(2456, 0, 254));
 			player.setNextSpotAnim(new SpotAnim(2457, 25, 254));
 			player.setNextSpotAnim(new SpotAnim(2456, 50, 220));
+			player.getPackets().sendSound(new Sound(307, 0, Sound.SoundType.VORB_EFFECT));
 			if (newLevel == 99 || newLevel == 120)
 				player.setNextSpotAnim(new SpotAnim(1765));
 			if (skill == Constants.SUMMONING || (skill >= Constants.ATTACK && skill <= Constants.MAGIC)) {
