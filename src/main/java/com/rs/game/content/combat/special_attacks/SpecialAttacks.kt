@@ -53,7 +53,9 @@ fun mapSpecials() {
         if (player.interactionManager.interaction !is PlayerCombatInteraction || (player.interactionManager.interaction as PlayerCombatInteraction).action.target !== target) {
             player.interactionManager.setInteraction(PlayerCombatInteraction(player, target))
         }
-        player.combatDefinitions.drainSpec(50)
+        var specAmt = 50.0
+        if (player.combatDefinitions.hasRingOfVigour()) specAmt *= 0.9
+        player.combatDefinitions.drainSpec(specAmt.toInt())
         val animId = if (player.equipment.weaponId == 4153) 1667 else 10505
         player.anim(animId)
         if (player.equipment.weaponId == 4153) player.spotAnim(340, 0, 96 shl 16)
@@ -68,7 +70,9 @@ fun mapSpecials() {
         player.forceTalk("Raarrrrrgggggghhhhhhh!")
         player.skills.adjustStat(0, -0.1, Skills.ATTACK, Skills.DEFENSE, Skills.RANGE, Skills.MAGIC)
         player.skills.adjustStat(0, 0.2, Skills.STRENGTH)
-        player.combatDefinitions.drainSpec(100)
+        var specAmt = 100.0
+        if (player.combatDefinitions.hasRingOfVigour()) specAmt *= 0.9
+        player.combatDefinitions.drainSpec(specAmt.toInt())
         player.soundEffect(2538, true)
     })
 
@@ -80,7 +84,9 @@ fun mapSpecials() {
         val enhanced = player.equipment.weaponId == 14632
         player.skills.adjustStat(if (enhanced) 0 else 8, if (enhanced) 0.15 else 0.0, Skills.DEFENSE)
         player.addEffect(Effect.EXCALIBUR_HEAL, (if (enhanced) 70 else 35).toLong())
-        player.combatDefinitions.drainSpec(100)
+        var specAmt = 100.0
+        if (player.combatDefinitions.hasRingOfVigour()) specAmt *= 0.9
+        player.combatDefinitions.drainSpec(specAmt.toInt())
         player.soundEffect(2539, true)
     })
 
@@ -90,7 +96,9 @@ fun mapSpecials() {
         player.sync(12804, 2319)
         player.spotAnim(2321)
         player.addEffect(Effect.STAFF_OF_LIGHT_SPEC, Ticks.fromSeconds(60).toLong())
-        player.combatDefinitions.drainSpec(100)
+        var specAmt = 100.0
+        if (player.combatDefinitions.hasRingOfVigour()) specAmt *= 0.9
+        player.combatDefinitions.drainSpec(specAmt.toInt())
     })
 
 
