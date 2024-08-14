@@ -34,6 +34,7 @@ import com.rs.game.model.entity.Hit.HitLook
 import com.rs.game.model.entity.interactions.PlayerCombatInteraction
 import com.rs.game.model.entity.npc.NPC
 import com.rs.engine.pathfinder.Direction
+import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions
 import com.rs.game.model.entity.player.Equipment
 import com.rs.game.model.entity.player.Player
 import com.rs.game.model.entity.player.Skills
@@ -765,6 +766,8 @@ fun calculateHit(player: Player, target: Entity, minHit: Int, maxHit: Int, weapo
             val wId = player.equipment.weaponId
             if (wId == 15836 || wId == 17295 || wId == 21332) {
                 val mageLvl = Utils.clampI(npc.magicLevel, 0, 350)
+                if (player.controllerManager.isIn(DungeonController::class.java) && npc.combatDefinitions.attackStyle == NPCCombatDefinitions.AttackStyle.MAGE)
+                    mageLvl * 2
                 val atkMul = (140.0 + floor((3 * mageLvl.toDouble() - 10.0) / 100.0) - floor((0.3 * mageLvl.toDouble() - 100.0).pow(2.0) / 100.0)) / 100.0
                 atk *= Utils.clampD(atkMul, 1.0, 3.0)
                 val strMul = (250.0 + floor((3 * mageLvl.toDouble() - 14.0) / 100.0) - floor((0.3 * mageLvl.toDouble() - 140.0).pow(2.0) / 100.0)) / 100.0
