@@ -174,9 +174,9 @@ public final class ObjectHandler {
 			else if (id == 31149) {
 				boolean isEntering = player.getX() <= 3295;
 				player.useStairs(isEntering ? 9221 : 9220, Tile.of(x + (isEntering ? 1 : 0), y, 0));
-			} else if (id == 2350 && (object.getX() == 3352 && object.getY() == 3417 && object.getPlane() == 0))
-				player.useStairs(832, Tile.of(3177, 5731, 0));
-			else if (id >= 65616 && id <= 65622) WildernessObelisk.activateObelisk(id, player);
+			/* Temple for curse prayers } else if (id == 2350 && (object.getX() == 3352 && object.getY() == 3417 && object.getPlane() == 0))
+				player.useStairs(832, Tile.of(3177, 5731, 0));*/
+			} else if (id >= 65616 && id <= 65622) WildernessObelisk.activateObelisk(id, player);
 			else if (id == 10229) { // dag up ladder
 				player.setNextAnimation(new Animation(828));
 				WorldTasks.schedule(1, () -> player.tele(Tile.of(1910, 4367, 0)));

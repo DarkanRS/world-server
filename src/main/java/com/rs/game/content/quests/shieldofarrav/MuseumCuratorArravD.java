@@ -51,7 +51,7 @@ public class MuseumCuratorArravD extends Conversation {
 			tradeShield(p);
 		else {
 			addNPC(CURATOR, HeadE.CALM_TALK, "Do you have anything for me?");
-			addPlayer(HeadE.SAD, "Not currently");
+			addPlayer(HeadE.SAD, "Not currently.");
 		}
 	}
 
@@ -96,10 +96,4 @@ public class MuseumCuratorArravD extends Conversation {
 		addPlayer(HeadE.SKEPTICAL, "Okay, I'll see what I can do.");
 	}
 
-
-
-	public static ItemOnNPCHandler handleItemOnCurator = new ItemOnNPCHandler(646, e -> {
-		if (e.getItem().getId() == 763 || e.getItem().getId() == 765)
-			e.getPlayer().startConversation(new MuseumCuratorArravD(e.getPlayer(), true).getStart());
-	});
 }

@@ -60134,42 +60134,6 @@
   {
     "tile": {
       "plane": 0,
-      "x": 3376,
-      "y": 3344
-    },
-    "comment": "Will o\u0027 the wisp",
-    "npcId": 681
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3376,
-      "y": 3344
-    },
-    "comment": "Ochre Blamish Snail",
-    "npcId": 1229
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3376,
-      "y": 3392
-    },
-    "comment": "Ghoul",
-    "npcId": 1218
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3376,
-      "y": 3392
-    },
-    "comment": "Ghoul",
-    "npcId": 1218
-  },
-  {
-    "tile": {
-      "plane": 0,
       "x": 3357,
       "y": 9376
     },
