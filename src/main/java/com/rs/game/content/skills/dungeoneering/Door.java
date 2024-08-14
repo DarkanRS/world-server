@@ -18,23 +18,24 @@ package com.rs.game.content.skills.dungeoneering;
 
 public class Door {
 
-	private final int type, id, level;
+	private final DungeonConstants.DoorType type;
+	private final int id, level;
 
-	public Door(int type, int id, int level) {
+	public Door(DungeonConstants.DoorType type, int id, int level) {
 		this.type = type;
 		this.id = id;
 		this.level = level;
 	}
 
-	public Door(int type, int id) {
+	public Door(DungeonConstants.DoorType type, int id) {
 		this(type, id, 0);
 	}
 
-	public Door(int type) {
+	public Door(DungeonConstants.DoorType type) {
 		this(type, 0);
 	}
 
-	public int getType() {
+	public DungeonConstants.DoorType getType() {
 		return type;
 	}
 

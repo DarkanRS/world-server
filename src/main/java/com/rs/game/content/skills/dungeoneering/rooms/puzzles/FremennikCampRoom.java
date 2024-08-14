@@ -48,18 +48,18 @@ public class FremennikCampRoom extends PuzzleRoom {
 
 	@Override
 	public boolean processObjectClick1(Player player, GameObject object) {
-		if (object.getId() == RAW_FISH[type]) {
+		if (object.getId() == RAW_FISH[type.ordinal()]) {
 			if (!hasRequirement(player, Constants.COOKING)) {
 				player.sendMessage("You need a cooking level of " + getRequirement(Constants.COOKING) + " to cook these fish.");
 				return false;
 			}
 			giveXP(player, Constants.COOKING);
-			replaceObject(object, COOKED_FISH[type]);
+			replaceObject(object, COOKED_FISH[type.ordinal()]);
 			advance(player);
 			player.setNextAnimation(new Animation(897));
 			return false;
 		}
-		if (object.getId() == BARS[type]) {
+		if (object.getId() == BARS[type.ordinal()]) {
 			if (!hasRequirement(player, Constants.SMITHING)) {
 				player.sendMessage("You need a smithing level of " + getRequirement(Constants.SMITHING) + " to smith these battle axes.");
 				return false;
@@ -69,13 +69,13 @@ public class FremennikCampRoom extends PuzzleRoom {
 				return false;
 			}
 			giveXP(player, Constants.SMITHING);
-			replaceObject(object, BATTLE_AXES[type]);
+			replaceObject(object, BATTLE_AXES[type.ordinal()]);
 			advance(player);
 			player.setNextAnimation(new Animation(898));
 			player.setNextSpotAnim(new SpotAnim(2123));
 			return false;
 		}
-		if (object.getId() == LOGS[type]) {
+		if (object.getId() == LOGS[type.ordinal()]) {
 			if (!hasRequirement(player, Constants.FLETCHING)) {
 				player.sendMessage("You need a fletching level of " + getRequirement(Constants.FLETCHING) + " to fletch these bows.");
 				return false;
@@ -85,7 +85,7 @@ public class FremennikCampRoom extends PuzzleRoom {
 				return false;
 			}
 			giveXP(player, Constants.FLETCHING);
-			replaceObject(object, BOWS[type]);
+			replaceObject(object, BOWS[type.ordinal()]);
 			advance(player);
 			player.setNextAnimation(new Animation(1248));
 			return false;

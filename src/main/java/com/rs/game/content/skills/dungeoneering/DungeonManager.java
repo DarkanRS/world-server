@@ -55,7 +55,6 @@ import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
@@ -269,16 +268,16 @@ public class DungeonManager {
 				if (door == null)
 					continue;
 				int rotation = (room.getRoom().getDoorDirections()[i] + room.getRotation()) & 0x3;
-				if (door.getType() == DungeonConstants.KEY_DOOR) {
+				if (door.getType() == DungeonConstants.DoorType.KEY) {
 					KeyDoors keyDoor = KeyDoors.values()[door.getId()];
 					setDoor(reference, keyDoor.getObjectId(), keyDoor.getDoorId(party.getFloorType()), rotation);
-				} else if (door.getType() == DungeonConstants.GUARDIAN_DOOR) {
-					setDoor(reference, -1, DungeonConstants.DUNGEON_GUARDIAN_DOORS[party.getFloorType()], rotation);
+				} else if (door.getType() == DungeonConstants.DoorType.GUARDIAN) {
+					setDoor(reference, -1, DungeonConstants.DUNGEON_GUARDIAN_DOORS[party.getFloorType().ordinal()], rotation);
 					if (visibleRoom.roomCleared())  //remove referene since done
 						room.setDoor(i, null);
-				} else if (door.getType() == DungeonConstants.SKILL_DOOR) {
+				} else if (door.getType() == DungeonConstants.DoorType.SKILL) {
 					SkillDoors skillDoor = SkillDoors.values()[door.getId()];
-					int type = party.getFloorType();
+					DungeonConstants.FloorType type = party.getFloorType();
 					int closedId = skillDoor.getClosedObject(type);
 					int openId = skillDoor.getOpenObject(type);
 					setDoor(reference, openId == -1 ? closedId : -1, openId != -1 ? closedId : -1, rotation);
@@ -326,7 +325,7 @@ public class DungeonManager {
 				if (!World.floorFree(0, instance.getLocalX(chunkOffX, x), instance.getLocalY(chunkOffY, y)) || !World.floorAndWallsFree(0, instance.getLocalX(chunkOffX, x - Utils.ROTATION_DIR_X[((rotation + 3) & 0x3)]), instance.getLocalY(chunkOffY, y - Utils.ROTATION_DIR_Y[((rotation + 3) & 0x3)]), 1))
 					continue;
 				room.setThiefChest(Utils.random(10));
-				World.spawnObject(new GameObject(DungeonConstants.THIEF_CHEST_LOCKED[party.getFloorType()], ObjectType.SCENERY_INTERACT, ((rotation + 3) & 0x3), instance.getLocalX(chunkOffX, x), instance.getLocalY(chunkOffY, y), 0));
+				World.spawnObject(new GameObject(DungeonConstants.THIEF_CHEST_LOCKED[party.getFloorType().ordinal()], ObjectType.SCENERY_INTERACT, ((rotation + 3) & 0x3), instance.getLocalX(chunkOffX, x), instance.getLocalY(chunkOffY, y), 0));
 				Logger.debug(DungeonManager.class, "setResources", "Added chest spot.");
 				break;
 			}
@@ -450,8 +449,7 @@ public class DungeonManager {
 					player.sendMessage("");
 					player.sendMessage("-Welcome to Daemonheim-");
 					player.sendMessage("Floor <col=641d9e>" + party.getFloor() + "    <col=ffffff>Complexity <col=641d9e>" + party.getComplexity());
-					String[] sizeNames = { "Small", "Medium", "Large", "Test" };
-					player.sendMessage("Dungeon Size: " + "<col=641d9e>" + sizeNames[party.getSize()]);
+					player.sendMessage("Dungeon Size: " + "<col=641d9e>" + party.getSize().name());
 					player.sendMessage("Party Size:Difficulty <col=641d9e>" + party.getTeam().size() + ":" + party.getDificulty());
 					if (party.isGuideMode())
 						player.sendMessage("<col=641d9e>Guide Mode ON");
@@ -655,7 +653,7 @@ public class DungeonManager {
 	}
 
 	public void spawnRandomNPCS(RoomReference reference) {
-		int floorType = party.getFloorType();
+		DungeonConstants.FloorType floorType = party.getFloorType();
 		int combatTotal = (int) (party.getCombatLevel() * 1.2 * DungeonConstants.NPC_COMBAT_LEVEL_COMPLEXITY_MUL[party.getComplexity()-1]);
 		int maxLevel = getMaxCombatLevelMonster();
 		int numMonsters = Utils.random(1, 3+party.getTeam().size());
@@ -1179,8 +1177,8 @@ public class DungeonManager {
 			}
 			player.getPackets().setIFText(933, 331, Utils.formatTime((World.getServerTicks() - time) * 600));
 			player.getPackets().sendVarc(1187, party.getFloor());
-			player.getPackets().sendVarc(1188, party.getSize() + 1); //dungeon size, sets bonus aswell
-			multiplier += DungeonConstants.DUNGEON_SIZE_BONUS[party.getSize()];
+			player.getPackets().sendVarc(1188, party.getSize().ordinal() + 1); //dungeon size, sets bonus aswell
+			multiplier += DungeonConstants.DUNGEON_SIZE_BONUS[party.getSize().ordinal()];
 			player.getPackets().sendVarc(1191, party.getTeam().size() * 10 + party.getDificulty()); //teamsize:dificulty
 			multiplier += DungeonConstants.DUNGEON_DIFFICULTY_RATIO_BONUS[party.getTeam().size() - 1][party.getDificulty() - 1];
 			int levelMod = 0;
@@ -1198,7 +1196,7 @@ public class DungeonManager {
 			player.getPackets().sendVarc(1319, DungeonUtils.getMaxFloor(player.getSkills().getLevelForXp(Constants.DUNGEONEERING)));
 			player.getPackets().sendVarc(1320, party.getComplexity());
 			if (party.getComplexity() != 6)
-				multiplier -= (DungeonConstants.COMPLEXITY_PENALTY_BASE[party.getSize()] + (5 - party.getComplexity()) * 0.06);
+				multiplier -= (DungeonConstants.COMPLEXITY_PENALTY_BASE[party.getSize().ordinal()] + (5 - party.getComplexity()) * 0.06);
 			double levelDiffPenalty = party.getLevelDiferencePenalty(player);//party.getMaxLevelDiference() > 70 ? DungeonConstants.UNBALANCED_PARTY_PENALTY : 0;
 			player.getPackets().sendVarc(1321, (int) (levelDiffPenalty * 10000));
 			multiplier -= levelDiffPenalty;
@@ -1238,8 +1236,8 @@ public class DungeonManager {
 			player.getDungManager().addTokens(tokens);
 			player.getMusicsManager().forcePlayMusic(770);
 			player.incrementCount("Dungeons completed");
-			player.incrementCount(DungeonUtils.getFloorTypeName(party.getFloor()) + " floors completed");
-			player.incrementCount(DungeonUtils.getSizeName(party.getSize()) + " floors completed");
+			player.incrementCount(DungeonUtils.getFloorType(party.getFloor()).name() + " floors completed");
+			player.incrementCount(party.getSize() + " floors completed");
 			if (!tickedOff) {
 				if (DungeonUtils.getMaxFloor(player.getSkills().getLevelForXp(Constants.DUNGEONEERING)) < party.getFloor() + 1)
 					player.sendMessage("The next floor is not available at your dungeoneering level. Consider resetting your progress to gain best ongoing rate of xp.");
@@ -1258,34 +1256,22 @@ public class DungeonManager {
 		clearGuardians();
 	}
 
-	public static int getFloorXP(int floor, int size, int roomsOpened) {
+	public static int getFloorXP(int floor, DungeonConstants.Size size, int roomsOpened) {
 		double baseXP = 0.16*(floor*floor*floor)+0.28*(floor*floor)+76.94*floor+100.0;
 		double roomMod = 1.0;
 		double sizeMod = 1.0;
 		switch(size) {
-			case 0 -> roomMod = roomsOpened / 16.0;
-			case 1 -> {
+			case Small -> roomMod = roomsOpened / 16.0;
+			case Medium -> {
 				roomMod = roomsOpened / 32.0;
 				sizeMod = 2.0;
 			}
-			case 2 -> {
+			case Large -> {
 				roomMod = roomsOpened / 64.0;
 				sizeMod = 3.5;
 			}
 		}
 		return (int) (baseXP * sizeMod * roomMod);
-	}
-
-	public static void printXP(int floor, int size, int prestige, int roomsOpened) {
-		int baseXp = getFloorXP(floor, size, roomsOpened);
-		int presXp = getFloorXP(prestige, size, roomsOpened);
-		int avgXp = (baseXp+presXp) / 2;
-
-		Logger.debug(DungeonManager.class, "printXP", "~~~Experience for floor " + floor + " size: " + size + " roomsOpened: " + roomsOpened + "~~~");
-		Logger.debug(DungeonManager.class, "printXP", "Base XP: " + baseXp);
-		Logger.debug(DungeonManager.class, "printXP", "Prestige " + prestige + " XP:" + presXp);
-		Logger.debug(DungeonManager.class, "printXP", "Average XP: " + avgXp);
-		Logger.debug(DungeonManager.class, "printXP", "Maximum possible XP for floor: " + ((int) (avgXp * 1.56)));
 	}
 
 	public void voteToMoveOn(Player player) {
@@ -1446,7 +1432,7 @@ public class DungeonManager {
 
 	public void load() {
 		party.lockParty();
-		visibleMap = new VisibleRoom[DungeonConstants.DUNGEON_RATIO[party.getSize()][0]][DungeonConstants.DUNGEON_RATIO[party.getSize()][1]];
+		visibleMap = new VisibleRoom[DungeonConstants.DUNGEON_RATIO[party.getSize().ordinal()][0]][DungeonConstants.DUNGEON_RATIO[party.getSize().ordinal()][1]];
 		AsyncTaskExecutor.execute(() -> {
 			try {
 				clearKeyList();
@@ -1479,7 +1465,7 @@ public class DungeonManager {
 	public void openMap(Player player) {
 		player.getInterfaceManager().sendInterface(942);
 		player.getPackets().sendRunScriptReverse(3277); //clear the map if theres any setted
-		int protocol = party.getSize() == DungeonConstants.LARGE_DUNGEON ? 0 : party.getSize() == DungeonConstants.MEDIUM_DUNGEON ? 2 : 1;
+		int protocol = party.getSize() == DungeonConstants.Size.Large ? 0 : party.getSize() == DungeonConstants.Size.Medium ? 2 : 1;
 		for (int x = 0; x < visibleMap.length; x++)
 			for (int y = 0; y < visibleMap[x].length; y++)
 				if (visibleMap[x][y] != null) { //means exists
@@ -1552,7 +1538,7 @@ public class DungeonManager {
 			type = 4;
 		else if (room.getRoom().getChunkX() == 24 && room.getRoom().getChunkY() == 688) //blink
 			type = 5;
-		spawnObject(reference, DungeonConstants.LADDERS[party.getFloorType()], ObjectType.SCENERY_INTERACT, (type == 2 || type == 3) ? 0 : 3, type == 4 ? 11 : type == 3 ? 15 : type == 2 ? 14 : 7, type == 5 ? 14 : (type == 3 || type == 2) ? 3 : type == 1 ? 11 : 15);
+		spawnObject(reference, DungeonConstants.LADDERS[party.getFloorType().ordinal()], ObjectType.SCENERY_INTERACT, (type == 2 || type == 3) ? 0 : 3, type == 4 ? 11 : type == 3 ? 15 : type == 2 ? 14 : 7, type == 5 ? 14 : (type == 3 || type == 2) ? 3 : type == 1 ? 11 : 15);
 		getVisibleRoom(reference).setNoMusic();
 		for (Player player : party.getTeam()) {
 			if (!isAtBossRoom(player.getTile()))

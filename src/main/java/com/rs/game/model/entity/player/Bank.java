@@ -21,7 +21,10 @@ import com.rs.cache.loaders.EnumDefinitions;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.interfaces.IFEvents;
 import com.rs.cache.loaders.interfaces.IFEvents.UseFlag;
+import com.rs.game.content.Potion;
+import com.rs.game.content.PotionsKt;
 import com.rs.game.content.holidayevents.easter.easter22.Easter2022;
+import com.rs.game.content.skills.cooking.Foods;
 import com.rs.game.content.skills.runecrafting.Runecrafting;
 import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
@@ -32,6 +35,7 @@ import com.rs.lib.util.Utils;
 import com.rs.plugin.PluginManager;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ItemAddedToBankEvent;
+import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.events.PluginEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.ItemAddedToBankHandler;
@@ -98,7 +102,7 @@ public class Bank {
 			e.getPlayer().getBank().depositAllEquipment(false);
 	});
 
-	public static ButtonClickHandler handleInvButtons = new ButtonClickHandler(762, e -> {
+	public static ButtonClickHandler handleBankButtons = new ButtonClickHandler(762, e -> {
 		if (e.getPlayer().getTempAttribs().getB("viewingOtherBank"))
 			return;
 		if (e.getComponentId() == 15)
@@ -167,7 +171,7 @@ public class Bank {
 			Equipment.openEquipmentBonuses(e.getPlayer(), true);
 	});
 
-	public static ButtonClickHandler handleBankButtons = new ButtonClickHandler(763, e -> {
+	public static ButtonClickHandler handleInvButtons = new ButtonClickHandler(763, e -> {
 		if (e.getPlayer().getTempAttribs().getB("viewingOtherBank"))
 			return;
 		if (e.getComponentId() == 0)
@@ -189,8 +193,21 @@ public class Bank {
 				});
 			else if (e.getPacket() == ClientPacket.IF_OP6)
 				e.getPlayer().getBank().depositItem(e.getSlotId(), Integer.MAX_VALUE, true);
-			else if (e.getPacket() == ClientPacket.IF_OP10)
+			else if (e.getPacket() == ClientPacket.IF_OP8) {
+				Item item = e.getPlayer().getInventory().getItem(e.getSlotId());
+				if (item == null)
+					return;
+				Potion potion = Potion.forId(item.getId());
+				if (Foods.Food.forId(item.getId()) != null)
+					Foods.eat(e.getPlayer(), item, e.getSlotId(), null);
+				else if (potion != null)
+					potion.drink$world_server(e.getPlayer(), item.getId(), e.getSlotId());
+				else
+					PluginManager.handle(new ItemClickEvent(e.getPlayer(), item, e.getSlotId(), item.getDefinitions().getInventoryOption(1)));
+			} else if (e.getPacket() == ClientPacket.IF_OP10)
 				e.getPlayer().getInventory().sendExamine(e.getSlotId());
+			else
+				e.getPlayer().sendMessage(e.getPacket().toString());
 	});
 
 	public void removeItem(int id) {
@@ -630,6 +647,7 @@ public class Bank {
 		player.getInterfaceManager().sendInventoryInterface(763);
 		player.getPackets().sendRunScript(2319);
 		player.getPackets().setIFText(762, 47, "Bank of " + Settings.getConfig().getServerName());
+		refreshOpVars();
 		unlockButtons();
 		sendItems();
 		refreshItems();
@@ -731,6 +749,7 @@ public class Bank {
 		}
 		removeItem(bankSlot, item.getAmount(), true, false);
 		player.getInventory().addItem(item);
+		refreshOpVars();
 		if (item.getId() == Runecrafting.RUNE_ESS || item.getId() == Runecrafting.PURE_ESS)
 			Runecrafting.fillPouchesFromBank(player, item.getId());
 	}
@@ -973,6 +992,19 @@ public class Bank {
 		refreshItems(generateContainer(), getContainerCopy());
 	}
 
+	public void refreshOpVars() {
+		int eatFlags = 0;
+		for (int i = 0;i < 28;i++) {
+			Item item = player.getInventory().getItem(i);
+			if (item == null)
+				continue;
+			if (Foods.Food.forId(item.getId()) != null || Potion.forId(item.getId()) != null)
+				eatFlags |= (1 << i);
+		}
+		player.getPackets().sendVarc(95, eatFlags);
+		player.getPackets().sendVarc(96, ~eatFlags);
+	}
+
 	public void refreshItems(Item[] itemsAfter, Item[] itemsBefore) {
 		if (itemsBefore.length != itemsAfter.length) {
 			lastContainerCopy = itemsAfter;
@@ -1014,12 +1046,12 @@ public class Bank {
 		//		player.getPackets().sendHideIComponent(762, 44, false);
 
 		player.getPackets().setIFEvents(new IFEvents(762, 95, 0, MAX_BANK_SIZE)
-				.enableRightClickOptions(0,1,2,3,4,5,6,9)
+				.enableRightClickOptions(0,1,2,3,4,5,6,7,8,9)
 				.setDepth(2)
 				.enableDrag());
 		player.getPackets().setIFEvents(new IFEvents(763, 0, 0, 27)
 				.enableUseOptions(UseFlag.ICOMPONENT)
-				.enableRightClickOptions(0,1,2,3,4,5,9)
+				.enableRightClickOptions(0,1,2,3,4,5,6,7,8,9)
 				.setDepth(1)
 				.enableDrag());
 	}

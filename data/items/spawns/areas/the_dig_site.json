@@ -1,0 +1,585 @@
+[
+  {
+    "comment": "Bones added by mr_ashie_b",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3369,
+      "y": 3412,
+      "plane": 0
+    },
+    "respawnTicks": 60
+  },
+  {
+    "comment": "Bones added by mr_ashie_b",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3368,
+      "y": 3411,
+      "plane": 0
+    },
+    "respawnTicks": 60
+  },
+  {
+    "comment": "Bones added by mr_ashie_b",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3361,
+      "y": 3410,
+      "plane": 0
+    },
+    "respawnTicks": 60
+  },
+  {
+    "comment": "Bones added by mr_ashie_b",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3354,
+      "y": 3426,
+      "plane": 0
+    },
+    "respawnTicks": 60
+  },
+  {
+    "comment": "Bones added by mr_ashie_b",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3357,
+      "y": 3428,
+      "plane": 0
+    },
+    "respawnTicks": 60
+  },
+  {
+    "comment": "Panning tray added by mr_ashie_b",
+    "itemId": 677,
+    "amount": 1,
+    "tile": {
+      "x": 3369,
+      "y": 3378,
+      "plane": 0
+    },
+    "respawnTicks": 60
+  },
+  {
+    "comment": "Arcenia root added by mr_ashie_b",
+    "itemId": 708,
+    "amount": 1,
+    "tile": {
+      "x": 3364,
+      "y": 9828,
+      "plane": 0
+    },
+    "respawnTicks": 60
+  },
+  {
+    "comment": "Arcenia root added by mr_ashie_b",
+    "itemId": 708,
+    "amount": 1,
+    "tile": {
+      "x": 3368,
+      "y": 9834,
+      "plane": 0
+    },
+    "respawnTicks": 60
+  },
+  {
+    "comment": "Arcenia root added by mr_ashie_b",
+    "itemId": 708,
+    "amount": 1,
+    "tile": {
+      "x": 3347,
+      "y": 9818,
+      "plane": 0
+    },
+    "respawnTicks": 60
+  },
+  {
+    "comment": "Arcenia root added by mr_ashie_b",
+    "itemId": 708,
+    "amount": 1,
+    "tile": {
+      "x": 3350,
+      "y": 9823,
+      "plane": 0
+    },
+    "respawnTicks": 60
+  },
+  {
+    "comment": "Iron pickaxe added by mr_ashie_b",
+    "itemId": 1267,
+    "amount": 1,
+    "tile": {
+      "x": 3347,
+      "y": 9817,
+      "plane": 0
+    },
+    "respawnTicks": 60
+  },
+  {
+    "comment": "Iron pickaxe added by mr_ashie_b",
+    "itemId": 1267,
+    "amount": 1,
+    "tile": {
+      "x": 3348,
+      "y": 9816,
+      "plane": 0
+    },
+    "respawnTicks": 60
+  },
+  {
+    "comment": "Iron pickaxe added by mr_ashie_b",
+    "itemId": 1267,
+    "amount": 1,
+    "tile": {
+      "x": 3350,
+      "y": 9815,
+      "plane": 0
+    },
+    "respawnTicks": 60
+  },
+  {
+    "comment": "Bucket added by mr_ashie_b",
+    "itemId": 1925,
+    "amount": 1,
+    "tile": {
+      "x": 3355,
+      "y": 9818,
+      "plane": 0
+    },
+    "respawnTicks": 60
+  },
+  {
+    "comment": "Bucket added by mr_ashie_b",
+    "itemId": 1925,
+    "amount": 1,
+    "tile": {
+      "x": 3357,
+      "y": 9820,
+      "plane": 0
+    },
+    "respawnTicks": 60
+  },
+  {
+    "comment": "Bones added by mr_ashie_b",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3364,
+      "y": 9813,
+      "plane": 0
+    },
+    "respawnTicks": 60
+  },
+  {
+    "comment": "Bones added by mr_ashie_b",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3367,
+      "y": 9812,
+      "plane": 0
+    },
+    "respawnTicks": 60
+  },
+  {
+    "comment": "Bones added by mr_ashie_b",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3369,
+      "y": 9816,
+      "plane": 0
+    },
+    "respawnTicks": 60
+  },
+  {
+    "comment": "Bones added by mr_ashie_b",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3368,
+      "y": 9814,
+      "plane": 0
+    },
+    "respawnTicks": 60
+  },
+  {
+    "comment": "Bones added by mr_ashie_b",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3371,
+      "y": 9816,
+      "plane": 0
+    },
+    "respawnTicks": 60
+  },
+  {
+    "comment": "Bones added by mr_ashie_b",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3375,
+      "y": 9821,
+      "plane": 0
+    },
+    "respawnTicks": 60
+  },
+  {
+    "comment": "Bones added by mr_ashie_b",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3383,
+      "y": 9819,
+      "plane": 0
+    },
+    "respawnTicks": 60
+  },
+  {
+    "comment": "Bones added by mr_ashie_b",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3384,
+      "y": 9817,
+      "plane": 0
+    },
+    "respawnTicks": 60
+  },
+  {
+    "comment": "Bones added by mr_ashie_b",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3383,
+      "y": 9816,
+      "plane": 0
+    },
+    "respawnTicks": 60
+  },
+  {
+    "comment": "Bones added by mr_ashie_b",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3384,
+      "y": 9812,
+      "plane": 0
+    },
+    "respawnTicks": 60
+  },
+  {
+    "comment": "Arcenia root added by mr_ashie_b",
+    "itemId": 708,
+    "amount": 1,
+    "tile": {
+      "x": 3364,
+      "y": 9764,
+      "plane": 0
+    },
+    "respawnTicks": 60
+  },
+  {
+    "comment": "Arcenia root added by mr_ashie_b",
+    "itemId": 708,
+    "amount": 1,
+    "tile": {
+      "x": 3368,
+      "y": 9770,
+      "plane": 0
+    },
+    "respawnTicks": 60
+  },
+  {
+    "comment": "Arcenia root added by mr_ashie_b",
+    "itemId": 708,
+    "amount": 1,
+    "tile": {
+      "x": 3347,
+      "y": 9754,
+      "plane": 0
+    },
+    "respawnTicks": 60
+  },
+  {
+    "comment": "Arcenia root added by mr_ashie_b",
+    "itemId": 708,
+    "amount": 1,
+    "tile": {
+      "x": 3350,
+      "y": 9759,
+      "plane": 0
+    },
+    "respawnTicks": 60
+  },
+  {
+    "comment": "Iron pickaxe added by mr_ashie_b",
+    "itemId": 1267,
+    "amount": 1,
+    "tile": {
+      "x": 3347,
+      "y": 9753,
+      "plane": 0
+    },
+    "respawnTicks": 60
+  },
+  {
+    "comment": "Iron pickaxe added by mr_ashie_b",
+    "itemId": 1267,
+    "amount": 1,
+    "tile": {
+      "x": 3348,
+      "y": 9752,
+      "plane": 0
+    },
+    "respawnTicks": 60
+  },
+  {
+    "comment": "Iron pickaxe added by mr_ashie_b",
+    "itemId": 1267,
+    "amount": 1,
+    "tile": {
+      "x": 3350,
+      "y": 9751,
+      "plane": 0
+    },
+    "respawnTicks": 60
+  },
+  {
+    "comment": "Bucket added by mr_ashie_b",
+    "itemId": 1925,
+    "amount": 1,
+    "tile": {
+      "x": 3355,
+      "y": 9754,
+      "plane": 0
+    },
+    "respawnTicks": 60
+  },
+  {
+    "comment": "Bucket added by mr_ashie_b",
+    "itemId": 1925,
+    "amount": 1,
+    "tile": {
+      "x": 3357,
+      "y": 9756,
+      "plane": 0
+    },
+    "respawnTicks": 60
+  },
+  {
+    "comment": "Bones added by mr_ashie_b",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3364,
+      "y": 9749,
+      "plane": 0
+    },
+    "respawnTicks": 60
+  },
+  {
+    "comment": "Bones added by mr_ashie_b",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3367,
+      "y": 9748,
+      "plane": 0
+    },
+    "respawnTicks": 60
+  },
+  {
+    "comment": "Bones added by mr_ashie_b",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3369,
+      "y": 9752,
+      "plane": 0
+    },
+    "respawnTicks": 60
+  },
+  {
+    "comment": "Bones added by mr_ashie_b",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3368,
+      "y": 9750,
+      "plane": 0
+    },
+    "respawnTicks": 60
+  },
+  {
+    "comment": "Bones added by mr_ashie_b",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3371,
+      "y": 9752,
+      "plane": 0
+    },
+    "respawnTicks": 60
+  },
+  {
+    "comment": "Bones added by mr_ashie_b",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3375,
+      "y": 9757,
+      "plane": 0
+    },
+    "respawnTicks": 60
+  },
+  {
+    "comment": "Bones added by mr_ashie_b",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3383,
+      "y": 9755,
+      "plane": 0
+    },
+    "respawnTicks": 60
+  },
+  {
+    "comment": "Bones added by mr_ashie_b",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3384,
+      "y": 9753,
+      "plane": 0
+    },
+    "respawnTicks": 60
+  },
+  {
+    "comment": "Bones added by mr_ashie_b",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3383,
+      "y": 9752,
+      "plane": 0
+    },
+    "respawnTicks": 60
+  },
+  {
+    "comment": "Bones added by mr_ashie_b",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3384,
+      "y": 9748,
+      "plane": 0
+    },
+    "respawnTicks": 60
+  },
+  {
+    "comment": "Arcenia root added by mr_ashie_b",
+    "itemId": 708,
+    "amount": 1,
+    "tile": {
+      "x": 3176,
+      "y": 5738,
+      "plane": 0
+    },
+    "respawnTicks": 60
+  },
+  {
+    "comment": "Arcenia root added by mr_ashie_b",
+    "itemId": 708,
+    "amount": 1,
+    "tile": {
+      "x": 3172,
+      "y": 5732,
+      "plane": 0
+    },
+    "respawnTicks": 60
+  },
+  {
+    "comment": "Arcenia root added by mr_ashie_b",
+    "itemId": 708,
+    "amount": 1,
+    "tile": {
+      "x": 3157,
+      "y": 5728,
+      "plane": 0
+    },
+    "respawnTicks": 60
+  },
+  {
+    "comment": "Arcenia root added by mr_ashie_b",
+    "itemId": 708,
+    "amount": 1,
+    "tile": {
+      "x": 3154,
+      "y": 5723,
+      "plane": 0
+    },
+    "respawnTicks": 60
+  },
+  {
+    "comment": "Iron pickaxe added by mr_ashie_b",
+    "itemId": 1267,
+    "amount": 1,
+    "tile": {
+      "x": 3154,
+      "y": 5722,
+      "plane": 0
+    },
+    "respawnTicks": 60
+  },
+  {
+    "comment": "Iron pickaxe added by mr_ashie_b",
+    "itemId": 1267,
+    "amount": 1,
+    "tile": {
+      "x": 3155,
+      "y": 5721,
+      "plane": 0
+    },
+    "respawnTicks": 60
+  },
+  {
+    "comment": "Iron pickaxe added by mr_ashie_b",
+    "itemId": 1267,
+    "amount": 1,
+    "tile": {
+      "x": 3157,
+      "y": 5720,
+      "plane": 0
+    },
+    "respawnTicks": 60
+  },
+  {
+    "comment": "Bucket added by mr_ashie_b",
+    "itemId": 1925,
+    "amount": 1,
+    "tile": {
+      "x": 3162,
+      "y": 5723,
+      "plane": 0
+    },
+    "respawnTicks": 60
+  },
+  {
+    "comment": "Bucket added by mr_ashie_b",
+    "itemId": 1925,
+    "amount": 1,
+    "tile": {
+      "x": 3164,
+      "y": 5725,
+      "plane": 0
+    },
+    "respawnTicks": 60
+  }
+]

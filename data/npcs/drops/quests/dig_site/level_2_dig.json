@@ -1,0 +1,29 @@
+{
+  "names": [
+    "level_2_dig"
+  ],
+  "tables": [
+	{
+      "chance": 1, "outOf": 2,
+      "drops": [
+		{ "id": 697, "min": 1, "max": 1 },
+		{ "id": 1061, "min": 1, "max": 1 },
+		{ "id": 1923, "min": 1, "max": 1 },
+		{ "id": 689, "min": 1, "max": 1 },
+		{ "id": 698, "min": 1, "max": 1 },
+		{ "id": 1627, "min": 1, "max": 1 },
+		{ "id": 1469, "min": 1, "max": 1 },
+		{ "id": 1935, "min": 1, "max": 1 },
+		{ "id": 1931, "min": 1, "max": 1 },
+		{ "id": 434, "min": 1, "max": 1 },
+		{ "id": 1625, "min": 1, "max": 1 }
+      ]
+    },
+	{
+      "chance": 1, "outOf": 3,
+      "drops": [
+        { "id": 526, "min": 1, "max": 1 }
+      ]
+    }
+  ]
+}

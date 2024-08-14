@@ -510,10 +510,11 @@ public final class Inventory {
 	
 	public void processRefresh() {
 		boolean needsRefresh = updateAll || !slotsToUpdate.isEmpty();
-		if (updateAll)
+		if (updateAll) {
 			player.getPackets().sendItems(93, items);
-		else if (!slotsToUpdate.isEmpty())
+		} else if (!slotsToUpdate.isEmpty()) {
 			player.getPackets().sendUpdateItems(93, items, slotsToUpdate.stream().mapToInt(Integer::intValue).toArray());
+		}
 		if (needsRefresh) {
 			updateAll = false;
 			slotsToUpdate.clear();

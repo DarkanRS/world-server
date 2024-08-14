@@ -174,9 +174,9 @@ public final class ObjectHandler {
 			else if (id == 31149) {
 				boolean isEntering = player.getX() <= 3295;
 				player.useStairs(isEntering ? 9221 : 9220, Tile.of(x + (isEntering ? 1 : 0), y, 0));
-			} else if (id == 2350 && (object.getX() == 3352 && object.getY() == 3417 && object.getPlane() == 0))
-				player.useStairs(832, Tile.of(3177, 5731, 0));
-			else if (id >= 65616 && id <= 65622) WildernessObelisk.activateObelisk(id, player);
+			/* Temple for curse prayers } else if (id == 2350 && (object.getX() == 3352 && object.getY() == 3417 && object.getPlane() == 0))
+				player.useStairs(832, Tile.of(3177, 5731, 0));*/
+			} else if (id >= 65616 && id <= 65622) WildernessObelisk.activateObelisk(id, player);
 			else if (id == 10229) { // dag up ladder
 				player.setNextAnimation(new Animation(828));
 				WorldTasks.schedule(1, () -> player.tele(Tile.of(1910, 4367, 0)));
@@ -285,7 +285,6 @@ public final class ObjectHandler {
 					ops.add("Nevermind.");
 				}));
 			} else if (id == 9356) FightCavesController.enterFightCaves(player);
-			else if (id == 68107) FightKilnController.enterFightKiln(player, false);
 			else if (id == 68223) FightPits.enterLobby(player, false);
 			else if (id == 26684 || id == 26685 || id == 26686) // poison waste cave
 				player.useStairs(-1, Tile.of(1989, 4174, 0), 1, 2, "You enter the murky cave...");
@@ -988,9 +987,9 @@ public final class ObjectHandler {
 				player.tele(Tile.of(2885, 4372, 2));
 				player.getControllerManager().forceStop();
 				// TODO all reqs, skills not added
-			} else if (id == 48803 && player.isKalphiteLairSetted())
+			} else if (id == 48803)
 				player.tele(Tile.of(3508, 9494, 0));
-			else if (id == 48802 && player.isKalphiteLairEntranceSetted())
+			else if (id == 48802)
 				player.tele(Tile.of(3483, 9510, 2));
 			else if (id == 3829) {
 				if (object.getX() == 3483 && object.getY() == 9510)
@@ -1181,8 +1180,6 @@ public final class ObjectHandler {
 				player.getDominionTower().openRewards();
 			else if (id == 62688)
 				player.simpleDialogue("You have a Dominion Factor of " + player.getDominionTower().getDominionFactor() + ".");
-			else if (id == 68107)
-				FightKilnController.enterFightKiln(player, true);
 			else if (id == 70795) {
 				if (!Agility.hasLevel(player, 50))
 					return;
@@ -1426,15 +1423,15 @@ public final class ObjectHandler {
 				player.setNextAnimation(new Animation(PlayerCombatKt.getWeaponAttackEmote(player.getEquipment().getWeaponId(), player.getCombatDefinitions().getAttackStyle())));
 				slashWeb(player, object);
 			} else if (object.getId() == 48803 && itemId == 954) {
-				if (player.isKalphiteLairSetted())
+				if (player.getVars().getVarBit(7263) == 1)
 					return;
 				player.getInventory().deleteItem(954, 1);
-				player.setKalphiteLair();
+				player.getVars().saveVarBit(7263, 1);
 			} else if (object.getId() == 48802 && itemId == 954) {
-				if (player.isKalphiteLairEntranceSetted())
+				if (player.getVars().getVarBit(7262) == 1)
 					return;
 				player.getInventory().deleteItem(954, 1);
-				player.setKalphiteLairEntrance();
+				player.getVars().saveVarBit(7262, 1);
 			} else
 				PluginManager.handle(new ItemOnObjectEvent(player, item, object, true));
 		}));

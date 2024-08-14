@@ -72,8 +72,8 @@ public class SlidingStatuesRoom extends PuzzleRoom {
 							continue while_;
 					if (active.transform(0, 7, 0).matches(inactive))
 						continue while_;
-					statues[index] = manager.spawnNPC(STATUES_INACTIVE[type][index], 0, inactive, reference, DungeonConstants.NORMAL_NPC);
-					statues[index + 4] = new Statue(STATUES_ACTIVE[type][index], active, STATUE_LOCATIONS[i + 2][0], STATUE_LOCATIONS[i + 2][1]);
+					statues[index] = manager.spawnNPC(STATUES_INACTIVE[type.ordinal()][index], 0, inactive, reference, DungeonConstants.NORMAL_NPC);
+					statues[index + 4] = new Statue(STATUES_ACTIVE[type.ordinal()][index], active, STATUE_LOCATIONS[i + 2][0], STATUE_LOCATIONS[i + 2][1]);
 					index++;
 					break;
 				}

@@ -1,0 +1,12 @@
+[
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3228,
+      "y": 3203
+    },
+    "comment": "Bob",
+    "dir": "SOUTH",
+    "npcId": 519
+  }
+]

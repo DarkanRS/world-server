@@ -147,12 +147,12 @@ public class DungeonConstants {
 			return openGfx;
 		}
 
-		public int getClosedObject(int type) {
-			return closedThemeObjects[type];
+		public int getClosedObject(FloorType type) {
+			return closedThemeObjects[type.ordinal()];
 		}
 
-		public int getOpenObject(int type) {
-			return openThemeObjects == null ? -1 : openThemeObjects[type];
+		public int getOpenObject(FloorType type) {
+			return openThemeObjects == null ? -1 : openThemeObjects[type.ordinal()];
 		}
 
 		public String getFailMessage() {
@@ -239,7 +239,7 @@ public class DungeonConstants {
 			return getLowestObjectId() + index;
 		}
 
-		public int getDoorId(int floorType) {
+		public int getDoorId(FloorType floorType) {
 			return getLowestDoorId(floorType) + index;
 		}
 
@@ -247,16 +247,16 @@ public class DungeonConstants {
 			return 50208;
 		}
 
-		public static int getLowestDoorId(int floorType) {
-			return DUNGEON_KEY_DOORS[floorType];
+		public static int getLowestDoorId(FloorType floorType) {
+			return DUNGEON_KEY_DOORS[floorType.ordinal()];
 		}
 
 		public static int getMaxObjectId() {
 			return 50208 + KeyDoors.values().length;
 		}
 
-		public static int getMaxDoorId(int floorType) {
-			return DUNGEON_KEY_DOORS[floorType] + KeyDoors.values().length;
+		public static int getMaxDoorId(FloorType floorType) {
+			return DUNGEON_KEY_DOORS[floorType.ordinal()] + KeyDoors.values().length;
 		}
 
 		public int getKeyId() {
@@ -272,7 +272,7 @@ public class DungeonConstants {
 		}
 	}
 
-	public static final int NORMAL_DOOR = 0, GUARDIAN_DOOR = 1, SKILL_DOOR = 2, CHALLENGE_DOOR = 3, KEY_DOOR = 4;
+	public enum DoorType { NORMAL, GUARDIAN, SKILL, CHALLENGE, KEY }
 
 	public static final double UNBALANCED_PARTY_PENALTY = 0.4;
 	public static final double[] DUNGEON_SIZE_BONUS = { 0, 0.0792, 0.1583 };
@@ -288,12 +288,12 @@ public class DungeonConstants {
 	/*
 	 * floor types
 	 */
-	public static final int FROZEN_FLOORS = 0, ABANDONED_FLOORS = 1, FURNISHED_FLOORS = 2, OCCULT_FLOORS = 3, WARPED_FLOORS = 4;
+	public enum FloorType {Frozen, Abandoned, Furnished, Occult, Warped}
 
 	/*
 	 * dungeon sizes
 	 */
-	public static final int SMALL_DUNGEON = 0, MEDIUM_DUNGEON = 1, LARGE_DUNGEON = 2;
+	public enum Size {Small, Medium, Large}
 
 	public static final double[] NPC_COMBAT_LEVEL_COMPLEXITY_MUL = { 0.70, 0.75, 0.80, 0.85, 0.95, 1.0 };
 
@@ -321,7 +321,7 @@ public class DungeonConstants {
 	};
 
 	public static final int[][] SAFE_MUSICS = {
-		// FROZEN_FLOORS
+		// FloorType.FROZEN
 		{ 804, 805, 806, 807, 809, 812, 813, 814, 812, 813, 814, 821, 822 }, //frozen
 		{ 772, 773, 775, 776, 777, 778, 788, 789, 791, 792, 793, 795, 796 }, //abandoned
 		{ 740, 744, 745, 749, 750, 751, 752, 754, 755, 758, 760, 762, 764 }, //furnished
@@ -333,71 +333,71 @@ public class DungeonConstants {
 
 	public enum GuardianMonster {
 		//ALL FLOORS
-		FORGOTTEN_WARRIOR(new int[] { FROZEN_FLOORS, ABANDONED_FLOORS, FURNISHED_FLOORS, OCCULT_FLOORS, WARPED_FLOORS }, Utils.range(10397, 10459), Utils.range(10246, 10308), Utils.range(10843, 10905), Utils.range(10507, 10548)),
-		FORGOTTEN_RANGER(new int[] { FROZEN_FLOORS, ABANDONED_FLOORS, FURNISHED_FLOORS, OCCULT_FLOORS, WARPED_FLOORS }, Utils.range(10320, 10363)),
-		FORGOTTEN_MAGE(new int[] { FROZEN_FLOORS, ABANDONED_FLOORS, FURNISHED_FLOORS, OCCULT_FLOORS, WARPED_FLOORS }, Utils.range(10560, 10603)),
-		MYSTERIOUS_SHADE(new int[] { FROZEN_FLOORS, ABANDONED_FLOORS, FURNISHED_FLOORS, OCCULT_FLOORS, WARPED_FLOORS }, Utils.range(10831, 10842), new int[] { 7398 }),
+		FORGOTTEN_WARRIOR(new FloorType[] { FloorType.Frozen, FloorType.Abandoned, FloorType.Furnished, FloorType.Occult, FloorType.Warped}, Utils.range(10397, 10459), Utils.range(10246, 10308), Utils.range(10843, 10905), Utils.range(10507, 10548)),
+		FORGOTTEN_RANGER(new FloorType[] { FloorType.Frozen, FloorType.Abandoned, FloorType.Furnished, FloorType.Occult, FloorType.Warped}, Utils.range(10320, 10363)),
+		FORGOTTEN_MAGE(new FloorType[] { FloorType.Frozen, FloorType.Abandoned, FloorType.Furnished, FloorType.Occult, FloorType.Warped}, Utils.range(10560, 10603)),
+		MYSTERIOUS_SHADE(new FloorType[] { FloorType.Frozen, FloorType.Abandoned, FloorType.Furnished, FloorType.Occult, FloorType.Warped}, Utils.range(10831, 10842), new int[] { 7398 }),
 
 		//MIXED FLOORS
-		GIANT_RAT(new int[] { FROZEN_FLOORS, ABANDONED_FLOORS, FURNISHED_FLOORS, OCCULT_FLOORS }, Utils.range(10480, 10486)),
-		DUNGEON_SPIDER(new int[] { ABANDONED_FLOORS, FURNISHED_FLOORS, OCCULT_FLOORS }, Utils.range(10496, 10505), new int[] { 9382 }),
-		SKELETON_MELEE(new int[] { ABANDONED_FLOORS, OCCULT_FLOORS, WARPED_FLOORS }, Utils.range(10629, 10669)),
-		SKELETON_RANGED(new int[] { ABANDONED_FLOORS, OCCULT_FLOORS, WARPED_FLOORS }, Utils.range(10670, 10681)),
-		SKELETON_MAGIC(new int[] { ABANDONED_FLOORS, OCCULT_FLOORS, WARPED_FLOORS }, Utils.range(10682, 10693)),
-		ZOMBIE_MELEE(new int[] { ABANDONED_FLOORS, OCCULT_FLOORS, WARPED_FLOORS }, Utils.range(10364, 10374)),
-		ZOMBIE_RANGED(new int[] { ABANDONED_FLOORS, OCCULT_FLOORS, WARPED_FLOORS }, Utils.range(10375, 10385)),
-		BAT(new int[] { ABANDONED_FLOORS, FURNISHED_FLOORS, OCCULT_FLOORS }, Utils.range(10906, 10909)),
-		GIANT_BAT(new int[] { ABANDONED_FLOORS, FURNISHED_FLOORS, OCCULT_FLOORS }, Utils.range(10910, 10914)),
-		ANIMATED_PICKAXE(new int[] { ABANDONED_FLOORS, WARPED_FLOORS }, Utils.range(10168, 10177)),
-		ANIMATED_BOOK(new int[] { OCCULT_FLOORS, WARPED_FLOORS }, Utils.range(10744, 10753)),
-		LESSER_DEMON(new int[] { OCCULT_FLOORS, WARPED_FLOORS }, Utils.range(10492, 10495)),
-		GREATER_DEMON(new int[] { OCCULT_FLOORS, WARPED_FLOORS }, Utils.range(10718, 10721)),
-		BLACK_DEMON(new int[] { OCCULT_FLOORS, WARPED_FLOORS }, Utils.range(10722, 10725)),
+		GIANT_RAT(new FloorType[] { FloorType.Frozen, FloorType.Abandoned, FloorType.Furnished, FloorType.Occult}, Utils.range(10480, 10486)),
+		DUNGEON_SPIDER(new FloorType[] { FloorType.Abandoned, FloorType.Furnished, FloorType.Occult}, Utils.range(10496, 10505), new int[] { 9382 }),
+		SKELETON_MELEE(new FloorType[] { FloorType.Abandoned, FloorType.Occult, FloorType.Warped}, Utils.range(10629, 10669)),
+		SKELETON_RANGED(new FloorType[] { FloorType.Abandoned, FloorType.Occult, FloorType.Warped}, Utils.range(10670, 10681)),
+		SKELETON_MAGIC(new FloorType[] { FloorType.Abandoned, FloorType.Occult, FloorType.Warped}, Utils.range(10682, 10693)),
+		ZOMBIE_MELEE(new FloorType[] { FloorType.Abandoned, FloorType.Occult, FloorType.Warped}, Utils.range(10364, 10374)),
+		ZOMBIE_RANGED(new FloorType[] { FloorType.Abandoned, FloorType.Occult, FloorType.Warped}, Utils.range(10375, 10385)),
+		BAT(new FloorType[] { FloorType.Abandoned, FloorType.Furnished, FloorType.Occult}, Utils.range(10906, 10909)),
+		GIANT_BAT(new FloorType[] { FloorType.Abandoned, FloorType.Furnished, FloorType.Occult}, Utils.range(10910, 10914)),
+		ANIMATED_PICKAXE(new FloorType[] { FloorType.Abandoned, FloorType.Warped}, Utils.range(10168, 10177)),
+		ANIMATED_BOOK(new FloorType[] { FloorType.Occult, FloorType.Warped}, Utils.range(10744, 10753)),
+		LESSER_DEMON(new FloorType[] { FloorType.Occult, FloorType.Warped}, Utils.range(10492, 10495)),
+		GREATER_DEMON(new FloorType[] { FloorType.Occult, FloorType.Warped}, Utils.range(10718, 10721)),
+		BLACK_DEMON(new FloorType[] { FloorType.Occult, FloorType.Warped}, Utils.range(10722, 10725)),
 
 		//FROZEN
-		ICE_WARRIOR(new int[] { FROZEN_FLOORS }, Utils.range(10225, 10235)),
-		ICE_SPIDER(new int[] { FROZEN_FLOORS }, Utils.range(10157, 10167)),
-		ICE_TROLL(new int[] { FROZEN_FLOORS }, Utils.range(10782, 10790)),
-		ICE_GIANT(new int[] { FROZEN_FLOORS }, Utils.range(10762, 10769)),
-		ICE_ELEMENTAL(new int[] { FROZEN_FLOORS }, Utils.range(10460, 10468)),
-		THROWER_TROLL(new int[] { FROZEN_FLOORS }, Utils.range(10791, 10796)),
-		HYDRA(new int[] { FROZEN_FLOORS }, Utils.range(10610, 10618)),
-		FROST_DRAGON(new int[] { FROZEN_FLOORS }, Utils.range(10770, 10775)),
+		ICE_WARRIOR(new FloorType[] { FloorType.Frozen}, Utils.range(10225, 10235)),
+		ICE_SPIDER(new FloorType[] { FloorType.Frozen}, Utils.range(10157, 10167)),
+		ICE_TROLL(new FloorType[] { FloorType.Frozen}, Utils.range(10782, 10790)),
+		ICE_GIANT(new FloorType[] { FloorType.Frozen}, Utils.range(10762, 10769)),
+		ICE_ELEMENTAL(new FloorType[] { FloorType.Frozen}, Utils.range(10460, 10468)),
+		THROWER_TROLL(new FloorType[] { FloorType.Frozen}, Utils.range(10791, 10796)),
+		HYDRA(new FloorType[] { FloorType.Frozen}, Utils.range(10610, 10618)),
+		FROST_DRAGON(new FloorType[] { FloorType.Frozen}, Utils.range(10770, 10775)),
 
 		//ABANDONED
-		EARTH_WARRIOR(new int[] { ABANDONED_FLOORS }, Utils.range(10178, 10187)),
-		GREEN_DRAGON(new int[] { ABANDONED_FLOORS }, Utils.range(10604, 10609)),
-		HILL_GIANT(new int[] { ABANDONED_FLOORS }, Utils.range(10706, 10717)),
-		GIANT_SKELETON(new int[] { ABANDONED_FLOORS }, Utils.range(10469, 10479)),
-		HOBGOBLIN(new int[] { ABANDONED_FLOORS }, Utils.range(10236, 10245)),
+		EARTH_WARRIOR(new FloorType[] { FloorType.Abandoned}, Utils.range(10178, 10187)),
+		GREEN_DRAGON(new FloorType[] { FloorType.Abandoned}, Utils.range(10604, 10609)),
+		HILL_GIANT(new FloorType[] { FloorType.Abandoned}, Utils.range(10706, 10717)),
+		GIANT_SKELETON(new FloorType[] { FloorType.Abandoned}, Utils.range(10469, 10479)),
+		HOBGOBLIN(new FloorType[] { FloorType.Abandoned}, Utils.range(10236, 10245)),
 
 		//FURNISHED
-		GUARD_DOG(new int[] { FURNISHED_FLOORS }, Utils.range(10726, 10735)),
-		BRUTE(new int[] { FURNISHED_FLOORS }, Utils.range(10797, 10814)),
-		IRON_DRAGON(new int[] { FURNISHED_FLOORS }, Utils.range(10776, 10781)),
+		GUARD_DOG(new FloorType[] { FloorType.Furnished}, Utils.range(10726, 10735)),
+		BRUTE(new FloorType[] { FloorType.Furnished}, Utils.range(10797, 10814)),
+		IRON_DRAGON(new FloorType[] { FloorType.Furnished}, Utils.range(10776, 10781)),
 
 		//OCCULT
-		RED_DRAGON(new int[] { OCCULT_FLOORS }, Utils.range(10815, 10820)),
-		FIRE_GIANT(new int[] { OCCULT_FLOORS }, Utils.range(10754, 10761)),
-		HELLHOUND(new int[] { OCCULT_FLOORS }, Utils.range(10188, 10195)),
-		NECROMANCER(new int[] { OCCULT_FLOORS }, Utils.range(10196, 10206)),
-		GHOST(new int[] { OCCULT_FLOORS }, Utils.range(10821, 10830)),
+		RED_DRAGON(new FloorType[] { FloorType.Occult}, Utils.range(10815, 10820)),
+		FIRE_GIANT(new FloorType[] { FloorType.Occult}, Utils.range(10754, 10761)),
+		HELLHOUND(new FloorType[] { FloorType.Occult}, Utils.range(10188, 10195)),
+		NECROMANCER(new FloorType[] { FloorType.Occult}, Utils.range(10196, 10206)),
+		GHOST(new FloorType[] { FloorType.Occult}, Utils.range(10821, 10830)),
 
 		//WARPED
-		GIANT_RAT_WARP(new int[] { WARPED_FLOORS }, Utils.range(12914, 12920)),
-		GUARD_DOG_WARP(new int[] { WARPED_FLOORS }, Utils.range(12922, 12931)),
-		BRUTE_WARP(new int[] { FURNISHED_FLOORS }, Utils.range(12932, 12940)),
-		BLACK_DRAGON(new int[] { WARPED_FLOORS }, Utils.range(10219, 10224)),
-		REBORN_MAGE(new int[] { WARPED_FLOORS }, Utils.range(12903, 12913)),
-		REBORN_WARRIOR(new int[] { WARPED_FLOORS }, Utils.range(12941, 12951)),
-		ANKOU(new int[] { WARPED_FLOORS }, Utils.range(10736, 10743));
+		GIANT_RAT_WARP(new FloorType[] { FloorType.Warped}, Utils.range(12914, 12920)),
+		GUARD_DOG_WARP(new FloorType[] { FloorType.Warped}, Utils.range(12922, 12931)),
+		BRUTE_WARP(new FloorType[] { FloorType.Furnished}, Utils.range(12932, 12940)),
+		BLACK_DRAGON(new FloorType[] { FloorType.Warped}, Utils.range(10219, 10224)),
+		REBORN_MAGE(new FloorType[] { FloorType.Warped}, Utils.range(12903, 12913)),
+		REBORN_WARRIOR(new FloorType[] { FloorType.Warped}, Utils.range(12941, 12951)),
+		ANKOU(new FloorType[] { FloorType.Warped}, Utils.range(10736, 10743));
 
 		private static final Map<Integer, GuardianMonster> MAP = new HashMap<>();
-		private static final Map<Integer, Set<GuardianMonster>> FLOOR_MAP = new HashMap<>();
+		private static final Map<FloorType, Set<GuardianMonster>> FLOOR_MAP = new HashMap<>();
 
 		static {
 			for (GuardianMonster g : GuardianMonster.values()) {
-				for (int floor : g.floors) {
+				for (FloorType floor : g.floors) {
 					Set<GuardianMonster> set = FLOOR_MAP.get(floor);
 					if (set == null)
 						set = new HashSet<>();
@@ -409,10 +409,10 @@ public class DungeonConstants {
 			}
 		}
 
-		private final int[] floors;
+		private final FloorType[] floors;
 		private final int[] npcIds;
 
-		GuardianMonster(int[] floors, int[]... npcIds) {
+		GuardianMonster(FloorType[] floors, int[]... npcIds) {
 			this.floors = floors;
 
 			int totalLen = 0;
@@ -435,7 +435,7 @@ public class DungeonConstants {
 			return MAP.get(npcId);
 		}
 
-		public static Set<GuardianMonster> forFloor(int floorId) {
+		public static Set<GuardianMonster> forFloor(FloorType floorId) {
 			return FLOOR_MAP.get(floorId);
 		}
 	}
@@ -443,7 +443,7 @@ public class DungeonConstants {
 	public static final int[] HUNTER_CREATURES = new int[] { 11086, 11087, 11088, 11089, 11090, 11091, 11092, 11093, 11094, 11095 };
 
 	public static final StartRoom[] START_ROOMS = {
-		// FROZEN_FLOORS
+		// FloorType.FROZEN
 		new StartRoom(14, 632, EAST_DOOR, WEST_DOOR, NORTH_DOOR, SOUTH_DOOR),
 		new StartRoom(14, 624, SOUTH_DOOR),
 		new StartRoom(14, 626, WEST_DOOR, SOUTH_DOOR),
@@ -720,9 +720,9 @@ public class DungeonConstants {
 			}
 		}
 
-		public boolean isAvailableOnFloorType(int floorType) {
+		public boolean isAvailableOnFloorType(FloorType floorType) {
 			//I think constructor args are uglier because some are exclude and some are include
-			if (this == POLTERGEIST && floorType == 0)
+			if (this == POLTERGEIST && floorType == FloorType.Frozen)
 				return false;
 			/*if (this == FLOWER_ROOTS && floorType == 0) {
 				return false;
@@ -824,7 +824,7 @@ public class DungeonConstants {
 	}
 
 	public static final BossRoom[][] BOSS_ROOMS = {
-		// FROZEN_FLOORS
+		// FloorType.FROZEN
 		{
 			// To'Kash The Blood Chiller
 			new BossRoom((dungeon, reference) -> dungeon.spawnNPC(reference, 10024, 5, 10, false, DungeonConstants.BOSS_NPC), 820, 9, 26, 626),

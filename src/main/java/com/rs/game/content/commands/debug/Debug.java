@@ -32,6 +32,7 @@ import com.rs.game.content.quests.dragonslayer.DragonSlayer_BoatScene;
 import com.rs.game.content.quests.gunnars_ground.cutscene.GunnarsGroundCutscenes;
 import com.rs.game.content.quests.merlinscrystal.MerlinsCrystalCrateScene;
 import com.rs.game.content.quests.plague_city.cutscene.PlagueCityCutscene;
+import com.rs.game.content.skills.dungeoneering.DungeonConstants;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
@@ -420,7 +421,7 @@ public class Debug {
 				int floor = Integer.parseInt(args[0]);
 				long seed = Long.parseLong(args[1]);
 				int difficulty = Integer.parseInt(args[2]);
-				int size = Integer.parseInt(args[3]);
+				String size = args[3];
 				int complexity = Integer.parseInt(args[4]);
 
 				if (!p.getDungManager().isInsideDungeon()) {
@@ -433,7 +434,7 @@ public class Debug {
 					p.getDungManager().getParty().setFloor(floor);
 					p.getDungManager().getParty().setStartingSeed(seed);
 					p.getDungManager().getParty().setDificulty(difficulty);
-					p.getDungManager().getParty().setSize(size);
+					p.getDungManager().getParty().setSize(DungeonConstants.Size.valueOf(size));
 					p.getDungManager().getParty().setComplexity(complexity);
 					p.getDungManager().enterDungeon(false);
 				} else

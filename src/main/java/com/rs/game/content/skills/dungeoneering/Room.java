@@ -69,7 +69,7 @@ public class Room {
 	public void removeGuardianDoors() {
 		for (int i = 0; i < doors.length; i++) {
 			Door door = doors[i];
-			if (door != null && door.getType() == DungeonConstants.GUARDIAN_DOOR)
+			if (door != null && door.getType() == DungeonConstants.DoorType.GUARDIAN)
 				doors[i] = null;
 		}
 	}
@@ -77,7 +77,7 @@ public class Room {
 	public void removeChallengeDoors() {
 		for (int i = 0; i < doors.length; i++) {
 			Door door = doors[i];
-			if (door != null && door.getType() == DungeonConstants.CHALLENGE_DOOR)
+			if (door != null && door.getType() == DungeonConstants.DoorType.CHALLENGE)
 				doors[i] = null;
 		}
 	}
@@ -93,7 +93,7 @@ public class Room {
 		return room.getChunkX() + getChunkXOffset(complexity);
 	}
 
-	public int getChunkY(int type) {
+	public int getChunkY(DungeonConstants.FloorType type) {
 		return room.getChunkY() + getChunkYOffset(type);
 	}
 
@@ -101,8 +101,8 @@ public class Room {
 		return complexity < 6 && room instanceof StartRoom ? (complexity <= 2 ? -6 : -(5 - complexity) * 2) : 0;
 	}
 
-	public int getChunkYOffset(int type) {
-		return (room instanceof StartRoom ? 16 : room instanceof NormalRoom ? 48 : room instanceof HandledPuzzleRoom ? 16 : 0) * type;
+	public int getChunkYOffset(DungeonConstants.FloorType type) {
+		return (room instanceof StartRoom ? 16 : room instanceof NormalRoom ? 48 : room instanceof HandledPuzzleRoom ? 16 : 0) * type.ordinal();
 	}
 
 	public int getRotation() {
@@ -111,7 +111,7 @@ public class Room {
 
 	@Override
 	public String toString() {
-		return "[Room][" + rotation + "]" + ", " + Arrays.toString(room.getDoorDirections()) + ", " + (getChunkX(0) << 3) + ", " + (getChunkY(0) << 3);
+		return "[Room][" + rotation + "]" + ", " + Arrays.toString(room.getDoorDirections()) + ", " + (getChunkX(0) << 3) + ", " + (getChunkY(DungeonConstants.FloorType.Frozen) << 3);
 	}
 
 	public boolean hasSouthDoor() {

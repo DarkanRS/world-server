@@ -295,7 +295,7 @@ public enum Quest {
 		for (int skillId : getDefs().getExtraInfo().getPreReqSkillReqs().keySet()) {
 			if (player.getSkills().getLevelForXp(skillId) < getDefs().getExtraInfo().getPreReqSkillReqs().get(skillId)) {
 				if (actionStr != null)
-					player.sendMessage("You need a " + Skills.SKILL_NAME[skillId] + " level of " + getDefs().getExtraInfo().getPreReqSkillReqs().get(skillId)+".");
+					player.sendMessage("You need " + Utils.addArticle(Skills.SKILL_NAME[skillId]) + " level of " + getDefs().getExtraInfo().getPreReqSkillReqs().get(skillId)+".");
 				meetsRequirements = false;
 			}
 		}

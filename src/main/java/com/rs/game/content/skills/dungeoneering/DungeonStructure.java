@@ -32,13 +32,13 @@ public class DungeonStructure {
 	private final List<Integer> availableKeys = IntStream.rangeClosed(0, 63).boxed().collect(Collectors.toList());
 	private final Random random;
 	private final int complexity;
-	private final int size;
+	private final DungeonConstants.Size size;
 
-	public DungeonStructure(int size, Random random, int complexity) {
+	public DungeonStructure(DungeonConstants.Size size, Random random, int complexity) {
 		this.complexity = complexity;
 		this.size = size;
 		this.random = random;
-		rooms = new RoomNode[DungeonConstants.DUNGEON_RATIO[size][0]][DungeonConstants.DUNGEON_RATIO[size][1]];
+		rooms = new RoomNode[DungeonConstants.DUNGEON_RATIO[size.ordinal()][0]][DungeonConstants.DUNGEON_RATIO[size.ordinal()][1]];
 		Collections.shuffle(availableKeys, random);
 		generate();
 	}
@@ -100,7 +100,7 @@ public class DungeonStructure {
 			if (random.nextBoolean())
 				critPath.addAll(shuffledRooms().findAny().get().pathToBase());
 
-			if (critPath.size() >= DungeonConstants.MIN_CRIT_PATH[size] && critPath.size() <= DungeonConstants.MAX_CRIT_PATH[size]) {
+			if (critPath.size() >= DungeonConstants.MIN_CRIT_PATH[size.ordinal()] && critPath.size() <= DungeonConstants.MAX_CRIT_PATH[size.ordinal()]) {
 				critPath.forEach(r -> r.isCritPath = true);
 				boss.isBoss = true;
 				break;
@@ -114,7 +114,7 @@ public class DungeonStructure {
 		rooms().filter(r -> !r.isBoss && r.children.stream().noneMatch(c -> c.isCritPath) && r.isCritPath).forEach(r -> assignKey(r, true));
 
 		//Some extra crit locks, to make things more interesting, these may 'fail' to add, but it doesn't matter
-		shuffledRooms().filter(r -> !r.isBoss && r.isCritPath && r.key == -1).limit((size * 2L) +1).forEach(r -> assignKey(r, true));
+		shuffledRooms().filter(r -> !r.isBoss && r.isCritPath && r.key == -1).limit((size.ordinal() * 2L) +1).forEach(r -> assignKey(r, true));
 
 		if (boss.lock == -1) {
 			//Should we force a lock on the boss? RS has a lock about 95% of the time
@@ -123,7 +123,7 @@ public class DungeonStructure {
 		}
 
 		//Bonus keys can be found anywhere that isn't the boss or has a key already
-		long bonusLockCount = rooms().filter(r -> !r.isCritPath).count() / 4 + random.nextInt((size + 1) * 2);
+		long bonusLockCount = rooms().filter(r -> !r.isCritPath).count() / 4 + random.nextInt((size.ordinal() + 1) * 2);
 		shuffledRooms().filter(r -> !r.isBoss && r.key == -1).limit(bonusLockCount).forEach(r -> assignKey(r, false));
 
 	}

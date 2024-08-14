@@ -19,6 +19,7 @@ package com.rs.game.content.skills.dungeoneering.rooms.puzzles;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
 import com.rs.game.World.DropMethod;
+import com.rs.game.content.skills.dungeoneering.DungeonConstants;
 import com.rs.game.content.skills.dungeoneering.DungeonController;
 import com.rs.game.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.content.skills.dungeoneering.VisibleRoom;
@@ -133,9 +134,9 @@ public class FishingFerretRoom extends PuzzleRoom {
 		pressurePlate = manager.getRotatedTile(reference, cornerChunks[invertChunks ? 2 : 0], cornerChunks[invertChunks ? 3 : 1]);
 		Ferret puzzleNPC = new Ferret(FERRET_ID, manager.getRotatedTile(reference, cornerChunks[invertChunks ? 0 : 2], cornerChunks[invertChunks ? 1 : 3]), manager);
 		psuedoFishingSpot = new DungeonFishSpot(1957, manager.getRotatedTile(reference, 7, 13), manager, Fish.VILE_FISH);
-		int floorType = manager.getParty().getFloorType();
-		World.spawnObject(new GameObject(PRESSURE_PLATE[floorType], ObjectType.GROUND_DECORATION, 0, pressurePlate));
-		World.spawnObject(new GameObject(EMPTY_PLATE[floorType], ObjectType.GROUND_DECORATION, 0, puzzleNPC.getTile()));
+		DungeonConstants.FloorType floorType = manager.getParty().getFloorType();
+		World.spawnObject(new GameObject(PRESSURE_PLATE[floorType.ordinal()], ObjectType.GROUND_DECORATION, 0, pressurePlate));
+		World.spawnObject(new GameObject(EMPTY_PLATE[floorType.ordinal()], ObjectType.GROUND_DECORATION, 0, puzzleNPC.getTile()));
 	}
 
 	@Override

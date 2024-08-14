@@ -25,6 +25,7 @@ import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.cache.loaders.ObjectType;
+import com.rs.cache.loaders.interfaces.IFEvents;
 import com.rs.cache.loaders.map.ClipFlag;
 import com.rs.engine.command.Commands;
 import com.rs.engine.cutscene.ExampleCutscene;

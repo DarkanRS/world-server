@@ -1,15 +1,15 @@
 {
   "names": [
-    "Cuffs"
+    "Narf"
   ],
-  "attackAnim": -1,
+  "attackAnim": 422,
   "attackSound": -1,
-  "defenceAnim": -1,
+  "defenceAnim": 424,
   "defendSound": -1,
-  "deathAnim": -1,
+  "deathAnim": 836,
   "deathDelay": 6,
   "deathSound": -1,
-  "respawnDelay": 59,
+  "respawnDelay": 39,
   "hitpoints": 70,
   "maxHit": 10,
   "attackStyle": "MELEE",
@@ -18,7 +18,7 @@
     "ATTACK": 1,
     "RANGE": 1,
     "STRENGTH": 1,
-    "DEFENSE": 3,
+    "DEFENSE": 1,
     "MAGE": 1
   },
   "attackRange": -1,

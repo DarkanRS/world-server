@@ -284,7 +284,6 @@ public class FightCavesController extends Controller {
 				player.tele(outside);
 				if (type == 4) {
 					player.incrementCount("Fight Caves clears");
-					player.refreshFightKilnEntrance();
 					player.reset();
 					player.npcDialogue(THHAAR_MEJ_JAL, HeadE.T_CALM_TALK, "You even defeated Tz Tok-Jad, I am most impressed! Please accept this gift as a reward.");
 					player.sendMessage("You were victorious!!");

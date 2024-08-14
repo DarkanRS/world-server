@@ -51080,15 +51080,6 @@
   {
     "tile": {
       "plane": 0,
-      "x": 3232,
-      "y": 3203
-    },
-    "comment": "Bob",
-    "npcId": 519
-  },
-  {
-    "tile": {
-      "plane": 0,
       "x": 3214,
       "y": 3240
     },
@@ -60130,42 +60121,6 @@
     },
     "comment": "Ali the Wise",
     "npcId": 7406
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3376,
-      "y": 3344
-    },
-    "comment": "Will o\u0027 the wisp",
-    "npcId": 681
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3376,
-      "y": 3344
-    },
-    "comment": "Ochre Blamish Snail",
-    "npcId": 1229
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3376,
-      "y": 3392
-    },
-    "comment": "Ghoul",
-    "npcId": 1218
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3376,
-      "y": 3392
-    },
-    "comment": "Ghoul",
-    "npcId": 1218
   },
   {
     "tile": {

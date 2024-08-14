@@ -59,7 +59,7 @@ public class Thieving {
 
 		MONKEY_GENERAL(4876, 5, new int[] { 1931, 2347, 590 }, 1, 7, 16, 4797),
 
-		TEA_STALL(635, 5, new int[] { 1978 }, 1, 7, 16, 634),
+		TEA_STALL(635, 5, new int[] { 712 }, 1, 7, 16, 634),
 
 		SILK_STALL(34383, 20, new int[] { 950 }, 1, 2, 24, 34381),
 

@@ -56,7 +56,7 @@ public class UnhappyGhostRoom extends PuzzleRoom {
 	@Override
 	public boolean processObjectClick1(Player player, GameObject object) {
 		//TODO: You can fail skill related tasks
-		if (object.getId() == DAMAGED_PILLAR[type]) {
+		if (object.getId() == DAMAGED_PILLAR[type.ordinal()]) {
 			if (!hasRequirement(player, Constants.CONSTRUCTION)) {
 				player.sendMessage("You need a construction level of " + getRequirement(Constants.CONSTRUCTION) + " to repair this pillar.");
 				return false;
@@ -64,11 +64,11 @@ public class UnhappyGhostRoom extends PuzzleRoom {
 			giveXP(player, Constants.CONSTRUCTION);
 			player.lock(4);
 			player.setNextAnimation(new Animation(14566));
-			replaceObject(object, REPAIRED_PILLAR[type]);
+			replaceObject(object, REPAIRED_PILLAR[type.ordinal()]);
 			advance(player);
 			return false;
 		}
-		if (object.getId() == JEWELLERY_BOX_EMPTY[type]) {
+		if (object.getId() == JEWELLERY_BOX_EMPTY[type.ordinal()]) {
 			if (!player.getInventory().containsItem(RING, 1)) {
 				player.sendMessage("You don't have any jewellery to put in here.");
 				return false;
@@ -76,11 +76,11 @@ public class UnhappyGhostRoom extends PuzzleRoom {
 			player.lock(3);
 			player.setNextAnimation(new Animation(833));
 			player.getInventory().deleteItem(RING, 1);
-			replaceObject(object, JEWELLERY_BOX[type]);
+			replaceObject(object, JEWELLERY_BOX[type.ordinal()]);
 			advance(player);
 			return false;
 		}
-		if (object.getId() == BROKEN_POT[type]) {
+		if (object.getId() == BROKEN_POT[type.ordinal()]) {
 			if (!hasRequirement(player, Constants.CONSTRUCTION)) {
 				player.sendMessage("You need a construction level of " + getRequirement(Constants.CONSTRUCTION) + " to repair this pillar.");
 				return false;
@@ -88,10 +88,10 @@ public class UnhappyGhostRoom extends PuzzleRoom {
 			giveXP(player, Constants.CONSTRUCTION);
 			player.lock(4);
 			player.setNextAnimation(new Animation(14566));
-			replaceObject(object, FIXED_POT[type]);
+			replaceObject(object, FIXED_POT[type.ordinal()]);
 			advance(player);
 			return false;
-		} else if (object.getId() == COFFIN[type]) {
+		} else if (object.getId() == COFFIN[type.ordinal()]) {
 			if (!hasRequirement(player, Constants.THIEVING)) {
 				player.sendMessage("You need a thieving level of " + getRequirement(Constants.THIEVING) + " to unlock this coffin.");
 				return false;
@@ -99,10 +99,10 @@ public class UnhappyGhostRoom extends PuzzleRoom {
 			giveXP(player, Constants.THIEVING);
 			player.lock(3);
 			player.setNextAnimation(new Animation(833));
-			replaceObject(object, COFFIN_OPEN[type]);
+			replaceObject(object, COFFIN_OPEN[type.ordinal()]);
 			advance(player);
 			return false;
-		} else if (object.getId() == COFFIN_OPEN[type]) {
+		} else if (object.getId() == COFFIN_OPEN[type.ordinal()]) {
 			if (!hasRequirement(player, Constants.PRAYER)) {
 				player.sendMessage("You need a prayer level of " + getRequirement(Constants.PRAYER) + " to bless these remains.");
 				return false;
@@ -111,7 +111,7 @@ public class UnhappyGhostRoom extends PuzzleRoom {
 			giveXP(player, Constants.PRAYER);
 			player.lock(3);
 			player.setNextAnimation(new Animation(833));
-			replaceObject(object, COFFIN_BLESSED[type]);
+			replaceObject(object, COFFIN_BLESSED[type.ordinal()]);
 			advance(player);
 			return false;
 		}

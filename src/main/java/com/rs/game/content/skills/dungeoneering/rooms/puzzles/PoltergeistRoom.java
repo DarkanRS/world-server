@@ -111,7 +111,7 @@ public class PoltergeistRoom extends PuzzleRoom {
 			censersLit++;
 			if (censersLit == 4)
 				poltergeist.finish();
-			World.spawnObject(new GameObject(CENSERS[manager.getParty().getFloorType()][2], object.getType(), object.getRotation(), object.getTile()));
+			World.spawnObject(new GameObject(CENSERS[manager.getParty().getFloorType().ordinal()][2], object.getType(), object.getRotation(), object.getTile()));
 			return false;
 		}
 		if (name.equals("Censer") && object.getDefinitions().containsOption("Inspect")) {
@@ -141,7 +141,7 @@ public class PoltergeistRoom extends PuzzleRoom {
 				player.lock(1);
 				player.sendMessage("You pile the herbs into the censer.");
 				player.getInventory().deleteItem(item);
-				World.spawnObject(new GameObject(CENSERS[manager.getParty().getFloorType()][1], object.getType(), object.getRotation(), object.getTile()));
+				World.spawnObject(new GameObject(CENSERS[manager.getParty().getFloorType().ordinal()][1], object.getType(), object.getRotation(), object.getTile()));
 				return false;
 			}
 		return true;
@@ -161,7 +161,7 @@ public class PoltergeistRoom extends PuzzleRoom {
 			}
 			giveXP(player, Constants.THIEVING);
 			player.sendMessage("You successfully open the sarcophagus.");
-			World.spawnObject(new GameObject(SARCOPHAGUS[manager.getParty().getFloorType()][1], object.getType(), object.getRotation(), object.getTile()));
+			World.spawnObject(new GameObject(SARCOPHAGUS[manager.getParty().getFloorType().ordinal()][1], object.getType(), object.getRotation(), object.getTile()));
 			setComplete();
 			return false;
 		}

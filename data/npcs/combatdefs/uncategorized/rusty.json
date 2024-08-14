@@ -1,17 +1,17 @@
 {
   "names": [
-    "Jeff"
+    "Rusty"
   ],
-  "attackAnim": -1,
+  "attackAnim": 422,
   "attackSound": -1,
-  "defenceAnim": -1,
+  "defenceAnim": 424,
   "defendSound": -1,
-  "deathAnim": -1,
+  "deathAnim": 836,
   "deathDelay": 6,
   "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 70,
-  "maxHit": 30,
+  "maxHit": 20,
   "attackStyle": "MELEE",
   "attackBonus": "CRUSH_ATT",
   "combatLevels": {

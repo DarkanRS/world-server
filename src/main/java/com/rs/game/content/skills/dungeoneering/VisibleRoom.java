@@ -36,16 +36,16 @@ public class VisibleRoom {
 	private boolean loaded;
 	protected RoomReference reference;
 	protected DungeonManager manager;
-	protected int type;
+	protected DungeonConstants.FloorType type;
 
 	// TODO: Remove this for a constructor, to satisfy synchronizing non-final field `manager`
-	public void init(DungeonManager manager, RoomReference ref, int type, HandledRoom room) {
+	public void init(DungeonManager manager, RoomReference ref, DungeonConstants.FloorType type, HandledRoom room) {
 		this.type = type;
 		reference = ref;
 		this.manager = manager;
 		if (room instanceof StartRoom)
 			musicId = new int[]
-					{ DungeonConstants.START_ROOM_MUSICS[type] };
+					{ DungeonConstants.START_ROOM_MUSICS[type.ordinal()] };
 		else if (room instanceof BossRoom)
 			musicId = new int[]
 					{ ((BossRoom) room).getMusicId() };

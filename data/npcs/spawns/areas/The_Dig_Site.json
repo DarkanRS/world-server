@@ -1,0 +1,549 @@
+[
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3355,
+      "y": 3333
+    },
+    "comment": "Archaeological expert",
+    "npcId": 619,
+	"clip": "INDOOR"
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3365,
+      "y": 3333
+    },
+    "comment": "Researcher",
+    "npcId": 4568,
+	"clip": "INDOOR"
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3364,
+      "y": 3339
+    },
+    "comment": "Examiner",
+    "npcId": 4567,
+	"clip": "INDOOR"
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3364,
+      "y": 3342
+    },
+    "comment": "Examiner",
+    "npcId": 618,
+    "clip": "INDOOR"
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3360,
+      "y": 3343
+    },
+    "comment": "Examiner",
+    "npcId": 4566,
+    "clip": "INDOOR"
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3356,
+      "y": 3384
+    },
+    "comment": "Digsite workman",
+    "npcId": 4564,
+    "clip": "NORMAL"
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3371,
+      "y": 3387
+    },
+    "comment": "Digsite workman",
+    "npcId": 613,
+    "clip": "NORMAL"
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3376,
+      "y": 3373
+    },
+    "comment": "Nisha",
+    "npcId": 4648,
+    "clip": "NORMAL"
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3376,
+      "y": 3377
+    },
+    "comment": "Panning guide",
+    "npcId": 620,
+    "clip": "NORMAL"
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3381,
+      "y": 3379
+    },
+    "comment": "Nick",
+    "npcId": 4569,
+    "clip": "NORMAL"
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3363,
+      "y": 3397
+    },
+    "comment": "Student",
+    "npcId": 615,
+    "clip": "NORMAL"
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3362,
+      "y": 3408
+    },
+    "comment": "Digsite workman",
+    "npcId": 4565,
+    "clip": "NORMAL"
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3354,
+      "y": 3408
+    },
+    "comment": "Digsite workman",
+    "npcId": 4564,
+    "clip": "NORMAL"
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3357,
+      "y": 3415
+    },
+    "comment": "Digsite workman",
+    "npcId": 5958,
+    "clip": "NORMAL"
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3362,
+      "y": 3416
+    },
+    "comment": "Digsite workman",
+    "npcId": 613,
+    "clip": "NORMAL"
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3370,
+      "y": 3416
+    },
+    "comment": "Student",
+    "npcId": 616,
+    "clip": "NORMAL"
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3373,
+      "y": 3418
+    },
+    "comment": "Digsite workman",
+    "npcId": 4564,
+    "clip": "NORMAL"
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3366,
+      "y": 3425
+    },
+    "comment": "Digsite workman",
+    "npcId": 4565,
+    "clip": "NORMAL"
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3348,
+      "y": 3424
+    },
+    "comment": "Student",
+    "npcId": 617,
+    "clip": "NORMAL"
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3365,
+      "y": 3429
+    },
+    "comment": "Digsite workman",
+    "npcId": 4564,
+    "clip": "NORMAL"
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3376,
+      "y": 3430
+    },
+    "comment": "Elissa",
+    "npcId": 1912,
+    "clip": "NORMAL"
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3362,
+      "y": 3446
+    },
+    "comment": "Barge foreman",
+    "npcId": 5963,
+    "clip": "NORMAL",
+	"dir": "WEST"
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3357,
+      "y": 3446
+    },
+    "comment": "Barge workman",
+    "npcId": 5962,
+    "clip": "NORMAL"
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3352,
+      "y": 3446
+    },
+    "comment": "Barge workman",
+    "npcId": 5961,
+    "clip": "NORMAL"
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3354,
+      "y": 3449
+    },
+    "comment": "Barge workman",
+    "npcId": 5960,
+    "clip": "NORMAL"
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3352,
+      "y": 3449
+    },
+    "comment": "Barge workman",
+    "npcId": 5959,
+    "clip": "NORMAL"
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3295,
+      "y": 3427
+    },
+    "comment": "Museum guard",
+    "npcId": 5942,
+    "clip": "NORMAL",
+	"dir": "NORTH"
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3310,
+      "y": 3425
+    },
+    "comment": "Workman",
+    "npcId": 5954,
+    "clip": "NORMAL",
+	"dir": "WEST"
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3333,
+      "y": 3444
+    },
+    "comment": "Workman",
+    "npcId": 5952,
+    "clip": "NORMAL",
+	"dir": "WEST"
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3352,
+      "y": 9820
+    },
+    "comment": "Doug Deeping",
+    "npcId": 614,
+    "clip": "NORMAL",
+	"dir": "NORTHWEST"
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3367,
+      "y": 9813
+    },
+    "comment": "Skeleton",
+    "npcId": 90,
+    "clip": "NORMAL",
+	"dir": "EAST"
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3372,
+      "y": 9812
+    },
+    "comment": "Skeleton",
+    "npcId": 90,
+    "clip": "NORMAL",
+	"dir": "SOUTHEAST"
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3376,
+      "y": 9807
+    },
+    "comment": "Skeleton",
+    "npcId": 90,
+    "clip": "NORMAL",
+	"dir": "SOUTH"
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3377,
+      "y": 9811
+    },
+    "comment": "Skeleton",
+    "npcId": 90,
+    "clip": "NORMAL",
+	"dir": "WEST"
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3375,
+      "y": 9815
+    },
+    "comment": "Skeleton",
+    "npcId": 90,
+    "clip": "NORMAL",
+	"dir": "NORTH"
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3376,
+      "y": 9817
+    },
+    "comment": "Skeleton",
+    "npcId": 90,
+    "clip": "NORMAL",
+	"dir": "NORTHEAST"
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3377,
+      "y": 9819
+    },
+    "comment": "Skeleton",
+    "npcId": 90,
+    "clip": "NORMAL",
+	"dir": "SOUTHEAST"
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3379,
+      "y": 9818
+    },
+    "comment": "Skeleton",
+    "npcId": 90,
+    "clip": "NORMAL",
+	"dir": "NORTHEAST"
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3381,
+      "y": 9816
+    },
+    "comment": "Skeleton",
+    "npcId": 90,
+    "clip": "NORMAL",
+	"dir": "SOUTHWEST"
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3381,
+      "y": 9811
+    },
+    "comment": "Skeleton",
+    "npcId": 90,
+    "clip": "NORMAL",
+	"dir": "NORTH"
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3352,
+      "y": 9756
+    },
+    "comment": "Doug Deeping",
+    "npcId": 614,
+    "clip": "NORMAL",
+	"dir": "NORTHWEST"
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3367,
+      "y": 9749
+    },
+    "comment": "Skeleton",
+    "npcId": 90,
+    "clip": "NORMAL",
+	"dir": "EAST"
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3372,
+      "y": 9748
+    },
+    "comment": "Skeleton",
+    "npcId": 90,
+    "clip": "NORMAL",
+	"dir": "SOUTHEAST"
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3376,
+      "y": 9743
+    },
+    "comment": "Skeleton",
+    "npcId": 90,
+    "clip": "NORMAL",
+	"dir": "SOUTH"
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3377,
+      "y": 9747
+    },
+    "comment": "Skeleton",
+    "npcId": 90,
+    "clip": "NORMAL",
+	"dir": "WEST"
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3375,
+      "y": 9751
+    },
+    "comment": "Skeleton",
+    "npcId": 90,
+    "clip": "NORMAL",
+	"dir": "NORTH"
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3376,
+      "y": 9753
+    },
+    "comment": "Skeleton",
+    "npcId": 90,
+    "clip": "NORMAL",
+	"dir": "NORTHEAST"
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3377,
+      "y": 9755
+    },
+    "comment": "Skeleton",
+    "npcId": 90,
+    "clip": "NORMAL",
+	"dir": "SOUTHEAST"
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3379,
+      "y": 9754
+    },
+    "comment": "Skeleton",
+    "npcId": 90,
+    "clip": "NORMAL",
+	"dir": "NORTHEAST"
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3381,
+      "y": 9752
+    },
+    "comment": "Skeleton",
+    "npcId": 90,
+    "clip": "NORMAL",
+	"dir": "SOUTHWEST"
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3381,
+      "y": 9747
+    },
+    "comment": "Skeleton",
+    "npcId": 90,
+    "clip": "NORMAL",
+	"dir": "NORTH"
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3159,
+      "y": 5725
+    },
+    "comment": "Doug Deeping",
+    "npcId": 614,
+    "clip": "NORMAL",
+	"dir": "NORTHWEST"
+  }
+]

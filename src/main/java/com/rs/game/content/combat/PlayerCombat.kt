@@ -710,8 +710,10 @@ fun calculateHit(player: Player, target: Entity, minHit: Int, maxHit: Int, weapo
         var atkLvl = floor(player.skills.getLevel(if (ranging) Constants.RANGE else Constants.ATTACK) * (if (ranging) player.prayer.rangeMultiplier else player.prayer.attackMultiplier))
         atkLvl += (if (attackStyle.attackType == AttackType.ACCURATE || attackStyle.xpType == XPType.ACCURATE) 3 else if (attackStyle.xpType == XPType.CONTROLLED) 1 else 0).toDouble()
         atkLvl += 8.0
-        if (fullVoidEquipped(player, *if (ranging) (intArrayOf(11664, 11675)) else (intArrayOf(11665, 11676)))) atkLvl *= 1.1
-        if (ranging) atkLvl *= player.auraManager.rangeAcc
+        if (fullVoidEquipped(player, *if (ranging) (intArrayOf(11664, 11675)) else (intArrayOf(11665, 11676))))
+            atkLvl *= 1.1
+        if (ranging)
+            atkLvl *= player.auraManager.rangeAcc
         var atkBonus = player.combatDefinitions.attackBonusForStyle.toDouble()
         if (weaponId == -2) //goliath gloves
             atkBonus += 82.0
@@ -719,27 +721,32 @@ fun calculateHit(player: Player, target: Entity, minHit: Int, maxHit: Int, weapo
         var atk = floor(atkLvl * (atkBonus + 64))
         atk *= accuracyModifier
 
-        if (!ranging && attackStyle.xpType == XPType.ACCURATE && player.dungManager.activePerk == KinshipPerk.TACTICIAN && player.controllerManager.isIn(DungeonController::class.java)) atk = floor(atk * 1.1 + (player.dungManager.getKinshipTier(KinshipPerk.TACTICIAN) * 0.01))
+        if (!ranging && attackStyle.xpType == XPType.ACCURATE && player.dungManager.activePerk == KinshipPerk.TACTICIAN && player.controllerManager.isIn(DungeonController::class.java))
+            atk = floor(atk * 1.1 + (player.dungManager.getKinshipTier(KinshipPerk.TACTICIAN) * 0.01))
 
-        if (player.hasSlayerTask()) if (target is NPC) if (player.slayer.isOnTaskAgainst(target as NPC?)) if (ranging) {
-            if (player.equipment.wearingFocusSight() || player.equipment.wearingSlayerHelmet()) {
-                atk *= (7.0 / 6.0)
-                finalMaxHit = (finalMaxHit * (7.0 / 6.0)).toInt()
-            }
-        } else {
-            if (player.equipment.wearingBlackMask() || player.equipment.wearingSlayerHelmet()) {
-                atk *= (7.0 / 6.0)
-                finalMaxHit = (finalMaxHit * (7.0 / 6.0)).toInt()
-            }
-            if (player.equipment.salveAmulet != -1 && target.definitions.isUndead) when (player.equipment.salveAmulet) {
-                0 -> {
-                    atk *= 1.15
-                    finalMaxHit = (finalMaxHit * 1.15).toInt()
-                }
+        if (target is NPC) {
+            if (ranging) {
+                if (player.hasSlayerTask() && player.slayer.isOnTaskAgainst(target as NPC?))
+                    if (player.equipment.wearingFocusSight() || player.equipment.wearingSlayerHelmet()) {
+                        atk *= (7.0 / 6.0)
+                        finalMaxHit = (finalMaxHit * (7.0 / 6.0)).toInt()
+                    }
+            } else {
+                if (player.hasSlayerTask() && player.slayer.isOnTaskAgainst(target as NPC?))
+                    if (player.equipment.wearingBlackMask() || player.equipment.wearingSlayerHelmet()) {
+                        atk *= (7.0 / 6.0)
+                        finalMaxHit = (finalMaxHit * (7.0 / 6.0)).toInt()
+                    }
+                if (player.equipment.salveAmulet != -1 && target.definitions.isUndead) when (player.equipment.salveAmulet) {
+                    0 -> {
+                        atk *= 1.15
+                        finalMaxHit = (finalMaxHit * 1.15).toInt()
+                    }
 
-                1 -> {
-                    atk *= 1.20
-                    finalMaxHit = (finalMaxHit * 1.20).toInt()
+                    1 -> {
+                        atk *= 1.20
+                        finalMaxHit = (finalMaxHit * 1.20).toInt()
+                    }
                 }
             }
         }
@@ -991,24 +998,54 @@ fun delayHit(target: Entity, delay: Int, weaponId: Int, attackStyle: AttackStyle
         checkPoison(target, weaponId, hit)
 }
 
-fun checkPoison(target: Entity, weaponId: Int, hit: Hit) {
-    if (hit.look == HitLook.RANGE_DAMAGE || hit.look == HitLook.MELEE_DAMAGE) if (hit.damage > 0) if (hit.look == HitLook.RANGE_DAMAGE) {
-        if (weaponId != -1) {
-            val name = ItemDefinitions.getDefs(weaponId).getName()
-            if (name.contains("(p++)")) {
-                if (Utils.getRandomInclusive(8) == 0) target.poison.makePoisoned(48)
-            } else if (name.contains("(p+)")) {
-                if (Utils.getRandomInclusive(8) == 0) target.poison.makePoisoned(38)
-            } else if (name.contains("(p)")) if (Utils.getRandomInclusive(8) == 0) target.poison.makePoisoned(28)
+fun calculatePoisonStartDamage(weaponId: Int, hit: Hit, poisonLevel: Int): Int {
+    // note that dungeoneering poison differences only matter for ammo and not melee weapons
+    return when (poisonLevel) {
+        // (p) or weak weapon poison (dung)
+        0 -> {
+            when (hit.look) {
+                HitLook.RANGE_DAMAGE -> if (AmmoType.isDungAmmo(weaponId)) 48 else 28
+                HitLook.MELEE_DAMAGE -> 48
+                else -> 0
+            }
         }
-    } else if (weaponId != -1) {
-        val name = ItemDefinitions.getDefs(weaponId).getName()
-        if (name.contains("(p++)")) {
-            if (Utils.getRandomInclusive(8) == 0) target.poison.makePoisoned(68)
-        } else if (name.contains("(p+)")) {
-            if (Utils.getRandomInclusive(8) == 0) target.poison.makePoisoned(58)
-        } else if (name.contains("(p)")) if (Utils.getRandomInclusive(8) == 0) target.poison.makePoisoned(48)
+        // (p+) or weapon poison (dung)
+        1 -> {
+            when (hit.look) {
+                HitLook.RANGE_DAMAGE -> if (AmmoType.isDungAmmo(weaponId)) 58 else 38
+                HitLook.MELEE_DAMAGE -> 58
+                else -> 0
+            }
+        }
+        // (p++) or strong weapon poison (dung)
+        2 -> {
+            when (hit.look) {
+                HitLook.RANGE_DAMAGE -> if (AmmoType.isDungAmmo(weaponId)) 68 else 58
+                HitLook.MELEE_DAMAGE -> 68
+                else -> 0
+            }
+        }
+        else -> 0
     }
+}
+
+fun checkPoison(target: Entity, weaponId: Int, hit: Hit) {
+    if (weaponId == -1) return
+
+    val name = ItemDefinitions.getDefs(weaponId).getName()
+    val poisonLevel = when {
+        name.contains("(p++)") -> 2
+        name.contains("(p+)") -> 1
+        name.contains("(p)") -> 0
+        else -> -1
+    }
+    if (poisonLevel == -1) return
+
+    val poisonHit = Utils.getRandomInclusive(8) == 0
+    if (!poisonHit) return
+
+    if ((hit.look == HitLook.RANGE_DAMAGE || hit.look == HitLook.MELEE_DAMAGE) && hit.damage > 0)
+        target.poison.makePoisoned(calculatePoisonStartDamage(weaponId, hit, poisonLevel))
 }
 
 fun addXpFamiliar(player: Player, target: Entity, xpType: XPType, hit: Hit) {
