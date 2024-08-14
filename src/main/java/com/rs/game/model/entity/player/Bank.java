@@ -350,7 +350,20 @@ public class Bank {
 		if (familiar == null || familiar.getInventory() == null)
 			return;
 		for (int i = 0; i < familiar.getInventory().getSize(); i++) {
-			if (addItem(familiar.getInventory().get(i), banking))
+			Item item = familiar.getInventory().get(i);
+			if (item == null) continue;
+			int originalId = unnote(item);
+			Item bankedItem = getItem(item.getId());
+			if (bankedItem != null) {
+				if (bankedItem.getAmount() + item.getAmount() <= 0) {
+					item.setAmount(Integer.MAX_VALUE - bankedItem.getAmount());
+					player.sendMessage("Not enough space in your bank.");
+				}
+			} else if (!hasBankSpace()) {
+				player.sendMessage("Not enough space in your bank.");
+				continue;
+			}
+			if (addItem(new Item(originalId, item.getAmount(), item.getMetaData()), banking))
 				familiar.getInventory().set(i, null);
 		}
 	}
@@ -777,10 +790,7 @@ public class Bank {
 			item = new Item(item.getId(), amt, item.getMetaData());
 		else
 			item = new Item(item.getId(), quantity, item.getMetaData());
-		ItemDefinitions defs = item.getDefinitions();
-		int originalId = item.getId();
-		if (defs.isNoted() && defs.getCertId() != -1)
-			item.setId(defs.getCertId());
+		int originalId = unnote(item);
 		Item bankedItem = getItem(item.getId());
 		if (bankedItem != null) {
 			if (bankedItem.getAmount() + item.getAmount() <= 0) {
@@ -801,6 +811,14 @@ public class Bank {
 	//	public void addItem(Item item, boolean refresh) {
 	//		addItem(item.getId(), item.getAmount(), refresh);
 	//	}
+
+	private static int unnote(Item item) {
+		ItemDefinitions defs = item.getDefinitions();
+		int originalId = item.getId();
+		if (defs.isNoted() && defs.getCertId() != -1)
+			item.setId(defs.getCertId());
+		return originalId;
+	}
 
 	public boolean addItem(Item item, boolean refresh) {
 		return addItem(item, currentTab, refresh);
