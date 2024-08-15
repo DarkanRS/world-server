@@ -15,8 +15,10 @@ public class RGhostD extends Conversation {
 				addPlayer(HeadE.HAPPY_TALKING, "I found this skull outside.");
 				addNPC(NPC, HeadE.CALM_TALK, "That's it! That's my head! Thank you adventurer.<br>Finally I can be at peace.");
 				addPlayer(HeadE.HAPPY_TALKING, "You're very welcome. Farewell.");
-				player.getInventory().deleteItem(553, 1);
-				player.getQuestManager().completeQuest(Quest.RESTLESS_GHOST);
+				addNext(() -> {
+					player.getInventory().deleteItem(553, 1);
+					player.getQuestManager().completeQuest(Quest.RESTLESS_GHOST);
+				});
 				return;
 			}
 			addPlayer(HeadE.HAPPY_TALKING, "Hello.");
