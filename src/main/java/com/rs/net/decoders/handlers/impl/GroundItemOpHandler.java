@@ -93,7 +93,7 @@ public class GroundItemOpHandler implements PacketHandler<Player, GroundItemOp> 
 					player.sendMessage("You can't reach that.");
 					return true;
 				}
-				player.anim(833);
+				player.anim(832);
 				player.faceTile(groundItem.getTile());
 				PickupItemEvent e1 = new PickupItemEvent(player, groundItem, false);
 				PluginManager.handle(e1);
