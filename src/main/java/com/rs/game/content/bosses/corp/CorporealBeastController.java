@@ -56,6 +56,12 @@ public class CorporealBeastController extends Controller {
 	}
 
 	@Override
+	public void process() {
+		if (player.getRegionId() != 11844)
+			removeController();
+	}
+
+	@Override
 	public void onTeleported(TeleType type) {
 		removeController();
 	}
