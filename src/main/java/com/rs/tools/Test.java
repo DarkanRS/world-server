@@ -30,6 +30,7 @@ import com.rs.lib.net.packets.PacketEncoder;
 import com.rs.lib.util.PacketAdapter;
 import com.rs.lib.util.PacketEncoderAdapter;
 import com.rs.lib.util.RecordTypeAdapterFactory;
+import com.rs.lib.util.Utils;
 import com.rs.utils.json.ControllerAdapter;
 
 import java.io.IOException;
@@ -55,5 +56,6 @@ public class Test {
 		for (IComponentDefinitions i : def) {
 			System.out.println(i);
 		}
+		System.out.println(Utils.interfaceIdFromHash(65077505) + ", " + Utils.componentIdFromHash(65077505));
 	}
 }
