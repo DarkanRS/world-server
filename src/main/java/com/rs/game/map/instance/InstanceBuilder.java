@@ -156,10 +156,11 @@ public final class InstanceBuilder {
 		AsyncTaskExecutor.executeWorldThreadSafe("InstanceBuilder.destroyMap", future, 30, () -> destroyMap(ref.getBaseChunkX(), ref.getBaseChunkY(), ref.getWidth(), ref.getHeight()));
 	}
 
-	static void copyChunk(Instance ref, int localChunkX, int localChunkY, int plane, int fromChunkX, int fromChunkY, int fromPlane, int rotation, CompletableFuture<Boolean> future) {
+	static void copyChunk(Instance ref, int localChunkX, int localChunkY, int plane, int fromChunkX, int fromChunkY, int fromPlane, int rotation, boolean reinitCollision, CompletableFuture<Boolean> future) {
 		AsyncTaskExecutor.executeWorldThreadSafe("InstanceBuilder.copyChunk", future, 30, () -> {
 			InstancedChunk chunk = createAndReserveChunk(fromChunkX, fromChunkY, fromPlane, ref.getBaseChunkX() + localChunkX, ref.getBaseChunkY() + localChunkY, plane, rotation);
-			chunk.clearCollisionData();
+			if (reinitCollision)
+				chunk.clearCollisionData();
 			chunk.loadMap(ref.copyNpcs, ref.copyMulti);
 		});
 	}
@@ -213,13 +214,14 @@ public final class InstanceBuilder {
 		return copyChunkRect(fromChunkBaseX, fromChunkBaseY, toChunkBaseX, toChunkBaseY, 2, 2, rotation, planes);
 	}
 
-	static void clearChunk(Instance ref, int localChunkX, int localChunkY, int plane, CompletableFuture<Boolean> future) {
-		AsyncTaskExecutor.executeWorldThreadSafe("InstanceBuilder.clearChunk", future, 30, () -> cutChunk(ref.getBaseChunkX()+localChunkX, ref.getBaseChunkY()+localChunkY, plane));
+	static void clearChunk(Instance ref, int localChunkX, int localChunkY, int plane, boolean reinitCollision, CompletableFuture<Boolean> future) {
+		AsyncTaskExecutor.executeWorldThreadSafe("InstanceBuilder.clearChunk", future, 30, () -> cutChunk(ref.getBaseChunkX()+localChunkX, ref.getBaseChunkY()+localChunkY, plane, reinitCollision));
 	}
 
-	private static void cutChunk(int toChunkX, int toChunkY, int toPlane) {
+	private static void cutChunk(int toChunkX, int toChunkY, int toPlane, boolean reinitCollision) {
 		InstancedChunk chunk = createAndReserveChunk(0, 0, 0, toChunkX, toChunkY, toPlane, 0);
-		chunk.clearCollisionData();
+		if (reinitCollision)
+			chunk.clearCollisionData();
 		chunk.loadMap(false, true);
 	}
 

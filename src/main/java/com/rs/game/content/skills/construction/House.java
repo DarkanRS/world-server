@@ -1305,15 +1305,15 @@ public class House {
 				for (int x = 0; x < data[plane].length; x++) {
 					for (int y = 0; y < data[plane][x].length; y++) {
 						if (data[plane][x][y] != null)
-							regionBuilding.add(instance.copyChunk(x, y, plane, (int) data[plane][x][y][0] + (look >= 4 ? 8 : 0), (int) data[plane][x][y][1], look & 0x3, (byte) data[plane][x][y][2]));
+							regionBuilding.add(instance.copyChunk(x, y, plane, (int) data[plane][x][y][0] + (look >= 4 ? 8 : 0), (int) data[plane][x][y][1], look & 0x3, (byte) data[plane][x][y][2], false));
 						else if ((x == 0 || x == 7 || y == 0 || y == 7) && plane == 1)
-							regionBuilding.add(instance.copyChunk(x, y, plane, HouseConstants.BLACK[0], HouseConstants.BLACK[1], 0, 0));
+							regionBuilding.add(instance.copyChunk(x, y, plane, HouseConstants.BLACK[0], HouseConstants.BLACK[1], 0, 0, false));
 						else if (plane == 1)
-							regionBuilding.add(instance.copyChunk(x, y, plane, HouseConstants.LAND[0] + (look >= 4 ? 8 : 0), HouseConstants.LAND[1], look & 0x3, 0));
+							regionBuilding.add(instance.copyChunk(x, y, plane, HouseConstants.LAND[0] + (look >= 4 ? 8 : 0), HouseConstants.LAND[1], look & 0x3, 0, false));
 						else if (plane == 0)
-							regionBuilding.add(instance.copyChunk(x, y, plane, HouseConstants.BLACK[0], HouseConstants.BLACK[1], 0, 0));
+							regionBuilding.add(instance.copyChunk(x, y, plane, HouseConstants.BLACK[0], HouseConstants.BLACK[1], 0, 0, false));
 						else
-							regionBuilding.add(instance.clearChunk(x, y, plane));
+							regionBuilding.add(instance.clearChunk(x, y, plane, false));
 					}
 				}
 			}
