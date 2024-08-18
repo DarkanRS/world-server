@@ -283,7 +283,7 @@ public class Foods {
         ONION_AND_TOMATO(new int[] { 1875 }, 1923, 20),
         OOMILE(2343, 140),
         ORANGE(2108, 20),
-        ORANGE_CHUNKS(211, 20),
+        ORANGE_CHUNKS(2110, 20),
         ORANGE_SLICES(2112, 20),
         PAPAYA(5972, 80, p -> p.restoreRunEnergy(5)),
         PEACH(6883, 80),
