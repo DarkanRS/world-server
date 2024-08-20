@@ -16,6 +16,7 @@
 //
 package com.rs.game.content.skills.magic;
 
+import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Inventory;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
@@ -274,6 +275,10 @@ public class Enchanting {
 		case 53: {
 			Ruby ruby = Ruby.forId(item.getId());
 			if (ruby != null) {
+				if (ruby == Ruby.NECKLACE && !player.isQuestComplete(Quest.DIG_SITE)) {
+					player.sendMessage("You need to complete 'The Dig Site' quest before you can enchant this necklace.");
+					break;
+				}
 				if (Magic.checkMagicAndRunes(player, 49, true, new RuneSet(Rune.COSMIC, 1, Rune.FIRE, 5))) {
 					player.setNextAnimation(new Animation(719));
 					player.setNextSpotAnim(new SpotAnim(114, 0, 100));

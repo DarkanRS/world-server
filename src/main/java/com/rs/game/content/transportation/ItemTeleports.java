@@ -17,6 +17,7 @@
 package com.rs.game.content.transportation;
 
 import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.quest.Quest;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.content.world.areas.burthorpe.HeroesGuild;
@@ -126,6 +127,12 @@ public class ItemTeleports {
 			player.stopAll(); // nowhere option
 			return false;
 		}
+
+		if (ITEM_NAMES[index].equals("digsite") && !player.isQuestComplete(Quest.DIG_SITE)) {
+			player.sendMessage("You need to complete 'The Dig Site' quest before using this item.");
+			return false;
+		}
+
 		if (!isScrollTeleport(index) && (item.getId() == 10362 || !item.getName().toLowerCase().contains("("))) {
 			player.sendMessage("Your " + item.getName().toLowerCase() + " has ran out of charges. You need to recharge it if you wish it use it once more.");
 			return false;
