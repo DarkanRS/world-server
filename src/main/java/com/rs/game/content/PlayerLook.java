@@ -24,6 +24,7 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ButtonClickHandler;
+import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
 public final class PlayerLook {
@@ -271,6 +272,8 @@ public final class PlayerLook {
 		}
 		e.getPlayer().getAppearance().generateAppearanceData();
 	});
+
+	public static NPCClickHandler ThessaliasMakeOver = new NPCClickHandler(new Object[] {548}, e -> PlayerLook.openThessaliasMakeOver(e.getPlayer()));
 
 	public static void openThessaliasMakeOver(final Player player) {
 		if (player.getEquipment().wearingArmour()) {

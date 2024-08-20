@@ -23,12 +23,15 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
 
 @PluginEventHandler
 public class MutatedZygomite extends ConditionalDeath {
 
 	boolean lvl74;
+
+	public static NPCClickHandler mutatedZygomite = new NPCClickHandler(new Object[]{3344, 3345}, new String[] {"Pick"}, e -> MutatedZygomite.transform(e.getPlayer(), e.getNPC()));
 
 	public MutatedZygomite(int id, Tile tile) {
 		super(7421, null, false, id, tile);

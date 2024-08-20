@@ -22,10 +22,12 @@ import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.dialogue.statements.MakeXStatement;
 import com.rs.engine.dialogue.statements.MakeXStatement.MakeXType;
 import com.rs.game.model.entity.player.Player;
+import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.handlers.NPCClickHandler;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@PluginEventHandler
 public class TanningD extends Conversation {
 	
 	private enum Leather {
@@ -50,10 +52,13 @@ public class TanningD extends Conversation {
 			this.canifisPrice = canifisPrice;
 		}
 	}
-	
+
+	public static NPCClickHandler handleTanOption = new NPCClickHandler(new Object[] { 2824, 1041 }, e ->
+		e.getPlayer().startConversation(new TanningD(e.getPlayer(), e.getNPC().getId() == 1041, e.getNPC().getId())));
+
+
 	public TanningD(Player player, boolean canifis, int NPC) {
 		super(player);
-		
 		List<Leather> craftable = new ArrayList<>();
 		for (Leather leather : Leather.values())
 			if (player.getInventory().containsItem(leather.raw))
