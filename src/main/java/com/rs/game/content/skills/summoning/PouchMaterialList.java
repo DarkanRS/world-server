@@ -1,5 +1,6 @@
 package com.rs.game.content.skills.summoning;
 
+import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 
 import java.util.HashMap;
@@ -170,6 +171,16 @@ public enum PouchMaterialList {
 
 	public int getPouchId() {
 		return pouchId;
+	}
+
+	public static Item[] getMantisMaterialList(Player p) {
+		int[] flowers = new int[] { 2460, 2462, 2464, 2466, 2468, 2470, 2472 };
+		for (int i = 0; i < flowers.length; i++) {
+			if (p.getInventory().containsItem(flowers[i])) {
+				return new Item[] { new Item(12183, 168), new Item(12160, 1), new Item(12155, 1), new Item(flowers[i], 1) };
+			}
+		}
+		return null;
 	}
 
 }
