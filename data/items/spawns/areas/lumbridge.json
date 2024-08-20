@@ -1,0 +1,12 @@
+[
+  {
+    "comment": "Empty pot",
+    "itemId": 1931,
+    "amount": 1,
+    "tile": {
+      "x": 3167,
+      "y": 3310,
+      "plane": 0
+    }
+  }
+]
