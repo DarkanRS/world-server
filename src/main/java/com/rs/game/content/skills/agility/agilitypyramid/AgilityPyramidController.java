@@ -399,6 +399,7 @@ public class AgilityPyramidController extends Controller {
 			player.setRunHidden(false);
 			player.lock();
 			player.addWalkSteps(player.transform(-4, 0, 0), -1, false);
+			player.getControllerManager().forceStop();
 			WorldTasks.scheduleLooping(new Task() {
 				boolean secondloop;
 				@Override
