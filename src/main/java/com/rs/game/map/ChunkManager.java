@@ -319,12 +319,12 @@ public final class ChunkManager {
 
     public static void markChunkActive(int chunkId) {
         ACTIVE_CHUNKS.add(chunkId);
-        Logger.debug(ChunkManager.class, "markChunkActive", "Marking chunk active: " + chunkId);
+        //Logger.debug(ChunkManager.class, "markChunkActive", "Marking chunk active: " + chunkId);
     }
 
     public static void markChunkInactive(int chunkId) {
         ACTIVE_CHUNKS.remove(chunkId);
-        Logger.debug(ChunkManager.class, "markChunkInactive", "Marking chunk inactive: " + chunkId);
+        //Logger.debug(ChunkManager.class, "markChunkInactive", "Marking chunk inactive: " + chunkId);
     }
 
     public static void processUpdateZones() {
