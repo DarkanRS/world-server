@@ -41,7 +41,7 @@ public enum PickPocketableNPC {
 			new byte[] { 1, 11, 21, 31 },
 			new byte[] { 1, 1, 11, 21 },
 			8.0, 4, 10,
-			"pp_man"),
+			new DropTable(995, 3)),
 
 	FARMER(155, 240,
 			new short[] { 7, 1757, 1758, 1760 },

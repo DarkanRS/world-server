@@ -34,8 +34,8 @@ import com.rs.utils.drop.DropTable;
 @PluginEventHandler
 public class PickPocketAction extends PlayerAction {
 
-	private final NPC npc;
-	private final PickPocketableNPC npcData;
+	public final NPC npc;
+	public final PickPocketableNPC npcData;
 	private static final Animation STUN_ANIMATION = new Animation(422),
 			PICKPOCKETING_ANIMATION = new Animation(881),
 			DOUBLE_LOOT_ANIMATION = new Animation(5074),
