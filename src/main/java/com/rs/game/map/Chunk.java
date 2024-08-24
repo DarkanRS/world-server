@@ -59,10 +59,7 @@ public class Chunk {
     protected Map<Integer, Map<Integer, List<GroundItem>>> groundItems = Int2ObjectMaps.synchronize(new Int2ObjectOpenHashMap<>());
     protected List<GroundItem> groundItemList = ObjectLists.synchronize(new ObjectArrayList<>());
 
-    protected volatile boolean loadingSpawnData = false;
     protected volatile boolean loadedSpawnData = false;
-
-    protected volatile boolean loadingMapData = false;
     protected volatile boolean loadedMapData = false;
 
     private int[] musicIds;
@@ -247,22 +244,19 @@ public class Chunk {
     }
 
     public void checkLoaded() {
-        if (!loadingMapData) {
-            loadingMapData = true;
-            ChunkManager.loadRegionMapDataByChunkId(id);
+        if (!loadedMapData) {
             loadedMapData = true;
+            ChunkManager.loadRegionMapDataByChunkId(id);
         }
-        if (!loadingSpawnData) {
-            loadingSpawnData = true;
+        if (!loadedSpawnData) {
+            loadedSpawnData = true;
             NPCSpawns.loadNPCSpawns(id);
             ItemSpawns.loadItemSpawns(id);
             ObjectSpawns.loadObjectSpawns(id);
-            loadedSpawnData = true;
         }
     }
 
     public void setMapDataLoaded() {
-        loadingMapData = true;
         loadedMapData = true;
     }
 
@@ -281,10 +275,6 @@ public class Chunk {
 //            }
 //        }
 //    }
-
-    public boolean isLoaded() {
-        return loadedSpawnData && loadedMapData;
-    }
 
     public void addBaseObject(GameObject obj) {
         baseObjects[obj.getTile().getXInChunk()][obj.getTile().getYInChunk()][obj.getSlot()] = obj;
@@ -680,7 +670,6 @@ public class Chunk {
     }
 
     public void destroy() {
-        loadingMapData = false;
         loadedMapData = false;
         if (getAllGroundItems() != null)
             getAllGroundItems().clear();

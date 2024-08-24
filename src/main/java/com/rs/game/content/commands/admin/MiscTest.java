@@ -71,6 +71,7 @@ import com.rs.lib.net.ServerPacket;
 import com.rs.lib.net.packets.decoders.ReflectionCheckResponse.ResponseCode;
 import com.rs.lib.net.packets.encoders.HintTrail;
 import com.rs.lib.util.Logger;
+import com.rs.lib.util.MapUtils;
 import com.rs.lib.util.RSColor;
 import com.rs.lib.util.Utils;
 import com.rs.lib.util.reflect.ReflectionCheck;
@@ -1012,11 +1013,10 @@ public class MiscTest {
 			p.tele(Tile.of(regionX, regionY, 0));
 		});
 
-		Commands.add(Rights.ADMIN, "telec,tpc [chunkX chunkY]", "Teleports the player to chunk coordinates.", (p, args) -> {
-			int chunkX = Integer.parseInt(args[0]) * 8 + 4;
-			int chunkY = Integer.parseInt(args[1]) * 8 + 4;
+		Commands.add(Rights.ADMIN, "telec,tpc [chunkId]", "Teleports the player to chunk coordinates.", (p, args) -> {
+			int[] coords = MapUtils.decode(MapUtils.Structure.CHUNK, Integer.parseInt(args[0]));
 			p.resetWalkSteps();
-			p.tele(Tile.of(chunkX, chunkY, 0));
+			p.tele(Tile.of(coords[0] * 8 + 4, coords[1] * 8 + 4, coords[2]));
 		});
 
 		Commands.add(Rights.ADMIN, "settitle [new title]", "Sets player title.", (p, args) -> {

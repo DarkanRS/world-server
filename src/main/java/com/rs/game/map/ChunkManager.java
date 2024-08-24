@@ -136,8 +136,6 @@ public final class ChunkManager {
                 CHUNKS.put(chunkId, chunk);
                 return;
             }
-            if (chunk.loadedMapData)
-                return;
             int regionId = MapUtils.chunkToRegionId(chunkId);
             Region region = new Region(regionId);
             verifyChunksInited(region);
@@ -321,10 +319,12 @@ public final class ChunkManager {
 
     public static void markChunkActive(int chunkId) {
         ACTIVE_CHUNKS.add(chunkId);
+        Logger.debug(ChunkManager.class, "markChunkActive", "Marking chunk active: " + chunkId);
     }
 
     public static void markChunkInactive(int chunkId) {
         ACTIVE_CHUNKS.remove(chunkId);
+        Logger.debug(ChunkManager.class, "markChunkInactive", "Marking chunk inactive: " + chunkId);
     }
 
     public static void processUpdateZones() {
@@ -351,6 +351,7 @@ public final class ChunkManager {
                         for (int chunkYOff = 0; chunkYOff < 8; chunkYOff++) {
                             int chunkId = chunkBaseId + chunkXOff + chunkYOff + planeOff;
                             if (ACTIVE_CHUNKS.contains(chunkId)) {
+                                Logger.debug(ChunkManager.class, "clearUnusedMemory", "Chunk " + chunkId + " is marked as active. Skipping region.");
                                 skipRegion = true;
                                 break outerLoop;
                             }
@@ -362,6 +363,7 @@ public final class ChunkManager {
                 }
 
                 if (!skipRegion) {
+                    Logger.debug(ChunkManager.class, "clearUnusedMemory", "Clearing region: " + regionId);
                     chunksToDestroy.forEach(chunkId -> {
                         Chunk chunk = getChunk(chunkId);
                         if (chunk != null) {
@@ -370,7 +372,8 @@ public final class ChunkManager {
                         }
                     });
                     iterator.remove();
-                }
+                } else
+                    Logger.debug(ChunkManager.class, "clearUnusedMemory", "Skipping region: " + regionId);
             }
         }
     }

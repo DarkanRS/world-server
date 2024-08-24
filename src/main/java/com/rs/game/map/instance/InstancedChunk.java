@@ -17,7 +17,6 @@
 package com.rs.game.map.instance;
 
 import com.rs.cache.loaders.map.ClipFlag;
-import com.rs.game.World;
 import com.rs.game.map.Chunk;
 import com.rs.game.map.ChunkManager;
 import com.rs.game.model.entity.npc.NPC;
@@ -48,9 +47,7 @@ public class InstancedChunk extends Chunk {
 
 	public InstancedChunk(int fromChunkId, int toChunkId, int rotation) {
 		super(toChunkId);
-		loadingMapData = true;
 		loadedMapData = true;
-		loadingSpawnData = true;
 		loadedSpawnData = true;
 		this.fromChunkId = fromChunkId;
 		int[] coords = MapUtils.decode(Structure.CHUNK, fromChunkId);

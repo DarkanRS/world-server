@@ -170,7 +170,7 @@ public class Firemaking extends Action {
 			player.sendMessage("You do not have the required level to light this.");
 			return false;
 		}
-		if (!World.canLightFire(entity.getPlane(), entity.getX(), entity.getY()) || ChunkManager.getChunk(entity.getChunkId()).getSpawnedObject(entity.getTile()) != null || (player != null && (player.getControllerManager().getController() instanceof DuelArenaController || player.getControllerManager().getController() instanceof DuelController))) { // contains
+		if (canLightFire(entity, player)) { // contains
 			if (player != null)
 				player.sendMessage("You can't light a fire here.");
 			return false;
@@ -237,4 +237,7 @@ public class Firemaking extends Action {
 		return null;
 	}
 
+	public static boolean canLightFire(Entity entity, Player player) {
+		return !World.canLightFire(entity.getPlane(), entity.getX(), entity.getY()) || ChunkManager.getChunk(entity.getChunkId()).getSpawnedObject(entity.getTile()) != null || (player != null && (player.getControllerManager().getController() instanceof DuelArenaController || player.getControllerManager().getController() instanceof DuelController));
+	}
 }
