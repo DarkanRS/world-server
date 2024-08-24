@@ -956,8 +956,6 @@ public final class ObjectHandler {
 				player.useStairs(-1, Tile.of(3410, 3329, 0), 0, 1);
 			else if (id == 2147)
 				player.ladder(Tile.of(3104, 9576, 0));
-			else if (id == 5492)
-				player.ladder(Tile.of(3149, 9652, 0));
 			else if (id == 5493)
 				player.ladder(Tile.of(3165, 3251, 0));
 			else if (id == 68983) {
