@@ -1256,7 +1256,7 @@ public class Player extends Entity {
 			machineInformation.sendSuggestions(this);
 		notes.init();
 
-		double farmingTicksMissed = Math.floor(getTicksSinceLastLogout() / FarmPatch.FARMING_TICK);
+		double farmingTicksMissed = Math.floor(getTicksSinceLastLogout() / (double) FarmPatch.FARMING_TICK);
 		if (farmingTicksMissed > 768.0)
 			farmingTicksMissed = 768.0;
 		if (farmingTicksMissed < 1.0)
@@ -1299,7 +1299,7 @@ public class Player extends Entity {
 
 	private double getTicksSinceLastLogout() {
 		if (timeLoggedOut <= 0)
-			return 0;
+			return 0.0;
 		return (double) ((System.currentTimeMillis() - timeLoggedOut) / 600L);
 	}
 
