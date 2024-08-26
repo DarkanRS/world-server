@@ -125,6 +125,7 @@ fun mapDodgyFlierManPickpocket() {
     onXpDrop { e ->
         if (e.skillId != Skills.THIEVING) return@onXpDrop
         val action = e.player.actionManager.action as? PickPocketAction ?: return@onXpDrop
+        if (e.player.isQuestStarted(Quest.BUYERS_AND_CELLARS) || e.player.isQuestComplete(Quest.BUYERS_AND_CELLARS)) return@onXpDrop
         if (action.npcData == PickPocketableNPC.MAN && Utils.random(5) == 1 && !e.player.containsAnyItems(18645))
             e.player.inventory.addItem(18645)
     }
