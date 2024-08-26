@@ -37,8 +37,8 @@ public class ArmadylFactionNPC extends NPC {
 
 	@Override
 	public boolean canBeAttackedBy(Player player) {
-		if (!PlayerCombatKt.isRanging(player)) {
-			player.sendMessage("The aviansie is flying too high for you to attack using melee.");
+		if (!PlayerCombatKt.isRanging(player) && !PlayerCombatKt.isMaging(player)) {
+			player.sendMessage("The Aviansie is flying too high for you to attack using melee.");
 			return false;
 		}
 		return true;
