@@ -1174,6 +1174,10 @@ fun isMeleeing(player: Player): Boolean {
     return !isRanging(player) && player.combatDefinitions.spell == null
 }
 
+fun isMaging(player: Player): Boolean {
+    return player.combatDefinitions.spell != null
+}
+
 fun getAttackRange(player: Player): Int {
     if (player.combatDefinitions.spell != null) return 10
     if (isRanging(player)) {
