@@ -60,7 +60,7 @@ fun mapKeldagrim() {
         45006 to Tile.of(2871, 10173, 0),
         45007 to Tile.of(2873, 10173, 2),
 
-    )
+        )
 
     fun handleStairs(objectId: Int, player: Player) {
         stairMap[objectId]?.let { player.useStairs(it) }
@@ -71,14 +71,14 @@ fun mapKeldagrim() {
     }
 
     onObjectClick(6085, 6086) { e ->
-        var xOffset = when(e.getObject().rotation) {
+        val xOffset = when(e.getObject().rotation) {
             0 -> 0
             1 -> 3
             2 -> 0
             3 -> -3
             else -> 0
         }
-        var yOffset = when(e.getObject().rotation) {
+        val yOffset = when(e.getObject().rotation) {
             0 -> 3
             1 -> 0
             2 -> -3
@@ -92,14 +92,14 @@ fun mapKeldagrim() {
     }
 
     onObjectClick(6089, 6090) { e ->
-        var xOffset = when(e.getObject().rotation) {
+        val xOffset = when(e.getObject().rotation) {
             0 -> 0
             1 -> 3
             2 -> 0
             3 -> -3
             else -> 0
         }
-        var yOffset = when(e.getObject().rotation) {
+        val yOffset = when(e.getObject().rotation) {
             0 -> 3
             1 -> 0
             2 -> -3
@@ -112,14 +112,14 @@ fun mapKeldagrim() {
             e.player.tele(e.player.transform(-xOffset, -yOffset, -1))
     }
     onObjectClick(6087, 6088) { e ->
-        var xOffset = when(e.getObject().rotation) {
+        val xOffset = when(e.getObject().rotation) {
             0 -> -0
             1 -> 3
             2 -> 0
             3 -> -3
             else -> 0
         }
-        var yOffset = when(e.getObject().rotation) {
+        val yOffset = when(e.getObject().rotation) {
             0 -> 0
             1 -> 0
             2 -> -3
@@ -133,14 +133,14 @@ fun mapKeldagrim() {
     }
 
     onObjectClick(34040, 34041) { e ->
-        var xOffset = when(e.getObject().rotation) {
+        val xOffset = when(e.getObject().rotation) {
             0 -> 0
             1 -> 3
             2 -> 0
             3 -> -3
             else -> 0
         }
-        var yOffset = when(e.getObject().rotation) {
+        val yOffset = when(e.getObject().rotation) {
             0 -> 3
             1 -> 0
             2 -> -3
@@ -153,3 +153,4 @@ fun mapKeldagrim() {
             e.player.tele(e.player.transform(-xOffset, -yOffset, -1))
     }
 }
+

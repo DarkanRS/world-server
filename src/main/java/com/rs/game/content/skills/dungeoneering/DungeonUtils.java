@@ -98,45 +98,26 @@ public final class DungeonUtils {
 		return new int[] { 48, 60 };
 	}
 
-	public static int getFloorType(int floorId) {
+	public static DungeonConstants.FloorType getFloorType(int floorId) {
 		if (floorId <= 11)
-			return DungeonConstants.FROZEN_FLOORS;
+			return DungeonConstants.FloorType.Frozen;
 		if (floorId <= 17)
-			return DungeonConstants.ABANDONED_FLOORS;
+			return DungeonConstants.FloorType.Abandoned;
 		if (floorId <= 29)
-			return DungeonConstants.FURNISHED_FLOORS;
+			return DungeonConstants.FloorType.Furnished;
 		if (floorId <= 35)
-			return DungeonConstants.ABANDONED_FLOORS;
+			return DungeonConstants.FloorType.Abandoned;
 		if (floorId <= 47)
-			return DungeonConstants.OCCULT_FLOORS;
-		return DungeonConstants.WARPED_FLOORS;
+			return DungeonConstants.FloorType.Occult;
+		return DungeonConstants.FloorType.Warped;
 	}
 
-	public static String getFloorTypeName(int floorId) {
-		if (floorId <= 11)
-			return "Frozen";
-		if (floorId <= 17)
-			return "Abandoned";
-		if (floorId <= 29)
-			return "Furnished";
-		if (floorId <= 35)
-			return "Abandoned";
-		if (floorId <= 47)
-			return "Occult";
-		return "Warped";
+	public static int getSafeMusic(DungeonConstants.FloorType type) {
+		return DungeonConstants.SAFE_MUSICS[type.ordinal()][Utils.random(DungeonConstants.DANGEROUS_MUSICS[type.ordinal()].length)];
 	}
 
-	public static String getSizeName(int size) {
-		String[] sizeNames = { "Small", "Medium", "Large", "Test" };
-		return sizeNames[size];
-	}
-
-	public static int getSafeMusic(int type) {
-		return DungeonConstants.SAFE_MUSICS[type][Utils.random(DungeonConstants.DANGEROUS_MUSICS[type].length)];
-	}
-
-	public static int getDangerousMusic(int type) {
-		return DungeonConstants.DANGEROUS_MUSICS[type][Utils.random(DungeonConstants.DANGEROUS_MUSICS[type].length)];
+	public static int getDangerousMusic(DungeonConstants.FloorType type) {
+		return DungeonConstants.DANGEROUS_MUSICS[type.ordinal()][Utils.random(DungeonConstants.DANGEROUS_MUSICS[type.ordinal()].length)];
 	}
 
 	public static RoomReference getRandomRoom(Room[][] map) {
@@ -147,16 +128,16 @@ public final class DungeonUtils {
 		return DungeonConstants.HUNTER_CREATURES[Utils.random(DungeonConstants.HUNTER_CREATURES.length)];
 	}
 
-	public static BossRoom getBossRoomWithChunk(int type, int x, int y) {
-		for (BossRoom room : DungeonConstants.BOSS_ROOMS[type])
+	public static BossRoom getBossRoomWithChunk(DungeonConstants.FloorType type, int x, int y) {
+		for (BossRoom room : DungeonConstants.BOSS_ROOMS[type.ordinal()])
 			if (room.getChunkX() == x && room.getChunkY() == y)
 				return room;
 		return null;
 	}
 
-	public static Room[] selectPossibleBossRooms(int type, int complexity, int floorId, boolean n, boolean e, boolean s, boolean w, int rotation) {
+	public static Room[] selectPossibleBossRooms(DungeonConstants.FloorType type, int complexity, int floorId, boolean n, boolean e, boolean s, boolean w, int rotation) {
 		ArrayList<Room> possiblities = new ArrayList<>();
-		for (BossRoom handledRoom : DungeonConstants.BOSS_ROOMS[type]) {
+		for (BossRoom handledRoom : DungeonConstants.BOSS_ROOMS[type.ordinal()]) {
 			if (!handledRoom.isComplexity(complexity) || (handledRoom.getMinFloor() > floorId))
 				continue;
 			Room room = new Room(handledRoom, rotation);
@@ -182,7 +163,7 @@ public final class DungeonUtils {
 
 	}
 
-	public static Room[] selectPossibleRooms(HandledRoom[] handledRooms, int complexity, int floorType, boolean n, boolean e, boolean s, boolean w) {
+	public static Room[] selectPossibleRooms(HandledRoom[] handledRooms, int complexity, DungeonConstants.FloorType floorType, boolean n, boolean e, boolean s, boolean w) {
 		ArrayList<Room> possiblities = new ArrayList<>();
 		for (HandledRoom handledRoom : handledRooms) {
 			if (!handledRoom.isAvailableOnFloorType(floorType) || !handledRoom.isComplexity(complexity))
@@ -196,7 +177,7 @@ public final class DungeonUtils {
 		return possiblities.toArray(new Room[0]);
 	}
 
-	public static Room[] selectPossibleRooms(HandledRoom[] handledRooms, int complexity, int floorType, boolean n, boolean e, boolean s, boolean w, int rotation) {
+	public static Room[] selectPossibleRooms(HandledRoom[] handledRooms, int complexity, DungeonConstants.FloorType floorType, boolean n, boolean e, boolean s, boolean w, int rotation) {
 		ArrayList<Room> possiblities = new ArrayList<>();
 		for (HandledRoom handledRoom : handledRooms) {
 			if (!handledRoom.isAvailableOnFloorType(floorType) || !handledRoom.isComplexity(complexity))
@@ -237,16 +218,16 @@ public final class DungeonUtils {
 		return false;
 	}
 
-	public static int getMiningResource(int rockType, int floorType) {
-		return DungeonConstants.MINING_RESOURCES[floorType] + rockType * 2;
+	public static int getMiningResource(int rockType, DungeonConstants.FloorType floorType) {
+		return DungeonConstants.MINING_RESOURCES[floorType.ordinal()] + rockType * 2;
 	}
 
-	public static int getWoodcuttingResource(int treeType, int floorType) {
-		return DungeonConstants.WOODCUTTING_RESOURCES[floorType] + treeType * 2;
+	public static int getWoodcuttingResource(int treeType, DungeonConstants.FloorType floorType) {
+		return DungeonConstants.WOODCUTTING_RESOURCES[floorType.ordinal()] + treeType * 2;
 	}
 
-	public static int getFarmingResource(int flowerType, int floorType) {
-		return DungeonConstants.FARMING_RESOURCES[floorType] + flowerType * 2;
+	public static int getFarmingResource(int flowerType, DungeonConstants.FloorType floorType) {
+		return DungeonConstants.FARMING_RESOURCES[floorType.ordinal()] + flowerType * 2;
 	}
 
 	public static int getBattleaxe(int tier) {
@@ -549,11 +530,11 @@ public final class DungeonUtils {
 
 	}
 
-	public static boolean isLadder(int id, int type) {
-		return DungeonConstants.LADDERS[type] == id;
+	public static boolean isLadder(int id, DungeonConstants.FloorType type) {
+		return DungeonConstants.LADDERS[type.ordinal()] == id;
 	}
 
-	public static boolean isOpenSkillDoor(int id, int type) {
+	public static boolean isOpenSkillDoor(int id, DungeonConstants.FloorType type) {
 		for (SkillDoors s : SkillDoors.values()) {
 			int openId = s.getOpenObject(type);
 			if (openId != -1 && openId == id)
@@ -571,7 +552,7 @@ public final class DungeonUtils {
 		return list;
 	}
 
-	public static List<Integer> generateRandomMonsters(int floorType, int maxLevel, int combatTotal, int numMonsters) {
+	public static List<Integer> generateRandomMonsters(DungeonConstants.FloorType floorType, int maxLevel, int combatTotal, int numMonsters) {
 		List<Integer> list = new ArrayList<>();
 		if (Utils.random(4) == 0)
 			return list;

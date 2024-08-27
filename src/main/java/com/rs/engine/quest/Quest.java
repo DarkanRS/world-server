@@ -295,7 +295,7 @@ public enum Quest {
 		for (int skillId : getDefs().getExtraInfo().getPreReqSkillReqs().keySet()) {
 			if (player.getSkills().getLevelForXp(skillId) < getDefs().getExtraInfo().getPreReqSkillReqs().get(skillId)) {
 				if (actionStr != null)
-					player.sendMessage("You need a " + Skills.SKILL_NAME[skillId] + " level of " + getDefs().getExtraInfo().getPreReqSkillReqs().get(skillId)+".");
+					player.sendMessage("You need " + Utils.addArticle(Skills.SKILL_NAME[skillId]) + " level of " + getDefs().getExtraInfo().getPreReqSkillReqs().get(skillId)+".");
 				meetsRequirements = false;
 			}
 		}
@@ -354,7 +354,7 @@ public enum Quest {
 				player.getPackets().sendRunScript(4249, 81461283, 81461284, 81461285, 81461286, 81461291, questState, height, "<col=ebe076>" + "Rewards:" + "</col>", rewardsStr);
 				height += Utils.getIFStringHeightAbs(rewardsStr, 495, 388);
 
-				player.getPackets().sendRunScript(5510, -1, 81461264, height, 0);
+				//player.getPackets().sendRunScript(5510, -1, 81461264, height, 0); //TODO figure out what -1 is for and proper value
 				player.getPackets().sendRunScript(31, 81461292, 81461264, 5666, 5663, 5664, 5665, 5686, 5685);
 			});
 		} else
@@ -387,19 +387,19 @@ public enum Quest {
 		QuestOutline handler = getHandler();
 		if (handler == null)
 			return getQuestPointRewardLine().replace("<br>", "");
-		return getQuestPointRewardLine()+getHandler().getRewardsString();
+		return getHandler().getRewardsString();
 	}
 
 	public String getRequirementsString(Player player) {
 		StringBuilder lines = new StringBuilder();
 		QuestInformation info = getDefs().getExtraInfo();
 
-		if (info.getPreReqs().size() > 0) {
+		if (!info.getPreReqs().isEmpty()) {
 			for (Quest preReq : info.getPreReqs())
 				lines.append(Utils.strikeThroughIf(preReq.getDefs().getExtraInfo().getName(), () -> player.isQuestComplete(preReq))).append("<br>");
 		}
 
-		if (info.getSkillReq().size() > 0) {
+		if (!info.getSkillReq().isEmpty()) {
 			for (int skillId : info.getSkillReq().keySet()) {
 				if (info.getSkillReq().get(skillId) == 0)
 					continue;

@@ -175,29 +175,8 @@ public class ItemConstants {
 		GANODERMIC_PONCHO(22490, 22492, 22456, Ticks.fromHours(10), -1),
 		GANODERMIC_LEGGINGS(22486, 22488, 22454, Ticks.fromHours(10), -1),
 
-		CRYSTAL_BOW_NEW(4212, 4214, 4215, Ticks.fromHours(1), -1),
-		CRYSTAL_BOW_FULL(4214, 4214, 4215, Ticks.fromHours(1), -1), //not certain how, but edge case to cover if someone got a fresh "full" bow without meta data instead of a new bow.
-		CRYSTAL_BOW_NINE(4215, 4215, 4216, Ticks.fromHours(1), -1),
-		CRYSTAL_BOW_EIGHT(4216, 4216, 4217, Ticks.fromHours(1), -1),
-		CRYSTAL_BOW_SEVEN(4217, 4217, 4218, Ticks.fromHours(1), -1),
-		CRYSTAL_BOW_SIX(4218, 4218, 4219, Ticks.fromHours(1), -1),
-		CRYSTAL_BOW_FIVE(4219, 4219, 4220, Ticks.fromHours(1), -1),
-		CRYSTAL_BOW_FOUR(4220, 4220, 4221, Ticks.fromHours(1), -1),
-		CRYSTAL_BOW_THREE(4221, 4221, 4222, Ticks.fromHours(1), -1),
-		CRYSTAL_BOW_TWO(4222, 4222, 4223, Ticks.fromHours(1), -1),
-		CRYSTAL_BOW_ONE(4223, 4223, 4207, Ticks.fromHours(1), -1),
-
-		CRYSTAL_SHIELD_NEW(4224, 4225, 4226, Ticks.fromHours(1), -1),
-		CRYSTAL_SHIELD_FULL(4225, 4225, 4226, Ticks.fromHours(1), -1), //not certain how, but edge case to cover if someone got a fresh "full" shield without meta data instead of a new bow.
-		CRYSTAL_SHIELD_NINE(4226, 4226, 4227, Ticks.fromHours(1), -1),
-		CRYSTAL_SHIELD_EIGHT(4227, 4227, 4228, Ticks.fromHours(1), -1),
-		CRYSTAL_SHIELD_SEVEN(4228, 4228, 4229, Ticks.fromHours(1), -1),
-		CRYSTAL_SHIELD_SIX(4229, 4229, 4230, Ticks.fromHours(1), -1),
-		CRYSTAL_SHIELD_FIVE(4230, 4230, 4231, Ticks.fromHours(1), -1),
-		CRYSTAL_SHIELD_FOUR(4231, 4231, 4232, Ticks.fromHours(1), -1),
-		CRYSTAL_SHIELD_THREE(4232, 4232, 4233, Ticks.fromHours(1), -1),
-		CRYSTAL_SHIELD_TWO(4233, 4233, 4234, Ticks.fromHours(1), -1),
-		CRYSTAL_SHIELD_ONE(4234, 4234, 4207, Ticks.fromHours(1), -1),
+		CRYSTAL_BOW_NEW(4212, 4214, 4207, Ticks.fromHours(10), -1),
+		CRYSTAL_SHIELD_NEW(4224, 4225, 4207, Ticks.fromHours(10), -1),
 
 		ROYAL_CROSSBOW(24338, 24338, 24339, Ticks.fromHours(10), -1),
 
@@ -340,9 +319,9 @@ public class ItemConstants {
 	public static boolean canWear(Item item, Player player) {
 		if (player.hasRights(Rights.ADMIN))
 			return true;
-		if (item.getId() == 9813 || item.getId() == 10662)
+		if (item.getId() == 9813 || item.getId() == 9814 || item.getId() == 10662)
 			if (!player.getQuestManager().completedAllQuests()) {
-				player.sendMessage("You need to have completed all quests to wear this.");
+				player.sendMessage("You need to have completed all quests to be able to wear this.");
 				return false;
 			}
 		Quest quest = Quest.forSlot(item.getDefinitions().getWieldQuestReq());
@@ -350,19 +329,19 @@ public class ItemConstants {
 			if (!player.isQuestComplete(quest, "to wear this."))
 				return false;
 		}
-		HashMap<Integer, Integer> requiriments = item.getDefinitions().getWearingSkillRequiriments();
+		HashMap<Integer, Integer> requirements = item.getDefinitions().getWearingSkillRequiriments();
 		boolean hasRequirements = true;
-		if (requiriments != null)
-			for (int skillId : requiriments.keySet()) {
+		if (requirements != null)
+			for (int skillId : requirements.keySet()) {
 				if (skillId > 24 || skillId < 0)
 					continue;
-				int level = requiriments.get(skillId);
+				int level = requirements.get(skillId);
 				if (level < 0 || level > 120)
 					continue;
 				if (player.getSkills().getLevelForXp(skillId) < level) {
 					if (hasRequirements)
 						if (player.getSession() != null)
-							player.sendMessage("You are not high enough level to use this item.");
+							player.sendMessage("You are not a high enough level to use this item.");
 					hasRequirements = false;
 					String name = Constants.SKILL_NAME[skillId].toLowerCase();
 					if (player.getSession() != null)
@@ -382,7 +361,7 @@ public class ItemConstants {
 		String itemName = item.getName();
 		if (itemName.contains("goliath gloves") || itemName.contains("spellcaster glove") || itemName.contains("swift glove"))
 			if (player.getDominionTower().getKilledBossesCount() < 50 && !Settings.getConfig().isDebug()) {
-				player.sendMessage("You need to have kill at least 50 bosses in the dominion tower to wear these gloves.");
+				player.sendMessage("You need to have kill at least 50 bosses in the Dominion Tower to wear these gloves.");
 				return true;
 			}
 		return true;

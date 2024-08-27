@@ -1,0 +1,144 @@
+[
+  {
+    "tile": {
+      "plane": 2,
+      "x": 2887,
+      "y": 10081
+    },
+    "comment": "Eadgar after Troll Stronghold",
+    "npcId": 1113
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2924,
+      "y": 10032
+    },
+    "comment": "Mountain troll",
+    "npcId": 1111
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2921,
+      "y": 10026
+    },
+	"dir": "WEST",
+    "comment": "Mountain troll",
+    "npcId": 1112
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2923,
+      "y": 10029
+    },
+    "comment": "Mountain troll",
+    "npcId": 1109
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2918,
+      "y": 10032
+    },
+	"dir": "EAST",
+    "comment": "Mountain troll",
+    "npcId": 1138
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2890,
+      "y": 3697
+    },
+	"dir": "NORTH",
+    "comment": "Thrower troll",
+    "npcId": 1134
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2895,
+      "y": 3698
+    },
+	"dir": "NORTH",
+    "comment": "Thrower troll",
+    "npcId": 1133
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2900,
+      "y": 3697
+    },
+	"dir": "NORTH",
+    "comment": "Thrower troll",
+    "npcId": 1132
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2907,
+      "y": 3697
+    },
+	"dir": "NORTH",
+    "comment": "Thrower troll",
+    "npcId": 1131
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2911,
+      "y": 3697
+    },
+	"dir": "NORTH",
+    "comment": "Thrower troll",
+    "npcId": 1130
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2891,
+      "y": 3674
+    },
+    "comment": "Mountain goat",
+    "npcId": 1140
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2888,
+      "y": 3668
+    },
+    "comment": "Mountain goat",
+    "npcId": 5171
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2900,
+      "y": 3671
+    },
+    "comment": "Mountain goat",
+    "npcId": 1140
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2900,
+      "y": 3680
+    },
+    "comment": "Mountain goat",
+    "npcId": 5171
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2897,
+      "y": 3689
+    },
+    "comment": "Mountain goat",
+    "npcId": 1140
+  },
+]

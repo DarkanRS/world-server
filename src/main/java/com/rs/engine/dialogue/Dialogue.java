@@ -156,9 +156,17 @@ public class Dialogue {
 	public Dialogue addQuestStart(Quest quest) {
 		return addNext(new QuestStartStatement(quest));
 	}
-	
+
 	public Dialogue addMakeX(int[] itemIds, int maxAmt) {
 		return addNext(new MakeXStatement(itemIds, maxAmt));
+	}
+
+	public Dialogue addMakeX(MakeXStatement.MakeXType makeXType, int[] itemIds, int maxAmt) {
+		return addNext(new MakeXStatement(makeXType, itemIds, maxAmt));
+	}
+
+	public Dialogue addMakeX(MakeXStatement.MakeXType makeXType, String question, int[] itemIds, int maxAmt) {
+		return addNext(new MakeXStatement(makeXType, question, itemIds, maxAmt));
 	}
 	
 	public Dialogue addMakeX(int itemId, int maxAmt) {

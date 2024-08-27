@@ -1,16 +1,17 @@
 package com.rs.game.content.combat.special_attacks
 
+import com.rs.engine.pathfinder.Direction
 import com.rs.game.World
 import com.rs.game.content.Effect
+import com.rs.game.content.achievements.AchievementDef
+import com.rs.game.content.achievements.SetReward
 import com.rs.game.content.combat.*
-import com.rs.game.content.combat.AmmoType.Companion.forId
 import com.rs.game.model.entity.Entity
 import com.rs.game.model.entity.Hit
 import com.rs.game.model.entity.Hit.HitLook
 import com.rs.game.model.entity.async.schedule
 import com.rs.game.model.entity.interactions.PlayerCombatInteraction
 import com.rs.game.model.entity.npc.NPC
-import com.rs.engine.pathfinder.Direction
 import com.rs.game.model.entity.player.Equipment
 import com.rs.game.model.entity.player.Player
 import com.rs.game.model.entity.player.Skills
@@ -53,7 +54,9 @@ fun mapSpecials() {
         if (player.interactionManager.interaction !is PlayerCombatInteraction || (player.interactionManager.interaction as PlayerCombatInteraction).action.target !== target) {
             player.interactionManager.setInteraction(PlayerCombatInteraction(player, target))
         }
-        player.combatDefinitions.drainSpec(50)
+        var specAmt = 50.0
+        if (player.combatDefinitions.hasRingOfVigour()) specAmt *= 0.9
+        player.combatDefinitions.drainSpec(specAmt.toInt())
         val animId = if (player.equipment.weaponId == 4153) 1667 else 10505
         player.anim(animId)
         if (player.equipment.weaponId == 4153) player.spotAnim(340, 0, 96 shl 16)
@@ -68,7 +71,9 @@ fun mapSpecials() {
         player.forceTalk("Raarrrrrgggggghhhhhhh!")
         player.skills.adjustStat(0, -0.1, Skills.ATTACK, Skills.DEFENSE, Skills.RANGE, Skills.MAGIC)
         player.skills.adjustStat(0, 0.2, Skills.STRENGTH)
-        player.combatDefinitions.drainSpec(100)
+        var specAmt = 100.0
+        if (player.combatDefinitions.hasRingOfVigour()) specAmt *= 0.9
+        player.combatDefinitions.drainSpec(specAmt.toInt())
         player.soundEffect(2538, true)
     })
 
@@ -79,8 +84,11 @@ fun mapSpecials() {
         player.forceTalk("For Camelot!")
         val enhanced = player.equipment.weaponId == 14632
         player.skills.adjustStat(if (enhanced) 0 else 8, if (enhanced) 0.15 else 0.0, Skills.DEFENSE)
-        player.addEffect(Effect.EXCALIBUR_HEAL, (if (enhanced) 70 else 35).toLong())
-        player.combatDefinitions.drainSpec(100)
+        if (enhanced)
+            player.addEffect(Effect.EXCALIBUR_HEAL, (if (SetReward.SEERS_HEADBAND.hasRequirements(player, AchievementDef.Area.MORYTANIA, AchievementDef.Difficulty.ELITE, false)) 70 else 35).toLong())
+        var specAmt = 100.0
+        if (player.combatDefinitions.hasRingOfVigour()) specAmt *= 0.9
+        player.combatDefinitions.drainSpec(specAmt.toInt())
         player.soundEffect(2539, true)
     })
 
@@ -90,7 +98,9 @@ fun mapSpecials() {
         player.sync(12804, 2319)
         player.spotAnim(2321)
         player.addEffect(Effect.STAFF_OF_LIGHT_SPEC, Ticks.fromSeconds(60).toLong())
-        player.combatDefinitions.drainSpec(100)
+        var specAmt = 100.0
+        if (player.combatDefinitions.hasRingOfVigour()) specAmt *= 0.9
+        player.combatDefinitions.drainSpec(specAmt.toInt())
     })
 
 
@@ -190,7 +200,7 @@ fun mapSpecials() {
 
     addSpec(RangedWeapon.DORGESHUUN_CBOW.ids, SpecialAttack(SpecialAttack.Type.RANGE, 75) { player, target ->
         player.anim(ItemConfig.get(RangedWeapon.DORGESHUUN_CBOW.ids[0]).getAttackAnim(0))
-        RangedWeapon.DORGESHUUN_CBOW.getAttackSpotAnim(player, forId(player.equipment.ammoId)).let {
+        RangedWeapon.DORGESHUUN_CBOW.getAttackSpotAnim(player.equipment.ammoId).let {
             player.spotAnim(it)
         }
         val hit = calculateHit(player, target, true, true, 1.0, 1.3)
@@ -205,7 +215,7 @@ fun mapSpecials() {
     addSpec(RangedWeapon.DARK_BOW.ids, SpecialAttack(SpecialAttack.Type.RANGE, 65) { player, target ->
         val ammoId = player.equipment.ammoId
         player.anim(ItemConfig.get(RangedWeapon.DARK_BOW.ids[0]).getAttackAnim(0))
-        RangedWeapon.DARK_BOW.getAttackSpotAnim(player, forId(player.equipment.ammoId)).let {
+        RangedWeapon.DARK_BOW.getAttackSpotAnim(player.equipment.ammoId).let {
             player.spotAnim(it)
         }
         if (ammoId == 11212) {
@@ -473,12 +483,11 @@ fun mapSpecials() {
     //Korasi's sword
     addSpec(intArrayOf(18786, 19780, 19784, 22401), SpecialAttack(SpecialAttack.Type.MELEE, 60) { player, target ->
         player.sync(14788, 1729)
-        var damage = getMaxHit(player, target, false, 1.5).toDouble()
-        var multiplier = Math.random()
-        if (!target.isAtMultiArea && !player.isAtMultiArea && !target.isForceMultiArea && !player.isForceMultiArea) multiplier += 0.5
+        var damage = getMaxHit(player, target, false, 1.0).toDouble()
+        val multiplier = Utils.random(if (!target.isAtMultiArea && !player.isAtMultiArea && !target.isForceMultiArea && !player.isForceMultiArea) 0.5 else 0.0, 1.5)
         damage *= multiplier
         delayNormalHit(target, Hit(player, damage.toInt(), HitLook.MAGIC_DAMAGE).setMaxHit(damage.toInt()))
-        WorldTasks.schedule(0) { target.spotAnim(1730) }
+        WorldTasks.schedule(0) { target.spotAnim(2795) }
         player.soundEffect(target, 3853, true)
         return@SpecialAttack getMeleeCombatDelay(player.equipment.weaponId)
     })

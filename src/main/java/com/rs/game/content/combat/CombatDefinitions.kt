@@ -18,6 +18,8 @@ package com.rs.game.content.combat
 
 import com.rs.cache.loaders.Bonus
 import com.rs.engine.quest.Quest
+import com.rs.game.content.minigames.disableMinigameRunes
+import com.rs.game.content.minigames.enableMinigameRunes
 import com.rs.game.model.entity.player.Equipment
 import com.rs.game.model.entity.player.Player
 import com.rs.game.model.entity.player.managers.AuraManager
@@ -333,6 +335,10 @@ class CombatDefinitions {
     fun refreshSpellbook() {
         refreshSpellbookSettings()
         refreshAutoCastSpell()
+        if (isDungSpellbook)
+            disableMinigameRunes(player)
+        else
+            enableMinigameRunes(player)
         player.vars.syncVarsToClient()
         player.packets.sendRunScriptBlank(2057)
     }

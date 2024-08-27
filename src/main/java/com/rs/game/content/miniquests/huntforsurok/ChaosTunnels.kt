@@ -357,7 +357,6 @@ enum class PortalPair(val tile1: Tile, val tile2: Tile, private val surokLocked:
             }
         }
         if (this == BORK) {
-            player.setMiniquestStage(Miniquest.HUNT_FOR_SUROK, 4)
             if (player.getMiniquestStage(Miniquest.HUNT_FOR_SUROK) < 4) {
                 player.sendMessage("The portal is unresponsive.")
                 return

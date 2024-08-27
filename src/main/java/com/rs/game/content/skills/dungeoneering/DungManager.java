@@ -274,7 +274,12 @@ public class DungManager {
 			player.getVars().setVarBit(p.getVarbit(), getKinshipTier(p));
 		player.getVars().setVarBit(8065, activeRingPerk == null ? 0 : activeRingPerk.ordinal() + 1);
 		if (player.getInterfaceManager().topOpen(993))
-			player.getPackets().sendRunScriptBlank(3494);
+			player.getPackets().sendRunScript(3494, switch(player.getTempAttribs().getI("kinshipTab", 0)) {
+                case 1 -> Utils.toInterfaceHash(993, 227);
+				case 2 -> Utils.toInterfaceHash(993, 242);
+				case 3 -> Utils.toInterfaceHash(993, 257);
+				default -> Utils.toInterfaceHash(993, 212);
+			});
 		refreshKinshipStrings();
 	}
 
@@ -816,7 +821,7 @@ public class DungManager {
 				player.sendMessage("You can't do that right now.");
 				return;
 			}
-			if (party.getSize() >= 5) {
+			if (party.getTeam().size() >= 5) {
 				player.sendMessage("Your party is full.");
 				return;
 			}
@@ -1114,9 +1119,13 @@ public class DungManager {
 				player.startConversation(new DungeonSize(player));
 				return;
 			}
-			party.setSize(DungeonConstants.SMALL_DUNGEON);
+			party.setSize(DungeonConstants.Size.Small);
 		}
 		for (Player p2 : party.getTeam()) {
+			if (party.getFloor() > p2.getDungManager().maxFloor) {
+				player.sendMessage(p2.getDisplayName() + " does not have that floor unlocked.");
+				return;
+			}
 			for (Item item : p2.getInventory().getItems().array())
 				if (isBannedDungItem(item)) {
 					player.sendMessage(p2.getDisplayName() + " is carrying items that cannot be taken into Daemonheim.");
@@ -1148,7 +1157,7 @@ public class DungManager {
 		};
 	}
 
-	public void setSize(int size) {
+	public void setSize(DungeonConstants.Size size) {
 		if (party == null || !party.isLeader(player) || party.getComplexity() != 6)
 			return;
 		party.setSize(size);

@@ -5,6 +5,7 @@ import com.rs.engine.dialogue.startConversation
 import com.rs.engine.miniquest.Miniquest
 import com.rs.engine.quest.Quest
 import com.rs.game.content.miniquests.from_tiny_acorns.DarrenFromTinyAcorns
+import com.rs.game.content.miniquests.lost_her_marbles.DarrenLostHerMarbles
 import com.rs.game.content.quests.buyersandcellars.npcs.DarrenBuyersAndCellars
 import com.rs.game.content.skills.thieving.thievesGuild.PickPocketDummy
 import com.rs.game.model.entity.npc.NPC
@@ -79,7 +80,7 @@ class DarrenLightfingerGeneric(p: Player, npc: NPC) {
                         exec { DarrenFromTinyAcorns(p, npc) }
                     }
                     if (thievingLevel >= 41 && !p.isMiniquestComplete(Miniquest.LOST_HER_MARBLES)) {
-                        //LostHerMarblesOptions(player);
+                        exec { DarrenLostHerMarbles(p, npc) }
                     }
                     if (thievingLevel >= 62 && agilityLevel >= 40 && herbloreLevel >= 46 && !p.isMiniquestComplete(Miniquest.A_GUILD_OF_OUR_OWN)) {
                         //AGuildOfOurOwnOptions(player);

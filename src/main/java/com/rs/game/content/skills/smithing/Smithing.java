@@ -17,6 +17,7 @@
 package com.rs.game.content.skills.smithing;
 
 import com.rs.engine.quest.Quest;
+import com.rs.game.World;
 import com.rs.game.content.skills.firemaking.Bonfire;
 import com.rs.game.content.skills.smithing.ForgingInterface.Slot;
 import com.rs.game.model.entity.player.Player;
@@ -25,6 +26,7 @@ import com.rs.game.model.object.GameObject;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
+import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
@@ -39,12 +41,12 @@ public class Smithing extends PlayerAction {
 
 	public static ItemOnObjectHandler barsOnAnvil = new ItemOnObjectHandler(new Object[] { "Anvil" }, Arrays.stream(Smelting.SmeltingBar.values()).map(bar -> bar.getProducedBar().getId()).toArray(), e -> {
 		if (e.getObject().getDefinitions(e.getPlayer()).containsOption("Smith"))
-			ForgingInterface.sendSmithingInterface(e.getPlayer(), e.getObject(), e.getItem().getId());
+			ForgingInterfaceKt.sendSmithingInterface(e.getPlayer(), e.getObject(), e.getItem().getId());
 	});
 
 	public static ObjectClickHandler smithAnvil = new ObjectClickHandler(new Object[] { "Anvil", "Kethsian anvil" }, e -> {
 		if (e.getOption().equals("Smith"))
-			ForgingInterface.openSmithingInterfaceForHighestBar(e.getPlayer(), e.getObject());
+			ForgingInterfaceKt.openSmithingInterfaceForHighestBar(e.getPlayer(), e.getObject());
 	});
 	
 	public enum Smithable {
@@ -232,7 +234,7 @@ public class Smithing extends PlayerAction {
 
 		public final Slot slot;
 		public final Item product;
-        public final Item bar;
+		public final Item bar;
 		public final int level;
 		public final double xp;
 		
@@ -318,6 +320,7 @@ public class Smithing extends PlayerAction {
 		player.getInventory().addItemDrop(new Item(item.product));
 		player.incrementCount(item.product.getName() + " smithed", item.product.getAmount());
 		player.getSkills().addXp(Constants.SMITHING, item.xp);
+		World.sendSpotAnim(anvil.getTile(), 2123);
 		if (ticks > 0)
 			return 3;
 		return -1;
@@ -351,5 +354,20 @@ public class Smithing extends PlayerAction {
 	@Override
 	public void stop(Player player) {
 		setActionDelay(player, 3);
+	}
+
+	// check both player inventory and coal bag for required items to make bar
+	public static boolean hasRequiredItems(Player player, Item[] requiredItems) {
+		for (Item required : requiredItems) {
+			// if item is not in player's inventory, check the coal bag
+			if (!player.getInventory().containsItem(required.getId(), required.getAmount())) {
+				if (required.getId() == 453 && player.getInventory().containsItem(18339) && player.getI("coalBag") >= required.getAmount())
+					continue;
+				else
+					return false;
+			}
+		}
+
+		return true;
 	}
 }

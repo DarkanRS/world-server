@@ -378,7 +378,7 @@ public class TreasureTrailsManager {
 		}
 		if ((currentClue.details.type != ANAGRAM) || (currentClue.dificulty < HARD)) {
 			player.startConversation(new Dialogue()
-					.addNPC(currentClue.details.getId(), HeadE.CALM_TALK, "Congratulations! You have come to right place.", ()-> setNextClue(SOURCE_NPC, false))
+					.addNPC(currentClue.details.getId(), HeadE.CALM_TALK, "Congratulations! You have come to the right place.", ()-> setNextClue(SOURCE_NPC, false))
 			);
 			return true;
 		}
@@ -765,7 +765,7 @@ public class TreasureTrailsManager {
 		ANAGRAM_L_2(HARD, ANAGRAM, NPC, 648, "Lark In Dog"),
 		ANAGRAM_M_1(HARD, ANAGRAM, NPC, 2812, "Me Am The", "Calc"),
 		ANAGRAM_M_2(MEDIUM, ANAGRAM, NPC, 676, "Me if"),
-		ANAGRAM_N_1(MEDIUM, ANAGRAM, NPC, 714, "Nod med"),
+		ANAGRAM_N_1(MEDIUM, ANAGRAM, NPC, new int[] {714, 3213, 3214}, "Nod med"),
 		ANAGRAM_O_1(MEDIUM, ANAGRAM, NPC, 437, "O Birdz A Zany", "En Pc"),
 		ANAGRAM_O_2(HARD, ANAGRAM, NPC, 278, "Ok Co"),
 		ANAGRAM_O_3(HARD, ANAGRAM, NPC, 460, "Or Zinc Fumes", "Ward"),

@@ -1,5 +1,7 @@
 package com.rs.engine.dialogue
 
+import com.rs.engine.dialogue.statements.MakeXStatement
+import com.rs.engine.dialogue.statements.OptionStatement
 import com.rs.engine.dialogue.statements.Statement
 import com.rs.engine.quest.Quest
 import com.rs.game.model.entity.npc.NPC
@@ -60,11 +62,24 @@ open class DialogueBuilder(val stages: MutableMap<String, Dialogue> = mutableMap
         applyPendingLabel()
     }
 
+    fun jump(next: Dialogue) {
+        dialogue = dialogue.addNext(next)
+        applyPendingLabel()
+    }
+
     fun options(title: String? = null, setup: OptionsBuilder.() -> Unit) {
         dialogue = dialogue.addOptions(title) { options ->
             OptionsBuilder(stages).apply(setup).applyToOptions(options)
         }
         applyPendingLabel()
+    }
+
+    fun cosmeticOptions(vararg options: String) {
+        dialogue = dialogue.addNext(OptionStatement("Select an Option", *options))
+        val nextChain = Dialogue()
+        options.forEach { _ -> dialogue.addNext(nextChain) }
+        applyPendingLabel()
+        dialogue = nextChain
     }
 
     fun makeX(itemId: Int, maxAmt: Int = 60) {
@@ -74,6 +89,16 @@ open class DialogueBuilder(val stages: MutableMap<String, Dialogue> = mutableMap
 
     fun makeX(itemIds: IntArray, maxAmt: Int = 60) {
         dialogue = dialogue.addMakeX(itemIds, maxAmt)
+        applyPendingLabel()
+    }
+
+    fun makeX(makeXType: MakeXStatement.MakeXType, itemIds: IntArray, maxAmt: Int = 60) {
+        dialogue = dialogue.addMakeX(makeXType, itemIds, maxAmt)
+        applyPendingLabel()
+    }
+
+    fun makeX(makeXType: MakeXStatement.MakeXType, question: String, itemIds: IntArray, maxAmt: Int = 60) {
+        dialogue = dialogue.addMakeX(makeXType, question, itemIds, maxAmt)
         applyPendingLabel()
     }
 
@@ -185,6 +210,10 @@ class OptionsBuilder(val stages: MutableMap<String, Dialogue>) {
 
     fun op(name: String, setup: OptionBuilder.() -> Unit = {}) {
         operations.add(OptionOperation.BuilderOp(name, setup))
+    }
+
+    fun ops(vararg names: String, setup: OptionBuilder.() -> Unit = {}) {
+        names.forEach { name -> operations.add(OptionOperation.BuilderOp(name, setup)) }
     }
 
     fun opExec(name: String, exec: Runnable) {

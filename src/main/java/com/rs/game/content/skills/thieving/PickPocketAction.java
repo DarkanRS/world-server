@@ -28,12 +28,14 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
+import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.utils.drop.DropTable;
-
+@PluginEventHandler
 public class PickPocketAction extends PlayerAction {
 
-	private final NPC npc;
-	private final PickPocketableNPC npcData;
+	public final NPC npc;
+	public final PickPocketableNPC npcData;
 	private static final Animation STUN_ANIMATION = new Animation(422),
 			PICKPOCKETING_ANIMATION = new Animation(881),
 			DOUBLE_LOOT_ANIMATION = new Animation(5074),
@@ -46,6 +48,16 @@ public class PickPocketAction extends PlayerAction {
 
 	private int index;
 	private boolean success = false;
+
+	public static NPCClickHandler defaultPickpocket = new NPCClickHandler(new String[]{"Pickpocket"}, e -> {
+		PickPocketableNPC pocket = PickPocketableNPC.get(e.getNPC().getId());
+		if (pocket != null) {
+			e.getNPC().resetDirection();
+			e.getPlayer().getActionManager().setAction(new PickPocketAction(e.getNPC(), pocket));
+			return;
+		}
+	});
+
 
 	public PickPocketAction(NPC npc, PickPocketableNPC npcData) {
 		this.npc = npc;
@@ -147,15 +159,15 @@ public class PickPocketAction extends PlayerAction {
 	private String getMessage(Player player) {
 		if (npcData.equals(PickPocketableNPC.DESERT_PHOENIX))
 			return "You grab a tail-feather.";
-        return switch (index) {
-            case 0 -> "You succesfully pick the " + npc.getDefinitions().getName().toLowerCase() + "'s pocket.";
-            case 1 -> "Your lighting-fast reactions allow you to steal double loot.";
-            case 2 -> "Your lighting-fast reactions allow you to steal triple loot.";
-            case 3 -> "Your lighting-fast reactions allow you to steal quadruple loot.";
-            default -> null;
-        };
+		return switch (index) {
+			case 0 -> "You succesfully pick the " + npc.getDefinitions().getName().toLowerCase() + "'s pocket.";
+			case 1 -> "Your lighting-fast reactions allow you to steal double loot.";
+			case 2 -> "Your lighting-fast reactions allow you to steal triple loot.";
+			case 3 -> "Your lighting-fast reactions allow you to steal quadruple loot.";
+			default -> null;
+		};
 
-    }
+	}
 
 	private boolean checkAll(Player player) {
 		if (player.isDead() || player.hasFinished() || npc.isDead() || npc.hasFinished() || player.hasPendingHits())
@@ -185,23 +197,23 @@ public class PickPocketAction extends PlayerAction {
 	}
 
 	private Animation getAnimation() {
-        return switch (index) {
-            case 0 -> PICKPOCKETING_ANIMATION;
-            case 1 -> DOUBLE_LOOT_ANIMATION;
-            case 2 -> TRIPLE_LOOT_ANIMATION;
-            case 3 -> QUADRUPLE_LOOT_ANIMATION;
-            default -> null;
-        };
-    }
+		return switch (index) {
+			case 0 -> PICKPOCKETING_ANIMATION;
+			case 1 -> DOUBLE_LOOT_ANIMATION;
+			case 2 -> TRIPLE_LOOT_ANIMATION;
+			case 3 -> QUADRUPLE_LOOT_ANIMATION;
+			default -> null;
+		};
+	}
 
 	private SpotAnim getGraphics() {
-        return switch (index) {
-            case 0 -> null;
-            case 1 -> DOUBLE_LOOT_GFX;
-            case 2 -> TRIPLE_LOOT_GFX;
-            case 3 -> QUADRUPLE_LOOT_GFX;
-            default -> null;
-        };
-    }
+		return switch (index) {
+			case 0 -> null;
+			case 1 -> DOUBLE_LOOT_GFX;
+			case 2 -> TRIPLE_LOOT_GFX;
+			case 3 -> QUADRUPLE_LOOT_GFX;
+			default -> null;
+		};
+	}
 
 }

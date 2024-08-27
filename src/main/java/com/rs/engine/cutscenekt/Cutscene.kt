@@ -32,7 +32,7 @@ class Cutscene(val player: Player) : Continuation<Unit> {
     val objects = mutableMapOf<Int, Any>()
     var mapHidden = false
     var constructingRegion = false
-    var instance: Instance? = null
+    private var instance: Instance? = null
     var endTile: Tile = Tile.of(player.tile)
 
     init {

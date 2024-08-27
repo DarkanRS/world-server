@@ -18,13 +18,17 @@ package com.rs.net.decoders.handlers;
 
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.ObjectType;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.statements.Statement;
 import com.rs.game.World;
 import com.rs.game.content.items.Lamps;
 import com.rs.game.content.minigames.fightkiln.FightKilnController;
 import com.rs.game.content.minigames.sorcgarden.SorceressGardenController;
 import com.rs.game.content.skills.cooking.CookingCombos;
+import com.rs.game.content.skills.cooking.FruitCutting;
 import com.rs.game.content.skills.cooking.FruitCutting.CuttableFruit;
 import com.rs.game.content.skills.cooking.FruitCuttingD;
+import com.rs.game.content.skills.crafting.Craftables;
 import com.rs.game.content.skills.crafting.GemCutting;
 import com.rs.game.content.skills.crafting.GemCutting.Gem;
 import com.rs.game.content.skills.crafting.GemTipCutting;
@@ -199,7 +203,7 @@ public class InventoryOptionsHandler {
 			player.startConversation(new LeatherCraftingD(player, leatherIndex));
 			return true;
 		}
-		if (Firemaking.isFiremaking(player, used, usedWith) || GemCutting.isCutting(player, used, usedWith))
+		if (Firemaking.isFiremaking(player, used, usedWith) || GemCutting.isCutting(player, used, usedWith) || Craftables.isCrafting(player, used, usedWith))
 			return true;
 		if (contains(1755, Gem.OPAL.getCut(), used, usedWith))
 			GemTipCutting.cut(player, GemTips.OPAL);
@@ -334,12 +338,8 @@ public class InventoryOptionsHandler {
 			}, 0, 0);
 		}
 
-		if (itemId >= 2520 && itemId <= 2526) {
-			String[] phrases = { "Come on Dobbin, we can win the race!", "Hi-ho Silver, and away!", "Neaahhhyyy! Giddy-up horsey!" };
-			player.setNextAnimation(new Animation(918+((itemId-2520)/2)));
-			player.setNextForceTalk(new ForceTalk(phrases[Utils.random(phrases.length)]));
-			return;
-		}
+
+
 
 		if (itemId == 18336) {
 			player.hasScrollOfLife = true;
@@ -446,6 +446,15 @@ public class InventoryOptionsHandler {
 		if (player.isLocked() || player.getEmotesManager().isAnimating() || PluginManager.handle(new ItemClickEvent(player, item, slotId, item.getDefinitions().getInventoryOption(3))))
 			return;
 		player.stopAll(false);
+
+		FruitCutting.CuttableFruit fruit = FruitCutting.CuttableFruit.forId(itemId);
+		if (fruit != null) {
+			if (player.getInventory().containsItem(946)) {
+				player.startConversation(new FruitCuttingD(player, fruit));
+			} else {
+				player.sendMessage("You need a knife to cut the " + item.getDefinitions().name.toLowerCase() + ".");
+			}
+		}
 
 		if (itemId == 1438)
 			Runecrafting.locate(player, 3127, 3405);

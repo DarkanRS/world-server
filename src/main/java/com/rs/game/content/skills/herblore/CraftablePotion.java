@@ -220,7 +220,8 @@ public enum CraftablePotion {
 	STRONG_ARTISANS_POTION(new Item(17624, 1), 93, 253.0, new Item[] { new Item(17552, 1), new Item(17534, 1) }),
 	STRONG_NATURALISTS_POTION(new Item(17626, 1), 96, 279.0, new Item[] { new Item(17550, 1), new Item(17532, 1) }),
 	STRONG_SURVIVALISTS_POTION(new Item(17628, 1), 99, 315.0, new Item[] { new Item(17552, 1), new Item(17536, 1) }),
-	NETTLE_WATER(new Item(4237, 1), 1, 1.0, new Item[] { new Item(1921, 1), new Item(4241, 1) });
+	NETTLE_WATER(new Item(4237, 1), 1, 1.0, new Item[] { new Item(1921, 1), new Item(4241, 1) }),
+	TROLL_POTION(new Item(3265, 1), 31, 77.5, new Item[] { new Item(3264, 1), new Item(99, 1) });
 
 	private final Item product;
 	private final int req;

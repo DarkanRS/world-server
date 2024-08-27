@@ -79,6 +79,7 @@ fabric.properties
 
 # *.iml
 # modules.xml
+.kotlin/
 .idea/
 serverConfig.json
 worldConfig.json

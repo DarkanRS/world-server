@@ -1,0 +1,35 @@
+{
+  "names": [
+    "level_3_dig"
+  ],
+  "tables": [
+	{
+      "chance": 1, "outOf": 2,
+      "drops": [
+		{ "id": 681, "min": 1, "max": 1 },
+		{ "id": 684, "min": 1, "max": 1 },
+		{ "id": 1151, "min": 1, "max": 1 },
+		{ "id": 526, "min": 1, "max": 1 },
+		{ "id": 698, "min": 1, "max": 1 },
+		{ "id": 687, "min": 1, "max": 1 },
+		{ "id": 689, "min": 1, "max": 1 },
+		{ "id": 1237, "min": 1, "max": 1 },
+		{ "id": 688, "min": 1, "max": 1 },
+		{ "id": 694, "min": 1, "max": 1 },
+		{ "id": 434, "min": 1, "max": 1 },
+		{ "id": 697, "min": 1, "max": 1 },
+		{ "id": 863, "min": 1, "max": 1 },
+		{ "id": 1061, "min": 1, "max": 1 },
+		{ "id": 1733, "min": 1, "max": 1 },
+		{ "id": 695, "min": 1, "max": 1 },
+		{ "id": 2313, "min": 1, "max": 1 }
+      ]
+    },
+	{
+      "chance": 1, "outOf": 3,
+      "drops": [
+        { "id": 995, "min": 10, "max": 10 }
+      ]
+    }
+  ]
+}

@@ -18,6 +18,10 @@ package com.rs.tools;
 
 import com.google.gson.GsonBuilder;
 import com.rs.Settings;
+import com.rs.cache.Cache;
+import com.rs.cache.loaders.IdentiKitDefinitions;
+import com.rs.cache.loaders.ItemDefinitions;
+import com.rs.cache.loaders.interfaces.IComponentDefinitions;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.lib.file.JsonFileManager;
 import com.rs.lib.json.DateAdapter;
@@ -26,9 +30,11 @@ import com.rs.lib.net.packets.PacketEncoder;
 import com.rs.lib.util.PacketAdapter;
 import com.rs.lib.util.PacketEncoderAdapter;
 import com.rs.lib.util.RecordTypeAdapterFactory;
+import com.rs.lib.util.Utils;
 import com.rs.utils.json.ControllerAdapter;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Date;
 
 public class Test {
@@ -44,6 +50,12 @@ public class Test {
 				.setPrettyPrinting()
 				.create());
 		Settings.loadConfig();
-	}
+		Cache.init(Settings.getConfig().getCachePath());
 
+		IComponentDefinitions[] def = IComponentDefinitions.getInterface(763);
+		for (IComponentDefinitions i : def) {
+			System.out.println(i);
+		}
+		System.out.println(Utils.interfaceIdFromHash(65077505) + ", " + Utils.componentIdFromHash(65077505));
+	}
 }

@@ -68,7 +68,7 @@ public class EstateAgentDialogue extends Conversation {
 							option("Dark stone - 500,000 coins", new Dialogue().addNext(() -> promptHouseChange("dark stone", 6, 80, 500000)));
 					}
 				}));
-				option("What's that cape you are wearing?", Skillcapes.Construction.getOffer99CapeDialogue(player, npcId));
+				option("What's that cape you are wearing?", () -> Skillcapes.Construction.getOffer99CapeDialogue(player, npcId));
 			}
 		});
 	}

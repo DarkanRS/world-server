@@ -63,9 +63,9 @@ public class DungeonBoss extends DungeonNPC {
 
 		// TODO: Possible drop table mismatch with MEDIUM_DUNGEON?
 		DropTable drop;
-		if (getManager().getParty().getSize() == DungeonConstants.LARGE_DUNGEON)
+		if (getManager().getParty().getSize() == DungeonConstants.Size.Large)
 			drop = drops[Utils.random(100) < 90 ? drops.length - 1 : Utils.random(drops.length)];
-		else if (getManager().getParty().getSize() == DungeonConstants.LARGE_DUNGEON)
+		else if (getManager().getParty().getSize() == DungeonConstants.Size.Large)
 			drop = drops[Utils.random(100) < 60 ? drops.length - 1 : Utils.random(drops.length)];
 		else
 			drop = drops[Utils.random(drops.length)];

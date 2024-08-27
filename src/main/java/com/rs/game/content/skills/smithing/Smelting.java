@@ -246,7 +246,15 @@ public class Smelting extends PlayerAction {
 	);
 
 	public void smeltBar(Player player) {
-		for (Item required : bar.getItemsRequired())
+		Item[] requiredItems = bar.getItemsRequired();
+
+		// Previously, if the varrock armour effect triggers when you only have materials
+		// for a single bar, it will still create two. Validate player has all required
+		// materials prior to smelting.
+		if (!Smithing.hasRequiredItems(player, requiredItems))
+			return;
+
+		for (Item required : requiredItems)
 			if (required.getId() == 453 && player.getInventory().containsItem(18339) && player.getI("coalBag") > 0) {
 				int coalBag = player.getI("coalBag");
 				if (coalBag > required.getAmount())

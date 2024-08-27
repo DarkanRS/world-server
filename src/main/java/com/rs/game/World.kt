@@ -44,6 +44,7 @@ import com.rs.game.tasks.WorldTasks
 import com.rs.lib.game.*
 import com.rs.lib.net.packets.encoders.Sound
 import com.rs.lib.net.packets.encoders.updatezone.AddObject
+import com.rs.lib.net.packets.encoders.updatezone.CustomizeObject
 import com.rs.lib.util.Logger
 import com.rs.lib.util.MapUtils
 import com.rs.lib.util.Utils
@@ -112,7 +113,8 @@ object World {
             n = if (fObj != null) fObj as NPC
             else NPC(id, tile, direction, permaDeath)
         } else n = NPC(id, tile, direction, permaDeath)
-        n.setPermName(customName)
+        if (customName != null)
+            n.setPermName(customName)
         return n
     }
 
@@ -195,7 +197,7 @@ object World {
 	fun checkMeleeStep(from: Any?, fromSize: Int, to: Any?, toSize: Int): Boolean {
         val fromTile: Tile = WorldUtil.targetToTile(from)
         var toTile: Tile = WorldUtil.targetToTile(to)
-        (to as? Entity)?.let { toTile = it.lastTile }
+        (to as? Entity)?.let { toTile = it.lastTile ?: it.tile }
         if (fromTile.plane != toTile.plane) return false
         return reached(allFlags, fromTile.x().toInt(), fromTile.y().toInt(), fromTile.plane().toInt(), toTile.x().toInt(), toTile.y().toInt(), toSize, toSize, fromSize, 0, -2, 0)
     }
@@ -441,6 +443,8 @@ object World {
     @JvmStatic
     fun refreshObject(obj: GameObject) {
         ChunkManager.getChunk(obj.tile.chunkId).addChunkUpdate(AddObject(obj.tile.chunkLocalHash, obj))
+        if (obj.meshModifier != null)
+            ChunkManager.getChunk(obj.tile.chunkId).addChunkUpdate(CustomizeObject(obj.tile.chunkLocalHash, obj, obj.meshModifier.modelIds, obj.meshModifier.modifiedColors, obj.meshModifier.modifiedTextures))
     }
 
     @JvmStatic
@@ -634,7 +638,7 @@ object World {
     @JvmStatic
     fun isMultiArea(tile: Tile): Boolean {
         val chunkId = MapUtils.encode(MapUtils.Structure.CHUNK, tile.chunkX, tile.chunkY)
-        return Areas.withinArea("multi", chunkId)
+        return Areas.withinArea("multi", chunkId) || (ChunkManager.getChunk(chunkId)?.isMulticombat ?: false)
     }
 
     @JvmStatic

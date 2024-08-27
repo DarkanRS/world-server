@@ -34,7 +34,10 @@ public class MaxTaskFM implements Task {
 		}
 		currentBonfire = World.getClosestObjectByTypeAndObjectId(ObjectType.SCENERY_INTERACT, Fire.MAGIC.getFireId(), max.getTile());
 		if (currentBonfire == null) {
-			max.getActionManager().setAction(new Firemaking(Fire.MAGIC));
+			if (Firemaking.canLightFire(max, null))
+				max.getActionManager().setAction(new Firemaking(Fire.MAGIC));
+			else
+				max.walkToAndExecute(Tile.of(Tile.of(3086, 3490, 0), 5), () -> max.getActionManager().setAction(new Firemaking(Fire.MAGIC)));
 			return 20;
 		}
 		if (!max.getActionManager().hasSkillWorking() && !max.hasWalkSteps()) {

@@ -17,6 +17,8 @@
 package com.rs.game.model.entity.player.managers;
 
 import com.rs.cache.loaders.ItemDefinitions;
+import com.rs.cache.loaders.LoyaltyRewardDefinitions.Reward;
+import com.rs.game.content.world.LoyaltyShop;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
@@ -263,6 +265,8 @@ public class AuraManager {
 
 	public void activate() {
 		Item item = player.getEquipment().getItem(Equipment.AURA);
+		Reward currentAura = Reward.forId(item.getId());
+		Reward highestAura = LoyaltyShop.getHighestTierUnlocked(player, currentAura);
 		if (item == null)
 			return;
 		Aura aura = Aura.forId(item.getId());
@@ -279,6 +283,10 @@ public class AuraManager {
 		}
 		if (getCooldownTime(aura) > 0) {
 			player.sendMessage("Your aura has not recharged yet.");
+			return;
+		}
+		if (aura.itemId != highestAura.getItem().getId()) {
+			player.sendMessage("You cannot activate this aura.");
 			return;
 		}
 		currAura = aura;
@@ -421,16 +429,25 @@ public class AuraManager {
         };
 	}
 
+	public boolean isSurefootedAura() {
+		if (currAura == null)
+			return false;
+		return switch (currAura) {
+			case SUREFOOTED, GREATER_SUREFOOTED -> true;
+			default -> false;
+		};
+	}
+
 	public double getThievingMul() {
 		if (currAura == null)
 			return 1.0;
-        return switch (currAura) {
-            case FIVE_FINGER_DISCOUNT -> 1.03;
-            case GREATER_FIVE_FINGER_DISCOUNT -> 1.05;
-            case MASTER_FIVE_FINGER_DISCOUNT -> 1.07;
-            case SUPREME_FIVE_FINGER_DISCOUNT -> 1.1;
-            default -> 1.0;
-        };
+		return switch (currAura) {
+			case FIVE_FINGER_DISCOUNT -> 1.03;
+			case GREATER_FIVE_FINGER_DISCOUNT -> 1.05;
+			case MASTER_FIVE_FINGER_DISCOUNT -> 1.07;
+			case SUPREME_FIVE_FINGER_DISCOUNT -> 1.1;
+			default -> 1.0;
+		};
 	}
 
 	public double getFishingMul() {

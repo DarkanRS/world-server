@@ -36,10 +36,10 @@ class AmbushCommander(player: Player, npc: NPC) {
                 if (dpu.lampsLost > 0)
                     op("Can I have those reward lamps that you owe me?") {
                         if (player.inventory.freeSlots >= dpu.lampsLost) {
-                            npc(npc, CALM_TALK, "Of course. Thanks again for the supplies.") { dpu.returnLostLamps() }
+                            npc(npc, CALM_TALK, "Of course. Thanks again for the supplies.") { dpu.returnLostSupplyLamps() }
                             player(CALM_TALK, "You're welcome.")
                         } else {
-                            npc(npc, CALM_TALK, "Of course. But you'll need ${dpu.lampsLost} free inventory slots first.")
+                            npc(npc, CALM_TALK, "Of course. But you'll need ${dpu.lampsLost} spare inventory slots first.")
                             player(CALM_TALK, "Okay, I'll go clear out my backpack then.")
                         }
                     }

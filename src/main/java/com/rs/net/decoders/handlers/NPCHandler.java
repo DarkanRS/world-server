@@ -95,6 +95,8 @@ public class NPCHandler {
 			player.faceEntityTile(npc);
 			npc.faceEntityTile(player);
 
+			if (player.getTreasureTrailsManager().useNPC(npc))
+				return;
 			Object[] shipAttributes = BoatingD.getBoatForShip(player, npc.getId());
 			if (shipAttributes != null) {
 				player.startConversation(new BoatingD(player, npc.getId()));
@@ -105,68 +107,6 @@ public class NPCHandler {
 				npc.resetDirection();
 				return;
 			}
-			if (player.getTreasureTrailsManager().useNPC(npc))
-				return;
-			if (npc.getId() == 2825)
-				player.sendOptionDialogue("Would you like to travel to Braindeath Island?", ops -> {
-					ops.add("Yes", () -> player.tele(Tile.of(2163, 5112, 1)));
-					ops.add("No");
-				});
-			else if (npc.getId() == 2826)
-				player.sendOptionDialogue("Would you like to travel back to Port Phasmatys?", ops -> {
-					ops.add("Yes", () -> player.tele(Tile.of(3680, 3536, 0)));
-					ops.add("No");
-				});
-			else if (npc.getId() == 9707)
-				player.startConversation(new FremennikShipmaster(player, npc.getId(), true));
-			else if (npc.getId() == 8269)
-				player.startConversation(new GenericSkillcapeOwnerD(player, 8269, Skillcapes.Strength));
-			else if (npc.getId() == 705)
-				player.startConversation(new GenericSkillcapeOwnerD(player, 705, Skillcapes.Defence));
-			else if (npc.getId() == 961)
-				player.startConversation(new GenericSkillcapeOwnerD(player, 961, Skillcapes.Constitution));
-			else if (npc.getId() == 682)
-				player.startConversation(new GenericSkillcapeOwnerD(player, 682, Skillcapes.Ranging));
-			else if (npc.getId() == 802)
-				player.startConversation(new GenericSkillcapeOwnerD(player, 802, Skillcapes.Prayer));
-			else if (npc.getId() == 1658)
-				player.startConversation(new GenericSkillcapeOwnerD(player, 1658, Skillcapes.Magic));
-			else if (npc.getId() == 847)
-				player.startConversation(new GenericSkillcapeOwnerD(player, 847, Skillcapes.Cooking));
-			else if (npc.getId() == 4906)
-				player.startConversation(new GenericSkillcapeOwnerD(player, 4906, Skillcapes.Woodcutting));
-			else if (npc.getId() == 575)
-				player.startConversation(new GenericSkillcapeOwnerD(player, 575, Skillcapes.Fletching));
-			else if (npc.getId() == 308)
-				player.startConversation(new GenericSkillcapeOwnerD(player, 308, Skillcapes.Fishing));
-			else if (npc.getId() == 4946)
-				player.startConversation(new GenericSkillcapeOwnerD(player, 4946, Skillcapes.Firemaking));
-			else if (npc.getId() == 805)
-				player.startConversation(new GenericSkillcapeOwnerD(player, 805, Skillcapes.Crafting));
-			else if (npc.getId() == 3295)
-				player.startConversation(new GenericSkillcapeOwnerD(player, 3295, Skillcapes.Mining));
-			else if (npc.getId() == 437)
-				player.startConversation(new GenericSkillcapeOwnerD(player, 437, Skillcapes.Agility));
-			else if (npc.getId() == 2270)
-				player.startConversation(new GenericSkillcapeOwnerD(player, 2270, Skillcapes.Thieving));
-			else if (npc.getId() == 3299)
-				player.startConversation(new GenericSkillcapeOwnerD(player, 3299, Skillcapes.Farming));
-			else if (npc.getId() == 13632)
-				player.startConversation(new GenericSkillcapeOwnerD(player, 13632, Skillcapes.Runecrafting));
-			else if (npc.getId() == 5113)
-				player.startConversation(new GenericSkillcapeOwnerD(player, 5113, Skillcapes.Hunter));
-			else if (npc.getId() == 9713)
-				player.startConversation(new GenericSkillcapeOwnerD(player, 9713, Skillcapes.Dungeoneering));
-			else if (npc.getId() == 9708 || npc.getId() == 14847)
-				player.startConversation(new FremennikShipmaster(player, npc.getId(), false));
-			else if (npc.getId() == 6715 || npc.getId() == 14862)
-				player.startConversation(new EstateAgentDialogue(player, npc.getId()));
-			else if (npc.getId() == 3344 || npc.getId() == 3345)
-				MutatedZygomite.transform(player, npc);
-			else if (npc.getId() == 4236 || npc.getId() == 4238 || npc.getId() == 4240 || npc.getId() == 4242 || npc.getId() == 4244)
-				player.startConversation(new ServantDialogue(player, npc));
-			else if (npc.getId() == 2824 || npc.getId() == 1041 || npc.getId() == 804)
-				player.startConversation(new TanningD(player, npc.getId() == 1041, npc.getId()));
 			else if (PluginManager.handle(new NPCClickEvent(player, npc, 1, true))) {
 
 			} else if (npc instanceof Pet pet) {
@@ -212,13 +152,6 @@ public class NPCHandler {
 			if (player.getTreasureTrailsManager().useNPC(npc))
 				return;
 
-			PickPocketableNPC pocket = PickPocketableNPC.get(npc.getId());
-			if (pocket != null) {
-				npc.resetDirection();
-				player.getActionManager().setAction(new PickPocketAction(npc, pocket));
-				return;
-			}
-
 			npc.resetWalkSteps();
 
 			Object[] shipAttributes = BoatingD.getBoatForShip(player, npc.getId());
@@ -230,7 +163,7 @@ public class NPCHandler {
 				TravelMethods.sendCarrier(player, (Carrier) shipAttributes[0], (boolean) shipAttributes[1]);
 				return;
 			}
-			
+
 			if (npc instanceof Familiar && npc.getDefinitions().hasOption("cure")) {
 				if (player.getFamiliar() != npc) {
 					player.sendMessage("That isn't your familiar.");
@@ -244,47 +177,12 @@ public class NPCHandler {
 				player.addEffect(Effect.ANTIPOISON, Ticks.fromMinutes(2));
 				return;
 			}
-
-			if (npc.getId() == 9707)
-				FremennikShipmaster.sail(player, true);
-			else if (npc.getId() == 1686) {
-				if (player.getInventory().hasFreeSlots() && player.unclaimedEctoTokens > 0) {
-					player.getInventory().addItem(Ectofuntus.ECTO_TOKEN, player.unclaimedEctoTokens);
-					player.unclaimedEctoTokens = 0;
-				}
-			} else if (npc.getId() == 9708 || npc.getId() == 14847)
-				FremennikShipmaster.sail(player, false);
 			else if (npc instanceof GraveStone grave) {
 				grave.repair(player, false);
-            } else if (npc.getId() == 11267) {
-				int[] noteableFish = { 377, 371, 359, 317, 345, 327 };
-				for (Item item : player.getInventory().getItems().array()) {
-					if (item == null)
-						continue;
-					for (int id : noteableFish)
-						if (item.getId() == id) {
-							player.getInventory().deleteItem(item.getId(), 1);
-							player.getInventory().addItem(item.getDefinitions().getCertId(), 1);
-						}
-				}
-			} else if (npc.getId() == 8228)
-				StealingCreationShop.openInterface(player);
+			}
 			else if (npc.getId() == 14849 && npc instanceof ConditionalDeath cd)
 				cd.useHammer(player);
-			else if (npc.getId() == 2824 || npc.getId() == 1041)
-				player.startConversation(new TanningD(player, npc.getId() == 1041, npc.getId()));
-			else if (npc.getId() == 1843)
-				player.tele(Tile.of(2836, 10142, 0));
-			else if (npc.getId() == 1844)
-				player.tele(Tile.of(2839, 10131, 0));
-			else if (npc.getId() == 1419)
-				GE.open(player);
-			else if (npc.getId() == 2676 || npc.getId() == 599)
-				PlayerLook.openMageMakeOver(player);
-			else if (npc.getId() == 598)
-				PlayerLook.openHairdresserSalon(player);
-			else if (PluginManager.handle(new NPCClickEvent(player, npc, 3, true)))
-				;
+			else if(PluginManager.handle(new NPCClickEvent(player, npc, 3, true)));
 			else {
 				player.sendMessage("Nothing interesting happens." + npc.getId());
 				Logger.debug(NPCHandler.class, "handleOption2", "NPC: " + npc.getId() + ", (" + npc.getX() + ", " + npc.getY() + ", " + npc.getPlane() + ") op: " + npc.getDefinitions(player).getOption(2));
@@ -315,12 +213,8 @@ public class NPCHandler {
 				npc.resetDirection();
 				return;
 			}
-			if (npc.getId() == 548)
-				PlayerLook.openThessaliasMakeOver(player);
-			else if (npc.getId() == 1526)
-				player.getInterfaceManager().sendInterface(60);
 			else if (PluginManager.handle(new NPCClickEvent(player, npc, 4, true))) {
-            }
+			}
 			else
 				player.sendMessage("Nothing interesting happens." + npc.getId());
 		}));
@@ -358,27 +252,27 @@ public class NPCHandler {
 	}
 
 	public static int getShopIdForNpc(int npcId) {
-        return switch (npcId) {
-            case 1254 -> // Razmire's General Store", Razmire Keelgan. (3488, 3296, 0)
-                    -1; // TODO get burgh de rott transforming npc spawns
-            case 1866 -> // Pollniveach General Store", Market Seller. (3359, 2983, 0)
-                    -1; // TODO
-            case 3166 -> // Dodgy Mike's Second-hand Clothing", Mike. (3689, 2977, 0)
-                    -1; // TODO
-            case 2162 -> // Vermundi's Clothes Stall", Vermundia. (2887, 10189, 0)
-                    -1; // TODO
-            case 517 -> // Shilo Village Fishing Shop", Fernahei. (2871, 2968, 0)
-                    -1; // TODO implemented in Karamja.java
-            case 1433 -> // Solihib's food stall", Solihib. (2769, 2789, 0)
-                    -1; // TODO
-            case 1862 -> // Ali's Discount Wares", Ali. (3301, 3211, 0)
-                    -1; // TODO
-            case 1435 -> // Tutab's Magical Market", Tutab. (2757, 2770, 0)
-                    -1; // TODO
-            case 1980 -> // The Spice is Right", Embalmer. (3286, 2805, 0)
-                    -1; // TODO
+		return switch (npcId) {
+			case 1254 -> // Razmire's General Store", Razmire Keelgan. (3488, 3296, 0)
+					-1; // TODO get burgh de rott transforming npc spawns
+			case 1866 -> // Pollniveach General Store", Market Seller. (3359, 2983, 0)
+					-1; // TODO
+			case 3166 -> // Dodgy Mike's Second-hand Clothing", Mike. (3689, 2977, 0)
+					-1; // TODO
+			case 2162 -> // Vermundi's Clothes Stall", Vermundia. (2887, 10189, 0)
+					-1; // TODO
+			case 517 -> // Shilo Village Fishing Shop", Fernahei. (2871, 2968, 0)
+					-1; // TODO implemented in Karamja.java
+			case 1433 -> // Solihib's food stall", Solihib. (2769, 2789, 0)
+					-1; // TODO
+			case 1862 -> // Ali's Discount Wares", Ali. (3301, 3211, 0)
+					-1; // TODO
+			case 1435 -> // Tutab's Magical Market", Tutab. (2757, 2770, 0)
+					-1; // TODO
+			case 1980 -> // The Spice is Right", Embalmer. (3286, 2805, 0)
+					-1; // TODO
 
-            default -> -1;
-        };
+			default -> -1;
+		};
 	}
 }

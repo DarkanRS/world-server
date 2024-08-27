@@ -29,6 +29,7 @@ import java.util.Map;
 public class PestleAndMortar  {
 
 	public enum PestleMortar {
+		GROUND_THISTLE(3263, 1, new Item(3264, 1)),
 		ANCHOVIES(319, 1, new Item(11266, 1)),
 		UNICORN_HORN(237, 1, new Item(235, 1)),
 		CHOCOLATE_BAR(1973, 1, new Item(1975, 1)),
@@ -86,7 +87,12 @@ public class PestleAndMortar  {
 			p = PestleMortar.forId(e.getItem2().getId());
 		if (p == null)
 			return;
-		e.getPlayer().startConversation(new CreateActionD(e.getPlayer(), new Item[][] {{new Item(p.getRawId(), p.rawQty)}}, new Item[][] {{p.getCrushedItem()}}, new double[] {0}, new int[] {364}, Constants.HERBLORE, 0));
+		int delay = 0;
+		if (p.getRawId() == 3263) {
+			delay = 1;
+			e.getPlayer().sendMessage("You grind the Troll Thistle.");
+		}
+		e.getPlayer().startConversation(new CreateActionD(e.getPlayer(), new Item[][] {{new Item(p.getRawId(), p.rawQty)}}, new Item[][] {{p.getCrushedItem()}}, new double[] {0}, new int[] {364}, Constants.HERBLORE, delay));
 	});
 
 }

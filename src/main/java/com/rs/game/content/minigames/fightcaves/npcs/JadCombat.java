@@ -17,15 +17,12 @@
 package com.rs.game.content.minigames.fightcaves.npcs;
 
 import com.rs.game.World;
-import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
-import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
-import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
 import kotlin.Pair;
@@ -43,38 +40,38 @@ public class JadCombat extends CombatScript {
 		int attackStyle = Utils.random(3);
 		if (attackStyle == 2) {
 			if (npc.inMeleeRange(target)) {
-				npc.setNextAnimation(new Animation(defs.getAttackEmote()));
+				npc.anim(defs.getAttackEmote());
 				delayHit(npc, 1, target, getMeleeHit(npc, getMaxHit(npc, defs.getMaxHit(), AttackStyle.MELEE, target)));
 				return npc.getAttackSpeed();
 			}
 			attackStyle = Utils.random(2);
 		}
 		if (attackStyle == 1) { // range
-			npc.setNextAnimation(new Animation(16202));
-			npc.setNextSpotAnim(new SpotAnim(2994));
-			WorldTasks.schedule(new Task() {
-				@Override
-				public void run() {
-					WorldTasks.schedule(new Task() {
-						@Override
-						public void run() {
-							target.setNextSpotAnim(new SpotAnim(3000));
-						}
-					}, 0);
-					delayHit(npc, 2, target, getRangeHit(npc, getMaxHit(npc, defs.getMaxHit() - 2, AttackStyle.RANGE, target)));
+			npc.sync(16202, 2994);
+			WorldTasks.scheduleTimer((ticks) -> {
+				switch (ticks) {
+					case 2 -> target.spotAnim(3000);
+					case 3 -> target.spotAnim(new SpotAnim(2741, 0, 100));
+					case 4 -> {
+						delayHit(npc, 1, target, getRangeHit(npc, getMaxHit(npc, defs.getMaxHit() - 2, AttackStyle.RANGE, target)));
+						return false;
+					}
 				}
-			}, 2);
-		} else {
-			npc.setNextAnimation(new Animation(16195));
-			npc.setNextSpotAnim(new SpotAnim(2995));
-			WorldTasks.schedule(new Task() {
-				@Override
-				public void run() {
-					WorldProjectile p = World.sendProjectile(npc, target, 2996, new Pair<>(80, 30), 40, 10, 5);
-					target.setNextSpotAnim(new SpotAnim(2741, 0, 100));
-					delayHit(npc, p.getTaskDelay(), target, getMagicHit(npc, getMaxHit(npc, defs.getMaxHit() - 2, AttackStyle.MAGE, target)));
+				return true;
+			});
+		} else { // mage
+			npc.sync(16195, 2995);
+			WorldTasks.scheduleTimer((ticks) -> {
+				switch (ticks) {
+					case 2 -> World.sendProjectile(npc, target, 2996, new Pair<>(80, 30), 40, 10, 5);
+					case 3 -> delayHit(npc, 1, target, getMagicHit(npc, getMaxHit(npc, defs.getMaxHit() - 2, AttackStyle.MAGE, target)));
+					case 4 -> {
+						target.spotAnim(new SpotAnim(2741, 0, 100));
+						return false;
+					}
 				}
-			}, 2);
+				return true;
+			});
 		}
 
 		return 8;

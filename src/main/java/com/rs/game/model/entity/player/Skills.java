@@ -30,6 +30,7 @@ import com.rs.lib.game.Rights;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
 import com.rs.lib.net.ClientPacket;
+import com.rs.lib.net.packets.encoders.Sound;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.PluginManager;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -81,6 +82,8 @@ public final class Skills {
 
 	public static final int[] SKILLING = { PRAYER, COOKING, WOODCUTTING, FLETCHING, FISHING, FIREMAKING, CRAFTING, SMITHING, MINING, HERBLORE, AGILITY, THIEVING, RUNECRAFTING, SLAYER, FARMING, HUNTER, CONSTRUCTION, DUNGEONEERING };
 	public static final int[] COMBAT = { ATTACK, DEFENSE, STRENGTH, RANGE, MAGIC };
+
+	private static final int[][] LEVEL_UP_JINGLES = new int[][] { { 30, 38, 66, 48, 58, 56, 52, 34, 70, 44, 42, 40, 36, 64, 54, 46, 322, 68, 62, 10, 60, 50, 32, 301, 417 }, { 29, 37, 65, 47, 57, 55, 51, 33, 69, 43, 41, 39, 35, 63, 53, 45, 28, 67, 61, 11, 59, 49, 31, 300, 416 } };
 
 	private short[] level;
 	private double[] xp;
@@ -137,14 +140,14 @@ public final class Skills {
 
 	public void trimCapes() {
 		if (checkMulti99s())
-			for (Skillcapes cape : Skillcapes.values()) {
-				if (player.getEquipment().getCapeId() == cape.untrimmed) {
-					player.getEquipment().setSlot(Equipment.CAPE, new Item(cape.trimmed, 1));
+			for (Skillcapes cape : Skillcapes.getEntries()) {
+				if (player.getEquipment().getCapeId() == cape.getUntrimmed()) {
+					player.getEquipment().setSlot(Equipment.CAPE, new Item(cape.getTrimmed(), 1));
 					player.getAppearance().generateAppearanceData();
 				}
 				for(int i = 0;i < player.getInventory().getItems().getSize();i++) {
-					if (player.getInventory().getItem(i) != null && player.getInventory().getItem(i).getId() == cape.untrimmed)
-						player.getInventory().replaceItem(cape.trimmed, 1, i);
+					if (player.getInventory().getItem(i) != null && player.getInventory().getItem(i).getId() == cape.getUntrimmed())
+						player.getInventory().replaceItem(cape.getTrimmed(), 1, i);
 					player.getInventory().refresh();
 				}
 				for(int tab = 0;tab < player.getBank().getBankTabs().length;tab++) {
@@ -153,8 +156,8 @@ public final class Skills {
 					for (int i = 0;i < player.getBank().getBankTabs()[tab].length;i++) {
 						if (player.getBank().getBankTabs()[tab][i] == null)
 							continue;
-						if (player.getBank().getBankTabs()[tab][i].getId() == cape.untrimmed) {
-							player.getBank().getBankTabs()[tab][i].setId(cape.trimmed);
+						if (player.getBank().getBankTabs()[tab][i].getId() == cape.getUntrimmed()) {
+							player.getBank().getBankTabs()[tab][i].setId(cape.getTrimmed());
 							player.getBank().refreshItems();
 						}
 					}
@@ -726,18 +729,12 @@ public final class Skills {
 		bonusXpDrop = 0;
 	}
 
-	public static final int[] SKILL_LEVEL_UP_MUSIC_EFFECTS = { 30, 38, 65, 48,
-			58, 56, 52, 34, 70, 44, 42, 39, 36, 64, 54, 46, 28, 68, 62, -1, 60,
-			50, 32, 300, 417 };
-
 	private void sendLevelUp(int skill) {
 		int level = getLevelForXp(skill);
 		player.getInterfaceManager().sendSub(Sub.LEVEL_UP, 1216);
 		player.getPackets().sendVarc(1756, Skills.getTargetIdBySkillId(skill));
 		switchFlash(player, skill, true);
-		int musicEffect = SKILL_LEVEL_UP_MUSIC_EFFECTS[skill];
-		if (musicEffect != -1)
-			player.jingle(musicEffect);
+		player.jingle(level > 49 ? LEVEL_UP_JINGLES[0][skill] : LEVEL_UP_JINGLES[1][skill]);
 		if (!player.hasRights(Rights.ADMIN) && (level == 99 || level == 120))
 			checkMaxedNotification(player, skill, level);
 	}
@@ -880,6 +877,7 @@ public final class Skills {
 			player.setNextSpotAnim(new SpotAnim(2456, 0, 254));
 			player.setNextSpotAnim(new SpotAnim(2457, 25, 254));
 			player.setNextSpotAnim(new SpotAnim(2456, 50, 220));
+			player.getPackets().sendSound(new Sound(307, 0, Sound.SoundType.VORB_EFFECT));
 			if (newLevel == 99 || newLevel == 120)
 				World.sendSpotAnim(Tile.of(player.getTile()), new SpotAnim(1765));
 			if (skill == Constants.SUMMONING || (skill >= Constants.ATTACK && skill <= Constants.MAGIC)) {
@@ -935,6 +933,7 @@ public final class Skills {
 			player.setNextSpotAnim(new SpotAnim(2456, 0, 254));
 			player.setNextSpotAnim(new SpotAnim(2457, 25, 254));
 			player.setNextSpotAnim(new SpotAnim(2456, 50, 220));
+			player.getPackets().sendSound(new Sound(307, 0, Sound.SoundType.VORB_EFFECT));
 			if (newLevel == 99 || newLevel == 120)
 				player.setNextSpotAnim(new SpotAnim(1765));
 			if (skill == Constants.SUMMONING || (skill >= Constants.ATTACK && skill <= Constants.MAGIC)) {
@@ -1017,6 +1016,7 @@ public final class Skills {
 			player.setNextSpotAnim(new SpotAnim(2456, 0, 254));
 			player.setNextSpotAnim(new SpotAnim(2457, 25, 254));
 			player.setNextSpotAnim(new SpotAnim(2456, 50, 220));
+			player.getPackets().sendSound(new Sound(307, 0, Sound.SoundType.VORB_EFFECT));
 			if (newLevel == 99 || newLevel == 120)
 				player.setNextSpotAnim(new SpotAnim(1765));
 			if (skill == Constants.SUMMONING || (skill >= Constants.ATTACK && skill <= Constants.MAGIC)) {

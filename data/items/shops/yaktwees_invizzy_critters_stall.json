@@ -1,0 +1,23 @@
+{
+  "name": "Yaktwee's Invizzy Critters Stall",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 19808,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 19805,
+        "amount": 1
+      }
+    }
+  ],
+  "npcIds": [
+    6892
+  ]
+}

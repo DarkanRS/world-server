@@ -16,7 +16,10 @@
 //
 package com.rs.game.content.transportation;
 
+import com.rs.cache.loaders.Bonus;
+import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.engine.dialogue.Dialogue;
+import com.rs.game.content.skills.prayer.Prayer;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.Task;
@@ -27,6 +30,11 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.utils.shop.ShopsHandler;
+
+import java.util.Arrays;
+import java.util.Objects;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 @PluginEventHandler
 public class TravelMethods {
@@ -196,6 +204,7 @@ public class TravelMethods {
 		return sendCarrier(player, ship, 0, returning);
 	}
 
+
 	public static boolean sendCarrier(final Player player, final Carrier ship, int shipIndex, boolean returning) {
 		if (player.getTempAttribs().getB("using_carrier"))
 			return false;
@@ -210,19 +219,20 @@ public class TravelMethods {
 			player.getInventory().removeCoins(cost);
 			player.sendMessage("You pay the fare and sail to " + ship.getFixedName(returning) + ".");
 		}
-		final boolean isFare = ship.toString().contains("Fare");
+		final boolean isFare = ship.toString().contains("FARE");
 		if (isFare) {
-			if (ship.ordinal() == 10 && !returning) {
-				boolean hasEquip = false;
-				for (Item item : player.getInventory().getItems().array()) {
-					if (item == null)
-						continue;
-					if (Equipment.getItemSlot(item.getId()) != -1) {
-						hasEquip = true;
-						break;
-					}
-				}
-				if (player.getEquipment().wearingArmour() || hasEquip) {
+			if (ship.ordinal() == Carrier.ENTRANA_FARE.ordinal() && !returning) {
+				Stream<Item> playerItems = Stream.concat(
+						Arrays.stream(player.getEquipment().getItemsCopy()).filter(Objects::nonNull),
+						Arrays.stream(player.getInventory().getItems().array()).filter(Objects::nonNull)
+				);
+				boolean hasItemsWithStats = playerItems.anyMatch(item ->
+						IntStream.range(0, item.getDefinitions().bonuses.length)
+								.filter(i -> i != Bonus.PRAYER.ordinal())
+								.anyMatch(i -> item.getDefinitions().bonuses[i] > 0)
+				);
+
+				if (hasItemsWithStats) {
 					player.sendMessage("The monk refuses to let you board. Please bank all your equippable items.");
 					return false;
 				}

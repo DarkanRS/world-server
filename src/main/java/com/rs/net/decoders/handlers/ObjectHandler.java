@@ -39,9 +39,7 @@ import com.rs.game.content.minigames.partyroom.PartyRoom;
 import com.rs.game.content.minigames.pest.Lander;
 import com.rs.game.content.minigames.pest.PestControlLobbyController;
 import com.rs.game.content.pets.Incubator;
-import com.rs.game.content.quests.plaguecity.utils.PlagueCityUtils;
 import com.rs.game.content.skills.agility.Agility;
-import com.rs.game.content.skills.agility.WildernessAgility;
 import com.rs.game.content.skills.agility.agilitypyramid.AgilityPyramidController;
 import com.rs.game.content.skills.cooking.CowMilkingAction;
 import com.rs.game.content.skills.crafting.JewelryCraftingKt;
@@ -97,16 +95,12 @@ public final class ObjectHandler {
 				return;
 
 			if (object.getId() == 5259) {
-				if (player.getY() == 3507)
-					player.tele(Tile.of(player.getX(), player.getY() + 2, 0));
-				else if (player.getY() == 3509)
-					player.tele(Tile.of(player.getX(), player.getY() - 2, 0));
+				if (player.getY() == 3507) player.tele(Tile.of(player.getX(), player.getY() + 2, 0));
+				else if (player.getY() == 3509) player.tele(Tile.of(player.getX(), player.getY() - 2, 0));
 				return;
 			} else if (object.getId() == 29099) {
-				if (player.getY() > object.getY())
-					player.tele(object.getTile().transform(1, -1, 0));
-				else
-					player.tele(object.getTile().transform(1, 1, 0));
+				if (player.getY() > object.getY()) player.tele(object.getTile().transform(1, -1, 0));
+				else player.tele(object.getTile().transform(1, 1, 0));
 			}
 
 			if (object.getId() == 36687) {
@@ -123,7 +117,7 @@ public final class ObjectHandler {
 				player.useStairs(828, player.transform(0, 2, -1));
 				return;
 			} else if (object.getId() == 24357 || object.getId() == 24358 || object.getId() == 11734) {
-				switch(object.getRotation()) {
+				switch (object.getRotation()) {
 					case 0:
 						player.useStairs(-1, player.transform(0, 4, 1), 1, 1);
 						break;
@@ -143,7 +137,7 @@ public final class ObjectHandler {
 					player.useStairs(-1, player.transform(2, 6400, 0), 1, 1);
 					return;
 				}
-				switch(object.getRotation()) {
+				switch (object.getRotation()) {
 					case 0:
 						player.useStairs(-1, player.transform(0, -4, -1), 1, 1);
 						break;
@@ -176,31 +170,29 @@ public final class ObjectHandler {
 				return;
 			}
 
-			if (object.getId() == 48496)
-				player.getDungManager().enterDungeon(true);
+			if (object.getId() == 48496) player.getDungManager().enterDungeon(true);
 			else if (id == 31149) {
 				boolean isEntering = player.getX() <= 3295;
 				player.useStairs(isEntering ? 9221 : 9220, Tile.of(x + (isEntering ? 1 : 0), y, 0));
-			} else if (id == 2350 && (object.getX() == 3352 && object.getY() == 3417 && object.getPlane() == 0))
-				player.useStairs(832, Tile.of(3177, 5731, 0));
-			else if (id >= 65616 && id <= 65622)
-				WildernessObelisk.activateObelisk(id, player);
+			/* Temple for curse prayers } else if (id == 2350 && (object.getX() == 3352 && object.getY() == 3417 && object.getPlane() == 0))
+				player.useStairs(832, Tile.of(3177, 5731, 0));*/
+			} else if (id >= 65616 && id <= 65622) WildernessObelisk.activateObelisk(id, player);
 			else if (id == 10229) { // dag up ladder
 				player.setNextAnimation(new Animation(828));
 				WorldTasks.schedule(1, () -> player.tele(Tile.of(1910, 4367, 0)));
-            } else if (id == 17757) {
+			} else if (id == 17757) {
 				Agility.handleObstacle(player, 3303, 1, player.transform(0, player.getY() < object.getY() ? 2 : -2, 0), 0);
-            } else if (id == 56805) { // HARBLORE HARBITAT
+			} else if (id == 56805) { // HARBLORE HARBITAT
 				if (object.getRotation() == 3 || object.getRotation() == 1)
 					Agility.handleObstacle(player, 3303, 1, player.transform(player.getX() < object.getX() ? 2 : -2, 0, 0), 0);
 				else
 					Agility.handleObstacle(player, 3303, 1, player.transform(0, player.getY() < object.getY() ? 2 : -2, 0), 0);
-            } else if (id == 27126) { // HARBLORE HARBITAT
+			} else if (id == 27126) { // HARBLORE HARBITAT
 				if (player.getX() >= 2961 && player.getX() <= 2964)
 					player.tele(Tile.of(player.getX() + 12, player.getY() + 2, player.getPlane()));
 				else if (player.getX() >= 2975 && player.getX() <= 2979)
 					player.tele(Tile.of(player.getX() - 12, player.getY() - 2, player.getPlane()));
-            } else if (id == 10230) { // dag down ladder
+			} else if (id == 10230) { // dag down ladder
 				player.setNextAnimation(new Animation(828));
 				WorldTasks.schedule(new Task() {
 					@Override
@@ -210,16 +202,15 @@ public final class ObjectHandler {
 				}, 1);
 			} else if (id == 14315) {
 				if (Lander.canEnter(player, 0)) {
-                }
+				}
 			} else if (id == 25631) {
 				if (Lander.canEnter(player, 1)) {
-                }
+				}
 			} else if (id == 25632) {
 				if (Lander.canEnter(player, 2)) {
-                }
+				}
 			} else if (id == 35391 || id == 2832) {
-				if (!Agility.hasLevel(player, id == 2832 ? 20 : 41))
-					return;
+				if (!Agility.hasLevel(player, id == 2832 ? 20 : 15)) return;
 				player.addWalkSteps(x, y);
 				WorldTasks.schedule(new Task() {
 					@Override
@@ -230,38 +221,31 @@ public final class ObjectHandler {
 				});
 			} else if (id == 65371) // Chaos altar (armored zombie)
 				player.getPrayer().worshipAltar();
-            else if (id == 65715) // Armored zombie trapdoor
+			else if (id == 65715) // Armored zombie trapdoor
 				player.tele(Tile.of(3241, 9991, 0));
 			else if (id == 12328) // Jadinko lair
 				player.tele(Tile.of(3011, 9276, 0));
-			else if (id == 11209)
-				player.useStairs(-1, player.transform(3, 0, 1), 0, 1);
-			else if (id == 11210)
-				player.useStairs(-1, player.transform(-3, 0, -1), 0, 1);
-			else if (id == 11212)
-				player.useStairs(-1, player.transform(0, 3, -1), 0, 1);
-			else if (id == 11211)
-				player.useStairs(-1, player.transform(0, -3, 1), 0, 1);
-			else if (id == 38279 && x == 1696 && y == 5460)
-				player.useStairs(-1, Tile.of(3106, 3160, 1), 0, 1);
+			else if (id == 11209) player.useStairs(-1, player.transform(3, 0, 1), 0, 1);
+			else if (id == 11210) player.useStairs(-1, player.transform(-3, 0, -1), 0, 1);
+			else if (id == 11212) player.useStairs(-1, player.transform(0, 3, -1), 0, 1);
+			else if (id == 11211) player.useStairs(-1, player.transform(0, -3, 1), 0, 1);
+			else if (id == 38279 && x == 1696 && y == 5460) player.useStairs(-1, Tile.of(3106, 3160, 1), 0, 1);
 			else if (id == 12327) { // jadinko lair out
 				player.tele(Tile.of(2948, 2955, 0));
-            } else if (id == 4495) { // Slayer tower stairs up
+			} else if (id == 4495) { // Slayer tower stairs up
 				player.tele(Tile.of(3417, 3541, 2));
-            } else if (id == 4496) { // Slayer tower stairs down
+			} else if (id == 4496) { // Slayer tower stairs down
 				player.tele(Tile.of(3412, 3540, 1));
-            } else if (id == 39191) { // Armored zombie up ladder
+			} else if (id == 39191) { // Armored zombie up ladder
 				player.setNextAnimation(new Animation(828));
 				WorldTasks.schedule(1, () -> {
 					player.tele(Tile.of(3240, 3607, 0));
 					player.getControllerManager().startController(new WildernessController());
 				});
-            } else if (id == 2353 && (object.getX() == 3177 && object.getY() == 5730 && object.getPlane() == 0))
+			} else if (id == 2353 && (object.getX() == 3177 && object.getY() == 5730 && object.getPlane() == 0))
 				player.useStairs(828, Tile.of(3353, 3416, 0));
-			else if (id == 66115 || id == 66116)
-				Spade.dig(player);
-			else if (id == 20604)
-				player.useStairs(-1, Tile.of(3018, 3404, 0), 0, 1);
+			else if (id == 66115 || id == 66116) Spade.dig(player);
+			else if (id == 20604) player.useStairs(-1, Tile.of(3018, 3404, 0), 0, 1);
 			else if (object.getId() == 39508 || object.getId() == 39509)
 				StealingCreationLobbyController.climbOverStile(player, object, true);
 			else if (id == 16135) {
@@ -282,8 +266,7 @@ public final class ObjectHandler {
 					return;
 				}
 				player.startConversation(new StrongholdRewardD(player, 2));
-			} else if (id == 16047)
-				player.startConversation(new StrongholdRewardD(player, 3));
+			} else if (id == 16047) player.startConversation(new StrongholdRewardD(player, 3));
 			else if (id == 47120) { // zaros altar recharge if needed
 				if (player.getPrayer().getPoints() < player.getSkills().getLevelForXp(Constants.PRAYER) * 10) {
 					player.lock(12);
@@ -291,23 +274,18 @@ public final class ObjectHandler {
 					player.getPrayer().setPoints(((player.getSkills().getLevelForXp(Constants.PRAYER) * 10) * 1.15));
 					player.getPrayer().refreshPoints();
 				}
-				player.startConversation(new Dialogue()
-						.addOptions("Change from " + ((player.getPrayer().isCurses() ? "curses" : "prayers")) + "?", ops -> {
-							ops.add("Yes, replace my prayer book.", () -> {
-								if (player.getPrayer().isCurses())
-									player.simpleDialogue("The altar eases its grip on your mid. The curses slip from", "your memory and you recall the prayers you used to know.");
-								else
-									player.simpleDialogue("The altar fills your head with dark thoughts, purging the", "prayers from your memory and leaving only curses in", " their place.");
-								player.getPrayer().setPrayerBook(!player.getPrayer().isCurses());
-							});
-							ops.add("Nevermind.");
-						}));
-			} else if (id == 9356)
-				FightCavesController.enterFightCaves(player);
-			else if (id == 68107)
-				FightKilnController.enterFightKiln(player, false);
-			else if (id == 68223)
-				FightPits.enterLobby(player, false);
+				player.startConversation(new Dialogue().addOptions("Change from " + ((player.getPrayer().isCurses() ? "curses" : "prayers")) + "?", ops -> {
+					ops.add("Yes, replace my prayer book.", () -> {
+						if (player.getPrayer().isCurses())
+							player.simpleDialogue("The altar eases its grip on your mid. The curses slip from", "your memory and you recall the prayers you used to know.");
+						else
+							player.simpleDialogue("The altar fills your head with dark thoughts, purging the", "prayers from your memory and leaving only curses in", " their place.");
+						player.getPrayer().setPrayerBook(!player.getPrayer().isCurses());
+					});
+					ops.add("Nevermind.");
+				}));
+			} else if (id == 9356) FightCavesController.enterFightCaves(player);
+			else if (id == 68223) FightPits.enterLobby(player, false);
 			else if (id == 26684 || id == 26685 || id == 26686) // poison waste cave
 				player.useStairs(-1, Tile.of(1989, 4174, 0), 1, 2, "You enter the murky cave...");
 			else if (id == 26571 || id == 26572 || id == 26573 || id == 26574)
@@ -315,17 +293,12 @@ public final class ObjectHandler {
 			else if (id == 26560 && x == 2015 && y == 4255)
 				player.simpleDialogue("The room beyond the door is covered in gas, it is probably dangerous to go in there.");
 			else if (id == 26519) {
-				if (x == 1991 && y == 4175)
-					player.useStairs(827, Tile.of(1991, 4175, 0));
-				else if (x == 1998 && y == 4218)
-					player.useStairs(827, Tile.of(1998, 4218, 0));
-				else if (x == 2011 && y == 4218)
-					player.useStairs(827, Tile.of(2011, 4218, 0));
-				else
-					player.useStairs(827, Tile.of(x - 1, y, 0));
+				if (x == 1991 && y == 4175) player.useStairs(827, Tile.of(1991, 4175, 0));
+				else if (x == 1998 && y == 4218) player.useStairs(827, Tile.of(1998, 4218, 0));
+				else if (x == 2011 && y == 4218) player.useStairs(827, Tile.of(2011, 4218, 0));
+				else player.useStairs(827, Tile.of(x - 1, y, 0));
 			} else if (id == 19171) {
-				if (!Agility.hasLevel(player, 20))
-					return;
+				if (!Agility.hasLevel(player, 20)) return;
 				player.useStairs(-1, Tile.of(player.getX() >= 2523 ? 2522 : 2523, 3375, 0), 1, 2, "You easily squeeze through the railing.");
 			} else if (id == 22945) {
 				player.useStairs(-1, Tile.of(3318, 9602, 0), 0, 1);
@@ -334,10 +307,8 @@ public final class ObjectHandler {
 				player.useStairs(-1, Tile.of(3748, 9373, 0), 0, 1);
 				player.getControllerManager().startController(new UndergroundDungeonController(false, true));
 			} else if (object.getId() == 15791) {
-				if (object.getX() == 3829)
-					player.useStairs(-1, Tile.of(3830, 9461, 0));
-				if (object.getX() == 3814)
-					player.useStairs(-1, Tile.of(3815, 9461, 0));
+				if (object.getX() == 3829) player.useStairs(-1, Tile.of(3830, 9461, 0));
+				if (object.getX() == 3814) player.useStairs(-1, Tile.of(3815, 9461, 0));
 				player.getControllerManager().startController(new UndergroundDungeonController(false, true));
 			} else if (id == 5947) {
 				player.useStairs(540, Tile.of(3170, 9571, 0), 8, 9);
@@ -348,7 +319,7 @@ public final class ObjectHandler {
 						player.setNextAnimation(new Animation(-1));
 					}
 				}, 8);
-            } else if (object.getId() == 6658) {
+			} else if (object.getId() == 6658) {
 				player.useStairs(-1, Tile.of(3226, 9542, 0));
 				player.getControllerManager().startController(new UndergroundDungeonController(false, true));
 			} else if (object.getId() == 6898) {
@@ -357,7 +328,7 @@ public final class ObjectHandler {
 				player.useStairs(10579, Tile.of(3221, 9618, 0));
 				player.getControllerManager().startController(new UndergroundDungeonController(false, true));
 				player.sendMessage("You squeeze through the hole.");
-            } else if (id == 36002) {
+			} else if (id == 36002) {
 				player.getControllerManager().startController(new UndergroundDungeonController(true, false));
 				player.useStairs(833, Tile.of(3206, 9379, 0));
 			} else if (id == 31359) {
@@ -367,92 +338,76 @@ public final class ObjectHandler {
 				Doors.handleInPlaceDoubleDoor(player, object);
 				player.resetWalkSteps();
 				player.addWalkSteps(object.getX(), player.getY() <= 3491 ? player.getY() + 2 : player.getY() - 2, -1, false);
-			} else if (id == 4756)
-				switch(object.getRotation()) {
-					case 0:
-						player.useStairs(-1, player.transform(0, 4, 1), 1, 1);
-						break;
-					case 1:
-						player.useStairs(-1, player.transform(-4, 0, 1), 1, 1);
-						break;
-					case 2:
-						player.useStairs(-1, player.transform(0, -4, 1), 1, 1);
-						break;
-					case 3:
-						player.useStairs(-1, player.transform(4, 0, 1), 1, 1);
-						break;
-				}
-			else if (id == 4755)
-				switch(object.getRotation()) {
-					case 0:
-						player.useStairs(-1, player.transform(0, -4, -1), 1, 1);
-						break;
-					case 1:
-						player.useStairs(-1, player.transform(4, 0, -1), 1, 1);
-						break;
-					case 2:
-						player.useStairs(-1, player.transform(0, 4, -1), 1, 1);
-						break;
-					case 3:
-						player.useStairs(-1, player.transform(-4, 0, -1), 1, 1);
-						break;
-				}
-			else if (id == 16960 || id == 16959)
-				switch(object.getRotation()) {
-					case 0:
-						player.useStairs(828, player.transform(2, 0, 1), 1, 1);
-						break;
-					case 1:
-						player.useStairs(828, player.transform(0, -2, 1), 1, 1);
-						break;
-					case 2:
-						player.useStairs(828, player.transform(0, 2, 1), 1, 1);
-						break;
-					case 3:
-						player.useStairs(828, player.transform(0, 2, 1), 1, 1);
-						break;
-				}
-			else if (id == 16962 || id == 16961)
-				switch(object.getRotation()) {
-					case 0:
-						player.useStairs(827, player.transform(-2, 0, -1), 1, 1);
-						break;
-					case 1:
-						player.useStairs(827, player.transform(0, 2, -1), 1, 1);
-						break;
-					case 2:
-						player.useStairs(827, player.transform(0, -2, -1), 1, 1);
-						break;
-					case 3:
-						player.useStairs(827, player.transform(0, -2, -1), 1, 1);
-						break;
-				}
-			else if (id == 1759 || id == 4780)
-				player.useStairs(827, player.transform(0, 6400, 0), 1, 1);
-			else if (id == 4781)
-				player.useStairs(828, player.transform(0, -6400, 0), 1, 1);
-			else if (id == 29392)
-				player.useStairs(-1, Tile.of(3061, 3335, 0), 1, 1);
-			else if (id == 29386 || id == 29385)
-				player.useStairs(-1, Tile.of(3067, 9710, 0), 1, 1);
-			else if (id == 29391)
-				player.useStairs(-1, Tile.of(3037, 3342, 0), 1, 1);
-			else if (id == 29387)
-				player.useStairs(-1, Tile.of(3035, 9713, 0), 1, 1);
-			else if (id == 7104)
-				player.useStairs(-1, player.transform(4, -2, 1), 1, 1);
-			else if (id == 7107)
-				player.useStairs(-1, player.transform(-4, 2, -1), 1, 1);
-			else if (id == 4772)
-				player.useStairs(828, player.transform(0, 0, 1), 1, 1);
-			else if (id == 4778)
-				player.useStairs(827, player.transform(0, 0, -1), 1, 1);
-			else if (id == 4622)
-				player.useStairs(-1, player.transform(0, object.getRotation() == 2 ? -4 : 4, 1), 1, 1);
+			} else if (id == 4756) switch (object.getRotation()) {
+				case 0:
+					player.useStairs(-1, player.transform(0, 4, 1), 1, 1);
+					break;
+				case 1:
+					player.useStairs(-1, player.transform(-4, 0, 1), 1, 1);
+					break;
+				case 2:
+					player.useStairs(-1, player.transform(0, -4, 1), 1, 1);
+					break;
+				case 3:
+					player.useStairs(-1, player.transform(4, 0, 1), 1, 1);
+					break;
+			}
+			else if (id == 4755) switch (object.getRotation()) {
+				case 0:
+					player.useStairs(-1, player.transform(0, -4, -1), 1, 1);
+					break;
+				case 1:
+					player.useStairs(-1, player.transform(4, 0, -1), 1, 1);
+					break;
+				case 2:
+					player.useStairs(-1, player.transform(0, 4, -1), 1, 1);
+					break;
+				case 3:
+					player.useStairs(-1, player.transform(-4, 0, -1), 1, 1);
+					break;
+			}
+			else if (id == 16960 || id == 16959) switch (object.getRotation()) {
+				case 0:
+					player.useStairs(828, player.transform(2, 0, 1), 1, 1);
+					break;
+				case 1:
+					player.useStairs(828, player.transform(0, -2, 1), 1, 1);
+					break;
+				case 2:
+					player.useStairs(828, player.transform(0, 2, 1), 1, 1);
+					break;
+				case 3:
+					player.useStairs(828, player.transform(0, 2, 1), 1, 1);
+					break;
+			}
+			else if (id == 16962 || id == 16961) switch (object.getRotation()) {
+				case 0:
+					player.useStairs(827, player.transform(-2, 0, -1), 1, 1);
+					break;
+				case 1:
+					player.useStairs(827, player.transform(0, 2, -1), 1, 1);
+					break;
+				case 2:
+					player.useStairs(827, player.transform(0, -2, -1), 1, 1);
+					break;
+				case 3:
+					player.useStairs(827, player.transform(0, -2, -1), 1, 1);
+					break;
+			}
+			else if (id == 1759 || id == 4780) player.useStairs(827, player.transform(0, 6400, 0), 1, 1);
+			else if (id == 4781) player.useStairs(828, player.transform(0, -6400, 0), 1, 1);
+			else if (id == 29392) player.useStairs(-1, Tile.of(3061, 3335, 0), 1, 1);
+			else if (id == 29386 || id == 29385) player.useStairs(-1, Tile.of(3067, 9710, 0), 1, 1);
+			else if (id == 29391) player.useStairs(-1, Tile.of(3037, 3342, 0), 1, 1);
+			else if (id == 29387) player.useStairs(-1, Tile.of(3035, 9713, 0), 1, 1);
+			else if (id == 7104) player.useStairs(-1, player.transform(4, -2, 1), 1, 1);
+			else if (id == 7107) player.useStairs(-1, player.transform(-4, 2, -1), 1, 1);
+			else if (id == 4772) player.useStairs(828, player.transform(0, 0, 1), 1, 1);
+			else if (id == 4778) player.useStairs(827, player.transform(0, 0, -1), 1, 1);
+			else if (id == 4622) player.useStairs(-1, player.transform(0, object.getRotation() == 2 ? -4 : 4, 1), 1, 1);
 			else if (id == 4620)
 				player.useStairs(-1, player.transform(0, object.getRotation() == 2 ? 4 : -4, -1), 1, 1);
-			else if (id == 73681)
-				player.useStairs(-1, player.transform(player.getX() < x ? 3 : -3, 0, 0), 1, 1);
+			else if (id == 73681) player.useStairs(-1, player.transform(player.getX() < x ? 3 : -3, 0, 0), 1, 1);
 			else if (id == 2712) {
 				if (player.getSkills().getLevel(Constants.COOKING) < 32 && player.getY() < 3444) {
 					player.startConversation(new Conversation(player, new Dialogue(new NPCStatement(847, HeadE.ANGRY, "I can't allow someone as novice as you into my kitchen!"))));
@@ -475,173 +430,154 @@ public final class ObjectHandler {
 				Doors.handleDoor(player, object);
 			} else if (id == 64890)
 				player.useLadder(player.transform(0, 0, 1)); //bottom floor ladders of dark warriors fortress.
-			else if (id == 71921)
-				player.useStairs(828, player.transform(0, 0, 1));
-			else if (id == 20602)
-				player.useStairs(-1, Tile.of(2969, 9672, 0), 1, 1);
-			else if (id == 4627)
-				player.useStairs(-1, Tile.of(2893, 3567, 0), 1, 1);
-			else if (id == 66973)
-				player.useStairs(-1, Tile.of(2206, 4934, 1), 1, 1);
+			else if (id == 71921) player.useStairs(828, player.transform(0, 0, 1));
+			else if (id == 20602) player.useStairs(-1, Tile.of(2969, 9672, 0), 1, 1);
+			else if (id == 4627) player.useStairs(-1, Tile.of(2893, 3567, 0), 1, 1);
+			else if (id == 66973) player.useStairs(-1, Tile.of(2206, 4934, 1), 1, 1);
 			else if (id == 22666) {
 				player.useStairs(-1, player.transform(-5, 0, -3), 1, 1);
-            } else if (id == 22600) {
+			} else if (id == 22600) {
 				player.useStairs(-1, player.transform(5, 0, 3), 1, 1);
-            }
-			else if (id == 22937)
-				switch(object.getRotation()) {
-					case 0:
-						player.useStairs(-1, player.transform(4, 0, 1), 1, 1);
-						break;
-					case 1:
-						player.useStairs(-1, player.transform(0, -4, 1), 1, 1);
-						break;
-					case 2:
-						player.useStairs(-1, player.transform(-4, 0, 1), 1, 1);
-						break;
-					case 3:
-						player.useStairs(-1, player.transform(0, 4, 1), 1, 1);
-						break;
-				}
-			else if (id == 22938)
-				switch(object.getRotation()) {
-					case 0:
-						player.useStairs(-1, player.transform(-4, 0, -1), 1, 1);
-						break;
-					case 1:
-						player.useStairs(-1, player.transform(0, 4, -1), 1, 1);
-						break;
-					case 2:
-						player.useStairs(-1, player.transform(4, 0, -1), 1, 1);
-						break;
-					case 3:
-						player.useStairs(-1, player.transform(0, -4, -1), 1, 1);
-						break;
-				}
-			else if (id == 22931)
-				switch(object.getRotation()) {
-					case 0:
-						player.useStairs(-1, player.transform(0, 3, 1), 1, 1);
-						break;
-					case 1:
-						player.useStairs(-1, player.transform(3, 0, 1), 1, 1);
-						break;
-					case 2:
-						player.useStairs(-1, player.transform(0, -3, 1), 1, 1);
-						break;
-					case 3:
-						player.useStairs(-1, player.transform(-3, 0, 1), 1, 1);
-						break;
-				}
-			else if (id == 22932)
-				switch(object.getRotation()) {
-					case 0:
-						player.useStairs(-1, player.transform(0, -3, -1), 1, 1);
-						break;
-					case 1:
-						player.useStairs(-1, player.transform(-3, 0, -1), 1, 1);
-						break;
-					case 2:
-						player.useStairs(-1, player.transform(0, 3, -1), 1, 1);
-						break;
-					case 3:
-						player.useStairs(-1, player.transform(3, 0, -1), 1, 1);
-						break;
-				}
-			else if (id == 22933)
-				switch(object.getRotation()) {
-					case 0:
-						player.useStairs(-1, player.transform(0, -3, -1), 1, 1);
-						break;
-					case 1:
-						player.useStairs(-1, player.transform(-3, 0, -1), 1, 1);
-						break;
-					case 2:
-						player.useStairs(-1, player.transform(0, 3, -1), 1, 1);
-						break;
-					case 3:
-						player.useStairs(-1, player.transform(3, 0, -1), 1, 1);
-						break;
-				}
-			else if (id == 34548 || id == 22941 || id == 22939)
-				switch(object.getRotation()) {
-					case 0:
-						player.useStairs(-1, player.transform(3, 0, 1), 1, 1);
-						break;
-					case 1:
-						player.useStairs(-1, player.transform(0, -3, 1), 1, 1);
-						break;
-					case 2:
-						player.useStairs(-1, player.transform(-3, 0, 1), 1, 1);
-						break;
-					case 3:
-						player.useStairs(-1, player.transform(0, 3, 1), 1, 1);
-						break;
-				}
-			else if (id == 34550 || id == 22942 || id == 22940)
-				switch(object.getRotation()) {
-					case 0:
-						player.useStairs(-1, player.transform(-3, 0, -1), 1, 1);
-						break;
-					case 1:
-						player.useStairs(-1, player.transform(0, 3, -1), 1, 1);
-						break;
-					case 2:
-						player.useStairs(-1, player.transform(3, 0, -1), 1, 1);
-						break;
-					case 3:
-						player.useStairs(-1, player.transform(0, -3, -1), 1, 1);
-						break;
-				}
+			} else if (id == 22937) switch (object.getRotation()) {
+				case 0:
+					player.useStairs(-1, player.transform(4, 0, 1), 1, 1);
+					break;
+				case 1:
+					player.useStairs(-1, player.transform(0, -4, 1), 1, 1);
+					break;
+				case 2:
+					player.useStairs(-1, player.transform(-4, 0, 1), 1, 1);
+					break;
+				case 3:
+					player.useStairs(-1, player.transform(0, 4, 1), 1, 1);
+					break;
+			}
+			else if (id == 22938) switch (object.getRotation()) {
+				case 0:
+					player.useStairs(-1, player.transform(-4, 0, -1), 1, 1);
+					break;
+				case 1:
+					player.useStairs(-1, player.transform(0, 4, -1), 1, 1);
+					break;
+				case 2:
+					player.useStairs(-1, player.transform(4, 0, -1), 1, 1);
+					break;
+				case 3:
+					player.useStairs(-1, player.transform(0, -4, -1), 1, 1);
+					break;
+			}
+			else if (id == 22931) switch (object.getRotation()) {
+				case 0:
+					player.useStairs(-1, player.transform(0, 3, 1), 1, 1);
+					break;
+				case 1:
+					player.useStairs(-1, player.transform(3, 0, 1), 1, 1);
+					break;
+				case 2:
+					player.useStairs(-1, player.transform(0, -3, 1), 1, 1);
+					break;
+				case 3:
+					player.useStairs(-1, player.transform(-3, 0, 1), 1, 1);
+					break;
+			}
+			else if (id == 22932) switch (object.getRotation()) {
+				case 0:
+					player.useStairs(-1, player.transform(0, -3, -1), 1, 1);
+					break;
+				case 1:
+					player.useStairs(-1, player.transform(-3, 0, -1), 1, 1);
+					break;
+				case 2:
+					player.useStairs(-1, player.transform(0, 3, -1), 1, 1);
+					break;
+				case 3:
+					player.useStairs(-1, player.transform(3, 0, -1), 1, 1);
+					break;
+			}
+			else if (id == 22933) switch (object.getRotation()) {
+				case 0:
+					player.useStairs(-1, player.transform(0, -3, -1), 1, 1);
+					break;
+				case 1:
+					player.useStairs(-1, player.transform(-3, 0, -1), 1, 1);
+					break;
+				case 2:
+					player.useStairs(-1, player.transform(0, 3, -1), 1, 1);
+					break;
+				case 3:
+					player.useStairs(-1, player.transform(3, 0, -1), 1, 1);
+					break;
+			}
+			else if (id == 34548 || id == 22941 || id == 22939) switch (object.getRotation()) {
+				case 0:
+					player.useStairs(-1, player.transform(3, 0, 1), 1, 1);
+					break;
+				case 1:
+					player.useStairs(-1, player.transform(0, -3, 1), 1, 1);
+					break;
+				case 2:
+					player.useStairs(-1, player.transform(-3, 0, 1), 1, 1);
+					break;
+				case 3:
+					player.useStairs(-1, player.transform(0, 3, 1), 1, 1);
+					break;
+			}
+			else if (id == 34550 || id == 22942 || id == 22940) switch (object.getRotation()) {
+				case 0:
+					player.useStairs(-1, player.transform(-3, 0, -1), 1, 1);
+					break;
+				case 1:
+					player.useStairs(-1, player.transform(0, 3, -1), 1, 1);
+					break;
+				case 2:
+					player.useStairs(-1, player.transform(3, 0, -1), 1, 1);
+					break;
+				case 3:
+					player.useStairs(-1, player.transform(0, -3, -1), 1, 1);
+					break;
+			}
 			else if (id == 34567)
 				player.useStairs(-1, player.transform(object.getRotation() == 3 ? -3 : 3, 0, 1), 1, 1);
 			else if (id == 34568)
 				player.useStairs(-1, player.transform(object.getRotation() == 3 ? 3 : -3, 0, -1), 1, 1);
-			else if (id == 34498)
-				switch(object.getRotation()) {
-					case 0:
-						player.useStairs(-1, player.transform(0, 3, 1), 1, 1);
-						break;
-					case 1:
-						player.useStairs(-1, player.transform(3, 0, 1), 1, 1);
-						break;
-					case 2:
-						player.useStairs(-1, player.transform(0, -3, 1), 1, 1);
-						break;
-					case 3:
-						player.useStairs(-1, player.transform(-3, 0, 1), 1, 1);
-						break;
-				}
-			else if (id == 34499)
-				switch(object.getRotation()) {
-					case 0:
-						player.useStairs(-1, player.transform(0, -3, -1), 1, 1);
-						break;
-					case 1:
-						player.useStairs(-1, player.transform(-3, 0, -1), 1, 1);
-						break;
-					case 2:
-						player.useStairs(-1, player.transform(0, 3, -1), 1, 1);
-						break;
-					case 3:
-						player.useStairs(-1, player.transform(3, 0, -1), 1, 1);
-						break;
-				}
+			else if (id == 34498) switch (object.getRotation()) {
+				case 0:
+					player.useStairs(-1, player.transform(0, 3, 1), 1, 1);
+					break;
+				case 1:
+					player.useStairs(-1, player.transform(3, 0, 1), 1, 1);
+					break;
+				case 2:
+					player.useStairs(-1, player.transform(0, -3, 1), 1, 1);
+					break;
+				case 3:
+					player.useStairs(-1, player.transform(-3, 0, 1), 1, 1);
+					break;
+			}
+			else if (id == 34499) switch (object.getRotation()) {
+				case 0:
+					player.useStairs(-1, player.transform(0, -3, -1), 1, 1);
+					break;
+				case 1:
+					player.useStairs(-1, player.transform(-3, 0, -1), 1, 1);
+					break;
+				case 2:
+					player.useStairs(-1, player.transform(0, 3, -1), 1, 1);
+					break;
+				case 3:
+					player.useStairs(-1, player.transform(3, 0, -1), 1, 1);
+					break;
+			}
 			else if (id == 71902)
 				player.useStairs(-1, player.transform(object.getRotation() == 1 ? 4 : 0, object.getRotation() == 0 ? 4 : 0, 1), 1, 1);
 			else if (id == 71903)
 				player.useStairs(-1, player.transform(object.getRotation() == 1 ? -4 : 0, object.getRotation() == 0 ? -4 : 0, -1), 1, 1);
 			else if (id == 26518) {
-				if (x == 1991 && y == 4175)
-					player.useStairs(828, Tile.of(1991, 4176, 1));
-				else if (x == 1998 && y == 4218)
-					player.useStairs(828, Tile.of(1998, 4219, 1));
-				else if (x == 2011 && y == 4218)
-					player.useStairs(828, Tile.of(2011, 4219, 1));
-				else if (x == 3118 && y == 9643)
-					player.useStairs(828, Tile.of(3118, player.getY() - 6400, 0));
-				else
-					player.useStairs(828, Tile.of(x + 1, y, 1));
+				if (x == 1991 && y == 4175) player.useStairs(828, Tile.of(1991, 4176, 1));
+				else if (x == 1998 && y == 4218) player.useStairs(828, Tile.of(1998, 4219, 1));
+				else if (x == 2011 && y == 4218) player.useStairs(828, Tile.of(2011, 4219, 1));
+				else if (x == 3118 && y == 9643) player.useStairs(828, Tile.of(3118, player.getY() - 6400, 0));
+				else player.useStairs(828, Tile.of(x + 1, y, 1));
 			} else if (id == 46500 && object.getX() == 3351 && object.getY() == 3415) { // zaros
 				// portal
 				player.useStairs(-1, Tile.of(Settings.getConfig().getPlayerRespawnTile().getX(), Settings.getConfig().getPlayerRespawnTile().getY(), Settings.getConfig().getPlayerRespawnTile().getPlane()), 2, 3, "You found your way back to home.");
@@ -674,21 +610,15 @@ public final class ObjectHandler {
 						}
 					}
 				}, 0, 5);
-			} else if (id == 17222 || id == 17223)
-				player.useStairs(-1, Tile.of(2402, 3419, 0), 0, 1);
-			else if (id == 17209)
-				player.useStairs(-1, Tile.of(2408, 9812, 0), 0, 1);
-			else if (id == 1754)
-				player.useLadder(player.transform(0, 6400));
+			} else if (id == 17222 || id == 17223) player.useStairs(-1, Tile.of(2402, 3419, 0), 0, 1);
+			else if (id == 17209) player.useStairs(-1, Tile.of(2408, 9812, 0), 0, 1);
+			else if (id == 1754) player.useLadder(player.transform(0, 6400));
 			else if (id == 2811 || id == 2812) {
 				player.useStairs(id == 2812 ? 827 : -1, id == 2812 ? Tile.of(2501, 2989, 0) : Tile.of(2574, 3029, 0));
 				WorldTasks.schedule(() -> player.playerDialogue(HeadE.AMAZED, "Wow! That tunnel went a long way."));
 			} else if (id == 2890 || id == 2892 || id == 2893) {
 
-				if (player.getEquipment().getWeaponId() != 975 && !player.getInventory().containsItem(975, 1) &&
-						player.getEquipment().getWeaponId() != 6313 && !player.getInventory().containsItem(6313, 1) &&
-						player.getEquipment().getWeaponId() != 6315 && !player.getInventory().containsItem(6315, 1) &&
-						player.getEquipment().getWeaponId() != 6317 && !player.getInventory().containsItem(6317, 1)) {
+				if (player.getEquipment().getWeaponId() != 975 && !player.getInventory().containsItem(975, 1) && player.getEquipment().getWeaponId() != 6313 && !player.getInventory().containsItem(6313, 1) && player.getEquipment().getWeaponId() != 6315 && !player.getInventory().containsItem(6315, 1) && player.getEquipment().getWeaponId() != 6317 && !player.getInventory().containsItem(6317, 1)) {
 					player.sendMessage("You need a machete in order to cutt through the terrain.");
 					return;
 				}
@@ -719,8 +649,7 @@ public final class ObjectHandler {
 				player.useStairs(-1, Tile.of(3071, 3649, 0), 0, 1);
 			else if (id == 20600 && object.getX() == 3072 && object.getY() == 3648)
 				player.useStairs(-1, Tile.of(3077, 10058, 0), 0, 1);
-			else if (id == 8689)
-				player.getActionManager().setAction(new CowMilkingAction());
+			else if (id == 8689) player.getActionManager().setAction(new CowMilkingAction());
 				// start falador mininig
 			else if (id == 30942 && object.getX() == 3019 && object.getY() == 3450)
 				player.useStairs(828, Tile.of(3020, 9850, 0));
@@ -750,10 +679,8 @@ public final class ObjectHandler {
 				player.useStairs(828, Tile.of(3017, 3339, 0));
 			else if (id == 6226 && object.getX() == 3020 && object.getY() == 9739)
 				player.useStairs(828, Tile.of(3021, 3339, 0));
-			else if (id == 46250)
-				player.getInventory().addItem(new Item(1550, 1));
-			else if (id == 6045)
-				player.sendMessage("You search the cart but find nothing.");
+			else if (id == 46250) player.getInventory().addItem(new Item(1550, 1));
+			else if (id == 6045) player.sendMessage("You search the cart but find nothing.");
 			else if (id == 5906) {
 				if (player.getSkills().getLevel(Constants.AGILITY) < 42) {
 					player.sendMessage("You need an agility level of 42 to use this obstacle.");
@@ -793,21 +720,7 @@ public final class ObjectHandler {
 					}
 
 				}, 1, 0);
-			} else if (id == 65367)
-				WildernessAgility.gateWalkOut(player, object);
-			else if (id == 65365)
-				WildernessAgility.gateWalkIn(player, object);
-			else if (id == 65734)
-				WildernessAgility.climbCliff(player, object);
-			else if (id == 65362)
-				WildernessAgility.enterObstaclePipe(player, object.getX(), object.getY());
-			else if (id == 64696)
-				WildernessAgility.swingOnRopeSwing(player, object);
-			else if (id == 64698)
-				WildernessAgility.walkLog(player);
-			else if (id == 64699)
-				WildernessAgility.crossSteppingPalletes(player, object);
-			else if (id == 45078)
+			} else if (id == 45078)
 				player.useStairs(2413, Tile.of(3012, 9832, 0), 2, 2);
 				// champion guild
 			else if (id == 24357 && object.getX() == 3188 && object.getY() == 3355)
@@ -1043,8 +956,6 @@ public final class ObjectHandler {
 				player.useStairs(-1, Tile.of(3410, 3329, 0), 0, 1);
 			else if (id == 2147)
 				player.ladder(Tile.of(3104, 9576, 0));
-			else if (id == 5492)
-				player.ladder(Tile.of(3149, 9652, 0));
 			else if (id == 5493)
 				player.ladder(Tile.of(3165, 3251, 0));
 			else if (id == 68983) {
@@ -1074,9 +985,9 @@ public final class ObjectHandler {
 				player.tele(Tile.of(2885, 4372, 2));
 				player.getControllerManager().forceStop();
 				// TODO all reqs, skills not added
-			} else if (id == 48803 && player.isKalphiteLairSetted())
+			} else if (id == 48803)
 				player.tele(Tile.of(3508, 9494, 0));
-			else if (id == 48802 && player.isKalphiteLairEntranceSetted())
+			else if (id == 48802)
 				player.tele(Tile.of(3483, 9510, 2));
 			else if (id == 3829) {
 				if (object.getX() == 3483 && object.getY() == 9510)
@@ -1267,8 +1178,6 @@ public final class ObjectHandler {
 				player.getDominionTower().openRewards();
 			else if (id == 62688)
 				player.simpleDialogue("You have a Dominion Factor of " + player.getDominionTower().getDominionFactor() + ".");
-			else if (id == 68107)
-				FightKilnController.enterFightKiln(player, true);
 			else if (id == 70795) {
 				if (!Agility.hasLevel(player, 50))
 					return;
@@ -1512,15 +1421,15 @@ public final class ObjectHandler {
 				player.setNextAnimation(new Animation(PlayerCombatKt.getWeaponAttackEmote(player.getEquipment().getWeaponId(), player.getCombatDefinitions().getAttackStyle())));
 				slashWeb(player, object);
 			} else if (object.getId() == 48803 && itemId == 954) {
-				if (player.isKalphiteLairSetted())
+				if (player.getVars().getVarBit(7263) == 1)
 					return;
 				player.getInventory().deleteItem(954, 1);
-				player.setKalphiteLair();
+				player.getVars().saveVarBit(7263, 1);
 			} else if (object.getId() == 48802 && itemId == 954) {
-				if (player.isKalphiteLairEntranceSetted())
+				if (player.getVars().getVarBit(7262) == 1)
 					return;
 				player.getInventory().deleteItem(954, 1);
-				player.setKalphiteLairEntrance();
+				player.getVars().saveVarBit(7262, 1);
 			} else
 				PluginManager.handle(new ItemOnObjectEvent(player, item, object, true));
 		}));

@@ -33,16 +33,16 @@ public class DungeonSlayerNPC extends DungeonNPC {
 
 	public enum DungeonSlayerType {
 		CRAWLING_HAND(10694, 5, 20, new DropTable(1, 3, 17261, 1), new DropTable(1, 10, 17263, 1)),
-		CAVE_CRAWLER(10695, 10, new int[] { DungeonConstants.ABANDONED_FLOORS, DungeonConstants.FURNISHED_FLOORS }, 20, new DropTable(1, 10, 17265, 1), new DropTable(1, 10, 17267, 1)),
+		CAVE_CRAWLER(10695, 10, new DungeonConstants.FloorType[] {DungeonConstants.FloorType.Abandoned, DungeonConstants.FloorType.Furnished }, 20, new DropTable(1, 10, 17265, 1), new DropTable(1, 10, 17267, 1)),
 		CAVE_SLIME(10696, 17, 20, new DropTable(1, 10, 17269, 1), new DropTable(1, 10, 17271, 1)),
 		PYREFIEND(10697, 30, 18, new DropTable(1, 10, 17273, 1)),
 		NIGHT_SPIDER(10698, 41, 20, new DropTable(1, 30, 17279, 1)),
 		JELLY(10699, 52, 15, new DropTable(1, 10, 17281, 1), new DropTable(1, 10, 17283, 1)),
 		SPIRITUAL_GUARDIAN(10700, 63, 15, new DropTable(1, 10, 17285, 1), new DropTable(1, 10, 17287, 1)),
-		SEEKER(10701, 71, new int[] { DungeonConstants.ABANDONED_FLOORS, DungeonConstants.OCCULT_FLOORS, DungeonConstants.WARPED_FLOORS }, 10, new DropTable(1, 10, 17289, 1)),
-		NECHRYAEL(10702, 80, new int[] { DungeonConstants.ABANDONED_FLOORS, DungeonConstants.OCCULT_FLOORS, DungeonConstants.WARPED_FLOORS }, 15, new DropTable(1, 30, 17283, 1)),
-		EDIMMU(10703, 90, new int[] { DungeonConstants.OCCULT_FLOORS, DungeonConstants.WARPED_FLOORS }, 5, new DropTable(1, 20, 17291, 1)), //40 damage every 15 seconds
-		SOULGAZER(10704, 99, new int[] { DungeonConstants.OCCULT_FLOORS, DungeonConstants.WARPED_FLOORS }, 5, new DropTable(1, 20, 17295, 1));
+		SEEKER(10701, 71, new DungeonConstants.FloorType[] { DungeonConstants.FloorType.Abandoned, DungeonConstants.FloorType.Occult, DungeonConstants.FloorType.Warped }, 10, new DropTable(1, 10, 17289, 1)),
+		NECHRYAEL(10702, 80, new DungeonConstants.FloorType[] { DungeonConstants.FloorType.Abandoned, DungeonConstants.FloorType.Occult, DungeonConstants.FloorType.Warped }, 15, new DropTable(1, 30, 17283, 1)),
+		EDIMMU(10703, 90, new DungeonConstants.FloorType[] { DungeonConstants.FloorType.Occult, DungeonConstants.FloorType.Warped }, 5, new DropTable(1, 20, 17291, 1)), //40 damage every 15 seconds
+		SOULGAZER(10704, 99, new DungeonConstants.FloorType[] { DungeonConstants.FloorType.Occult, DungeonConstants.FloorType.Warped }, 5, new DropTable(1, 20, 17295, 1));
 
 		private static final Map<Integer, DungeonSlayerType> MAP = new HashMap<>();
 
@@ -56,10 +56,10 @@ public class DungeonSlayerNPC extends DungeonNPC {
 		}
 
 		private final int id, req, weight;
-		private int[] floors;
+		private DungeonConstants.FloorType[] floors;
 		private final DropSet drops;
 
-		DungeonSlayerType(int id, int req, int[] floors, int weight, DropTable... drops) {
+		DungeonSlayerType(int id, int req, DungeonConstants.FloorType[] floors, int weight, DropTable... drops) {
 			this.id = id;
 			this.req = req;
 			this.floors = floors;
@@ -78,10 +78,10 @@ public class DungeonSlayerNPC extends DungeonNPC {
 			return req;
 		}
 
-		private boolean containsFloor(int checkFloor) {
+		private boolean containsFloor(DungeonConstants.FloorType checkFloor) {
 			if (floors == null)
 				return true;
-			for (int floor : floors)
+			for (DungeonConstants.FloorType floor : floors)
 				if (floor == checkFloor)
 					return true;
 			return false;

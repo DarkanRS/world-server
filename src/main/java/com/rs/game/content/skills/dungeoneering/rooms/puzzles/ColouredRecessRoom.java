@@ -74,7 +74,7 @@ public class ColouredRecessRoom extends PuzzleRoom {
 			for (int tileColor = 0; tileColor < LOCATIONS.length; tileColor++) {
 				int[] location = LOCATIONS[tileColor];
 				if (manager.getTile(reference, location[0], location[1]).matches(block.getTile())) {
-					int color = block.getId() - BASE_BLOCKS[type] - 1;
+					int color = block.getId() - BASE_BLOCKS[type.ordinal()] - 1;
 					if (color == tileColor)
 						continue outer;
 					return;
@@ -89,7 +89,7 @@ public class ColouredRecessRoom extends PuzzleRoom {
 	public class Block extends DungeonNPC {
 
 		public Block(Tile tile) {
-			super(BASE_BLOCKS[type], tile, manager);
+			super(BASE_BLOCKS[type.ordinal()], tile, manager);
 		}
 
 		public void handle(final Player player, final boolean push) {
@@ -148,7 +148,7 @@ public class ColouredRecessRoom extends PuzzleRoom {
 
 		public boolean useItem(Player player, Item item) {
 			int color = (item.getId() - 19869) / 2;
-			if (color < 0 || color > 3 || (getId() != BASE_BLOCKS[type]) || used[color])
+			if (color < 0 || color > 3 || (getId() != BASE_BLOCKS[type.ordinal()]) || used[color])
 				return true;
 			used[color] = true;
 			player.getInventory().deleteItem(item);
@@ -180,7 +180,7 @@ public class ColouredRecessRoom extends PuzzleRoom {
 
 	@Override
 	public boolean processObjectClick1(Player p, GameObject object) {
-		if (object.getId() == SHELVES[type]) {
+		if (object.getId() == SHELVES[type.ordinal()]) {
 			p.startConversation(new Dialogue()
 					.addOptions("Choose an option:", (ops) -> {
 						ops.add("Blue vial.", () -> getVial(p, 19869));

@@ -1,0 +1,72 @@
+[
+  {
+    "comment": "Fire rune",
+    "itemId": 554,
+    "amount": 3,
+    "tile": {
+      "x": 3304,
+      "y": 3311,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Water rune",
+    "itemId": 555,
+    "amount": 4,
+    "tile": {
+      "x": 3297,
+      "y": 3316,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Leather boots",
+    "itemId": 1061,
+    "amount": 1,
+    "tile": {
+      "x": 3303,
+      "y": 3189,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bronze mace",
+    "itemId": 1422,
+    "amount": 1,
+    "tile": {
+      "x": 3320,
+      "y": 3137,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bucket",
+    "itemId": 1925,
+    "amount": 1,
+    "tile": {
+      "x": 3307,
+      "y": 3195,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Cabbage",
+    "itemId": 1965,
+    "amount": 1,
+    "tile": {
+      "x": 3285,
+      "y": 3175,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Jug of water",
+    "itemId": 1937,
+    "amount": 1,
+    "tile": {
+      "x": 3302,
+      "y": 3170,
+      "plane": 0
+    }
+  }
+]

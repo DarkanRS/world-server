@@ -27,7 +27,6 @@ import com.rs.game.content.achievements.AchievementSystemD;
 import com.rs.game.content.achievements.SetReward;
 import com.rs.game.content.quests.monksfriend.dialogues.BrotherCedricMonksFriendD;
 import com.rs.game.content.quests.monksfriend.dialogues.BrotherOmadMonksFriendD;
-import com.rs.game.content.quests.plaguecity.utils.PlagueCityUtils;
 import com.rs.game.content.skills.agility.Agility;
 import com.rs.game.content.skills.thieving.Thieving;
 import com.rs.game.content.world.AgilityShortcuts;
@@ -188,25 +187,6 @@ public class Ardougne  {
 			case 40 -> checkRunesBankOrCollect(p, 561);
 			case 41 -> checkRunesBankOrCollect(p, 566);
 		}
-	});
-
-	public static NPCClickHandler handleAleck = new NPCClickHandler(new Object[] { 5110 }, e -> {
-		if (e.getOpNum() == 1)
-			e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
-				{
-					addNPC(e.getNPCId(), HeadE.CHEERFUL, "Hello, what are you after?");
-					addOptions("What would you like to say?", new Options() {
-						@Override
-						public void create() {
-							option("Do you have anything for trade?", () -> ShopsHandler.openShop(player, "alecks_hunter_emporium"));
-							option("About the Achievement System...", () -> new AchievementSystemD(player, e.getNPCId(), SetReward.ARDOUGNE_CLOAK));
-						}
-					});
-					create();
-				}
-			});
-		else
-			ShopsHandler.openShop(e.getPlayer(), "alecks_hunter_emporium");
 	});
 
 	public static ObjectClickHandler handleZMIShortcut = new ObjectClickHandler(new Object[] { 26844, 26845 }, e -> {

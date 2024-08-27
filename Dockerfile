@@ -1,4 +1,4 @@
-FROM eclipse-temurin:21.0.2_13-jre
+FROM eclipse-temurin:22.0.1_8-jre
 
 # Install packages
 RUN apt-get update

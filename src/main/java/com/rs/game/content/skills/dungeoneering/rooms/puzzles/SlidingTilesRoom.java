@@ -67,7 +67,7 @@ public class SlidingTilesRoom extends PuzzleRoom {
 
 	@Override
 	public void openRoom() {
-		List<Integer> monsters = DungeonUtils.generateRandomMonsters(manager.getParty().getFloor(), (int) (manager.getParty().getAverageCombatLevel()*1.3), manager.getParty().getCombatLevel(), Utils.random(4));
+		List<Integer> monsters = DungeonUtils.generateRandomMonsters(DungeonUtils.getFloorType(manager.getParty().getFloor()), (int) (manager.getParty().getAverageCombatLevel()*1.3), manager.getParty().getCombatLevel(), Utils.random(4));
 		for (int i : monsters) {
 			GuardianMonster m = GuardianMonster.forId(i);
 			int x = Utils.random(2) + 1;
@@ -106,11 +106,11 @@ public class SlidingTilesRoom extends PuzzleRoom {
 	}
 
 	public void shuffle() {
-		int type = manager.getParty().getFloorType();
+		DungeonConstants.FloorType type = manager.getParty().getFloorType();
 		shuffledNpcOrder = new int[9];
 		solveOrder = new int[8];
 		for (int i = 0; i < 8; i++)
-			shuffledNpcOrder[i] = BASE_TILE[type] + i;
+			shuffledNpcOrder[i] = BASE_TILE[type.ordinal()] + i;
 		List<Integer> set = new ArrayList<>();
 		boolean[] used = new boolean[9];
 		while (true) {

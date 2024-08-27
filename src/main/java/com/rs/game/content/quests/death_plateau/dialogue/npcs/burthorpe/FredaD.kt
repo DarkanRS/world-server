@@ -269,6 +269,7 @@ class FredaD(player: Player, npc: NPC) {
                                 if (player.inventory.hasCoins(12)) {
                                     item(CLIMBING_BOOTS, "You purchase the climbing boots.") {
                                         player.inventory.addItem(CLIMBING_BOOTS)
+                                        player.inventory.removeCoins(12)
                                         npc.faceEntityTile(player)
                                         player.faceEntityTile(npc)
                                         player.schedule {

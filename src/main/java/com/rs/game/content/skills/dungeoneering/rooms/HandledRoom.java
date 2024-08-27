@@ -99,7 +99,7 @@ public class HandledRoom {
 		return true;
 	}
 
-	public boolean isAvailableOnFloorType(int floorType) {
+	public boolean isAvailableOnFloorType(DungeonConstants.FloorType floorType) {
 		return true;
 	}
 

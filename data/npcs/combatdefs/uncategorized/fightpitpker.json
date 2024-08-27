@@ -1,0 +1,50 @@
+{
+  "names": [
+    "FightpitPKer"
+  ],
+  "attackAnim": -1,
+  "attackSound": -1,
+  "defenceAnim": -1,
+  "defendSound": -1,
+  "deathAnim": 836,
+  "deathDelay": 6,
+  "deathSound": -1,
+  "respawnDelay": 59,
+  "hitpoints": 1410,
+  "maxHit": 256,
+  "attackStyle": "RANGE",
+  "combatLevels": {
+    "ATTACK": 99,
+    "RANGE": 99,
+    "STRENGTH": 99,
+    "DEFENSE": 99,
+    "MAGE": 99
+  },
+  "bonuses": {
+    "STAB_ATT": -10,
+    "SLASH_ATT": -10,
+    "CRUSH_ATT": -10,
+    "MAGIC_ATT": -52,
+    "RANGE_ATT": 218,
+    "STAB_DEF": 146,
+    "SLASH_DEF": 120,
+    "CRUSH_DEF": 156,
+    "MAGIC_DEF": 169,
+    "RANGE_DEF": 149,
+    "SUMM_DEF": 138,
+    "ABSORB_MELEE": 0,
+    "ABSORB_MAGIC": 26,
+    "ABSORB_RANGE": 13,
+    "MELEE_STR": 8,
+    "RANGE_STR": 60,
+    "PRAYER": 14,
+    "MAGIC_STR": 0
+  },
+  "attackRange": 7,
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "AGGRESSIVE",
+  "aggroDistance": 10,
+  "deAggroDistance": -1,
+  "maxDistFromSpawn": -1
+}

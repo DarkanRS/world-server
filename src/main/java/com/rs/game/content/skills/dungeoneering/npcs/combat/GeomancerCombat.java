@@ -51,7 +51,7 @@ public class GeomancerCombat extends CombatScript {
 			RoomReference rRef = dungeon.getCurrentRoomReference(tile);
 			Room room = dungeon.getRoom(rRef);
 
-			if (room != null && room.getRoom() == DungeonUtils.getBossRoomWithChunk(DungeonConstants.ABANDONED_FLOORS, 24, 640)) {
+			if (room != null && room.getRoom() == DungeonUtils.getBossRoomWithChunk(DungeonConstants.FloorType.Abandoned, 24, 640)) {
 				sendEntangle(npc, target);
 				boss.sendTeleport(tile, rRef);
 			}

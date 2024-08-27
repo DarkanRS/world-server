@@ -41,6 +41,7 @@ import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.InterfaceOnInterfaceHandler;
 import com.rs.utils.ItemConfig;
 
+import java.util.Arrays;
 import java.util.List;
 
 @PluginEventHandler
@@ -208,6 +209,8 @@ public final class Equipment {
 	}
 
 	public static boolean hideArms(Item item) {
+		if (item == null)
+			return false;
 		return item.getDefinitions().isEquipType(6);
 	}
 
@@ -461,8 +464,9 @@ public final class Equipment {
 	}
 
 	public boolean wearingBlackMask() {
+		int[] masks = new int[] { 8921, 8919, 8917, 8915, 8913, 8911, 8909, 8907, 8905, 8903, 8901 };
 		if (items.get(HEAD) != null)
-            return ItemDefinitions.getDefs(items.get(HEAD).getId()).getName().toLowerCase().contains("black mask");
+			return Arrays.stream(masks).anyMatch(i -> i == items.get(HEAD).getId());
 		return false;
 	}
 
@@ -479,8 +483,9 @@ public final class Equipment {
 	}
 
 	public boolean wearingSlayerHelmet() {
+		int[] helms = new int[] { 13263, 14636, 14637, 15492, 15496, 15497, 22528, 22529, 22530, 22531, 22532, 22533, 22534, 22535, 22536, 22537, 22538, 22539, 22540, 225541, 22542, 22543, 22544, 22545, 22546, 22547, 22548, 22549, 22550, 22551 };
 		if (items.get(HEAD) != null)
-            return items.get(HEAD).getId() == 15492 || items.get(HEAD).getId() == 15496 || items.get(HEAD).getId() == 15497;
+			return Arrays.stream(helms).anyMatch(i -> i == items.get(HEAD).getId());
 		return false;
 	}
 
@@ -882,14 +887,8 @@ public final class Equipment {
 	}
 
 	public static int getBonus(Player player, Item item, Bonus bonus) {
-		int value = item.getDefinitions().getBonuses()[bonus.ordinal()];
+		int value = getBonus(item, bonus);
 		switch(item.getId()) {
-			case 11283, 11284 -> {
-				return switch(bonus) {
-					case STAB_DEF, SLASH_DEF, CRUSH_DEF, RANGE_DEF -> value + item.getMetaDataI("dfsCharges", 0);
-					default -> value;
-				};
-			}
 			case 19152, 19157, 19162 -> {
 				return switch(bonus) {
 					case RANGE_STR -> value + Utils.clampI((int) (player.getSkills().getLevelForXp(Constants.RANGE) * 0.7), 0, 49);
@@ -900,6 +899,19 @@ public final class Equipment {
 				return value;
 			}
 		}
+	}
+
+	public static int getBonus(Item item, Bonus bonus) {
+		int value = item.getDefinitions().getBonuses()[bonus.ordinal()];
+		switch(item.getId()) {
+			case 11283, 11284 -> {
+				return switch (bonus) {
+					case STAB_DEF, SLASH_DEF, CRUSH_DEF, RANGE_DEF -> value + item.getMetaDataI("dfsCharges", 0);
+					default -> value;
+				};
+			}
+		}
+		return value;
 	}
 
 	public boolean wearingRingOfWealth() {

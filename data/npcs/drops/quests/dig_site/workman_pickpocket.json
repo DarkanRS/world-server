@@ -1,0 +1,24 @@
+{
+  "names": [
+    "workman_pickpocket"
+  ],
+  "tables": [
+    {
+      "chance": 1, "outOf": 2,
+      "drops": [
+        { "id": 995, "min": 10, "max": 10 },
+		{ "id": 954, "min": 1, "max": 1 },
+		{ "id": 1925, "min": 1, "max": 1 },
+		{ "id": 1059, "min": 1, "max": 1 },
+		{ "id": 952, "min": 1, "max": 1 }
+      ]
+    },
+    {
+      "chance": 1, "outOf": 3,
+      "drops": [
+        { "id": 670, "min": 1, "max": 1 },
+		{ "id": 671, "min": 1, "max": 1 }
+      ]
+    }
+  ]
+}

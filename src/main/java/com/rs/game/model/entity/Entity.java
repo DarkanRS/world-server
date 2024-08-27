@@ -37,6 +37,7 @@ import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.actions.Action;
 import com.rs.game.model.entity.actions.EntityFollow;
 import com.rs.game.model.entity.async.AsyncTaskScheduler;
+import com.rs.game.model.entity.interactions.EntityInteraction;
 import com.rs.game.model.entity.interactions.InteractionManager;
 import com.rs.game.model.entity.interactions.PlayerCombatInteraction;
 import com.rs.game.model.entity.npc.NPC;
@@ -1297,6 +1298,27 @@ public abstract class Entity {
 			addEffect(Effect.FREEZE_BLOCK, ticks + 15);
 	}
 
+	public void interactWithEntity(Entity target, int distance, Runnable action) {
+		interactionManager.setInteraction(new EntityInteraction(target, distance) {
+			@Override
+			public boolean canStart(Entity entity) { return true; }
+
+			@Override
+			public boolean checkAll(Entity entity) { return true; }
+
+			@Override
+			public void interact(Entity entity) { action.run(); }
+
+			@Override
+			public void onStop(Entity entity) { }
+		});
+	}
+	
+	public void stun(int ticks) {
+		resetWalkSteps();
+		addEffect(Effect.STUN, ticks);
+	}
+
 	public abstract double getMagePrayerMultiplier();
 
 	public abstract double getRangePrayerMultiplier();
@@ -1625,7 +1647,7 @@ public abstract class Entity {
 	}
 
 	public Tile getLastTile() {
-		return lastTile;
+		return lastTile != null ? lastTile : Tile.of(tile);
 	}
 
 	public ArrayList<Hit> getNextHits() {

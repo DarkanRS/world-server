@@ -57,7 +57,7 @@ public class SlayerMasterD extends Conversation {
 					.addNext(() -> Slayer.openBuyInterface(player)));
 			
 			if (master == Master.Kuradal)
-				ops.add("What is that cape you're wearing?", Skillcapes.Slayer.getOffer99CapeDialogue(player, master.npcId));
+				ops.add("What is that cape you're wearing?", () -> Skillcapes.Slayer.getOffer99CapeDialogue(player, master.npcId));
 			if (master == Master.Vannaka)
 				ops.add("About the Achievement System...", () -> new AchievementSystemD(player, master.npcId, SetReward.VARROCK_ARMOR));
 		});

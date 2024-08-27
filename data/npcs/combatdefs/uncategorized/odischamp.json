@@ -1,0 +1,50 @@
+{
+  "names": [
+    "Odischamp"
+  ],
+  "attackAnim": -1,
+  "attackSound": -1,
+  "defenceAnim": -1,
+  "defendSound": -1,
+  "deathAnim": 836,
+  "deathDelay": 6,
+  "deathSound": -1,
+  "respawnDelay": 59,
+  "hitpoints": 990,
+  "maxHit": 350,
+  "attackStyle": "MAGE",
+  "combatLevels": {
+    "ATTACK": 99,
+    "RANGE": 99,
+    "STRENGTH": 99,
+    "DEFENSE": 99,
+    "MAGE": 99
+  },
+  "bonuses": {
+    "STAB_ATT": 28,
+    "SLASH_ATT": 17,
+    "CRUSH_ATT": 58,
+    "MAGIC_ATT": 105,
+    "RANGE_ATT": -1,
+    "STAB_DEF": 105,
+    "SLASH_DEF": 86,
+    "CRUSH_DEF": 119,
+    "MAGIC_DEF": 90,
+    "RANGE_DEF": 3,
+    "SUMM_DEF": 111,
+    "ABSORB_MELEE": 22,
+    "ABSORB_MAGIC": 10,
+    "ABSORB_RANGE": 0,
+    "MELEE_STR": 56,
+    "RANGE_STR": 0,
+    "PRAYER": 7,
+    "MAGIC_STR": 10
+  },
+  "attackRange": 10,
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "AGGRESSIVE",
+  "aggroDistance": 10,
+  "deAggroDistance": -1,
+  "maxDistFromSpawn": -1
+}

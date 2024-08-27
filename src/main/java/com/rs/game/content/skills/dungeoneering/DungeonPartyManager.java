@@ -30,7 +30,7 @@ public final class DungeonPartyManager {
 	private long seed;
 	public boolean customSeed;
 	private int complexity;
-	private int size;
+	private DungeonConstants.Size size;
 	private int difficulty;
 	private boolean guideMode;
 
@@ -154,7 +154,7 @@ public final class DungeonPartyManager {
 			player.getDungManager().refreshComplexity();
 	}
 
-	public void setSize(int size) {
+	public void setSize(DungeonConstants.Size size) {
 		this.size = size;
 	}
 
@@ -192,7 +192,7 @@ public final class DungeonPartyManager {
 			player.getDungManager().refresh();
 	}
 
-	public int getFloorType() {
+	public DungeonConstants.FloorType getFloorType() {
 		return DungeonUtils.getFloorType(floor);
 	}
 
@@ -322,7 +322,7 @@ public final class DungeonPartyManager {
 		return team;
 	}
 
-	public int getSize() {
+	public DungeonConstants.Size getSize() {
 		return size;
 	}
 

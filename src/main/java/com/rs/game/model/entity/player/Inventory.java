@@ -510,10 +510,11 @@ public final class Inventory {
 	
 	public void processRefresh() {
 		boolean needsRefresh = updateAll || !slotsToUpdate.isEmpty();
-		if (updateAll)
+		if (updateAll) {
 			player.getPackets().sendItems(93, items);
-		else if (!slotsToUpdate.isEmpty())
+		} else if (!slotsToUpdate.isEmpty()) {
 			player.getPackets().sendUpdateItems(93, items, slotsToUpdate.stream().mapToInt(Integer::intValue).toArray());
+		}
 		if (needsRefresh) {
 			updateAll = false;
 			slotsToUpdate.clear();
@@ -574,6 +575,23 @@ public final class Inventory {
 			if (item == null)
 				continue;
 			deleteItem(item);
+		}
+		return true;
+	}
+
+	public boolean removeItems(int[] itemIdsToRemove, int[] amountsToRemove) {
+		if (itemIdsToRemove.length != amountsToRemove.length) {
+			return false;
+		}
+		for (int i = 0; i < itemIdsToRemove.length; i++) {
+			int itemId = itemIdsToRemove[i];
+			int amount = amountsToRemove[i];
+			if (amount <= 0) {
+				continue;
+			}
+			for (int j = 0; j < amount; j++) {
+				deleteItem(itemId, 1);
+			}
 		}
 		return true;
 	}
@@ -711,5 +729,4 @@ public final class Inventory {
 		}
 		return null;
 	}
-
 }

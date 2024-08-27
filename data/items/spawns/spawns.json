@@ -4185,26 +4185,6 @@
     }
   },
   {
-    "comment": "Fire rune",
-    "itemId": 554,
-    "amount": 1,
-    "tile": {
-      "x": 3304,
-      "y": 3311,
-      "plane": 0
-    }
-  },
-  {
-    "comment": "Water rune",
-    "itemId": 555,
-    "amount": 1,
-    "tile": {
-      "x": 3297,
-      "y": 3315,
-      "plane": 0
-    }
-  },
-  {
     "comment": "Cadava berries",
     "itemId": 753,
     "amount": 1,
@@ -4246,7 +4226,7 @@
   },
   {
     "comment": "Cup of tea",
-    "itemId": 1978,
+    "itemId": 712,
     "amount": 1,
     "tile": {
       "x": 3271,

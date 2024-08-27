@@ -24,13 +24,17 @@ import com.rs.engine.quest.Quest;
 import com.rs.game.World;
 import com.rs.game.content.combat.CombatDefinitions.Spellbook;
 import com.rs.game.content.minigames.fightkiln.FightKilnController;
+import com.rs.game.content.minigames.shadesofmortton.TempleWall;
 import com.rs.game.content.quests.death_plateau.instances.PlayerVSTheMapController;
 import com.rs.game.content.quests.demonslayer.PlayerVSDelrithController;
 import com.rs.game.content.quests.demonslayer.WallyVSDelrithCutscene;
 import com.rs.game.content.quests.dragonslayer.DragonSlayer_BoatScene;
-import com.rs.game.content.quests.gunnarsground.cutscene.GunnarsGroundCutscenes;
+import com.rs.game.content.quests.gunnars_ground.cutscene.GunnarsGroundCutscenes;
 import com.rs.game.content.quests.merlinscrystal.MerlinsCrystalCrateScene;
-import com.rs.game.content.quests.plaguecity.cutscene.PlagueCityCutscene;
+import com.rs.game.content.quests.plague_city.cutscene.PlagueCityCutscene;
+import com.rs.game.content.skills.dungeoneering.DungeonConstants;
+import com.rs.game.model.entity.Hit;
+import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.lib.Constants;
@@ -43,6 +47,8 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.handlers.EnterChunkHandler;
 import com.rs.utils.music.Music;
+import com.rs.game.content.minigames.shadesofmortton.ShadesOfMortton;
+
 
 import java.util.Arrays;
 
@@ -75,10 +81,6 @@ public class Debug {
 
 		Commands.add(Rights.ADMIN, "shapemusic", "Starts showing music shape.", (p, args) -> musicMoveOn = !musicMoveOn);
 
-		Commands.add(Rights.ADMIN, "sshift", "Transforms into specified NPC.", (p, args) -> {
-			p.getAppearance().transformIntoNPC(Integer.valueOf(args[0]));
-		});
-
 		Commands.add(Rights.ADMIN, "cleartoolbelt", "Clears your toolbelt.", (p, args) -> {
 			p.clearToolbelt();
 			p.sendMessage("You have cleared your toolbelt.");
@@ -105,7 +107,7 @@ public class Debug {
 		});
 
 		Commands.add(Rights.PLAYER, "cutscene2 [id]", "Starts crate scene.", (p, args) -> {
-			switch (Integer.valueOf(args[0])) {
+			switch (Integer.parseInt(args[0])) {
 				case 0 -> p.playCutscene(new WallyVSDelrithCutscene());
 				case 1 -> p.getControllerManager().startController(new PlayerVSDelrithController());
 				case 2 -> p.getControllerManager().startController(new DragonSlayer_BoatScene());
@@ -127,14 +129,39 @@ public class Debug {
 				p.sendMessage("You are already in a minigame, dedicated area(controller)!");
 				return;
 			}
-			if(Integer.valueOf(args[0]) > 37 || Integer.valueOf(args[0]) < 1) {
+			if(Integer.parseInt(args[0]) > 37 || Integer.parseInt(args[0]) < 1) {
 				p.sendMessage("Invalid wave, must be between 1 and 37.");
 				return;
 			}
-			p.getControllerManager().startController(new FightKilnController(Integer.valueOf(args[0]), true));
+			p.getControllerManager().startController(new FightKilnController(Integer.parseInt(args[0]), true));
 		});
 
 		Commands.add(Rights.PLAYER, "random", "Forces a random event.", (p, args) -> attemptSpawnRandom(p, true));
+
+		Commands.add(Rights.PLAYER, "resetgoutweedguards", "Resets the patrolling Goutweed Guards at Troll Stronghold.", (p, args) -> {
+			int[] guardIDs = {1142, 1143, 1144, 1145, 1146, 1147, 1148, 1149, 1150};
+			for (NPC npc : World.getNPCs()) {
+				for (int npcId : guardIDs) {
+					if (npc.getId() == npcId) {
+						npc.applyHit(new Hit(p, 10000, Hit.HitLook.TRUE_DAMAGE));
+						break;
+					}
+				}
+			}
+		});
+
+		Commands.add(Rights.PLAYER, "shadesresources", "Sets Shades of Morton to requested amount (0-100).", (p, args) -> {
+			p.save("shadeResources", Utils.clampI(Integer.parseInt(args[0]), 0, 100));
+			p.sendMessage("Your Shades of Mort'ton resources has been set to " + Utils.clampI(Integer.parseInt(args[0]), 0, 100) + ".");
+		});
+
+		Commands.add(Rights.PLAYER, "shadesrepairwalls", "Sets repair percentage of all known about walls in Shades of Mort'ton to requested amount (0-100).", (player, args) -> {
+			for (TempleWall wall : ShadesOfMortton.getWalls()) {
+				wall.setRepairPerc(Utils.clampI(Integer.parseInt(args[0]), 0, 100));
+				wall.update();
+			}
+			player.sendMessage("All known about walls in Shades of Mort'ton have been set to " + Utils.clampI(Integer.parseInt(args[0]), 0, 100) + "% build progress.");
+		});
 
 		Commands.add(Rights.PLAYER, "fightcaves", "Marks fight caves as having been completed.", (p, args) -> p.incrementCount("Fight Caves clears"));
 		
@@ -144,11 +171,11 @@ public class Debug {
 		});
 
 		Commands.add(Rights.PLAYER, "item,spawn [itemId (amount)]", "Spawns an item with specified id and amount.", (p, args) -> {
-			if (ItemDefinitions.getDefs(Integer.valueOf(args[0])).getName().equals("null")) {
+			if (ItemDefinitions.getDefs(Integer.parseInt(args[0])).getName().equals("null")) {
 				p.sendMessage("That item is unused.");
 				return;
 			}
-			p.getInventory().addItem(Integer.valueOf(args[0]), args.length >= 2 ? Integer.valueOf(args[1]) : 1);
+			p.getInventory().addItem(Integer.parseInt(args[0]), args.length >= 2 ? Integer.parseInt(args[1]) : 1);
 			p.stopAll();
 		});
 
@@ -394,7 +421,7 @@ public class Debug {
 				int floor = Integer.parseInt(args[0]);
 				long seed = Long.parseLong(args[1]);
 				int difficulty = Integer.parseInt(args[2]);
-				int size = Integer.parseInt(args[3]);
+				String size = args[3];
 				int complexity = Integer.parseInt(args[4]);
 
 				if (!p.getDungManager().isInsideDungeon()) {
@@ -407,7 +434,7 @@ public class Debug {
 					p.getDungManager().getParty().setFloor(floor);
 					p.getDungManager().getParty().setStartingSeed(seed);
 					p.getDungManager().getParty().setDificulty(difficulty);
-					p.getDungManager().getParty().setSize(size);
+					p.getDungManager().getParty().setSize(DungeonConstants.Size.valueOf(size));
 					p.getDungManager().getParty().setComplexity(complexity);
 					p.getDungManager().enterDungeon(false);
 				} else

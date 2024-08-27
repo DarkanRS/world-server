@@ -48,7 +48,7 @@ import com.rs.game.content.clans.ClansManager;
 import com.rs.game.content.combat.CombatDefinitions;
 import com.rs.game.content.death.DeathOfficeController;
 import com.rs.game.content.death.GraveStone;
-import com.rs.game.content.interfacehandlers.TransformationRing;
+
 import com.rs.game.content.minigames.domtower.DominionTower;
 import com.rs.game.content.minigames.duel.DuelRules;
 import com.rs.game.content.minigames.herblorehabitat.HabitatFeature;
@@ -533,10 +533,6 @@ public class Player extends Entity {
 
 	private int summoningLeftClickOption;
 
-	// objects
-	private boolean khalphiteLairEntranceSetted;
-	private boolean khalphiteLairSetted;
-
 	// voting
 	private int votes;
 
@@ -840,7 +836,7 @@ public class Player extends Entity {
 	}
 
 	public void stopAll(boolean stopWalk, boolean stopInterfaces, boolean stopActions) {
-		TransformationRing.triggerDeactivation(this);
+
 		if (stopInterfaces)
 			closeInterfaces();
 		if (stopWalk) {
@@ -1048,7 +1044,10 @@ public class Player extends Entity {
 								}
 								break;
 							}
-							getEquipment().setSlot(i, new Item(deg.getBrokenId(), item.getAmount()));
+							if (deg.getBrokenId() == -1)
+								getEquipment().setSlot(i, null);
+							else
+								getEquipment().setSlot(i, new Item(deg.getBrokenId(), item.getAmount()));
 							getAppearance().generateAppearanceData();
 							sendMessage("<col=FF0000>Your " + ItemDefinitions.getDefs(item.getId()).getName() + " has fully degraded!");
 						} else {
@@ -1252,14 +1251,12 @@ public class Player extends Entity {
 		controllerManager.login(); // checks what to do on login after welcome
 		//unlock robust glass
 		getVars().setVarBit(4322, 1);
-		//unlock ability to use elemental and catalytic runes
-		getVars().setVarBit(5493, 1);
 		// screen
 		if (machineInformation != null)
 			machineInformation.sendSuggestions(this);
 		notes.init();
 
-		double farmingTicksMissed = Math.floor(getTicksSinceLastLogout() / FarmPatch.FARMING_TICK);
+		double farmingTicksMissed = Math.floor(getTicksSinceLastLogout() / (double) FarmPatch.FARMING_TICK);
 		if (farmingTicksMissed > 768.0)
 			farmingTicksMissed = 768.0;
 		if (farmingTicksMissed < 1.0)
@@ -1302,7 +1299,7 @@ public class Player extends Entity {
 
 	private double getTicksSinceLastLogout() {
 		if (timeLoggedOut <= 0)
-			return 0;
+			return 0.0;
 		return (double) ((System.currentTimeMillis() - timeLoggedOut) / 600L);
 	}
 
@@ -1344,10 +1341,7 @@ public class Player extends Entity {
 	}
 
 	private void sendUnlockedObjectConfigs() {
-		refreshKalphiteLairEntrance();
-		refreshKalphiteLair();
 		refreshLodestoneNetwork();
-		refreshFightKilnEntrance();
 	}
 
 	private boolean[] lodestones = new boolean[Lodestone.values().length];
@@ -1401,44 +1395,6 @@ public class Player extends Entity {
 		for (Lodestone stone : Lodestone.values())
 			if (stone.getConfigId() != -1 && unlockedLodestone(stone))
 				getVars().setVarBit(stone.getConfigId(), 1);
-
-		//		// unlocks bandit camp lodestone
-		//		getPackets().sendConfigByFile(358, 15);
-		//		// unlocks lunar isle lodestone
-		//		getPackets().sendConfigByFile(2448, 190);
-	}
-
-	private void refreshKalphiteLair() {
-		if (khalphiteLairSetted)
-			getVars().setVarBit(7263, 1);
-	}
-
-	public void setKalphiteLair() {
-		khalphiteLairSetted = true;
-		refreshKalphiteLair();
-	}
-
-	public void refreshFightKilnEntrance() {
-		if (getCounterValue("Fight Caves clears") > 0)
-			getVars().setVarBit(10838, 1);
-	}
-
-	private void refreshKalphiteLairEntrance() {
-		if (khalphiteLairEntranceSetted)
-			getVars().setVarBit(7262, 1);
-	}
-
-	public void setKalphiteLairEntrance() {
-		khalphiteLairEntranceSetted = true;
-		refreshKalphiteLairEntrance();
-	}
-
-	public boolean isKalphiteLairEntranceSetted() {
-		return khalphiteLairEntranceSetted;
-	}
-
-	public boolean isKalphiteLairSetted() {
-		return khalphiteLairSetted;
 	}
 
 	public void save(String key, Object value) {
@@ -1604,10 +1560,10 @@ public class Player extends Entity {
 			return;
 		boolean isAtMultiArea = isForceMultiArea() || World.isMultiArea(getTile());
 		if (isAtMultiArea && !isAtMultiArea()) {
-			setAtMultiArea(isAtMultiArea);
+			setAtMultiArea(true);
 			getPackets().sendVarc(616, 1);
 		} else if (!isAtMultiArea && isAtMultiArea()) {
-			setAtMultiArea(isAtMultiArea);
+			setAtMultiArea(false);
 			getPackets().sendVarc(616, 0);
 		}
 	}
@@ -2010,7 +1966,7 @@ public class Player extends Entity {
 
 	@Override
 	public void handlePreHit(Hit hit) {
-		TransformationRing.triggerDeactivation(this);
+
 
 		if (hit.getLook() != HitLook.MELEE_DAMAGE && hit.getLook() != HitLook.RANGE_DAMAGE && hit.getLook() != HitLook.MAGIC_DAMAGE)
 			return;

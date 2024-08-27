@@ -86,7 +86,7 @@ public final class Poison {
 	}
 
 	public boolean isPoisoned() {
-		return poisonDamage >= 1;
+		return poisonDamage >= 10;
 	}
 
 	public void lowerPoisonDamage(int reduction) {
