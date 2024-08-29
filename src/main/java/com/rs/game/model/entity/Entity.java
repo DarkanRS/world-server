@@ -612,6 +612,10 @@ public abstract class Entity {
 		return DumbRouteFinder.addDumbPathfinderSteps(this, target, getCollisionStrategy());
 	}
 
+	public Set<Entity> getRecievedDamageEntities() {
+		return receivedDamage.keySet();
+	}
+
 	public Player getMostDamageReceivedSourcePlayer() {
 		Player player = null;
 		int damage = -1;

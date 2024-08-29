@@ -58,6 +58,7 @@ import com.rs.lib.util.Utils;
 import com.rs.plugin.PluginManager;
 import com.rs.plugin.events.NPCDeathEvent;
 import com.rs.plugin.events.NPCDropEvent;
+import com.rs.plugin.events.NPCKillParticipatedEvent;
 import com.rs.tools.old.CharmDrop;
 import com.rs.utils.DropSets;
 import com.rs.utils.EffigyDrop;
@@ -510,6 +511,7 @@ public class NPC extends Entity {
 		}
 		setNextAnimation(null);
 		PluginManager.handle(new NPCDeathEvent(this, source));
+		getRecievedDamageEntities().forEach(entity -> PluginManager.handle(new NPCKillParticipatedEvent(this, entity)));
 		WorldTasks.scheduleTimer(loop -> {
 			if (loop == 0) {
 				setNextAnimation(new Animation(defs.getDeathEmote()));
@@ -544,12 +546,6 @@ public class NPC extends Entity {
 
 			if (killer.getControllerManager().getController() != null && killer.getControllerManager().getController() instanceof GodwarsController)
 				killer.sendGodwarsKill(this);
-
-			if (killer.hasBossTask()) {
-				String taskName = killer.getBossTask().getName().toLowerCase();
-				if (this.getDefinitions().getName().equalsIgnoreCase(taskName))
-					killer.getBossTask().sendKill(killer, this);
-			}
 
 			if (killer.hasSlayerTask() && killer.getSlayer().isOnTaskAgainst(this))
 				killer.getSlayer().sendKill(killer, this);

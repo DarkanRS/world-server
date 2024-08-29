@@ -331,6 +331,7 @@ public final class Familiar extends NPC {
 	public void setCombatTarget(Entity target) {
 		if (isPassive())
 			return;
+		getActionManager().forceStop();
 		super.setCombatTarget(target);
 	}
 	
@@ -557,9 +558,10 @@ public final class Familiar extends NPC {
 			return;
 		}
 		if (!getCombat().process())
-			if (!getCombat().hasTarget() && isAgressive() && owner.getAttackedBy() != null && owner.inCombat() && canAttack(owner.getAttackedBy()) && Utils.getRandomInclusive(5) == 0)
+			if (!getCombat().hasTarget() && isAgressive() && owner.getAttackedBy() != null && owner.inCombat() && canAttack(owner.getAttackedBy()) && Utils.getRandomInclusive(5) == 0) {
+				getActionManager().forceStop();
 				getCombat().setTarget(owner.getAttackedBy());
-			else if (routeEvent == null && !isLocked() && !getActionManager().hasSkillWorking())
+			} else if (routeEvent == null && !isLocked() && !getActionManager().hasSkillWorking())
 				getActionManager().setAction(new EntityFollow(owner));
 	}
 
