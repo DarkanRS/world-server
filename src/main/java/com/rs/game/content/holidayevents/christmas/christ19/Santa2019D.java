@@ -49,7 +49,7 @@ public class Santa2019D extends Conversation {
 			addNPC(SNOW_QUEEN, HeadE.CHEERFUL, "Just wear the necklace and operate it to summon him to you. Remember, he must be walking with you to be able to show you where the imps are.");
 			addPlayer(HeadE.CHEERFUL, "Alright, sounds good. Thanks!", () -> {
 				player.getInventory().addItemDrop(14599, 1);
-				player.save(Christmas2019.STAGE_KEY, 1);
+				player.set(Christmas2019.STAGE_KEY, 1);
 			});
 			break;
 		case 1:
@@ -77,7 +77,7 @@ public class Santa2019D extends Conversation {
 			addPlayer(HeadE.CHEERFUL, "Thank you!");
 			addItem(962, "Santa has given you a christmas cracker, allowed you to keep the ice amulet, and has taught you the Snowman Dance emote!");
 			addNext(() -> {
-				player.save(Christmas2019.STAGE_KEY, 10);
+				player.set(Christmas2019.STAGE_KEY, 10);
 				player.getVars().setVarBit(6934, 1);
 				player.getInventory().addItemDrop(new Item(962, 1));
 				player.getInventory().addItemDrop(new Item(11949, 1));

@@ -104,11 +104,11 @@ fun mapDeathPlateauInteractions() {
 
     onDestroyItem(QUEST_REWARD_LAMP, SUPPLY_REWARD_LAMP) { (player, item) ->
         if (item.id == QUEST_REWARD_LAMP) {
-            if (player.getI(DEATH_PLATEAU_QUEST_LAMPS_LOST) < 0) player.save(DEATH_PLATEAU_QUEST_LAMPS_LOST, 1)
-            else player.save(DEATH_PLATEAU_QUEST_LAMPS_LOST, (player.getI(DEATH_PLATEAU_QUEST_LAMPS_LOST) + 1))
+            if (player.getI(DEATH_PLATEAU_QUEST_LAMPS_LOST) < 0) player.set(DEATH_PLATEAU_QUEST_LAMPS_LOST, 1)
+            else player.set(DEATH_PLATEAU_QUEST_LAMPS_LOST, (player.getI(DEATH_PLATEAU_QUEST_LAMPS_LOST) + 1))
         } else if (item.id == SUPPLY_REWARD_LAMP) {
-            if (player.getI(DEATH_PLATEAU_SUPPLY_LAMPS_LOST) < 0) player.save(DEATH_PLATEAU_SUPPLY_LAMPS_LOST, 1)
-            else player.save(DEATH_PLATEAU_SUPPLY_LAMPS_LOST, (player.getI(DEATH_PLATEAU_SUPPLY_LAMPS_LOST) + 1))
+            if (player.getI(DEATH_PLATEAU_SUPPLY_LAMPS_LOST) < 0) player.set(DEATH_PLATEAU_SUPPLY_LAMPS_LOST, 1)
+            else player.set(DEATH_PLATEAU_SUPPLY_LAMPS_LOST, (player.getI(DEATH_PLATEAU_SUPPLY_LAMPS_LOST) + 1))
         }
     }
 

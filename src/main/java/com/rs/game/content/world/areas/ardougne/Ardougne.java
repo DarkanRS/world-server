@@ -45,7 +45,6 @@ import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.Ticks;
-import com.rs.utils.shop.ShopsHandler;
 
 @PluginEventHandler
 public class Ardougne  {
@@ -64,7 +63,7 @@ public class Ardougne  {
 							.addNPC(492, HeadE.OLD_CHAT, "My Lord instructs me to help you.")
 							.addNPC(492, HeadE.OLD_CHAT, "Here is a mould to make a token for our Lord;a mould for the unholy symbol of Zamorak.")
 							.addItem(1594, "The ghost gives you a casting mould.", () -> {
-								e.getPlayer().save("spiritOfScorpiusTalkedTo", true);
+								e.getPlayer().set("spiritOfScorpiusTalkedTo", true);
 								e.getPlayer().getInventory().addItemDrop(1594, 1);
 							});
 					} else {

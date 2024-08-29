@@ -1397,7 +1397,7 @@ public class Player extends Entity {
 				getVars().setVarBit(stone.getConfigId(), 1);
 	}
 
-	public void save(String key, Object value) {
+	public void set(String key, Object value) {
 		if (savingAttributes == null)
 			savingAttributes = new ConcurrentHashMap<>();
 		savingAttributes.put(key, value);

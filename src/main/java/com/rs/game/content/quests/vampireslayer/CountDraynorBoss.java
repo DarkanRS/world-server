@@ -165,7 +165,7 @@ public class CountDraynorBoss extends OwnedNPC {
 			World.spawnObject(new GameObject(COFFIN_ID, e.getObject().getType(), e.getObject().getRotation(), e.getObject().getTile()), true);
 		}
 
-		p.save("live_in_scene", true);
+		p.set("live_in_scene", true);
 		p.lock();
 		GameObject coffin = World.getObject(e.getObject().getTile(), ObjectType.forId(10));
 		p.getMusicsManager().playSongAndUnlock(COUNTING_ON_YOU);
@@ -243,7 +243,7 @@ public class CountDraynorBoss extends OwnedNPC {
 					}
 					p.getPackets().sendResetCamera();
 					p.unlock();
-					p.save("live_in_scene", false);
+					p.set("live_in_scene", false);
 					stop();
 				}
 

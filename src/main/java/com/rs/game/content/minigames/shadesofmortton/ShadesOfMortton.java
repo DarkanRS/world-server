@@ -119,7 +119,7 @@ public class ShadesOfMortton {
 	}
 
 	public static void addResources(Player player, int amount) {
-		player.save("shadeResources", Utils.clampI(player.getI("shadeResources", 0) + amount, 0, 100));
+		player.set("shadeResources", Utils.clampI(player.getI("shadeResources", 0) + amount, 0, 100));
 		updateVars(player);
 	}
 
@@ -129,7 +129,7 @@ public class ShadesOfMortton {
 	}
 
 	public static void removeResources(Player player, int amount) {
-		player.save("shadeResources", Utils.clampI(player.getI("shadeResources", 0) - amount, 0, 100));
+		player.set("shadeResources", Utils.clampI(player.getI("shadeResources", 0) - amount, 0, 100));
 		updateVars(player);
 	}
 

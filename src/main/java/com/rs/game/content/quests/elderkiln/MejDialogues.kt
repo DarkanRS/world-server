@@ -1,6 +1,5 @@
 package com.rs.game.content.quests.elderkiln
 
-import com.rs.engine.dialogue.HeadE
 import com.rs.engine.dialogue.HeadE.*
 import com.rs.engine.dialogue.dialogue
 import com.rs.engine.dialogue.startConversation
@@ -161,7 +160,7 @@ private fun mejJahDialoguePostQuest(player: Player, npc: NPC) {
                         if (!player.inventory.hasFreeSlots()) return@item player.sendMessage("You don't have enough inventory space.")
                         if (!recTZ) {
                             player.inventory.addItem(Item(TOKKUL_ZO_CHARGED).addMetaData("tzhaarCharges", 4000))
-                            player.save("recTokkulZo", true)
+                            player.set("recTokkulZo", true)
                         } else player.inventory.addItem(TOKKUL_ZO_UNCHARGED)
                     }
                 }

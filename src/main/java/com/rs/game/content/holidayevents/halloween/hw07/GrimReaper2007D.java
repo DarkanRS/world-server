@@ -58,7 +58,7 @@ public class GrimReaper2007D extends Conversation {
 			addOption("Select an Option", "I'll help out, no problem.", "That doesn't really appeal, I'm off.");
 			addPlayer(HeadE.CALM_TALK, "I'll help out, no problem.");
 			addNPC(8867, HeadE.CALM_TALK, "Proceeding as instructed is the best way to survive here, human. I can always see you and can speak with you whenever I wish, as this is my domain. Go to the garden for further instructions.");
-			addPlayer(HeadE.CALM_TALK, "Always watched. To the garden. Thank you. Much appreciated.", () -> player.save(Halloween2007.STAGE_KEY, 1));
+			addPlayer(HeadE.CALM_TALK, "Always watched. To the garden. Thank you. Much appreciated.", () -> player.set(Halloween2007.STAGE_KEY, 1));
 			break;
 		case 1:
 		case 2:
@@ -120,7 +120,7 @@ public class GrimReaper2007D extends Conversation {
 			addItem(9925, "The Grim Reaper has given you a jack-o-lantern mask, a skeleton costume, random halloween mask, and you have now unlocked the Living on Borrowed Time emote!");
 			addNPC(8867, HeadE.CALM_TALK, "Death will find you one day...");
 			addNext(() -> {
-				player.save(Halloween2007.STAGE_KEY, 10);
+				player.set(Halloween2007.STAGE_KEY, 10);
 				player.getInventory().addItemDrop(new Item(9920, 1));
 				player.getInventory().addItemDrop(new Item(9925, 1));
 				player.getInventory().addItemDrop(new Item(9924, 1));

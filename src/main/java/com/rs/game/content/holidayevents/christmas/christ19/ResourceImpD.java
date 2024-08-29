@@ -67,7 +67,7 @@ public class ResourceImpD extends Conversation {
 			addNPC(IMP_HEAD, HeadE.SCARED, "Oh.. Rasmus.. Sorry, guv. I'll bring da "+noun+" back to da feast den.");
 			addNPC(IMP_HEAD, HeadE.ANGRY, "You betta! Get moving dis instant!");
 			addPlayer(HeadE.CHEERFUL, "Alright, we'll see you there.", () -> {
-				player.save(Christmas2019.STAGE_KEY, stage);
+				player.set(Christmas2019.STAGE_KEY, stage);
 				player.delete(Christmas2019.STAGE_KEY+"loc");
 				PluginManager.handle(new EnterChunkEvent(player, player.getChunkId()));
 			});

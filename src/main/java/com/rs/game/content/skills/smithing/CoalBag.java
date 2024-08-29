@@ -31,7 +31,7 @@ public class CoalBag {
 	public static ItemClickHandler handleClickOnCoalBag = new ItemClickHandler(new Object[] { 18339 }, e -> {
 		int current = e.getPlayer().getI("coalBag");
 		if (current == -1)
-			e.getPlayer().save("coalBag", 0);
+			e.getPlayer().set("coalBag", 0);
 		if (current == -1 || current == 0) {
 			e.getPlayer().sendMessage("You do not have any coal in your coal bag.");
 			return;
@@ -48,7 +48,7 @@ public class CoalBag {
 			}
 			if (current > 1) {
 				e.getPlayer().getInventory().addItem(453, 1);
-				e.getPlayer().save("coalBag", current-1);
+				e.getPlayer().set("coalBag", current-1);
 				e.getPlayer().sendMessage("You withdraw a coal from your bag.");
 			}
 			break;
@@ -59,7 +59,7 @@ public class CoalBag {
 			}
 			int withdraw = (current > e.getPlayer().getInventory().getFreeSlots() ? e.getPlayer().getInventory().getFreeSlots() : current);
 			e.getPlayer().getInventory().addItem(453, withdraw);
-			e.getPlayer().save("coalBag", current-withdraw);
+			e.getPlayer().set("coalBag", current-withdraw);
 			e.getPlayer().sendMessage("You withdraw " + withdraw + " coal from your bag.");
 			break;
 		}
@@ -69,7 +69,7 @@ public class CoalBag {
 		int current = e.getPlayer().getI("coalBag");
 
 		if (current == -1)
-			e.getPlayer().save("coalBag", 0);
+			e.getPlayer().set("coalBag", 0);
 
 		int room = 0;
 
@@ -86,7 +86,7 @@ public class CoalBag {
 			coalToStore = room;
 
 		e.getPlayer().getInventory().deleteItem(453, coalToStore);
-		e.getPlayer().save("coalBag", current+coalToStore);
+		e.getPlayer().set("coalBag", current+coalToStore);
 		e.getPlayer().sendMessage("You store " + coalToStore + " in your coal bag.");
 	});
 
@@ -98,14 +98,14 @@ public class CoalBag {
 					option("All", () -> {
 						int coalBagAmount = e.getPlayer().getI("coalBag");
 						e.getPlayer().getBank().addItem(new Item(453, coalBagAmount), true);
-						e.getPlayer().save("coalBag", 0);
+						e.getPlayer().set("coalBag", 0);
 						e.getPlayer().sendMessage("You store all of your coal in the bank.");
 					});
 					option("Deposit X", () -> e.getPlayer().sendInputInteger("How much coal would you like to deposit?", amount -> {
                         int coalBagAmount = e.getPlayer().getI("coalBag");
                         int coalToStore = (amount > coalBagAmount ? coalBagAmount : amount);
                         e.getPlayer().getBank().addItem(new Item(453, coalToStore), true);
-                        e.getPlayer().save("coalBag", coalBagAmount-coalToStore);
+                        e.getPlayer().set("coalBag", coalBagAmount-coalToStore);
                         e.getPlayer().sendMessage("You store " + coalToStore + " coal in the bank.");
                     }));
 				}

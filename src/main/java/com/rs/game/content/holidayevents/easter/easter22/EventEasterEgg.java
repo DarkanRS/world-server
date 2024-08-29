@@ -76,7 +76,7 @@ public class EventEasterEgg extends GameObject {
                         e.getPlayer().startConversation(new Dialogue().addItem(Easter2022.PERMANENT_EGGSTERMINATOR, "You shatter the egg with the Eggsterminator. A " + npc.getName().toLowerCase() + " appears."));
                         e.getPlayer().sendMessage("You shatter the egg with the Eggsterminator. A " + npc.getName().toLowerCase() + " appears.");
                         if (e.getPlayer().getI(Easter2022.STAGE_KEY+"CurrentHunt", 0) != EggHunt.getHunt())
-                            e.getPlayer().save(Easter2022.STAGE_KEY+"CurrentHunt", EggHunt.getHunt());
+                            e.getPlayer().set(Easter2022.STAGE_KEY+"CurrentHunt", EggHunt.getHunt());
                         e.getPlayer().unlock();
                         return false;
             		}

@@ -88,7 +88,7 @@ public class BathtubSpiderD extends Conversation {
 															.addNPC(8979, HeadE.SPIDER_CALM, "Yup.")
 															.addPlayer(HeadE.UPSET, "I better report back to the Grim Reaper.", () -> {
 																if (player.getI(Halloween2009.STAGE_KEY) == 1)
-																	player.save(Halloween2009.STAGE_KEY, 2);
+																	player.set(Halloween2009.STAGE_KEY, 2);
 															})
 															.addGotoStage("queenOps", BathtubSpiderD.this));
 													option("Goodbye.");

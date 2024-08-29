@@ -120,7 +120,7 @@ fun mapEaster2021() {
         e.player.sendMessage("You fill the bird's dish with water.")
         if (e.player.vars.getVarBit(6026) == e.player.nsv.getI("easterBirdFood")) {
             e.player.sendMessage("The bird wakes up and begins eating and drinking!")
-            e.player.save(STAGE_KEY, 3)
+            e.player.set(STAGE_KEY, 3)
             e.player.vars.setVarBit(6014, 1)
             WorldTasks.delay(10) {
                 e.player.vars.setVarBit(6026, 0)
@@ -143,7 +143,7 @@ fun mapEaster2021() {
             return@onItemOnObject
         }
         if (e.player.vars.getVarBit(6026) == (e.player.nsv.getI("easterBirdFood") + 1)) {
-            e.player.save(STAGE_KEY, 3)
+            e.player.set(STAGE_KEY, 3)
             e.player.vars.setVarBit(6014, 1)
             WorldTasks.delay(10) {
                 e.player.vars.setVarBit(6026, 0)
@@ -198,7 +198,7 @@ fun mapEaster2021() {
                 e.player.vars.setVarBit(6016, 4)
                 e.player.sendMessage("You attach the chimney back into place.")
                 e.player.sendMessage("You hear the machine whirr as it turns back on.")
-                e.player.save(STAGE_KEY, 6)
+                e.player.set(STAGE_KEY, 6)
             } else e.player.sendMessage("That part won't fit quite yet.")
 
             else -> {}
@@ -217,7 +217,7 @@ fun mapEaster2021() {
                     npc(CHARLIE, HeadE.CAT_CHEERFUL, "It's fine, we've been picking up his slack for years. We'll head over as quick as we can.")
                     player(HeadE.CHEERFUL, "Thank you for your help!")
                     exec {
-                        player.save(STAGE_KEY, 8)
+                        player.set(STAGE_KEY, 8)
                         player.vars.setVarBit(6014, 85)
                     }
                 }
@@ -253,7 +253,7 @@ fun mapEaster2021() {
                     npc(EASTER_BUNNY, HeadE.CAT_CHEERFUL, "Now you've agreed to help, you'll need to get through the warrens to the Egg Plant, to speak to that lazy son of mine. For that you need to be bunny-sized!")
                     player(HeadE.CONFUSED, "How do I do that?")
                     npc(EASTER_BUNNY, HeadE.CAT_CHEERFUL, "You simply go down the rabbit hole. My magic will sort the transformation, though you may feel a little itchy for a couple of weeks afterwards. I'll meet you down there!")
-                    player(HeadE.CHEERFUL, "Off I go then!") { player.save(STAGE_KEY, 1) }
+                    player(HeadE.CHEERFUL, "Off I go then!") { player.set(STAGE_KEY, 1) }
                 }
 
                 1 -> if (player.y > 5000) {
@@ -261,7 +261,7 @@ fun mapEaster2021() {
                     npc(EASTER_BUNNY, HeadE.CAT_CHEERFUL, "Yeah, 'tis the life of a bunny! Glad you made it down safely.")
                     player(HeadE.CHEERFUL, "What should I be fixing up first?")
                     npc(EASTER_BUNNY, HeadE.CAT_CHEERFUL, "Well the first problem to deal with is the Easter Bird.. He hasn't been laying eggs due to being so hungry and thirsty. There's some food and water to the east of him. You'll have to figure out which food he likes.")
-                    player(HeadE.CHEERFUL, "Alright, I'll get right on that!") { player.save(STAGE_KEY, 2) }
+                    player(HeadE.CHEERFUL, "Alright, I'll get right on that!") { player.set(STAGE_KEY, 2) }
                 } else npc(EASTER_BUNNY, HeadE.CAT_CHEERFUL, "Speak to me down in my hole. I'll meet you down there!")
 
                 2 -> {
@@ -274,7 +274,7 @@ fun mapEaster2021() {
                     npc(EASTER_BUNNY, HeadE.CAT_CHEERFUL, "Great work! He should get back to laying the easter eggs again pretty quickly now.")
                     player(HeadE.CHEERFUL, "Awesome. What should I work on next?")
                     npc(EASTER_BUNNY, HeadE.CAT_CHEERFUL, "The incubator seems to be broken. I am not sure where the peices even went. My son probably had something to do with it. You should head over to his room to the west ask him about where they are.")
-                    player(HeadE.CHEERFUL, "Alright, thanks. I'll get going.") { player.save(STAGE_KEY, 4) }
+                    player(HeadE.CHEERFUL, "Alright, thanks. I'll get going.") { player.set(STAGE_KEY, 4) }
                 }
 
                 4, 5 -> {
@@ -291,7 +291,7 @@ fun mapEaster2021() {
                     npc(EASTER_BUNNY, HeadE.CAT_CHEERFUL, "Not quite, I need some workers to operate the machines if my son is not going to contribute anything to the season.")
                     player(HeadE.CHEERFUL, "Where do you think I can find some workers?")
                     npc(EASTER_BUNNY, HeadE.CAT_CHEERFUL, "Squirrels! One of my great old friends Charlie lives a little north of Falador and he certainly has some motivated and cheerful workers who'd love to help!")
-                    player(HeadE.SKEPTICAL_THINKING, "Squirrels? If you say so. I'll head up to Falador and see if I can find Charlie then.") { player.save(STAGE_KEY, 7) }
+                    player(HeadE.SKEPTICAL_THINKING, "Squirrels? If you say so. I'll head up to Falador and see if I can find Charlie then.") { player.set(STAGE_KEY, 7) }
                 }
 
                 7 -> {
@@ -307,7 +307,7 @@ fun mapEaster2021() {
                     player(HeadE.CHEERFUL, "Thank you!")
                     item(7927, "The Easter Bunny hands you a chicken costume and unlocks the Bunny Hop emote for you!")
                     exec {
-                        player.save(STAGE_KEY, 9)
+                        player.set(STAGE_KEY, 9)
                         intArrayOf(11022, 11021, 11020, 11019).forEach {
                             player.inventory.addItemDrop(Item(it, 1))
                             player.addDiangoReclaimItem(it)
@@ -337,7 +337,7 @@ fun mapEaster2021() {
                     npc(EASTER_BUNNY_JR, HeadE.CAT_SAD, "I don't really care and I don't remember.. All I know is that 3 parts went flying off when it exploded. Leave me alone now, I'm trying to sleep.")
                     player(HeadE.ANGRY, "That doesn't help much at all!")
                     npc(EASTER_BUNNY_JR, HeadE.CAT_DISAPPOINTED2, "Ok boomer.")
-                    player(HeadE.ROLL_EYES, "*What a lazy sack of garbage.*") { player.save(STAGE_KEY, 5) }
+                    player(HeadE.ROLL_EYES, "*What a lazy sack of garbage.*") { player.set(STAGE_KEY, 5) }
                 }
 
                 5 -> {

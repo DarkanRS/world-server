@@ -50,8 +50,8 @@ public class SnowImpD extends Conversation {
 			addSimple("The imp closes his eyes briefly and makes a grunting sound.");
 			addNPC(IMP_HEAD, HeadE.LAUGH, "I've located da potatoes! Start walkin' and I'll let ya know if ya getting closer!");
 			addPlayer(HeadE.CHEERFUL, "Alright, thanks!", () -> {
-				player.save(Christmas2019.STAGE_KEY, 2);
-				player.save(Christmas2019.STAGE_KEY+"loc", Imp.POTATOES.randomLoc().ordinal());
+				player.set(Christmas2019.STAGE_KEY, 2);
+				player.set(Christmas2019.STAGE_KEY+"loc", Imp.POTATOES.randomLoc().ordinal());
 			});
 			break;
 		case 3:
@@ -60,8 +60,8 @@ public class SnowImpD extends Conversation {
 			addSimple("The imp closes his eyes briefly and makes a grunting sound.");
 			addNPC(IMP_HEAD, HeadE.LAUGH, "I've located da wine! Start walkin' and I'll let ya know if ya getting closer!");
 			addPlayer(HeadE.CHEERFUL, "Alright, thanks!", () -> {
-				player.save(Christmas2019.STAGE_KEY, 4);
-				player.save(Christmas2019.STAGE_KEY+"loc", Imp.WINE.randomLoc().ordinal());
+				player.set(Christmas2019.STAGE_KEY, 4);
+				player.set(Christmas2019.STAGE_KEY+"loc", Imp.WINE.randomLoc().ordinal());
 			});
 			break;
 		case 5:
@@ -70,8 +70,8 @@ public class SnowImpD extends Conversation {
 			addSimple("The imp closes his eyes briefly and makes a grunting sound.");
 			addNPC(IMP_HEAD, HeadE.LAUGH, "I've located da turkeys! Start walkin' and I'll let ya know if ya getting closer!");
 			addPlayer(HeadE.CHEERFUL, "Alright, thanks!", () -> {
-				player.save(Christmas2019.STAGE_KEY, 6);
-				player.save(Christmas2019.STAGE_KEY+"loc", Imp.TURKEY.randomLoc().ordinal());
+				player.set(Christmas2019.STAGE_KEY, 6);
+				player.set(Christmas2019.STAGE_KEY+"loc", Imp.TURKEY.randomLoc().ordinal());
 			});
 			break;
 		case 7:
@@ -80,8 +80,8 @@ public class SnowImpD extends Conversation {
 			addSimple("The imp closes his eyes briefly and makes a grunting sound.");
 			addNPC(IMP_HEAD, HeadE.LAUGH, "I've located da yule logs! Start walkin' and I'll let ya know if ya getting closer!");
 			addPlayer(HeadE.CHEERFUL, "Alright, thanks!", () -> {
-				player.save(Christmas2019.STAGE_KEY, 8);
-				player.save(Christmas2019.STAGE_KEY+"loc", Imp.YULE_LOG.randomLoc().ordinal());
+				player.set(Christmas2019.STAGE_KEY, 8);
+				player.set(Christmas2019.STAGE_KEY+"loc", Imp.YULE_LOG.randomLoc().ordinal());
 			});
 			break;
 		case 2:

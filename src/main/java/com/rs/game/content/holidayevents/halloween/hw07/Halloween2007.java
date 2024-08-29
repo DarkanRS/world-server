@@ -148,7 +148,7 @@ public class Halloween2007 {
 					.addNext(() -> {
 						handlePassGargoyleEntry(e.getPlayer(), e.getObject());
 						if (e.getPlayer().getI(Halloween2007.STAGE_KEY) == 1)
-							e.getPlayer().save(Halloween2007.STAGE_KEY, 2);
+							e.getPlayer().set(Halloween2007.STAGE_KEY, 2);
 					}));
 		else
 			handleDenyGargoyleEntry(e.getPlayer(), e.getObject());
@@ -205,7 +205,7 @@ public class Halloween2007 {
 						.addNPC(8867, HeadE.CALM_TALK, "Yes, and do not try teleporting out of the garden with the skull. The skull will remain behind and you'll have to find it again.")
 						.addNext(() -> {
 							handlePassGargoyleEntry(e.getPlayer(), e.getObject());
-							e.getPlayer().save(Halloween2007.STAGE_KEY, 3);
+							e.getPlayer().set(Halloween2007.STAGE_KEY, 3);
 						}));
 			else if (e.getPlayer().getI(Halloween2007.STAGE_KEY) == 3 && e.getPlayer().getInventory().containsItem(11784))
 				e.getPlayer().startConversation(new Dialogue()
@@ -216,7 +216,7 @@ public class Halloween2007 {
 						.addPlayer(HeadE.CALM_TALK, "You don't waste time, do you? So, the room that looks a bit like your lounge? I'm on my way.")
 						.addNext(() -> {
 							e.getPlayer().getInventory().deleteItem(11784, 28);
-							e.getPlayer().save(Halloween2007.STAGE_KEY, 4);
+							e.getPlayer().set(Halloween2007.STAGE_KEY, 4);
 							handlePassGargoyleEntry(e.getPlayer(), e.getObject());
 						}));
 			else
@@ -361,7 +361,7 @@ public class Halloween2007 {
 						.addPlayer(HeadE.NERVOUS, "*Gulp* I shall have a look.")
 						.addNext(() -> {
 							handlePassGargoyleEntry(e.getPlayer(), e.getObject());
-							e.getPlayer().save(Halloween2007.STAGE_KEY, 5);
+							e.getPlayer().set(Halloween2007.STAGE_KEY, 5);
 						}));
 			else if (e.getPlayer().getI(Halloween2007.STAGE_KEY) == 5) {
 				if (ctrl.isItemsCorrect())
@@ -371,7 +371,7 @@ public class Halloween2007 {
 							.addNPC(8867, HeadE.CALM_TALK, "You've not finished yet, mortal. Please proceed upstairs and enter the room you find there.")
 							.addPlayer(HeadE.CALM_TALK, "Upstairs it is.")
 							.addNext(() -> {
-								e.getPlayer().save(Halloween2007.STAGE_KEY, 6);
+								e.getPlayer().set(Halloween2007.STAGE_KEY, 6);
 								handlePassGargoyleEntry(e.getPlayer(), e.getObject());
 							}));
 				else {
@@ -405,7 +405,7 @@ public class Halloween2007 {
 						.addPlayer(HeadE.NERVOUS, "You've got to be kidding me.")
 						.addNext(() -> {
 							handlePassGargoyleEntry(e.getPlayer(), e.getObject());
-							e.getPlayer().save(Halloween2007.STAGE_KEY, 7);
+							e.getPlayer().set(Halloween2007.STAGE_KEY, 7);
 						}));
 			else
 				handlePassGargoyleEntry(e.getPlayer(), e.getObject());
@@ -485,7 +485,7 @@ public class Halloween2007 {
 				} else
 					handleDenyGargoyleEntry(e.getPlayer(), e.getObject(), () -> {
 						e.getPlayer().tele(Tile.of(1641, 4828, 0));
-						e.getPlayer().save(Halloween2007.STAGE_KEY, 8);
+						e.getPlayer().set(Halloween2007.STAGE_KEY, 8);
 						e.getPlayer().startConversation(new Dialogue()
 								.addPlayer(HeadE.CONFUSED, "Huh? What happened there?")
 								.addNPC(8867, HeadE.CALM_TALK, "Again.")
@@ -498,7 +498,7 @@ public class Halloween2007 {
 			} else
 				handleDenyGargoyleEntry(e.getPlayer(), e.getObject(), () -> {
 					e.getPlayer().tele(Tile.of(1641, 4840, 0));
-					e.getPlayer().save(Halloween2007.STAGE_KEY, 9);
+					e.getPlayer().set(Halloween2007.STAGE_KEY, 9);
 					e.getPlayer().startConversation(new Dialogue()
 							.addNPC(8867, HeadE.CALM_TALK, "That is sufficient.")
 							.addPlayer(HeadE.SLEEPING, "Phew.")

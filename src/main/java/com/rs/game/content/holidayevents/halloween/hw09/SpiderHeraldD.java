@@ -47,7 +47,7 @@ public class SpiderHeraldD extends Conversation {
 							.addNPC(8976, HeadE.SPIDER_CALM, "Tell me, then, have you some patron on whose business you come hither?")
 							.addPlayer(HeadE.CALM_TALK, "Death has sent me; the Grim Reaper.")
 							.addNPC(8976, HeadE.SPIDER_EXCLAIM, "The Grim Reaper! I implore you, grant your pardon for my rudeness! I was told the Queen expected the Dread Lord to send an agent.")
-							.addNPC(8976, HeadE.SPIDER_CALM, "Do not let my words detain you. You should ascend the ladder.", () -> player.save(Halloween2009.STAGE_KEY, 4)));
+							.addNPC(8976, HeadE.SPIDER_CALM, "Do not let my words detain you. You should ascend the ladder.", () -> player.set(Halloween2009.STAGE_KEY, 4)));
 					option("Wretched spiders! I will crush you!", new Dialogue()
 							.addPlayer(HeadE.ANGRY, "Wretched spiders! I will crush you!")
 							.addNPC(8976, HeadE.SPIDER_CALM, "What an introduction. I don't think you would stand the slightest chance against us, human."));
@@ -69,7 +69,7 @@ public class SpiderHeraldD extends Conversation {
 			addPlayer(HeadE.HAPPY_TALKING, "Hello, Eek.");
 			addNext(new SpiderStatement("Hello big human!"));
 			addItem(15353, "(Eek the Spider jumps into your backpack.)", () -> {
-				player.save(Halloween2009.STAGE_KEY, 6);
+				player.set(Halloween2009.STAGE_KEY, 6);
 				player.getInventory().addItem(15353);
 			});
 			addNext(new SpiderStatement("Let's go! This'll be fun!"));
@@ -80,7 +80,7 @@ public class SpiderHeraldD extends Conversation {
 		case 9:
 			if (!player.containsItem(15353)) {
 				addItem(15353, "(Eek the Spider jumps into your backpack.)", () -> {
-					player.save(Halloween2009.STAGE_KEY, 6);
+					player.set(Halloween2009.STAGE_KEY, 6);
 					player.getInventory().addItem(15353);
 				});
 				addNext(new SpiderStatement("Let's go! This'll be fun!"));

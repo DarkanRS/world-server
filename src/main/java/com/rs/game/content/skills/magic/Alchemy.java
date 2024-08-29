@@ -77,9 +77,9 @@ public class Alchemy {
 			if (itemReq.getId() == 453 && player.getInventory().containsItem(18339) && player.getI("coalBag") > 0) {
 				int coalBag = player.getI("coalBag");
 				if (coalBag > itemReq.getAmount())
-					player.save("coalBag", coalBag - itemReq.getAmount());
+					player.set("coalBag", coalBag - itemReq.getAmount());
 				else {
-					player.save("coalBag", 0);
+					player.set("coalBag", 0);
 					player.getInventory().deleteItem(453, itemReq.getAmount()-coalBag);
 				}
 			} else

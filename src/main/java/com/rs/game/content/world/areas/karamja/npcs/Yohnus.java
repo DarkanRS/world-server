@@ -27,7 +27,7 @@ public class Yohnus {
                                     .addNPC(npc, HeadE.SAD_MILD_LOOK_DOWN, "Sorry Bwana, you do not have enough gold!")))
 							.addNPC(npc, HeadE.HAPPY_TALKING, "Thanks Bwana! Enjoy the facilities!", () -> {
 								player.getInventory().removeCoins(20);
-								player.save("shilo_blacksmith_pay", blacksmithPays + 1);
+								player.set("shilo_blacksmith_pay", blacksmithPays + 1);
 							});
 					ops.add("No thanks!")
 							.addPlayer(HeadE.CALM_TALK, "No thanks!")

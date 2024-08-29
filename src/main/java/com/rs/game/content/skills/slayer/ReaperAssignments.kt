@@ -125,7 +125,7 @@ internal class ReaperDialogue(player: Player) : Conversation(player) {
             addPlayer(HeadE.HAPPY_TALKING, "Great! When do I start?")
             addNPC(15661, HeadE.CALM, "Immediately.")
             addNext {
-                player.save("learnedDeath", true)
+                player["learnedDeath"] = true
                 player.inventory.addItemDrop(24806, 1)
                 giveNewTask(player)
             }

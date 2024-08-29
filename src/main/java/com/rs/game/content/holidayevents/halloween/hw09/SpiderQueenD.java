@@ -20,7 +20,6 @@ import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.EmotesManager.Emote;
-import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 
@@ -58,7 +57,7 @@ public class SpiderQueenD extends Conversation {
 			addNPC(8975, HeadE.SPIDER_CALM, "I take this as an insult! The bath spider will remain until the Grim Reaper's house is full of its proper cobwebs.");
 			addPlayer(HeadE.CONFUSED, "Shall I ask the Grim Reaper to put cobwebs in his house?");
 			addNPC(8975, HeadE.SPIDER_CALM, "Do not ask him! Tell him! It is an instruction from the Queen of Spiders herself, and the Grim Reaper will obey it!");
-			addNPC(8975, HeadE.SPIDER_CALM, "Go now! But first, speak to my herald. he will give you a companion to help you in this task.", () -> player.save(Halloween2009.STAGE_KEY, 5));
+			addNPC(8975, HeadE.SPIDER_CALM, "Go now! But first, speak to my herald. he will give you a companion to help you in this task.", () -> player.set(Halloween2009.STAGE_KEY, 5));
 			break;
 		case 5:
 			addNPC(8975, HeadE.SPIDER_CALM, "Go now! But first, speak to my herald. he will give you a companion to help you in this task.");
@@ -92,7 +91,7 @@ public class SpiderQueenD extends Conversation {
 			addNPC(8975, HeadE.SPIDER_CALM, "Mammal, you will protect this spider, or feel my wrath.");
 			addNPC(8975, HeadE.SPIDER_CALM, "Now go, both of you.");
 			addNext(() -> {
-				player.save(Halloween2009.STAGE_KEY, 10);
+				player.set(Halloween2009.STAGE_KEY, 10);
 				//player.getInventory().addItemDrop(new Item(15352, 1));
 				player.getInventory().addItemDrop(9921, 1);
 				player.getInventory().addItemDrop(9922, 1);

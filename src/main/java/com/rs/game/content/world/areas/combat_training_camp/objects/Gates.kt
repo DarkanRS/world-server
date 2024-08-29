@@ -21,7 +21,7 @@ class Gates(player: Player, obj: GameObject) {
                         npc(344, CALM_TALK, "The king has granted you access to this training area. Make good use of it, soon all your strength will be needed.")
                         exec {
                             handleDoubleDoor(player, obj)
-                            player.save("enteredCombatTrainingCamp", true)
+                            player.set("enteredCombatTrainingCamp", true)
                         }
                     }
                 else handleDoubleDoor(player, obj)

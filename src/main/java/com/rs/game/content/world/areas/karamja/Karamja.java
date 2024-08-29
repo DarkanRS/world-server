@@ -82,7 +82,7 @@ public class Karamja  {
 							}));
 					return;
 				}
-				player.save("shilo_blacksmith_pay", blacksmithPays - 1);
+				player.set("shilo_blacksmith_pay", blacksmithPays - 1);
 				Doors.handleDoor(e.getPlayer(), e.getObject());
 			}
 			case "Use-furnace(20gp)" -> {

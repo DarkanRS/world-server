@@ -100,7 +100,7 @@ public class Lumbridge {
 			e.getPlayer().getInventory().deleteItem(1947, 1);
 			e.getPlayer().setNextAnimation(new Animation(832));
 			e.getPlayer().sendMessage("You put the wheat in the hopper.");
-			e.getPlayer().save(WHEAT_DEPOSITED, Boolean.TRUE);
+			e.getPlayer().set(WHEAT_DEPOSITED, Boolean.TRUE);
 		}
 	});
 
@@ -185,8 +185,8 @@ public class Lumbridge {
 	public static ObjectClickHandler handleTakeFlour = new ObjectClickHandler(new Object[] { 36880 }, e -> {
 		if (e.getPlayer().getInventory().containsItem(1931, 1)) {
 			if (e.getPlayer().get(WHEAT_GRINDED) == Boolean.TRUE) {
-				e.getPlayer().save(WHEAT_GRINDED, Boolean.FALSE);
-				e.getPlayer().save(WHEAT_DEPOSITED, Boolean.FALSE);
+				e.getPlayer().set(WHEAT_GRINDED, Boolean.FALSE);
+				e.getPlayer().set(WHEAT_DEPOSITED, Boolean.FALSE);
 				e.getPlayer().sendMessage("You take the ground flour.");
 				e.getPlayer().setNextAnimation(new Animation(832));
 				e.getPlayer().getInventory().deleteItem(1931, 1);
@@ -199,8 +199,8 @@ public class Lumbridge {
 
 	public static ItemOnObjectHandler handleTakeFlourWithPot = new ItemOnObjectHandler(new Object[] { 36880 }, new Object[] { 1931 }, e -> {
 			if (e.getPlayer().get(WHEAT_GRINDED) == Boolean.TRUE) {
-				e.getPlayer().save(WHEAT_GRINDED, Boolean.FALSE);
-				e.getPlayer().save(WHEAT_DEPOSITED, Boolean.FALSE);
+				e.getPlayer().set(WHEAT_GRINDED, Boolean.FALSE);
+				e.getPlayer().set(WHEAT_DEPOSITED, Boolean.FALSE);
 				e.getPlayer().sendMessage("You take the ground flour.");
 				e.getPlayer().setNextAnimation(new Animation(832));
 				e.getPlayer().getInventory().replace(1931, 1933);
@@ -211,7 +211,7 @@ public class Lumbridge {
 	public static ObjectClickHandler handleWindmillLever = new ObjectClickHandler(new Object[] { 2718 }, e -> {
 		e.getPlayer().sendMessage("You pull the lever.");
 		if (e.getPlayer().get(WHEAT_DEPOSITED) == Boolean.TRUE) {
-			e.getPlayer().save(WHEAT_GRINDED, Boolean.TRUE);
+			e.getPlayer().set(WHEAT_GRINDED, Boolean.TRUE);
 			e.getPlayer().sendMessage("You hear the grinding of stones and the wheat falls below.");
 			updateWheat(e.getPlayer());
 		}

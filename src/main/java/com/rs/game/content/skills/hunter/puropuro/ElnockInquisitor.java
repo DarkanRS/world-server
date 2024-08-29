@@ -100,7 +100,7 @@ public class ElnockInquisitor extends Conversation {
                                         .addNext(() -> {
                                             player.getInventory().addItemDrop(new Item(10010, 1));
                                             player.getInventory().addItemDrop(new Item(11260, 7));
-                                            player.save("puropuro_equipment_claimed", true);
+                                            player.set("puropuro_equipment_claimed", true);
                                         })
                                         .addNPC(ELNOCK_INQUISITOR, HeadE.CALM, "There you go. You have everything you need now.")
                                         .addNPC(ELNOCK_INQUISITOR, HeadE.CALM, "If you are ready to start hunting implings, then enter the main part of the maze. Just push through the wheat that surrounds the centre of the maze and get catching!");
@@ -117,7 +117,7 @@ public class ElnockInquisitor extends Conversation {
                             .addNext(() -> {
                                 player.getInventory().addItemDrop(new Item(10010, 1));
                                 player.getInventory().addItemDrop(new Item(11260, 7));
-                                player.save("puropuro_equipment_claimed", true);
+                                player.set("puropuro_equipment_claimed", true);
                             })
                             .addNPC(ELNOCK_INQUISITOR, HeadE.CALM, "There you go. You have everything you need now.")
                             .addNPC(ELNOCK_INQUISITOR, HeadE.CALM, "If you are ready to start hunting implings, then enter the main part of the maze. Just push through the wheat that surrounds the centre of the maze and get catching!");

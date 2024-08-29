@@ -131,8 +131,8 @@ fun mapTrollStrongholdInteractions() {
 
     onDestroyItem(QUEST_REWARD_LAMP) { (player, item) ->
         if (item.id == QUEST_REWARD_LAMP) {
-            if (player.getI(TROLL_STRONGHOLD_QUEST_LAMPS_LOST) < 0) player.save(TROLL_STRONGHOLD_QUEST_LAMPS_LOST, 1)
-            else player.save(TROLL_STRONGHOLD_QUEST_LAMPS_LOST, (player.getI(TROLL_STRONGHOLD_QUEST_LAMPS_LOST) + 1))
+            if (player.getI(TROLL_STRONGHOLD_QUEST_LAMPS_LOST) < 0) player.set(TROLL_STRONGHOLD_QUEST_LAMPS_LOST, 1)
+            else player.set(TROLL_STRONGHOLD_QUEST_LAMPS_LOST, (player.getI(TROLL_STRONGHOLD_QUEST_LAMPS_LOST) + 1))
         }
     }
 

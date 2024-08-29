@@ -16,10 +16,10 @@ public class RepairStandD extends Conversation {
 		player.getPackets().setIFItem(1183, 13, details.getItemId(), 1);
 		player.getPackets().setIFText(1183, 7, "Repair this item fully for " + (stand ? details.getRepairStandCost(player) : details.getCost(item)) + " coins?");
 		player.getPackets().setIFText(1183, 22, "Confirm repair");
-		player.save("repairDetails", details);
-		player.save("repairItem", item);
-		player.save("repairStand", stand);
-		player.save("repairSlot", slot);
+		player.set("repairDetails", details);
+		player.set("repairItem", item);
+		player.set("repairStand", stand);
+		player.set("repairSlot", slot);
 	}
 
 	public static ButtonClickHandler handleRepair = new ButtonClickHandler(1183, e -> {
