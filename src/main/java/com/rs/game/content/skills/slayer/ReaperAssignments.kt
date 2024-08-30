@@ -17,10 +17,7 @@
 package com.rs.game.content.skills.slayer
 
 import com.rs.cache.loaders.NPCDefinitions
-import com.rs.engine.dialogue.Conversation
-import com.rs.engine.dialogue.Dialogue
-import com.rs.engine.dialogue.HeadE
-import com.rs.engine.dialogue.Options
+import com.rs.engine.dialogue.*
 import com.rs.game.World.sendProjectile
 import com.rs.game.model.entity.npc.NPC
 import com.rs.game.model.entity.player.Player
@@ -36,7 +33,7 @@ import java.util.*
 fun mapReaperAssignments() {
     onItemClick(24806) { (player, _, option) ->
         when (option) {
-            "Activate" -> player.startConversation(ReaperDialogue(player))
+            "Activate" -> talkToReaper(player)
             "Kills-left" -> if (player.bossTask != null)
                                 player.sendMessage(player.bossTask.message)
                             else
@@ -47,7 +44,7 @@ fun mapReaperAssignments() {
 
     onNpcClick(15661) { (player, _, option) ->
         when (option) {
-            "Talk-to" -> player.startConversation(ReaperDialogue(player))
+            "Talk-to" -> talkToReaper(player)
             "Get-task" -> talkAboutAssignment(player)
             "Rewards" -> player.sendMessage("Rewards are not implemented at the moment, but you can still gain points. Feel free to post suggestions for rewards in Discord.")
             "Reclaim-items" -> player.sendMessage("Possible future implementation, but not a fan of it.")
@@ -65,87 +62,73 @@ fun mapReaperAssignments() {
     }
 }
 
-fun talkAboutAssignment(player: Player) {
+private fun talkAboutAssignment(player: Player) {
     if (player.bossTask == null) giveNewTask(player)
     else player.startConversation(Conversation(player).addNext(getRerollTaskDialogue(player)))
 }
 
-fun giveNewTask(player: Player) {
+private fun giveNewTask(player: Player) {
     if (player.getDailyB("bossTaskCompleted")) {
-        player.startConversation(
-            Conversation(player)
-                .addNPC(15661, HeadE.CALM, "The imbalance has been corrected for today; your task is done. Visit me tomorrow for further instructions.")
-        )
+        player.npcDialogue(15661, HeadE.CALM, "The imbalance has been corrected for today; your task is done. Visit me tomorrow for further instructions.")
         return
     }
     player.bossTask = BossTask.create()
-    player.startConversation(
-        Conversation(player)
-            .addNPC(15661, HeadE.CALM, "I require you to collect " + player.bossTask.amount + " souls from the following battle: " + player.bossTask.name + ". Can I trust you with this task?")
-            .addOptions("Select an Option", object : Options() {
-                override fun create() {
-                    option("You certainly can. Thanks!") {}
-                    option("I'd like a different assignment.", getRerollTaskDialogue(player))
-                }
-            })
-    )
-}
-
-fun getRerollTaskDialogue(player: Player): Dialogue {
-    val d = Dialogue()
-    if (player.getDailyI("bossTaskRerolls") < 3) d.addNPC(
-        15661, HeadE.CALM, "Do not think I will allow you to change your mind freely. I will only allow you to change it 3 times per day. "
-                + (if (player.getDailyI("bossTaskRerolls") == 0) "" else "You've already used up " + player.getDailyI("bossTaskRerolls") + " of those.")
-    )
-        .addOption("Are you sure you want to reroll your task?", "Yes, I am sure.", "Nevermind, I will just do this task.")
-        .addNext {
-            player.incDailyI("bossTaskRerolls")
-            giveNewTask(player)
+    player.startConversation {
+        npc(15661, HeadE.CALM, "I require you to collect " + player.bossTask.amount + " souls from the following battle: " + player.bossTask.name + ". Can I trust you with this task?")
+        options {
+            op("You certainly can. Thanks!")
+            op("I'd like a different assignment.") { appendToCurrent(getRerollTaskDialogue(player)) }
         }
-    else d.addNPC(15661, HeadE.CALM, "My patience only stretches so far. You have wasted enough of my time, I must address this imbalance myself. Be gone, mortal.")
-    return d
+    }
 }
 
-internal class ReaperDialogue(player: Player) : Conversation(player) {
-    init {
-        if (!(player["learnedDeath"] as Boolean)) {
-            addNPC(15661, HeadE.CALM, "Hello mortal. I am in need of some assistance and I have an offer to propose to you. Listen closely.")
-            addNPC(
-                15661, HeadE.CALM, "As you are no doubt aware, I am Death. The Reaper, the Collector of Souls, or any other name civilizations have given me. My task is to retrieve "
-                        + "the soul from a dying creature, enabling its passage to the underworld."
-            )
-            addPlayer(HeadE.CONFUSED, "So what do you need me for?")
-            addNPC(15661, HeadE.CALM, "There is an imbalance in the harmony of life and death. There is far too much... life.")
-            addNPC(
-                15661, HeadE.CALM, ("My eyes have been on you in this age, " + player.displayName + ", as have the eyes of many others. You appear to have the skills "
-                        + "I require to bring balance.")
-            )
-            addPlayer(HeadE.CONFUSED, "So you want me to kill stuff?")
-            addNPC(15661, HeadE.CALM, "If you wish to put it so indelicately, yes.")
-            addPlayer(HeadE.HAPPY_TALKING, "Great! When do I start?")
-            addNPC(15661, HeadE.CALM, "Immediately.")
-            addNext {
+private fun getRerollTaskDialogue(player: Player): Dialogue {
+    return createDialogueSection {
+        if (player.getDailyI("bossTaskRerolls") < 3)
+            npc(15661, HeadE.CALM, "Do not think I will allow you to change your mind freely. I will only allow you to change it 3 times per day. ${(if (player.getDailyI("bossTaskRerolls") == 0) "" else "You've already used up " + player.getDailyI("bossTaskRerolls") + " of those.")}")
+        options("Are you sure you want to reroll your task?") {
+            opExec("Yes, I am sure.") {
+                player.incDailyI("bossTaskRerolls")
+                giveNewTask(player)
+            }
+
+            op("Nevermind, I will just do this task.")
+        }
+    }
+}
+
+private fun talkToReaper(player: Player) {
+    player.startConversation {
+        if (!player.getBool("learnedDeath")) {
+            npc(15661, HeadE.CALM, "Hello mortal. I am in need of some assistance and I have an offer to propose to you. Listen closely.")
+            npc(15661, HeadE.CALM, "As you are no doubt aware, I am Death. The Reaper, the Collector of Souls, or any other name civilizations have given me. My task is to retrieve the soul from a dying creature, enabling its passage to the underworld.")
+            player(HeadE.CONFUSED, "So what do you need me for?")
+            npc(15661, HeadE.CALM, "There is an imbalance in the harmony of life and death. There is far too much... life.")
+            npc(15661, HeadE.CALM, ("My eyes have been on you in this age, " + player.displayName + ", as have the eyes of many others. You appear to have the skills I require to bring balance."))
+            player(HeadE.CONFUSED, "So you want me to kill stuff?")
+            npc(15661, HeadE.CALM, "If you wish to put it so indelicately, yes.")
+            player(HeadE.HAPPY_TALKING, "Great! When do I start?")
+            npc(15661, HeadE.CALM, "Immediately.")
+            exec {
                 player["learnedDeath"] = true
                 player.inventory.addItemDrop(24806, 1)
                 giveNewTask(player)
             }
-        } else {
-            addNPC(15661, HeadE.CALM, "What is it, mortal? Time is ticking.")
-            addOptions("What would you like to say?", object : Options() {
-                override fun create() {
-                    option("I need an assignment.") { talkAboutAssignment(player) }
-
-                    option("I'd like another grim gem.", Dialogue()
-                        .addItem(24806, "You receive a grim gem.") { player.inventory.addItem(24806, 1) })
-
-                    option(
-                        "Are there any rewards for this?", Dialogue()
-                            .addNPC(15661, HeadE.CALM, "Not yet, mortal. I am still thinking about possible reward options. But I will still keep tally of your points regardless.")
-                    )
-                }
-            })
+            return@startConversation
         }
-        create()
+
+        npc(15661, HeadE.CALM, "What is it, mortal? Time is ticking.")
+        options {
+            op("I need an assignment.") { talkAboutAssignment(player) }
+
+            op("I'd like another grim gem.") {
+                item(24806, "You receive a grim gem.") { player.inventory.addItem(24806, 1) }
+            }
+
+            op("Are there any rewards for this?") {
+                npc(15661, HeadE.CALM, "Not yet, mortal. I am still thinking about possible reward options. But I will still keep tally of your points regardless.")
+            }
+        }
     }
 }
 
