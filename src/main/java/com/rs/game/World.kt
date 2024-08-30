@@ -628,12 +628,7 @@ object World {
     }
 
     @JvmStatic
-    private fun getTargetChunkId(obj: Any): Int = when (obj) {
-        is Tile -> obj.chunkId
-        is Entity -> obj.chunkId
-        is GameObject -> obj.tile.chunkId
-        else -> throw RuntimeException("Invalid target type. $obj")
-    }
+    private fun getTargetChunkId(obj: Any): Int = getTargetTile(obj).chunkId
 
     @JvmStatic
     fun isMultiArea(tile: Tile): Boolean {
