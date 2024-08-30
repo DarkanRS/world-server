@@ -14,17 +14,16 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.content.bosses.corp;
+package com.rs.game.content.bosses.corp
 
-import com.rs.engine.cutscene.Cutscene;
-import com.rs.engine.dialogue.Dialogue;
-import com.rs.game.model.entity.player.Player;
+import com.rs.engine.cutscene.Cutscene
+import com.rs.engine.dialogue.Dialogue
+import com.rs.game.model.entity.player.Player
 
-public class CorporealBeastScene extends Cutscene {
-	@Override
-	public void construct(Player player) {
-		camPos(2993, 4378, 1000);
-		camLook(2984, 4383, 5000);
-		dialogue(new Dialogue().addSimple("You peek through the door."), true);
-	}
+class CorporealBeastScene : Cutscene() {
+    override fun construct(player: Player?) {
+        camPos(2993, 4378, 1000)
+        camLook(2984, 4383, 5000)
+        dialogue(Dialogue().addSimple("You peek through the door."), true)
+    }
 }
