@@ -28,6 +28,8 @@ import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemOnNPCHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
+import com.rs.plugin.handlers.ObjectClickHandler;
+import com.rs.lib.game.Tile;
 
 @PluginEventHandler
 public class Daemonheim {
@@ -46,6 +48,14 @@ public class Daemonheim {
 						ops.add("I'd like to see my collection box", new Dialogue().addNext(()-> GE.openCollection(p)));
 					}));
 	});
+
+	public static ObjectClickHandler staircasetosecondfloorleft = new ObjectClickHandler(new Object[] { 48612 }, e -> e.getPlayer().tele(Tile.of(3451, 3738, 1)));
+
+	public static ObjectClickHandler staircasetofirstfloorleft= new ObjectClickHandler(new Object[] { 50567 }, e -> e.getPlayer().tele(Tile.of(3447, 3732, 0)));
+
+	public static ObjectClickHandler staircasetosecondfloorright = new ObjectClickHandler(new Object[] { 48611 }, e -> e.getPlayer().tele(Tile.of(3451, 3738, 1)));
+
+	public static ObjectClickHandler staircasetofirstfloorright= new ObjectClickHandler(new Object[] { 50568 }, e -> e.getPlayer().tele(Tile.of(3452, 3732, 0)));
 
 	public static NPCClickHandler handleRewardsTrader = new NPCClickHandler(new Object[] { 9711 }, e -> {
 		Player p = e.getPlayer();
