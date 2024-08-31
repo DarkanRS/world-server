@@ -11,11 +11,11 @@ import com.rs.lib.game.Tile;
 import java.util.function.Supplier;
 
 public record Teleport(Tile start, Tile destination, TeleType type, Supplier<Boolean> meetsRequirements, Runnable begin, Runnable end, boolean clearDamage) {
-    public static void execute(Player player, Teleport teleport, int delay) {
+    public static boolean execute(Player player, Teleport teleport, int delay) {
         if (player.isLocked() || (teleport.meetsRequirements != null && !teleport.meetsRequirements.get()))
-            return;
+            return false;
         if (!player.getControllerManager().processTeleport(teleport))
-            return;
+            return false;
         player.stopAll();
         player.lock();
         if (teleport.begin != null)
@@ -33,6 +33,7 @@ public record Teleport(Tile start, Tile destination, TeleType type, Supplier<Boo
             }
             player.unlock();
         });
+        return true;
     }
 
     public static void checkDestinationControllers(Player player, Tile teleTile) {
