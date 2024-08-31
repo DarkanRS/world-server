@@ -18,12 +18,14 @@ package com.rs.game.content.skills.magic;
 
 import com.rs.engine.quest.Quest;
 import com.rs.game.World;
+import com.rs.game.content.Effect;
 import com.rs.game.content.combat.CombatSpell;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Teleport;
 import com.rs.game.model.entity.interactions.PlayerCombatInteraction;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
+import com.rs.game.model.entity.player.Skills;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.*;
@@ -388,6 +390,18 @@ public class Magic {
 				break;
 			case 72: // Ape Atoll teleport
 				sendNormalTeleportSpell(player, 64, 76, Tile.of(2797, 2798, 1), new RuneSet(Rune.FIRE, 2, Rune.WATER, 2, Rune.LAW, 2));
+				break;
+			case 83:
+				if (player.hasEffect(Effect.CHARGED)) {
+					player.sendMessage("You're already under the effects of this spell.");
+					return;
+				}
+				if (!player.canCastSpell() || !Magic.checkMagicAndRunes(player, 80, true, new RuneSet(Rune.FIRE, 3, Rune.BLOOD, 3, Rune.AIR, 3)))
+					return;
+				player.sync(811, new SpotAnim(308, 23, 130));
+				player.getSkills().addXp(Skills.MAGIC, 180);
+				player.refreshChargeTimer();
+				player.sendMessage("You feel charged with magical power.");
 				break;
 		}
 	}

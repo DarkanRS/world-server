@@ -1982,6 +1982,16 @@ public abstract class Entity {
 		setNextSpotAnim(spotAnim);
 	}
 
+	public void sync(Animation anim, int spotAnim) {
+		setNextAnimation(anim);
+		spotAnim(spotAnim);
+	}
+
+	public void sync(int anim, SpotAnim spotAnim) {
+		anim(anim);
+		setNextSpotAnim(spotAnim);
+	}
+
 	public InteractionManager getInteractionManager() {
 		return interactionManager;
 	}
