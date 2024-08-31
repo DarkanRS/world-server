@@ -168,7 +168,7 @@ class DwarfMultiCannon(player: Player, tile: Tile, private val cannonType: Int) 
 
             if (npc.withinDistance(cannonTile, 10) && getDirectionTo(npc) == spinRot) {
                 val hit = calculateHit(owner, npc, 0, 300, owner.equipment.weaponId, owner.combatDefinitions.getAttackStyle(), isRanging(owner), true, 1.0)
-                val proj = World.sendProjectile(Tile.of(x + 1, y + 1, plane), npc, 53, 38 to 38, 30, 2, 0)
+                val proj = World.sendProjectile(Tile.of(x + 1, y + 1, plane), npc, 53, 38 to 38, 10, 2, 0)
                 WorldTasks.schedule(proj.taskDelay) { npc.applyHit(Hit(owner, hit.damage, Hit.HitLook.CANNON_DAMAGE)) }
                 owner.skills.addXp(Constants.RANGE, hit.damage.toDouble() / 5.0)
                 balls--

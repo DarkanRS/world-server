@@ -602,6 +602,14 @@ object World {
         return sendProjectile(from, to, spotAnimId, 28 to 28, delay, speed, angle, offset, task)
     }
 
+    @JvmStatic
+    @JvmOverloads
+    fun sendProjectile(from: Any, to: Any, spotAnimId: Int, heights: Pair<Int, Int>, delay: Int, speed: Int, angle: Int = 0, offset: Int = 0, task: Consumer<WorldProjectile>? = null): WorldProjectile {
+        val sourceTile = getTargetTile(from)
+        val targetTile = getTargetTile(to)
+        return sendProjectileAbsoluteSpeed(from, to, spotAnimId, heights, delay, Utils.getDistanceI(sourceTile, targetTile) * speed, angle, offset, task)
+    }
+
     /**
      * Sends a projectile from the specified source to the target with a given graphic ID, heights, delay, speed, and optional parameters.
      * This function calculates the speed based on the distance between the source and the target.
@@ -610,7 +618,6 @@ object World {
      * @param to The target to which the projectile is sent. Can be any object representing a position or entity.
      * @param spotAnimId The ID of the spotanim to use for the projectile.
      * @param heights A pair representing the start and end heights of the projectile.
-     * @param delay The delay before the projectile is sent, in client frames.
      * @param speed The speed of the projectile. This is measured in client frames spent in the air per tile of distance. So a lower number is a faster projectile.
      * @param angle (Optional) The angle at which the projectile is sent. Default is 0.
      * @param offset (Optional) The offset of the projectile's trajectory. Default is 0.
@@ -618,11 +625,10 @@ object World {
      * @return The `WorldProjectile` object representing the sent projectile.
      */
     @JvmStatic
-    @JvmOverloads
-    fun sendProjectile(from: Any, to: Any, spotAnimId: Int, heights: Pair<Int, Int>, delay: Int = 0, speed: Int, angle: Int = 0, offset: Int = 0, task: Consumer<WorldProjectile>? = null): WorldProjectile {
+    fun sendProjectile(from: Any, to: Any, spotAnimId: Int, heights: Pair<Int, Int>, speed: Int, angle: Int = 0, offset: Int = 0, task: Consumer<WorldProjectile>? = null): WorldProjectile {
         val sourceTile = getTargetTile(from)
         val targetTile = getTargetTile(to)
-        return sendProjectileAbsoluteSpeed(from, to, spotAnimId, heights, delay, Utils.getDistanceI(sourceTile, targetTile) * speed, angle, offset, task)
+        return sendProjectileAbsoluteSpeed(from, to, spotAnimId, heights, 0, Utils.getDistanceI(sourceTile, targetTile) * speed, angle, offset, task)
     }
 
     /**

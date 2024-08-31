@@ -66,7 +66,17 @@ class DarkEnergyCore(private val beast: CorporealBeast) : NPC(8127, Tile.of(beas
                 distance <= 5 -> 60
                 else -> 90
             }
-            val travelTime = World.sendProjectileAbsoluteSpeed(start, destination, 1828, heights = 15 to 15, delay = 0, speed, offset = 20, angle = 30).taskDelay;
+
+            val travelTime = World.sendProjectileAbsoluteSpeed(
+                start, destination,
+                1828,
+                heights = 15 to 15,
+                delay = 0,
+                speed,
+                offset = 20,
+                angle = 30
+            ).taskDelay
+
             wait(travelTime+1)
             tele(destination)
             isHidden = false

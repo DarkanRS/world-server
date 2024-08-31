@@ -178,7 +178,7 @@ class BossTask(var task: BossTasks, var amount: Int) {
     }
 
     fun sendKill(player: Player, npc: NPC) {
-        sendProjectile(npc, player, 3060, Pair(18, 18), 15, 15, 20)
+        sendProjectile(npc.tile, player, 3060, Pair(18, 18), 15, 15, 20)
         if (amount >= 1) amount--
         if (amount <= 0) finishTask(player)
         else player.sendMessage("<col=ff0000>As " + npc.name + " dies, you absorb the soul. You now need " + amount + " more souls.")
