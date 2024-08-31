@@ -2,22 +2,22 @@
   "names": [
     "Queen Black Dragon"
   ],
-  "attackAnim": -1,
+  "attackAnim": 16719,
   "attackSound": -1,
   "defenceAnim": -1,
   "defendSound": -1,
-  "deathAnim": -1,
+  "deathAnim": 16732,
   "deathDelay": 10,
   "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 2000,
-  "maxHit": 0,
+  "maxHit": 500,
   "attackStyle": "RANGE",
   "combatLevels": {
     "ATTACK": 250,
     "RANGE": 250,
     "STRENGTH": 250,
-    "DEFENSE": 50,
+    "DEFENSE": 150,
     "MAGE": 250
   },
   "bonuses": {

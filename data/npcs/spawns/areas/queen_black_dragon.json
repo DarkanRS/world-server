@@ -1,0 +1,12 @@
+[
+  {
+    "comment": "Queen Black Dragon added by trent",
+    "npcId": 15454,
+    "tile": {
+      "x": 1439,
+      "y": 6372,
+      "plane": 1
+    },
+    "clip": "NORMAL"
+  }
+]
