@@ -2,11 +2,11 @@
   "names": [
     "Lizard"
   ],
-  "attackAnim": 7588,
+  "attackAnim": 1579,
   "attackSound": 605,
-  "defenceAnim": 7590,
+  "defenceAnim": 1580,
   "defendSound": 607,
-  "deathAnim": 7589,
+  "deathAnim": 1581,
   "deathDelay": 6,
   "deathSound": 606,
   "respawnDelay": 39,

@@ -2,9 +2,9 @@
   "names": [
     "Ugthanki"
   ],
-  "attackAnim": 49,
+  "attackAnim": -1,
   "attackSound": 369,
-  "defenceAnim": 50,
+  "defenceAnim": -1,
   "defendSound": 371,
   "deathAnim": 9674,
   "deathDelay": 6,
