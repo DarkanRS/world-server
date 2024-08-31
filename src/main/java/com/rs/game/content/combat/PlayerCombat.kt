@@ -895,7 +895,7 @@ fun getMaxHit(player: Player, target: Entity?, weaponId: Int, attackStyle: Attac
 
 fun hasFireCape(player: Player): Boolean {
     val capeId = player.equipment.capeId
-    return capeId == 6570 || capeId == 20769 || capeId == 20771
+    return capeId == 6570 || capeId == 20769 || capeId == 20771 || capeId == 23659
 }
 
 fun fullVeracsEquipped(player: Player): Boolean {
