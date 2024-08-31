@@ -158,7 +158,7 @@ public class FightArenaFightCutsceneController extends Controller {
 						ogre.setRandomWalk(false);
 						ogre.faceEntityTile(father);
 						father.faceEntityTile(ogre);
-						father.setLocked(true);
+						father.lock();
 						father.setHitpoints(9999);
 						ogre.setCombatTarget(father);
 						player.getPackets().sendResetCamera();

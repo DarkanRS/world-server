@@ -2126,12 +2126,12 @@ public class Player extends Entity {
 			wrath(source);
 		WorldTasks.scheduleTimer(0, 1, tick -> {
 			switch(tick) {
-				case 0 -> setNextAnimation(new Animation(836));
+				case 0 -> anim(836);
 				case 1 -> sendMessage(message);
 				case 3 -> {
 					reset();
 					tele(respawnTile);
-					setNextAnimation(new Animation(-1));
+					anim(-1);
 					if (onFall != null)
 						onFall.accept(this);
 				}
@@ -2147,10 +2147,20 @@ public class Player extends Entity {
 
 	@Override
 	public void sendDeath(final Entity source) {
+		if (!controllerManager.sendDeath())
+			return;
+		dangerousDeath(source, null);
+	}
+
+	public void dangerousDeath(Consumer<Player> onBypassDeathController) {
+		dangerousDeath(null, onBypassDeathController);
+	}
+
+	public void dangerousDeath(Entity source, Consumer<Player> onBypassDeathController) {
 		clearPendingTasks();
 		incrementCount("Deaths");
 
-		if (prayer.hasPrayersOn() && !getTempAttribs().getB("startedDuel")) {
+		if (prayer.hasPrayersOn()) {
 			if (prayer.active(Prayer.RETRIBUTION))
 				retribution(source);
 			if (prayer.active(Prayer.WRATH))
@@ -2158,10 +2168,8 @@ public class Player extends Entity {
 		}
 
 		refreshDyingTime();
-		setNextAnimation(new Animation(-1));
-		if (!controllerManager.sendDeath())
-			return;
-		lock(7);
+		anim(-1);
+		lock();
 		stopAll();
 		if (summFamiliar != null)
 			summFamiliar.sendDeath(this);
@@ -2169,31 +2177,34 @@ public class Player extends Entity {
 		if (isHasNearbyInstancedChunks())
 			lastTile = getRandomGraveyardTile();
 		final Tile deathTile = lastTile;
-		WorldTasks.scheduleLooping(new Task() {
-			int loop;
 
-			@Override
-			public void run() {
-				if (loop == 0)
-					setNextAnimation(new Animation(836));
-				else if (loop == 1)
-					sendMessage("Oh dear, you are dead!");
-				else if (loop == 2) {
+		WorldTasks.scheduleTimer(0, 1, tick -> {
+			switch(tick) {
+				case 0 -> anim(836);
+				case 1 -> sendMessage("Oh dear, you are dead!");
+				case 2 -> {
 					reset();
-					if (source instanceof Player opp && opp.hasRights(Rights.ADMIN))
+					if (onBypassDeathController != null) {
+						//Teleport the player to respawn tile first, if user wants to override the death respawn location
+						//they can do so in the custom logic of the death controller bypass lambda
 						tele(Settings.getConfig().getPlayerRespawnTile());
-					else
-						controllerManager.startController(new DeathOfficeController(deathTile, hasSkull()));
-				} else if (loop == 3) {
-					setNextAnimation(new Animation(-1));
-				} else if (loop == 4) {
+						onBypassDeathController.accept(this);
+					} else {
+						if (source instanceof Player opp && opp.hasRights(Rights.ADMIN))
+							tele(Settings.getConfig().getPlayerRespawnTile());
+						else
+							controllerManager.startController(new DeathOfficeController(deathTile, hasSkull()));
+					}
+				}
+				case 3 -> anim(-1);
+				case 4 ->  {
 					jingle(90);
 					unlock();
-					stop();
+					return false;
 				}
-				loop++;
 			}
-		}, 0, 1);
+			return true;
+		});
 	}
 
 	public void retribution(Entity source) {

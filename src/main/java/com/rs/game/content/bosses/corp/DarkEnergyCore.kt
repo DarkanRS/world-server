@@ -21,6 +21,7 @@ import com.rs.game.model.WorldProjectile
 import com.rs.game.model.entity.Entity
 import com.rs.game.model.entity.Hit
 import com.rs.game.model.entity.Hit.HitLook
+import com.rs.game.model.entity.async.schedule
 import com.rs.game.model.entity.npc.NPC
 import com.rs.game.model.entity.player.Player
 import com.rs.lib.game.Tile
@@ -28,63 +29,62 @@ import com.rs.lib.util.Utils
 import com.rs.utils.WorldUtil
 import java.util.function.Consumer
 
-class DarkEnergyCore(beast: CorporealBeast) : NPC(8127, Tile.of(beast.tile), true) {
-    private val beast: CorporealBeast
-    private var target: Entity? = null
-
-    private var changeTarget: Int
-    private var sapTimer = 0
-    private var delay = 0
+class DarkEnergyCore(private val beast: CorporealBeast) : NPC(8127, Tile.of(beast.tile), true) {
 
     init {
         setForceMultiArea(true)
         isIgnoreDocile = true
-        this.beast = beast
-        changeTarget = 2
     }
 
     override fun processNPC() {
         if (isDead || hasFinished()) return
-        if (delay > 0) {
-            delay--
-            return
+
+        if (!isLocked && !isHidden && !poison.isPoisoned && tickCounter % 2L == 0L) {
+            val target = beast.possibleTargets.filter { it is Player && it.withinDistance(this.tile, 1) }.firstOrNull()
+            if (target == null)
+                jump()
+            else
+                sapLife()
         }
-        if (changeTarget > 0) {
-            if (changeTarget == 1) {
-                val possibleTarget: MutableList<Entity> = beast.getPossibleTargets()
-                if (possibleTarget.isEmpty()) {
-                    finish()
-                    beast.removeDarkEnergyCore()
-                    return
-                }
-                target = possibleTarget[Utils.getRandomInclusive(possibleTarget.size - 1)]
-                isHidden = true
-                delay += World.sendProjectile(this, target!!.tile, 1828, 0 to 0, 0, 10, 20, 0) {
-                    tele(it.destination)
-                    isHidden = false
-                }.taskDelay
-            }
-            changeTarget--
-            return
-        }
-        if (target == null || !WorldUtil.isInRange(this, target, 0)) {
-            changeTarget = 5
-            return
-        }
-        if (sapTimer-- <= 0) {
-            val damage = Utils.getRandomInclusive(50) + 50
-            target!!.applyHit(Hit(this, Utils.random(1, 131), HitLook.TRUE_DAMAGE))
-            beast.heal(damage)
-            delay = 2
-            (target as? Player)?.sendMessage("The dark core creature steals some life from you for its master.", true)
-            sapTimer = if (poison.isPoisoned) 40 else 0
-        }
-        delay = 2
     }
 
-    override fun getMagePrayerMultiplier(): Double {
-        return 0.6
+    private fun jump() {
+        val target = beast.possibleTargets.takeIf { it.isNotEmpty() }?.let { it[Utils.getRandomInclusive(it.size - 1)] }
+        if (target == null) {
+            finish()
+            beast.removeDarkEnergyCore()
+            return
+        }
+        lock()
+        schedule {
+            val start = this@DarkEnergyCore.tile
+            val destination = Tile.of(target.tile)
+            val distance = Utils.getDistance(start, destination)
+            isHidden = true
+            val speed = when {
+                distance <= 2 -> 30
+                distance <= 5 -> 60
+                else -> 90
+            }
+            val travelTime = World.sendProjectileAbsoluteSpeed(start, destination, 1828, heights = 15 to 15, delay = 0, speed, offset = 20, angle = 30).taskDelay;
+            wait(travelTime+1)
+            tele(destination)
+            isHidden = false
+            wait(2)
+            unlock()
+        }
     }
+
+    private fun sapLife() {
+        beast.possibleTargets.filter { it is Player && it.withinDistance(this.tile, 1) }.forEach { target ->
+            val damage = Utils.random(50, 100)
+            target.applyHit(Hit(this, damage, HitLook.TRUE_DAMAGE))
+            beast.heal(damage)
+            (target as? Player)?.sendMessage("The dark core creature steals some life from you for its master.", true)
+        }
+    }
+
+    override fun getMagePrayerMultiplier() = 0.6
 
     override fun sendDeath(source: Entity?) {
         super.sendDeath(source)

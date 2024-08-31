@@ -47,7 +47,7 @@ public final class TimeStopAttack implements QueenAttack {
 		soul.tele(Utils.random(2) == 0 ? npc.getBase().transform(24, 28, 0) : npc.getBase().transform(42, 28, 0));
 		soul.setNextSpotAnim(TorturedSoul.TELEPORT_GRAPHIC);
 		soul.setNextAnimation(TorturedSoul.TELEPORT_ANIMATION);
-		soul.setLocked(true);
+		soul.lock();
 		WorldTasks.scheduleLooping(new Task() {
 			int stage = -1;
 
@@ -58,20 +58,20 @@ public final class TimeStopAttack implements QueenAttack {
 					stop();
 					npc.getTempAttribs().setI("_time_stop_atk", npc.getTicks() + Utils.random(50) + 40);
 					for (TorturedSoul s : npc.getSouls())
-						s.setLocked(false);
+						s.unlock();
 					for (NPC worm : npc.getWorms())
-						worm.setLocked(false);
+						worm.unlock();
 					victim.unlock();
 					victim.getPackets().sendVarc(1925, 0);
 					return;
 				}
 				if (stage == 4) {
 					for (TorturedSoul s : npc.getSouls())
-						s.setLocked(true);
+						s.lock();
 					for (NPC worm : npc.getWorms())
-						worm.setLocked(true);
+						worm.lock();
 					victim.lock();
-					soul.setLocked(false);
+					soul.unlock();
 					victim.getPackets().sendVarc(1925, 1);
 					victim.sendMessage("<col=33900>The tortured soul has stopped time for everyone except himself and the Queen Black</col>");
 					victim.sendMessage("<col=33900>Dragon.</col>");

@@ -20,13 +20,8 @@ import com.rs.Settings
 import com.rs.game.content.skills.magic.TeleType
 import com.rs.game.model.entity.player.Controller
 import com.rs.game.model.`object`.GameObject
-import com.rs.game.tasks.Task
-import com.rs.game.tasks.WorldTasks
-import com.rs.lib.game.Animation
 import com.rs.lib.game.Tile
-import com.rs.plugin.annotations.PluginEventHandler
 
-@PluginEventHandler
 class CorporealBeastController : Controller() {
     override fun start() {
     }
@@ -50,25 +45,9 @@ class CorporealBeastController : Controller() {
     }
 
     override fun sendDeath(): Boolean {
-        WorldTasks.scheduleLooping(object : Task() {
-            var loop: Int = 0
-
-            override fun run() {
-                if (loop == 0) player.setNextAnimation(Animation(836))
-                else if (loop == 1) player.sendMessage("Oh dear, you have died.")
-                else if (loop == 3) {
-                    player.sendPVEItemsOnDeath(null, false)
-                    player.reset()
-                    player.tele(Tile.of(Settings.getConfig().playerRespawnTile))
-                    player.setNextAnimation(Animation(-1))
-                } else if (loop == 4) {
-                    removeController()
-                    player.jingle(90)
-                    stop()
-                }
-                loop++
-            }
-        }, 0, 1)
+        player.dangerousDeath {
+            player.sendPVEItemsOnDeath(null, false)
+        }
         return false
     }
 

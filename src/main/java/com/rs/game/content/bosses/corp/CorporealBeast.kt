@@ -31,22 +31,15 @@ import com.rs.game.model.entity.npc.combat.CombatScript.getMaxHit
 import com.rs.game.model.entity.npc.combat.CombatScript.getMeleeHit
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions
 import com.rs.game.model.entity.player.Player
-import com.rs.game.tasks.Task
-import com.rs.game.tasks.WorldTasks
 import com.rs.lib.Constants
-import com.rs.lib.game.Animation
 import com.rs.lib.game.SpotAnim
 import com.rs.lib.game.Tile
 import com.rs.lib.util.Utils
-import com.rs.plugin.annotations.PluginEventHandler
 import com.rs.plugin.annotations.ServerStartupEvent
-import com.rs.plugin.handlers.NPCInstanceHandler
 import com.rs.plugin.kts.instantiateNpc
 import com.rs.plugin.kts.npcCombat
 import com.rs.plugin.kts.onButtonClick
 import com.rs.utils.WorldUtil
-import java.util.ArrayList
-import java.util.function.BiFunction
 
 @ServerStartupEvent
 fun mapCorporealBeastPlugins() {
@@ -62,78 +55,81 @@ fun mapCorporealBeastPlugins() {
     }
 
     npcCombat(8133) { npc, target ->
-        val defs = npc.combatDefinitions
-        val size = npc.size
-        val possibleTargets = npc.possibleTargets
         var attackStyle = Utils.getRandomInclusive(4)
 
         if (Utils.getRandomInclusive(3) == 0 && npc.hitpoints < (npc.maxHitpoints / 2) && npc is CorporealBeast)
             npc.spawnDarkEnergyCore()
 
-        //Melee
         if (attackStyle == 0 || attackStyle == 1) {
-            val distanceX = target.x - npc.x
-            val distanceY = target.y - npc.y
-            if ((distanceX <= size) && (distanceX >= -1) && (distanceY <= size) && (distanceY >= -1)) {
-                npc.anim(if (attackStyle == 0) defs.attackEmote else 10058)
-                delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, defs.maxHit, NPCCombatDefinitions.AttackStyle.MELEE, target)))
+            if (attackMelee(npc, target))
                 return@npcCombat npc.attackSpeed
-            }
             attackStyle = 2 + Utils.getRandomInclusive(2)
         }
 
         when(attackStyle) {
-            //Magic single target
-            2 -> {
-                npc.anim(10410)
-                delayHit(npc, World.sendProjectile(npc, target, 1825, 41 to 16, 10, 15, 16).taskDelay, target, getMagicHit(npc, getMaxHit(npc, 650, NPCCombatDefinitions.AttackStyle.MAGE, target)))
-            }
-
-            //Magic drain
-            3 -> {
-                npc.anim(10410)
-                val delay = World.sendProjectile(npc, target, 1823, 41 to 16, 10, 15, 16).taskDelay
-                delayHit(npc, delay, target, getMagicHit(npc, getMaxHit(npc, 550, NPCCombatDefinitions.AttackStyle.MAGE, target)))
-                if (target is Player) {
-                    var skill = Utils.getRandomInclusive(2)
-                    skill =
-                        if (skill == 0) Constants.MAGIC else (if (skill == 1) Constants.SUMMONING else Constants.PRAYER)
-                    if (skill == Constants.PRAYER)
-                        target.prayer.drainPrayer((10 + Utils.getRandomInclusive(40)).toDouble())
-                    else {
-                        var lvl = target.skills.getLevel(skill)
-                        lvl -= 1 + Utils.getRandomInclusive(4)
-                        target.skills.set(skill, if (lvl < 0) 0 else lvl)
-                    }
-                    target.sendMessage("Your " + Constants.SKILL_NAME[skill] + " has been slighly drained!")
-                }
-            }
-
-            //Magic splash
-            4 -> {
-                npc.anim(10410)
-                val tile = Tile.of(target.tile)
-                npc.schedule {
-                    wait(World.sendProjectile(npc, tile, 1824, 41 to 16, 0, 15, 16).taskDelay)
-                    for (i in 0..5) {
-                        val newTile = Tile.of(tile, 3)
-                        if (!floorAndWallsFree(newTile, 1)) continue
-                        for (t in possibleTargets) {
-                            if (Utils.getDistance(newTile.x, newTile.y, t.x, t.y) > 1 || !t.lineOfSightTo(newTile, false)) continue
-                            delayHit(npc, 0, t, getMagicHit(npc, getMaxHit(npc, 350, NPCCombatDefinitions.AttackStyle.MAGE, t)))
-                        }
-                        npc.schedule {
-                            wait(World.sendProjectile(tile, newTile, 1824, 15 to 5, 0, 15, 30).taskDelay + 1)
-                            sendSpotAnim(newTile, SpotAnim(1806))
-                        }
-                    }
-                }
-            }
+            2 -> attackMagicSingleTarget(npc, target)
+            3 -> attackMagicDrain(npc, target)
+            4 -> attackMagicSplash(npc, target)
         }
         return@npcCombat npc.attackSpeed
     }
 
     instantiateNpc(8133) { npcId, tile -> CorporealBeast(npcId, tile, false) }
+}
+
+private fun attackMelee(npc: NPC, target: Entity): Boolean {
+    val distanceX = target.x - npc.x
+    val distanceY = target.y - npc.y
+    if ((distanceX <= npc.size) && (distanceX >= -1) && (distanceY <= npc.size) && (distanceY >= -1)) {
+        npc.anim(if (Utils.getRandomInclusive(1) == 0) npc.combatDefinitions.attackEmote else 10058)
+        delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, npc.combatDefinitions.maxHit, NPCCombatDefinitions.AttackStyle.MELEE, target)))
+        return true
+    }
+    return false
+}
+
+private fun attackMagicSingleTarget(npc: NPC, target: Entity) {
+    npc.anim(10410)
+    delayHit(npc, World.sendProjectile(npc, target, 1825, heights = 41 to 20, delay = 0, speed = 10, angle = 15).taskDelay, target, getMagicHit(npc, getMaxHit(npc, 650, NPCCombatDefinitions.AttackStyle.MAGE, target)))
+}
+
+private fun attackMagicDrain(npc: NPC, target: Entity) {
+    npc.anim(10410)
+    val delay = World.sendProjectile(npc, target, 1823, heights = 41 to 20, delay = 0, speed = 10, angle = 15).taskDelay
+    delayHit(npc, delay, target, getMagicHit(npc, getMaxHit(npc, 550, NPCCombatDefinitions.AttackStyle.MAGE, target)))
+    if (target is Player) {
+        val skill = when (Utils.getRandomInclusive(2)) {
+            0 -> Constants.MAGIC
+            1 -> Constants.SUMMONING
+            else -> Constants.PRAYER
+        }
+        if (skill == Constants.PRAYER) {
+            target.prayer.drainPrayer((10 + Utils.getRandomInclusive(40)).toDouble())
+        } else {
+            val newLevel = target.skills.getLevel(skill) - (1 + Utils.getRandomInclusive(4))
+            target.skills.set(skill, newLevel.coerceAtLeast(0))
+        }
+        target.sendMessage("Your ${Constants.SKILL_NAME[skill]} has been slightly drained!", true)
+    }
+}
+
+fun attackMagicSplash(npc: NPC, target: Entity) {
+    npc.anim(10410)
+    val initialTile = Tile.of(target.tile)
+    npc.schedule {
+        wait(World.sendProjectile(npc, initialTile, 1824, heights = 41 to 5, delay = 0, speed = 15, angle = 15).taskDelay)
+        repeat(6) {
+            val newTile = Tile.of(initialTile, 3)
+            if (floorAndWallsFree(newTile, 1)) {
+                npc.possibleTargets.filter { Utils.getDistance(newTile.x, newTile.y, it.x, it.y) <= 1 && it.lineOfSightTo(newTile, false) }
+                    .forEach { delayHit(npc, 0, it, getMagicHit(npc, getMaxHit(npc, 350, NPCCombatDefinitions.AttackStyle.MAGE, it))) }
+                npc.schedule {
+                    wait(World.sendProjectile(initialTile, newTile, 1824, heights = 15 to 5, delay = 15, speed = 15, angle = 15).taskDelay + 1)
+                    sendSpotAnim(newTile, SpotAnim(1806))
+                }
+            }
+        }
+    }
 }
 
 class CorporealBeast(id: Int, tile: Tile?, spawned: Boolean) : NPC(id, tile, spawned) {
@@ -148,28 +144,27 @@ class CorporealBeast(id: Int, tile: Tile?, spawned: Boolean) : NPC(id, tile, spa
     }
 
     fun spawnDarkEnergyCore() {
-        if (core != null) return
-        core = DarkEnergyCore(this)
+        core ?: run { core = DarkEnergyCore(this) }
     }
 
     fun removeDarkEnergyCore() {
-        if (core == null) return
-        core!!.finish()
+        core?.finish()
         core = null
     }
 
     override fun getPossibleTargets(): MutableList<Entity> {
-        val targets = super.possibleTargets
-        val hittableTargets: MutableList<Entity> = ArrayList<Entity>()
-        for (t in targets) if (t.x > 2972) hittableTargets.add(t)
-        return hittableTargets
+        return super.possibleTargets.filterTo(mutableListOf()) { it.x > 2972 }
     }
 
     override fun handlePreHit(hit: Hit) {
-        if (hit.look == HitLook.CANNON_DAMAGE && hit.damage > 80) hit.setDamage(80)
+        if (hit.look == HitLook.CANNON_DAMAGE && hit.damage > 80) {
+            hit.setDamage(80)
+        }
         (hit.source as? Player)?.let { player ->
-            if (player.equipment.getWeaponId() != -1 && !ItemDefinitions.getDefs(player.equipment.getWeaponId()).getName().contains(" spear") && (hit.look == HitLook.MELEE_DAMAGE || hit.look == HitLook.RANGE_DAMAGE))
-                hit.setDamage(hit.damage / 2)
+            if ((hit.look == HitLook.MELEE_DAMAGE || hit.look == HitLook.RANGE_DAMAGE) &&
+                player.equipment.getWeaponId() != -1 && !ItemDefinitions.getDefs(player.equipment.getWeaponId()).getName().contains("spear"))
+                    hit.setDamage(hit.damage / 2)
+
         }
         super.handlePreHit(hit)
     }
@@ -177,30 +172,29 @@ class CorporealBeast(id: Int, tile: Tile?, spawned: Boolean) : NPC(id, tile, spa
     override fun processNPC() {
         super.processNPC()
         if (isDead) return
+
         if (tickCounter % 3 == 0L) {
-            val possibleTargets = getPossibleTargets()
-            var stomp = false
-            for (t in possibleTargets) if (WorldUtil.isInRange(this, t, -1)) {
-                stomp = true
-                t.applyHit(Hit(this, Utils.random(150, 513), HitLook.TRUE_DAMAGE), 0)
-            }
-            if (stomp)
+            val targetsInRange = possibleTargets.filter { WorldUtil.isInRange(this, it, -1) }
+            if (targetsInRange.isNotEmpty()) {
+                targetsInRange.forEach { it.applyHit(Hit(this, Utils.random(150, 513), HitLook.TRUE_DAMAGE), 0) }
                 sync(10496, 1834)
+            }
         }
-        if (attackedBy != null && lineOfSightTo(attackedBy, false)) setAttackedBy(null)
-        val maxhp = maxHitpoints
-        if (maxhp > hitpoints && getPossibleTargets().isEmpty() && attackedBy == null) {
+
+        if (attackedBy != null && lineOfSightTo(attackedBy, false)) {
+            setAttackedBy(null)
+        }
+
+        if (hitpoints < maxHitpoints && possibleTargets.isEmpty() && attackedBy == null) {
             resetLevels()
-            hitpoints = maxhp
+            hitpoints = maxHitpoints
         }
     }
 
     override fun sendDeath(source: Entity?) {
         super.sendDeath(source)
-        if (core != null) core!!.sendDeath(source)
+        core?.sendDeath(source)
     }
 
-    override fun getMagePrayerMultiplier(): Double {
-        return 0.6
-    }
+    override fun getMagePrayerMultiplier(): Double = 0.6
 }

@@ -79,7 +79,7 @@ public class CountDraynorBoss extends OwnedNPC {
 		removeCombatTarget();
 		setAttackedBy(null);
 		resetHP();
-		setLocked(true);
+		lock();
 		faceEntityTile(source);
 
 		WorldTasks.scheduleLooping(new Task() {
@@ -93,7 +93,7 @@ public class CountDraynorBoss extends OwnedNPC {
 				if(tick == 1)
 					setNextAnimation(new Animation(STUNNED));
 				if(tick == finalTick - 1)
-					setLocked(false);
+					unlock();
 				if(tick == finalTick) {
 					setCombatTarget(source);
 					stop();
@@ -172,7 +172,7 @@ public class CountDraynorBoss extends OwnedNPC {
 
         CountDraynorBoss countDraynor = new CountDraynorBoss(p, Tile.of(coffin.getX()+1, coffin.getY()+1, coffin.getPlane()));
 
-		countDraynor.setLocked(true);
+		countDraynor.lock();
 		countDraynor.faceTile(Tile.of(coffin.getX()+1, coffin.getY() - 5, coffin.getPlane()));
 		countDraynor.setHidden(true);
 
@@ -228,7 +228,7 @@ public class CountDraynorBoss extends OwnedNPC {
 				}
 
 				if(tick == 19) {
-					countDraynor.setLocked(false);
+					countDraynor.unlock();
 					countDraynor.setRandomWalk(true);
 				}
 				if(tick == 20) {

@@ -248,7 +248,7 @@ public enum Scroll {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
 			familiar.freeze(3);
-			familiar.setLocked(true);
+			familiar.lock();
 			familiar.sync(7758, 1364);
 			for (Entity next : PlayerCombatKt.getMultiAttackTargets(owner, familiar.getTile(), 1, 9)) {
 				delayHit(familiar, 1, next, getRangeHit(familiar, getMaxHit(familiar, 120, AttackStyle.RANGE, next)));
@@ -840,8 +840,8 @@ public enum Scroll {
 				return false;
 			}
 			object.setId(object.getAttribs().getI("originalTrunkId", -1));
-			familiar.setNextFaceEntity(null);
-			familiar.setLockedForTicks(2);
+			familiar.stopFaceEntity();
+			familiar.lock(2);
 			familiar.faceObject(object);
 			familiar.sync(7945, 1487);
 			return true;

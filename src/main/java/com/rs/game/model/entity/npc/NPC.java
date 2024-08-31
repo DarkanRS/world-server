@@ -111,7 +111,6 @@ public class NPC extends Entity {
 	private transient boolean permName;
 	private int combatLevel;
 	private transient boolean changedCombatLevel;
-	private transient boolean locked;
 	private transient boolean skipWalkStep;
 	private transient boolean deleted = false;
 	private transient TaskInformation respawnTask;
@@ -265,7 +264,7 @@ public class NPC extends Entity {
 	}
 
 	public void processNPC() {
-		if (isDead() || locked)
+		if (isDead() || isLocked())
 			return;
 		//Restore combat stats
 		if (getTickCounter() % 100 == 0)
@@ -1118,37 +1117,6 @@ public class NPC extends Entity {
 
 	public boolean withinDistance(Player tile, int distance) {
 		return !hidden && super.withinDistance(tile.getTile(), distance);
-	}
-
-	/**
-	 * Gets the locked.
-	 *
-	 * @return The locked.
-	 */
-	public boolean isLocked() {
-		return locked;
-	}
-
-	/**
-	 * Sets the locked.
-	 *
-	 * @param locked
-	 *            The locked to set.
-	 */
-	public void setLocked(boolean locked) {
-		this.locked = locked;
-	}
-
-	public void setLockedForTicks(int ticks) {
-		WorldTasks.scheduleTimer(i -> {
-			if(i==0)
-				this.locked = true;
-			if(i==ticks) {
-				this.locked = false;
-				return false;
-			}
-			return true;
-		});
 	}
 
 	@Override

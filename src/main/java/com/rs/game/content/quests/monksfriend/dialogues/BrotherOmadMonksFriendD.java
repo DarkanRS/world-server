@@ -201,7 +201,7 @@ public class BrotherOmadMonksFriendD extends Conversation {
 			}
 			if (i % 4 == 0) {
 				int monkIndex = (i / 4) % monks.size();
-				monks.get(monkIndex).setLockedForTicks(4);
+				monks.get(monkIndex).lock(4);
 				monks.get(monkIndex).setNextAnimation(new Animation(818));
 				if (Utils.randomInclusive(0, 1) == 0)
 					monks.get(monkIndex).forceTalk(dancePhrases[Utils.random(0, dancePhrases.length)]);
