@@ -62,6 +62,7 @@ public enum SlayerMonsters {
 	AQUANITE(9172, 78),
 	NECHRYAEL(1613, 80),
 	JADINKO_BABY(13820, 80),
+	GRIFOLAROO(14700, 82),
 	SPIRITUAL_MAGE(6221, 83),
 	SPIRITUAL_MAGE2(6231, 83),
 	SPIRITUAL_MAGE3(6257, 83),
@@ -72,6 +73,7 @@ public enum SlayerMonsters {
 	DARK_BEAST(2783, 90),
 	JADINKO_MALE(13822, 91),
 	ICE_STRYKEWYRM(9463, 93),
+	GANODERMIC_RUNT(14698, 95),
 	GANODERMIC_BEAST(14696, 95);
 
 	private static final Map<String, SlayerMonsters> monsters = new HashMap<>();

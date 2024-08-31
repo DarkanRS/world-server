@@ -1,0 +1,3008 @@
+[
+  {
+    "tile": {
+      "plane": 3,
+      "x": 4600,
+      "y": 5360
+    },
+    "comment": "Fungal rodent",
+    "npcId": 14692
+  },
+  {
+    "tile": {
+      "plane": 3,
+      "x": 4600,
+      "y": 5360
+    },
+    "comment": "Fungal rodent",
+    "npcId": 14692
+  },
+  {
+    "tile": {
+      "plane": 3,
+      "x": 4600,
+      "y": 5360
+    },
+    "comment": "Fungal rodent",
+    "npcId": 14692
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 4600,
+      "y": 5360
+    },
+    "comment": "Fungal rodent",
+    "npcId": 14692
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 4600,
+      "y": 5360
+    },
+    "comment": "Fungal rodent",
+    "npcId": 14692
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 4600,
+      "y": 5360
+    },
+    "comment": "Fungal rodent",
+    "npcId": 14692
+  },
+  {
+    "tile": {
+      "plane": 3,
+      "x": 4568,
+      "y": 5408
+    },
+    "comment": "Fungal rodent",
+    "npcId": 14692
+  },
+  {
+    "tile": {
+      "plane": 3,
+      "x": 4568,
+      "y": 5408
+    },
+    "comment": "Fungal rodent",
+    "npcId": 14692
+  },
+  {
+    "tile": {
+      "plane": 3,
+      "x": 4658,
+      "y": 5416
+    },
+    "comment": "Fungal rodent",
+    "npcId": 14692
+  },
+  {
+    "tile": {
+      "plane": 3,
+      "x": 4655,
+      "y": 5413
+    },
+    "comment": "Fungal rodent",
+    "npcId": 14692
+  },
+  {
+    "tile": {
+      "plane": 3,
+      "x": 4629,
+      "y": 5413
+    },
+    "comment": "Fungal rodent",
+    "npcId": 14692
+  },
+  {
+    "tile": {
+      "plane": 3,
+      "x": 4626,
+      "y": 5412
+    },
+    "comment": "Fungal rodent",
+    "npcId": 14692
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 4626,
+      "y": 5432
+    },
+    "comment": "Fungal rodent",
+    "npcId": 14692
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 4651,
+      "y": 5394
+    },
+    "comment": "Fungal rodent",
+    "npcId": 14692
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 4653,
+      "y": 5391
+    },
+    "comment": "Fungal rodent",
+    "npcId": 14692
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 4653,
+      "y": 5389
+    },
+    "comment": "Fungal rodent",
+    "npcId": 14692
+  },
+  {
+    "tile": {
+      "plane": 3,
+      "x": 4619,
+      "y": 5468
+    },
+    "comment": "Fungal rodent",
+    "npcId": 14692
+  },
+  {
+    "tile": {
+      "plane": 3,
+      "x": 4619,
+      "y": 5470
+    },
+    "comment": "Fungal rodent",
+    "npcId": 14692
+  },
+  {
+    "tile": {
+      "plane": 3,
+      "x": 4627,
+      "y": 5479
+    },
+    "comment": "Fungal rodent",
+    "npcId": 14692
+  },
+  {
+    "tile": {
+      "plane": 3,
+      "x": 4629,
+      "y": 5480
+    },
+    "comment": "Fungal rodent",
+    "npcId": 14692
+  },
+  {
+    "tile": {
+      "plane": 3,
+      "x": 4651,
+      "y": 5467
+    },
+    "comment": "Fungal rodent",
+    "npcId": 14692
+  },
+  {
+    "tile": {
+      "plane": 3,
+      "x": 4658,
+      "y": 5466
+    },
+    "comment": "Fungal rodent",
+    "npcId": 14692
+  },
+  {
+    "tile": {
+      "plane": 3,
+      "x": 4651,
+      "y": 5463
+    },
+    "comment": "Fungal rodent",
+    "npcId": 14692
+  },
+  {
+    "tile": {
+      "plane": 3,
+      "x": 4651,
+      "y": 5461
+    },
+    "comment": "Fungal rodent",
+    "npcId": 14692
+  },
+  {
+    "tile": {
+      "plane": 3,
+      "x": 4653,
+      "y": 5453
+    },
+    "comment": "Fungal rodent",
+    "npcId": 14692
+  },
+  {
+    "tile": {
+      "plane": 3,
+      "x": 4654,
+      "y": 5448
+    },
+    "comment": "Fungal rodent",
+    "npcId": 14692
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 4652,
+      "y": 5486
+    },
+    "comment": "Fungal rodent",
+    "npcId": 14692
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 4651,
+      "y": 5489
+    },
+    "comment": "Fungal rodent",
+    "npcId": 14692
+  },
+  {
+    "tile": {
+      "plane": 3,
+      "x": 4600,
+      "y": 5360
+    },
+    "comment": "Infested axe",
+    "npcId": 14694
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4600,
+      "y": 5360
+    },
+    "comment": "Infested axe",
+    "npcId": 14694
+  },
+  {
+    "tile": {
+      "plane": 3,
+      "x": 4631,
+      "y": 5414
+    },
+    "comment": "Infested axe",
+    "npcId": 14694
+  },
+  {
+    "tile": {
+      "plane": 3,
+      "x": 4634,
+      "y": 5415
+    },
+    "comment": "Infested axe",
+    "npcId": 14694
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 4640,
+      "y": 5432
+    },
+    "comment": "Infested axe",
+    "npcId": 14694
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 4655,
+      "y": 5429
+    },
+    "comment": "Infested axe",
+    "npcId": 14694
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 4655,
+      "y": 5411
+    },
+    "comment": "Infested axe",
+    "npcId": 14694
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 4655,
+      "y": 5409
+    },
+    "comment": "Infested axe",
+    "npcId": 14694
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 4655,
+      "y": 5406
+    },
+    "comment": "Infested axe",
+    "npcId": 14694
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 4665,
+      "y": 5399
+    },
+    "comment": "Infested axe",
+    "npcId": 14694
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4661,
+      "y": 5393
+    },
+    "comment": "Infested axe",
+    "npcId": 14694
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4650,
+      "y": 5411
+    },
+    "comment": "Infested axe",
+    "npcId": 14694
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4654,
+      "y": 5435
+    },
+    "comment": "Infested axe",
+    "npcId": 14694
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4632,
+      "y": 5435
+    },
+    "comment": "Infested axe",
+    "npcId": 14694
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4625,
+      "y": 5413
+    },
+    "comment": "Infested axe",
+    "npcId": 14694
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4625,
+      "y": 5409
+    },
+    "comment": "Infested axe",
+    "npcId": 14694
+  },
+  {
+    "tile": {
+      "plane": 3,
+      "x": 4637,
+      "y": 5463
+    },
+    "comment": "Infested axe",
+    "npcId": 14694
+  },
+  {
+    "tile": {
+      "plane": 3,
+      "x": 4643,
+      "y": 5471
+    },
+    "comment": "Infested axe",
+    "npcId": 14694
+  },
+  {
+    "tile": {
+      "plane": 3,
+      "x": 4656,
+      "y": 5461
+    },
+    "comment": "Infested axe",
+    "npcId": 14694
+  },
+  {
+    "tile": {
+      "plane": 3,
+      "x": 4646,
+      "y": 5457
+    },
+    "comment": "Infested axe",
+    "npcId": 14694
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 4659,
+      "y": 5472
+    },
+    "comment": "Infested axe",
+    "npcId": 14694
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 4647,
+      "y": 5470
+    },
+    "comment": "Infested axe",
+    "npcId": 14694
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4639,
+      "y": 5457
+    },
+    "comment": "Infested axe",
+    "npcId": 14694
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4656,
+      "y": 5474
+    },
+    "comment": "Infested axe",
+    "npcId": 14694
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4651,
+      "y": 5489
+    },
+    "comment": "Infested axe",
+    "npcId": 14694
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4629,
+      "y": 5482
+    },
+    "comment": "Infested axe",
+    "npcId": 14694
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4608,
+      "y": 5440
+    },
+    "comment": "Infested axe",
+    "npcId": 14694
+  },
+  {
+    "tile": {
+      "plane": 3,
+      "x": 4600,
+      "y": 5360
+    },
+    "comment": "Fungal mage",
+    "npcId": 14690
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4600,
+      "y": 5360
+    },
+    "comment": "Fungal mage",
+    "npcId": 14690
+  },
+  {
+    "tile": {
+      "plane": 3,
+      "x": 4568,
+      "y": 5408
+    },
+    "comment": "Fungal mage",
+    "npcId": 14690
+  },
+  {
+    "tile": {
+      "plane": 3,
+      "x": 4568,
+      "y": 5408
+    },
+    "comment": "Fungal mage",
+    "npcId": 14690
+  },
+  {
+    "tile": {
+      "plane": 3,
+      "x": 4600,
+      "y": 5400
+    },
+    "comment": "Fungal mage",
+    "npcId": 14690
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 4576,
+      "y": 5400
+    },
+    "comment": "Fungal mage",
+    "npcId": 14690
+  },
+  {
+    "tile": {
+      "plane": 3,
+      "x": 4657,
+      "y": 5434
+    },
+    "comment": "Fungal mage",
+    "npcId": 14690
+  },
+  {
+    "tile": {
+      "plane": 3,
+      "x": 4655,
+      "y": 5430
+    },
+    "comment": "Fungal mage",
+    "npcId": 14690
+  },
+  {
+    "tile": {
+      "plane": 3,
+      "x": 4663,
+      "y": 5406
+    },
+    "comment": "Fungal mage",
+    "npcId": 14690
+  },
+  {
+    "tile": {
+      "plane": 3,
+      "x": 4657,
+      "y": 5407
+    },
+    "comment": "Fungal mage",
+    "npcId": 14690
+  },
+  {
+    "tile": {
+      "plane": 3,
+      "x": 4630,
+      "y": 5416
+    },
+    "comment": "Fungal mage",
+    "npcId": 14690
+  },
+  {
+    "tile": {
+      "plane": 3,
+      "x": 4637,
+      "y": 5419
+    },
+    "comment": "Fungal mage",
+    "npcId": 14690
+  },
+  {
+    "tile": {
+      "plane": 3,
+      "x": 4633,
+      "y": 5418
+    },
+    "comment": "Fungal mage",
+    "npcId": 14690
+  },
+  {
+    "tile": {
+      "plane": 3,
+      "x": 4630,
+      "y": 5425
+    },
+    "comment": "Fungal mage",
+    "npcId": 14690
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 4629,
+      "y": 5432
+    },
+    "comment": "Fungal mage",
+    "npcId": 14690
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 4626,
+      "y": 5437
+    },
+    "comment": "Fungal mage",
+    "npcId": 14690
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 4655,
+      "y": 5421
+    },
+    "comment": "Fungal mage",
+    "npcId": 14690
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 4655,
+      "y": 5417
+    },
+    "comment": "Fungal mage",
+    "npcId": 14690
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 4639,
+      "y": 5391
+    },
+    "comment": "Fungal mage",
+    "npcId": 14690
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 4639,
+      "y": 5393
+    },
+    "comment": "Fungal mage",
+    "npcId": 14690
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 4634,
+      "y": 5390
+    },
+    "comment": "Fungal mage",
+    "npcId": 14690
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 4633,
+      "y": 5392
+    },
+    "comment": "Fungal mage",
+    "npcId": 14690
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4625,
+      "y": 5394
+    },
+    "comment": "Fungal mage",
+    "npcId": 14690
+  },
+  {
+    "tile": {
+      "plane": 3,
+      "x": 4644,
+      "y": 5492
+    },
+    "comment": "Fungal mage",
+    "npcId": 14690
+  },
+  {
+    "tile": {
+      "plane": 3,
+      "x": 4650,
+      "y": 5477
+    },
+    "comment": "Fungal mage",
+    "npcId": 14690
+  },
+  {
+    "tile": {
+      "plane": 3,
+      "x": 4657,
+      "y": 5477
+    },
+    "comment": "Fungal mage",
+    "npcId": 14690
+  },
+  {
+    "tile": {
+      "plane": 3,
+      "x": 4657,
+      "y": 5479
+    },
+    "comment": "Fungal mage",
+    "npcId": 14690
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 4629,
+      "y": 5470
+    },
+    "comment": "Fungal mage",
+    "npcId": 14690
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 4625,
+      "y": 5470
+    },
+    "comment": "Fungal mage",
+    "npcId": 14690
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 4625,
+      "y": 5474
+    },
+    "comment": "Fungal mage",
+    "npcId": 14690
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 4630,
+      "y": 5484
+    },
+    "comment": "Fungal mage",
+    "npcId": 14690
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 4632,
+      "y": 5484
+    },
+    "comment": "Fungal mage",
+    "npcId": 14690
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 4632,
+      "y": 5489
+    },
+    "comment": "Fungal mage",
+    "npcId": 14690
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 4693,
+      "y": 5619
+    },
+    "comment": "Fungal mage",
+    "npcId": 14690
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 4691,
+      "y": 5617
+    },
+    "comment": "Fungal mage",
+    "npcId": 14690
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 4690,
+      "y": 5620
+    },
+    "comment": "Fungal mage",
+    "npcId": 14690
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 4682,
+      "y": 5616
+    },
+    "comment": "Fungal mage",
+    "npcId": 14690
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 4684,
+      "y": 5615
+    },
+    "comment": "Fungal mage",
+    "npcId": 14690
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 4679,
+      "y": 5618
+    },
+    "comment": "Fungal mage",
+    "npcId": 14690
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 4705,
+      "y": 5618
+    },
+    "comment": "Fungal mage",
+    "npcId": 14690
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 4705,
+      "y": 5616
+    },
+    "comment": "Fungal mage",
+    "npcId": 14690
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 4702,
+      "y": 5615
+    },
+    "comment": "Fungal mage",
+    "npcId": 14690
+  },
+  {
+    "comment": "Fungal mage added by trent",
+    "npcId": 14690,
+    "tile": {
+      "x": 4684,
+      "y": 5603,
+      "plane": 2
+    }
+  },
+  {
+    "comment": "Fungal mage added by trent",
+    "npcId": 14690,
+    "tile": {
+      "x": 4683,
+      "y": 5606,
+      "plane": 2
+    }
+  },
+  {
+    "comment": "Fungal mage added by trent",
+    "npcId": 14690,
+    "tile": {
+      "x": 4686,
+      "y": 5608,
+      "plane": 2
+    }
+  },
+  {
+    "comment": "Fungal mage added by trent",
+    "npcId": 14690,
+    "tile": {
+      "x": 4686,
+      "y": 5602,
+      "plane": 2
+    }
+  },
+  {
+    "comment": "Fungal mage added by trent",
+    "npcId": 14690,
+    "tile": {
+      "x": 4680,
+      "y": 5590,
+      "plane": 2
+    }
+  },
+  {
+    "comment": "Fungal mage added by trent",
+    "npcId": 14690,
+    "tile": {
+      "x": 4682,
+      "y": 5588,
+      "plane": 2
+    }
+  },
+  {
+    "comment": "Fungal mage added by trent",
+    "npcId": 14690,
+    "tile": {
+      "x": 4686,
+      "y": 5587,
+      "plane": 2
+    }
+  },
+  {
+    "comment": "Fungal mage added by trent",
+    "npcId": 14690,
+    "tile": {
+      "x": 4686,
+      "y": 5592,
+      "plane": 2
+    }
+  },
+  {
+    "comment": "Fungal mage added by trent",
+    "npcId": 14690,
+    "tile": {
+      "x": 4710,
+      "y": 5621,
+      "plane": 3
+    }
+  },
+  {
+    "comment": "Fungal mage added by trent",
+    "npcId": 14690,
+    "tile": {
+      "x": 4712,
+      "y": 5618,
+      "plane": 3
+    }
+  },
+  {
+    "comment": "Fungal mage added by trent",
+    "npcId": 14690,
+    "tile": {
+      "x": 4715,
+      "y": 5620,
+      "plane": 3
+    }
+  },
+  {
+    "comment": "Fungal mage added by trent",
+    "npcId": 14690,
+    "tile": {
+      "x": 4722,
+      "y": 5619,
+      "plane": 3
+    }
+  },
+  {
+    "comment": "Fungal mage added by trent",
+    "npcId": 14690,
+    "tile": {
+      "x": 4723,
+      "y": 5616,
+      "plane": 3
+    }
+  },
+  {
+    "comment": "Fungal mage added by trent",
+    "npcId": 14690,
+    "tile": {
+      "x": 4727,
+      "y": 5618,
+      "plane": 3
+    }
+  },
+  {
+    "comment": "Fungal mage added by trent",
+    "npcId": 14690,
+    "tile": {
+      "x": 4724,
+      "y": 5622,
+      "plane": 3
+    }
+  },
+  {
+    "comment": "Fungal mage added by trent",
+    "npcId": 14690,
+    "tile": {
+      "x": 4724,
+      "y": 5619,
+      "plane": 3
+    }
+  },
+  {
+    "comment": "Fungal mage added by trent",
+    "npcId": 14690,
+    "tile": {
+      "x": 4725,
+      "y": 5596,
+      "plane": 3
+    }
+  },
+  {
+    "comment": "Fungal mage added by trent",
+    "npcId": 14690,
+    "tile": {
+      "x": 4719,
+      "y": 5597,
+      "plane": 3
+    }
+  },
+  {
+    "comment": "Fungal mage added by trent",
+    "npcId": 14690,
+    "tile": {
+      "x": 4721,
+      "y": 5600,
+      "plane": 3
+    }
+  },
+  {
+    "comment": "Fungal mage added by trent",
+    "npcId": 14690,
+    "tile": {
+      "x": 4726,
+      "y": 5597,
+      "plane": 3
+    }
+  },
+  {
+    "comment": "Fungal mage added by trent",
+    "npcId": 14690,
+    "tile": {
+      "x": 4718,
+      "y": 5582,
+      "plane": 3
+    }
+  },
+  {
+    "comment": "Fungal mage added by trent",
+    "npcId": 14690,
+    "tile": {
+      "x": 4719,
+      "y": 5576,
+      "plane": 3
+    }
+  },
+  {
+    "comment": "Fungal mage added by trent",
+    "npcId": 14690,
+    "tile": {
+      "x": 4722,
+      "y": 5576,
+      "plane": 3
+    }
+  },
+  {
+    "comment": "Fungal mage added by trent",
+    "npcId": 14690,
+    "tile": {
+      "x": 4725,
+      "y": 5579,
+      "plane": 3
+    }
+  },
+  {
+    "comment": "Fungal mage added by trent",
+    "npcId": 14690,
+    "tile": {
+      "x": 4724,
+      "y": 5582,
+      "plane": 3
+    }
+  },
+  {
+    "comment": "Fungal mage added by trent",
+    "npcId": 14690,
+    "tile": {
+      "x": 4701,
+      "y": 5572,
+      "plane": 3
+    }
+  },
+  {
+    "comment": "Fungal mage added by trent",
+    "npcId": 14690,
+    "tile": {
+      "x": 4698,
+      "y": 5575,
+      "plane": 3
+    }
+  },
+  {
+    "comment": "Fungal mage added by trent",
+    "npcId": 14690,
+    "tile": {
+      "x": 4704,
+      "y": 5575,
+      "plane": 3
+    }
+  },
+  {
+    "comment": "Fungal mage added by trent",
+    "npcId": 14690,
+    "tile": {
+      "x": 4701,
+      "y": 5579,
+      "plane": 3
+    }
+  },
+  {
+    "comment": "Fungal mage added by trent",
+    "npcId": 14690,
+    "tile": {
+      "x": 4701,
+      "y": 5575,
+      "plane": 3
+    }
+  },
+  {
+    "comment": "Fungal mage added by trent",
+    "npcId": 14690,
+    "tile": {
+      "x": 4684,
+      "y": 5575,
+      "plane": 3
+    }
+  },
+  {
+    "comment": "Fungal mage added by trent",
+    "npcId": 14690,
+    "tile": {
+      "x": 4679,
+      "y": 5578,
+      "plane": 3
+    }
+  },
+  {
+    "comment": "Fungal mage added by trent",
+    "npcId": 14690,
+    "tile": {
+      "x": 4680,
+      "y": 5582,
+      "plane": 3
+    }
+  },
+  {
+    "comment": "Fungal mage added by trent",
+    "npcId": 14690,
+    "tile": {
+      "x": 4683,
+      "y": 5580,
+      "plane": 3
+    }
+  },
+  {
+    "comment": "Fungal mage added by trent",
+    "npcId": 14690,
+    "tile": {
+      "x": 4687,
+      "y": 5581,
+      "plane": 3
+    }
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 4600,
+      "y": 5360
+    },
+    "comment": "Grifolaroo",
+    "npcId": 14700
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 4600,
+      "y": 5360
+    },
+    "comment": "Grifolaroo",
+    "npcId": 14700
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 4600,
+      "y": 5360
+    },
+    "comment": "Grifolaroo",
+    "npcId": 14700
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 4600,
+      "y": 5360
+    },
+    "comment": "Grifolaroo",
+    "npcId": 14700
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 4576,
+      "y": 5400
+    },
+    "comment": "Grifolaroo",
+    "npcId": 14700
+  },
+  {
+    "tile": {
+      "plane": 3,
+      "x": 4646,
+      "y": 5390
+    },
+    "comment": "Grifolaroo",
+    "npcId": 14700
+  },
+  {
+    "tile": {
+      "plane": 3,
+      "x": 4649,
+      "y": 5387
+    },
+    "comment": "Grifolaroo",
+    "npcId": 14700
+  },
+  {
+    "tile": {
+      "plane": 3,
+      "x": 4652,
+      "y": 5387
+    },
+    "comment": "Grifolaroo",
+    "npcId": 14700
+  },
+  {
+    "tile": {
+      "plane": 3,
+      "x": 4651,
+      "y": 5387
+    },
+    "comment": "Grifolaroo",
+    "npcId": 14700
+  },
+  {
+    "tile": {
+      "plane": 3,
+      "x": 4653,
+      "y": 5388
+    },
+    "comment": "Grifolaroo",
+    "npcId": 14700
+  },
+  {
+    "tile": {
+      "plane": 3,
+      "x": 4633,
+      "y": 5397
+    },
+    "comment": "Grifolaroo",
+    "npcId": 14700
+  },
+  {
+    "tile": {
+      "plane": 3,
+      "x": 4632,
+      "y": 5394
+    },
+    "comment": "Grifolaroo",
+    "npcId": 14700
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 4625,
+      "y": 5428
+    },
+    "comment": "Grifolaroo",
+    "npcId": 14700
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 4628,
+      "y": 5436
+    },
+    "comment": "Grifolaroo",
+    "npcId": 14700
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 4659,
+      "y": 5439
+    },
+    "comment": "Grifolaroo",
+    "npcId": 14700
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 4656,
+      "y": 5438
+    },
+    "comment": "Grifolaroo",
+    "npcId": 14700
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 4658,
+      "y": 5436
+    },
+    "comment": "Grifolaroo",
+    "npcId": 14700
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 4660,
+      "y": 5436
+    },
+    "comment": "Grifolaroo",
+    "npcId": 14700
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 4656,
+      "y": 5408
+    },
+    "comment": "Grifolaroo",
+    "npcId": 14700
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 4660,
+      "y": 5399
+    },
+    "comment": "Grifolaroo",
+    "npcId": 14700
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4658,
+      "y": 5427
+    },
+    "comment": "Grifolaroo",
+    "npcId": 14700
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4650,
+      "y": 5431
+    },
+    "comment": "Grifolaroo",
+    "npcId": 14700
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4654,
+      "y": 5432
+    },
+    "comment": "Grifolaroo",
+    "npcId": 14700
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 4629,
+      "y": 5448
+    },
+    "comment": "Grifolaroo",
+    "npcId": 14700
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 4650,
+      "y": 5477
+    },
+    "comment": "Grifolaroo",
+    "npcId": 14700
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 4650,
+      "y": 5471
+    },
+    "comment": "Grifolaroo",
+    "npcId": 14700
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 4651,
+      "y": 5470
+    },
+    "comment": "Grifolaroo",
+    "npcId": 14700
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 4651,
+      "y": 5458
+    },
+    "comment": "Grifolaroo",
+    "npcId": 14700
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 4651,
+      "y": 5457
+    },
+    "comment": "Grifolaroo",
+    "npcId": 14700
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 4653,
+      "y": 5450
+    },
+    "comment": "Grifolaroo",
+    "npcId": 14700
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4655,
+      "y": 5444
+    },
+    "comment": "Grifolaroo",
+    "npcId": 14700
+  },
+  {
+    "comment": "Grifolaroo added by trent",
+    "npcId": 14700,
+    "tile": {
+      "x": 4684,
+      "y": 5599,
+      "plane": 1
+    }
+  },
+  {
+    "comment": "Grifolaroo added by trent",
+    "npcId": 14700,
+    "tile": {
+      "x": 4686,
+      "y": 5603,
+      "plane": 1
+    }
+  },
+  {
+    "comment": "Grifolaroo added by trent",
+    "npcId": 14700,
+    "tile": {
+      "x": 4687,
+      "y": 5599,
+      "plane": 1
+    }
+  },
+  {
+    "comment": "Grifolaroo added by trent",
+    "npcId": 14700,
+    "tile": {
+      "x": 4681,
+      "y": 5587,
+      "plane": 1
+    }
+  },
+  {
+    "comment": "Grifolaroo added by trent",
+    "npcId": 14700,
+    "tile": {
+      "x": 4684,
+      "y": 5573,
+      "plane": 1
+    }
+  },
+  {
+    "comment": "Grifolaroo added by trent",
+    "npcId": 14700,
+    "tile": {
+      "x": 4682,
+      "y": 5577,
+      "plane": 1
+    }
+  },
+  {
+    "comment": "Grifolaroo added by trent",
+    "npcId": 14700,
+    "tile": {
+      "x": 4686,
+      "y": 5577,
+      "plane": 1
+    }
+  },
+  {
+    "comment": "Grifolaroo added by trent",
+    "npcId": 14700,
+    "tile": {
+      "x": 4702,
+      "y": 5576,
+      "plane": 1
+    }
+  },
+  {
+    "comment": "Grifolaroo added by trent",
+    "npcId": 14700,
+    "tile": {
+      "x": 4704,
+      "y": 5574,
+      "plane": 1
+    }
+  },
+  {
+    "comment": "Grifolaroo added by trent",
+    "npcId": 14700,
+    "tile": {
+      "x": 4708,
+      "y": 5574,
+      "plane": 1
+    }
+  },
+  {
+    "comment": "Grifolaroo added by trent",
+    "npcId": 14700,
+    "tile": {
+      "x": 4707,
+      "y": 5580,
+      "plane": 1
+    }
+  },
+  {
+    "comment": "Grifolaroo added by trent",
+    "npcId": 14700,
+    "tile": {
+      "x": 4719,
+      "y": 5578,
+      "plane": 1
+    }
+  },
+  {
+    "comment": "Grifolaroo added by trent",
+    "npcId": 14700,
+    "tile": {
+      "x": 4720,
+      "y": 5582,
+      "plane": 1
+    }
+  },
+  {
+    "comment": "Grifolaroo added by trent",
+    "npcId": 14700,
+    "tile": {
+      "x": 4722,
+      "y": 5578,
+      "plane": 1
+    }
+  },
+  {
+    "comment": "Grifolaroo added by trent",
+    "npcId": 14700,
+    "tile": {
+      "x": 4725,
+      "y": 5582,
+      "plane": 1
+    }
+  },
+  {
+    "comment": "Grifolaroo added by trent",
+    "npcId": 14700,
+    "tile": {
+      "x": 4723,
+      "y": 5593,
+      "plane": 1
+    }
+  },
+  {
+    "comment": "Grifolaroo added by trent",
+    "npcId": 14700,
+    "tile": {
+      "x": 4720,
+      "y": 5598,
+      "plane": 1
+    }
+  },
+  {
+    "comment": "Grifolaroo added by trent",
+    "npcId": 14700,
+    "tile": {
+      "x": 4724,
+      "y": 5601,
+      "plane": 1
+    }
+  },
+  {
+    "comment": "Grifolaroo added by trent",
+    "npcId": 14700,
+    "tile": {
+      "x": 4726,
+      "y": 5597,
+      "plane": 1
+    }
+  },
+  {
+    "comment": "Grifolapine added by trent",
+    "npcId": 14688,
+    "tile": {
+      "x": 4725,
+      "y": 5603,
+      "plane": 2
+    }
+  },
+  {
+    "comment": "Grifolapine added by trent",
+    "npcId": 14688,
+    "tile": {
+      "x": 4724,
+      "y": 5599,
+      "plane": 2
+    }
+  },
+  {
+    "comment": "Grifolapine added by trent",
+    "npcId": 14688,
+    "tile": {
+      "x": 4727,
+      "y": 5599,
+      "plane": 2
+    }
+  },
+  {
+    "comment": "Grifolapine added by trent",
+    "npcId": 14688,
+    "tile": {
+      "x": 4722,
+      "y": 5615,
+      "plane": 2
+    }
+  },
+  {
+    "comment": "Grifolapine added by trent",
+    "npcId": 14688,
+    "tile": {
+      "x": 4720,
+      "y": 5618,
+      "plane": 2
+    }
+  },
+  {
+    "comment": "Grifolapine added by trent",
+    "npcId": 14688,
+    "tile": {
+      "x": 4724,
+      "y": 5621,
+      "plane": 2
+    }
+  },
+  {
+    "comment": "Grifolapine added by trent",
+    "npcId": 14688,
+    "tile": {
+      "x": 4725,
+      "y": 5618,
+      "plane": 2
+    }
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4600,
+      "y": 5360
+    },
+    "comment": "Grifolapine",
+    "npcId": 14688
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4600,
+      "y": 5360
+    },
+    "comment": "Grifolapine",
+    "npcId": 14688
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4600,
+      "y": 5360
+    },
+    "comment": "Grifolapine",
+    "npcId": 14688
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4600,
+      "y": 5360
+    },
+    "comment": "Grifolapine",
+    "npcId": 14688
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4600,
+      "y": 5360
+    },
+    "comment": "Grifolapine",
+    "npcId": 14688
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4600,
+      "y": 5360
+    },
+    "comment": "Grifolapine",
+    "npcId": 14688
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4600,
+      "y": 5360
+    },
+    "comment": "Grifolapine",
+    "npcId": 14688
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4600,
+      "y": 5360
+    },
+    "comment": "Grifolapine",
+    "npcId": 14688
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4600,
+      "y": 5360
+    },
+    "comment": "Grifolapine",
+    "npcId": 14688
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4600,
+      "y": 5360
+    },
+    "comment": "Grifolapine",
+    "npcId": 14688
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4635,
+      "y": 5406
+    },
+    "comment": "Grifolapine",
+    "npcId": 14688
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4628,
+      "y": 5438
+    },
+    "comment": "Grifolapine",
+    "npcId": 14688
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4622,
+      "y": 5435
+    },
+    "comment": "Grifolapine",
+    "npcId": 14688
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4628,
+      "y": 5431
+    },
+    "comment": "Grifolapine",
+    "npcId": 14688
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4621,
+      "y": 5429
+    },
+    "comment": "Grifolapine",
+    "npcId": 14688
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4628,
+      "y": 5407
+    },
+    "comment": "Grifolapine",
+    "npcId": 14688
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4654,
+      "y": 5487
+    },
+    "comment": "Grifolapine",
+    "npcId": 14688
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4658,
+      "y": 5488
+    },
+    "comment": "Grifolapine",
+    "npcId": 14688
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4661,
+      "y": 5488
+    },
+    "comment": "Grifolapine",
+    "npcId": 14688
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4629,
+      "y": 5484
+    },
+    "comment": "Grifolapine",
+    "npcId": 14688
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4630,
+      "y": 5482
+    },
+    "comment": "Grifolapine",
+    "npcId": 14688
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4628,
+      "y": 5479
+    },
+    "comment": "Grifolapine",
+    "npcId": 14688
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4623,
+      "y": 5483
+    },
+    "comment": "Grifolapine",
+    "npcId": 14688
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4702,
+      "y": 5617
+    },
+    "comment": "Grifolapine",
+    "npcId": 14688
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4699,
+      "y": 5619
+    },
+    "comment": "Grifolapine",
+    "npcId": 14688
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4703,
+      "y": 5619
+    },
+    "comment": "Grifolapine",
+    "npcId": 14688
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4706,
+      "y": 5620
+    },
+    "comment": "Grifolapine",
+    "npcId": 14688
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4702,
+      "y": 5620
+    },
+    "comment": "Grifolapine",
+    "npcId": 14688
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4687,
+      "y": 5615
+    },
+    "comment": "Grifolapine",
+    "npcId": 14688
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4684,
+      "y": 5615
+    },
+    "comment": "Grifolapine",
+    "npcId": 14688
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4684,
+      "y": 5618
+    },
+    "comment": "Grifolapine",
+    "npcId": 14688
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4680,
+      "y": 5614
+    },
+    "comment": "Grifolapine",
+    "npcId": 14688
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4576,
+      "y": 5360
+    },
+    "comment": "Ganodermic runt",
+    "npcId": 14698
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4576,
+      "y": 5360
+    },
+    "comment": "Ganodermic runt",
+    "npcId": 14698
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4576,
+      "y": 5400
+    },
+    "comment": "Ganodermic runt",
+    "npcId": 14698
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4659,
+      "y": 5408
+    },
+    "comment": "Ganodermic runt",
+    "npcId": 14698
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4657,
+      "y": 5408
+    },
+    "comment": "Ganodermic runt",
+    "npcId": 14698
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4656,
+      "y": 5415
+    },
+    "comment": "Ganodermic runt",
+    "npcId": 14698
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4626,
+      "y": 5413
+    },
+    "comment": "Ganodermic runt",
+    "npcId": 14698
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4627,
+      "y": 5413
+    },
+    "comment": "Ganodermic runt",
+    "npcId": 14698
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4632,
+      "y": 5410
+    },
+    "comment": "Ganodermic runt",
+    "npcId": 14698
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4656,
+      "y": 5404
+    },
+    "comment": "Ganodermic runt",
+    "npcId": 14698
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4645,
+      "y": 5409
+    },
+    "comment": "Ganodermic runt",
+    "npcId": 14698
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4641,
+      "y": 5409
+    },
+    "comment": "Ganodermic runt",
+    "npcId": 14698
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4649,
+      "y": 5411
+    },
+    "comment": "Ganodermic runt",
+    "npcId": 14698
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4629,
+      "y": 5432
+    },
+    "comment": "Ganodermic runt",
+    "npcId": 14698
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4626,
+      "y": 5415
+    },
+    "comment": "Ganodermic runt",
+    "npcId": 14698
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4637,
+      "y": 5409
+    },
+    "comment": "Ganodermic runt",
+    "npcId": 14698
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4651,
+      "y": 5441
+    },
+    "comment": "Ganodermic runt",
+    "npcId": 14698
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4649,
+      "y": 5448
+    },
+    "comment": "Ganodermic runt",
+    "npcId": 14698
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4648,
+      "y": 5448
+    },
+    "comment": "Ganodermic runt",
+    "npcId": 14698
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4653,
+      "y": 5464
+    },
+    "comment": "Ganodermic runt",
+    "npcId": 14698
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4660,
+      "y": 5467
+    },
+    "comment": "Ganodermic runt",
+    "npcId": 14698
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4657,
+      "y": 5469
+    },
+    "comment": "Ganodermic runt",
+    "npcId": 14698
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4657,
+      "y": 5470
+    },
+    "comment": "Ganodermic runt",
+    "npcId": 14698
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4657,
+      "y": 5477
+    },
+    "comment": "Ganodermic runt",
+    "npcId": 14698
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4654,
+      "y": 5478
+    },
+    "comment": "Ganodermic runt",
+    "npcId": 14698
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4658,
+      "y": 5479
+    },
+    "comment": "Ganodermic runt",
+    "npcId": 14698
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4652,
+      "y": 5483
+    },
+    "comment": "Ganodermic runt",
+    "npcId": 14698
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4639,
+      "y": 5487
+    },
+    "comment": "Ganodermic runt",
+    "npcId": 14698
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4641,
+      "y": 5487
+    },
+    "comment": "Ganodermic runt",
+    "npcId": 14698
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4625,
+      "y": 5463
+    },
+    "comment": "Ganodermic runt",
+    "npcId": 14698
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4624,
+      "y": 5461
+    },
+    "comment": "Ganodermic runt",
+    "npcId": 14698
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4631,
+      "y": 5460
+    },
+    "comment": "Ganodermic runt",
+    "npcId": 14698
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4632,
+      "y": 5459
+    },
+    "comment": "Ganodermic runt",
+    "npcId": 14698
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 4621,
+      "y": 5457
+    },
+    "comment": "Ganodermic runt",
+    "npcId": 14698
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4656,
+      "y": 5448
+    },
+    "comment": "Ganodermic runt",
+    "npcId": 14698
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4656,
+      "y": 5449
+    },
+    "comment": "Ganodermic runt",
+    "npcId": 14698
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4657,
+      "y": 5453
+    },
+    "comment": "Ganodermic runt",
+    "npcId": 14698
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4635,
+      "y": 5449
+    },
+    "comment": "Ganodermic runt",
+    "npcId": 14698
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4657,
+      "y": 5454
+    },
+    "comment": "Ganodermic runt",
+    "npcId": 14698
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4645,
+      "y": 5466
+    },
+    "comment": "Ganodermic runt",
+    "npcId": 14698
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4655,
+      "y": 5467
+    },
+    "comment": "Ganodermic runt",
+    "npcId": 14698
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4659,
+      "y": 5469
+    },
+    "comment": "Ganodermic runt",
+    "npcId": 14698
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4647,
+      "y": 5472
+    },
+    "comment": "Ganodermic runt",
+    "npcId": 14698
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4645,
+      "y": 5483
+    },
+    "comment": "Ganodermic runt",
+    "npcId": 14698
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4658,
+      "y": 5484
+    },
+    "comment": "Ganodermic runt",
+    "npcId": 14698
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4651,
+      "y": 5489
+    },
+    "comment": "Ganodermic runt",
+    "npcId": 14698
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4645,
+      "y": 5490
+    },
+    "comment": "Ganodermic runt",
+    "npcId": 14698
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4660,
+      "y": 5491
+    },
+    "comment": "Ganodermic runt",
+    "npcId": 14698
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4636,
+      "y": 5479
+    },
+    "comment": "Ganodermic runt",
+    "npcId": 14698
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4635,
+      "y": 5479
+    },
+    "comment": "Ganodermic runt",
+    "npcId": 14698
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4628,
+      "y": 5487
+    },
+    "comment": "Ganodermic runt",
+    "npcId": 14698
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4628,
+      "y": 5486
+    },
+    "comment": "Ganodermic runt",
+    "npcId": 14698
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4628,
+      "y": 5488
+    },
+    "comment": "Ganodermic runt",
+    "npcId": 14698
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4698,
+      "y": 5606
+    },
+    "comment": "Ganodermic beast",
+    "npcId": 14696
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4694,
+      "y": 5600
+    },
+    "comment": "Ganodermic beast",
+    "npcId": 14696
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4692,
+      "y": 5594
+    },
+    "comment": "Ganodermic beast",
+    "npcId": 14696
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4693,
+      "y": 5588
+    },
+    "comment": "Ganodermic beast",
+    "npcId": 14696
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4691,
+      "y": 5584
+    },
+    "comment": "Ganodermic beast",
+    "npcId": 14696
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4687,
+      "y": 5584
+    },
+    "comment": "Ganodermic beast",
+    "npcId": 14696
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4688,
+      "y": 5578
+    },
+    "comment": "Ganodermic beast",
+    "npcId": 14696
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4702,
+      "y": 5580
+    },
+    "comment": "Ganodermic beast",
+    "npcId": 14696
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4710,
+      "y": 5582
+    },
+    "comment": "Ganodermic beast",
+    "npcId": 14696
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4716,
+      "y": 5591
+    },
+    "comment": "Ganodermic beast",
+    "npcId": 14696
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4713,
+      "y": 5599
+    },
+    "comment": "Ganodermic beast",
+    "npcId": 14696
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4716,
+      "y": 5608
+    },
+    "comment": "Ganodermic beast",
+    "npcId": 14696
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4717,
+      "y": 5616
+    },
+    "comment": "Ganodermic beast",
+    "npcId": 14696
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4709,
+      "y": 5618
+    },
+    "comment": "Ganodermic beast",
+    "npcId": 14696
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4701,
+      "y": 5618
+    },
+    "comment": "Ganodermic beast",
+    "npcId": 14696
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4691,
+      "y": 5616
+    },
+    "comment": "Ganodermic beast",
+    "npcId": 14696
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4688,
+      "y": 5614
+    },
+    "comment": "Ganodermic beast",
+    "npcId": 14696
+  },
+  {
+    "comment": "Ganodermic beast added by trent",
+    "npcId": 14696,
+    "tile": {
+      "x": 4717,
+      "y": 5583,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Ganodermic beast added by trent",
+    "npcId": 14696,
+    "tile": {
+      "x": 4722,
+      "y": 5580,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Ganodermic beast added by trent",
+    "npcId": 14696,
+    "tile": {
+      "x": 4683,
+      "y": 5579,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Ganodermic beast added by trent",
+    "npcId": 14696,
+    "tile": {
+      "x": 4687,
+      "y": 5618,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Ganodermic beast added by trent",
+    "npcId": 14696,
+    "tile": {
+      "x": 4712,
+      "y": 5620,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Ganodermic beast added by trent",
+    "npcId": 14696,
+    "tile": {
+      "x": 4721,
+      "y": 5617,
+      "plane": 0
+    }
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4576,
+      "y": 5360
+    },
+    "comment": "Ganodermic beast",
+    "npcId": 14696
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4576,
+      "y": 5360
+    },
+    "comment": "Ganodermic beast",
+    "npcId": 14696
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4576,
+      "y": 5360
+    },
+    "comment": "Ganodermic beast",
+    "npcId": 14696
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4600,
+      "y": 5400
+    },
+    "comment": "Ganodermic beast",
+    "npcId": 14696
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4657,
+      "y": 5407
+    },
+    "comment": "Ganodermic beast",
+    "npcId": 14696
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4647,
+      "y": 5410
+    },
+    "comment": "Ganodermic beast",
+    "npcId": 14696
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4657,
+      "y": 5410
+    },
+    "comment": "Ganodermic beast",
+    "npcId": 14696
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4634,
+      "y": 5434
+    },
+    "comment": "Ganodermic beast",
+    "npcId": 14696
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4635,
+      "y": 5431
+    },
+    "comment": "Ganodermic beast",
+    "npcId": 14696
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4635,
+      "y": 5428
+    },
+    "comment": "Ganodermic beast",
+    "npcId": 14696
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4635,
+      "y": 5425
+    },
+    "comment": "Ganodermic beast",
+    "npcId": 14696
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4630,
+      "y": 5414
+    },
+    "comment": "Ganodermic beast",
+    "npcId": 14696
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4627,
+      "y": 5412
+    },
+    "comment": "Ganodermic beast",
+    "npcId": 14696
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4634,
+      "y": 5412
+    },
+    "comment": "Ganodermic beast",
+    "npcId": 14696
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4637,
+      "y": 5411
+    },
+    "comment": "Ganodermic beast",
+    "npcId": 14696
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4634,
+      "y": 5394
+    },
+    "comment": "Ganodermic beast",
+    "npcId": 14696
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4626,
+      "y": 5391
+    },
+    "comment": "Ganodermic beast",
+    "npcId": 14696
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4650,
+      "y": 5448
+    },
+    "comment": "Ganodermic beast",
+    "npcId": 14696
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4653,
+      "y": 5449
+    },
+    "comment": "Ganodermic beast",
+    "npcId": 14696
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4637,
+      "y": 5444
+    },
+    "comment": "Ganodermic beast",
+    "npcId": 14696
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4648,
+      "y": 5460
+    },
+    "comment": "Ganodermic beast",
+    "npcId": 14696
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4655,
+      "y": 5469
+    },
+    "comment": "Ganodermic beast",
+    "npcId": 14696
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4649,
+      "y": 5475
+    },
+    "comment": "Ganodermic beast",
+    "npcId": 14696
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4646,
+      "y": 5477
+    },
+    "comment": "Ganodermic beast",
+    "npcId": 14696
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4643,
+      "y": 5477
+    },
+    "comment": "Ganodermic beast",
+    "npcId": 14696
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4644,
+      "y": 5480
+    },
+    "comment": "Ganodermic beast",
+    "npcId": 14696
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4641,
+      "y": 5484
+    },
+    "comment": "Ganodermic beast",
+    "npcId": 14696
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4653,
+      "y": 5484
+    },
+    "comment": "Ganodermic beast",
+    "npcId": 14696
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4656,
+      "y": 5485
+    },
+    "comment": "Ganodermic beast",
+    "npcId": 14696
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4652,
+      "y": 5487
+    },
+    "comment": "Ganodermic beast",
+    "npcId": 14696
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4625,
+      "y": 5480
+    },
+    "comment": "Ganodermic beast",
+    "npcId": 14696
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4625,
+      "y": 5477
+    },
+    "comment": "Ganodermic beast",
+    "npcId": 14696
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4625,
+      "y": 5484
+    },
+    "comment": "Ganodermic beast",
+    "npcId": 14696
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4630,
+      "y": 5467
+    },
+    "comment": "Ganodermic beast",
+    "npcId": 14696
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4621,
+      "y": 5463
+    },
+    "comment": "Ganodermic beast",
+    "npcId": 14696
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4623,
+      "y": 5454
+    },
+    "comment": "Ganodermic beast",
+    "npcId": 14696
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4630,
+      "y": 5451
+    },
+    "comment": "Ganodermic beast",
+    "npcId": 14696
+  }
+]

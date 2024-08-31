@@ -2,11 +2,11 @@
   "names": [
     "Infested axe"
   ],
-  "attackAnim": -1,
+  "attackAnim": 15502,
   "attackSound": -1,
-  "defenceAnim": -1,
+  "defenceAnim": 15503,
   "defendSound": -1,
-  "deathAnim": -1,
+  "deathAnim": 15504,
   "deathDelay": 6,
   "deathSound": -1,
   "respawnDelay": 59,
