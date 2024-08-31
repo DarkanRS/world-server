@@ -32,7 +32,7 @@ private val specialAttacks: MutableMap<Int, SpecialAttack> = HashMap()
 @ServerStartupEvent
 fun mapSpecials() {
     fun Entity.isValidCombatTarget(player: Player): Boolean {
-        return isAtMultiArea || player.isAtMultiArea || player.attackedBy !== this && player.inCombat() || this.attackedBy !== player && inCombat()
+        return (isAtMultiArea && player.isAtMultiArea) || (player.attackedBy == this && player.inCombat()) || (this.attackedBy == player && inCombat())
     }
 
     fun Entity.isInvalidMeleeTarget(player: Player): Boolean {

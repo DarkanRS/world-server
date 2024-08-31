@@ -1711,7 +1711,7 @@ public abstract class Entity {
 	}
 
 	public boolean inMeleeRange(Entity target) {
-		return WorldUtil.isInRange(getX(), getY(), getSize(), target.getX(), target.getY(), target.getSize(), 0);
+		return World.checkMeleeStep(this, getSize(), target, target.getSize());
 	}
 
 	public boolean isForceUpdateEntityRegion() {
