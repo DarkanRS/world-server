@@ -29,7 +29,7 @@
     "MAGIC_DEF": 500,
     "RANGE_DEF": 0
   },
-  "attackRange": -1,
+  "attackRange": 20,
   "attackGfx": -1,
   "attackProjectile": -1,
   "agressivenessType": "AGGRESSIVE",

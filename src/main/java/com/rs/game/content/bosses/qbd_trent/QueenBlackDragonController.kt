@@ -66,11 +66,11 @@ class QueenBlackDragonController : Controller() {
                 player.setLargeSceneView(true)
                 player.setForceMultiArea(true)
                 player.unlock()
-                player.getPackets().sendVarc(184, 150)
-                player.getPackets().sendVarc(1924, 0)
-                player.getPackets().sendVarc(1925, 0)
-                player.getInterfaceManager().sendSub(InterfaceManager.Sub.FULL_GAMESPACE_BG, 1285)
-                player.getMusicsManager().playSongAndUnlock(1119) // AWOKEN
+                player.packets.sendVarc(184, 150)
+                player.packets.sendVarc(1924, 0)
+                player.packets.sendVarc(1925, 0)
+                player.interfaceManager.sendSub(InterfaceManager.Sub.FULL_GAMESPACE_BG, 1285)
+                player.musicsManager.playSongAndUnlock(1119) // AWOKEN
             })
         })
     }
@@ -78,21 +78,21 @@ class QueenBlackDragonController : Controller() {
     override fun processObjectClick1(obj: GameObject): Boolean {
         if (npc == null) return true
         if (obj.getId() == 70790) {
-            if (npc!!.getPhase() < 5) return true
+            if (npc!!.phase < 5) return true
             player.lock()
             player.fadeScreen(Runnable {
                 player.resetReceivedHits()
                 player.sendMessage("You descend the stairs that appeared when you defeated the Queen Black Dragon.")
-                player.getPackets().sendVarc(184, -1)
+                player.packets.sendVarc(184, -1)
                 npc!!.finish()
                 rewardRegion = Instance.of(OUTSIDE, 8, 8)
                 rewardRegion!!.copyMapAllPlanes(160, 760).thenAccept(Consumer { e: Boolean? ->
                     player.resetReceivedHits()
-                    rewardBase = rewardRegion!!.getTileBase().transform(0, 0, 0)
+                    rewardBase = rewardRegion!!.tileBase.transform(0, 0, 0)
                     player.tele(rewardBase!!.transform(31, 36, 0))
                     player.setForceNextMapLoadRefresh(true)
                     player.loadMapRegions()
-                    player.getInterfaceManager().removeSub(InterfaceManager.Sub.FULL_GAMESPACE_BG)
+                    player.interfaceManager.removeSub(InterfaceManager.Sub.FULL_GAMESPACE_BG)
                     player.unlock()
                 })
             })
@@ -118,19 +118,17 @@ class QueenBlackDragonController : Controller() {
             npc!!.openRewardChest(false)
             return false
         }
-        if (obj.getId() == npc!!.getActiveArtifact().getId()) {
-            player.getMusicsManager().playSongAndUnlock(1118) // QUEEN BLACK DRAGON
+        if (obj.getId() == npc!!.activeArtifact.getId()) {
+            player.musicsManager.playSongAndUnlock(1118) // QUEEN BLACK DRAGON
             npc!!.setSpawningWorms(false)
-            npc!!.setNextAttack(20)
-            npc!!.setActiveArtifact(
-                GameObject(
-                    obj.getId() + 1,
-                    ObjectType.SCENERY_INTERACT,
-                    0,
-                    obj.getTile()
-                )
+            npc!!.nextAttack = 20
+            npc!!.activeArtifact = GameObject(
+                obj.getId() + 1,
+                ObjectType.SCENERY_INTERACT,
+                0,
+                obj.getTile()
             )
-            npc!!.setHitpoints(npc!!.getMaxHitpoints())
+            npc!!.setHitpoints(npc!!.maxHitpoints)
             npc!!.setCantInteract(false)
             npc!!.setPhase(npc!!.getPhase() + 1)
             spawnObject(npc!!.getActiveArtifact())

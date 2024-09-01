@@ -47,17 +47,11 @@ import java.util.List;
  */
 public final class QueenBlackDragon extends NPC {
 
-	private static final QueenAttack[] PHASE_1_ATTACKS = { new FireBreathAttack(), new MeleeAttack(), new RangeAttack(), new FireWallAttack() };
-	private static final QueenAttack[] PHASE_2_ATTACKS = { new FireBreathAttack(), new MeleeAttack(), new RangeAttack(), new FireWallAttack(), new ChangeArmour(), new SoulSummonAttack() };
-	private static final QueenAttack[] PHASE_3_ATTACKS = { new FireBreathAttack(), new MeleeAttack(), new RangeAttack(), new FireWallAttack(), new ChangeArmour(), new SoulSummonAttack(), new SoulSiphonAttack() };
+	private static final QueenAttack[] PHASE_1_ATTACKS = {  };
+	private static final QueenAttack[] PHASE_2_ATTACKS = { new ChangeArmour(), new SoulSummonAttack() };
+	private static final QueenAttack[] PHASE_3_ATTACKS = { new ChangeArmour(), new SoulSummonAttack(), new SoulSiphonAttack() };
 	private static final QueenAttack[] PHASE_4_ATTACKS = {
-			new FireBreathAttack(),
 			new TimeStopAttack(),
-			new MeleeAttack(),
-			new SuperFireAttack(),
-			new RangeAttack(),
-			new FireWallAttack(),
-			new SuperFireAttack(),
 			new ChangeArmour(),
 			new SoulSummonAttack(),
 			new SoulSiphonAttack(),
