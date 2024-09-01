@@ -2,11 +2,11 @@
   "names": [
     "Billy Goat"
   ],
-  "attackAnim": -1,
-  "attackSound": -1,
-  "defenceAnim": -1,
-  "defendSound": -1,
-  "deathAnim": -1,
+  "attackAnim": 5338,
+  "attackSound": 757,
+  "defenceAnim": 5337,
+  "defendSound": 759,
+  "deathAnim": 5336,
   "deathDelay": 6,
   "deathSound": -1,
   "respawnDelay": 59,

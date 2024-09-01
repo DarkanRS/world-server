@@ -49,7 +49,7 @@ public class Daemonheim {
 					}));
 	});
 
-	public static ObjectClickHandler staircasetosecondfloorleft = new ObjectClickHandler(new Object[] { 48612 }, e -> e.getPlayer().tele(Tile.of(3451, 3738, 1)));
+	public static ObjectClickHandler staircasetosecondfloorleft = new ObjectClickHandler(new Object[] { 48612 }, e -> e.getPlayer().tele(Tile.of(3448, 3738, 1)));
 
 	public static ObjectClickHandler staircasetofirstfloorleft= new ObjectClickHandler(new Object[] { 50567 }, e -> e.getPlayer().tele(Tile.of(3447, 3732, 0)));
 
