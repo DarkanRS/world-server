@@ -149,6 +149,7 @@ public class Bonfire extends PlayerAction {
 
 	@Override
 	public int processWithDelay(Player player) {
+		player.faceObject(object);
 		player.incrementCount(ItemDefinitions.getDefs(log.logId).getName()+" burned in bonfire");
 		player.getInventory().deleteItem(log.logId, 1);
 		player.getSkills().addXp(Constants.FIREMAKING, Firemaking.increasedExperience(player, log.xp, true));

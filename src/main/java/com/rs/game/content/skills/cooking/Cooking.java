@@ -217,7 +217,7 @@ public class Cooking extends PlayerAction {
 		if (!ChunkManager.getChunk(gameObject.getTile().getChunkId()).objectExists(gameObject)) {
 			return false;
 		}
-		if (!player.getInventory().hasFreeSlots()) {
+		if (!player.getInventory().hasFreeSlots() && cookable.getRawItem().getDefinitions().isStackable()) {
 			return false;
 		}
 		return player.getInventory().containsItem(cookable.getRawItem().getId(), 1);
