@@ -70,7 +70,6 @@ private const val FIRE_WALL_STOP = 16748
 private const val WAKE_UP = 16848
 
 fun qbdAttack(qbd: QBD, player: Player): Int {
-    qbd.phase = 3
     val attack = random(4)
     return when(attack) {
         1 -> qbd.firebreath(player)
