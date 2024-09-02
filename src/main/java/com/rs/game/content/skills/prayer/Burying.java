@@ -107,7 +107,7 @@ public class Burying {
 				@Override
 				public void run() {
 					handleNecklaces(player, bone.getId());
-					player.sendMessage("You bury the " + itemDef.getName().toLowerCase());
+					player.sendMessage("You bury the " + itemDef.getName().toLowerCase() + ".");
 					player.getInventory().deleteItem(item.getId(), 1);
 					double xp = bone.getExperience();
 					player.getSkills().addXp(Constants.PRAYER, xp);
