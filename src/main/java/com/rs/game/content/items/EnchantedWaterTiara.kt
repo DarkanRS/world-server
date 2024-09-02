@@ -72,8 +72,8 @@ fun mapEnchantedWaterTiara() {
                 player.startConversation {
                     options("Enchant your water tiara with $formattedChargesToAdd $chargeText in exchange for $formattedRunesNeeded water runes?") {
                         opExec("Yes.") {
-                            if (player.inventory.getAmountOf(555) >= runesNeeded) {
-                                player.inventory.deleteItem(555, runesNeeded)
+                            if (player.inventory.getAmountOf(WATER_RUNE.id) >= runesNeeded) {
+                                player.inventory.deleteItem(WATER_RUNE.id, runesNeeded)
                                 player.inventory.deleteItem(REGULAR_WATER_TIARA)
 
                                 val enchantedTiara = Item(ENCHANTED_WATER_TIARA.id)
@@ -108,7 +108,7 @@ fun mapEnchantedWaterTiara() {
             if (waterRunesToReturn > 0) {
                 e.player.inventory.deleteItem(e.item)
                 World.addGroundItem(REGULAR_WATER_TIARA, e.player.tile, e.player)
-                World.addGroundItem(Item(555, waterRunesToReturn), e.player.tile, e.player)
+                World.addGroundItem(Item(WATER_RUNE.id, waterRunesToReturn), e.player.tile, e.player)
                 e.player.sendMessage("You destroy your enchanted water tiara, leaving behind a regular water tiara and any remaining water runes it contained.")
             }
         }
@@ -128,7 +128,7 @@ class EnchantedWaterTiara(val player: Player) {
                     player.sendMessage("<col=FF0000>You feel your enchanted water tiara deteriorate into a regular water tiara, leaving behind any remaining water runes it contained.</col>")
                     player.equipment.replace(ENCHANTED_WATER_TIARA, REGULAR_WATER_TIARA)
                     if (waterRunesToReturn > 0)
-                        World.addGroundItem(Item(555, waterRunesToReturn), player.tile, player)
+                        World.addGroundItem(Item(WATER_RUNE.id, waterRunesToReturn), player.tile, player)
                     return false
                 }
                 var charges = tiara.getMetaDataI("enchantedWaterTiaraCharges", 0)
@@ -161,7 +161,7 @@ class EnchantedWaterTiara(val player: Player) {
         val tiara = player.getItemWithPlayer(ENCHANTED_WATER_TIARA.id)
         if (tiara != null) {
             val currentCharges = tiara.getMetaDataI("enchantedWaterTiaraCharges", 0)
-            val waterRunesAvailable = player.inventory.getAmountOf(555)
+            val waterRunesAvailable = player.inventory.getAmountOf(WATER_RUNE.id)
             val maxChargesToAdd = Utils.clampI(waterRunesAvailable / 3, 0, 500000 - currentCharges)
             val formattedMaxChargesToAdd = String.format("%,d", maxChargesToAdd)
             val chargeTextQuestion = if (maxChargesToAdd == 1) "charge" else "charges"
@@ -185,8 +185,8 @@ class EnchantedWaterTiara(val player: Player) {
                             player.startConversation {
                                 options("Add $formattedChargesToAdd $chargeText to the water tiara in exchange for $formattedRunesNeeded water runes?") {
                                     opExec("Yes.") {
-                                        if (player.inventory.getAmountOf(555) >= runesNeeded) {
-                                            player.inventory.deleteItem(555, runesNeeded)
+                                        if (player.inventory.getAmountOf(WATER_RUNE.id) >= runesNeeded) {
+                                            player.inventory.deleteItem(WATER_RUNE.id, runesNeeded)
                                             tiara.addMetaData("enchantedWaterTiaraCharges", currentCharges + chargesToAdd)
                                             player.inventory.refresh()
                                             player.sendMessage("You add $formattedRunesNeeded water runes to your enchanted water tiara, adding $chargesToAdd $chargeText.")

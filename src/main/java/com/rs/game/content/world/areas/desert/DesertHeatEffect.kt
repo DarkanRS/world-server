@@ -1,6 +1,5 @@
 package com.rs.game.content.world.areas.desert
 
-import com.rs.game.World
 import com.rs.game.content.items.EnchantedWaterTiara
 import com.rs.game.content.skills.cooking.Foods
 import com.rs.game.model.entity.Hit
@@ -8,20 +7,17 @@ import com.rs.game.model.entity.player.Equipment
 import com.rs.game.model.entity.player.Player
 import com.rs.game.model.entity.player.Skills
 import com.rs.game.model.`object`.GameObject
-import com.rs.game.tasks.WorldTasks
 import com.rs.lib.Constants
 import com.rs.lib.game.Item
 import com.rs.lib.util.Utils
 import com.rs.plugin.annotations.ServerStartupEvent
-import com.rs.plugin.kts.onChunkEnter
-import com.rs.plugin.kts.onItemEquip
-import com.rs.plugin.kts.onItemOnObject
-import com.rs.plugin.kts.onObjectClick
+import com.rs.plugin.kts.*
 import com.rs.utils.Areas
 import com.rs.utils.Ticks
 
 // Var Keys
-const val DESERT_HEAT_AREA = "desert_heat_effect"
+const val DESERT_HEAT_AREA = "desert_heat_area"
+const val DESERT_HEAT_TASK = "desert_heat_task"
 const val DESERT_HEAT_EFFECT_DELAY_ATTR = "desert_heat_effect_delay"
 
 // Item Configs
@@ -81,38 +77,46 @@ val equipmentIds = EQUIPMENT_DELAYS.map { it.first }.toTypedArray()
 @ServerStartupEvent
 fun mapDesertHeatEffect() {
 
-    // Apply heat delay effect to player as the enter chunks
-    onChunkEnter { (entity, _) ->
-        val player = entity as? Player ?: return@onChunkEnter
-        if (Areas.withinArea(DESERT_HEAT_AREA, player.chunkId)) {
-            val currentDelay = player.tempAttribs.getI(DESERT_HEAT_EFFECT_DELAY_ATTR)
-            if (currentDelay <= 0) {
-                player.tempAttribs.setI(DESERT_HEAT_EFFECT_DELAY_ATTR, getHeatEffectDelay(player))
-            }
+    // Apply short heat delay on login in desert area
+    onLogin { e ->
+        if (Areas.withinArea(DESERT_HEAT_AREA, e.player.chunkId)) {
+            e.player.tempAttribs.setI(DESERT_HEAT_EFFECT_DELAY_ATTR, Utils.randomInclusive(Ticks.fromSeconds(10), Ticks.fromSeconds(15)))
         }
     }
 
-    // Apply heat effect to players in DESERT_HEAT_AREA chunks
-    WorldTasks.scheduleTimer(0, 1) {
-        World.players.forEach { player ->
-            if (Areas.withinArea(DESERT_HEAT_AREA, player.chunkId)) {
-                val noInterfaceOpen = !player.interfaceManager.containsChatBoxInter() &&
-                        !player.interfaceManager.containsScreenInter() &&
-                        player.interfaceManager.topInterface != 755
+    // Apply heat delay effect to player as they enter chunks
+    onChunkEnter { (entity, _) ->
+        val player = entity as? Player ?: return@onChunkEnter
 
-                if (noInterfaceOpen) {
+        if (Areas.withinArea(DESERT_HEAT_AREA, player.chunkId)) {
+            if (!player.tasks.hasTask(DESERT_HEAT_TASK)) {
+                val currentDelay = player.tempAttribs.getI(DESERT_HEAT_EFFECT_DELAY_ATTR)
+                if (currentDelay <= 0) {
+                    player.tempAttribs.setI(DESERT_HEAT_EFFECT_DELAY_ATTR, getHeatEffectDelay(player))
+                }
+
+                player.tasks.scheduleLooping(DESERT_HEAT_TASK, 0, 0) {
                     var heatEffectDelay = player.tempAttribs.getI(DESERT_HEAT_EFFECT_DELAY_ATTR)
-                    if (heatEffectDelay <= 1) {
-                        applyEffect(player)
-                        heatEffectDelay = getHeatEffectDelay(player)
-                    } else {
-                        heatEffectDelay -= 1
+
+                    val noInterfaceOpen = !player.interfaceManager.containsChatBoxInter() &&
+                            !player.interfaceManager.containsScreenInter() &&
+                            player.interfaceManager.topInterface != 755
+
+                    if (noInterfaceOpen) {
+                        if (heatEffectDelay <= 1) {
+                            applyEffect(player)
+                            heatEffectDelay = getHeatEffectDelay(player)
+                        } else {
+                            heatEffectDelay -= 1
+                            player.forceTalk("$heatEffectDelay")
+                        }
+                        player.tempAttribs.setI(DESERT_HEAT_EFFECT_DELAY_ATTR, heatEffectDelay)
                     }
-                    player.tempAttribs.setI(DESERT_HEAT_EFFECT_DELAY_ATTR, heatEffectDelay)
                 }
             }
+        } else {
+            player.tasks.remove(DESERT_HEAT_TASK)
         }
-        return@scheduleTimer true
     }
 
     // Refill waterskins from Kharidian Cacti
@@ -140,6 +144,27 @@ fun mapDesertHeatEffect() {
         }
     }
 
+}
+
+private fun getHeatEffectDelay(player: Player): Int {
+    var heatEffectDelay = Utils.randomInclusive(Ticks.fromSeconds(60), Ticks.fromSeconds(90))
+
+    // Iterate through the slots and apply the corresponding penalties if the item has combat stats
+    slotPenalties.forEach { (slot, penalty) ->
+        val item = player.equipment.getItem(slot)
+        if (hasCombatStats(item)) {
+            heatEffectDelay -= penalty
+        }
+    }
+
+    // Apply equipment delays
+    EQUIPMENT_DELAYS.forEach { (itemId, delayIncrement) ->
+        if (player.equipment.containsOneItem(itemId))
+            heatEffectDelay += delayIncrement
+    }
+
+    // Ensure delay doesn't drop below 0
+    return heatEffectDelay.coerceAtLeast(0)
 }
 
 private fun cutCactus(player: Player, obj: GameObject): Boolean {
@@ -176,27 +201,6 @@ private fun refillWaterskin(player: Player): Boolean {
         }
     }
     return false
-}
-
-private fun getHeatEffectDelay(player: Player): Int {
-    var heatEffectDelay = Utils.randomInclusive(61, 91)
-
-    // Iterate through the slots and apply the corresponding penalties if the item has combat stats
-    slotPenalties.forEach { (slot, penalty) ->
-        val item = player.equipment.getItem(slot)
-        if (hasCombatStats(item)) {
-            heatEffectDelay -= penalty
-        }
-    }
-
-    // Apply equipment delays
-    EQUIPMENT_DELAYS.forEach { (itemId, delayIncrement) ->
-        if (player.equipment.containsOneItem(itemId))
-            heatEffectDelay += delayIncrement
-    }
-
-    // Ensure delay doesn't drop below 0
-    return heatEffectDelay.coerceAtLeast(0)
 }
 
 private fun checkAndDrinkWater(player: Player): Boolean {
