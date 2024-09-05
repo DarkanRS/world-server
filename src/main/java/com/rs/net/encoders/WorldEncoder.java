@@ -674,8 +674,8 @@ public class WorldEncoder extends Encoder {
 		int index = 0;
 		for (int count = options.length - 1; count >= 0; count--)
 			parameters[index++] = options[count];
-		parameters[index++] = -1; // dunno but always this
-		parameters[index++] = 0;// dunno but always this, maybe startslot?
+		parameters[index++] = -1; 	// dunno but always this (some widget or something)
+		parameters[index++] = 0;	// draggable mode on items
 		parameters[index++] = height;
 		parameters[index++] = width;
 		parameters[index++] = key;

@@ -2,12 +2,12 @@
   "ids": [
     15510
   ],
-  "attackAnim": 16864,
+  "attackAnim": 16882,
   "attackSound": -1,
-  "defenceAnim": -1,
+  "defenceAnim": 16945,
   "defendSound": -1,
-  "deathAnim": 16859,
-  "deathDelay": 6,
+  "deathAnim": 16946,
+  "deathDelay": 1,
   "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 500,

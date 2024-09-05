@@ -74,7 +74,7 @@ fun mapGhasts() {
                 }
                 target.inventory.refresh()
                 npc.lock()
-                World.sendProjectile(target, npc, 268, 0, 15, 30) {
+                World.sendProjectile(target, npc, 268, speed = 15, angle = 30) {
                     npc.unlock()
                     npc.spotAnim(269, 0, 96)
                     npc.transformIntoNPC(when (npc.id) {

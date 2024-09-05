@@ -194,6 +194,10 @@ public final class Hit {
 		return new Hit(source, damage, HitLook.TRUE_DAMAGE);
 	}
 
+	public static Hit heal(Entity source, int damage) {
+		return new Hit(source, damage, HitLook.HEALED_DAMAGE);
+	}
+
 	public <T> T getData(String key, Class<T> clazz) {
 		try {
 			if (data.containsKey(key))

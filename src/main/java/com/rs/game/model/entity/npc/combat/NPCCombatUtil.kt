@@ -19,7 +19,7 @@ class NPCCombatUtil {
     companion object {
         @JvmStatic
         fun projectileBounce(npc: NPC, target: Entity, targetsHit: MutableSet<Entity>, projId: Int, hitSpotAnim: Int, clientFramesPerTile: Int, bouncedFrom: Entity? = null, onHit: Consumer<Entity>) {
-            World.sendProjectile(bouncedFrom ?: npc, target, projId, 30, clientFramesPerTile, 15) {
+            World.sendProjectile(bouncedFrom ?: npc, target, projId, delay = 30, speed = clientFramesPerTile, angle = 15) {
                 target.spotAnim(hitSpotAnim)
                 onHit.accept(target)
                 val nextTarget = npc.queryNearbyPlayersByTileRange(2) { !targetsHit.contains(it) }

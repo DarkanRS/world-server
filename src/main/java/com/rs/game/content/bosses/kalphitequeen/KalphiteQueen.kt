@@ -76,7 +76,7 @@ fun mapKalphiteQueen() {
         npc.anim(if (npc.id == 1158) 6240 else 6234)
         if (random(2) == 0) {
             //range
-            sendProjectile(npc, target, 288, 30, 5, 15) {
+            sendProjectile(npc, target, 288, delay = 30, speed = 5, angle = 15) {
                 delayHit(npc, 0, target, getRangeHit(npc, getMaxHit(npc, npc.combatDefinitions.maxHit, NPCCombatDefinitions.AttackStyle.RANGE, target, 10000.0)))
                 if (target is Player)
                     target.prayer.drainPrayer(10.0)

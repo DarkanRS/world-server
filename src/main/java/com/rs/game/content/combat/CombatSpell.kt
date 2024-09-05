@@ -86,8 +86,8 @@ enum class CombatSpell(
     FIRE_WAVE(75, 42.5, 200, Animation(2791), SpotAnim(2728), 2735, SpotAnim(2740), 162, 163, RuneSet(Rune.AIR, 5, Rune.FIRE, 7, Rune.BLOOD, 1)),
     FIRE_SURGE(95, 90.0, 280, Animation(2791), SpotAnim(2728), 2735, SpotAnim(2741), 7932, 7933, RuneSet(Rune.AIR, 7, Rune.FIRE, 10, Rune.DEATH, 1, Rune.BLOOD, 1)) {
         override fun onCast(caster: Entity, target: Entity) {
-            World.sendProjectile(caster, target, 2736, 50, 5, -25)
-            World.sendProjectile(caster, target, 2736, 50, 5, 25)
+            World.sendProjectile(caster, target, 2736, delay = 50, speed = 5, angle = -25)
+            World.sendProjectile(caster, target, 2736, delay = 50, speed = 5, angle = 25)
         }
     },
     CRUMBLE_UNDEAD(39, 24.5, 150, Animation(724), SpotAnim(145, 0, 96), 146, SpotAnim(147, 0, 96), 122, 124, RuneSet(Rune.AIR, 2, Rune.EARTH, 2, Rune.CHAOS, 1)) {
@@ -572,7 +572,7 @@ enum class CombatSpell(
             caster.spotAnim(castSpotAnim)
         if (castSound != -1) caster.soundEffect(target, castSound, true)
         onCast(caster, target)
-        return World.sendProjectile(caster, target, projAnim, 30 to 30, 45, 5, (if ((castSpotAnim?.height ?: 0) > 50) 20 else 0)).taskDelay
+        return World.sendProjectile(caster, target, projAnim, 30 to 30, 45, speed = 5, angle = (if ((castSpotAnim?.height ?: 0) > 50) 20 else 0)).taskDelay
     }
 
     fun cast(caster: Entity, target: Tile, targetHeight: Int): Int {
@@ -582,7 +582,7 @@ enum class CombatSpell(
         if (castSpotAnim != null)
             caster.spotAnim(castSpotAnim)
         if (castSound != -1) caster.soundEffect(castSound, false)
-        return World.sendProjectile(caster, target, projAnim, 30 to targetHeight, 45, 5, (if ((castSpotAnim?.height ?: 0) > 50) 20 else 0)).taskDelay
+        return World.sendProjectile(caster, target, projAnim, 30 to targetHeight, 45, speed = 5, angle = (if ((castSpotAnim?.height ?: 0) > 50) 20 else 0)).taskDelay
     }
 
     open fun onCast(caster: Entity, target: Entity) {}

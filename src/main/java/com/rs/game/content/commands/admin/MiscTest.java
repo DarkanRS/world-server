@@ -34,7 +34,6 @@ import com.rs.engine.pathfinder.*;
 import com.rs.engine.quest.Quest;
 import com.rs.game.World;
 import com.rs.game.content.achievements.Achievement;
-import com.rs.game.content.bosses.qbd.QueenBlackDragonController;
 import com.rs.game.content.combat.CombatDefinitions.Spellbook;
 import com.rs.game.content.combat.PlayerCombatKt;
 import com.rs.game.content.dnds.eviltree.EvilTreesKt;
@@ -257,8 +256,6 @@ public class MiscTest {
 		});
 
 		Commands.add(Rights.DEVELOPER, "tutisland", "Start tutorial island", (p, args) -> p.getControllerManager().startController(new TutorialIslandController()));
-
-		Commands.add(Rights.DEVELOPER, "qbd", "Start qbd", (p, args) -> p.getControllerManager().startController(new QueenBlackDragonController()));
 
 		/**
 		 * 31 orange glow
