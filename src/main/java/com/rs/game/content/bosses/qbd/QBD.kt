@@ -1,7 +1,12 @@
-package com.rs.game.content.bosses.qbd_trent
+package com.rs.game.content.bosses.qbd
 
+import com.rs.Settings
 import com.rs.cache.loaders.Bonus
 import com.rs.cache.loaders.ObjectType
+import com.rs.engine.dialogue.Dialogue
+import com.rs.engine.dialogue.Options
+import com.rs.engine.dialogue.sendOptionsDialogue
+import com.rs.engine.dialogue.startConversation
 import com.rs.engine.pathfinder.Direction
 import com.rs.game.World
 import com.rs.game.content.combat.getAntifireLevel
@@ -18,9 +23,11 @@ import com.rs.game.model.entity.npc.combat.CombatScript.getRangeHit
 import com.rs.game.model.entity.npc.combat.CombatScriptsHandler
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle
 import com.rs.game.model.entity.player.Player
+import com.rs.game.model.entity.player.managers.InterfaceManager
 import com.rs.game.model.item.ItemsContainer
 import com.rs.game.model.`object`.GameObject
-import com.rs.game.tasks.WorldTasks
+import com.rs.lib.Constants
+import com.rs.lib.game.Animation
 import com.rs.lib.game.Item
 import com.rs.lib.game.Tile
 import com.rs.lib.util.Utils.add
@@ -28,12 +35,15 @@ import com.rs.lib.util.Utils.addArticle
 import com.rs.lib.util.Utils.clampI
 import com.rs.lib.util.Utils.random
 import com.rs.plugin.annotations.ServerStartupEvent
+import com.rs.plugin.events.ObjectClickEvent
+import com.rs.plugin.handlers.ObjectClickHandler
 import com.rs.plugin.kts.instantiateNpc
 import com.rs.plugin.kts.npcCombat
 import com.rs.plugin.kts.onObjectClick
 import com.rs.utils.DropSets
 import com.rs.utils.WorldUtil.gsonTreeMapToItemContainer
 import com.rs.utils.drop.DropTable
+import java.util.function.Consumer
 import java.util.stream.IntStream.range
 import kotlin.math.abs
 import kotlin.streams.toList
@@ -55,6 +65,60 @@ private const val ANIM_WAKE_UP = 16714
 
 @ServerStartupEvent
 fun mapQbdFeatures() {
+    fun Player.enterPortal(location: Tile? = null) {
+        if (skills.getLevelForXp(Constants.SUMMONING) < 60) {
+            sendMessage("You need a Summoning level of 60 to go through this portal.")
+            return
+        }
+        schedule {
+            lock()
+            sync(16752, 3154)
+            if (location != null)
+                wait(2)
+            fadeScreen {
+                if (location != null) {
+                    tele(location)
+                    unlockNextTick()
+                } else
+                    controllerManager.startController(QBDController())
+                resetReceivedHits()
+                resetReceivedDamage()
+            }
+        }
+    }
+
+    onObjectClick(70812) { (player, _, option) ->
+        when(option) {
+            "Investigate" -> player.startConversation {
+                simple("You will be sent to the heart of this cave complex - alone. There is no way out other than victory, teleportation, or death. Only those who can endure dangerous counters (level 110 or more) should proceed.")
+                options {
+                    opExec("Proceed into cave.") { player.enterPortal() }
+                    opExec("Go to rewards room.") { player.enterPortal(Tile.of(1311, 6116, 0)) }
+                    if (Settings.getConfig().isDebug)
+                        opExec("Go to public instance.") { player.enterPortal(Tile.of(1441, 6364, 1)) }
+                    op("Step away from the portal.")
+                }
+            }
+            "Pass through" -> player.enterPortal()
+        }
+    }
+
+    onObjectClick(70813) { (player) ->
+        player.sendOptionsDialogue {
+            opExec("Go back to entrance portal.") { player.enterPortal(Tile.of(1199, 6499, 0)) }
+            opExec("Start another fight.") { player.enterPortal() }
+            if (Settings.getConfig().isDebug)
+                opExec("Go back to public instance.") { player.enterPortal(Tile.of(1441, 6364, 1)) }
+            op("Step away from the portal.")
+        }
+    }
+
+    onObjectClick(70790) { (player) ->
+        player.useStairs(Tile.of(1311, 6116, 0))
+        player.resetReceivedHits()
+        player.resetReceivedDamage()
+    }
+
     instantiateNpc(15454, 15506, 15507, 15508, 15509) { npcId, tile -> QBD(npcId, tile) }
 
     npcCombat(15454, 15506, 15507, 15508, 15509) { npc, target ->
@@ -71,13 +135,11 @@ fun mapQbdFeatures() {
         obj.qbd.phase()
     }
 
-    onObjectClick(70816) { (player) ->
-        val items = gsonTreeMapToItemContainer(player["qbdLootChest"])
-        if (items == null) {
-            player.sendMessage("The coffer is empty.")
-            return@onObjectClick
+    onObjectClick(70815) { (player, _, option) ->
+        when(option) {
+            "Open", "Search" -> openQbdLootChest(player)
+            "Deposit" -> player.bank.openDepositBox()
         }
-        LootInterface.open("Dragonkin Coffer", player, items)
     }
 }
 
@@ -85,8 +147,8 @@ class Artefact(id: Int, tile: Tile, val qbd: QBD) : GameObject(id, ObjectType.SC
 
 class QBD(npcId: Int, tile: Tile) : NPC(npcId, tile, Direction.SOUTH, true) {
     var woke = false
-    var lastSpec = 0
     var phase = 0
+    var lastSpec: QBDAttack? = null
     var artefact: Artefact? = null
     var lastHitpoints = 0
     val souls = mutableListOf<TorturedSoul>()
@@ -103,6 +165,7 @@ class QBD(npcId: Int, tile: Tile) : NPC(npcId, tile, Direction.SOUTH, true) {
 
     fun wake() {
         woke = true
+        updateInterfacesNearbyPlayers()
         schedule {
             anim(ANIM_WAKE_UP)
             wait(28)
@@ -113,12 +176,34 @@ class QBD(npcId: Int, tile: Tile) : NPC(npcId, tile, Direction.SOUTH, true) {
         }
     }
 
+    fun removeInterfacesFromNearbyPlayers() {
+        queryNearbyPlayersByTileRange(20) { true }.forEach {
+            it.packets.sendVarc(184, -1)
+            it.interfaceManager.removeSub(InterfaceManager.Sub.FULL_GAMESPACE_BG)
+        }
+    }
+
+    fun updateInterfacesNearbyPlayers() {
+        queryNearbyPlayersByTileRange(20) { !it.isDead }.forEach {
+            if (!it.interfaceManager.topOpen(1285)) {
+                it.setLargeSceneView(true)
+                it.packets.sendVarc(184, 150)
+                it.packets.sendVarc(1924, 0)
+                it.packets.sendVarc(1925, 0)
+                it.interfaceManager.sendSub(InterfaceManager.Sub.FULL_GAMESPACE_BG, 1285)
+                it.musicsManager.playSongAndUnlock(1119)
+            }
+            it.packets.sendVarc(1923, getMaxHitpoints() - hitpoints)
+            it.packets.sendVarc(1924, (phase*2) + (if (artefact != null) 1 else 0))
+        }
+    }
+
     override fun getMaxHitpoints() = 7500
 
     override fun setHitpoints(hitpoints: Int) {
         super.setHitpoints(hitpoints)
         if (lastHitpoints != hitpoints) {
-            queryNearbyPlayersByTileRange(20) { !it.isDead }.forEach { it.packets.sendVarc(1923, getMaxHitpoints() - hitpoints) }
+            updateInterfacesNearbyPlayers()
             lastHitpoints = hitpoints;
         }
     }
@@ -129,8 +214,8 @@ class QBD(npcId: Int, tile: Tile) : NPC(npcId, tile, Direction.SOUTH, true) {
 
     val platformObjTile
         get() = middleTile.transform(-9, -17, -1)
-    val cofferTile
-        get() = middleTile.transform(-1, -8, 0)
+    val stairsUnderTile
+        get() = middleTile.transform(-2, -9, -1)
     val artefact1Tile
         get() = middleTile.transform(0, -7, 0)
     val artefact2Tile
@@ -149,41 +234,30 @@ class QBD(npcId: Int, tile: Tile) : NPC(npcId, tile, Direction.SOUTH, true) {
         val newArtefact = when(phase) {
             0 -> {
                 possibleTargets.filterIsInstance<Player>().filterNot { it.isDead }
-                    .forEach {
-                        it.sendMessage("The Queen Black Dragon's concentration wavers; the first artefact is now unguarded.")
-                        it.packets.sendVarc(1924, 1)
-                    }
+                    .forEach { it.sendMessage("The Queen Black Dragon's concentration wavers; the first artefact is now unguarded.") }
                 Artefact(70777, artefact1Tile, this)
             }
             1 -> {
                 possibleTargets.filterIsInstance<Player>().filterNot { it.isDead }
-                    .forEach {
-                        it.sendMessage("The Queen Black Dragon's concentration wavers; the second artefact is now unguarded.")
-                        it.packets.sendVarc(1924, 3)
-                    }
+                    .forEach { it.sendMessage("The Queen Black Dragon's concentration wavers; the second artefact is now unguarded.") }
                 World.spawnObject(GameObject(70844, ObjectType.SCENERY_INTERACT, 0, platformObjTile))
                 Artefact(70780, artefact2Tile, this)
             }
             2 -> {
                 possibleTargets.filterIsInstance<Player>().filterNot { it.isDead }
-                    .forEach {
-                        it.sendMessage("The Queen Black Dragon's concentration wavers; the third artefact is now unguarded.")
-                        it.packets.sendVarc(1924, 5)
-                    }
+                    .forEach { it.sendMessage("The Queen Black Dragon's concentration wavers; the third artefact is now unguarded.") }
                 World.spawnObject(GameObject(70846, ObjectType.SCENERY_INTERACT, 0, platformObjTile))
                 Artefact(70783, artefact3Tile, this)
             }
             else -> {
                 possibleTargets.filterIsInstance<Player>().filterNot { it.isDead }
-                    .forEach {
-                        it.sendMessage("The Queen Black Dragon's concentration wavers; the last artefact is now unguarded.")
-                        it.packets.sendVarc(1924, 7)
-                    }
+                    .forEach { it.sendMessage("The Queen Black Dragon's concentration wavers; the last artefact is now unguarded.") }
                 World.spawnObject(GameObject(70848, ObjectType.SCENERY_INTERACT, 0, platformObjTile))
                 Artefact(70786, artefact4Tile, this)
             }
         }
         artefact = newArtefact
+        updateInterfacesNearbyPlayers()
         World.spawnObject(newArtefact)
         clearPendingTasks()
         schedule {
@@ -223,19 +297,20 @@ class QBD(npcId: Int, tile: Tile) : NPC(npcId, tile, Direction.SOUTH, true) {
         hitpoints = maxHitpoints
         clearPendingTasks()
         if (phase >= 3) {
+            removeInterfacesFromNearbyPlayers()
             transformIntoNPC(15509)
             isCantInteract = false
             anim(16742)
-            World.spawnObject(GameObject(-1, ObjectType.SCENERY_INTERACT, 0, artefact1Tile))
-            World.spawnObject(GameObject(70816, ObjectType.SCENERY_INTERACT, 0, cofferTile))
+            World.spawnObject(GameObject(70790, ObjectType.SCENERY_INTERACT, 0, artefact1Tile))
+            World.spawnObject(GameObject(70775, ObjectType.SCENERY_INTERACT, 0, stairsUnderTile))
             souls.forEach { it.finish() }
             souls.clear()
             queryNearbyNPCsByTileRange(20) { it.id == 15464 }.forEach { it.finish() }
             repeat(100) {
-                recievedDamageEntities.filterIsInstance<Player>().forEach { generateAndAddDropToChest(it) }
+                recievedDamageEntities.filterIsInstance<Player>().forEach { rollQbdKillAndAddToChest(it) }
             }
             schedule {
-                wait(100)
+                wait(50)
                 resetAll()
             }
             return
@@ -243,11 +318,12 @@ class QBD(npcId: Int, tile: Tile) : NPC(npcId, tile, Direction.SOUTH, true) {
         anim(ANIM_SPAWN_GROTWORMS_STOP)
         combat.addCombatDelay(10)
         phase++
+        updateInterfacesNearbyPlayers()
     }
 
     fun resetAll() {
         phase = 0
-        World.getObject(cofferTile)?.let { World.removeObject(it) }
+        World.getObject(stairsUnderTile)?.let { World.removeObject(it) }
         World.getObject(platformObjTile)?.let { World.removeObject(it) }
         World.spawnObject(GameObject(70776, ObjectType.SCENERY_INTERACT, 0, artefact1Tile))
         World.spawnObject(GameObject(70779, ObjectType.SCENERY_INTERACT, 0, artefact2Tile))
@@ -270,6 +346,16 @@ class QBD(npcId: Int, tile: Tile) : NPC(npcId, tile, Direction.SOUTH, true) {
             resetAll()
         if (!queryNearbyPlayersByTileRange(20) { !it.isDead }.isEmpty() && !woke)
             wake()
+        if (tickCounter % 6L == 0L && artefact == null) {
+            val bottomLeft = middleTile.transform(-9, -17, 0)
+            val topRight = middleTile.transform(9, -11, 0)
+            queryNearbyPlayersByTileRange(20) { !it.isDead }.forEach {
+                if (it.x >= bottomLeft.x && it.x <= topRight.x && it.y >= bottomLeft.y && it.y <= topRight.y) {
+                    it.sendMessage("The power of the floor underneath leaks out and damages you!")
+                    it.applyHit(Hit.flat(this, 200))
+                }
+            }
+        }
     }
 
     fun spawnSoul(target: Player) {
@@ -277,7 +363,17 @@ class QBD(npcId: Int, tile: Tile) : NPC(npcId, tile, Direction.SOUTH, true) {
     }
 }
 
-fun generateAndAddDropToChest(player: Player) {
+fun openQbdLootChest(player: Player) {
+    val items = gsonTreeMapToItemContainer(player["qbdLootChest"]) ?: ItemsContainer<Item?>(28, true)
+    player["qbdLootChest"] = items
+    if (items.isEmpty) {
+        player.sendMessage("The coffer is empty.")
+        return
+    }
+    LootInterface.open("Dragonkin Coffer", player, items, autoLootOnClose = false)
+}
+
+fun rollQbdKillAndAddToChest(player: Player) {
     val currentLoot = gsonTreeMapToItemContainer(player["qbdLootChest"]) ?: ItemsContainer<Item?>(28, true)
     val drops = genDrop(player)
     drops.forEach { item ->
@@ -290,7 +386,7 @@ fun generateAndAddDropToChest(player: Player) {
     player["qbdLootChest"] = currentLoot
 }
 
-fun genDrop(killer: Player): MutableList<Item> {
+private fun genDrop(killer: Player): MutableList<Item> {
     val drops = mutableListOf<Item>()
     add(drops, DropTable.calculateDrops(killer, DropSets.getDropSet("QBDMain")))
     add(drops, DropTable.calculateDrops(killer, DropSets.getDropSet("QBDSupply")))
@@ -300,6 +396,12 @@ fun genDrop(killer: Player): MutableList<Item> {
 }
 
 private val possibleOffsets = listOf(1 to 1, -1 to 1, -1 to -1, 1 to -1, 1 to 0, -1 to 0, 0 to -1, 0 to 1)
+private val timeStopMessages = arrayListOf(
+    "Kill me, mortal... quickly! HURRY! BEFORE THE SPELL IS COMPLETE!",
+    "Time is short!",
+    "She is pouring her energy into me...hurry!",
+    "The spell is nearly complete!"
+)
 
 class TorturedSoul(val qbd: QBD, val player: Player, tile: Tile) : NPC(15510, tile, true) {
     private val messages = setOf("NO MORE! RELEASE ME, MY QUEEN! I BEG YOU!", "We lost our free will long ago...", "How long has it been since I was taken...", "The cycle is never ending, mortal...")
@@ -316,6 +418,38 @@ class TorturedSoul(val qbd: QBD, val player: Player, tile: Tile) : NPC(15510, ti
     override fun sendDeath(source: Entity?) {
         super.sendDeath(source)
         qbd.souls.remove(this)
+    }
+
+    fun timeStop() {
+        if (qbd.phase < 3 || qbd.isDead || qbd.souls.any { it.tempAttribs.getB("channelingTimeStop") }) return
+        tempAttribs.setB("channelingTimeStop", true)
+        sync(16861, 3147)
+        val side = setOf(qbd.middleTile.transform(-9, -10), qbd.middleTile.transform(9, -10)).random()
+        tele(side)
+        freeze()
+        schedule {
+            timeStopMessages.forEach {
+                forceTalk(it)
+                wait(6)
+            }
+            wait(6)
+            val npcs = qbd.queryNearbyNPCsByTileRange(20) { !it.isDead && it != qbd }
+            val players = qbd.queryNearbyPlayersByTileRange(20) { !it.isDead }
+            npcs.forEach { it.lock() }
+            players.forEach {
+                it.lock()
+                it.packets.sendVarc(1925, 1)
+                it.sendMessage("<col=33900>The tortured soul has stopped time for everyone except himself and the Queen Black</col>")
+                it.sendMessage("<col=33900>Dragon.</col>")
+            }
+            wait(10)
+            unfreeze()
+            npcs.forEach { it.unlock() }
+            players.forEach {
+                it.unlock()
+                it.packets.sendVarc(1925, 0)
+            }
+        }
     }
 
     fun spec(target: Player) {
@@ -335,6 +469,7 @@ class TorturedSoul(val qbd: QBD, val player: Player, tile: Tile) : NPC(15510, ti
             sync(16864, 3145)
             combat.target = player
             var currTile = getStartTile()
+            wait(1)
             while(true) {
                 World.sendSpotAnim(currTile, 3146)
                 val hittableTarget = queryHittableTargets(currTile)
@@ -378,19 +513,19 @@ class TorturedSoul(val qbd: QBD, val player: Player, tile: Tile) : NPC(15510, ti
 }
 
 private fun QBD.getNextAttack(): QBDAttack {
-    if (lastSpec++ >= 2 && random(3) == 0) {
-        lastSpec = 0
-        val possibleSpecs = mutableListOf(QBDAttack.FIRE_WALL)
+    if (random(4) == 0) {
+        val possibleSpecs = mutableListOf(QBDAttack.FIRE_WALL, QBDAttack.SPAWN_SOULS)
         if (phase > 0) {
             if (!souls.isEmpty())
                 possibleSpecs.add(QBDAttack.SIPHON_SOULS)
-            else
-                possibleSpecs.add(QBDAttack.SPAWN_SOULS)
             possibleSpecs.add(QBDAttack.CHANGE_ARMOR)
         }
         if (phase >= 3)
             possibleSpecs.add(QBDAttack.EXTREMELY_HOT_FLAMES)
-        return possibleSpecs.random()
+        lastSpec?.let { possibleSpecs.remove(it) }
+        val chosenAttack = possibleSpecs.random()
+        lastSpec = chosenAttack
+        return chosenAttack
     }
     return listOf(
         QBDAttack.BASIC,
@@ -400,7 +535,7 @@ private fun QBD.getNextAttack(): QBDAttack {
     ).random()
 }
 
-private enum class QBDAttack(val func: (QBD, Player) -> Int) {
+enum class QBDAttack(val func: (QBD, Player) -> Int) {
     BASIC({ qbd, player ->
         if ((qbd.y - player.y) <= 4 && random(2) == 0) {
             val xDiff = player.x - qbd.middleTile.x
@@ -436,7 +571,14 @@ private enum class QBDAttack(val func: (QBD, Player) -> Int) {
             repeat(count) {
                 qbd.spawnSoul(player)
             }
-            qbd.souls.forEach { it.spec(player) }
+            qbd.souls.filter { !it.tempAttribs.getB("channelingTimeStop") }.forEach { it.spec(player) }
+            if (qbd.phase >= 3) {
+                val timestopSoul = qbd.souls.random()
+                timestopSoul.schedule("attemptTimeStop") {
+                    wait(random(15, 50))
+                    timestopSoul.timeStop()
+                }
+            }
         }
         10
     }),
@@ -498,7 +640,7 @@ private enum class QBDAttack(val func: (QBD, Player) -> Int) {
         }
 
         val targets = qbd.possibleTargets.filterIsInstance<Player>().filterNot { it.isDead }
-        targets.forEach { it.sendMessage("<col=FFCC00>The Queen Black Dragon gathers her strength to breath extremely hot flames.</col>") }
+        targets.forEach { it.sendMessage("<col=FFCC00>The Queen Black Dragon gathers her strength to breathe extremely hot flames.</col>") }
         qbd.sync(ANIM_EXTREMELY_HOT_FLAMES, 3152)
         qbd.schedule {
             wait(5)
@@ -549,7 +691,7 @@ private fun QBD.sendFirewall(variant: Int) {
                 18 -> return@scheduleTimer false
                 else -> {
                     offset++
-                    val baseTile = tile.transform(2, 2-offset)
+                    val baseTile = tile.transform(2, 3-offset)
                     for (x in -10..10) {
                         when(variant) {
                             0 -> if (x == -5) continue
@@ -565,10 +707,10 @@ private fun QBD.sendFirewall(variant: Int) {
                                 else -> random(450, 550)
                             }))
                         }
-//                    if (Settings.getConfig().isDebug) {
-//                        World.sendSpotAnim(baseTile.transform(x, 0), 502)
-//                        World.sendSpotAnim(baseTile.transform(x, -1), 502)
-//                    }
+//                        if (Settings.getConfig().isDebug) {
+//                            World.sendSpotAnim(baseTile.transform(x, 0), 502)
+//                            World.sendSpotAnim(baseTile.transform(x, -1), 502)
+//                        }
                     }
                 }
             }

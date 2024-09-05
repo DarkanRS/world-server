@@ -16,22 +16,12 @@
 //
 package com.rs.game.content.items;
 
-import com.rs.engine.dialogue.Conversation;
-import com.rs.engine.dialogue.Dialogue;
-import com.rs.engine.dialogue.HeadE;
-import com.rs.engine.dialogue.Options;
-import com.rs.game.content.bosses.qbd.QueenBlackDragonController;
-import com.rs.game.model.entity.Entity;
-import com.rs.game.model.entity.npc.NPC;
+import com.rs.game.content.bosses.qbd.QBDController;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTasks;
-import com.rs.lib.game.Animation;
-import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.handlers.ItemClickHandler;
-import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
 public class RoyalCrossbow {
@@ -58,7 +48,7 @@ public class RoyalCrossbow {
 				});
 			}
 			case "Brandish" -> {
-				if (!player.getControllerManager().isIn(QueenBlackDragonController.class)) {
+				if (!player.getControllerManager().isIn(QBDController.class)) {
 					player.sendMessage("There isn't even close to enough heat here. Perhaps the Queen Black Dragon's breath would be hot enough.");
 					return;
 				}
