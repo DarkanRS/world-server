@@ -84,16 +84,18 @@ private fun giveNewTask(player: Player) {
 
 private fun getRerollTaskDialogue(player: Player): Dialogue {
     return createDialogueSection {
-        if (player.getDailyI("bossTaskRerolls") < 3)
+        if (player.getDailyI("bossTaskRerolls") < 3) {
             npc(15661, HeadE.CALM, "Do not think I will allow you to change your mind freely. I will only allow you to change it 3 times per day. ${(if (player.getDailyI("bossTaskRerolls") == 0) "" else "You've already used up " + player.getDailyI("bossTaskRerolls") + " of those.")}")
-        options("Are you sure you want to reroll your task?") {
-            opExec("Yes, I am sure.") {
-                player.incDailyI("bossTaskRerolls")
-                giveNewTask(player)
-            }
+            options("Are you sure you want to reroll your task?") {
+                opExec("Yes, I am sure.") {
+                    player.incDailyI("bossTaskRerolls")
+                    giveNewTask(player)
+                }
 
-            op("Nevermind, I will just do this task.")
-        }
+                op("Nevermind, I will just do this task.")
+            }
+        } else
+            npc(15661, HeadE.CALM, "You've already been given enough chances today. Finish that task or wait until tomorrow.")
     }
 }
 
