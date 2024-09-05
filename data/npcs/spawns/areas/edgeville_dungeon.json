@@ -1,0 +1,29 @@
+[
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3084,
+      "y": 9957
+    },
+    "comment": "Black demon",
+    "npcId": 4702
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3092,
+      "y": 9958
+    },
+    "comment": "Black demon",
+    "npcId": 4703
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3088,
+      "y": 9961
+    },
+    "comment": "Black demon",
+    "npcId": 4705
+  }
+]

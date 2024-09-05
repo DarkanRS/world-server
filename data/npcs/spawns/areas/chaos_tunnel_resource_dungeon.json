@@ -1,0 +1,83 @@
+[
+  {
+    "tile": {
+      "plane": 0,
+      "x": 1232,
+      "y": 4513
+    },
+    "comment": "Black demon",
+    "npcId": 84
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 1233,
+      "y": 4508
+    },
+    "comment": "Black demon",
+    "npcId": 4703
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 1239,
+      "y": 4506
+    },
+    "comment": "Black demon",
+    "npcId": 4704
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 1242,
+      "y": 4511
+    },
+    "comment": "Black demon",
+    "npcId": 4705
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 1249,
+      "y": 4504
+    },
+    "comment": "Black demon",
+    "npcId": 4704
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 1249,
+      "y": 4511
+    },
+    "comment": "Black demon",
+    "npcId": 4703
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 1253,
+      "y": 4520
+    },
+    "comment": "Black demon",
+    "npcId": 84
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 1255,
+      "y": 4510
+    },
+    "comment": "Black demon",
+    "npcId": 84
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 1260,
+      "y": 4507
+    },
+    "comment": "Black demon",
+    "npcId": 4702
+  }
+]

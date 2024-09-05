@@ -88,7 +88,9 @@ class DwarfMultiCannon(player: Player, tile: Tile, private val cannonType: Int) 
         WARRIORS_GUILD(11319),
         WYVERN_CAVE(12181),
         KALPHITE_QUEEN(13972),
-        KING_BLACK_DRAGON(9033);
+        KING_BLACK_DRAGON(9033),
+        CHAOS_TUNNEL_RESOURCE_DUNGEON(4934);
+
 
         val message: String = stopMes ?: "It is not permitted to set up a cannon here."
 
