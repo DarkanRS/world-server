@@ -18,6 +18,7 @@ package com.rs.game.content.bosses.qbd.npcs;
 
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
+import com.rs.game.content.bosses.qbd_trent.TorturedSoul;
 import com.rs.game.content.items.LootInterface;
 import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.Entity;
@@ -26,7 +27,6 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.item.ItemsContainer;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.Task;
-import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
@@ -46,18 +46,6 @@ import java.util.List;
  *
  */
 public final class QueenBlackDragon extends NPC {
-
-	private static final QueenAttack[] PHASE_1_ATTACKS = {  };
-	private static final QueenAttack[] PHASE_2_ATTACKS = { new ChangeArmour(), new SoulSummonAttack() };
-	private static final QueenAttack[] PHASE_3_ATTACKS = { new ChangeArmour(), new SoulSummonAttack(), new SoulSiphonAttack() };
-	private static final QueenAttack[] PHASE_4_ATTACKS = {
-			new TimeStopAttack(),
-			new ChangeArmour(),
-			new SoulSummonAttack(),
-			new SoulSiphonAttack(),
-			new TimeStopAttack()
-	};
-
 	/**
 	 * The waking up animation.
 	 */
@@ -414,18 +402,6 @@ public final class QueenBlackDragon extends NPC {
 	public void setPhase(int phase) {
 		this.phase = phase;
 		switch (phase) {
-		case 1:
-			attacks = PHASE_1_ATTACKS;
-			break;
-		case 2:
-			attacks = PHASE_2_ATTACKS;
-			break;
-		case 3:
-			attacks = PHASE_3_ATTACKS;
-			break;
-		case 4:
-			attacks = PHASE_4_ATTACKS;
-			break;
 		case 5:
 		case 6:
 			setCantInteract(true);

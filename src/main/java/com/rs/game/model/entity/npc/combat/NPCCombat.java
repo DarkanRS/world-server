@@ -104,10 +104,9 @@ public final class NPCCombat {
 
 	public void setTarget(Entity target) {
 		this.target = target;
-		npc.setNextFaceEntity(target);
-		if (!checkAll()) {
+		npc.faceEntity(target);
+		if (!checkAll())
 			removeTarget();
-        }
 	}
 
 	public boolean checkAll() {
@@ -189,7 +188,7 @@ public final class NPCCombat {
 
 	public void removeTarget() {
 		target = null;
-		npc.setNextFaceEntity(null);
+		npc.stopFaceEntity();
 	}
 
 	public void reset() {

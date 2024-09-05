@@ -86,6 +86,10 @@ public class Chunk {
         addChunkUpdate(new ProjAnim(projectile.getSource().getChunkLocalHash(), projectile));
     }
 
+    public void addProjectileHalfSq(WorldProjectile projectile) {
+        addChunkUpdate(new ProjAnimHalfSq(projectile.getSource().getChunkLocalHash(), projectile));
+    }
+
     public void addSpotAnim(Tile tile, SpotAnim spotAnim) {
         addChunkUpdate(new TileSpotAnim(tile.getChunkLocalHash(), spotAnim));
     }

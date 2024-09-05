@@ -102,7 +102,7 @@ class PlayerCombat(@JvmField val target: Entity) : PlayerAction() {
                 return 3
             }
             player.sync(6696, 1165)
-            val p = World.sendProjectile(player, target, 1166, 50, 7, 10)
+            val p = World.sendProjectile(player, target, 1166, delay = 50, speed = 7, angle = 10)
             delayMagicHit(target, p.taskDelay, Hit(player, Utils.random(100, 250), HitLook.TRUE_DAMAGE), { target.spotAnim(1167, 0, 96) }, null, null)
             player.tempAttribs.setB("dfsActive", false)
             player.tempAttribs.setL("dfsCd", World.getServerTicks() + 200)
@@ -114,7 +114,7 @@ class PlayerCombat(@JvmField val target: Entity) : PlayerAction() {
             player.faceEntity(target)
             player.sync(15448, 2034)
             drainCharge(player)
-            val p = World.sendProjectile(player, target, 2035, 60 to 32, 50, 10)
+            val p = World.sendProjectile(player, target, 2035, 60 to 32, delay = 50, speed = 10)
             val hit = calculateMagicHit(player, target, (5 * player.skills.getLevel(Constants.MAGIC)) - 180, false)
             delayMagicHit(target, p.taskDelay, hit, {
                 if (hit.damage > 0) target.spotAnim(2036, 0, 96)
@@ -235,9 +235,9 @@ class PlayerCombat(@JvmField val target: Entity) : PlayerAction() {
                 target.spotAnim(44)
                 target.resetWalkSteps()
                 if (target is NPC) {
-                    target.getTasks().schedule(p.taskDelay) {
+                    target.tasks.schedule(p.taskDelay) {
                         target.capDamage = -1
-                        target.applyHit(Hit(player, target.getHitpoints(), HitLook.TRUE_DAMAGE))
+                        target.applyHit(Hit(player, target.hitpoints, HitLook.TRUE_DAMAGE))
                     }
                     dropAmmo(player, target, Equipment.WEAPON, 1)
                     return 8
@@ -395,7 +395,7 @@ class PlayerCombat(@JvmField val target: Entity) : PlayerAction() {
                 val hit = calculateHit(player, target, weaponId, attackStyle, true)
                 delayHit(target, p.taskDelay, weaponId, attackStyle, hit)
                 checkSwiftGlovesEffect(player, p.taskDelay, attackStyle, weaponId, hit, p)
-                val p2 = AmmoType.forId(player.equipment.ammoId)?.let { World.sendProjectile(player, target, it.getProjAnim(player.equipment.ammoId), 30, 5, 15) }
+                val p2 = AmmoType.forId(player.equipment.ammoId)?.let { World.sendProjectile(player, target, it.getProjAnim(player.equipment.ammoId), delay = 30, speed = 5, angle = 15) }
                 delayHit(target, p2?.taskDelay ?: 1, weaponId, attackStyle, calculateHit(player, target, weaponId, attackStyle, true))
                 dropAmmo(player, target, Equipment.AMMO, 2)
             }
@@ -967,7 +967,9 @@ fun delayHit(target: Entity, delay: Int, weaponId: Int, attackStyle: AttackStyle
     source?.let { addAttackedByDelay(source, target) }
     target.applyHit(hit, delay) {
         afterDelay?.run()
-        target.setNextAnimationNoPriority(Animation(getDefenceEmote(target)))
+        val defenceEmote = getDefenceEmote(target)
+        if (defenceEmote != -1)
+            target.setNextAnimationNoPriority(Animation(getDefenceEmote(target)))
         if (target is NPC) target.soundEffect(source, target.combatDefinitions.defendSound, true)
         if (target is Player) {
             target.closeInterfaces()

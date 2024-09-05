@@ -16,6 +16,7 @@
 //
 package com.rs.game.content.bosses.qbd.npcs;
 
+import com.rs.game.content.bosses.qbd_trent.TorturedSoul;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.npc.NPC;
@@ -45,8 +46,7 @@ public final class TimeStopAttack implements QueenAttack {
 			return 1;
 		final TorturedSoul soul = npc.getSouls().get(Utils.random(npc.getSouls().size()));
 		soul.tele(Utils.random(2) == 0 ? npc.getBase().transform(24, 28, 0) : npc.getBase().transform(42, 28, 0));
-		soul.setNextSpotAnim(TorturedSoul.TELEPORT_GRAPHIC);
-		soul.setNextAnimation(TorturedSoul.TELEPORT_ANIMATION);
+		soul.sync(-1, -1); //TELEPORT
 		soul.lock();
 		WorldTasks.scheduleLooping(new Task() {
 			int stage = -1;

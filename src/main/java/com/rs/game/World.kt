@@ -583,13 +583,13 @@ object World {
     }
 
     /**
-     * Sends a projectile from the specified source to the target with a given graphic ID, delay, speed, and optional parameters.
-     * This function uses default values for angle and offset if they are not provided.
+     * Sends a projectile from the specified source to the target with a given graphic ID, heights, delay, speed, and optional parameters.
+     * This function calculates the speed based on the distance between the source and the target.
      *
      * @param from The source from which the projectile is sent. Can be any object representing a position or entity.
      * @param to The target to which the projectile is sent. Can be any object representing a position or entity.
      * @param spotAnimId The ID of the spotanim to use for the projectile.
-     * @param delay The delay before the projectile is sent, in client frames.
+     * @param heights A pair representing the start and end heights of the projectile.
      * @param speed The speed of the projectile. This is measured in client frames spent in the air per tile of distance. So a lower number is a faster projectile.
      * @param angle (Optional) The angle at which the projectile is sent. Default is 0.
      * @param offset (Optional) The offset of the projectile's trajectory. Default is 0.
@@ -598,13 +598,7 @@ object World {
      */
     @JvmStatic
     @JvmOverloads
-    fun sendProjectile(from: Any, to: Any, spotAnimId: Int, delay: Int, speed: Int, angle: Int = 0, offset: Int = 0, task: Consumer<WorldProjectile>? = null): WorldProjectile {
-        return sendProjectile(from, to, spotAnimId, 28 to 28, delay, speed, angle, offset, task)
-    }
-
-    @JvmStatic
-    @JvmOverloads
-    fun sendProjectile(from: Any, to: Any, spotAnimId: Int, heights: Pair<Int, Int>, delay: Int, speed: Int, angle: Int = 0, offset: Int = 0, task: Consumer<WorldProjectile>? = null): WorldProjectile {
+    fun sendProjectile(from: Any, to: Any, spotAnimId: Int, heights: Pair<Int, Int> = 28 to 28, delay: Int = 0, speed: Int = 10, angle: Int = 0, offset: Int = 0, task: Consumer<WorldProjectile>? = null): WorldProjectile {
         val sourceTile = getTargetTile(from)
         val targetTile = getTargetTile(to)
         return sendProjectileAbsoluteSpeed(from, to, spotAnimId, heights, delay, Utils.getDistanceI(sourceTile, targetTile) * speed, angle, offset, task)
@@ -625,10 +619,10 @@ object World {
      * @return The `WorldProjectile` object representing the sent projectile.
      */
     @JvmStatic
-    fun sendProjectile(from: Any, to: Any, spotAnimId: Int, heights: Pair<Int, Int>, speed: Int, angle: Int = 0, offset: Int = 0, task: Consumer<WorldProjectile>? = null): WorldProjectile {
+    fun sendProjectileHalfSq(from: Any, to: Any, spotAnimId: Int, startXyHalves: Pair<Int, Int> = 0 to 0, endXyHalves: Pair<Int, Int> = 0 to 0, heights: Pair<Int, Int> = 28 to 28, delay: Int = 0, speed: Int = 10, angle: Int = 0, offset: Int = 0, task: Consumer<WorldProjectile>? = null): WorldProjectile {
         val sourceTile = getTargetTile(from)
         val targetTile = getTargetTile(to)
-        return sendProjectileAbsoluteSpeed(from, to, spotAnimId, heights, 0, Utils.getDistanceI(sourceTile, targetTile) * speed, angle, offset, task)
+        return sendProjectileHalfSqAbsoluteSpeed(from, to, spotAnimId, startXyHalves, endXyHalves, heights, delay, Utils.getDistanceI(sourceTile, targetTile) * speed, angle, offset, task)
     }
 
     /**
@@ -659,6 +653,35 @@ object World {
         return projectile
     }
 
+    /**
+     * Sends a projectile from the specified source to the target with a given graphic ID, heights, delay, speed, and optional parameters.
+     * This function uses an absolute speed value and includes calculations for trajectory offset.
+     *
+     * @param from The source from which the projectile is sent. Can be any object representing a position or entity.
+     * @param to The target to which the projectile is sent. Can be any object representing a position or entity.
+     * @param spotAnimId The ID of the spotanim to use for the projectile.
+     * @param heights A pair representing the start and end heights of the projectile.
+     * @param delay (Optional) The delay before the projectile is sent, in ticks. Default is 0.
+     * @param speed The absolute speed of the projectile. This is measured in client frames it will take to reach the target. So a lower number is a faster projectile.
+     * @param angle The angle at which the projectile is sent.
+     * @param offset (Optional) The offset of the projectile's trajectory. Default is 0.
+     * @param task (Optional) A task to be executed when the projectile hits the target.
+     * @return The `WorldProjectile` object representing the sent projectile.
+     */
+    @JvmStatic
+    @JvmOverloads
+    fun sendProjectileHalfSqAbsoluteSpeed(from: Any, to: Any, spotAnimId: Int, startXYHalves: Pair<Int, Int> = 0 to 0, endXyHalves: Pair<Int, Int> = 0 to 0, heights: Pair<Int, Int> = 28 to 28, delay: Int = 0, speed: Int = 10, angle: Int = 0, offset: Int = 0, task: Consumer<WorldProjectile>? = null): WorldProjectile {
+        val (fromSizeX, _) = getTargetSize(from)
+        val calcedOffset = fromSizeX * 32 + offset
+        val projectile = WorldProjectile(from, to, spotAnimId, heights.first, heights.second, delay, speed, calcedOffset, angle, task)
+        projectile.setHalfSqStartOffsets(startXYHalves).setHalfSqEndOffsets(endXyHalves)
+        if (spotAnimId != -1) {
+            val chunkId = getTargetChunkId(from)
+            ChunkManager.getChunk(chunkId).addProjectileHalfSq(projectile)
+        }
+        return projectile
+    }
+
     @JvmStatic
     private fun getTargetSize(target: Any): Pair<Int, Int> = when (target) {
         is Entity -> target.size to target.size
@@ -666,7 +689,7 @@ object World {
             val defs = target.definitions
             defs.getSizeX() to defs.getSizeY()
         }
-        else -> 1 to 1
+        else -> 0 to 0
     }
 
     @JvmStatic

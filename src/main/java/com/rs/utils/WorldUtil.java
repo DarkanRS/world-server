@@ -197,6 +197,8 @@ public class WorldUtil {
 			return null;
 		try {
 			ItemsContainer<Item> container = null;
+			if (metadata instanceof ItemsContainer)
+				return (ItemsContainer<Item>) metadata;
 			if (metadata instanceof List<?> list) {
 				container = new ItemsContainer<>(list.size(), false);
 				for (Object itemObj : list) {

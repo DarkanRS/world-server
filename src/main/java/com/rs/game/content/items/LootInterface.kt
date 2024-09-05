@@ -84,7 +84,16 @@ object LootInterface {
         player.setCloseInterfacesEvent {
             player.tempAttribs.removeO<Any>("lootInterfaceContainer")
             onClose?.run()
-            for (item in container.toArray()) if (item != null) player.inventory.addItemDrop(item)
+            container.array().filterNotNull().forEach { item ->
+                if (player.inventory.hasRoomFor(item)) {
+                    player.inventory.addItemDrop(item)
+                } else {
+                    if (item.definitions.isNoted)
+                        item.id = item.definitions.certId
+                    if (!player.bank.addItem(item, true))
+                        player.inventory.addItemDrop(item)
+                }
+            }
         }
     }
 }

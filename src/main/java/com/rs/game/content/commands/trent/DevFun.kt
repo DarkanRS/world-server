@@ -3,6 +3,7 @@ package com.rs.game.content.commands.trent
 import com.rs.engine.command.Commands
 import com.rs.engine.pathfinder.Direction
 import com.rs.game.World
+import com.rs.game.content.bosses.qbd_trent.generateAndAddDropToChest
 import com.rs.lib.game.Rights
 import com.rs.lib.game.SpotAnim
 import com.rs.lib.game.Tile
@@ -11,6 +12,10 @@ import com.rs.plugin.annotations.ServerStartupEvent
 
 @ServerStartupEvent
 fun addTrentCommands() {
+    Commands.add(Rights.OWNER, "qbdloot", "add qbd kill loot to chest") { p, _ ->
+        generateAndAddDropToChest(p)
+    }
+
     Commands.add(Rights.OWNER, "delayprojtest", "Precise timing projectile/spotanim") { p, _ ->
         val startTile = Tile.of(p.tile)
         var delay = 0
