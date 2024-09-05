@@ -344,7 +344,7 @@ class QBD(npcId: Int, tile: Tile) : NPC(npcId, tile, Direction.SOUTH, true) {
             resetAll()
         if (!queryNearbyPlayersByTileRange(20) { !it.isDead }.isEmpty() && !woke)
             wake()
-        if (tickCounter % 6L == 0L && artefact == null) {
+        if (tickCounter % 6L == 0L && artefact == null && id != 15509) {
             val bottomLeft = middleTile.transform(-9, -17, 0)
             val topRight = middleTile.transform(9, -11, 0)
             queryNearbyPlayersByTileRange(20) { !it.isDead }.forEach {

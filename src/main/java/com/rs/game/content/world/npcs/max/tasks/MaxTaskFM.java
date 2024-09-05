@@ -44,6 +44,7 @@ public class MaxTaskFM implements Task {
 			max.setRouteEvent(new RouteEvent(currentBonfire, () -> {
 				max.setBas(2498);
 				max.repeatAction(5, count -> {
+					if (currentBonfire == null) return false;
 					if (World.getObjectWithType(currentBonfire.getTile(), currentBonfire.getType()) != currentBonfire) {
 						max.anim(-1);
 						max.setBas(-1);
