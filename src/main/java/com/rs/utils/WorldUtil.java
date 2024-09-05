@@ -199,8 +199,16 @@ public class WorldUtil {
 			ItemsContainer<Item> container = null;
 			if (metadata instanceof ItemsContainer)
 				return (ItemsContainer<Item>) metadata;
+			if (metadata instanceof LinkedTreeMap<?,?> serializedContainer) {
+				if (serializedContainer.get("alwaysStackable") != null) {
+					List<?> items = (List<?>) serializedContainer.get("data");
+					container = new ItemsContainer<>(items.size(), (Boolean) serializedContainer.get("alwaysStackable"));
+					metadata = items;
+				}
+			}
 			if (metadata instanceof List<?> list) {
-				container = new ItemsContainer<>(list.size(), false);
+				if (container == null)
+					container = new ItemsContainer<>(list.size(), false);
 				for (Object itemObj : list) {
 					if (itemObj instanceof Item item)
 						container.add(item);
