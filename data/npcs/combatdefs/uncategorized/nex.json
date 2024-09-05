@@ -20,7 +20,7 @@
     "DEFENSE": 260,
     "MAGE": 350
   },
-  "attackRange": -1,
+  "attackRange": 9,
   "attackGfx": -1,
   "attackProjectile": -1,
   "agressivenessType": "AGGRESSIVE",

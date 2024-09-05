@@ -306,9 +306,7 @@ class QBD(npcId: Int, tile: Tile) : NPC(npcId, tile, Direction.SOUTH, true) {
             souls.forEach { it.finish() }
             souls.clear()
             queryNearbyNPCsByTileRange(20) { it.id == 15464 }.forEach { it.finish() }
-            repeat(100) {
-                recievedDamageEntities.filterIsInstance<Player>().forEach { rollQbdKillAndAddToChest(it) }
-            }
+            recievedDamageEntities.filterIsInstance<Player>().forEach { rollQbdKillAndAddToChest(it) }
             schedule {
                 wait(50)
                 resetAll()

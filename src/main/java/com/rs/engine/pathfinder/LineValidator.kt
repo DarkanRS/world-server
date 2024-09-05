@@ -30,6 +30,8 @@ import com.rs.engine.pathfinder.flag.CollisionFlag.WALL_EAST_PROJECTILE_BLOCKER
 import com.rs.engine.pathfinder.flag.CollisionFlag.WALL_NORTH_PROJECTILE_BLOCKER
 import com.rs.engine.pathfinder.flag.CollisionFlag.WALL_SOUTH_PROJECTILE_BLOCKER
 import com.rs.engine.pathfinder.flag.CollisionFlag.WALL_WEST_PROJECTILE_BLOCKER
+import com.rs.game.World
+import com.rs.lib.game.Tile
 import kotlin.math.abs
 
 public class LineValidator(
