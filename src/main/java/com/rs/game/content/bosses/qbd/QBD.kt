@@ -368,7 +368,10 @@ fun openQbdLootChest(player: Player) {
         player.sendMessage("The coffer is empty.")
         return
     }
-    LootInterface.open("Dragonkin Coffer", player, items, autoLootOnClose = false)
+    LootInterface.open("Dragonkin Coffer", player, items, autoLootOnClose = false) {
+        if (items.isEmpty)
+            player.delete("qbdLootChest")
+    }
 }
 
 fun rollQbdKillAndAddToChest(player: Player) {
