@@ -108,7 +108,6 @@ fun mapDesertHeatEffect() {
                             heatEffectDelay = getHeatEffectDelay(player)
                         } else {
                             heatEffectDelay -= 1
-                            player.forceTalk("$heatEffectDelay")
                         }
                         player.tempAttribs.setI(DESERT_HEAT_EFFECT_DELAY_ATTR, heatEffectDelay)
                     }
