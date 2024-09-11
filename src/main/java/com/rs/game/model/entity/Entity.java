@@ -1728,9 +1728,8 @@ public abstract class Entity {
 		return collisionStrategy;
 	}
 
-	public Entity setCollisionStrategy(CollisionStrategy strategy) {
+	public void setCollisionStrategy(CollisionStrategy strategy) {
 		this.collisionStrategy = strategy;
-		return this;
 	}
 
 	public Entity setCollisionStrategyType(CollisionStrategyType type) {
