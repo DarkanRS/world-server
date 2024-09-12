@@ -75,7 +75,7 @@ fun handleSandwichLady() {
 class SandwichLady(owner: Player, tile: Tile) : RandomEventNPC(owner, NPC_ID, tile, DURATION, null, false) {
 
 	companion object {
-		const val NPC_ID = 8629
+		const val NPC_ID = 8631
 		val DURATION = Ticks.fromMinutes(10)
 	}
 
@@ -126,7 +126,7 @@ class SandwichLady(owner: Player, tile: Tile) : RandomEventNPC(owner, NPC_ID, ti
 	private fun randomQuote(player: Player): String = when (Utils.randomInclusive(0, 4)) {
 		0 -> "All types of sandwiches, ${player.displayName}."
 		1 -> "Come on ${player.displayName}, I made these specifically!!"
-		2 -> "You better start showing some manners young ${if (player.appearance.isMale) "man" else "lady"}!!"
+		2 -> "You better start showing some manners young ${player.getPronoun("man", "lady")}!!"
 		else -> "You think I made these just for fun?!!?"
 	}
 }
