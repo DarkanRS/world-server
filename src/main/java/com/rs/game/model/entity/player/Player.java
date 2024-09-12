@@ -3734,10 +3734,6 @@ public class Player extends Entity {
         return getSlayer().getTask() != null && getSlayer().getTask().getMonster() == monster;
     }
 
-	public void addWalkSteps(Tile toTile, int maxSteps, boolean clip) {
-		addWalkSteps(toTile.getX(), toTile.getY(), maxSteps, clip);
-	}
-
 	public void passThrough(Tile tile) {
 		final boolean running = getRun();
 		setRunHidden(false);

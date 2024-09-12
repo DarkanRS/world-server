@@ -34,6 +34,7 @@ import com.rs.game.model.entity.Hit.HitLook
 import com.rs.game.model.entity.interactions.PlayerCombatInteraction
 import com.rs.game.model.entity.npc.NPC
 import com.rs.engine.pathfinder.Direction
+import com.rs.game.content.skills.slayer.Slayer
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions
 import com.rs.game.model.entity.player.Equipment
 import com.rs.game.model.entity.player.Player
@@ -246,7 +247,7 @@ class PlayerCombat(@JvmField val target: Entity) : PlayerAction() {
 
             RangedWeapon.CHINCHOMPA, RangedWeapon.RED_CHINCHOMPA -> { //TODO validate the logic here
                 attackTarget(getMultiAttackTargets(player, target)) { nextTarget ->
-                    val hit = calculateHit(player, nextTarget, weaponId, attackStyle, true, true, 1.0, if (weaponId == 10034) 1.2 else 1.0)
+                    val hit = calculateHit(player, nextTarget, weaponId, attackStyle, CombatStyle.RANGE, true, 1.0, if (weaponId == 10034) 1.2 else 1.0)
                     player.anim(2779)
                     nextTarget.tasks.schedule(p.taskDelay) { nextTarget.spotAnim(2739, 0, 96 shl 16) }
                     delayHit(nextTarget, p.taskDelay, weaponId, attackStyle, hit)
@@ -257,9 +258,9 @@ class PlayerCombat(@JvmField val target: Entity) : PlayerAction() {
 
             RangedWeapon.SWAMP_LIZARD, RangedWeapon.ORANGE_SALAMANDER, RangedWeapon.RED_SALAMANDER, RangedWeapon.BLACK_SALAMANDER -> {
                 val hit = when (attackStyle.name) {
-                    "Flare" -> calculateHit(player, target, weaponId, attackStyle, true).setLook(HitLook.RANGE_DAMAGE)
-                    "Blaze" -> calculateHit(player, target, weaponId, attackStyle, true).setLook(HitLook.MAGIC_DAMAGE)
-                    else -> calculateHit(player, target, weaponId, attackStyle, true).setLook(HitLook.MELEE_DAMAGE)
+                    "Flare" -> calculateHit(player, target, weaponId, attackStyle, CombatStyle.RANGE).setLook(HitLook.RANGE_DAMAGE)
+                    "Blaze" -> calculateHit(player, target, weaponId, attackStyle, CombatStyle.RANGE).setLook(HitLook.MAGIC_DAMAGE)
+                    else -> calculateHit(player, target, weaponId, attackStyle, CombatStyle.RANGE).setLook(HitLook.MELEE_DAMAGE)
                 }
                 delayHit(target, p.taskDelay, weaponId, attackStyle, hit)
                 dropAmmo(player, target, Equipment.AMMO, 1)
@@ -277,7 +278,7 @@ class PlayerCombat(@JvmField val target: Entity) : PlayerAction() {
                 if (player.equipment.ammoId != -1 && Utils.getRandomInclusive(10) == 0) {
                     when (player.equipment.ammoId) {
                         9237 -> {
-                            hit = calculateHit(player, target, weaponId, attackStyle, true)
+                            hit = calculateHit(player, target, weaponId, attackStyle, CombatStyle.RANGE)
                             target.spotAnim(755)
                             if (target is Player) target.stopAll()
                             else if (target is NPC) target.combatTarget = null
@@ -292,29 +293,29 @@ class PlayerCombat(@JvmField val target: Entity) : PlayerAction() {
                         }
 
                         9243 -> {
-                            hit = calculateHit(player, target, weaponId, attackStyle, true, false, 1.0, 1.15)
+                            hit = calculateHit(player, target, weaponId, attackStyle, CombatStyle.RANGE, false, 1.0, 1.15)
                             target.spotAnim(758)
                             soundId = 2913
                         }
 
                         9244 -> {
-                            hit = calculateHit(player, target, weaponId, attackStyle, true, false, 1.0, if (getAntifireLevel(target, true) > 0) 1.45 else 1.0)
+                            hit = calculateHit(player, target, weaponId, attackStyle, CombatStyle.RANGE, false, 1.0, if (getAntifireLevel(target, true) > 0) 1.45 else 1.0)
                             target.spotAnim(756)
                             soundId = 2915
                         }
 
                         9245 -> {
-                            hit = calculateHit(player, target, weaponId, attackStyle, true, false, 1.0, 1.15)
+                            hit = calculateHit(player, target, weaponId, attackStyle, CombatStyle.RANGE, false, 1.0, 1.15)
                             target.spotAnim(753)
                             player.heal((player.maxHitpoints * 0.25).toInt())
                             soundId = 2917
                         }
 
-                        else -> hit = calculateHit(player, target, weaponId, attackStyle, true)
+                        else -> hit = calculateHit(player, target, weaponId, attackStyle, CombatStyle.RANGE)
                     }
                     specced = true
                 } else {
-                    hit = calculateHit(player, target, weaponId, attackStyle, true)
+                    hit = calculateHit(player, target, weaponId, attackStyle, CombatStyle.RANGE)
                     checkSwiftGlovesEffect(player, p.taskDelay, attackStyle, weaponId, hit, p)
                 }
                 delayHit(target, p.taskDelay, weaponId, attackStyle, hit)
@@ -335,10 +336,10 @@ class PlayerCombat(@JvmField val target: Entity) : PlayerAction() {
                     val lockedOn = stacks >= 9
                     player.tempAttribs.setI("rcbStacks", stacks)
                     player.tempAttribs.setL("rcbLockOnTimer", World.getServerTicks() + 28)
-                    val hit = calculateHit(player, target, weaponId, attackStyle, true)
+                    val hit = calculateHit(player, target, weaponId, attackStyle, CombatStyle.RANGE)
                     delayHit(target, p.taskDelay, weaponId, attackStyle, hit, null, {
                         if (weaponId == 24339 || target.isDead || target.hasFinished()) return@delayHit
-                        val maxHit = getMaxHit(player, target, weaponId, attackStyle, true, 1.0)
+                        val maxHit = getMaxHit(player, target, weaponId, attackStyle, CombatStyle.RANGE, 1.0)
                         val minBleed = (maxHit * (if (lockedOn) 0.25 else 0.20)).toInt()
                         val maxBleed = (minBleed * 0.70).toInt()
                         target.tasks.schedule(14) { delayHit(target, 0, weaponId, attackStyle, Hit.range(player, Utils.random(minBleed, maxBleed))) }
@@ -357,13 +358,13 @@ class PlayerCombat(@JvmField val target: Entity) : PlayerAction() {
                     player.applyHit(Hit(player, Utils.getRandomInclusive(150) + 10, HitLook.TRUE_DAMAGE))
                     return combatDelay
                 }
-                delayHit(target, p.taskDelay, weaponId, attackStyle, calculateHit(player, target, weaponId, attackStyle, true))
+                delayHit(target, p.taskDelay, weaponId, attackStyle, calculateHit(player, target, weaponId, attackStyle, CombatStyle.RANGE))
                 dropAmmo(player, target, Equipment.AMMO, 1)
             }
 
             RangedWeapon.SAGAIE -> {
                 val damageMod = Utils.clampD((Utils.getDistanceI(player.tile, target.middleTile) / getAttackRange(player).toDouble()) * 0.70, 0.01, 1.0)
-                val hit = calculateHit(player, target, weaponId, attackStyle, true, true, 1.0 - (damageMod * 0.95), 1.0 + damageMod)
+                val hit = calculateHit(player, target, weaponId, attackStyle, CombatStyle.RANGE, true, 1.0 - (damageMod * 0.95), 1.0 + damageMod)
                 delayHit(target, p.taskDelay, weaponId, attackStyle, hit)
                 checkSwiftGlovesEffect(player, p.taskDelay, attackStyle, weaponId, hit, p)
                 dropAmmo(player, target, Equipment.WEAPON, 1)
@@ -383,7 +384,7 @@ class PlayerCombat(@JvmField val target: Entity) : PlayerAction() {
                     if (t.prayer.isProtectingRange) delay /= 2
                     if (delay < Ticks.fromSeconds(5)) delay = Ticks.fromSeconds(5)
                 }
-                if (calculateHit(player, target, weaponId, attackStyle, true).damage > 0) {
+                if (calculateHit(player, target, weaponId, attackStyle, CombatStyle.RANGE).damage > 0) {
                     target.freeze(delay, true)
                     target.tasks.schedule(2) { target.spotAnim(469, 0, 96) }
                 }
@@ -392,22 +393,22 @@ class PlayerCombat(@JvmField val target: Entity) : PlayerAction() {
             }
 
             RangedWeapon.DARK_BOW -> {
-                val hit = calculateHit(player, target, weaponId, attackStyle, true)
+                val hit = calculateHit(player, target, weaponId, attackStyle, CombatStyle.RANGE)
                 delayHit(target, p.taskDelay, weaponId, attackStyle, hit)
                 checkSwiftGlovesEffect(player, p.taskDelay, attackStyle, weaponId, hit, p)
                 val p2 = AmmoType.forId(player.equipment.ammoId)?.let { World.sendProjectile(player, target, it.getProjAnim(player.equipment.ammoId), delay = 30, speed = 5, angle = 15) }
-                delayHit(target, p2?.taskDelay ?: 1, weaponId, attackStyle, calculateHit(player, target, weaponId, attackStyle, true))
+                delayHit(target, p2?.taskDelay ?: 1, weaponId, attackStyle, calculateHit(player, target, weaponId, attackStyle, CombatStyle.RANGE))
                 dropAmmo(player, target, Equipment.AMMO, 2)
             }
 
             else -> {
                 if (weapon.isThrown) {
-                    val hit = calculateHit(player, target, weaponId, attackStyle, true)
+                    val hit = calculateHit(player, target, weaponId, attackStyle, CombatStyle.RANGE)
                     delayHit(target, p.taskDelay, weaponId, attackStyle, hit)
                     checkSwiftGlovesEffect(player, p.taskDelay, attackStyle, weaponId, hit, p)
                     dropAmmo(player, target, Equipment.WEAPON, 1)
                 } else {
-                    val hit = calculateHit(player, target, weaponId, attackStyle, true)
+                    val hit = calculateHit(player, target, weaponId, attackStyle, CombatStyle.RANGE)
                     delayHit(target, p.taskDelay, weaponId, attackStyle, hit)
                     checkSwiftGlovesEffect(player, p.taskDelay, attackStyle, weaponId, hit, p)
                     if (weapon.ammos != null) dropAmmo(player, target)
@@ -427,7 +428,7 @@ class PlayerCombat(@JvmField val target: Entity) : PlayerAction() {
         if (hit.damage != 0 && hit.damage < ((hit.maxHit / 3) * 2) || Random().nextInt(3) != 0) return
         player.sendMessage("You fired an extra shot.")
         World.sendProjectileAbsoluteSpeed(player, target, p.spotAnimId, p.startHeight - 5 to p.endHeight - 5, p.startDelayClientCycles, p.inAirClientCycles, p.angle)
-        delayHit(target, hitDelay, weaponId, attackStyle, calculateHit(player, target, weaponId, attackStyle, true))
+        delayHit(target, hitDelay, weaponId, attackStyle, calculateHit(player, target, weaponId, attackStyle, CombatStyle.RANGE))
         if (hit.damage > (hit.maxHit - 10)) {
             target.freeze(Ticks.fromSeconds(10), false)
             target.spotAnim(181, 0, 96)
@@ -459,7 +460,7 @@ class PlayerCombat(@JvmField val target: Entity) : PlayerAction() {
 
         if (player.combatDefinitions.isUsingSpecialAttack) return execute(SpecialAttack.Type.MELEE, player, target)
 
-        val hit = calculateHit(player, target, weaponId, attackStyle, false)
+        val hit = calculateHit(player, target, weaponId, attackStyle, CombatStyle.MELEE)
 
         if (weaponId == -2 && hit.damage <= 0) {
             if (Utils.random(10) == 0) {
@@ -467,7 +468,7 @@ class PlayerCombat(@JvmField val target: Entity) : PlayerAction() {
                 attackTarget(getMultiAttackTargets(player, target, 6, 10, true)) { nextTarget ->
                     nextTarget.freeze(Ticks.fromSeconds(10), true)
                     nextTarget.spotAnim(181, 0, 96)
-                    nextTarget.tasks.schedule(1) { nextTarget.applyHit(calculateHit(player, nextTarget, -2, attackStyle, false, false, 1.0, 1.0).setLook(HitLook.TRUE_DAMAGE)) }
+                    nextTarget.tasks.schedule(1) { nextTarget.applyHit(calculateHit(player, nextTarget, -2, attackStyle, CombatStyle.MELEE, false, 1.0, 1.0).setLook(HitLook.TRUE_DAMAGE)) }
                     for (skill in Skills.COMBAT) nextTarget.lowerStat(skill, 7, 0.0)
                     if (nextTarget is Player) nextTarget.sendMessage("Your stats have been drained!")
                     return@attackTarget true
@@ -603,345 +604,6 @@ fun dropAmmo(player: Player, target: Entity, slot: Int = Equipment.AMMO, quantit
     if (Utils.random(5) == 0) //1/5 chance to just break the ammo entirely
         return
     World.addGroundItem(Item(ammoId, quantity), Tile.of(target.getCoordFaceX(target.size), target.getCoordFaceY(target.size), target.plane), player)
-}
-
-@JvmOverloads
-fun calculateMagicHit(player: Player, target: Entity, baseDamage: Int, applyMageLevelBoost: Boolean = true): Hit {
-    val hit = getMagicMaxHit(player, target, baseDamage, applyMageLevelBoost)
-    hit.setDamage(Utils.random(1, hit.damage))
-    if (hit.damage > 0) if (target is NPC) if (target.id == 9463 && hasFireCape(player)) hit.setDamage(hit.damage + 40)
-    return hit
-}
-
-fun getMagicMaxHit(player: Player, target: Entity, spellBaseDamage: Int, applyMageLevelBoost: Boolean): Hit {
-    var lvl = floor(player.skills.getLevel(Constants.MAGIC) * player.prayer.mageMultiplier)
-    lvl += 8.0
-    if (fullVoidEquipped(player, 11663, 11674)) lvl *= 1.3
-    lvl *= player.auraManager.magicAcc
-    val atkBonus = player.combatDefinitions.getBonus(Bonus.MAGIC_ATT).toDouble()
-
-    var atk = floor(lvl * (atkBonus + 64))
-    var maxHit = spellBaseDamage
-
-    if (player.hasSlayerTask()) if (target is NPC && player.slayer.isOnTaskAgainst(target as NPC?)) if (player.equipment.wearingHexcrest() || player.equipment.wearingSlayerHelmet()) atk *= 1.15
-
-    var def = 0.0
-    if (target is Player) {
-        var defLvl = floor(target.skills.getLevel(Constants.DEFENSE) * target.prayer.defenceMultiplier)
-        defLvl += (if (target.combatDefinitions.getAttackStyle().attackType == AttackType.LONG_RANGE || target.combatDefinitions.getAttackStyle().xpType == XPType.DEFENSIVE) 3 else if (target.combatDefinitions.getAttackStyle().xpType == XPType.CONTROLLED) 1 else 0).toDouble()
-        defLvl += 8.0
-        defLvl *= 0.3
-        var magLvl = floor(target.skills.getLevel(Constants.MAGIC) * target.prayer.mageMultiplier)
-        magLvl *= 0.7
-
-        val totalDefLvl = defLvl + magLvl
-
-        val defBonus = target.combatDefinitions.getBonus(Bonus.MAGIC_DEF).toDouble()
-
-        def = floor(totalDefLvl * (defBonus + 64))
-    } else (target as? NPC)?.let { npc ->
-        if (npc.name.startsWith("Vyre")) if (player.equipment.weaponId == 21580) {
-            atk *= 1.5
-            maxHit = (maxHit * 1.5).toInt()
-        } else maxHit = 0
-        if (npc.name == "Turoth" || npc.name == "Kurask") if (player.equipment.weaponId != 4170) maxHit = 0
-        var defLvl = npc.magicLevel.toDouble()
-        val defBonus = npc.definitions.magicDef.toDouble()
-        defLvl += 8.0
-        def = floor(defLvl * (defBonus + 64))
-    }
-
-    val prob = if (atk > def) (1 - (def + 2) / (2 * (atk + 1))) else (atk / (2 * (def + 1)))
-    if (Settings.getConfig().isDebug && player.nsv.getB("hitChance")) player.sendMessage("Your hit chance: " + Utils.formatDouble(prob * 100.0) + "%")
-    if (prob <= Math.random()) return Hit(player, 0, HitLook.MAGIC_DAMAGE)
-
-    if (applyMageLevelBoost) {
-        val boostedMageLevelBonus = 1 + ((player.skills.getLevel(Constants.MAGIC) - player.skills.getLevelForXp(Constants.MAGIC)) * 0.03)
-        if (boostedMageLevelBonus > 1) maxHit = (maxHit * boostedMageLevelBonus).toInt()
-    }
-    maxHit = (maxHit * getMagicBonusBoost(player)).toInt()
-    if (player.tempAttribs.getO<Any?>("spellcasterProc") != null) {
-        if (spellBaseDamage > 60) {
-            maxHit = (maxHit * 1.25).toInt()
-            target.lowerStat(Skills.ATTACK, 0.1, 0.9)
-            target.lowerStat(Skills.STRENGTH, 0.1, 0.9)
-            target.lowerStat(Skills.DEFENSE, 0.1, 0.9)
-            if (target is Player) target.sendMessage("Your melee skills have been drained.")
-            player.sendMessage("Your spell weakened your enemy.")
-            player.sendMessage("Your magic surged with extra power.")
-        }
-    }
-    if (player.hasSlayerTask()) if (target is NPC && player.slayer.isOnTaskAgainst(target as NPC?)) if (player.equipment.wearingHexcrest() || player.equipment.wearingSlayerHelmet()) maxHit = (maxHit * 1.15).toInt()
-    val finalMaxHit = maxHit.toDouble().toInt()
-    if (Settings.getConfig().isDebug && player.nsv.getB("hitChance")) player.sendMessage("Your max hit: $finalMaxHit")
-    return Hit(player, finalMaxHit, HitLook.MAGIC_DAMAGE).setMaxHit(finalMaxHit)
-}
-
-fun getMagicBonusBoost(entity: Entity): Double {
-    return if (entity is Player)
-        entity.combatDefinitions.getBonus(Bonus.MAGIC_STR) / 100.0 + 1.0
-    else if (entity is NPC)
-        entity.getBonus(Bonus.MAGIC_STR) / 100.0 + 1.0
-    else
-        1.0
-}
-
-@JvmOverloads
-fun calculateHit(player: Player, target: Entity, weaponId: Int, attackStyle: AttackStyle, ranging: Boolean, calcDefense: Boolean = true, accuracyModifier: Double = 1.0, damageModifier: Double = 1.0): Hit {
-    return calculateHit(player, target, 1, getMaxHit(player, target, weaponId, attackStyle, ranging, damageModifier), weaponId, attackStyle, ranging, calcDefense, accuracyModifier)
-}
-
-fun calculateHit(player: Player, target: Entity, ranging: Boolean, calcDefense: Boolean, accuracyModifier: Double, damageModifier: Double): Hit {
-    return calculateHit(player, target, 1, getMaxHit(player, target, player.equipment.weaponId, player.combatDefinitions.getAttackStyle(), ranging, damageModifier), player.equipment.weaponId, player.combatDefinitions.getAttackStyle(), ranging, calcDefense, accuracyModifier)
-}
-
-fun calculateHit(player: Player, target: Entity, ranging: Boolean): Hit {
-    return calculateHit(player, target, player.equipment.weaponId, player.combatDefinitions.getAttackStyle(), ranging, true, 1.0, 1.0)
-}
-
-fun calculateHit(player: Player, target: Entity, minHit: Int, maxHit: Int, ranging: Boolean, calcDefense: Boolean, accuracyModifier: Double): Hit {
-    return calculateHit(player, target, minHit, maxHit, player.equipment.weaponId, player.combatDefinitions.getAttackStyle(), ranging, calcDefense, accuracyModifier)
-}
-
-fun calculateHit(player: Player, target: Entity, minHit: Int, maxHit: Int, weaponId: Int, attackStyle: AttackStyle, ranging: Boolean, calcDefense: Boolean, accuracyModifier: Double): Hit {
-    var finalMaxHit = maxHit
-    val hit = Hit(player, 0, if (ranging) HitLook.RANGE_DAMAGE else HitLook.MELEE_DAMAGE)
-    var veracsProc = false
-    if (calcDefense) {
-        var atkLvl = floor(player.skills.getLevel(if (ranging) Constants.RANGE else Constants.ATTACK) * (if (ranging) player.prayer.rangeMultiplier else player.prayer.attackMultiplier))
-        atkLvl += (if (attackStyle.attackType == AttackType.ACCURATE || attackStyle.xpType == XPType.ACCURATE) 3 else if (attackStyle.xpType == XPType.CONTROLLED) 1 else 0).toDouble()
-        atkLvl += 8.0
-        if (fullVoidEquipped(player, *if (ranging) (intArrayOf(11664, 11675)) else (intArrayOf(11665, 11676))))
-            atkLvl *= 1.1
-        if (ranging)
-            atkLvl *= player.auraManager.rangeAcc
-        var atkBonus = player.combatDefinitions.attackBonusForStyle.toDouble()
-        if (weaponId == -2) //goliath gloves
-            atkBonus += 82.0
-
-        var atk = floor(atkLvl * (atkBonus + 64))
-        atk *= accuracyModifier
-
-        if (!ranging && attackStyle.xpType == XPType.ACCURATE && player.dungManager.activePerk == KinshipPerk.TACTICIAN && player.controllerManager.isIn(DungeonController::class.java))
-            atk = floor(atk * 1.1 + (player.dungManager.getKinshipTier(KinshipPerk.TACTICIAN) * 0.01))
-
-        if (target is NPC) {
-            if (ranging) {
-                if (player.hasSlayerTask() && player.slayer.isOnTaskAgainst(target as NPC?))
-                    if (player.equipment.wearingFocusSight() || player.equipment.wearingSlayerHelmet()) {
-                        atk *= (7.0 / 6.0)
-                        finalMaxHit = (finalMaxHit * (7.0 / 6.0)).toInt()
-                    }
-            } else {
-                if (player.hasSlayerTask() && player.slayer.isOnTaskAgainst(target as NPC?))
-                    if (player.equipment.wearingBlackMask() || player.equipment.wearingSlayerHelmet()) {
-                        atk *= (7.0 / 6.0)
-                        finalMaxHit = (finalMaxHit * (7.0 / 6.0)).toInt()
-                    }
-                if (player.equipment.salveAmulet != -1 && target.definitions.isUndead) when (player.equipment.salveAmulet) {
-                    0 -> {
-                        atk *= 1.15
-                        finalMaxHit = (finalMaxHit * 1.15).toInt()
-                    }
-
-                    1 -> {
-                        atk *= 1.20
-                        finalMaxHit = (finalMaxHit * 1.20).toInt()
-                    }
-                }
-            }
-        }
-
-        var def = 0.0
-        if (target is Player) {
-            var defLvl = floor(target.skills.getLevel(Constants.DEFENSE) * target.prayer.defenceMultiplier)
-            defLvl += (if (target.combatDefinitions.getAttackStyle().attackType == AttackType.LONG_RANGE || target.combatDefinitions.getAttackStyle().xpType == XPType.DEFENSIVE) 3 else if (target.combatDefinitions.getAttackStyle().xpType == XPType.CONTROLLED) 1 else 0).toDouble()
-            defLvl += 8.0
-            val defBonus = target.combatDefinitions.getDefenseBonusForStyle(player.combatDefinitions.getAttackStyle()).toDouble()
-
-            def = floor(defLvl * (defBonus + 64))
-
-            if (!ranging) if (target.familiarPouch === Pouch.STEEL_TITAN) def *= 1.15
-        } else (target as? NPC)?.let { npc ->
-            val wId = player.equipment.weaponId
-            if (wId == 15836 || wId == 17295 || wId == 21332) {
-                val mageLvl = Utils.clampI(npc.magicLevel, 0, 350)
-                if (player.controllerManager.isIn(DungeonController::class.java) && npc.combatDefinitions.attackStyle == NPCCombatDefinitions.AttackStyle.MAGE)
-                    mageLvl * 2
-                val atkMul = (140.0 + floor((3 * mageLvl.toDouble() - 10.0) / 100.0) - floor((0.3 * mageLvl.toDouble() - 100.0).pow(2.0) / 100.0)) / 100.0
-                atk *= Utils.clampD(atkMul, 1.0, 3.0)
-                val strMul = (250.0 + floor((3 * mageLvl.toDouble() - 14.0) / 100.0) - floor((0.3 * mageLvl.toDouble() - 140.0).pow(2.0) / 100.0)) / 100.0
-                finalMaxHit = (finalMaxHit * Utils.clampD(strMul, 1.0, 3.0)).toInt()
-            }
-            if (npc.name.startsWith("Vyre")) {
-                if (wId == 21581 || wId == 21582) {
-                    atk *= 2.0
-                    finalMaxHit *= 2
-                } else if (!(wId == 6746 || wId == 2961 || wId == 2963 || wId == 2952 || wId == 2402 || (wId >= 7639 && wId <= 7648) || (wId >= 13117 && wId <= 13146))) finalMaxHit = 0
-            }
-            if (npc.name == "Turoth" || npc.name == "Kurask") {
-                if (!(wId == 4158 || wId == 13290) && !(player.equipment.weaponName.contains("bow") && ItemDefinitions.getDefs(player.equipment.ammoId).name.lowercase(Locale.getDefault()).contains("broad"))) finalMaxHit = 0
-            }
-            val weapon = RangedWeapon.forId(weaponId)
-            val ammo = AmmoType.forId(player.equipment.ammoId)
-            if (ranging && weapon != null && weapon.ammos != null && weapon.ammos!!.contains(ammo)) {
-                when (ammo) {
-                    AmmoType.DRAGONBANE_ARROW, AmmoType.DRAGONBANE_BOLT -> {
-                        if (npc.name.lowercase(Locale.getDefault()).contains("dragon")) {
-                            atk *= 1.6
-                            finalMaxHit = (finalMaxHit * 1.6).toInt()
-                        }
-                    }
-
-                    AmmoType.ABYSSALBANE_ARROW, AmmoType.ABYSSALBANE_BOLT -> {
-                        if (npc.name.lowercase(Locale.getDefault()).contains("abyssal")) {
-                            atk *= 1.6
-                            finalMaxHit = (finalMaxHit * 1.6).toInt()
-                        }
-                    }
-
-                    AmmoType.BASILISKBANE_ARROW, AmmoType.BASILISKBANE_BOLT -> {
-                        if (npc.name.lowercase(Locale.getDefault()).contains("basilisk")) {
-                            atk *= 1.6
-                            finalMaxHit = (finalMaxHit * 1.6).toInt()
-                        }
-                    }
-
-                    AmmoType.WALLASALKIBANE_ARROW, AmmoType.WALLASALKIBANE_BOLT -> {
-                        if (npc.name.lowercase(Locale.getDefault()).contains("wallasalki")) {
-                            atk *= 1.6
-                            finalMaxHit = (finalMaxHit * 1.6).toInt()
-                        }
-                    }
-
-                    else -> {}
-                }
-            }
-            var defLvl = npc.defenseLevel.toDouble()
-            val defBonus = player.combatDefinitions.getAttackStyle().attackType.getDefenseBonus(npc).toDouble()
-            defLvl += 8.0
-            def = floor(defLvl * (defBonus + 64))
-        }
-        if (finalMaxHit != 0 && fullVeracsEquipped(player) && Utils.random(4) == 0) veracsProc = true
-        val prob = if (atk > def) (1 - (def + 2) / (2 * (atk + 1))) else (atk / (2 * (def + 1)))
-        if (Settings.getConfig().isDebug && player.nsv.getB("hitChance")) player.sendMessage("Your hit chance: " + Utils.formatDouble(prob * 100.0) + "%")
-        if (prob <= Math.random() && !veracsProc) return hit.setDamage(0)
-    }
-    if (Settings.getConfig().isDebug && player.nsv.getB("hitChance")) player.sendMessage("Modified max hit: $finalMaxHit")
-    var finalHit = Utils.random(minHit, finalMaxHit)
-    if (veracsProc) finalHit = (finalHit + 1.0).toInt()
-    if (target is NPC) if (target.id == 9463 && hasFireCape(player)) finalHit += 40
-    if (player.auraManager.isActivated(Aura.EQUILIBRIUM)) {
-        val perc25MaxHit = (finalMaxHit * 0.25).toInt()
-        finalHit -= perc25MaxHit
-        finalMaxHit -= perc25MaxHit
-        if (finalHit < 0) finalHit = 0
-        if (finalHit < perc25MaxHit) finalHit += perc25MaxHit
-    }
-    hit.setMaxHit(finalMaxHit)
-    hit.setDamage(finalHit)
-    return hit
-}
-
-fun getMaxHit(player: Player, target: Entity?, ranging: Boolean, damageMultiplier: Double): Int {
-    return getMaxHit(player, target, player.equipment.weaponId, player.combatDefinitions.getAttackStyle(), ranging, damageMultiplier)
-}
-
-fun getMaxHit(player: Player, target: Entity?, weaponId: Int, attackStyle: AttackStyle, ranging: Boolean, damageMultiplier: Double): Int {
-    if (ranging) {
-        if (target != null && weaponId == 24338 && target is Player) {
-            player.sendMessage("The royal crossbow feels weak and unresponsive against other players.")
-            return 60
-        }
-        var lvl = floor(player.skills.getLevel(Constants.RANGE) * player.prayer.rangeMultiplier)
-        lvl += (if (attackStyle.attackType == AttackType.ACCURATE) 3 else 0).toDouble()
-        lvl += 8.0
-        if (fullVoidEquipped(player, 11664, 11675)) lvl = floor(lvl * 1.1)
-        if (attackStyle.attackType == AttackType.RAPID && player.dungManager.activePerk == KinshipPerk.DESPERADO && player.controllerManager.isIn(DungeonController::class.java)) lvl = floor(lvl * 1.1 + (player.dungManager.getKinshipTier(KinshipPerk.DESPERADO) * 0.01))
-        val str = player.combatDefinitions.getBonus(Bonus.RANGE_STR).toDouble()
-        val baseDamage = 5 + lvl * (str + 64) / 64
-        val maxHit = floor(baseDamage * damageMultiplier).toInt()
-        if (Settings.getConfig().isDebug && player.nsv.getB("hitChance")) player.sendMessage("Your max hit: $maxHit")
-        return maxHit
-    }
-    var lvl = floor(player.skills.getLevel(Constants.STRENGTH) * player.prayer.strengthMultiplier)
-    lvl += (if (attackStyle.xpType == XPType.AGGRESSIVE) 3 else if (attackStyle.xpType == XPType.CONTROLLED) 1 else 0).toDouble()
-    lvl += 8.0
-    if (fullVoidEquipped(player, 11665, 11676)) lvl = floor(lvl * 1.1)
-    if (attackStyle.xpType == XPType.AGGRESSIVE && player.dungManager.activePerk == KinshipPerk.BERSERKER && player.controllerManager.isIn(DungeonController::class.java)) lvl = floor(lvl * 1.1 + (player.dungManager.getKinshipTier(KinshipPerk.BERSERKER) * 0.01))
-    var str = player.combatDefinitions.getBonus(Bonus.MELEE_STR).toDouble()
-    if (weaponId == -2) str += 82.0
-    var baseDamage = 5 + lvl * (str + 64) / 64
-
-    when (weaponId) {
-        6523, 6525, 6527, 6528 -> if (player.equipment.amuletId == 11128) baseDamage *= 1.2
-        4718, 4886, 4887, 4888, 4889 -> if (fullDharokEquipped(player)) {
-            val mul = 1.0 + (player.maxHitpoints - player.hitpoints) / 1000.0 * (player.maxHitpoints / 1000.0)
-            baseDamage *= mul
-        }
-
-        10581, 10582, 10583, 10584 -> if (target != null && target is NPC) if (target.name.startsWith("Kalphite")) baseDamage *= if (Utils.random(51) == 0) 3.0
-        else 4.0 / 3.0
-
-        15403, 22405 -> if (target != null && target is NPC) if (target.name == "Dagannoth" || (target.name == "Wallasalki") || (target.name == "Dagannoth Supreme")) baseDamage *= 2.75
-        6746 -> if (target != null && target is NPC) if (target.name.lowercase(Locale.getDefault()).contains("demon")) baseDamage *= 1.6
-        else -> {}
-    }
-    //int multiplier = PluginManager.handle()
-    val maxHit = floor(baseDamage * damageMultiplier).toInt()
-    if (Settings.getConfig().isDebug && player.nsv.getB("hitChance")) player.sendMessage("Your max hit: $maxHit")
-    return maxHit
-}
-
-fun hasFireCape(player: Player): Boolean {
-    val capeId = player.equipment.capeId
-    return capeId == 6570 || capeId == 20769 || capeId == 20771 || capeId == 23659
-}
-
-fun fullVeracsEquipped(player: Player): Boolean {
-    val helmId = player.equipment.hatId
-    val chestId = player.equipment.chestId
-    val legsId = player.equipment.legsId
-    val weaponId = player.equipment.weaponId
-    if (helmId == -1 || chestId == -1 || legsId == -1 || weaponId == -1) return false
-    return (ItemDefinitions.getDefs(helmId).getName().contains("Verac's") && ItemDefinitions.getDefs(chestId).getName().contains("Verac's") && ItemDefinitions.getDefs(legsId).getName().contains("Verac's")
-            && ItemDefinitions.getDefs(weaponId).getName().contains("Verac's"))
-}
-
-fun fullDharokEquipped(player: Player): Boolean {
-    val helmId = player.equipment.hatId
-    val chestId = player.equipment.chestId
-    val legsId = player.equipment.legsId
-    val weaponId = player.equipment.weaponId
-    if (helmId == -1 || chestId == -1 || legsId == -1 || weaponId == -1) return false
-    return (ItemDefinitions.getDefs(helmId).getName().contains("Dharok's") && ItemDefinitions.getDefs(chestId).getName().contains("Dharok's") && ItemDefinitions.getDefs(legsId).getName().contains("Dharok's")
-            && ItemDefinitions.getDefs(weaponId).getName().contains("Dharok's"))
-}
-
-fun fullVoidEquipped(player: Player, vararg helmid: Int): Boolean {
-    var hasDeflector = player.equipment.shieldId == 19712
-    if (player.equipment.glovesId != 8842) {
-        if (!hasDeflector) return false
-        hasDeflector = false
-    }
-    val legsId = player.equipment.legsId
-    val hasLegs = legsId != -1 && (legsId == 8840 || legsId == 19786 || legsId == 19788 || legsId == 19790)
-    if (!hasLegs) {
-        if (!hasDeflector) return false
-        hasDeflector = false
-    }
-    val torsoId = player.equipment.chestId
-    val hasTorso = torsoId != -1 && (torsoId == 8839 || torsoId == 10611 || torsoId == 19785 || torsoId == 19787 || torsoId == 19789)
-    if (!hasTorso && !hasDeflector)
-        return false
-    val helmId = player.equipment.hatId
-    if (helmId == -1) return false
-    var hasHelm = false
-    for (id in helmid) if (helmId == id) {
-        hasHelm = true
-        break
-    }
-    return hasHelm
 }
 
 fun delayNormalHit(target: Entity, hit: Hit) {

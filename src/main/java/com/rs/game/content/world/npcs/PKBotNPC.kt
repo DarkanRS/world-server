@@ -191,7 +191,7 @@ class PKBotNPC(tile: Tile): NPC(4336, tile) {
         bodyMeshModifier = NPCBodyMeshModifier(definitions).addModels(*models.toIntArray())
     }
 
-    override fun getLevel(skill: NPCCombatDefinitions.Skill): Int {
+    override fun getCombatLevel(skill: NPCCombatDefinitions.Skill): Int {
         return skills[skill] ?: 1
     }
 

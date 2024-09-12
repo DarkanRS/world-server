@@ -60,7 +60,7 @@ fun mapSpecials() {
         val animId = if (player.equipment.weaponId == 4153) 1667 else 10505
         player.anim(animId)
         if (player.equipment.weaponId == 4153) player.spotAnim(340, 0, 96 shl 16)
-        delayNormalHit(target, calculateHit(player, target, false, true, 1.0, 1.0))
+        delayNormalHit(target, calculateHit(player, target, CombatStyle.MELEE, true, 1.0, 1.0))
         player.soundEffect(target, 2715, true)
         return@SpecialAttack
     })
@@ -143,7 +143,7 @@ fun mapSpecials() {
     addSpec(RangedWeapon.ZAMORAK_BOW.ids, SpecialAttack(SpecialAttack.Type.RANGE, 55) { player, target ->
         player.sync(426, 97)
         val p = World.sendProjectile(player, target, 100, delay = 50, speed = 5, angle = 20)
-        delayHit(target, p.taskDelay, calculateHit(player, target, true))
+        delayHit(target, p.taskDelay, calculateHit(player, target, CombatStyle.RANGE))
         dropAmmo(player, target, Equipment.AMMO, 1)
         return@SpecialAttack getRangeCombatDelay(player)
     })
@@ -151,7 +151,7 @@ fun mapSpecials() {
     addSpec(RangedWeapon.GUTHIX_BOW.ids, SpecialAttack(SpecialAttack.Type.RANGE, 55) { player, target ->
         player.sync(426, 95)
         val p = World.sendProjectile(player, target, 98, delay = 50, speed = 5, angle = 20)
-        delayHit(target, p.taskDelay, calculateHit(player, target, true))
+        delayHit(target, p.taskDelay, calculateHit(player, target, CombatStyle.RANGE))
         dropAmmo(player, target, Equipment.AMMO, 1)
         return@SpecialAttack getRangeCombatDelay(player)
     })
@@ -159,23 +159,23 @@ fun mapSpecials() {
     addSpec(RangedWeapon.SARADOMIN_BOW.ids, SpecialAttack(SpecialAttack.Type.RANGE, 55) { player, target ->
         player.sync(426, 96)
         val p = World.sendProjectile(player, target, 99, delay = 50, speed = 5, angle = 20)
-        delayHit(target, p.taskDelay, calculateHit(player, target, true))
+        delayHit(target, p.taskDelay, calculateHit(player, target, CombatStyle.RANGE))
         dropAmmo(player, target, Equipment.AMMO, 1)
         return@SpecialAttack getRangeCombatDelay(player)
     })
 
     addSpec(RangedWeapon.RUNE_THROWNAXE.ids, SpecialAttack(SpecialAttack.Type.RANGE, 20) { player, target -> //TODO test this heavily
-        val maxHit = getMaxHit(player, target, true, 1.0)
+        val maxHit = getMaxHit(player, target, CombatStyle.RANGE, 1.0)
         player.anim(9055)
         val projectile = World.sendProjectile(player, target, 258, delay = 50, speed = 5, angle = 20)
-        delayHit(target, projectile.taskDelay, calculateHit(player, target, 1, maxHit, true, true, 1.0))
+        delayHit(target, projectile.taskDelay, calculateHit(player, target, 1, maxHit, CombatStyle.RANGE, true, 1.0))
         player.schedule {
             wait(projectile.taskDelay + 1)
             var lastTarget = target
             repeat(5) {
                 val nextTarget = getMultiAttackTargets(player, lastTarget, 4, 10, false).closestOrNull(lastTarget.tile) ?: return@schedule
                 wait(World.sendProjectile(lastTarget, nextTarget, 258, delay = 50, speed = 5).taskDelay + 1)
-                nextTarget.applyHit(calculateHit(player, nextTarget, 1, maxHit, true, true, 1.0))
+                nextTarget.applyHit(calculateHit(player, nextTarget, 1, maxHit, CombatStyle.RANGE, true, 1.0))
                 lastTarget = nextTarget
             }
         }
@@ -185,8 +185,8 @@ fun mapSpecials() {
     addSpec(Stream.of(RangedWeapon.MAGIC_BOW.ids, RangedWeapon.MAGIC_LONGBOW.ids, RangedWeapon.MAGIC_COMP_BOW.ids).flatMapToInt(Arrays::stream).toArray(), SpecialAttack(SpecialAttack.Type.RANGE, 55) { player, target ->
         player.anim(1074)
         player.spotAnim(250, 10, 100)
-        delayHit(target, World.sendProjectile(player, target, 249, delay = 20, speed = 5, angle = 15).taskDelay, calculateHit(player, target, true))
-        delayHit(target, World.sendProjectile(player, target, 249, delay = 50, speed = 5, angle = 20).taskDelay, calculateHit(player, target, true))
+        delayHit(target, World.sendProjectile(player, target, 249, delay = 20, speed = 5, angle = 15).taskDelay, calculateHit(player, target, CombatStyle.RANGE))
+        delayHit(target, World.sendProjectile(player, target, 249, delay = 50, speed = 5, angle = 20).taskDelay, calculateHit(player, target, CombatStyle.RANGE))
         dropAmmo(player, target, Equipment.AMMO, 2)
         player.soundEffect(target, 2545, true)
         return@SpecialAttack getRangeCombatDelay(player)
@@ -194,7 +194,7 @@ fun mapSpecials() {
 
     addSpec(RangedWeapon.HAND_CANNON.ids, SpecialAttack(SpecialAttack.Type.RANGE, 50) { player, target ->
         player.sync(12175, 2138)
-        delayHit(target, World.sendProjectile(player, target, 2143, delay = 50, speed = 5).taskDelay, calculateHit(player, target, true))
+        delayHit(target, World.sendProjectile(player, target, 2143, delay = 50, speed = 5).taskDelay, calculateHit(player, target, CombatStyle.RANGE))
         return@SpecialAttack 1
     })
 
@@ -203,7 +203,7 @@ fun mapSpecials() {
         RangedWeapon.DORGESHUUN_CBOW.getAttackSpotAnim(player.equipment.ammoId).let {
             player.spotAnim(it)
         }
-        val hit = calculateHit(player, target, true, true, 1.0, 1.3)
+        val hit = calculateHit(player, target, CombatStyle.RANGE, true, 1.0, 1.3)
         if (hit.damage > 0)
             target.lowerStat(Skills.DEFENSE, hit.damage / 10, 0.0)
         delayHit(target, World.sendProjectile(player, target, 698, delay = 50, speed = 5, angle = 20).taskDelay, hit)
@@ -219,9 +219,9 @@ fun mapSpecials() {
             player.spotAnim(it)
         }
         if (ammoId == 11212) {
-            val hit1 = calculateHit(player, target, true, true, 1.0, 1.5)
+            val hit1 = calculateHit(player, target, CombatStyle.RANGE, true, 1.0, 1.5)
             if (hit1.damage < 80) hit1.setDamage(80)
-            val hit2 = calculateHit(player, target, true, true, 1.0, 1.5)
+            val hit2 = calculateHit(player, target, CombatStyle.RANGE, true, 1.0, 1.5)
             if (hit2.damage < 80) hit2.setDamage(80)
             delayHit(target, World.sendProjectile(player, target, 1099, delay = 50, speed = 5, angle = 20) { _ ->
                 target.spotAnim(1100, 0, 100)
@@ -231,9 +231,9 @@ fun mapSpecials() {
             }.taskDelay, hit2)
             player.soundEffect(target, 3736, true)
         } else {
-            val hit1 = calculateHit(player, target, true, true, 1.0, 1.3)
+            val hit1 = calculateHit(player, target, CombatStyle.RANGE, true, 1.0, 1.3)
             if (hit1.damage < 50) hit1.setDamage(50)
-            val hit2 = calculateHit(player, target, true, true, 1.0, 1.3)
+            val hit2 = calculateHit(player, target, CombatStyle.RANGE, true, 1.0, 1.3)
             if (hit2.damage < 50) hit2.setDamage(50)
             delayHit(target, World.sendProjectile(player, target, 1101, delay = 50, speed = 5, angle = 20).taskDelay, hit1)
             delayHit(target, World.sendProjectile(player, target, 1101, delay = 50, speed = 5, angle = 30).taskDelay, hit2)
@@ -249,14 +249,14 @@ fun mapSpecials() {
         delayHit(target,
             World.sendProjectile(player, target, 2001, delay = 50, speed = 5, angle = 20).taskDelay,
             Hit.range(player,
-                calculateHit(player, target, true, true, 1.0, 1.0).damage + 30 + Utils.getRandomInclusive(120)))
+                calculateHit(player, target, CombatStyle.RANGE, true, 1.0, 1.0).damage + 30 + Utils.getRandomInclusive(120)))
         dropAmmo(player, target)
         return@SpecialAttack getRangeCombatDelay(player)
     })
 
     addSpec(RangedWeapon.MORRIGANS_JAVELIN.ids, SpecialAttack(SpecialAttack.Type.RANGE, 50) { player, target ->
         player.sync(10501, 1836)
-        val hit = calculateHit(player, target, true, true, 1.0, 1.0)
+        val hit = calculateHit(player, target, CombatStyle.RANGE, true, 1.0, 1.0)
         val proj = World.sendProjectile(player, target, 1837, delay = 50, speed = 5, angle = 20)
         delayHit(target, proj.taskDelay, hit)
         if (hit.damage > 0) {
@@ -278,13 +278,13 @@ fun mapSpecials() {
         player.sync(10504, 1838)
         delayHit(target,
             World.sendProjectile(player, target, 1839, delay = 50, speed = 5, angle = 20).taskDelay,
-            calculateHit(player, target, true, true, 1.0, 1.0))
+            calculateHit(player, target, CombatStyle.RANGE, true, 1.0, 1.0))
         dropAmmo(player, target, Equipment.WEAPON, 1)
         return@SpecialAttack getRangeCombatDelay(player)
     })
 
     addSpec(RangedWeapon.SEERCULL.ids, SpecialAttack(SpecialAttack.Type.RANGE, 100) { player, target ->
-        val hit = calculateHit(player, target, true, true, 1.0, 1.0)
+        val hit = calculateHit(player, target, CombatStyle.RANGE, true, 1.0, 1.0)
         player.anim(ItemConfig.get(RangedWeapon.SEERCULL.ids[0]).getAttackAnim(0))
         player.spotAnim(472, 0, 100)
         delayHit(target, World.sendProjectile(player, target, 473, delay = 50, speed = 5, angle = 20) { _ -> target.spotAnim(474) }.taskDelay, hit)
@@ -298,7 +298,7 @@ fun mapSpecials() {
     addSpec(RangedWeapon.DECIMATION.ids, SpecialAttack(SpecialAttack.Type.RANGE, 20) { player, target ->
         player.sync(16959, 3192)
         val p = World.sendProjectile(player, target, 3188, delay = 100, speed = 10, angle = 20) { _ -> target.spotAnim(3191) }
-        repeat(4) { delayHit(target, p.taskDelay, calculateHit(player, target, true, true, 1.0, 1.0)) }
+        repeat(4) { delayHit(target, p.taskDelay, calculateHit(player, target, CombatStyle.RANGE, true, 1.0, 1.0)) }
         return@SpecialAttack 6
     })
 
@@ -311,10 +311,10 @@ fun mapSpecials() {
         val tile = Tile.of(target.tile)
         player.sync(11971, 476)
         player.schedule {
-            for (i in 1..11) {
+            repeat(11) {
                 World.sendSpotAnim(tile, SpotAnim(478))
                 for (entity in getMultiAttackTargets(player, tile, 1, 9)) {
-                    val hit = calculateHit(player, entity, 0, getMaxHit(player, target, 21371, attackStyle, false, 0.33), 21371, attackStyle, false, true, 1.25)
+                    val hit = calculateHit(player, entity, 0, getMaxHit(player, target, 21371, attackStyle, CombatStyle.MELEE, 0.33), 21371, attackStyle, CombatStyle.MELEE, true, 1.25)
                     addXp(player, entity, attackStyle.xpType, hit)
                     if (hit.damage > 0 && Utils.getRandomInclusive(8) == 0) target.poison.makePoisoned(48)
                     entity.applyHit(hit)
@@ -331,7 +331,7 @@ fun mapSpecials() {
         target.spotAnim(2108, 0, 100)
         if (target is Player)
             target.runEnergy = if (target.runEnergy > 25.0) target.runEnergy - 25.0 else 0.0
-        delayNormalHit(target, calculateHit(player, target, false, true, 1.25, 1.0))
+        delayNormalHit(target, calculateHit(player, target, CombatStyle.MELEE, true, 1.25, 1.0))
         player.soundEffect(target, 2713, true)
         return@SpecialAttack getMeleeCombatDelay(player.equipment.getWeaponId())
     })
@@ -340,7 +340,7 @@ fun mapSpecials() {
     addSpec(intArrayOf(11730, 13461, 23690), SpecialAttack(SpecialAttack.Type.MELEE, 100) { player, target ->
         player.sync(11993, 1194)
         delayNormalHit(target, Hit(player, 50 + Utils.getRandomInclusive(100), HitLook.MELEE_DAMAGE).setMaxHit(150))
-        delayNormalHit(target, calculateHit(player, target, false, true, 2.0, 1.1))
+        delayNormalHit(target, calculateHit(player, target, CombatStyle.MELEE, true, 2.0, 1.1))
         player.soundEffect(target, 3853, true)
         return@SpecialAttack getMeleeCombatDelay(player.equipment.weaponId)
     })
@@ -386,7 +386,7 @@ fun mapSpecials() {
     //Saradomin godsword
     addSpec(intArrayOf(11698, 13452, 23681), SpecialAttack(SpecialAttack.Type.MELEE, 50) { player, target ->
         player.sync(12019, 2109)
-        val hit = calculateHit(player, target, false, true, 2.0, 1.1)
+        val hit = calculateHit(player, target, CombatStyle.MELEE, true, 2.0, 1.1)
         player.heal(hit.damage / 2)
         player.prayer.restorePrayer(hit.damage.toDouble() / 4)
         delayNormalHit(target, hit)
@@ -397,7 +397,7 @@ fun mapSpecials() {
     //Bandos godsword
     addSpec(intArrayOf(11696, 13451, 23680), SpecialAttack(SpecialAttack.Type.MELEE, 50) { player, target ->
         player.sync(11991, 2114)
-        val hit = calculateHit(player, target, false, true, 2.0, 1.1)
+        val hit = calculateHit(player, target, CombatStyle.MELEE, true, 2.0, 1.1)
         delayNormalHit(target, hit)
         var amountLeft = hit.damage / 10
         val skillsToDrain = listOf(Constants.DEFENSE, Constants.STRENGTH, Constants.PRAYER, Constants.ATTACK, Constants.MAGIC, Constants.RANGE)
@@ -413,7 +413,7 @@ fun mapSpecials() {
     //Ancient mace
     addSpec(intArrayOf(11061, 22406), SpecialAttack(SpecialAttack.Type.MELEE, 100) { player, target ->
         player.sync(6147, 1052)
-        val hit = calculateHit(player, target, false, true, 1.0, 1.0)
+        val hit = calculateHit(player, target, CombatStyle.MELEE, true, 1.0, 1.0)
         delayNormalHit(target, hit)
         if (target is Player)
             target.prayer.drainPrayer(hit.damage.toDouble())
@@ -424,7 +424,7 @@ fun mapSpecials() {
     //Armadyl godsword
     addSpec(intArrayOf(11694, 13450, 23679), SpecialAttack(SpecialAttack.Type.MELEE, 50) { player, target ->
         player.sync(11989, 2113)
-        delayNormalHit(target, calculateHit(player, target, false, true, 2.0, 1.25))
+        delayNormalHit(target, calculateHit(player, target, CombatStyle.MELEE, true, 2.0, 1.25))
         return@SpecialAttack getMeleeCombatDelay(player.equipment.weaponId)
     })
 
@@ -438,14 +438,14 @@ fun mapSpecials() {
      */
     addSpec(intArrayOf(13899, 13901), SpecialAttack(SpecialAttack.Type.MELEE, 25) { player, target ->
         player.anim(10502)
-        delayNormalHit(target, calculateHit(player, target, false, true, 2.0, 1.20))
+        delayNormalHit(target, calculateHit(player, target, CombatStyle.MELEE, true, 2.0, 1.20))
         player.soundEffect(target, 2529, true)
         return@SpecialAttack getMeleeCombatDelay(player.equipment.weaponId)
     })
 
     //Statius' warhammer
     addSpec(intArrayOf(13902, 13904), SpecialAttack(SpecialAttack.Type.MELEE, 35) { player, target ->
-        val hit = calculateHit(player, target, false, true, 1.0, 1.25)
+        val hit = calculateHit(player, target, CombatStyle.MELEE, true, 1.0, 1.25)
         player.sync(10505, 1840)
         delayNormalHit(target, hit)
         if (hit.damage != 0)
@@ -460,7 +460,7 @@ fun mapSpecials() {
         player.sync(10499, 1835)
         player.addEffect(Effect.MELEE_IMMUNE, Ticks.fromSeconds(5).toLong())
         attackTarget(getMultiAttackTargets(player, target, 1, 20)) { next ->
-            delayHit(next, 1, 13905, attackStyle, calculateHit(player, next, 13905, attackStyle, false, true, 1.0, 1.15))
+            delayHit(next, 1, 13905, attackStyle, calculateHit(player, next, 13905, attackStyle, CombatStyle.MELEE, true, 1.0, 1.15))
             return@attackTarget true
         }
         player.soundEffect(target, 2529, true)
@@ -472,7 +472,7 @@ fun mapSpecials() {
         val attackStyle = player.combatDefinitions.getAttackStyle()
         player.sync(7078, 1225)
         attackTarget(getMultiAttackTargets(player, target, 1, 20)) { next ->
-            delayHit(next, 1, 7158, attackStyle, calculateHit(player, next, 7158, attackStyle, false, true, 1.0, 1.2))
+            delayHit(next, 1, 7158, attackStyle, calculateHit(player, next, 7158, attackStyle, CombatStyle.MELEE, true, 1.0, 1.2))
             return@attackTarget true
         }
         player.soundEffect(target, 2530, true)
@@ -482,7 +482,7 @@ fun mapSpecials() {
     //Korasi's sword
     addSpec(intArrayOf(18786, 19780, 19784, 22401), SpecialAttack(SpecialAttack.Type.MELEE, 60) { player, target ->
         player.sync(14788, 1729)
-        var damage = getMaxHit(player, target, false, 1.0).toDouble()
+        var damage = getMaxHit(player, target, CombatStyle.MELEE, 1.0).toDouble()
         val multiplier = Utils.random(if (!target.isAtMultiArea && !player.isAtMultiArea && !target.isForceMultiArea && !player.isForceMultiArea) 0.5 else 0.0, 1.5)
         damage *= multiplier
         delayNormalHit(target, Hit(player, damage.toInt(), HitLook.MAGIC_DAMAGE).setMaxHit(damage.toInt()))
@@ -493,7 +493,7 @@ fun mapSpecials() {
 
     //Zamorak godsword
     addSpec(intArrayOf(11700, 13453, 23682), SpecialAttack(SpecialAttack.Type.MELEE, 100) { player, target ->
-        val hit = calculateHit(player, target, false, true, 2.0, 1.1)
+        val hit = calculateHit(player, target, CombatStyle.MELEE, true, 2.0, 1.1)
         player.sync(7070, 1221)
         if (hit.damage != 0 && target.size <= 1) {
             target.spotAnim(2104)
@@ -504,8 +504,8 @@ fun mapSpecials() {
     })
 
     fun clawSpec(player: Player, target: Entity, multipliers: DoubleArray) {
-        var base = getMaxHit(player, target, false, multipliers[0]).let {
-            calculateHit(player, target, it / 2, it, false, true, 1.0)
+        var base = getMaxHit(player, target, CombatStyle.MELEE, multipliers[0]).let {
+            calculateHit(player, target, it / 2, it, CombatStyle.MELEE, true, 1.0)
         }
         val hits = Array<Hit>(4) { Hit.miss(player) }
         if (base.damage > 0) {
@@ -516,7 +516,7 @@ fun mapSpecials() {
             hits[3] = Hit(player, damageHalved - (damageHalved / 2), HitLook.MELEE_DAMAGE)
         } else {
             sequenceOf(multipliers[1], multipliers[2], multipliers[3]).forEachIndexed { index, multiplier ->
-                base = calculateHit(player, target, false, true, multiplier, multiplier)
+                base = calculateHit(player, target, CombatStyle.MELEE, true, multiplier, multiplier)
                 if (base.damage > 0) {
                     if (index == 2) hits[3] = base
                     else hits.fill(Hit.miss(player), 0, index + 1)
@@ -551,7 +551,7 @@ fun mapSpecials() {
     //Barrelchest anchor
     addSpec(intArrayOf(10887), SpecialAttack(SpecialAttack.Type.MELEE, 50) { player, target ->
         player.sync(5870, 1027)
-        val hit = calculateHit(player, target, false, true, 2.0, 1.1)
+        val hit = calculateHit(player, target, CombatStyle.MELEE, true, 2.0, 1.1)
         delayNormalHit(target, hit)
         target.lowerStat(Skills.DEFENSE, hit.damage / 10, 0.0)
         player.soundEffect(target, 3481, true)
@@ -561,7 +561,7 @@ fun mapSpecials() {
     //Dragon longsword
     addSpec(intArrayOf(1305, 13475), SpecialAttack(SpecialAttack.Type.MELEE, 25) { player, target ->
         player.sync(12033, 2117)
-        delayNormalHit(target, calculateHit(player, target, false, true, 1.0, 1.25))
+        delayNormalHit(target, calculateHit(player, target, CombatStyle.MELEE, true, 1.0, 1.25))
         player.soundEffect(target, 2529, true)
         return@SpecialAttack getMeleeCombatDelay(player.equipment.weaponId)
     })
@@ -573,8 +573,8 @@ fun mapSpecials() {
             target.spotAnim(254, 0, 100)
             target.spotAnim(80)
         }
-        delayNormalHit(target, calculateHit(player, target, false, true, 1.0, 1.1))
-        if (target.size > 1) delayHit(target, 1, calculateHit(player, target, false, true, 1.0, 1.1))
+        delayNormalHit(target, calculateHit(player, target, CombatStyle.MELEE, true, 1.0, 1.1))
+        if (target.size > 1) delayHit(target, 1, calculateHit(player, target, CombatStyle.MELEE, true, 1.0, 1.1))
         player.soundEffect(target, 2533, true)
         return@SpecialAttack getMeleeCombatDelay(player.equipment.weaponId)
     })
@@ -582,7 +582,7 @@ fun mapSpecials() {
     //Dragon scimitar
     addSpec(intArrayOf(4587, 13477), SpecialAttack(SpecialAttack.Type.MELEE, 55) { player, target ->
         player.sync(12031, 2118)
-        val hit = calculateHit(player, target, false, true, 1.25, 1.0)
+        val hit = calculateHit(player, target, CombatStyle.MELEE, true, 1.25, 1.0)
         if (target is Player && hit.damage > 0)
             target.setProtectionPrayBlock(10)
         delayNormalHit(target, hit)
@@ -594,8 +594,8 @@ fun mapSpecials() {
     addSpec(intArrayOf(1215, 1231, 5680, 5698, 13465, 13466, 13467, 13468), SpecialAttack(SpecialAttack.Type.MELEE, 25) { player, target ->
         player.anim(1062)
         player.spotAnim(252, 0, 100)
-        delayNormalHit(target, calculateHit(player, target, false, true, 1.15, 1.15))
-        delayNormalHit(target, calculateHit(player, target, false, true, 1.15, 1.15))
+        delayNormalHit(target, calculateHit(player, target, CombatStyle.MELEE, true, 1.15, 1.15))
+        delayNormalHit(target, calculateHit(player, target, CombatStyle.MELEE, true, 1.15, 1.15))
         player.soundEffect(target, 2537, true)
         return@SpecialAttack getMeleeCombatDelay(player.equipment.weaponId)
     })
@@ -603,7 +603,7 @@ fun mapSpecials() {
     //Dragon mace
     addSpec(intArrayOf(1434, 13479), SpecialAttack(SpecialAttack.Type.MELEE, 25) { player, target ->
         player.sync(1060, 251)
-        delayNormalHit(target, calculateHit(player, target, false, true, 1.25, 1.5))
+        delayNormalHit(target, calculateHit(player, target, CombatStyle.MELEE, true, 1.25, 1.5))
         player.soundEffect(target, 2541, true)
         return@SpecialAttack getMeleeCombatDelay(player.equipment.weaponId)
     })
@@ -612,7 +612,7 @@ fun mapSpecials() {
     addSpec(Stream.of(Utils.range(7639, 7648), Utils.range(13117, 13146)).flatMapToInt { array: IntArray? -> Arrays.stream(array) }.toArray(), SpecialAttack(SpecialAttack.Type.MELEE, 1) { player, target ->
         //TODO lmao
         player.sync(1060, 251)
-        delayNormalHit(target, calculateHit(player, target, false, true, 1.0, 1.0))
+        delayNormalHit(target, calculateHit(player, target, CombatStyle.MELEE, true, 1.0, 1.0))
         player.soundEffect(target, 2541, true)
         return@SpecialAttack getMeleeCombatDelay(player.equipment.weaponId)
     })
@@ -635,9 +635,9 @@ fun mapSpecials() {
 
     //Darklight
     addSpec(intArrayOf(6746), SpecialAttack(SpecialAttack.Type.MELEE, 50) { player, target ->
-        val accuracyRoll = calculateHit(player, target, -1, AttackStyle(0, "stab", XPType.AGGRESSIVE, AttackType.STAB), false, true, 1.0, 1.0)
+        val accuracyRoll = calculateHit(player, target, -1, AttackStyle(0, "stab", XPType.AGGRESSIVE, AttackType.STAB), CombatStyle.MELEE, true, 1.0, 1.0)
         player.sync(2890, 483)
-        delayHit(target, 0, calculateHit(player, target, false, true, 1.0, 1.0))
+        delayHit(target, 0, calculateHit(player, target, CombatStyle.MELEE, true, 1.0, 1.0))
         if (accuracyRoll.damage > 0) {
             target.lowerStat(Skills.ATTACK, 0.05, 0.0)
             target.lowerStat(Skills.STRENGTH, 0.05, 0.0)
@@ -650,7 +650,7 @@ fun mapSpecials() {
     //Dragon hatchet
     addSpec(intArrayOf(6739, 13470), SpecialAttack(SpecialAttack.Type.MELEE, 100) { player, target ->
         player.sync(2876, 479)
-        val hit = calculateHit(player, target, false, true, 1.0, 1.0)
+        val hit = calculateHit(player, target, CombatStyle.MELEE, true, 1.0, 1.0)
         delayHit(target, 0, hit)
         if (hit.damage > 0) {
             target.lowerStat(Skills.DEFENSE, hit.damage / 10, 0.0)
@@ -663,7 +663,7 @@ fun mapSpecials() {
     //Dragon pickaxe
     addSpec(intArrayOf(15259, 15261, 20786), SpecialAttack(SpecialAttack.Type.MELEE, 100) { player, target ->
         player.sync(2661, 2144)
-        val hit = calculateHit(player, target, false, true, 1.0, 1.0)
+        val hit = calculateHit(player, target, CombatStyle.MELEE, true, 1.0, 1.0)
         delayHit(target, 1, hit)
         if (hit.damage > 0) {
             target.lowerStat(Skills.ATTACK, 0.05, 0.0)
@@ -676,7 +676,7 @@ fun mapSpecials() {
     //Bone dagger
     addSpec(intArrayOf(8872, 8874, 8876, 8878), SpecialAttack(SpecialAttack.Type.MELEE, 75) { player, target ->
         player.sync(4198, 704)
-        val hit = calculateHit(player, target, false, target.tempAttribs.getO<Any>("last_target") === player, 1.0, 1.0)
+        val hit = calculateHit(player, target, CombatStyle.MELEE, target.tempAttribs.getO<Any>("last_target") === player, 1.0, 1.0)
         delayHit(target, 0, hit)
         if (hit.damage > 0)
             target.lowerStat(Skills.DEFENSE, hit.damage / 10, 0.0)
@@ -688,7 +688,7 @@ fun mapSpecials() {
     addSpec(intArrayOf(11037, 20671, 20673), SpecialAttack(SpecialAttack.Type.MELEE, 75) { player, target ->
         player.anim(6118)
         player.spotAnim(1048, 0, 96)
-        val hit = calculateHit(player, target, false, true, 2.0, 1.0)
+        val hit = calculateHit(player, target, CombatStyle.MELEE, true, 2.0, 1.0)
         delayHit(target, 0, hit)
         if (hit.damage > 0) {
             player.skills.adjustStat(hit.damage / 40, 0.0, true, Skills.ATTACK)
@@ -702,7 +702,7 @@ fun mapSpecials() {
     //Absorbing essence into it? (16962 43)
     addSpec(intArrayOf(24455), SpecialAttack(SpecialAttack.Type.MELEE, 20) { player, target ->
         player.sync(16961, 44)
-        delayNormalHit(target, calculateHit(player, target, false, true, 1.5, 1.5))
+        delayNormalHit(target, calculateHit(player, target, CombatStyle.MELEE, true, 1.5, 1.5))
         return@SpecialAttack 5
     })
 }

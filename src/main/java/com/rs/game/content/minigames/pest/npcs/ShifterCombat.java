@@ -33,7 +33,7 @@ public class ShifterCombat extends CombatScript {
 	public int attack(NPC npc, Entity target) {
 		NPCCombatDefinitions def = npc.getCombatDefinitions();
 		npc.setNextAnimation(new Animation(def.getAttackEmote()));
-		delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, npc.getCombatDefinitions().getMaxHit(), npc.getAttackStyle(), target)));
+		delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, npc.getCombatDefinitions().getMaxHit(), npc.getCombatStyle(), target)));
 		return npc.getAttackSpeed();
 	}
 }

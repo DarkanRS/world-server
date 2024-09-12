@@ -126,7 +126,7 @@ public class KalGerWarmonger extends DungeonBoss {
 	}
 
 	public boolean isUsingMelee() {
-		return getAttackStyle() == AttackStyle.MELEE;
+		return getCombatStyle() == AttackStyle.MELEE;
 	}
 
 	@Override

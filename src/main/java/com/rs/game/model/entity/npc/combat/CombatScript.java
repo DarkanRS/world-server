@@ -19,6 +19,7 @@ package com.rs.game.model.entity.npc.combat;
 import com.rs.Settings;
 import com.rs.cache.loaders.Bonus;
 import com.rs.game.content.combat.AttackType;
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.content.combat.XPType;
 import com.rs.game.content.skills.summoning.Pouch;
 import com.rs.game.model.entity.Entity;
@@ -102,40 +103,40 @@ public abstract class CombatScript {
 		return new Hit(npc, damage, HitLook.MELEE_DAMAGE);
 	}
 
-	public static int getMaxHitFromAttackStyleLevel(NPC npc, AttackStyle attackType, Entity target) {
+	public static int getMaxHitFromAttackStyleLevel(NPC npc, CombatStyle attackType, Entity target) {
 		return getMaxHit(npc, npc.getLevelForStyle(attackType), attackType, target);
 	}
 	
-	public static int getMaxHit(NPC npc, AttackStyle attackType, Entity target) {
+	public static int getMaxHit(NPC npc, CombatStyle attackType, Entity target) {
 		return getMaxHit(npc, npc.getMaxHit(), attackType, target);
 	}
 
-	public static int getMaxHit(NPC npc, int maxHit, AttackStyle attackStyle, Entity target) {
+	public static int getMaxHit(NPC npc, int maxHit, CombatStyle attackStyle, Entity target) {
 		return getMaxHit(npc, maxHit, attackStyle, target, 1.0D);
 	}
 
-	public static int getMaxHit(NPC npc, int maxHit, AttackStyle attackStyle, Entity target, double accuracyModifier) {
+	public static int getMaxHit(NPC npc, int maxHit, CombatStyle attackStyle, Entity target, double accuracyModifier) {
 		return getMaxHit(npc, maxHit, null, attackStyle, target, accuracyModifier);
 	}
 
-	public static int getMaxHit(NPC npc, int maxHit, Bonus attackBonus, AttackStyle attackStyle, Entity target) {
+	public static int getMaxHit(NPC npc, int maxHit, Bonus attackBonus, CombatStyle attackStyle, Entity target) {
 		return getMaxHit(npc, maxHit, attackBonus, attackStyle, target, 1.0D);
 	}
 
-	public static int getMaxHit(NPC npc, int maxHit, Bonus attackBonus, AttackStyle attackStyle, Entity target, double accuracyModifier) {
+	public static int getMaxHit(NPC npc, int maxHit, Bonus attackBonus, CombatStyle attackStyle, Entity target, double accuracyModifier) {
 		double atkLvl;
 		double atkBonus;
 		Bonus attType;
-		if (attackStyle == AttackStyle.RANGE)
+		if (attackStyle == CombatStyle.RANGE)
 			atkLvl = npc.getRangeLevel() + 8;
-		else if (attackStyle == AttackStyle.MAGE)
+		else if (attackStyle == CombatStyle.MAGE)
 			atkLvl = npc.getMagicLevel() + 8;
 		else
 			atkLvl = npc.getAttackLevel() + 8;
-		if (attackStyle == AttackStyle.RANGE) {
+		if (attackStyle == CombatStyle.RANGE) {
 			atkBonus = npc.getBonus(Bonus.RANGE_ATT);
 			attType = Bonus.RANGE_ATT;
-		} else if (attackStyle == AttackStyle.MAGE) {
+		} else if (attackStyle == CombatStyle.MAGE) {
 			atkBonus = npc.getBonus(Bonus.MAGIC_ATT);
 			attType = Bonus.MAGIC_ATT;
 		} else if (attackBonus == null) {
@@ -191,7 +192,7 @@ public abstract class CombatScript {
 			}
 			default -> player.getCombatDefinitions().getBonus(Bonus.STAB_ATT);
 			};
-			if (attackStyle == AttackStyle.MELEE)
+			if (attackStyle == CombatStyle.MELEE)
 				if (player.getFamiliarPouch() == Pouch.STEEL_TITAN)
 					def *= 1.15;
 		} else {

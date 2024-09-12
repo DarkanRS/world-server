@@ -156,7 +156,7 @@ public final class NPCCombat {
 				}
 				return true;
 			}
-			if (npc.getAttackStyle() == AttackStyle.MELEE && targetSize == 1 && size == 1 && Math.abs(npc.getX() - target.getX()) == 1 && Math.abs(npc.getY() - target.getY()) == 1 && !target.hasWalkSteps()) {
+			if (npc.getCombatStyle() == AttackStyle.MELEE && targetSize == 1 && size == 1 && Math.abs(npc.getX() - target.getX()) == 1 && Math.abs(npc.getY() - target.getY()) == 1 && !target.hasWalkSteps()) {
 				if (!npc.addWalkSteps(target.getX(), npc.getY(), 1))
 					npc.addWalkSteps(npc.getX(), target.getY(), 1);
 				return true;

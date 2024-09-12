@@ -18,6 +18,7 @@ package com.rs.game.model.entity.npc.combat;
 
 import com.rs.cache.loaders.Bonus;
 import com.rs.cache.loaders.NPCDefinitions;
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.content.skills.summoning.Summoning;
 import com.rs.lib.file.JsonFileManager;
 import com.rs.lib.util.Logger;
@@ -45,13 +46,9 @@ public class NPCCombatDefinitions {
 			DEFAULT_LEVELS.put(skill, 0);
 
 		NPCCombatDefinitions def = new NPCCombatDefinitions();
-		def.attackStyle = AttackStyle.MELEE;
+		def.attackStyle = CombatStyle.MELEE;
 		def.agressivenessType = AggressiveType.PASSIVE;
 		DEFAULT_DEF = def;
-	}
-
-	public enum AttackStyle {
-		MELEE, RANGE, MAGE
 	}
 
 	public enum Skill {
@@ -76,7 +73,7 @@ public class NPCCombatDefinitions {
 	private int respawnAnim = -1;
 	private int hitpoints;
 	private int maxHit;
-	private AttackStyle attackStyle;
+	private CombatStyle attackStyle;
 	private Bonus attackBonus;
 	private Map<Skill, Integer> combatLevels;
 	private Map<Bonus, Integer> bonuses;
@@ -218,7 +215,7 @@ public class NPCCombatDefinitions {
 		return attackProjectile;
 	}
 
-	public AttackStyle getAttackStyle() {
+	public CombatStyle getAttackStyle() {
 		return attackStyle;
 	}
 
@@ -367,13 +364,13 @@ public class NPCCombatDefinitions {
 
 	public int getAggroDistance() {
 		if (aggroDistance <= 0)
-			return getAttackStyle() == AttackStyle.MELEE ? 4 : getAttackRange() - 2;
+			return getAttackStyle() == CombatStyle.MELEE ? 4 : getAttackRange() - 2;
 		return aggroDistance;
 	}
 
 	public int getAttackRange() {
 		if (attackRange < 0)
-			return getAttackStyle() == AttackStyle.MELEE ? 0 : getAttackStyle() == AttackStyle.RANGE ? 7 : 10;
+			return getAttackStyle() == CombatStyle.MELEE ? 0 : getAttackStyle() == CombatStyle.RANGE ? 7 : 10;
 		return attackRange;
 	}
 
