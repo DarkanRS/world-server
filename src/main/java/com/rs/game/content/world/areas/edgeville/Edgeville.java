@@ -20,6 +20,7 @@ import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.dialogue.Options;
+import com.rs.engine.pathfinder.Direction;
 import com.rs.engine.quest.Quest;
 import com.rs.game.content.quests.dragonslayer.OziachDragonSlayerD;
 import com.rs.game.content.skills.agility.Agility;
@@ -202,4 +203,31 @@ public class Edgeville  {
 			}
 		});
 	});
+
+	public static ObjectClickHandler handleEdgevilleDungeonPipe = new ObjectClickHandler(new Object[]{ 29370 }, new Tile[] { Tile.of(3150, 9906, 0), Tile.of(3153, 9906, 0) }, e -> {
+		Player player = e.getPlayer();
+		if (player.getSkills().getLevel(Constants.AGILITY) < 53) {
+			player.sendMessage("You need an agility level of 53 to use this obstacle.");
+			return;
+		}
+
+		boolean entering = player.getX() < 3153;
+		Agility.walkToAgility(player, 295, (entering ? Direction.EAST : Direction.WEST), 6, 6, 7,-1);
+	});
+
+	public static ObjectClickHandler handleStairs29355 = new ObjectClickHandler(new Object[] { 29355 }, new Tile[] { Tile.of(3097, 9867, 0) }, e -> e.getPlayer().useStairs(828, Tile.of(3096, 3468, 0)));
+	public static ObjectClickHandler handleStairs29355_1 = new ObjectClickHandler(new Object[] { 29355 }, new Tile[] { Tile.of(3088, 9971, 0) }, e -> e.getPlayer().useStairs(828, Tile.of(3087, 3571, 0)));
+	public static ObjectClickHandler handleStairs29355_2 = new ObjectClickHandler(new Object[] { 29355 }, new Tile[] { Tile.of(3116, 9852, 0) }, e -> e.getPlayer().useStairs(833, Tile.of(3115, 3452, 0)));
+	public static ObjectClickHandler handleStairs65453 = new ObjectClickHandler(new Object[] { 65453 }, new Tile[] { Tile.of(3089, 9971, 0) }, e -> e.getPlayer().useStairs(833, Tile.of(3089, 9971, 0)));
+	public static ObjectClickHandler handleStairs12389 = new ObjectClickHandler(new Object[] { 12389 }, new Tile[] { Tile.of(3116, 3452, 0) }, e -> e.getPlayer().useStairs(833, Tile.of(3117, 9852, 0)));
+	public static ObjectClickHandler handleStrongholdOfPlayerSafety = new ObjectClickHandler(new Object[] { 29671, 29672, 29728, 29729 }, e -> {
+		switch (e.getObjectId()) {
+			case 29671 -> e.getPlayer().useStairs(-1, Tile.of(3174, 4273, 2), 0, 1);
+			case 29672 -> e.getPlayer().useStairs(-1, Tile.of(3171, 4271, 3), 0, 1);
+			case 29728 -> e.getPlayer().useStairs(-1, Tile.of(3158, 4280, 3), 0, 1);
+			case 29729 -> e.getPlayer().useStairs(-1, Tile.of(3078, 3463, 0), 0, 1);
+
+		}
+	});
+
 }

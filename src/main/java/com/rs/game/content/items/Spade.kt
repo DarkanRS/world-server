@@ -11,10 +11,12 @@ import com.rs.lib.game.Tile
 import com.rs.lib.util.Utils
 import com.rs.plugin.annotations.ServerStartupEvent
 import com.rs.plugin.kts.onItemClick
+import com.rs.plugin.kts.onObjectClick
 
 @ServerStartupEvent
 fun mapSpade() {
     onItemClick(952, options = arrayOf("Dig")) { dig(it.player) }
+    onObjectClick(66115, 66116) { dig(it.player) }
 }
 
 object Spade {
@@ -54,8 +56,6 @@ object Spade {
             //Pirate's Treasure
             if (player.questManager.getStage(Quest.PIRATES_TREASURE) == PiratesTreasure.GET_TREASURE) PiratesTreasure.findTreasure(player)
             player.sendMessage("You find nothing.")
-
-
         }
     }
 }

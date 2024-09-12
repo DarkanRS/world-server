@@ -29,7 +29,7 @@ import com.rs.game.content.quests.monksfriend.dialogues.BrotherCedricMonksFriend
 import com.rs.game.content.quests.monksfriend.dialogues.BrotherOmadMonksFriendD;
 import com.rs.game.content.skills.agility.Agility;
 import com.rs.game.content.skills.thieving.Thieving;
-import com.rs.game.content.world.AgilityShortcuts;
+import com.rs.game.content.world.areas.global.AgilityShortcuts;
 import com.rs.game.content.world.doors.Doors;
 import com.rs.game.ge.GE;
 import com.rs.engine.pathfinder.RouteEvent;
@@ -433,4 +433,54 @@ public class Ardougne  {
 
 	public static ObjectClickHandler handleObservatoryladderdown = new ObjectClickHandler(new Object[] { 25437 }, e -> e.getPlayer().tele(Tile.of(2444, 3162, 0)));
 
+	public static ObjectClickHandler handleLooseRailing = new ObjectClickHandler(new Object[] { 19171 }, e -> {
+		if (!Agility.hasLevel(e.getPlayer(), 20)) return;
+		e.getPlayer().useStairs(-1, Tile.of(e.getPlayer().getX() >= 2523 ? 2522 : 2523, 3375, 0), 1, 2, "You easily squeeze through the railing.");
+	});
+
+	public static ObjectClickHandler handleSpiralStairsUp = new ObjectClickHandler(new Object[] { 34548 }, e -> {
+		var player = e.getPlayer();
+		switch (e.getObject().getRotation()) {
+			case 0 -> player.useStairs(-1, player.transform(3, 0, 1), 1, 1);
+			case 1 -> player.useStairs(-1, player.transform(0, -3, 1), 1, 1);
+			case 2 -> player.useStairs(-1, player.transform(-3, 0, 1), 1, 1);
+			case 3 -> player.useStairs(-1, player.transform(0, 3, 1), 1, 1);
+		}
+	});
+
+	public static ObjectClickHandler handleSpiralStairsDown = new ObjectClickHandler(new Object[] { 34550 }, e -> {
+		var player = e.getPlayer();
+		switch (e.getObject().getRotation()) {
+			case 0 -> player.useStairs(-1, player.transform(-3, 0, -1), 1, 1);
+			case 1 -> player.useStairs(-1, player.transform(0, 3, -1), 1, 1);
+			case 2 -> player.useStairs(-1, player.transform(3, 0, -1), 1, 1);
+			case 3 -> player.useStairs(-1, player.transform(0, -3, -1), 1, 1);
+		}
+	});
+
+	public static ObjectClickHandler handleStairsUp = new ObjectClickHandler(new Object[] { 34567 }, e -> {
+		e.getPlayer().useStairs(-1, e.getPlayer().transform(e.getObject().getRotation() == 3 ? -3 : 3, 0, 1), 1, 1);
+	});
+
+	public static ObjectClickHandler handleStairsDown = new ObjectClickHandler(new Object[] { 34568 }, e -> {
+		e.getPlayer().useStairs(-1, e.getPlayer().transform(e.getObject().getRotation() == 3 ? 3 : -3, 0, -1), 1, 1);
+	});
+
+	public static ObjectClickHandler handleStairsUp1 = new ObjectClickHandler(new Object[] { 34498 }, e -> {
+		switch (e.getObject().getRotation()) {
+			case 0 -> e.getPlayer().useStairs(-1, e.getPlayer().transform(0, 3, 1), 1, 1);
+			case 1 -> e.getPlayer().useStairs(-1, e.getPlayer().transform(3, 0, 1), 1, 1);
+			case 2 -> e.getPlayer().useStairs(-1, e.getPlayer().transform(0, -3, 1), 1, 1);
+			case 3 -> e.getPlayer().useStairs(-1, e.getPlayer().transform(-3, 0, 1), 1, 1);
+		}
+	});
+
+	public static ObjectClickHandler handleStairsDown1 = new ObjectClickHandler(new Object[] { 34499 }, e -> {
+		switch (e.getObject().getRotation()) {
+			case 0 -> e.getPlayer().useStairs(-1, e.getPlayer().transform(0, -3, -1), 1, 1);
+			case 1 -> e.getPlayer().useStairs(-1, e.getPlayer().transform(-3, 0, -1), 1, 1);
+			case 2 -> e.getPlayer().useStairs(-1, e.getPlayer().transform(0, 3, -1), 1, 1);
+			case 3 -> e.getPlayer().useStairs(-1, e.getPlayer().transform(3, 0, -1), 1, 1);
+		}
+	});
 }

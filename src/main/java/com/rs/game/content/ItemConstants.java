@@ -28,6 +28,7 @@ import com.rs.lib.game.Rights;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
+import com.rs.plugin.handlers.ItemOnObjectHandler;
 import com.rs.utils.Ticks;
 
 import java.util.HashMap;
@@ -411,4 +412,9 @@ public class ItemConstants {
 			return false;
 		return item.getDefinitions().canExchange();
 	}
+
+	public static ItemOnObjectHandler handleArmorRepair = new ItemOnObjectHandler(new Object[] { 13715 }, new Object[] { 4207, 4212, 4213, 4214, 4215, 4216, 4217, 4218, 4219,4220, 4221, 4222, 4223, 4224, 4225, 4226, 4227, 4228, 4229, 4230,4231,4232,4233, 4234,
+		18349, 18350, 18351, 18352, 18353, 18354, 18355, 18356, 18357, 18358, 18359, 18360, 18361, 18362, 18363, 18364, 18365, 18366, 18367, 18368, 18369, 18370, 18371, 18372, 18373, 18374, 20120 },
+		e -> ItemConstants.handleRepairs(e.getPlayer(), e.getItem(), true, e.getItem().getSlot()));
+
 }

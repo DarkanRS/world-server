@@ -16,14 +16,21 @@
 //
 package com.rs.game.content.world.areas.wilderness;
 
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.statements.Statement;
+import com.rs.game.World;
 import com.rs.game.content.skills.agility.Agility;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.skills.thieving.Thieving;
+import com.rs.game.content.transportation.WildernessObelisk;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
-import com.rs.lib.game.Tile;
-import com.rs.lib.game.WorldObject;
+import com.rs.game.model.object.GameObject;
+import com.rs.game.tasks.Task;
+import com.rs.game.tasks.WorldTasks;
+import com.rs.lib.Constants;
+import com.rs.lib.game.*;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.DropSets;
@@ -93,6 +100,156 @@ public class Wilderness {
 			e.getPlayer().forceMove(Tile.of(2927, 3761, 0), 2050, 25, 60);
 	});
 
+	public static ObjectClickHandler handleTeleportObelisks = new ObjectClickHandler(new Object[] { 65616, 65617, 65618, 65619, 65620, 65621, 65622 }, e -> WildernessObelisk.activateObelisk(e.getObjectId(), e.getPlayer()));
 
+	public static ObjectClickHandler handleChaosAltar = new ObjectClickHandler(new Object[] { 65371 }, e -> e.getPlayer().getPrayer().worshipAltar());
+
+	public static ObjectClickHandler handleArmouredZombieTrapdoor = new ObjectClickHandler(new Object[] { 65715 }, e -> e.getPlayer().tele(Tile.of(3241, 9991, 0)));
+
+	public static ObjectClickHandler handleArmouredZombieLadder = new ObjectClickHandler(new Object[] { 39191 }, e -> {
+		e.getPlayer().useStairs(828, Tile.of(3240, 3607, 0), 1, 1);
+		e.getPlayer().getControllerManager().startController(new WildernessController());
+	});
+
+	public static ObjectClickHandler handleForinthryDungeon = new ObjectClickHandler(new Object[] { 18341, 20599, 18342, 20600 }, e -> {
+		Player player = e.getPlayer();
+		switch (e.getObjectId()) {
+			case 18341 -> player.useStairs(-1, Tile.of(3039, 3765, 0), 0, 1);
+			case 20599 -> player.useStairs(-1, Tile.of(3037, 10171, 0), 0, 1);
+			case 18342 -> player.useStairs(-1, Tile.of(3071, 3649, 0), 0, 1);
+			case 20600 -> player.useStairs(-1, Tile.of(3077, 10058, 0), 0, 1);
+		}
+	});
+
+	public static ObjectClickHandler handleSparklingPool = new ObjectClickHandler(new Object[] { 2878, 2879 }, e -> {
+		Player player = e.getPlayer();
+		int id = e.getObject().getId();
+
+		player.simpleDialogue("You step into the pool of sparkling water. You feel the energy rush through your veins.");
+		Tile destination = id == 2879 ? Tile.of(2509, 4687, 0) : Tile.of(2542, 4720, 0);
+		Tile teleportTarget = id == 2879 ? Tile.of(2542, 4718, 0) : Tile.of(2509, 4689, 0);
+
+		player.forceMove(destination, 13842, 0, 60, () -> {
+			player.anim(-1);
+			player.tele(teleportTarget);
+		});
+	});
+
+	public static ObjectClickHandler handleGodStatues = new ObjectClickHandler(new Object[] { 2873, 2874, 2875 }, e -> {
+		int id = e.getObjectId();
+		e.getPlayer().sendMessage("You kneel and begin to chant to " + e.getObject().getDefinitions().getName().replace("Statue of ", "") + "...");
+		e.getPlayer().setNextAnimation(new Animation(645));
+
+		WorldTasks.schedule(new Task() {
+			@Override
+			public void run() {
+				e.getPlayer().simpleDialogue("You feel a rush of energy charge through your veins. Suddenly a cape appears before you.");
+				Tile location = Tile.of(e.getObject().getX(), e.getObject().getY() - 1, 0);
+				World.sendSpotAnim(location, new SpotAnim(1605));
+				Item capeItem = new Item(id == 2873 ? 2412 : id == 2874 ? 2414 : 2413);
+				World.addGroundItem(capeItem, location);
+			}
+		}, 3);
+	});
+
+	public static ObjectClickHandler handleCorpCave = new ObjectClickHandler(new Object[] { 38811, 37928, 38815 }, e -> {
+		Player player = e.getPlayer();
+        switch (e.getObjectId()) {
+			case 38811 -> player.getInterfaceManager().sendInterface(650);
+			case 37929 -> {
+				player.stopAll();
+				player.tele(Tile.of(e.getPlayer().getX() == 2921 ? 2917 : 2921, e.getPlayer().getY(), player.getPlane()));
+			}
+			case 37928 -> {
+				player.stopAll();
+				player.tele(Tile.of(3214, 3782, 0));
+				player.getControllerManager().startController(new WildernessController());
+			}
+			case 38815 -> {
+				if (player.getSkills().getLevelForXp(Constants.WOODCUTTING) < 37 ||
+					player.getSkills().getLevelForXp(Constants.MINING) < 45 ||
+					player.getSkills().getLevelForXp(Constants.SUMMONING) < 23 ||
+					player.getSkills().getLevelForXp(Constants.FIREMAKING) < 47 ||
+					player.getSkills().getLevelForXp(Constants.PRAYER) < 55) {
+
+					player.sendMessage("You need 23 Summoning, 37 Woodcutting, 45 Mining, 47 Firemaking and 55 Prayer to enter this dungeon.");
+					return;
+				}
+				player.stopAll();
+				player.tele(Tile.of(2885, 4372, 2));
+				player.getControllerManager().forceStop();
+			}
+		}
+	});
+
+	public static ObjectClickHandler handleCorpCave2 = new ObjectClickHandler(new Object[] { 37929 }, new Tile[] { Tile.of(2918, 4382, 0) }, e -> {
+		e.getPlayer().stopAll();
+		e.getPlayer().tele(Tile.of(e.getPlayer().getX() == 2921 ? 2917 : 2921, e.getPlayer().getY(), e.getPlayer().getPlane()));
+	});
+
+	public static ObjectClickHandler handleWildyLevers = new ObjectClickHandler(new Object[] { 5959, 5960, 1814, 1815 }, e -> {
+		Player player = e.getPlayer();
+		switch (e.getObjectId()) {
+			case 5959 -> Magic.pushLeverTeleport(player, Tile.of(2539, 4712, 0));
+			case 5960 -> Magic.pushLeverTeleport(player, Tile.of(3089, 3957, 0));
+			case 1814 -> Magic.pushLeverTeleport(player, Tile.of(3155, 3923, 0));
+			case 1815 -> Magic.pushLeverTeleport(player, Tile.of(2561, 3311, 0));
+		}
+	});
+
+	public static ObjectClickHandler handlePiratesEnclave = new ObjectClickHandler(new Object[] { 65349, 32048 }, e -> {
+		switch (e.getObjectId()) {
+			case 65349 -> e.getPlayer().useStairs(-1, Tile.of(3044, 10325, 0), 0, 1);
+			case 32048 -> e.getPlayer().useStairs(-1, Tile.of(3045, 3927, 0), 0, 1);
+		}
+	});
+
+	public static boolean isDitch(int id) {
+		return id >= 1440 && id <= 1444 || id >= 65076 && id <= 65087;
+	}
+
+	public static ObjectClickHandler handleWildernessDitch = new ObjectClickHandler(new Object[] { 1440, 1441, 1442, 1443, 1444, 65076, 65077, 65078, 65079, 65080, 65081, 65082, 65083, 65084, 65085, 65086, 65087 }, e -> {
+		Player player = e.getPlayer();
+		GameObject object = e.getObject();
+
+		if (WildernessController.isDitch(e.getObjectId())) {
+			player.startConversation(new Dialogue()
+				.addNext(new Statement() {
+					@Override
+					public void send(Player player) {
+						player.getInterfaceManager().sendInterface(382);
+					}
+
+					@Override
+					public int getOptionId(int componentId) {
+						return componentId == 19 ? 0 : 1;
+					}
+
+					@Override
+					public void close(Player player) {
+						// No action needed on close
+					}
+				})
+				.addNext(() -> {
+					player.stopAll();
+					player.forceMove(
+						Tile.of(
+							object.getRotation() == 3 || object.getRotation() == 1 ? object.getX() - 1 : player.getX(),
+							object.getRotation() == 0 || object.getRotation() == 2 ? object.getY() + 2 : player.getY(),
+							object.getPlane()
+						),
+						6132,
+						25,
+						60,
+						() -> {
+							player.faceObject(object);
+							player.getControllerManager().startController(new WildernessController());
+							player.resetReceivedDamage();
+						}
+					);
+				})
+			);
+		}
+	});
 
 }

@@ -39,4 +39,5 @@ public class RepairStandD extends Conversation {
 		}
 		e.getPlayer().closeInterfaces();
 	});
+
 }

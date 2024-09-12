@@ -31,9 +31,13 @@ import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.util.Utils;
+import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.Ticks;
 import com.rs.utils.drop.DropSet;
 import com.rs.utils.drop.DropTable;
+
+import java.util.Arrays;
 
 /**
  * Handles the Thieving Skill
@@ -41,6 +45,7 @@ import com.rs.utils.drop.DropTable;
  * @author Dragonkk
  *
  */
+@PluginEventHandler
 public class Thieving {
 
 	public enum Stalls {
@@ -133,6 +138,10 @@ public class Thieving {
 
 		public double getExperience() {
 			return experience;
+		}
+
+		public static Object[] getAllStallIds() {
+			return Arrays.stream(Stalls.values()).map(Stalls::getObjectId).toArray(Object[]::new);
 		}
 	}
 
@@ -241,10 +250,47 @@ public class Thieving {
 		int chance = 0;
 		if (Equipment.getItemSlot(Equipment.HANDS) == 10075)
 			chance += 12;
-		player.getEquipment();
 		if (Equipment.getItemSlot(Equipment.CAPE) == 15349)
 			chance += 15;
 		return chance;
 	}
 
+	public static ObjectClickHandler handleThievingStalls = new ObjectClickHandler(Stalls.getAllStallIds(), e -> {
+		Thieving.handleStalls(e.getPlayer(), e.getObject());
+	});
+
+	public static ObjectClickHandler handleChests = new ObjectClickHandler(new Object[] { 22697, 22681 }, e -> {
+		if (e.getOption().equals("Pick-lock")) {
+			switch(e.getObjectId()) {
+				case 22697 -> {
+					Thieving.checkTrapsChest(e.getPlayer(), e.getObject(), 22683, 52, 210, 200, new DropSet(
+						new DropTable(1, 5, 995, 1, 200),
+						new DropTable(1, 5, 4537, 1),
+						new DropTable(1, 5, 4546, 1),
+						new DropTable(1, 5, 5014, 1),
+						new DropTable(1, 5, 10981, 1)
+					));
+				}
+				case 22681 -> {
+					Thieving.checkTrapsChest(e.getPlayer(), e.getObject(), 22683, 78, 300, 650, new DropSet(
+						new DropTable(1, 15, 1623, 1),
+						new DropTable(1, 15, 1621, 1),
+						new DropTable(1, 15, 1619, 1),
+						new DropTable(1, 15, 1617, 1),
+						new DropTable(1, 15, 1625, 1),
+						new DropTable(1, 15, 1627, 1),
+						new DropTable(1, 15, 1629, 1),
+						new DropTable(1, 15, 4546, 1),
+						new DropTable(1, 15, 5014, 1),
+						new DropTable(1, 15, 10954, 1),
+						new DropTable(1, 15, 10956, 1),
+						new DropTable(1, 15, 2351, 1),
+						new DropTable(1, 15, 10981, 1),
+						new DropTable(1, 15, 10973, 1),
+						new DropTable(1, 15, 10980, 1)
+					));
+				}
+			}
+		}
+	});
 }

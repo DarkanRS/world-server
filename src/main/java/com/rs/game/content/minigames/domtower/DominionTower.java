@@ -28,6 +28,7 @@ import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ButtonClickHandler;
+import com.rs.plugin.handlers.ObjectClickHandler;
 
 @PluginEventHandler
 public final class DominionTower {
@@ -118,6 +119,33 @@ public final class DominionTower {
 			else if (e.getComponentId() == 59)
 				e.getPlayer().getDominionTower().startEnduranceMode();
 	});
+
+	public static ObjectClickHandler handleDominionTowerInteractions = new ObjectClickHandler(new Object[] { 62675, 62678, 62679, 62688, 62677, 62680 }, e -> {
+		Player player = e.getPlayer();
+
+		switch (e.getObjectId()) {
+			case 62674 -> player.useStairs(-1, Tile.of(3744, 6405, 0), 0, 1);
+			case 62675 -> player.getCutsceneManager().play(new DTPreview());
+			case 62676 -> player.useStairs(-1, Tile.of(3374, 3093, 0), 0, 1);
+			case 62678, 62679 -> player.getDominionTower().openModes();
+			case 62688 -> player.startConversation(new Dialogue()
+				.addSimple("You have a Dominion Factor of " + player.getDominionTower().getDominionFactor() + ".")
+				.addOptions("If you claim your rewards your progress will be reset.", ops -> {
+					ops.add("Claim rewards", () -> player.getDominionTower().openRewardsChest());
+					ops.add("Nevermind.");
+				}));
+			case 62677 -> player.getDominionTower().talkToFace();
+			case 62680 -> player.getDominionTower().openBankChest();
+		}
+	});
+
+	public static ObjectClickHandler handleDominionTowerRewards = new ObjectClickHandler(new Object[] { 62677 }, e -> e.getPlayer().getDominionTower().openRewards());
+
+	public static ObjectClickHandler handleDominionFactor = new ObjectClickHandler(new Object[] { 62688 }, e -> {
+		String message = "You have a Dominion Factor of " + e.getPlayer().getDominionTower().getDominionFactor() + ".";
+		e.getPlayer().simpleDialogue(message);
+	});
+
 
 	private static final int[] MUSICS = { 1015, 1022, 1018, 1016, 1021 };
 

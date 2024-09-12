@@ -17,7 +17,9 @@
 package com.rs.game.content.skills.prayer;
 
 import com.rs.cache.loaders.ItemDefinitions;
+import com.rs.engine.dialogue.Dialogue;
 import com.rs.game.World;
+import com.rs.game.content.combat.CombatDefinitions;
 import com.rs.game.content.skills.prayer.Burying.Bone;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
@@ -27,6 +29,7 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
+import com.rs.plugin.handlers.ObjectClickHandler;
 
 import java.util.Arrays;
 
@@ -124,5 +127,28 @@ public class BoneAltar  {
 			return;
 		e.getPlayer().getActionManager().setAction(new BoneAction(altar, bone, e.getObject()));
 	});
+
+	public static ObjectClickHandler handleAltars = new ObjectClickHandler(new Object[] {"Altar", "Chaos altar", "Altar of guthix"}, e -> {
+		Player player = e.getPlayer();
+
+		if (e.getObject().getDefinitions().containsOption(0, "Pray") || e.getObject().getDefinitions().containsOption(0, "Pray-at") || e.getObject().getDefinitions().containsOption(0, "Recharge")) {
+			player.getPrayer().worshipAltar();
+			if (e.getObjectId() == 6552) {
+				player.startConversation(new Dialogue().addOptions("Change spellbooks?", ops -> {
+					ops.add("Yes, replace my spellbook.", () -> {
+						if (player.getCombatDefinitions().getSpellbook() != CombatDefinitions.Spellbook.ANCIENT) {
+							player.sendMessage("Your mind clears and you switch back to the ancient spellbook.");
+							player.getCombatDefinitions().setSpellbook(CombatDefinitions.Spellbook.ANCIENT);
+						} else {
+							player.sendMessage("Your mind clears and you switch back to the normal spellbook.");
+							player.getCombatDefinitions().setSpellbook(CombatDefinitions.Spellbook.MODERN);
+						}
+					});
+					ops.add("Nevermind.");
+				}));
+			}
+		}
+	}
+	);
 
 }

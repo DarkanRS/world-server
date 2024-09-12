@@ -17,6 +17,9 @@
 package com.rs.game.content.skills.runecrafting;
 
 import com.rs.cache.loaders.ItemDefinitions;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.quest.Quest;
+import com.rs.game.content.combat.CombatDefinitions;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
@@ -26,6 +29,7 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
+import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
@@ -598,7 +602,24 @@ public class Runecrafting {
 			default -> null;
 		};
 
-		if (e.getObject().getId() == 26847)
+		if (e.getObjectId() == 17010 && e.getOpNum() == ClientPacket.OBJECT_OP2) {
+			e.getPlayer().startConversation(new Dialogue().addOptions("Change spellbooks?", ops -> {
+				ops.add("Yes, replace my spellbook.", () -> {
+					if (e.getPlayer().getCombatDefinitions().getSpellbook() != CombatDefinitions.Spellbook.LUNAR) {
+						if (!e.getPlayer().isQuestComplete(Quest.LUNAR_DIPLOMACY, "to use the Lunar Spellbook."))
+							return;
+						e.getPlayer().sendMessage("Your mind clears and you switch back to the ancient spellbook.");
+						e.getPlayer().getCombatDefinitions().setSpellbook(CombatDefinitions.Spellbook.LUNAR);
+					} else {
+						e.getPlayer().sendMessage("Your mind clears and you switch back to the normal spellbook.");
+						e.getPlayer().getCombatDefinitions().setSpellbook(CombatDefinitions.Spellbook.MODERN);
+					}
+				});
+				ops.add("Nevermind.");
+			}));
+		}
+
+		if (e.getObjectId() == 26847)
 			Runecrafting.craftZMIAltar(e.getPlayer());
 		else if (rune != null)
 			Runecrafting.runecraft(e.getPlayer(), rune, false);

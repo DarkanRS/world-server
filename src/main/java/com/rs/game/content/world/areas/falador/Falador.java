@@ -16,15 +16,16 @@
 //
 package com.rs.game.content.world.areas.falador;
 
+import com.rs.game.content.items.Spade;
 import com.rs.game.content.skills.agility.Agility;
-import com.rs.game.content.world.AgilityShortcuts;
-import com.rs.game.model.entity.Entity;
+import com.rs.game.content.world.areas.global.AgilityShortcuts;
 import com.rs.engine.pathfinder.Direction;
 import com.rs.game.model.entity.player.Player;
+import com.rs.game.model.object.GameObject;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Tile;
 import com.rs.lib.game.WorldObject;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.plugin.handlers.PlayerStepHandler;
 
@@ -100,6 +101,47 @@ public class Falador {
 			e.getPlayer().tele(e.getPlayer().transform(e.getObject().getRotation() == 3 ? 0 : e.getObject().getRotation() == 0 ? -0 : 0, e.getObject().getRotation() == 3 ? -0 : e.getObject().getRotation() == 0 ? 4 : 0, 1));
 		else if (e.getObjectId() == 11737)
 			e.getPlayer().tele(e.getPlayer().transform(e.getObject().getRotation() == 3 ? -0 : e.getObject().getRotation() == 0 ? -0 : 0, e.getObject().getRotation() == 3 ? 0 : e.getObject().getRotation() == 0 ? -4 : 0, -1));
+	});
+
+	public static ObjectClickHandler handleArtisansWorkshopTunnelExit = new ObjectClickHandler(new Object[] { 29391, 29392 }, e -> {
+		switch(e.getObjectId()) {
+			case 29391 -> e.getPlayer().useStairs(-1, Tile.of(3037, 3342, 0), 1, 1);
+			case 29392 -> e.getPlayer().useStairs(-1, Tile.of(3061, 3335, 0), 1, 1);
+		}
+	});
+
+	public static ObjectClickHandler getHandleArtisansWorkshopEntrance = new ObjectClickHandler(new Object[] { 29385, 29386, 29387 }, e -> {
+		switch (e.getObjectId()) {
+			case 29385, 29386 -> e.getPlayer().useStairs(-1, Tile.of(3067, 9710, 0), 1, 1);
+			case 29387 -> e.getPlayer().useStairs(-1, Tile.of(3035, 9713, 0), 1, 1);
+		}
+	});
+
+	public static ObjectClickHandler handGiantMoleEntrance = new ObjectClickHandler(new Object[] { 12202 }, e -> {
+		Player player = e.getPlayer();
+		GameObject object = e.getObject();
+
+		if (!player.getInventory().containsItem(952, 1)) {
+			player.sendMessage("You need a spade to dig this.");
+			return;
+		}
+
+		if (player.getX() != object.getX() || player.getY() != object.getY()) {
+				player.lock();
+				player.addWalkSteps(object.getX(), object.getY());
+				WorldTasks.schedule(1, () -> Spade.dig(player));
+		} else {
+			Spade.dig(player);
+		}
+	});
+
+	public static ObjectClickHandler handGiantMoleExit = new ObjectClickHandler(new Object[] { 12230 }, e -> e.getPlayer().tele(Tile.of(2996, 3378, 0)));
+
+	public static ObjectClickHandler handleWhiteKnightStairs = new ObjectClickHandler(new Object[]{11724, 11725}, e -> {
+		switch (e.getObjectId()) {
+			case 11724 -> e.getPlayer().useStairs(-1, Tile.of(2968, 3348, 1), 0, 1);
+			case 11725 -> e.getPlayer().useStairs(-1, Tile.of(2971, 3347, 0), 0, 1);
+		}
 	});
 
 }

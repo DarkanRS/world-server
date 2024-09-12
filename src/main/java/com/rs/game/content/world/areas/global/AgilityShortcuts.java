@@ -14,7 +14,7 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.content.world;
+package com.rs.game.content.world.areas.global;
 
 import com.rs.cache.loaders.animations.AnimationDefinitions;
 import com.rs.game.model.entity.player.Player;

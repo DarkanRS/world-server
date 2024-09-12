@@ -33,6 +33,8 @@ import com.rs.game.model.entity.async.schedule
 import com.rs.game.model.entity.player.Equipment
 import com.rs.game.model.entity.player.Player
 import com.rs.game.model.entity.player.Skills
+import com.rs.game.tasks.Task
+import com.rs.game.tasks.WorldTasks
 import com.rs.lib.game.Tile
 import com.rs.lib.net.ClientPacket
 import com.rs.plugin.annotations.ServerStartupEvent

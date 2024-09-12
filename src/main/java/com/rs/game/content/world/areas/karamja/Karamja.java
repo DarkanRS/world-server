@@ -19,6 +19,7 @@ package com.rs.game.content.world.areas.karamja;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.quest.Quest;
+import com.rs.game.World;
 import com.rs.game.content.quests.dragonslayer.DragonSlayer;
 import com.rs.game.content.skills.agility.Agility;
 import com.rs.game.content.world.FurnacesKt;
@@ -26,12 +27,14 @@ import com.rs.game.content.world.doors.Doors;
 import com.rs.engine.pathfinder.Direction;
 import com.rs.engine.pathfinder.RouteEvent;
 import com.rs.game.model.entity.player.Player;
+import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Tile;
 import com.rs.lib.game.WorldObject;
 import com.rs.lib.net.ClientPacket;
+import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
@@ -267,6 +270,50 @@ public class Karamja  {
 			String message = (dragonSlayerStage < PREPARE_FOR_CRANDOR) ? "I shouldn't need to go in there." : "I shouldn't need to go back in there.";
 			p.sendMessage(message);
 		}
+	});
+
+	public static ObjectClickHandler handleHerbloreHabitatVines = new ObjectClickHandler(new Object[] { 56805 }, e -> {
+		switch (e.getObject().getRotation()) {
+			case 3,4 -> Agility.handleObstacle(e.getPlayer(), 3303, 1, e.getPlayer().transform(e.getPlayer().getX() < e.getObject().getX() ? 2 : -2, 0, 0), 0);
+			default -> Agility.handleObstacle(e.getPlayer(), 3303, 1, e.getPlayer().transform(0, e.getPlayer().getY() < e.getObject().getY() ? 2 : -2, 0), 0);
+		}
+	});
+
+	public static ObjectClickHandler handleVineHerbEntrance = new ObjectClickHandler(new Object[] { 27126 }, new Tile[] { Tile.of(2963, 2904, 0) }, e -> e.getPlayer().tele(Tile.of(e.getPlayer().getX() + 12, e.getPlayer().getY() + 2, e.getPlayer().getPlane())));
+
+	public static ObjectClickHandler handleVineHerbExit = new ObjectClickHandler(new Object[] { 27126 }, new Tile[] { Tile.of(2977, 2906, 0) }, e -> e.getPlayer().tele(Tile.of(e.getPlayer().getX() - 12, e.getPlayer().getY() - 2, e.getPlayer().getPlane())));
+
+	public static ObjectClickHandler handleJadinkoLairEntrance = new ObjectClickHandler(new Object[] { 12328 }, e -> e.getPlayer().tele(Tile.of(3011, 9276, 0)));
+
+	public static ObjectClickHandler handleJadinkoLairExit = new ObjectClickHandler(new Object[] { 12327 }, e -> e.getPlayer().tele(Tile.of(2948, 2955, 0)));
+
+	public static ObjectClickHandler handleKhazariJungleTrees = new ObjectClickHandler(new Object[] { 2890, 2892, 2893 }, e -> {
+		Player player = e.getPlayer();
+		GameObject object = e.getObject();
+
+		if (player.getEquipment().getWeaponId() != 975 && !player.getInventory().containsItem(975, 1) &&
+			player.getEquipment().getWeaponId() != 6313 && !player.getInventory().containsItem(6313, 1) &&
+			player.getEquipment().getWeaponId() != 6315 && !player.getInventory().containsItem(6315, 1) &&
+			player.getEquipment().getWeaponId() != 6317 && !player.getInventory().containsItem(6317, 1)) {
+			player.sendMessage("You need a machete in order to cut through the terrain.");
+			return;
+		}
+
+		player.anim(910);
+		WorldTasks.schedule(() -> {
+			if (Utils.random(3) == 0) {
+				player.sendMessage("You fail to slash through the terrain.");
+				return;
+			}
+			GameObject newObject = new GameObject(object);
+			newObject.setId(e.getObjectId() + 1);
+			World.spawnObjectTemporary(newObject, 8);
+			player.addWalkSteps(object.getX(), object.getY(), 0, false);
+		});
+	});
+
+	public static ObjectClickHandler handleRocksToCairnIsle = new ObjectClickHandler(new Object[] { 2231 }, e -> {
+		e.getPlayer().useStairs(-1, Tile.of(e.getObject().getX() == 2792 ? 2795 : 2791, 2979, 0), 1, 2, e.getObject().getX() == 2792 ? "You climb down the slope." : "You climb up the slope.");
 	});
 
 }
