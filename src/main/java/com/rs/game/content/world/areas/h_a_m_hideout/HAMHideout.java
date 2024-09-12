@@ -12,7 +12,7 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.Ticks;
 
 @PluginEventHandler
-public class hamDoors {
+public class HAMHideout {
     public static ObjectClickHandler handleHAMEntranceTrapdoor = new ObjectClickHandler(new Object[]{ 5490, 5492 }, Tile.of(3165, 3252, 0), e -> {
         switch (e.getOption()) {
             case "Open" -> e.getPlayer().sendMessage("The trapdoor is securely locked");
@@ -77,5 +77,7 @@ public class hamDoors {
             player.unlock();
         }
     }
+
+    public static ObjectClickHandler handleLadder = new ObjectClickHandler(new Object[] { 5493 }, e -> e.getPlayer().ladder(Tile.of(3165, 3251, 0)));
 
 }

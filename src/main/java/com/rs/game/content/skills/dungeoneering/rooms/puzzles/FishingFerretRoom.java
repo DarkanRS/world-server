@@ -174,8 +174,8 @@ public class FishingFerretRoom extends PuzzleRoom {
 			return false;
 		}
 		player.lock(2);
-		player.setNextAnimation(new Animation(13325));
-		player.setNextSpotAnim(new SpotAnim(2521));
+		player.anim(13325);
+		player.spotAnim(2521);
 		player.getInventory().deleteItem(item);
 		player.faceObject(object);
 		player.sendMessage("You throw the fish.");

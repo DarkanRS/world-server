@@ -2,13 +2,13 @@ package com.rs.game.content.world.areas.desert
 
 import com.rs.engine.dialogue.HeadE.*
 import com.rs.engine.dialogue.startConversation
+import com.rs.game.content.skills.agility.agilitypyramid.AgilityPyramidController
+import com.rs.game.content.world.areas.dungeons.UndergroundDungeonController
 import com.rs.lib.game.Tile
 import com.rs.plugin.annotations.ServerStartupEvent
-import com.rs.plugin.kts.onItemClick
-import com.rs.plugin.kts.onLogin
-import com.rs.plugin.kts.onNpcClick
-import com.rs.plugin.kts.onObjectClick
+import com.rs.plugin.kts.*
 import com.rs.utils.shop.ShopsHandler
+
 
 enum class CarpetLocation(val npcId: Int, val tile: Tile) {
     SHANTAY_PASS(2291, Tile.of(3308, 3109, 0)),
@@ -204,4 +204,48 @@ fun mapDesertInteractions() {
         player.anim(11146)
     }
 
+    onObjectClick(16535) { (player, obj) ->
+        player.controllerManager.startController(AgilityPyramidController())
+        AgilityPyramidController.climbRocks(player, obj)
+    }
+
+    onObjectClick(36002) { (player) ->
+        player.useStairs(833, Tile.of(3206, 9379, 0))
+        player.controllerManager.startController(UndergroundDungeonController(true, false))
+    }
+
+    onObjectClick(31359) { (player) ->
+        player.useStairs(-1, Tile.of(3360, 9352, 0))
+        player.controllerManager.startController(UndergroundDungeonController(true, true))
+    }
+
+    onObjectClick(3829) { (player) ->
+        player.useStairs(828, Tile.of(3226, 3108, 0))
+    }
+
+    onObjectClick(3832) { (player) ->
+        player.useStairs(828, Tile.of(3509, 9496, 2))
+    }
+
+    onObjectClick(48802) { (player) ->
+        player.tele(Tile.of(3483, 9510, 2))
+    }
+
+    onObjectClick(48803) { (player) ->
+        player.tele(Tile.of(3508, 9494, 0))
+    }
+
+    //Entrance to Kalphite Queen
+    onItemOnObject(objectNamesOrIds = arrayOf(48803), itemNamesOrIds = arrayOf(954)) { (player) ->
+        if (player.vars.getVarBit(7263) == 1) return@onItemOnObject  // Do nothing if the condition is met
+        player.inventory.deleteItem(954, 1)
+        player.vars.saveVarBit(7263, 1)
+    }
+
+    //Entrance to Kalphite cave
+    onItemOnObject(objectNamesOrIds = arrayOf(48802), itemNamesOrIds = arrayOf(954)) { (player) ->
+        if (player.vars.getVarBit(7262) == 1) return@onItemOnObject
+        player.inventory.deleteItem(954, 1)
+        player.vars.saveVarBit(7262, 1)
+    }
 }

@@ -109,4 +109,18 @@ public class Burthorpe {
                 }
             });
     });
+
+    public static ObjectClickHandler handleRoguesDenTrapdoor = new ObjectClickHandler(new Object[] { 66518 }, new Tile[] { Tile.of(2897, 3447, 0) }, e ->  { e.getPlayer().useStairs(828, Tile.of(3047, 4971, 0)); });
+    public static ObjectClickHandler handleRoguesDenPassageway = new ObjectClickHandler(new Object[] { 7258 }, new Tile[] { Tile.of(2897, 3447, 0) }, e ->  { e.getPlayer().useStairs(-1, Tile.of(2896, 3447, 0), 1, 1); });
+    public static ObjectClickHandler handleSpiralStairs = new ObjectClickHandler(new Object[] { 7104, 7107 }, e -> {
+        switch (e.getObject().getId()) {
+            case 7104 -> e.getPlayer().useStairs(-1, e.getPlayer().transform(4, -2, 1), 1, 1);
+            case 7107 -> e.getPlayer().useStairs(-1, e.getPlayer().transform(-4, 2, -1), 1, 1);
+        }
+    });
+
+    public static ObjectClickHandler handleGamesRoomStairsDown = new ObjectClickHandler(new Object[] { 66973 }, e -> e.getPlayer().useStairs(-1, Tile.of(2206, 4934, 1), 1, 1));
+    public static ObjectClickHandler handleGamesRoomStairsDown2 = new ObjectClickHandler(new Object[] { 4620 }, e -> e.getPlayer().useStairs(-1, e.getPlayer().transform(0, e.getObject().getRotation() == 2 ? 4 : -4, -1), 1, 1));
+    public static ObjectClickHandler handleGamesRoomStairsUp = new ObjectClickHandler(new Object[] { 4622 }, e -> e.getPlayer().useStairs(-1, e.getPlayer().transform(0, e.getObject().getRotation() == 2 ? -4 : 4, 1), 1, 1));
+    public static ObjectClickHandler handleGamesRoomStairsUp2 = new ObjectClickHandler(new Object[] { 4627 }, e -> e.getPlayer().useStairs(-1, Tile.of(2893, 3567, 0), 1, 1));
 }

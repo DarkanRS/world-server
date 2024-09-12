@@ -16,7 +16,7 @@ public class ObeliskGlobal {
 		case "Renew-points" -> {
 			if (e.getPlayer().getSkills().getLevel(Constants.SUMMONING) < e.getPlayer().getSkills().getLevelForXp(Constants.SUMMONING)) {
 				e.getPlayer().sendMessage("You touch the obelisk", true);
-				e.getPlayer().setNextAnimation(new Animation(8502));
+				e.getPlayer().anim(8502);
 				World.sendSpotAnim(e.getObject().getTile(), new SpotAnim(1308));
 				WorldTasks.schedule(2, () -> {
 					e.getPlayer().getSkills().set(Constants.SUMMONING, e.getPlayer().getSkills().getLevelForXp(Constants.SUMMONING));
@@ -26,5 +26,20 @@ public class ObeliskGlobal {
 		}
 		}
 	});
-	
+
+	public static ObjectClickHandler handleSmallObelisk = new ObjectClickHandler(new Object[] { "Small obelisk" }, e -> {
+		if (e.getObject().getDefinitions().containsOption(0, "Renew-points")) {
+			int summonLevel = e.getPlayer().getSkills().getLevelForXp(Constants.SUMMONING);
+			if (e.getPlayer().getSkills().getLevel(Constants.SUMMONING) < summonLevel) {
+				e.getPlayer().lock(3);
+				e.getPlayer().anim(8502);
+				e.getPlayer().getSkills().set(Constants.SUMMONING, summonLevel);
+				e.getPlayer().sendMessage("You have recharged your Summoning points.", true);
+			} else {
+				e.getPlayer().sendMessage("You already have full Summoning points.");
+			}
+		}
+	}
+	);
+
 }

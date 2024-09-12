@@ -352,4 +352,8 @@ ops.add("No action.");
 		return total;
 	}
 
+	public static ObjectClickHandler handlePartyRoomChest = new ObjectClickHandler(new Object[] { 26193 }, e -> {
+		PartyRoom.openChest(e.getPlayer());
+	});
+
 }

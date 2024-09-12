@@ -29,10 +29,9 @@ import com.rs.game.content.achievements.AchievementSystemD;
 import com.rs.game.content.achievements.SetReward;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.skills.magic.TeleType;
-import com.rs.game.content.world.AgilityShortcuts;
+import com.rs.game.content.world.areas.global.AgilityShortcuts;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
-import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -193,4 +192,8 @@ public class Rellekka {
 				.addNPC(1270, HeadE.T_CONFUSED, "Mmmm.. Here den, take some and leave Lalli alone!")
 				.addItem(3693, "The troll hands you some golden fleece.", () -> e.getPlayer().getInventory().addItem(3693, 1)));
 	});
+
+	public static ObjectClickHandler handleSteps = new ObjectClickHandler(new Object[] { 19690, 19691 }, e -> e.getPlayer().useStairs(-1, e.getPlayer().transform(0, e.getObjectId() == 19690 ? 4 : -4, 1), 0, 1));
+	public static ObjectClickHandler handleCaveExit = new ObjectClickHandler(new Object[] { 23158 }, e -> e.getPlayer().useStairs(-1, Tile.of(2730, 3734, 0), 0, 1));
+
 }

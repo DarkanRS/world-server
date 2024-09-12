@@ -58,4 +58,22 @@ fun mapApeAtoll() {
 	onObjectClick(4859) { (player) ->
 		player.prayer.worshipAltar()
 	}
+
+	onObjectClick(4755) { (player, obj) ->
+		when (obj.rotation) {
+			0 -> player.useStairs(-1, player.transform(0, -4, -1), 1, 1);
+			1 -> player.useStairs(-1, player.transform(4, 0, -1), 1, 1);
+			2 -> player.useStairs(-1, player.transform(0, 4, -1), 1, 1);
+			3 -> player.useStairs(-1, player.transform(-4, 0, -1), 1, 1);
+		}
+	}
+
+	onObjectClick(4756) { (player, obj) ->
+		when (obj.rotation) {
+			0 -> player.useStairs(-1, player.transform(0, 4, 1), 1, 1);
+			1 -> player.useStairs(-1, player.transform(-4, 0, 1), 1, 1);
+			2 -> player.useStairs(-1, player.transform(0, -4, 1), 1, 1);
+			3 -> player.useStairs(-1, player.transform(4, 0, 1), 1, 1);
+		}
+	}
 }

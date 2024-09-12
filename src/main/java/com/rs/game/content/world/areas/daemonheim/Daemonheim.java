@@ -49,13 +49,15 @@ public class Daemonheim {
 					}));
 	});
 
-	public static ObjectClickHandler staircasetosecondfloorleft = new ObjectClickHandler(new Object[] { 48612 }, e -> e.getPlayer().tele(Tile.of(3448, 3738, 1)));
+	public static ObjectClickHandler staircaseToSecondFloorLeft = new ObjectClickHandler(new Object[] { 48612 }, e -> e.getPlayer().tele(Tile.of(3448, 3738, 1)));
 
-	public static ObjectClickHandler staircasetofirstfloorleft= new ObjectClickHandler(new Object[] { 50567 }, e -> e.getPlayer().tele(Tile.of(3447, 3732, 0)));
+	public static ObjectClickHandler staircaseToFirstFloorLeft= new ObjectClickHandler(new Object[] { 50567 }, e -> e.getPlayer().tele(Tile.of(3447, 3732, 0)));
 
-	public static ObjectClickHandler staircasetosecondfloorright = new ObjectClickHandler(new Object[] { 48611 }, e -> e.getPlayer().tele(Tile.of(3451, 3738, 1)));
+	public static ObjectClickHandler staircaseToSecondFloorRight = new ObjectClickHandler(new Object[] { 48611 }, e -> e.getPlayer().tele(Tile.of(3451, 3738, 1)));
 
-	public static ObjectClickHandler staircasetofirstfloorright= new ObjectClickHandler(new Object[] { 50568 }, e -> e.getPlayer().tele(Tile.of(3452, 3732, 0)));
+	public static ObjectClickHandler staircaseToFirstFloorRight= new ObjectClickHandler(new Object[] { 50568 }, e -> e.getPlayer().tele(Tile.of(3452, 3732, 0)));
+
+	public static ObjectClickHandler dungeonEntranceLeft = new ObjectClickHandler(new Object[] { 48496 }, e -> e.getPlayer().getDungManager().enterDungeon(true));
 
 	public static NPCClickHandler handleRewardsTrader = new NPCClickHandler(new Object[] { 9711 }, e -> {
 		Player p = e.getPlayer();

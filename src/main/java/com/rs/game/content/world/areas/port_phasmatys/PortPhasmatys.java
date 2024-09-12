@@ -87,4 +87,16 @@ public class PortPhasmatys {
 		case 7434 -> e.getPlayer().useStairs(828, Tile.of(3682, 9961, 0), 1, 2);
 		}
 	});
+
+    public static ObjectClickHandler energyBarrier = new ObjectClickHandler(new Object[] { 5259 }, e -> {
+        switch(e.getPlayer().getY()) {
+            case 3507 -> e.getPlayer().tele(Tile.of(e.getPlayer().getX(), e.getPlayer().getY() + 2, 0));
+            case 3509 -> e.getPlayer().tele(Tile.of(e.getPlayer().getX(), e.getPlayer().getY() - 2, 0));
+        }
+    });
+
+    public static ObjectClickHandler handleGangplanks = new ObjectClickHandler(new Object[] { 11209, 11210, 17392, 17393 }, e -> {
+        boolean entering = e.getPlayer().getX() < e.getObject().getX();
+        e.getPlayer().useStairs(-1, e.getPlayer().transform(entering ? 3 : -3, 0, entering ? 1 : -1), 0, 1);
+    });
 }

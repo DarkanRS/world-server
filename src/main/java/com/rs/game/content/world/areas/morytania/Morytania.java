@@ -26,7 +26,7 @@ import com.rs.game.content.achievements.SetReward;
 import com.rs.game.content.skills.agility.Agility;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.skills.magic.TeleType;
-import com.rs.game.content.world.AgilityShortcuts;
+import com.rs.game.content.world.areas.global.AgilityShortcuts;
 import com.rs.game.content.world.doors.Doors;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;

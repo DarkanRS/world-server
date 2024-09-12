@@ -26,7 +26,10 @@ import com.rs.game.content.achievements.AchievementSystemD;
 import com.rs.game.content.achievements.SetReward;
 import com.rs.game.content.quests.RuneMysteries;
 import com.rs.game.content.quests.dragonslayer.DragonSlayer;
+import com.rs.game.content.world.areas.dungeons.UndergroundDungeonController;
 import com.rs.game.model.entity.player.Player;
+import com.rs.game.tasks.Task;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -243,4 +246,66 @@ public class Lumbridge {
 	public static ObjectClickHandler handleChurchLaddersT2Up = new ObjectClickHandler(new Object[] { 36988, 36989 }, e -> e.getPlayer().useLadder(e.getPlayer().transform(e.getObjectId() == 36988 ? -1 : 1, -1, 1)));
 
 	public static ObjectClickHandler handleChurchLaddersT2Down = new ObjectClickHandler(new Object[] { 36990, 36991 }, e -> e.getPlayer().useLadder(e.getPlayer().transform(e.getObjectId() == 36990 ? 1 : -1, 1, -1)));
+
+	public static ObjectClickHandler handleKitchenTrapdoor = new ObjectClickHandler(new Object[] { 36687 }, e -> e.getPlayer().useStairs(828, Tile.of(e.getPlayer().getX(), e.getPlayer().getY() + 6400, 0)));
+
+	public static ObjectClickHandler handleCrateOfHammers = new ObjectClickHandler(new Object[] { 15468 }, e -> {
+		Player player = e.getPlayer();
+		if (!player.getInventory().containsItem(2347, 1)) {
+			player.getInventory().addItem(2347, 1);
+			player.sendMessage("You take a hammer.");
+			return;
+		}
+		player.sendMessage("You don't need another one right now.");
+	});
+
+	public static ObjectClickHandler handleDarkHole = new ObjectClickHandler(new Object[] { 5947 }, e -> {
+		e.getPlayer().useStairs(540, Tile.of(3170, 9571, 0), 8, 9); // Move the player using stairs
+		e.getPlayer().getTasks().schedule(8, () -> {
+			e.getPlayer().getControllerManager().startController(new UndergroundDungeonController(false, true));
+			e.getPlayer().anim(-1);
+		});
+	});
+
+	public static ObjectClickHandler handleChasmOfTearsTunnel = new ObjectClickHandler(new Object[] { 6658 }, e -> {
+		e.getPlayer().useStairs(-1, Tile.of(3226, 9542, 0));
+		e.getPlayer().getControllerManager().startController(new UndergroundDungeonController(false, true));
+	});
+
+	public static ObjectClickHandler handleKitchenBasementHole = new ObjectClickHandler(new Object[] { 6898 }, e -> {
+		e.getPlayer().useStairs(10578, e.getObject().getTile());
+		e.getPlayer().useStairs(10579, Tile.of(3221, 9618, 0));
+		e.getPlayer().getControllerManager().startController(new UndergroundDungeonController(false, true));
+		e.getPlayer().sendMessage("You squeeze through the hole.");
+	});
+
+	public static ObjectClickHandler handleBloodPactStairs = new ObjectClickHandler(new Object[] { 48797, 48798, 48678, 48677, 48679, 48688, 48683, 48682 }, e -> {
+		Player player = e.getPlayer();
+		int x = e.getObject().getX();
+		int y = e.getObject().getY();
+
+		switch (e.getObjectId()) {
+			case 48797 -> player.useStairs(-1, Tile.of(3877, 5526, 1), 0, 1);
+			case 48798 -> player.useStairs(-1, Tile.of(3246, 3198, 0), 0, 1);
+			case 48678 -> {
+				if (x == 3858 && y == 5533) {
+					player.useStairs(-1, Tile.of(3861, 5533, 0), 0, 1);
+				} else if (x == 3858 && y == 5543) {
+					player.useStairs(-1, Tile.of(3861, 5543, 0), 0, 1);
+				}
+			}
+			case 48677 -> {
+				if (x == 3858 && y == 5543) {
+					player.useStairs(-1, Tile.of(3856, 5543, 1), 0, 1);
+				} else if (x == 3858 && y == 5533) {
+					player.useStairs(-1, Tile.of(3856, 5533, 1), 0, 1);
+				}
+			}
+			case 48679 -> player.useStairs(-1, Tile.of(3875, 5527, 1), 0, 1);
+			case 48688 -> player.useStairs(-1, Tile.of(3972, 5565, 0), 0, 1);
+			case 48683 -> player.useStairs(-1, Tile.of(3868, 5524, 0), 0, 1);
+			case 48682 -> player.useStairs(-1, Tile.of(3869, 5524, 0), 0, 1);
+		}
+	});
+
 }

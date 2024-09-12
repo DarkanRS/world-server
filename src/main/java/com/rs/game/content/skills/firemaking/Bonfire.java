@@ -32,6 +32,7 @@ import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
+import com.rs.plugin.handlers.ObjectClickHandler;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -201,5 +202,11 @@ public class Bonfire extends PlayerAction {
 
 		}, 3);
 	}
+
+	public static ObjectClickHandler bonfires = new ObjectClickHandler(new Object[] { "Fire" }, e -> {
+		if (e.getOption().equals("Add-logs")) {
+			Bonfire.addLogs(e.getPlayer(), e.getObject());
+		}
+	});
 
 }

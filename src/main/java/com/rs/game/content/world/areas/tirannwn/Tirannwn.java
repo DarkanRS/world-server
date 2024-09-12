@@ -23,7 +23,7 @@ import com.rs.engine.dialogue.Options;
 import com.rs.engine.quest.Quest;
 import com.rs.game.content.skills.agility.Agility;
 import com.rs.game.content.skills.magic.Magic;
-import com.rs.game.content.world.AgilityShortcuts;
+import com.rs.game.content.world.areas.global.AgilityShortcuts;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Tile;
 import com.rs.lib.game.WorldObject;
@@ -329,4 +329,25 @@ public class Tirannwn {
         e.getPlayer().getInventory().refresh(e.getItem().getSlot());
     }));
 
+	public static ObjectClickHandler handlePoisonWasteCaveEntrance = new ObjectClickHandler(new Object[] { 26684, 26685, 26686 }, e -> e.getPlayer().useStairs(-1, Tile.of(1989, 4174, 0), 1, 2, "You enter the murky cave..."));
+
+	public static ObjectClickHandler handlePoisonWasteCaveExit = new ObjectClickHandler(new Object[] { 26571, 26572, 26573, 26574 }, e -> e.getPlayer().useStairs(-1, Tile.of(2321, 3100, 0)));
+
+	public static ObjectClickHandler handleWarpedTreeRoots = new ObjectClickHandler(new Object[] { 26560 }, new Tile[] { Tile.of(2015, 4255, 1) }, e -> e.getPlayer().simpleDialogue("The room beyond the door is covered in gas, it is probably dangerous to go in there."));
+
+	public static ObjectClickHandler handleSewerLaddersDown = new ObjectClickHandler(new Object[] { 26519 }, e -> {
+		if (e.objectAt(2041, 4189) || e.objectAt(2041, 4172)) {
+			e.getPlayer().useStairs(827, e.getPlayer().transform(-1, 0, -1));
+		} else {
+			e.getPlayer().useStairs(827, e.getPlayer().transform(0, -1, -1));
+		}
+	});
+
+	public static ObjectClickHandler handleSewerLaddersUp = new ObjectClickHandler(new Object[] { 26518 }, e -> {
+		if (e.objectAt(2041, 4189) || e.objectAt(2041, 4172)) {
+			e.getPlayer().useStairs(827, e.getPlayer().transform(1, 0, 1));
+		} else {
+			e.getPlayer().useStairs(827, e.getPlayer().transform(0, 1, 1));
+		}
+	});
 }

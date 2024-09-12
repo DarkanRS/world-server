@@ -33,7 +33,7 @@ import com.rs.game.content.quests.scorpioncatcher.ScorpionCatcher;
 import com.rs.game.content.quests.scorpioncatcher.SeerScorpionCatcherD;
 import com.rs.game.content.quests.scorpioncatcher.ThormacScorpionCatcherD;
 import com.rs.game.content.skills.agility.Agility;
-import com.rs.game.content.world.AgilityShortcuts;
+import com.rs.game.content.world.areas.global.AgilityShortcuts;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
