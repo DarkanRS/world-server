@@ -3,11 +3,12 @@ package com.rs.game.model.entity.npc.combat
 import com.rs.game.World
 import com.rs.game.content.Effect
 import com.rs.game.content.combat.CombatSpell
+import com.rs.game.content.combat.CombatStyle
 import com.rs.game.content.combat.delayMagicHit
 import com.rs.game.content.combat.getMagicBonusBoost
 import com.rs.game.model.entity.Entity
+import com.rs.game.model.entity.Hit
 import com.rs.game.model.entity.npc.NPC
-import com.rs.game.model.entity.npc.combat.CombatScript.getMagicHit
 import com.rs.game.model.entity.npc.combat.CombatScript.getMaxHit
 import com.rs.lib.util.Utils
 import java.util.function.Consumer
@@ -30,7 +31,7 @@ class NPCCombatUtil {
 
         @JvmStatic
         fun castSpellAtTarget(npc: NPC, target: Entity, spell: CombatSpell, hitDelay: Int): Boolean {
-            val hit = getMagicHit(npc, getMaxHit(npc, spell.getBaseDamage(npc), NPCCombatDefinitions.AttackStyle.MAGE, target))
+            val hit = Hit.magic(npc, getMaxHit(npc, spell.getBaseDamage(npc), CombatStyle.MAGE, target))
             if (spell === CombatSpell.STORM_OF_ARMADYL && hit.damage > 0) {
                 var minHit = (npc.getCombatLevel(NPCCombatDefinitions.Skill.MAGE) - 77) * 5
                 minHit = (minHit * getMagicBonusBoost(npc)).toInt()

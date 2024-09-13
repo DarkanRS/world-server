@@ -17,6 +17,7 @@
 package com.rs.game.content.minigames.pest.npcs;
 
 import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
@@ -33,7 +34,7 @@ public class ShifterCombat extends CombatScript {
 	public int attack(NPC npc, Entity target) {
 		NPCCombatDefinitions def = npc.getCombatDefinitions();
 		npc.setNextAnimation(new Animation(def.getAttackEmote()));
-		delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, npc.getCombatDefinitions().getMaxHit(), npc.getCombatStyle(), target)));
+		delayHit(npc, 0, target, Hit.melee(npc, getMaxHit(npc, npc.getCombatDefinitions().getMaxHit(), npc.getCombatStyle(), target)));
 		return npc.getAttackSpeed();
 	}
 }

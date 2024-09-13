@@ -225,7 +225,6 @@ class PlayerCombat(@JvmField val target: Entity) : PlayerAction() {
         val attackStyle = player.combatDefinitions.getAttackStyle()
         val weaponConfig = ItemConfig.get(weaponId)
         var soundId = weaponConfig.getAttackSound(attackStyle.index)
-        val ammo = AmmoType.forId(player.equipment.ammoId)
         var combatDelay = getRangeCombatDelay(weaponId, attackStyle)
 
         if (player.combatDefinitions.isUsingSpecialAttack) return execute(SpecialAttack.Type.RANGE, player, target)
@@ -247,7 +246,7 @@ class PlayerCombat(@JvmField val target: Entity) : PlayerAction() {
 
             RangedWeapon.CHINCHOMPA, RangedWeapon.RED_CHINCHOMPA -> { //TODO validate the logic here
                 attackTarget(getMultiAttackTargets(player, target)) { nextTarget ->
-                    val hit = calculateHit(player, nextTarget, weaponId, attackStyle, CombatStyle.RANGE, true, 1.0, if (weaponId == 10034) 1.2 else 1.0)
+                    val hit = calculateHit(player, nextTarget, attackStyle, CombatStyle.RANGE, true, 1.0, if (weaponId == 10034) 1.2 else 1.0)
                     player.anim(2779)
                     nextTarget.tasks.schedule(p.taskDelay) { nextTarget.spotAnim(2739, 0, 96 shl 16) }
                     delayHit(nextTarget, p.taskDelay, weaponId, attackStyle, hit)
@@ -258,9 +257,9 @@ class PlayerCombat(@JvmField val target: Entity) : PlayerAction() {
 
             RangedWeapon.SWAMP_LIZARD, RangedWeapon.ORANGE_SALAMANDER, RangedWeapon.RED_SALAMANDER, RangedWeapon.BLACK_SALAMANDER -> {
                 val hit = when (attackStyle.name) {
-                    "Flare" -> calculateHit(player, target, weaponId, attackStyle, CombatStyle.RANGE).setLook(HitLook.RANGE_DAMAGE)
-                    "Blaze" -> calculateHit(player, target, weaponId, attackStyle, CombatStyle.RANGE).setLook(HitLook.MAGIC_DAMAGE)
-                    else -> calculateHit(player, target, weaponId, attackStyle, CombatStyle.RANGE).setLook(HitLook.MELEE_DAMAGE)
+                    "Flare" -> calculateHit(player, target, attackStyle, CombatStyle.RANGE).setLook(HitLook.RANGE_DAMAGE)
+                    "Blaze" -> calculateHit(player, target, attackStyle, CombatStyle.RANGE).setLook(HitLook.MAGIC_DAMAGE)
+                    else -> calculateHit(player, target, attackStyle, CombatStyle.RANGE).setLook(HitLook.MELEE_DAMAGE)
                 }
                 delayHit(target, p.taskDelay, weaponId, attackStyle, hit)
                 dropAmmo(player, target, Equipment.AMMO, 1)
@@ -278,7 +277,7 @@ class PlayerCombat(@JvmField val target: Entity) : PlayerAction() {
                 if (player.equipment.ammoId != -1 && Utils.getRandomInclusive(10) == 0) {
                     when (player.equipment.ammoId) {
                         9237 -> {
-                            hit = calculateHit(player, target, weaponId, attackStyle, CombatStyle.RANGE)
+                            hit = calculateHit(player, target, attackStyle, CombatStyle.RANGE)
                             target.spotAnim(755)
                             if (target is Player) target.stopAll()
                             else if (target is NPC) target.combatTarget = null
@@ -293,29 +292,29 @@ class PlayerCombat(@JvmField val target: Entity) : PlayerAction() {
                         }
 
                         9243 -> {
-                            hit = calculateHit(player, target, weaponId, attackStyle, CombatStyle.RANGE, false, 1.0, 1.15)
+                            hit = calculateHit(player, target, attackStyle, CombatStyle.RANGE, false, 1.0, 1.15)
                             target.spotAnim(758)
                             soundId = 2913
                         }
 
                         9244 -> {
-                            hit = calculateHit(player, target, weaponId, attackStyle, CombatStyle.RANGE, false, 1.0, if (getAntifireLevel(target, true) > 0) 1.45 else 1.0)
+                            hit = calculateHit(player, target, attackStyle, CombatStyle.RANGE, false, 1.0, if (getAntifireLevel(target, true) > 0) 1.45 else 1.0)
                             target.spotAnim(756)
                             soundId = 2915
                         }
 
                         9245 -> {
-                            hit = calculateHit(player, target, weaponId, attackStyle, CombatStyle.RANGE, false, 1.0, 1.15)
+                            hit = calculateHit(player, target, attackStyle, CombatStyle.RANGE, false, 1.0, 1.15)
                             target.spotAnim(753)
                             player.heal((player.maxHitpoints * 0.25).toInt())
                             soundId = 2917
                         }
 
-                        else -> hit = calculateHit(player, target, weaponId, attackStyle, CombatStyle.RANGE)
+                        else -> hit = calculateHit(player, target, attackStyle, CombatStyle.RANGE)
                     }
                     specced = true
                 } else {
-                    hit = calculateHit(player, target, weaponId, attackStyle, CombatStyle.RANGE)
+                    hit = calculateHit(player, target, attackStyle, CombatStyle.RANGE)
                     checkSwiftGlovesEffect(player, p.taskDelay, attackStyle, weaponId, hit, p)
                 }
                 delayHit(target, p.taskDelay, weaponId, attackStyle, hit)
@@ -336,10 +335,10 @@ class PlayerCombat(@JvmField val target: Entity) : PlayerAction() {
                     val lockedOn = stacks >= 9
                     player.tempAttribs.setI("rcbStacks", stacks)
                     player.tempAttribs.setL("rcbLockOnTimer", World.getServerTicks() + 28)
-                    val hit = calculateHit(player, target, weaponId, attackStyle, CombatStyle.RANGE)
+                    val hit = calculateHit(player, target, attackStyle, CombatStyle.RANGE)
                     delayHit(target, p.taskDelay, weaponId, attackStyle, hit, null, {
                         if (weaponId == 24339 || target.isDead || target.hasFinished()) return@delayHit
-                        val maxHit = getMaxHit(player, target, weaponId, attackStyle, CombatStyle.RANGE, 1.0)
+                        val maxHit = getMaxHit(player, target, CombatStyle.RANGE, Bonus.RANGE_ATT, 1.0)
                         val minBleed = (maxHit * (if (lockedOn) 0.25 else 0.20)).toInt()
                         val maxBleed = (minBleed * 0.70).toInt()
                         target.tasks.schedule(14) { delayHit(target, 0, weaponId, attackStyle, Hit.range(player, Utils.random(minBleed, maxBleed))) }
@@ -358,13 +357,13 @@ class PlayerCombat(@JvmField val target: Entity) : PlayerAction() {
                     player.applyHit(Hit(player, Utils.getRandomInclusive(150) + 10, HitLook.TRUE_DAMAGE))
                     return combatDelay
                 }
-                delayHit(target, p.taskDelay, weaponId, attackStyle, calculateHit(player, target, weaponId, attackStyle, CombatStyle.RANGE))
+                delayHit(target, p.taskDelay, weaponId, attackStyle, calculateHit(player, target, attackStyle, CombatStyle.RANGE))
                 dropAmmo(player, target, Equipment.AMMO, 1)
             }
 
             RangedWeapon.SAGAIE -> {
                 val damageMod = Utils.clampD((Utils.getDistanceI(player.tile, target.middleTile) / getAttackRange(player).toDouble()) * 0.70, 0.01, 1.0)
-                val hit = calculateHit(player, target, weaponId, attackStyle, CombatStyle.RANGE, true, 1.0 - (damageMod * 0.95), 1.0 + damageMod)
+                val hit = calculateHit(player, target, attackStyle, CombatStyle.RANGE, true, 1.0 - (damageMod * 0.95), 1.0 + damageMod)
                 delayHit(target, p.taskDelay, weaponId, attackStyle, hit)
                 checkSwiftGlovesEffect(player, p.taskDelay, attackStyle, weaponId, hit, p)
                 dropAmmo(player, target, Equipment.WEAPON, 1)
@@ -384,7 +383,7 @@ class PlayerCombat(@JvmField val target: Entity) : PlayerAction() {
                     if (t.prayer.isProtectingRange) delay /= 2
                     if (delay < Ticks.fromSeconds(5)) delay = Ticks.fromSeconds(5)
                 }
-                if (calculateHit(player, target, weaponId, attackStyle, CombatStyle.RANGE).damage > 0) {
+                if (calculateHit(player, target, attackStyle, CombatStyle.RANGE).damage > 0) {
                     target.freeze(delay, true)
                     target.tasks.schedule(2) { target.spotAnim(469, 0, 96) }
                 }
@@ -393,22 +392,22 @@ class PlayerCombat(@JvmField val target: Entity) : PlayerAction() {
             }
 
             RangedWeapon.DARK_BOW -> {
-                val hit = calculateHit(player, target, weaponId, attackStyle, CombatStyle.RANGE)
+                val hit = calculateHit(player, target, attackStyle, CombatStyle.RANGE)
                 delayHit(target, p.taskDelay, weaponId, attackStyle, hit)
                 checkSwiftGlovesEffect(player, p.taskDelay, attackStyle, weaponId, hit, p)
                 val p2 = AmmoType.forId(player.equipment.ammoId)?.let { World.sendProjectile(player, target, it.getProjAnim(player.equipment.ammoId), delay = 30, speed = 5, angle = 15) }
-                delayHit(target, p2?.taskDelay ?: 1, weaponId, attackStyle, calculateHit(player, target, weaponId, attackStyle, CombatStyle.RANGE))
+                delayHit(target, p2?.taskDelay ?: 1, weaponId, attackStyle, calculateHit(player, target, attackStyle, CombatStyle.RANGE))
                 dropAmmo(player, target, Equipment.AMMO, 2)
             }
 
             else -> {
                 if (weapon.isThrown) {
-                    val hit = calculateHit(player, target, weaponId, attackStyle, CombatStyle.RANGE)
+                    val hit = calculateHit(player, target, attackStyle, CombatStyle.RANGE)
                     delayHit(target, p.taskDelay, weaponId, attackStyle, hit)
                     checkSwiftGlovesEffect(player, p.taskDelay, attackStyle, weaponId, hit, p)
                     dropAmmo(player, target, Equipment.WEAPON, 1)
                 } else {
-                    val hit = calculateHit(player, target, weaponId, attackStyle, CombatStyle.RANGE)
+                    val hit = calculateHit(player, target, attackStyle, CombatStyle.RANGE)
                     delayHit(target, p.taskDelay, weaponId, attackStyle, hit)
                     checkSwiftGlovesEffect(player, p.taskDelay, attackStyle, weaponId, hit, p)
                     if (weapon.ammos != null) dropAmmo(player, target)
@@ -428,7 +427,7 @@ class PlayerCombat(@JvmField val target: Entity) : PlayerAction() {
         if (hit.damage != 0 && hit.damage < ((hit.maxHit / 3) * 2) || Random().nextInt(3) != 0) return
         player.sendMessage("You fired an extra shot.")
         World.sendProjectileAbsoluteSpeed(player, target, p.spotAnimId, p.startHeight - 5 to p.endHeight - 5, p.startDelayClientCycles, p.inAirClientCycles, p.angle)
-        delayHit(target, hitDelay, weaponId, attackStyle, calculateHit(player, target, weaponId, attackStyle, CombatStyle.RANGE))
+        delayHit(target, hitDelay, weaponId, attackStyle, calculateHit(player, target, attackStyle, CombatStyle.RANGE))
         if (hit.damage > (hit.maxHit - 10)) {
             target.freeze(Ticks.fromSeconds(10), false)
             target.spotAnim(181, 0, 96)
@@ -449,26 +448,24 @@ class PlayerCombat(@JvmField val target: Entity) : PlayerAction() {
             }
         }
         var weaponId = player.equipment.weaponId
+        if (weaponId == -1 && player.equipment.glovesId in 22358..22361)
+            weaponId = 22358
         val attackStyle = player.combatDefinitions.getAttackStyle()
         val weaponConfig = ItemConfig.get(weaponId)
         val combatDelay = getMeleeCombatDelay(weaponId)
         val soundId = weaponConfig.getAttackSound(attackStyle.index)
-        if (weaponId == -1) {
-            val gloves = player.equipment.getItem(Equipment.HANDS)
-            if (gloves != null && gloves.definitions.getName().contains("Goliath gloves")) weaponId = -2
-        }
 
         if (player.combatDefinitions.isUsingSpecialAttack) return execute(SpecialAttack.Type.MELEE, player, target)
 
-        val hit = calculateHit(player, target, weaponId, attackStyle, CombatStyle.MELEE)
+        val hit = calculateHit(player, target, attackStyle, CombatStyle.MELEE)
 
-        if (weaponId == -2 && hit.damage <= 0) {
+        if (weaponId == 22358 && hit.damage <= 0) {
             if (Utils.random(10) == 0) {
                 player.anim(14417)
                 attackTarget(getMultiAttackTargets(player, target, 6, 10, true)) { nextTarget ->
                     nextTarget.freeze(Ticks.fromSeconds(10), true)
                     nextTarget.spotAnim(181, 0, 96)
-                    nextTarget.tasks.schedule(1) { nextTarget.applyHit(calculateHit(player, nextTarget, -2, attackStyle, CombatStyle.MELEE, false, 1.0, 1.0).setLook(HitLook.TRUE_DAMAGE)) }
+                    nextTarget.tasks.schedule(1) { nextTarget.applyHit(calculateHit(player, nextTarget, attackStyle, CombatStyle.MELEE, false, 1.0, 1.0).setLook(HitLook.TRUE_DAMAGE)) }
                     for (skill in Skills.COMBAT) nextTarget.lowerStat(skill, 7, 0.0)
                     if (nextTarget is Player) nextTarget.sendMessage("Your stats have been drained!")
                     return@attackTarget true
@@ -818,7 +815,7 @@ fun addXp(player: Player, target: Entity, xpType: XPType?, hit: Hit) {
 
 fun getWeaponAttackEmote(weaponId: Int, attackStyle: AttackStyle): Int {
     if (weaponId == -1) return if (attackStyle.index == 1) 423 else 422
-    if (weaponId == -2) return if (attackStyle.index == 1) 14307 else 14393
+    if (weaponId == 22358) return if (attackStyle.index == 1) 14307 else 14393
     return ItemConfig.get(weaponId).getAttackAnim(attackStyle.index)
 }
 

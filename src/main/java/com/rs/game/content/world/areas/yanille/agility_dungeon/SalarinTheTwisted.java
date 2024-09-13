@@ -1,15 +1,11 @@
 package com.rs.game.content.world.areas.yanille.agility_dungeon;
 
-import com.rs.game.content.bosses.tormenteddemon.TormentedDemon;
 import com.rs.game.content.combat.CombatSpell;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
-
-import java.util.List;
 
 @PluginEventHandler
 public class SalarinTheTwisted extends NPC {

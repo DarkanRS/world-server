@@ -18,6 +18,7 @@ package com.rs.game.content.skills.slayer.npcs.combat;
 
 import com.rs.game.content.skills.slayer.npcs.Nechryael;
 import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
@@ -38,7 +39,7 @@ public class NechryaelCombat extends CombatScript {
 			if (Utils.random(10) == 0 && !n.hasActiveSpawns())
 				n.summonDeathSpawns();
 		npc.setNextAnimation(new Animation(npc.getCombatDefinitions().getAttackEmote()));
-		delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, def.getMaxHit(), def.getAttackStyle(), target)));
+		delayHit(npc, 0, target, Hit.melee(npc, getMaxHit(npc, def.getMaxHit(), def.getAttackStyle(), target)));
 		return npc.getAttackSpeed();
 	}
 }

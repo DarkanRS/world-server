@@ -1,11 +1,11 @@
 package com.rs.game.content.world.npcs.max.tasks;
 
 import com.rs.cache.loaders.ObjectType;
+import com.rs.engine.pathfinder.RouteEvent;
 import com.rs.game.World;
 import com.rs.game.content.skills.farming.FarmPatch;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.world.npcs.max.Max;
-import com.rs.engine.pathfinder.RouteEvent;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.Tile;
 

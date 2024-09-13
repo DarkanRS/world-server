@@ -17,12 +17,13 @@
 package com.rs.game.content.skills.dungeoneering.npcs.combat;
 
 import com.rs.game.World;
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.content.skills.dungeoneering.npcs.Gravecreeper;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.ForceTalk;
+import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Tile;
@@ -67,11 +68,11 @@ public class GravecreeperCombat extends CombatScript {
 		case 0:// range
 			npc.setNextAnimation(new Animation(14504));
 			World.sendProjectile(npc, target, 2753, new Pair<>(65, 65), 30, 5, 0);
-			delayHit(npc, 1, target, getRangeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.RANGE, target)));
+			delayHit(npc, 1, target, Hit.range(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.RANGE, target)));
 			break;
 		case 1:// melee
 			npc.setNextAnimation(new Animation(14503));
-			delayHit(npc, 0, target, getMeleeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MELEE, target)));
+			delayHit(npc, 0, target, Hit.melee(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.MELEE, target)));
 			break;
 		}
 		return 4;

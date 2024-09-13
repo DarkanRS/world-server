@@ -19,9 +19,9 @@ package com.rs.game.content.bosses.tormenteddemon;
 import com.rs.game.World;
 import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import kotlin.Pair;
@@ -53,19 +53,19 @@ public class TormentedDemonCombat extends CombatScript {
 			hit = getMaxHit(npc, 189, CombatStyle.MELEE, target);
 			npc.setNextAnimation(new Animation(10922));
 			npc.setNextSpotAnim(new SpotAnim(1886));
-			delayHit(npc, 1, target, getMeleeHit(npc, hit));
+			delayHit(npc, 1, target, Hit.melee(npc, hit));
 			return 7;
 		case 1:
 			hit = getMaxHit(npc, 270, CombatStyle.MAGE, target);
 			npc.setNextAnimation(new Animation(10918));
 			npc.setNextSpotAnim(new SpotAnim(1883, 0, 96 << 16));
-			delayHit(npc, World.sendProjectile(npc, target, 1884, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, getMagicHit(npc, hit));
+			delayHit(npc, World.sendProjectile(npc, target, 1884, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, Hit.magic(npc, hit));
 			break;
 		case 2:
 			hit = getMaxHit(npc, 270, CombatStyle.RANGE, target);
 			npc.setNextAnimation(new Animation(10919));
 			npc.setNextSpotAnim(new SpotAnim(1888));
-			delayHit(npc, World.sendProjectile(npc, target, 1887, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, getRangeHit(npc, hit));
+			delayHit(npc, World.sendProjectile(npc, target, 1887, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, Hit.range(npc, hit));
 			break;
 		}
 		return 7;

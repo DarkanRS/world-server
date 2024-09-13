@@ -17,11 +17,12 @@
 package com.rs.game.content.bosses.godwars.armadyl;
 
 import com.rs.game.World;
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.engine.pathfinder.Direction;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
@@ -41,7 +42,7 @@ public class KreeArraCombat extends CombatScript {
 	public int attack(NPC npc, Entity target) {
 		if (!npc.isUnderCombat()) {
 			npc.setNextAnimation(new Animation(6997));
-			delayHit(npc, 1, target, getMeleeHit(npc, getMaxHit(npc, 260, AttackStyle.MELEE, target)));
+			delayHit(npc, 1, target, Hit.melee(npc, getMaxHit(npc, 260, CombatStyle.MELEE, target)));
 			return npc.getAttackSpeed();
 		}
 		npc.setNextAnimation(new Animation(6976));
@@ -49,11 +50,11 @@ public class KreeArraCombat extends CombatScript {
 			if (Utils.getRandomInclusive(2) == 0) {
 				WorldProjectile p = World.sendProjectile(npc, t, 1198, new Pair<>(60, 32), 50, 5, 0);
 				npc.setNextAnimation(new Animation(6976));
-				delayHit(npc, p.getTaskDelay(), t, getMagicHit(npc, getMaxHit(npc, 210, AttackStyle.MAGE, t)));
+				delayHit(npc, p.getTaskDelay(), t, Hit.magic(npc, getMaxHit(npc, 210, CombatStyle.MAGE, t)));
 				t.setNextSpotAnim(new SpotAnim(1196, p.getTaskDelay()));
 			} else {
 				WorldProjectile p = World.sendProjectile(npc, t, 1197, new Pair<>(60, 32), 50, 5, 0);
-				delayHit(npc, p.getTaskDelay(), t, getRangeHit(npc, getMaxHit(npc, 720, AttackStyle.RANGE, t)));
+				delayHit(npc, p.getTaskDelay(), t, Hit.range(npc, getMaxHit(npc, 720, CombatStyle.RANGE, t)));
 				WorldTasks.schedule(p.getTaskDelay(), () -> {
 					Direction dir = WorldUtil.getDirectionTo(npc, target);
 					if (dir != null)

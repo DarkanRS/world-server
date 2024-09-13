@@ -17,6 +17,7 @@
 package com.rs.game.content.skills.dungeoneering.npcs.combat;
 
 import com.rs.game.World;
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.content.skills.dungeoneering.npcs.ShadowForgerIhlakhizan;
 import com.rs.game.model.entity.Entity;
@@ -25,7 +26,6 @@ import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
@@ -68,7 +68,7 @@ public class ShadowForgerIhlakhizanCombat extends CombatScript {
 						for (Player player : forger.getManager().getParty().getTeam()) {
 							if (player.isDead() || player.getX() != tile.getX() || player.getY() != tile.getY())
 								continue;
-							player.applyHit(new Hit(npc, Utils.random(npc.getLevelForStyle(AttackStyle.RANGE)) + 1, HitLook.RANGE_DAMAGE));
+							player.applyHit(new Hit(npc, Utils.random(npc.getLevelForStyle(CombatStyle.RANGE)) + 1, HitLook.RANGE_DAMAGE));
 						}
 					});
 				}
@@ -132,14 +132,14 @@ public class ShadowForgerIhlakhizanCombat extends CombatScript {
 				npc.setNextSpotAnim(new SpotAnim(2375));
 				World.sendProjectile(npc, target, 2376, new Pair<>(120, 30), 60, 10, 16);
 				target.setNextSpotAnim(new SpotAnim(2377, 120, 0));
-				delayHit(npc, 3, target, getRegularHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MAGE, target)));
+				delayHit(npc, 3, target, Hit.flat(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.MAGE, target)));
 			}
 			case 1 -> {
 				npc.setNextAnimation(new Animation(defs.getAttackEmote()));
 				for (Entity t : npc.getPossibleTargets()) {
 					if (!WorldUtil.isInRange(npc.getX(), npc.getY(), npc.getSize(), t.getX(), t.getY(), t.getSize(), 0))
 						continue;
-					delayHit(npc, 0, t, getMeleeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MELEE, t)));
+					delayHit(npc, 0, t, Hit.melee(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.MELEE, t)));
 				}
 			}
 		}

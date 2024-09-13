@@ -16,8 +16,8 @@
 //
 package com.rs.game.model.entity.actions;
 
-import com.rs.engine.pathfinder.RouteFinderKt;
 import com.rs.engine.pathfinder.Route;
+import com.rs.engine.pathfinder.RouteFinderKt;
 import com.rs.game.content.Effect;
 import com.rs.game.model.entity.Entity;
 import com.rs.lib.game.Tile;

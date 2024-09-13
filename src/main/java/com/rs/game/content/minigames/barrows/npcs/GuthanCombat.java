@@ -16,11 +16,12 @@
 //
 package com.rs.game.content.minigames.barrows.npcs;
 
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.lib.game.Animation;
 
 public class GuthanCombat extends CombatScript {
@@ -34,7 +35,7 @@ public class GuthanCombat extends CombatScript {
 	public int attack(NPC npc, Entity target) {
 		final NPCCombatDefinitions defs = npc.getCombatDefinitions();
 		npc.setNextAnimation(new Animation(defs.getAttackEmote()));
-		delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, defs.getMaxHit(), AttackStyle.MELEE, target)));
+		delayHit(npc, 0, target, Hit.melee(npc, getMaxHit(npc, defs.getMaxHit(), CombatStyle.MELEE, target)));
 		return npc.getAttackSpeed();
 	}
 }

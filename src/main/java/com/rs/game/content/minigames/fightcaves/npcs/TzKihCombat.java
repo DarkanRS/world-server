@@ -16,11 +16,12 @@
 //
 package com.rs.game.content.minigames.fightcaves.npcs;
 
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
 
@@ -36,10 +37,10 @@ public class TzKihCombat extends CombatScript {
 		final NPCCombatDefinitions defs = npc.getCombatDefinitions();
 		int damage = 0;
 		npc.setNextAnimation(new Animation(defs.getAttackEmote()));
-		damage = getMaxHit(npc, defs.getMaxHit(), AttackStyle.MELEE, target);
+		damage = getMaxHit(npc, defs.getMaxHit(), CombatStyle.MELEE, target);
 		if (target instanceof Player player)
 			player.getPrayer().drainPrayer(damage + 10);
-		delayHit(npc, 0, target, getMeleeHit(npc, damage));
+		delayHit(npc, 0, target, Hit.melee(npc, damage));
 		return npc.getAttackSpeed();
 	}
 }

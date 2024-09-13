@@ -21,7 +21,6 @@ import com.rs.game.content.skills.agility.Agility;
 import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
-import com.rs.plugin.handlers.LoginHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 //wrong animations
 @PluginEventHandler

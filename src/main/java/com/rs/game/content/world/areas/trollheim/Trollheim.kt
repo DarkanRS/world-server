@@ -17,7 +17,6 @@
 package com.rs.game.content.world.areas.trollheim
 
 import com.rs.engine.cutscenekt.cutscene
-import com.rs.engine.dialogue.HeadE.*
 import com.rs.engine.pathfinder.Direction
 import com.rs.engine.pathfinder.RouteEvent
 import com.rs.engine.quest.Quest
@@ -33,8 +32,6 @@ import com.rs.game.model.entity.async.schedule
 import com.rs.game.model.entity.player.Equipment
 import com.rs.game.model.entity.player.Player
 import com.rs.game.model.entity.player.Skills
-import com.rs.game.tasks.Task
-import com.rs.game.tasks.WorldTasks
 import com.rs.lib.game.Tile
 import com.rs.lib.net.ClientPacket
 import com.rs.plugin.annotations.ServerStartupEvent

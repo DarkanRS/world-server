@@ -17,7 +17,9 @@
 package com.rs.game.content.bosses.kalphitequeen
 
 import com.rs.game.World.sendProjectile
+import com.rs.game.content.combat.CombatStyle
 import com.rs.game.model.entity.Entity
+import com.rs.game.model.entity.Hit
 import com.rs.game.model.entity.async.schedule
 import com.rs.game.model.entity.npc.NPC
 import com.rs.game.model.entity.npc.combat.CombatScript.*
@@ -40,13 +42,13 @@ class KalphiteQueen(id: Int, tile: Tile, spawned: Boolean) : NPC(id, tile, spawn
         isIgnoreDocile = true
     }
     override fun sendDeath(source: Entity) {
-        resetWalkSteps()
-        combat.removeTarget()
-        anim(-1)
-        schedule {
-            anim(combatDefinitions.deathEmote)
-            wait(combatDefinitions.deathDelay)
-            if (id == 1158) {
+        if (id == 1158) {
+            resetWalkSteps()
+            combat.removeTarget()
+            anim(-1)
+            schedule {
+                anim(combatDefinitions.deathEmote)
+                wait(combatDefinitions.deathDelay)
                 isCantInteract = true
                 transformIntoNPC(1160)
                 sync(6270, 1055)
@@ -54,14 +56,13 @@ class KalphiteQueen(id: Int, tile: Tile, spawned: Boolean) : NPC(id, tile, spawn
                     reset()
                     isCantInteract = false
                 }
-            } else {
-                drop()
-                reset()
-                setLocation(respawnTile)
-                finish()
-                if (!isSpawned) setRespawnTask()
-                transformIntoNPC(1158)
             }
+            return
+        }
+        super.sendDeath(source)
+        schedule {
+            wait(combatDefinitions.deathDelay)
+            transformIntoNPC(1158)
         }
     }
 }
@@ -77,7 +78,7 @@ fun mapKalphiteQueen() {
         if (random(2) == 0) {
             //range
             sendProjectile(npc, target, 288, delay = 30, speed = 5, angle = 15) {
-                delayHit(npc, 0, target, getRangeHit(npc, getMaxHit(npc, npc.combatDefinitions.maxHit, NPCCombatDefinitions.AttackStyle.RANGE, target, 10000.0)))
+                delayHit(npc, 0, target, Hit.range(npc, getMaxHit(npc, npc.combatDefinitions.maxHit, CombatStyle.RANGE, target, 10000.0)))
                 if (target is Player)
                     target.prayer.drainPrayer(10.0)
             }
@@ -86,7 +87,7 @@ fun mapKalphiteQueen() {
         //mage
         npc.spotAnim(if (npc.id == 1158) 278 else 279)
         projectileBounce(npc, target, mutableSetOf(target), 280, 281, 5) { nextTarget ->
-            delayHit(npc, 0, nextTarget, getMagicHit(npc, getMaxHit(npc, npc.maxHit, NPCCombatDefinitions.AttackStyle.MAGE, nextTarget, 10000.0)))
+            delayHit(npc, 0, nextTarget, Hit.magic(npc, getMaxHit(npc, npc.maxHit, CombatStyle.MAGE, nextTarget, 10000.0)))
         }
         return@npcCombat npc.attackSpeed
     }

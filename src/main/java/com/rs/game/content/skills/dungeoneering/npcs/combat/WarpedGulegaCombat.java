@@ -17,13 +17,13 @@
 package com.rs.game.content.skills.dungeoneering.npcs.combat;
 
 import com.rs.game.World;
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.content.skills.dungeoneering.npcs.WarpedGulega;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
@@ -65,7 +65,7 @@ public class WarpedGulegaCombat extends CombatScript {
 						for (Entity t : boss.getPossibleTargets(true))
 							tileLoop:for (Tile tile : attackTiles)
 								if (t.getX() == tile.getX() && t.getY() == tile.getY()) {
-									delayHit(npc, 0, t, getMeleeHit(npc, getMaxHit(npc, (int) (npc.getLevelForStyle(AttackStyle.MELEE) * 0.75), AttackStyle.MELEE, t)));
+									delayHit(npc, 0, t, Hit.melee(npc, getMaxHit(npc, (int) (npc.getLevelForStyle(CombatStyle.MELEE) * 0.75), CombatStyle.MELEE, t)));
 									break tileLoop;
 								}
 					}
@@ -78,7 +78,7 @@ public class WarpedGulegaCombat extends CombatScript {
 				for (Entity t : npc.getPossibleTargets(true)) {
 					World.sendProjectile(npc, t, 2883, new Pair<>(75, 25), 30, 5, 15);
 					t.setNextSpotAnim(new SpotAnim(2884, 90, 0));
-					delayHit(npc, 2, t, getRangeHit(npc, getMaxHit(npc, (int) (npc.getLevelForStyle(AttackStyle.MELEE) * 0.75), AttackStyle.RANGE, t)));
+					delayHit(npc, 2, t, Hit.range(npc, getMaxHit(npc, (int) (npc.getLevelForStyle(CombatStyle.MELEE) * 0.75), CombatStyle.RANGE, t)));
 				}
 			}
 			// reg magic aeo
@@ -87,7 +87,7 @@ public class WarpedGulegaCombat extends CombatScript {
 				for (Entity t : npc.getPossibleTargets(true)) {
 					World.sendProjectile(npc, t, 2880, new Pair<>(150, 75), 30, 5, 15);
 					t.setNextSpotAnim(new SpotAnim(2881, 90, 0));
-					delayHit(npc, 2, t, getMagicHit(npc, getMaxHit(npc, (int) (npc.getLevelForStyle(AttackStyle.MELEE) * 0.75), AttackStyle.MAGE, t)));
+					delayHit(npc, 2, t, Hit.magic(npc, getMaxHit(npc, (int) (npc.getLevelForStyle(CombatStyle.MELEE) * 0.75), CombatStyle.MAGE, t)));
 				}
 			}
 			case 0 -> {

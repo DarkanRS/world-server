@@ -16,12 +16,12 @@
 //
 package com.rs.net.decoders.handlers.impl;
 
+import com.rs.engine.pathfinder.RouteEvent;
 import com.rs.game.World;
 import com.rs.game.content.clans.ClansManager;
 import com.rs.game.model.entity.actions.EntityFollow;
 import com.rs.game.model.entity.interactions.PlayerCombatInteraction;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.engine.pathfinder.RouteEvent;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.net.packets.PacketHandler;
 import com.rs.lib.net.packets.decoders.PlayerOp;

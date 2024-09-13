@@ -43,7 +43,6 @@ import com.rs.lib.net.packets.encoders.social.MessageGame.MessageType;
 import com.rs.lib.net.packets.encoders.updatezone.*;
 import com.rs.lib.net.packets.encoders.vars.*;
 import com.rs.lib.net.packets.encoders.zonespecific.SpotAnimSpecific;
-import com.rs.lib.util.Logger;
 import com.rs.lib.util.MapUtils;
 import com.rs.lib.util.MapUtils.Structure;
 import com.rs.lib.util.Utils;

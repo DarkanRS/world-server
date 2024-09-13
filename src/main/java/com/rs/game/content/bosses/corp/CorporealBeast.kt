@@ -20,16 +20,14 @@ import com.rs.cache.loaders.ItemDefinitions
 import com.rs.game.World
 import com.rs.game.World.floorAndWallsFree
 import com.rs.game.World.sendSpotAnim
+import com.rs.game.content.combat.CombatStyle
 import com.rs.game.model.entity.Entity
 import com.rs.game.model.entity.Hit
 import com.rs.game.model.entity.Hit.HitLook
 import com.rs.game.model.entity.async.schedule
 import com.rs.game.model.entity.npc.NPC
 import com.rs.game.model.entity.npc.combat.CombatScript.delayHit
-import com.rs.game.model.entity.npc.combat.CombatScript.getMagicHit
 import com.rs.game.model.entity.npc.combat.CombatScript.getMaxHit
-import com.rs.game.model.entity.npc.combat.CombatScript.getMeleeHit
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions
 import com.rs.game.model.entity.player.Player
 import com.rs.lib.Constants
 import com.rs.lib.game.SpotAnim
@@ -82,7 +80,7 @@ private fun attackMelee(npc: NPC, target: Entity): Boolean {
     val distanceY = target.y - npc.y
     if ((distanceX <= npc.size) && (distanceX >= -1) && (distanceY <= npc.size) && (distanceY >= -1)) {
         npc.anim(if (Utils.getRandomInclusive(1) == 0) npc.combatDefinitions.attackEmote else 10058)
-        delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, npc.combatDefinitions.maxHit, NPCCombatDefinitions.AttackStyle.MELEE, target)))
+        delayHit(npc, 0, target, Hit.magic(npc, getMaxHit(npc, npc.combatDefinitions.maxHit, CombatStyle.MELEE, target)))
         return true
     }
     return false
@@ -90,13 +88,13 @@ private fun attackMelee(npc: NPC, target: Entity): Boolean {
 
 private fun attackMagicSingleTarget(npc: NPC, target: Entity) {
     npc.anim(10410)
-    delayHit(npc, World.sendProjectile(npc, target, 1825, heights = 41 to 20, delay = 0, speed = 10, angle = 15).taskDelay, target, getMagicHit(npc, getMaxHit(npc, 650, NPCCombatDefinitions.AttackStyle.MAGE, target)))
+    delayHit(npc, World.sendProjectile(npc, target, 1825, heights = 41 to 20, delay = 0, speed = 10, angle = 15).taskDelay, target, Hit.magic(npc, getMaxHit(npc, 650, CombatStyle.MAGE, target)))
 }
 
 private fun attackMagicDrain(npc: NPC, target: Entity) {
     npc.anim(10410)
     val delay = World.sendProjectile(npc, target, 1823, heights = 41 to 20, delay = 0, speed = 10, angle = 15).taskDelay
-    delayHit(npc, delay, target, getMagicHit(npc, getMaxHit(npc, 550, NPCCombatDefinitions.AttackStyle.MAGE, target)))
+    delayHit(npc, delay, target, Hit.magic(npc, getMaxHit(npc, 550, CombatStyle.MAGE, target)))
     if (target is Player) {
         val skill = when (Utils.getRandomInclusive(2)) {
             0 -> Constants.MAGIC
@@ -122,7 +120,7 @@ fun attackMagicSplash(npc: NPC, target: Entity) {
             val newTile = Tile.of(initialTile, 3)
             if (floorAndWallsFree(newTile, 1)) {
                 npc.possibleTargets.filter { Utils.getDistance(newTile.x, newTile.y, it.x, it.y) <= 1 && it.lineOfSightTo(newTile, false) }
-                    .forEach { delayHit(npc, 0, it, getMagicHit(npc, getMaxHit(npc, 350, NPCCombatDefinitions.AttackStyle.MAGE, it))) }
+                    .forEach { delayHit(npc, 0, it, Hit.magic(npc, getMaxHit(npc, 350, CombatStyle.MAGE, it))) }
                 npc.schedule {
                     wait(World.sendProjectile(initialTile, newTile, 1824, heights = 15 to 5, delay = 15, speed = 15, angle = 15).taskDelay + 1)
                     sendSpotAnim(newTile, SpotAnim(1806))

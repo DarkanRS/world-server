@@ -2,10 +2,8 @@ package com.rs.game.content.world.areas.lumbridge.npcs;
 
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.HeadE;
-import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler

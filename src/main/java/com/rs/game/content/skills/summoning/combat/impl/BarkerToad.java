@@ -17,6 +17,8 @@
 package com.rs.game.content.skills.summoning.combat.impl;
 
 import com.rs.game.World;
+import com.rs.game.content.combat.CombatFormulaKt;
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.content.combat.PlayerCombat;
 import com.rs.game.content.combat.PlayerCombatKt;
 import com.rs.game.content.skills.summoning.Familiar;
@@ -63,7 +65,7 @@ public class BarkerToad extends FamiliarCombatScript {
 	public static void shootCannonball(Familiar f, Entity target) {
 		f.getAttribs().removeB("storedCannonball");
 		f.sync(7703, 1401);
-		delayHit(f, 1, target, PlayerCombatKt.calculateHit(f.getOwner(), target, 0, 300, f.getOwner().getEquipment().getWeaponId(), f.getOwner().getCombatDefinitions().getAttackStyle(), PlayerCombatKt.isRanging(f.getOwner()), true, 1.0)).setSource(f);
+		delayHit(f, 1, target, CombatFormulaKt.calculateHit(f.getOwner(), target, 0, 300, PlayerCombatKt.isRanging(f.getOwner()) ? CombatStyle.RANGE : CombatStyle.MELEE, true, 1.0)).setSource(f);
 		World.sendProjectile(f, target, 1402, new Pair<>(10, 16), 30, 5, 16);
 	}
 }

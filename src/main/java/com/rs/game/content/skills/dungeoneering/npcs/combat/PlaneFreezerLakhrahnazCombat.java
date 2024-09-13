@@ -17,11 +17,12 @@
 package com.rs.game.content.skills.dungeoneering.npcs.combat;
 
 import com.rs.game.World;
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.engine.pathfinder.Direction;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -53,14 +54,14 @@ public class PlaneFreezerLakhrahnazCombat extends CombatScript {
 					for (Entity t : npc.getPossibleTargets()) {
 						World.sendProjectile(npc, t, 2577, new Pair<>(16, 16), 41, 5, 0);
 						t.setNextSpotAnim(new SpotAnim(2578, 70, 0));
-						delayHit(npc, 1, t, getMagicHit(npc, getMaxHit(npc, 100, AttackStyle.MAGE, target)));
+						delayHit(npc, 1, t, Hit.magic(npc, getMaxHit(npc, 100, CombatStyle.MAGE, target)));
 					}
 				}
 				case 1 -> {
 					npc.setNextAnimation(new Animation(defs.getAttackEmote()));
 					Direction dir = Direction.random();
 					target.addWalkSteps(target.getX() + dir.dx, target.getY() + dir.dy, 1);
-					delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, 100, AttackStyle.MELEE, target)));
+					delayHit(npc, 0, target, Hit.melee(npc, getMaxHit(npc, 100, CombatStyle.MELEE, target)));
 				}
 			}
 			return npc.getAttackSpeed();
@@ -69,7 +70,7 @@ public class PlaneFreezerLakhrahnazCombat extends CombatScript {
 		npc.setNextSpotAnim(new SpotAnim(2574));
 		World.sendProjectile(npc, target, 2595, new Pair<>(16, 16), 41, 5, 0);
 		target.setNextSpotAnim(new SpotAnim(2576, 70, 0));
-		delayHit(npc, 1, target, getRangeHit(npc, getMaxHit(npc, 100, AttackStyle.RANGE, target)));
+		delayHit(npc, 1, target, Hit.range(npc, getMaxHit(npc, 100, CombatStyle.RANGE, target)));
 		return npc.getAttackSpeed();
 	}
 }

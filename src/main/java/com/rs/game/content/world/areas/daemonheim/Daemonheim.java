@@ -24,12 +24,12 @@ import com.rs.game.content.skills.dungeoneering.DungeonRewards;
 import com.rs.game.ge.GE;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemOnNPCHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
-import com.rs.lib.game.Tile;
 
 @PluginEventHandler
 public class Daemonheim {

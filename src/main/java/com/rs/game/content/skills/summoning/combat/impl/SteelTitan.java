@@ -17,11 +17,12 @@
 package com.rs.game.content.skills.summoning.combat.impl;
 
 import com.rs.game.World;
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.content.skills.summoning.Pouch;
 import com.rs.game.content.skills.summoning.combat.FamiliarCombatScript;
 import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.lib.game.Animation;
 import com.rs.lib.util.Utils;
 import kotlin.Pair;
@@ -37,16 +38,16 @@ public class SteelTitan extends FamiliarCombatScript {
 	public int alternateAttack(final NPC npc, final Entity target) {
 		if (npc.inMeleeRange(target)) {
 			npc.setNextAnimation(new Animation(8183));
-			delayHit(npc, 1, target, getMeleeHit(npc, getMaxHit(npc, 244, AttackStyle.MELEE, target)));
+			delayHit(npc, 1, target, Hit.melee(npc, getMaxHit(npc, 244, CombatStyle.MELEE, target)));
 		} else {
 			switch (Utils.getRandomInclusive(1)) {
 			case 0:
 				npc.sync(7694, 1451);
-				delayHit(npc, World.sendProjectile(npc, target, 1453, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, getMagicHit(npc, getMaxHit(npc, 255, AttackStyle.MAGE, target)));
+				delayHit(npc, World.sendProjectile(npc, target, 1453, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, Hit.magic(npc, getMaxHit(npc, 255, CombatStyle.MAGE, target)));
 				break;
 			case 1:
 				npc.sync(8190, 1444);
-				delayHit(npc, World.sendProjectile(npc, target, 1445, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, getRangeHit(npc, getMaxHit(npc, 244, AttackStyle.RANGE, target)));
+				delayHit(npc, World.sendProjectile(npc, target, 1445, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, Hit.range(npc, getMaxHit(npc, 244, CombatStyle.RANGE, target)));
 				break;
 			}
 		}

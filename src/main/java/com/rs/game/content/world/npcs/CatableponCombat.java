@@ -17,6 +17,7 @@
 package com.rs.game.content.world.npcs;
 
 import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
@@ -40,12 +41,12 @@ public class CatableponCombat extends CombatScript {
 			if (strLvl - player.getSkills().getLevel(Constants.STRENGTH) < 8) {
 				player.getSkills().drainLevel(Constants.STRENGTH, (int) (strLvl * 0.15));
 				npc.setNextAnimation(new Animation(4272));
-				delayHit(npc, 1, target, getMagicHit(npc, getMaxHit(npc, def.getMaxHit(), def.getAttackStyle(), target)));
+				delayHit(npc, 1, target, Hit.magic(npc, getMaxHit(npc, def.getMaxHit(), def.getAttackStyle(), target)));
 				return npc.getAttackSpeed();
 			}
 
 		}
-		delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, def.getMaxHit(), def.getAttackStyle(), target)));
+		delayHit(npc, 0, target, Hit.melee(npc, getMaxHit(npc, def.getMaxHit(), def.getAttackStyle(), target)));
 		npc.setNextAnimation(new Animation(def.getAttackEmote()));
 		return npc.getAttackSpeed();
 	}

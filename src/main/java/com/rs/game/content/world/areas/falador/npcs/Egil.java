@@ -7,7 +7,6 @@ import com.rs.engine.dialogue.Options;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
-import com.rs.utils.shop.ShopsHandler;
 
 @PluginEventHandler
 public class Egil extends Conversation {

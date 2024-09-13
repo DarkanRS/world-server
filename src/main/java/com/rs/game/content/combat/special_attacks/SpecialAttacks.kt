@@ -1,5 +1,6 @@
 package com.rs.game.content.combat.special_attacks
 
+import com.rs.cache.loaders.Bonus
 import com.rs.engine.pathfinder.Direction
 import com.rs.game.World
 import com.rs.game.content.Effect
@@ -314,7 +315,7 @@ fun mapSpecials() {
             repeat(11) {
                 World.sendSpotAnim(tile, SpotAnim(478))
                 for (entity in getMultiAttackTargets(player, tile, 1, 9)) {
-                    val hit = calculateHit(player, entity, 0, getMaxHit(player, target, 21371, attackStyle, CombatStyle.MELEE, 0.33), 21371, attackStyle, CombatStyle.MELEE, true, 1.25)
+                    val hit = calculateHit(player, entity, 0, getMaxHit(player, target, CombatStyle.MELEE, 0.33), CombatStyle.MELEE, true, 1.25)
                     addXp(player, entity, attackStyle.xpType, hit)
                     if (hit.damage > 0 && Utils.getRandomInclusive(8) == 0) target.poison.makePoisoned(48)
                     entity.applyHit(hit)
@@ -460,7 +461,7 @@ fun mapSpecials() {
         player.sync(10499, 1835)
         player.addEffect(Effect.MELEE_IMMUNE, Ticks.fromSeconds(5).toLong())
         attackTarget(getMultiAttackTargets(player, target, 1, 20)) { next ->
-            delayHit(next, 1, 13905, attackStyle, calculateHit(player, next, 13905, attackStyle, CombatStyle.MELEE, true, 1.0, 1.15))
+            delayHit(next, 1, 13905, attackStyle, calculateHit(player, next, CombatStyle.MELEE, true, 1.0, 1.15))
             return@attackTarget true
         }
         player.soundEffect(target, 2529, true)
@@ -472,7 +473,7 @@ fun mapSpecials() {
         val attackStyle = player.combatDefinitions.getAttackStyle()
         player.sync(7078, 1225)
         attackTarget(getMultiAttackTargets(player, target, 1, 20)) { next ->
-            delayHit(next, 1, 7158, attackStyle, calculateHit(player, next, 7158, attackStyle, CombatStyle.MELEE, true, 1.0, 1.2))
+            delayHit(next, 1, 7158, attackStyle, calculateHit(player, next, CombatStyle.MELEE, true, 1.0, 1.2))
             return@attackTarget true
         }
         player.soundEffect(target, 2530, true)
@@ -635,7 +636,7 @@ fun mapSpecials() {
 
     //Darklight
     addSpec(intArrayOf(6746), SpecialAttack(SpecialAttack.Type.MELEE, 50) { player, target ->
-        val accuracyRoll = calculateHit(player, target, -1, AttackStyle(0, "stab", XPType.AGGRESSIVE, AttackType.STAB), CombatStyle.MELEE, true, 1.0, 1.0)
+        val accuracyRoll = calculateHit(player, target, Bonus.STAB_ATT, CombatStyle.MELEE, true, 1.0, 1.0)
         player.sync(2890, 483)
         delayHit(target, 0, calculateHit(player, target, CombatStyle.MELEE, true, 1.0, 1.0))
         if (accuracyRoll.damage > 0) {

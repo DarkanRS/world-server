@@ -18,12 +18,12 @@ package com.rs.game.content.bosses.godwars.zaros;
 
 import com.rs.game.World;
 import com.rs.game.content.Effect;
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
@@ -41,7 +41,7 @@ public class AncientMageCombat extends CombatScript {
 	public int attack(NPC npc, Entity target) {
 		final NPCCombatDefinitions defs = npc.getCombatDefinitions();
 		int spellType = Utils.getRandomInclusive(3);
-		Hit hit = getMagicHit(npc, getMaxHit(npc, defs.getMaxHit(), AttackStyle.MAGE, target));
+		Hit hit = Hit.magic(npc, getMaxHit(npc, defs.getMaxHit(), CombatStyle.MAGE, target));
 
 		npc.setNextAnimation(new Animation(defs.getAttackEmote()));
 		if (spellType == 0) {

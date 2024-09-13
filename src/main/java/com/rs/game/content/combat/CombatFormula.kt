@@ -22,70 +22,89 @@ import kotlin.math.pow
 
 @JvmOverloads
 fun calculateMagicHit(entity: Entity, target: Entity, baseDamage: Int, applyMageLevelBoost: Boolean = true): Hit {
-    val hit = getMagicMaxHit(entity, target, baseDamage, applyMageLevelBoost)
+    val hit = Hit.magic(entity, getMaxHit(entity, target, CombatStyle.MAGE, Bonus.MAGIC_ATT, 1.0, baseDamage, applyMageLevelBoost))
     hit.setDamage(Utils.random(1, hit.damage))
-    if (hit.damage > 0) if (target is NPC) if (target.id == 9463 && hasFireCape(entity)) hit.setDamage(hit.damage + 40)
+    if (hit.damage > 0) if (target is NPC) if (target.id == 9463 && entity is Player && hasFireCape(entity)) hit.setDamage(hit.damage + 40)
     return hit
 }
 
 @JvmOverloads
-fun calculateHit(entity: Entity, target: Entity, weaponId: Int, attackStyle: AttackStyle, combatStyle: CombatStyle, calcDefense: Boolean = true, accuracyModifier: Double = 1.0, damageModifier: Double = 1.0): Hit {
-    return calculateHit(entity, target, 1, getMaxHit(entity, target, weaponId, attackStyle, combatStyle, damageModifier), weaponId, attackStyle, combatStyle, calcDefense, accuracyModifier)
+fun calculateHit(entity: Entity, target: Entity, attackBonus: Bonus, combatStyle: CombatStyle, calcDefense: Boolean = true, accuracyModifier: Double = 1.0, damageModifier: Double = 1.0): Hit {
+    return calculateHit(entity, target, 1, getMaxHit(entity, target, combatStyle, attackBonus, damageModifier), attackBonus, combatStyle, calcDefense, accuracyModifier)
 }
 
-fun calculateHit(entity: Entity, target: Entity, combatStyle: CombatStyle, calcDefense: Boolean, accuracyModifier: Double, damageModifier: Double): Hit {
-    return calculateHit(entity, target, 1, getMaxHit(entity, target, entity.equipment.weaponId, entity.combatDefinitions.getAttackStyle(), combatStyle, damageModifier), entity.equipment.weaponId, entity.combatDefinitions.getAttackStyle(), combatStyle, calcDefense, accuracyModifier)
+@JvmOverloads
+fun calculateHit(player: Player, target: Entity,  combatStyle: CombatStyle, calcDefense: Boolean = true, accuracyModifier: Double = 1.0, damageModifier: Double = 1.0): Hit {
+    return calculateHit(player, target, 1, getMaxHit(player, target, combatStyle, player.combatDefinitions.getAttackStyle().attackType.attBonus, damageModifier), combatStyle, calcDefense, accuracyModifier)
+}
+
+@JvmOverloads
+fun calculateHit(entity: Entity, target: Entity, attackStyle: AttackStyle, combatStyle: CombatStyle, calcDefense: Boolean = true, accuracyModifier: Double = 1.0, damageModifier: Double = 1.0): Hit {
+    return calculateHit(entity, target, 1, getMaxHit(entity, target, combatStyle, attackStyle.attackType.attBonus, damageModifier), combatStyle, calcDefense, accuracyModifier)
 }
 
 fun calculateHit(entity: Entity, target: Entity, combatStyle: CombatStyle): Hit {
-    return calculateHit(entity, target, entity.equipment.weaponId, entity.combatDefinitions.getAttackStyle(), combatStyle, true, 1.0, 1.0)
+    return calculateHit(entity, target, entity.currentOffensiveBonusForStyle, combatStyle, true, 1.0, 1.0)
 }
 
 fun calculateHit(entity: Entity, target: Entity, minHit: Int, maxHit: Int, combatStyle: CombatStyle, calcDefense: Boolean, accuracyModifier: Double): Hit {
-    return calculateHit(entity, target, minHit, maxHit, entity.equipment.weaponId, entity.combatDefinitions.getAttackStyle(), combatStyle, calcDefense, accuracyModifier)
+    return calculateHit(entity, target, minHit, maxHit, entity.currentOffensiveBonusForStyle, combatStyle, calcDefense, accuracyModifier)
 }
 
 data class CombatMod(
     val accuracyLevel: Double = 1.0,
     val accuracy: Double = 1.0,
-    val maxhit: Double = 1.0,
-    val damage: Double = 1.0,
+    val strengthLevel: Double = 1.0,
+    val baseDamage: Double = 1.0,
     val defenseLevel: Double = 1.0,
     val defense: Double = 1.0,
+    val overallDamage: Double = 1.0,
 )
 
 val combatPlugins = listOf<(Entity, Entity, Bonus, CombatStyle) -> (CombatMod)>(
-    voidPlugin@ { player, target, attackStyle, combatStyle ->
+    berserkerNeck@ { player, target, offensiveBonus, combatStyle ->
+        if (player !is Player) return@berserkerNeck CombatMod()
+        if (setOf(6523, 6525, 6527, 6528).contains(player.equipment.weaponId) && player.equipment.amuletId == 11128)
+            return@berserkerNeck CombatMod(baseDamage = 1.2)
+        return@berserkerNeck CombatMod()
+    },
+    dharoks@ { player, target, offensiveBonus, combatStyle ->
+        if (player !is Player) return@dharoks CombatMod()
+        if (setOf(4718, 4886, 4887, 4888, 4889).contains(player.equipment.weaponId) && fullDharokEquipped(player))
+            return@dharoks CombatMod(baseDamage = 1.0 + (player.maxHitpoints - player.hitpoints) / 1000.0 * (player.maxHitpoints / 1000.0))
+        return@dharoks CombatMod()
+    },
+    voidPlugin@ { player, target, offensiveBonus, combatStyle ->
         if (player !is Player) return@voidPlugin CombatMod()
         return@voidPlugin when(combatStyle) {
             CombatStyle.MELEE -> if (fullVoidEquipped(player, 11665, 11676)) CombatMod(
                 accuracyLevel = 1.1,
-                maxhit = 1.1
+                strengthLevel = 1.1
             ) else null
             CombatStyle.RANGE -> if (fullVoidEquipped(player, 11664, 11675)) CombatMod(
                 accuracyLevel = 1.1,
-                maxhit = 1.1
+                strengthLevel = 1.1
             ) else null
             CombatStyle.MAGE -> if (fullVoidEquipped(player, 11663, 11674)) CombatMod(accuracyLevel = 1.3) else null
             else -> null
         } ?: CombatMod()
     },
-    salveAmulet@ { player, target, attackStyle, combatStyle ->
+    salveAmulet@ { player, target, offensiveBonus, combatStyle ->
         if (player !is Player) return@salveAmulet CombatMod()
         if (target !is NPC || !target.definitions.isUndead) return@salveAmulet CombatMod()
         return@salveAmulet when (player.equipment.salveAmulet) {
-            0 -> CombatMod(accuracy = 1.15, maxhit = 1.15)
-            1 -> CombatMod(accuracy = 1.20, maxhit = 1.20)
+            0 -> CombatMod(accuracy = 1.15, baseDamage = 1.15)
+            1 -> CombatMod(accuracy = 1.20, baseDamage = 1.20)
             else -> CombatMod()
         }
         return@salveAmulet CombatMod()
     },
-    slayerHelmPlugin@ { player, target, attackStyle, combatStyle ->
+    slayerHelmPlugin@ { player, target, offensiveBonus, combatStyle ->
         if (player !is Player) return@slayerHelmPlugin CombatMod()
         if (!player.hasSlayerTask() || target !is NPC || !player.slayer.isOnTaskAgainst(target))
             return@slayerHelmPlugin CombatMod()
 
-        val mod = CombatMod(accuracy = 7.0 / 6.0, maxhit = 7.0 / 6.0)
+        val mod = CombatMod(accuracy = 7.0 / 6.0, baseDamage = 7.0 / 6.0)
 
         return@slayerHelmPlugin when (combatStyle) {
             CombatStyle.MELEE -> if (Slayer.hasBlackMask(player)) mod else CombatMod()
@@ -94,7 +113,7 @@ val combatPlugins = listOf<(Entity, Entity, Bonus, CombatStyle) -> (CombatMod)>(
             else -> CombatMod()
         }
     },
-    auraPlugin@ { player, target, attackStyle, combatStyle ->
+    auraPlugin@ { player, target, offensiveBonus, combatStyle ->
         if (player !is Player) return@auraPlugin CombatMod()
         return@auraPlugin when(combatStyle) {
             CombatStyle.RANGE -> CombatMod(accuracyLevel = player.auraManager.rangeAcc)
@@ -102,88 +121,95 @@ val combatPlugins = listOf<(Entity, Entity, Bonus, CombatStyle) -> (CombatMod)>(
             else -> null
         } ?: CombatMod()
     },
-    ringKinshipPlugin@ { player, target, attackStyle, combatStyle ->
-        if (player !is Player) return@ringKinshipPlugin CombatMod()
-        if (combatStyle == CombatStyle.MELEE && attackStyle.xpType == XPType.ACCURATE && player.dungManager.activePerk == KinshipPerk.TACTICIAN && player.controllerManager.isIn(DungeonController::class.java))
-            CombatMod(accuracy = 1.1 + (player.dungManager.getKinshipTier(KinshipPerk.TACTICIAN) * 0.01))
-        else
-            CombatMod()
-    }
-)
-
-fun getMagicMaxHit(entity: Entity, target: Entity, spellBaseDamage: Int, applyMageLevelBoost: Boolean): Hit {
-    var lvl = floor(entity.getLevel(Constants.MAGIC) * ((entity as? Player)?.prayer?.mageMultiplier ?: 1.0))
-    lvl += 8.0
-    val atkBonus = player.combatDefinitions.getBonus(Bonus.MAGIC_ATT).toDouble()
-
-    var atk = floor(lvl * (atkBonus + 64))
-    var maxHit = spellBaseDamage
-
-    var def = 0.0
-    if (target is Player) {
-        var defLvl = floor(target.skills.getLevel(Constants.DEFENSE) * target.prayer.defenceMultiplier)
-        defLvl += (if (target.combatDefinitions.getAttackStyle().attackType == AttackType.LONG_RANGE || target.combatDefinitions.getAttackStyle().xpType == XPType.DEFENSIVE) 3 else if (target.combatDefinitions.getAttackStyle().xpType == XPType.CONTROLLED) 1 else 0).toDouble()
-        defLvl += 8.0
-        defLvl *= 0.3
-        var magLvl = floor(target.skills.getLevel(Constants.MAGIC) * target.prayer.mageMultiplier)
-        magLvl *= 0.7
-
-        val totalDefLvl = defLvl + magLvl
-
-        val defBonus = target.combatDefinitions.getBonus(Bonus.MAGIC_DEF).toDouble()
-
-        def = floor(totalDefLvl * (defBonus + 64))
-    } else (target as? NPC)?.let { npc ->
-        if (npc.name.startsWith("Vyre")) if (player.equipment.weaponId == 21580) {
-            atk *= 1.5
-            maxHit = (maxHit * 1.5).toInt()
-        } else maxHit = 0
-        if (npc.name == "Turoth" || npc.name == "Kurask") if (player.equipment.weaponId != 4170) maxHit = 0
-        var defLvl = npc.magicLevel.toDouble()
-        val defBonus = npc.definitions.magicDef.toDouble()
-        defLvl += 8.0
-        def = floor(defLvl * (defBonus + 64))
-    }
-
-    val prob = if (atk > def) (1 - (def + 2) / (2 * (atk + 1))) else (atk / (2 * (def + 1)))
-    if (Settings.getConfig().isDebug && player.nsv.getB("hitChance")) player.sendMessage("Your hit chance: " + Utils.formatDouble(prob * 100.0) + "%")
-    if (prob <= Math.random()) return Hit(player, 0, HitLook.MAGIC_DAMAGE)
-
-    if (applyMageLevelBoost) {
-        val boostedMageLevelBonus = 1 + ((player.skills.getLevel(Constants.MAGIC) - player.skills.getLevelForXp(Constants.MAGIC)) * 0.03)
-        if (boostedMageLevelBonus > 1) maxHit = (maxHit * boostedMageLevelBonus).toInt()
-    }
-    maxHit = (maxHit * getMagicBonusBoost(player)).toInt()
-    if (player.tempAttribs.getO<Any?>("spellcasterProc") != null) {
-        if (spellBaseDamage > 60) {
-            maxHit = (maxHit * 1.25).toInt()
+    ringKinshipPlugin@ { player, target, offensiveBonus, combatStyle ->
+        if (player !is Player || !player.controllerManager.isIn(DungeonController::class.java)) return@ringKinshipPlugin CombatMod()
+        when(combatStyle) {
+            CombatStyle.MELEE -> {
+                if (player.combatDefinitions.getAttackStyle().xpType == XPType.AGGRESSIVE && player.dungManager.activePerk == KinshipPerk.BERSERKER)
+                    return@ringKinshipPlugin CombatMod(strengthLevel = 1.1 + (player.dungManager.getKinshipTier(KinshipPerk.BERSERKER) * 0.01))
+                else if (player.combatDefinitions.getAttackStyle().xpType == XPType.ACCURATE && player.dungManager.activePerk == KinshipPerk.TACTICIAN)
+                    return@ringKinshipPlugin CombatMod(accuracy = 1.1 + (player.dungManager.getKinshipTier(KinshipPerk.TACTICIAN) * 0.01))
+            }
+            CombatStyle.RANGE -> {
+                if (player.combatDefinitions.getAttackStyle().attackType == AttackType.RAPID && player.dungManager.activePerk == KinshipPerk.DESPERADO)
+                    return@ringKinshipPlugin CombatMod(strengthLevel = 1.1 + (player.dungManager.getKinshipTier(KinshipPerk.DESPERADO) * 0.01))
+            }
+            else -> {}
+        }
+        return@ringKinshipPlugin CombatMod()
+    },
+    steelTitanPlugin@ { player, target, offensiveBonus, combatStyle ->
+        if (target !is Player) return@steelTitanPlugin CombatMod()
+        if (target.familiarPouch === Pouch.STEEL_TITAN) return@steelTitanPlugin CombatMod(defense = 1.15)
+        return@steelTitanPlugin CombatMod()
+    },
+    spellcasterPlugin@ { entity, target, offensiveBonus, combatStyle ->
+        if (entity.tempAttribs.getO<Any?>("spellcasterProc") != null) {
             target.lowerStat(Skills.ATTACK, 0.1, 0.9)
             target.lowerStat(Skills.STRENGTH, 0.1, 0.9)
             target.lowerStat(Skills.DEFENSE, 0.1, 0.9)
             if (target is Player) target.sendMessage("Your melee skills have been drained.")
-            player.sendMessage("Your spell weakened your enemy.")
-            player.sendMessage("Your magic surged with extra power.")
+            (entity as? Player)?.sendMessage("Your spell weakened your enemy.")
+            (entity as? Player)?.sendMessage("Your magic surged with extra power.")
+            return@spellcasterPlugin CombatMod(baseDamage = 1.25)
         }
-    }
-    if (player.hasSlayerTask()) if (target is NPC && player.slayer.isOnTaskAgainst(target as NPC?)) if (player.equipment.wearingHexcrest() || player.equipment.wearingSlayerHelmet()) maxHit = (maxHit * 1.15).toInt()
-    val finalMaxHit = maxHit.toDouble().toInt()
-    if (Settings.getConfig().isDebug && player.nsv.getB("hitChance")) player.sendMessage("Your max hit: $finalMaxHit")
-    return Hit(player, finalMaxHit, HitLook.MAGIC_DAMAGE).setMaxHit(finalMaxHit)
-}
+        return@spellcasterPlugin CombatMod()
+    },
+    hexhunterBowPlugin@ { player, target, offensiveBonus, combatStyle ->
+        if (player !is Player || target !is NPC) return@hexhunterBowPlugin CombatMod()
+        if (player.equipment.weaponId == 15836 || player.equipment.weaponId == 17295 || player.equipment.weaponId == 21332) {
+            val mageLvl = Utils.clampI(target.magicLevel, 0, 350)
+            if (player.controllerManager.isIn(DungeonController::class.java) && target.combatDefinitions.attackStyle == CombatStyle.MAGE)
+                mageLvl * 2
+            val atkMul = (140.0 + floor((3 * mageLvl.toDouble() - 10.0) / 100.0) - floor((0.3 * mageLvl.toDouble() - 100.0).pow(2.0) / 100.0)) / 100.0
+            val strMul = (250.0 + floor((3 * mageLvl.toDouble() - 14.0) / 100.0) - floor((0.3 * mageLvl.toDouble() - 140.0).pow(2.0) / 100.0)) / 100.0
+            return@hexhunterBowPlugin CombatMod(
+                accuracy = Utils.clampD(atkMul, 1.0, 3.0),
+                baseDamage = Utils.clampD(strMul, 1.0, 3.0)
+            )
+        }
 
-fun getMagicBonusBoost(entity: Entity): Double {
-    return if (entity is Player)
-        entity.combatDefinitions.getBonus(Bonus.MAGIC_STR) / 100.0 + 1.0
-    else if (entity is NPC)
-        entity.getBonus(Bonus.MAGIC_STR) / 100.0 + 1.0
-    else
-        1.0
-}
+        return@hexhunterBowPlugin CombatMod()
+    },
+    vyrePlugin@ { player, target, offensiveBonus, combatStyle ->
+        if (player !is Player || target !is NPC || !target.name.startsWith("Vyre")) return@vyrePlugin CombatMod()
+        when(combatStyle) {
+            CombatStyle.MELEE, CombatStyle.RANGE -> {
+                if (player.equipment.weaponId == 21581 || player.equipment.weaponId == 21582) {
+                    return@vyrePlugin CombatMod(accuracy = 2.0, baseDamage = 2.0)
+                } else if (!(player.equipment.weaponId == 6746 || player.equipment.weaponId == 2961 || player.equipment.weaponId == 2963 || player.equipment.weaponId == 2952 || player.equipment.weaponId == 2402 || (player.equipment.weaponId >= 7639 && player.equipment.weaponId <= 7648) || (player.equipment.weaponId >= 13117 && player.equipment.weaponId <= 13146)))
+                    return@vyrePlugin CombatMod(baseDamage = 0.0)
+            }
+            CombatStyle.MAGE -> return@vyrePlugin if (player.equipment.weaponId == 21580)
+                CombatMod(accuracy = 1.5, baseDamage = 1.5) else CombatMod(baseDamage = 0.0)
+        }
+        return@vyrePlugin CombatMod()
+    },
+    baneAmmo@{ player, target, offensiveBonus, combatStyle ->
+        if (player !is Player || target !is NPC || combatStyle != CombatStyle.RANGE) return@baneAmmo CombatMod()
+
+        val weapon = RangedWeapon.forId(player.equipment.weaponId)
+        val ammo = AmmoType.forId(player.equipment.ammoId)
+        if (weapon?.ammos?.contains(ammo) != true) return@baneAmmo CombatMod()
+
+        val boosted = CombatMod(accuracy = 1.6, baseDamage = 1.6)
+        val targetName = target.name.lowercase(Locale.getDefault())
+
+        val matches = when (ammo) {
+            AmmoType.DRAGONBANE_ARROW, AmmoType.DRAGONBANE_BOLT -> "dragon"
+            AmmoType.ABYSSALBANE_ARROW, AmmoType.ABYSSALBANE_BOLT -> "abyssal"
+            AmmoType.BASILISKBANE_ARROW, AmmoType.BASILISKBANE_BOLT -> "basilisk"
+            AmmoType.WALLASALKIBANE_ARROW, AmmoType.WALLASALKIBANE_BOLT -> "wallasalki"
+            else -> null
+        }
+
+        return@baneAmmo if (matches != null && targetName.contains(matches)) boosted else CombatMod()
+    }
+)
 
 fun calculateHit(entity: Entity, target: Entity, minHit: Int, maxHit: Int, attackBonus: Bonus, combatStyle: CombatStyle, calcDefense: Boolean, accuracyModifier: Double): Hit {
     val combatModifiers = combatPlugins.map { it(entity, target, attackBonus, combatStyle) }
 
-    var finalMaxHit = maxHit
     val hit = Hit(entity, 0, when(combatStyle) {
         CombatStyle.MELEE -> HitLook.MELEE_DAMAGE
         CombatStyle.RANGE -> HitLook.RANGE_DAMAGE
@@ -221,145 +247,122 @@ fun calculateHit(entity: Entity, target: Entity, minHit: Int, maxHit: Int, attac
         for (combatMod in combatModifiers)
             atk *= combatMod.accuracy
 
-        var def = 0.0
+        var defLvl = entity.getLevel(Skills.DEFENSE).toDouble() * ((entity as? Player)?.prayer?.defenceMultiplier ?: 1.0)
+        val defBonus = entity.getBonus(attackBonus.invert()).toDouble()
+        defLvl = entity.getLevel(Skills.DEFENSE).toDouble() * ((entity as? Player)?.prayer?.defenceMultiplier ?: 1.0)
         if (target is Player) {
-            var defLvl = floor(target.skills.getLevel(Constants.DEFENSE) * target.prayer.defenceMultiplier)
-            defLvl += (if (target.combatDefinitions.getAttackStyle().attackType == AttackType.LONG_RANGE || target.combatDefinitions.getAttackStyle().xpType == XPType.DEFENSIVE) 3 else if (target.combatDefinitions.getAttackStyle().xpType == XPType.CONTROLLED) 1 else 0).toDouble()
-            defLvl += 8.0
-            val defBonus = target.combatDefinitions.getDefenseBonusForStyle(entity.combatDefinitions.getAttackStyle()).toDouble()
-
-            def = floor(defLvl * (defBonus + 64))
-
-            if (!ranging) if (target.familiarPouch === Pouch.STEEL_TITAN) def *= 1.15
-        } else (target as? NPC)?.let { npc ->
-            val wId = player.equipment.weaponId
-            if (wId == 15836 || wId == 17295 || wId == 21332) {
-                val mageLvl = Utils.clampI(npc.magicLevel, 0, 350)
-                if (player.controllerManager.isIn(DungeonController::class.java) && npc.combatDefinitions.attackStyle == CombatStyle.MAGE)
-                    mageLvl * 2
-                val atkMul = (140.0 + floor((3 * mageLvl.toDouble() - 10.0) / 100.0) - floor((0.3 * mageLvl.toDouble() - 100.0).pow(2.0) / 100.0)) / 100.0
-                atk *= Utils.clampD(atkMul, 1.0, 3.0)
-                val strMul = (250.0 + floor((3 * mageLvl.toDouble() - 14.0) / 100.0) - floor((0.3 * mageLvl.toDouble() - 140.0).pow(2.0) / 100.0)) / 100.0
-                finalMaxHit = (finalMaxHit * Utils.clampD(strMul, 1.0, 3.0)).toInt()
-            }
-            if (npc.name.startsWith("Vyre")) {
-                if (wId == 21581 || wId == 21582) {
-                    atk *= 2.0
-                    finalMaxHit *= 2
-                } else if (!(wId == 6746 || wId == 2961 || wId == 2963 || wId == 2952 || wId == 2402 || (wId >= 7639 && wId <= 7648) || (wId >= 13117 && wId <= 13146))) finalMaxHit = 0
-            }
-            if (npc.name == "Turoth" || npc.name == "Kurask") {
-                if (!(wId == 4158 || wId == 13290) && !(player.equipment.weaponName.contains("bow") && ItemDefinitions.getDefs(player.equipment.ammoId).name.lowercase(Locale.getDefault()).contains("broad"))) finalMaxHit = 0
-            }
-            val weapon = RangedWeapon.forId(weaponId)
-            val ammo = AmmoType.forId(player.equipment.ammoId)
-            if (ranging && weapon != null && weapon.ammos != null && weapon.ammos!!.contains(ammo)) {
-                when (ammo) {
-                    AmmoType.DRAGONBANE_ARROW, AmmoType.DRAGONBANE_BOLT -> {
-                        if (npc.name.lowercase(Locale.getDefault()).contains("dragon")) {
-                            atk *= 1.6
-                            finalMaxHit = (finalMaxHit * 1.6).toInt()
-                        }
-                    }
-
-                    AmmoType.ABYSSALBANE_ARROW, AmmoType.ABYSSALBANE_BOLT -> {
-                        if (npc.name.lowercase(Locale.getDefault()).contains("abyssal")) {
-                            atk *= 1.6
-                            finalMaxHit = (finalMaxHit * 1.6).toInt()
-                        }
-                    }
-
-                    AmmoType.BASILISKBANE_ARROW, AmmoType.BASILISKBANE_BOLT -> {
-                        if (npc.name.lowercase(Locale.getDefault()).contains("basilisk")) {
-                            atk *= 1.6
-                            finalMaxHit = (finalMaxHit * 1.6).toInt()
-                        }
-                    }
-
-                    AmmoType.WALLASALKIBANE_ARROW, AmmoType.WALLASALKIBANE_BOLT -> {
-                        if (npc.name.lowercase(Locale.getDefault()).contains("wallasalki")) {
-                            atk *= 1.6
-                            finalMaxHit = (finalMaxHit * 1.6).toInt()
-                        }
-                    }
-
-                    else -> {}
-                }
-            }
-            var defLvl = npc.defenseLevel.toDouble()
-            val defBonus = entity.combatDefinitions.getAttackStyle().attackType.getDefenseBonus(npc).toDouble()
-            defLvl += 8.0
-            def = floor(defLvl * (defBonus + 64))
+            val style = target.combatDefinitions.getAttackStyle()
+            if (style.attackType == AttackType.LONG_RANGE || style.xpType == XPType.DEFENSIVE)
+                atkLvl += 3.0
+            else if (style.xpType == XPType.CONTROLLED)
+                atkLvl += 1.0
         }
-        if (finalMaxHit != 0 && fullVeracsEquipped(player) && Utils.random(4) == 0) veracsProc = true
+        defLvl += 8.0
+
+        if (combatStyle == CombatStyle.MAGE && entity is Player && target is Player) {
+            defLvl *= 0.3
+            var magLvl = floor(target.skills.getLevel(Constants.MAGIC) * target.prayer.mageMultiplier)
+            magLvl *= 0.7
+            defLvl = defLvl + magLvl
+        }
+
+        for (combatMod in combatModifiers)
+            defLvl *= combatMod.defenseLevel
+
+        var def = floor(defLvl * (defBonus + 64))
+
+        for (combatMod in combatModifiers)
+            def *= combatMod.defense
+
         val prob = if (atk > def) (1 - (def + 2) / (2 * (atk + 1))) else (atk / (2 * (def + 1)))
-        if (Settings.getConfig().isDebug && player.nsv.getB("hitChance")) player.sendMessage("Your hit chance: " + Utils.formatDouble(prob * 100.0) + "%")
-        if (prob <= Math.random() && !veracsProc) return hit.setDamage(0)
+        if (Settings.getConfig().isDebug && entity is Player && entity.nsv.getB("hitChance")) entity.sendMessage("Your hit chance: ${Utils.formatDouble(prob * 100.0)}%")
+        if (prob <= Math.random()) return hit.setDamage(0)
     }
-    if (Settings.getConfig().isDebug && player.nsv.getB("hitChance")) player.sendMessage("Modified max hit: $finalMaxHit")
-    var finalHit = Utils.random(minHit, finalMaxHit)
-    if (veracsProc) finalHit = (finalHit + 1.0).toInt()
-    if (target is NPC) if (target.id == 9463 && hasFireCape(player)) finalHit += 40
-    if (player.auraManager.isActivated(Aura.EQUILIBRIUM)) {
-        val perc25MaxHit = (finalMaxHit * 0.25).toInt()
+    var finalHit = Utils.random(minHit, maxHit).toDouble()
+    for (combatMod in combatModifiers)
+        finalHit *= combatMod.overallDamage
+    hit.setMaxHit(maxHit)
+    if (entity is Player && entity.auraManager.isActivated(Aura.EQUILIBRIUM)) {
+        val perc25MaxHit = (maxHit * 0.25).toInt()
         finalHit -= perc25MaxHit
-        finalMaxHit -= perc25MaxHit
-        if (finalHit < 0) finalHit = 0
+        hit.setMaxHit(maxHit - perc25MaxHit)
+        if (finalHit < 0) finalHit = 0.0
         if (finalHit < perc25MaxHit) finalHit += perc25MaxHit
     }
-    hit.setMaxHit(finalMaxHit)
-    hit.setDamage(finalHit)
+    hit.setDamage(finalHit.toInt())
     return hit
 }
 
-fun getMaxHit(player: Player, target: Entity?, combatStyle: CombatStyle, damageMultiplier: Double): Int {
-    return getMaxHit(player, target, player.equipment.weaponId, player.combatDefinitions.getAttackStyle(), combatStyle, damageMultiplier)
+private fun Bonus.invert(): Bonus = when(this) {
+    Bonus.STAB_ATT -> Bonus.STAB_DEF
+    Bonus.STAB_DEF -> Bonus.STAB_ATT
+    Bonus.SLASH_ATT -> Bonus.SLASH_DEF
+    Bonus.SLASH_DEF -> Bonus.SLASH_ATT
+    Bonus.CRUSH_ATT -> Bonus.CRUSH_DEF
+    Bonus.CRUSH_DEF -> Bonus.CRUSH_ATT
+    Bonus.RANGE_ATT -> Bonus.RANGE_DEF
+    Bonus.RANGE_DEF -> Bonus.RANGE_ATT
+    Bonus.MAGIC_ATT -> Bonus.MAGIC_DEF
+    Bonus.MAGIC_DEF -> Bonus.MAGIC_ATT
+    else -> Bonus.STAB_DEF
 }
 
-fun getMaxHit(player: Player, target: Entity?, weaponId: Int, attackStyle: AttackStyle, combatStyle: CombatStyle, damageMultiplier: Double): Int {
-    if (ranging) {
-        if (target != null && weaponId == 24338 && target is Player) {
-            player.sendMessage("The royal crossbow feels weak and unresponsive against other players.")
-            return 60
-        }
-        var lvl = floor(player.skills.getLevel(Constants.RANGE) * player.prayer.rangeMultiplier)
-        lvl += (if (attackStyle.attackType == AttackType.ACCURATE) 3 else 0).toDouble()
-        lvl += 8.0
-        if (fullVoidEquipped(player, 11664, 11675)) lvl = floor(lvl * 1.1)
-        if (attackStyle.attackType == AttackType.RAPID && player.dungManager.activePerk == KinshipPerk.DESPERADO && player.controllerManager.isIn(DungeonController::class.java)) lvl = floor(lvl * 1.1 + (player.dungManager.getKinshipTier(KinshipPerk.DESPERADO) * 0.01))
-        val str = player.combatDefinitions.getBonus(Bonus.RANGE_STR).toDouble()
-        val baseDamage = 5 + lvl * (str + 64) / 64
-        val maxHit = floor(baseDamage * damageMultiplier).toInt()
-        if (Settings.getConfig().isDebug && player.nsv.getB("hitChance")) player.sendMessage("Your max hit: $maxHit")
-        return maxHit
+fun getMagicBonusBoost(entity: Entity): Double = entity.getBonus(Bonus.MAGIC_STR) / 100.0 + 1.0
+
+@JvmOverloads
+fun getMaxHit(player: Player, target: Entity, combatStyle: CombatStyle, damageMultiplier: Double, spellBaseDamage: Int = -1, applyMageLevelBoost: Boolean = false): Int {
+    return getMaxHit(player, target, combatStyle, player.combatDefinitions.getAttackStyle().attackType.attBonus, damageMultiplier, spellBaseDamage, applyMageLevelBoost)
+}
+
+fun getMaxHit(entity: Entity, target: Entity, combatStyle: CombatStyle, attackBonus: Bonus, damageMultiplier: Double, spellBaseDamage: Int = -1, applyMageLevelBoost: Boolean = false): Int {
+    val combatModifiers = combatPlugins.map { it(entity, target, attackBonus, combatStyle) }
+
+    val offensiveStat = when(combatStyle) {
+        CombatStyle.MELEE -> Skills.STRENGTH
+        CombatStyle.RANGE -> Skills.RANGE
+        CombatStyle.MAGE -> Skills.MAGIC
     }
-    var lvl = floor(player.skills.getLevel(Constants.STRENGTH) * player.prayer.strengthMultiplier)
-    lvl += (if (attackStyle.xpType == XPType.AGGRESSIVE) 3 else if (attackStyle.xpType == XPType.CONTROLLED) 1 else 0).toDouble()
-    lvl += 8.0
-    if (fullVoidEquipped(player, 11665, 11676)) lvl = floor(lvl * 1.1)
-    if (attackStyle.xpType == XPType.AGGRESSIVE && player.dungManager.activePerk == KinshipPerk.BERSERKER && player.controllerManager.isIn(DungeonController::class.java)) lvl = floor(lvl * 1.1 + (player.dungManager.getKinshipTier(KinshipPerk.BERSERKER) * 0.01))
-    var str = player.combatDefinitions.getBonus(Bonus.MELEE_STR).toDouble()
-    if (weaponId == -2) str += 82.0
-    var baseDamage = 5 + lvl * (str + 64) / 64
+    val prayerAccuracyMultiplier = if (entity is Player) when(combatStyle) {
+        CombatStyle.MELEE -> entity.prayer.strengthMultiplier
+        CombatStyle.RANGE -> entity.prayer.rangeMultiplier
+        CombatStyle.MAGE -> 1.0
+    } else 1.0
 
-    when (weaponId) {
-        6523, 6525, 6527, 6528 -> if (player.equipment.amuletId == 11128) baseDamage *= 1.2
-        4718, 4886, 4887, 4888, 4889 -> if (fullDharokEquipped(player)) {
-            val mul = 1.0 + (player.maxHitpoints - player.hitpoints) / 1000.0 * (player.maxHitpoints / 1000.0)
-            baseDamage *= mul
-        }
-
-        10581, 10582, 10583, 10584 -> if (target != null && target is NPC) if (target.name.startsWith("Kalphite")) baseDamage *= if (Utils.random(51) == 0) 3.0
-        else 4.0 / 3.0
-
-        15403, 22405 -> if (target != null && target is NPC) if (target.name == "Dagannoth" || (target.name == "Wallasalki") || (target.name == "Dagannoth Supreme")) baseDamage *= 2.75
-        6746 -> if (target != null && target is NPC) if (target.name.lowercase(Locale.getDefault()).contains("demon")) baseDamage *= 1.6
-        else -> {}
+    var strLvl = floor(entity.getLevel(offensiveStat) * prayerAccuracyMultiplier)
+    strLvl += 8.0
+    if (entity is Player) {
+        val style = entity.combatDefinitions.getAttackStyle()
+        if (style.attackType == AttackType.ACCURATE || style.xpType == XPType.AGGRESSIVE)
+            strLvl += 3.0
+        else if (style.xpType == XPType.CONTROLLED)
+            strLvl += 1.0
     }
-    //int multiplier = PluginManager.handle()
-    val maxHit = floor(baseDamage * damageMultiplier).toInt()
-    if (Settings.getConfig().isDebug && player.nsv.getB("hitChance")) player.sendMessage("Your max hit: $maxHit")
-    return maxHit
+
+    for (combatMod in combatModifiers)
+        strLvl *= combatMod.strengthLevel
+
+    val strBonus = entity.getBonus(if (combatStyle == CombatStyle.MELEE) Bonus.MELEE_STR else Bonus.RANGE_STR).toDouble()
+
+    var baseDamage = 5 + strLvl * (strBonus + 64) / 64
+
+    if (combatStyle == CombatStyle.MAGE)
+        baseDamage = spellBaseDamage.toDouble()
+
+    for (combatMod in combatModifiers)
+        baseDamage *= combatMod.baseDamage
+
+    var maxHit = floor(baseDamage * damageMultiplier)
+
+    if (combatStyle == CombatStyle.MAGE) {
+        if (applyMageLevelBoost) {
+            val boostedMageLevelBonus = 1 + ((entity.getLevel(Constants.MAGIC) - entity.getLevelForXp(Constants.MAGIC)) * 0.03)
+            if (boostedMageLevelBonus > 1) maxHit = (maxHit * boostedMageLevelBonus)
+        }
+        maxHit = (maxHit * getMagicBonusBoost(entity))
+    }
+
+    if (Settings.getConfig().isDebug && (entity as? Player)?.nsv?.getB("hitChance") == true) entity.sendMessage("Your max hit: ${maxHit.toInt()}")
+    return maxHit.toInt()
 }
 
 fun hasFireCape(player: Player): Boolean {

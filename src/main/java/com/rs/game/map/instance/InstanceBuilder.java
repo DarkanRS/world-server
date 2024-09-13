@@ -19,19 +19,15 @@ package com.rs.game.map.instance;
 import com.rs.engine.thread.AsyncTaskExecutor;
 import com.rs.game.map.Chunk;
 import com.rs.game.map.ChunkManager;
-import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.MapUtils;
 import com.rs.lib.util.MapUtils.Structure;
-import com.rs.utils.Ticks;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.TimeoutException;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public final class InstanceBuilder {
 	public static final int NORTH = 0, EAST = 1, SOUTH = 2, WEST = 3;

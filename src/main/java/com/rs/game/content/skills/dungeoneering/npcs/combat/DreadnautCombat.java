@@ -17,11 +17,12 @@
 package com.rs.game.content.skills.dungeoneering.npcs.combat;
 
 import com.rs.game.World;
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.content.skills.dungeoneering.npcs.Dreadnaut;
 import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
@@ -48,7 +49,7 @@ public class DreadnautCombat extends CombatScript {
 		if (Utils.random(5) == 0) {
 			npc.setNextAnimation(new Animation(14982));
 			npc.setNextSpotAnim(new SpotAnim(2865));
-			int damage = getMaxHit(boss, boss.getMaxHit(), AttackStyle.MELEE, target);
+			int damage = getMaxHit(boss, boss.getMaxHit(), CombatStyle.MELEE, target);
 			if (damage > 0) {
 				target.setNextSpotAnim(new SpotAnim(2866, 75, 0));
 				sendReductionEffect(boss, target, damage);
@@ -57,7 +58,7 @@ public class DreadnautCombat extends CombatScript {
 				player.sendMessage("You have been injured and are unable to use protection prayers.");
 				player.setProtectionPrayBlock(12);
 			}
-			delayHit(npc, 1, target, getMeleeHit(npc, damage));
+			delayHit(npc, 1, target, Hit.melee(npc, damage));
 		} else {
 			npc.setNextAnimation(new Animation(14973));
 			npc.setNextSpotAnim(new SpotAnim(2856));
@@ -65,14 +66,14 @@ public class DreadnautCombat extends CombatScript {
 			for (Entity t : boss.getPossibleTargets()) {
 				if (!t.withinDistance(target.getTile(), 2))
 					continue;
-				int damage = getMaxHit(boss, boss.getMaxHit(), AttackStyle.MELEE, t);
+				int damage = getMaxHit(boss, boss.getMaxHit(), CombatStyle.MELEE, t);
 				World.sendProjectile(boss, t, 2857, new Pair<>(30, 30), 25, 5, 15);
 				if (damage > 0) {
 					sendReductionEffect(boss, t, damage);
 					boss.addSpot(Tile.of(t.getTile()));
 				} else
 					t.setNextSpotAnim(new SpotAnim(2858, 75, 0));
-				delayHit(npc, 1, t, getMeleeHit(npc, damage));
+				delayHit(npc, 1, t, Hit.melee(npc, damage));
 			}
 		}
 		return 5;

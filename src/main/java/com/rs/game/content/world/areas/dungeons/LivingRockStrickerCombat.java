@@ -16,11 +16,12 @@
 //
 package com.rs.game.content.world.areas.dungeons;
 
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.lib.game.Animation;
 
 public class LivingRockStrickerCombat extends CombatScript {
@@ -39,12 +40,12 @@ public class LivingRockStrickerCombat extends CombatScript {
 		int size = npc.getSize();
 		if ((distanceX <= size) && (distanceX >= -1) && (distanceY <= size) && (distanceY >= -1)) {
 			npc.setNextAnimation(new Animation(defs.getAttackEmote()));
-			delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, 84, AttackStyle.MELEE, target)));
+			delayHit(npc, 0, target, Hit.melee(npc, getMaxHit(npc, 84, CombatStyle.MELEE, target)));
 			return npc.getAttackSpeed();
 		}
 		// TODO add projectile
 		npc.setNextAnimation(new Animation(12196));
-		delayHit(npc, 1, target, getRangeHit(npc, getMaxHit(npc, defs.getMaxHit(), AttackStyle.RANGE, target)));
+		delayHit(npc, 1, target, Hit.range(npc, getMaxHit(npc, defs.getMaxHit(), CombatStyle.RANGE, target)));
 
 		return npc.getAttackSpeed();
 	}

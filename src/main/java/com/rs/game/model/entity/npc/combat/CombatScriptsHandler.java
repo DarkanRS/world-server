@@ -17,10 +17,11 @@
 package com.rs.game.model.entity.npc.combat;
 
 import com.rs.game.World;
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Logger;
@@ -42,13 +43,13 @@ public class CombatScriptsHandler {
 	static {
 		MAPPED_SCRIPTS.put("DEFAULT", (npc, target) -> {
 			NPCCombatDefinitions defs = npc.getCombatDefinitions();
-			NPCCombatDefinitions.AttackStyle attackStyle = defs.getAttackStyle();
-			if (attackStyle == NPCCombatDefinitions.AttackStyle.MELEE)
-				CombatScript.delayHit(npc, 0, target, CombatScript.getMeleeHit(npc, CombatScript.getMaxHit(npc, npc.getMaxHit(), attackStyle, target)));
+			CombatStyle attackStyle = defs.getAttackStyle();
+			if (attackStyle == CombatStyle.MELEE)
+				CombatScript.delayHit(npc, 0, target, Hit.melee(npc, CombatScript.getMaxHit(npc, npc.getMaxHit(), attackStyle, target)));
 			else {
 				int damage = CombatScript.getMaxHit(npc, npc.getMaxHit(), attackStyle, target);
 				WorldProjectile p = World.sendProjectile(npc, target, defs.getAttackProjectile(), new Pair<>(32, 32), 30, 5, 2);
-				CombatScript.delayHit(npc, p.getTaskDelay(), target, attackStyle == NPCCombatDefinitions.AttackStyle.RANGE ? CombatScript.getRangeHit(npc, damage) : CombatScript.getMagicHit(npc, damage));
+				CombatScript.delayHit(npc, p.getTaskDelay(), target, attackStyle == CombatStyle.RANGE ? Hit.range(npc, damage) : Hit.magic(npc, damage));
 			}
 			if (defs.getAttackGfx() != -1)
 				npc.setNextSpotAnim(new SpotAnim(defs.getAttackGfx()));

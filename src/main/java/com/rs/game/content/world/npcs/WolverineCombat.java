@@ -17,6 +17,7 @@
 package com.rs.game.content.world.npcs;
 
 import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.player.Player;
@@ -39,10 +40,10 @@ public class WolverineCombat extends CombatScript {
 		int dclaw1 = damage / 2;
 		int dclaw2 = damage / 3;
 		int dclaw3 = damage / 3;
-		delayHit(npc, 2, target, getMeleeHit(npc, damage));
-		delayHit(npc, 2, target, getMeleeHit(npc, dclaw1));
-		delayHit(npc, 2, target, getMeleeHit(npc, dclaw2 / 10));
-		delayHit(npc, 2, target, getMeleeHit(npc, dclaw3 / 10));
+		delayHit(npc, 2, target, Hit.melee(npc, damage));
+		delayHit(npc, 2, target, Hit.melee(npc, dclaw1));
+		delayHit(npc, 2, target, Hit.melee(npc, dclaw2 / 10));
+		delayHit(npc, 2, target, Hit.melee(npc, dclaw3 / 10));
 		return npc.getAttackSpeed();
 	}
 }

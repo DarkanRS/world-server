@@ -17,11 +17,12 @@
 package com.rs.game.content.minigames.fightcaves.npcs;
 
 import com.rs.game.World;
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
@@ -51,9 +52,9 @@ public class KetZekCombat extends CombatScript {
 		int attackStyle = Utils.getRandomInclusive(1);
 		switch (attackStyle) {
 		case 0:
-			hit = getMaxHit(npc, defs.getMaxHit(), AttackStyle.MELEE, target);
+			hit = getMaxHit(npc, defs.getMaxHit(), CombatStyle.MELEE, target);
 			npc.setNextAnimation(new Animation(defs.getAttackEmote()));
-			delayHit(npc, 0, target, getMeleeHit(npc, hit));
+			delayHit(npc, 0, target, Hit.melee(npc, hit));
 			break;
 		case 1:
 			commenceMagicAttack(npc, target);
@@ -63,11 +64,11 @@ public class KetZekCombat extends CombatScript {
 	}
 
 	private void commenceMagicAttack(final NPC npc, final Entity target) {
-        int hit = getMaxHit(npc, npc.getCombatDefinitions().getMaxHit() - 50, AttackStyle.MAGE, target);
+        int hit = getMaxHit(npc, npc.getCombatDefinitions().getMaxHit() - 50, CombatStyle.MAGE, target);
 		npc.setNextAnimation(new Animation(16136));
 		// npc.setNextGraphics(new Graphics(1622, 0, 96 << 16));
 		World.sendProjectile(npc, target, 2984, new Pair<>(34, 16), 30, 7, 16);
-		delayHit(npc, 2, target, getMagicHit(npc, hit));
+		delayHit(npc, 2, target, Hit.magic(npc, hit));
 		WorldTasks.schedule(new Task() {
 
 			@Override

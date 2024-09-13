@@ -16,10 +16,10 @@
 //
 package com.rs.game.content.world.areas.al_kharid;
 
+import com.rs.engine.pathfinder.Direction;
 import com.rs.game.content.skills.agility.Agility;
 import com.rs.game.content.world.areas.global.AgilityShortcuts;
 import com.rs.game.content.world.doors.Doors;
-import com.rs.engine.pathfinder.Direction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Tile;

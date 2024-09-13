@@ -16,14 +16,10 @@
 //
 package com.rs.game.content.items;
 
-import com.rs.engine.dialogue.Dialogue;
-import com.rs.engine.dialogue.Options;
-import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
-import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
 public class DwarvenRockCakes {

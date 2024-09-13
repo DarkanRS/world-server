@@ -18,6 +18,7 @@ package com.rs.game.content.skills.dungeoneering.npcs;
 
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.content.skills.dungeoneering.DungeonUtils;
 import com.rs.game.content.skills.dungeoneering.RoomReference;
@@ -29,7 +30,6 @@ import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.Task;
@@ -126,7 +126,7 @@ public class KalGerWarmonger extends DungeonBoss {
 	}
 
 	public boolean isUsingMelee() {
-		return getCombatStyle() == AttackStyle.MELEE;
+		return getCombatStyle() == CombatStyle.MELEE;
 	}
 
 	@Override

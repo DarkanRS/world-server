@@ -17,11 +17,12 @@
 package com.rs.game.content.bosses.godwars.zamorak;
 
 import com.rs.game.World;
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.ForceTalk;
+import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -74,7 +75,7 @@ public class KrilTsutsaroth extends CombatScript {
 			npc.setNextAnimation(new Animation(14962));
 			npc.setNextSpotAnim(new SpotAnim(1210));
 			for (Entity t : npc.getPossibleTargets()) {
-				delayHit(npc, 1, t, getMagicHit(npc, getMaxHit(npc, 300, AttackStyle.MAGE, t)));
+				delayHit(npc, 1, t, Hit.magic(npc, getMaxHit(npc, 300, CombatStyle.MAGE, t)));
 				World.sendProjectile(npc, t, 1211, new Pair<>(41, 16), 41, 5, 16);
 				if (Utils.getRandomInclusive(4) == 0)
 					t.getPoison().makePoisoned(168);
@@ -91,7 +92,10 @@ public class KrilTsutsaroth extends CombatScript {
 					player.sendMessage("K'ril Tsutsaroth slams through your protection prayer, leaving you feeling drained.");
 				}
 				npc.setNextAnimation(new Animation(damage <= 463 ? 14963 : 14968));
-				delayHit(npc, 0, e, getMeleeHit(npc, getMaxHit(npc, damage, AttackStyle.MELEE, e)));
+				if (damage <= 463)
+					delayHit(npc, 0, e, Hit.melee(npc, getMaxHit(npc, damage, CombatStyle.MELEE, e)));
+				else
+					delayHit(npc, 0, e, Hit.flat(npc, getMaxHit(npc, damage, CombatStyle.MELEE, e)));
 			}
 			break;
 		}

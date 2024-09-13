@@ -866,8 +866,6 @@ public class MiscTest {
 			p.getSession().writeToQueue(new HintTrail(Tile.of(p.getTile()), modelId, bufferX, bufferY, i));
 		});
 
-		Commands.add(Rights.ADMIN, "maxhit", "Displays the player's max hit.", (p, args) -> p.sendMessage("Max hit: " + PlayerCombatKt.getMaxHit(p, null, p.getEquipment().getWeaponId(), p.getCombatDefinitions().getAttackStyle(), PlayerCombatKt.isRanging(p), 1.0)));
-
 		Commands.add(Rights.DEVELOPER, "searchobj,so [objectId index]", "Searches the entire gameworld for an object matching the ID and teleports you to it.", (p, args) -> {
 			List<GameObject> objs = MapSearcher.getObjectsById(Integer.parseInt(args[0]));
 			if (objs.isEmpty()) {

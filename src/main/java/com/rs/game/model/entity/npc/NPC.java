@@ -350,7 +350,7 @@ public class NPC extends Entity {
 				case RANGE_DAMAGE -> Bonus.ABSORB_RANGE;
 				default -> Bonus.ABSORB_MAGIC;
 			};
-			int reducedDamage = hit.getDamage() * getBonus(bonus) / 100;
+			int reducedDamage = hit.getDamage() * getCombatBonus(bonus) / 100;
 			if (reducedDamage > 0) {
 				hit.setDamage(hit.getDamage() - reducedDamage);
 				hit.addSoaking(reducedDamage);
@@ -786,7 +786,7 @@ public class NPC extends Entity {
 		return getStat(stat);
 	}
 
-	public int getBonus(Bonus bonus) {
+	public int getCombatBonus(Bonus bonus) {
 		if (getCombatDefinitions().hasOverriddenBonuses())
 			return getCombatDefinitions().getBonus(bonus);
 		else
@@ -798,28 +798,28 @@ public class NPC extends Entity {
 	}
 
 	public Bonus getHighestAttackBonus() {
-		int highest = getBonus(Bonus.STAB_ATT);
+		int highest = getCombatBonus(Bonus.STAB_ATT);
 		Bonus attType = Bonus.STAB_ATT;
-		if (getBonus(Bonus.SLASH_ATT) > highest) {
-			highest = getBonus(Bonus.SLASH_ATT);
+		if (getCombatBonus(Bonus.SLASH_ATT) > highest) {
+			highest = getCombatBonus(Bonus.SLASH_ATT);
 			attType = Bonus.SLASH_ATT;
 		}
-		if (getBonus(Bonus.CRUSH_ATT) > highest) {
-			highest = getBonus(Bonus.CRUSH_ATT);
+		if (getCombatBonus(Bonus.CRUSH_ATT) > highest) {
+			highest = getCombatBonus(Bonus.CRUSH_ATT);
 			attType = Bonus.CRUSH_ATT;
 		}
 		return attType;
 	}
 
 	public Bonus getHighestDefenseBonus() {
-		int highest = getBonus(Bonus.STAB_DEF);
+		int highest = getCombatBonus(Bonus.STAB_DEF);
 		Bonus defType = Bonus.STAB_DEF;
-		if (getBonus(Bonus.SLASH_DEF) > highest) {
-			highest = getBonus(Bonus.SLASH_DEF);
+		if (getCombatBonus(Bonus.SLASH_DEF) > highest) {
+			highest = getCombatBonus(Bonus.SLASH_DEF);
 			defType = Bonus.SLASH_DEF;
 		}
-		if (getBonus(Bonus.CRUSH_DEF) > highest) {
-			highest = getBonus(Bonus.CRUSH_DEF);
+		if (getCombatBonus(Bonus.CRUSH_DEF) > highest) {
+			highest = getCombatBonus(Bonus.CRUSH_DEF);
 			defType = Bonus.CRUSH_DEF;
 		}
 		return defType;

@@ -17,14 +17,14 @@
 package com.rs.game.content.world.npcs;
 
 import com.rs.game.World;
-import com.rs.game.content.combat.PlayerCombat;
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.content.combat.PlayerCombatKt;
 import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
@@ -44,9 +44,9 @@ public class BrutalDragonCombat extends CombatScript {
 		switch (Utils.getRandomInclusive(3)) {
 		case 0: // Melee
 			if (npc.withinDistance(target.getTile(), 3)) {
-				damage = getMaxHit(npc, defs.getMaxHit(), AttackStyle.MELEE, target);
+				damage = getMaxHit(npc, defs.getMaxHit(), CombatStyle.MELEE, target);
 				npc.setNextAnimation(new Animation(defs.getAttackEmote()));
-				delayHit(npc, 0, target, getMeleeHit(npc, damage));
+				delayHit(npc, 0, target, Hit.melee(npc, damage));
 			} else {
 				damage = Utils.getRandomInclusive(500);
 				int protection = PlayerCombatKt.getAntifireLevel(target, true);
@@ -56,7 +56,7 @@ public class BrutalDragonCombat extends CombatScript {
 					damage = 0;
 				npc.setNextAnimation(new Animation(12259));
 				WorldProjectile p = World.sendProjectile(npc, target, 393, new Pair<>(28, 32), 50, 5, 16);
-				delayHit(npc, p.getTaskDelay(), target, getRegularHit(npc, damage));
+				delayHit(npc, p.getTaskDelay(), target, Hit.flat(npc, damage));
 			}
 			break;
 		case 1: // Dragon breath
@@ -69,7 +69,7 @@ public class BrutalDragonCombat extends CombatScript {
 					damage = 0;
 				npc.setNextAnimation(new Animation(14245));
 				npc.setNextSpotAnim(new SpotAnim(2465));
-				delayHit(npc, 1, target, getRegularHit(npc, damage));
+				delayHit(npc, 1, target, Hit.flat(npc, damage));
 			} else {
 				damage = Utils.getRandomInclusive(650);
 				int protection = PlayerCombatKt.getAntifireLevel(target, true);
@@ -79,7 +79,7 @@ public class BrutalDragonCombat extends CombatScript {
 					damage = 0;
 				npc.setNextAnimation(new Animation(12259));
 				WorldProjectile p = World.sendProjectile(npc, target, 393, new Pair<>(28, 32), 50, 5, 16);
-				delayHit(npc, p.getTaskDelay(), target, getRegularHit(npc, damage));
+				delayHit(npc, p.getTaskDelay(), target, Hit.flat(npc, damage));
 			}
 			break;
 		case 2:
@@ -87,7 +87,7 @@ public class BrutalDragonCombat extends CombatScript {
 			damage = Utils.getRandomInclusive(180);
 			npc.setNextAnimation(new Animation(12259));
 			WorldProjectile p = World.sendProjectile(npc, target, 2705, new Pair<>(28, 32), 50, 5, 16);
-			delayHit(npc, p.getTaskDelay(), target, getMagicHit(npc, damage));
+			delayHit(npc, p.getTaskDelay(), target, Hit.magic(npc, damage));
 			break;
 		}
 		return npc.getAttackSpeed();

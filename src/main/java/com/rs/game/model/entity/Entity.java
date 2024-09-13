@@ -57,8 +57,11 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
 import com.rs.lib.net.packets.decoders.Walk;
 import com.rs.lib.net.packets.encoders.Sound;
-import com.rs.lib.util.*;
+import com.rs.lib.util.GenericAttribMap;
+import com.rs.lib.util.MapUtils;
 import com.rs.lib.util.MapUtils.Structure;
+import com.rs.lib.util.Utils;
+import com.rs.lib.util.Vec2;
 import com.rs.plugin.PluginManager;
 import com.rs.plugin.events.PlayerStepEvent;
 import com.rs.utils.TriFunction;
@@ -2017,6 +2020,14 @@ public abstract class Entity {
 		return 1;
 	}
 
+	public int getLevelForXp(int skillId) {
+		if (this instanceof Player player)
+			return player.getSkills().getLevelForXp(skillId);
+		else if (this instanceof NPC npc)
+			return npc.getCombatLevel(npcSkillFromSkillId(skillId));
+		return 1;
+	}
+
 	private static NPCCombatDefinitions.Skill npcSkillFromSkillId(int skillId) {
 		return switch(skillId) {
 			case Skills.ATTACK -> NPCCombatDefinitions.Skill.ATTACK;
@@ -2028,11 +2039,19 @@ public abstract class Entity {
 		};
 	}
 
+	public Bonus getCurrentOffensiveBonusForStyle() {
+		if (this instanceof Player player)
+			return player.getCombatDefinitions().getCurrentAttackBonus();
+		else if (this instanceof NPC npc)
+			return npc.getCombatDefinitions().getAttackBonus();
+		return Bonus.SLASH_ATT;
+	}
+
 	public int getBonus(Bonus bonus) {
 		if (this instanceof Player player)
 			return player.getCombatDefinitions().getBonus(bonus);
 		else if (this instanceof NPC npc)
-			return npc.getBonus(bonus);
+			return npc.getCombatBonus(bonus);
 		return 0;
 	}
 

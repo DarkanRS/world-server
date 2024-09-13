@@ -17,6 +17,7 @@
 package com.rs.game.content.world.areas.edgeville.npcs;
 
 import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
@@ -35,7 +36,7 @@ public class Monk extends CombatScript {
 	public int attack(NPC npc, Entity target) {
 		NPCCombatDefinitions def = npc.getCombatDefinitions();
 		if (Utils.random(100) < 70) {
-			delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, npc.getMaxHit(), def.getAttackStyle(), target)));
+			delayHit(npc, 0, target, Hit.melee(npc, getMaxHit(npc, npc.getMaxHit(), def.getAttackStyle(), target)));
 			npc.setNextAnimation(new Animation(def.getAttackEmote()));
 		} else {
 			npc.heal(20);

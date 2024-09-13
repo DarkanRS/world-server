@@ -7,6 +7,7 @@ import com.rs.game.content.combat.*
 import com.rs.game.content.combat.AttackStyle.Companion.getStyles
 import com.rs.game.content.world.npcs.max.Max
 import com.rs.game.model.entity.Entity
+import com.rs.game.model.entity.Hit
 import com.rs.game.model.entity.npc.NPC
 import com.rs.game.model.entity.npc.NPCBodyMeshModifier
 import com.rs.game.model.entity.npc.combat.CombatScript.*
@@ -140,7 +141,7 @@ class PKBotNPC(tile: Tile): NPC(4336, tile) {
         for (item in items) {
             if (item == null) continue
             for (bonus in Bonus.entries) {
-                if (bonus == Bonus.RANGE_STR && getBonus(Bonus.RANGE_STR) != 0) continue
+                if (bonus == Bonus.RANGE_STR && getCombatBonus(Bonus.RANGE_STR) != 0) continue
                 bonuses[bonus.ordinal] += Equipment.getBonus(item, bonus)
             }
         }
@@ -195,7 +196,7 @@ class PKBotNPC(tile: Tile): NPC(4336, tile) {
         return skills[skill] ?: 1
     }
 
-    override fun getBonus(bonus: Bonus): Int {
+    override fun getCombatBonus(bonus: Bonus): Int {
         return bonuses[bonus.ordinal]
     }
 
@@ -213,7 +214,7 @@ enum class Attack(val range: Int, val attackFunc: PKBotNPC.(Entity) -> Int) {
         val delay = spell.cast(this, target)
         val baseDamage = spell.getBaseDamage(this)
         if (baseDamage < 0) {
-            val hit = getMagicHit(this, getMaxHit(this, NPCCombatDefinitions.AttackStyle.MAGE, target))
+            val hit = Hit.magic(this, getMaxHit(this, CombatStyle.MAGE, target))
             if (hit.damage > 0) spell.onHit(this, target, hit)
             target.tasks.schedule(delay) {
                 if (hit.damage > 0) {
@@ -237,7 +238,7 @@ enum class Attack(val range: Int, val attackFunc: PKBotNPC.(Entity) -> Int) {
     MELEE(0, attack@ { target ->
         val weaponId = equipment.get(Equipment.WEAPON)?.id ?: -1
         anim(getWeaponAttackEmote(weaponId, getStyles(weaponId)[1]!!))
-        delayHit(this, 0, target, getMeleeHit(this, getMaxHit(this, 310, NPCCombatDefinitions.AttackStyle.MELEE, target)))
+        delayHit(this, 0, target, Hit.melee(this, getMaxHit(this, 310, CombatStyle.MELEE, target)))
         return@attack getMeleeCombatDelay(weaponId)+1
     }),
     RANGE(7, attack@ { target ->
@@ -250,7 +251,7 @@ enum class Attack(val range: Int, val attackFunc: PKBotNPC.(Entity) -> Int) {
         val combatDelay = getRangeCombatDelay(weaponId, attackStyle)
         val p = weapon.sendProjectile(this, target, combatDelay, ammoId)
         //val hit = calculateHit(this, target, weaponId, attackStyle, true)
-        val hit = getRangeHit(this, getMaxHit(this, NPCCombatDefinitions.AttackStyle.RANGE, target))
+        val hit = Hit.range(this, getMaxHit(this, CombatStyle.RANGE, target))
         delayHit(target, p.taskDelay, weaponId, attackStyle, hit)
         anim(weaponConfig.getAttackAnim(attackStyle.index))
         val attackSpotAnim = weapon.getAttackSpotAnim(ammoId)

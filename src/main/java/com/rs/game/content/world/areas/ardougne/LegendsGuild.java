@@ -1,6 +1,5 @@
 package com.rs.game.content.world.areas.ardougne;
 
-import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemOnObjectHandler;

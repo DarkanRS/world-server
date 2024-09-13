@@ -16,7 +16,6 @@
 //
 package com.rs.game.content.world.areas.burthorpe;
 
-import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;

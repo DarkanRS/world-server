@@ -436,12 +436,11 @@ class CombatDefinitions {
         }
     }
 
-    val attackBonusForStyle: Int
-        get() = getAttackStyle().attackType.getAttackBonus(player)
+    val currentAttackBonus: Bonus
+        get() = getAttackStyle().attackType.attBonus
 
-    fun getDefenseBonusForStyle(style: AttackStyle): Int {
-        return style.attackType.getDefenseBonus(player)
-    }
+    val currentDefenseBonus: Bonus
+        get() = getAttackStyle().attackType.defBonus
 
     fun removeDungeonneringBook() {
         if (isDungSpellbook) {

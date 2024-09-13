@@ -3,8 +3,6 @@ package com.rs.game.model.entity.player;
 import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.map.instance.Instance;
 
-import java.util.function.Consumer;
-
 public abstract class InstancedController extends Controller {
     private final Instance instance;
 

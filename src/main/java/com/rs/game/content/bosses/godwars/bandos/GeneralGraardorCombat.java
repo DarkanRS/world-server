@@ -17,13 +17,14 @@
 package com.rs.game.content.bosses.godwars.bandos;
 
 import com.rs.game.World;
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.ForceTalk;
+import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.lib.game.Animation;
 import com.rs.lib.util.Utils;
 import kotlin.Pair;
@@ -86,11 +87,11 @@ public class GeneralGraardorCombat extends CombatScript {
 			npc.setNextAnimation(new Animation(7063));
 			for (Entity t : npc.getPossibleTargets()) {
 				WorldProjectile p = World.sendProjectile(npc, target, 1200, new Pair<>(60, 32), 50, 5, 0);
-				delayHit(npc, p.getTaskDelay(), t, getRangeHit(npc, getMaxHit(npc, 355, AttackStyle.RANGE, t)));
+				delayHit(npc, p.getTaskDelay(), t, Hit.range(npc, getMaxHit(npc, 355, CombatStyle.RANGE, t)));
 			}
 		} else { // melee attack
 			npc.setNextAnimation(new Animation(defs.getAttackEmote()));
-			delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, defs.getMaxHit(), AttackStyle.MELEE, target)));
+			delayHit(npc, 0, target, Hit.melee(npc, getMaxHit(npc, defs.getMaxHit(), CombatStyle.MELEE, target)));
 		}
 		return npc.getAttackSpeed();
 	}

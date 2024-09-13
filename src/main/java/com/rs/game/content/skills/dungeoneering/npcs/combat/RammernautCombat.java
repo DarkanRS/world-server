@@ -16,12 +16,13 @@
 //
 package com.rs.game.content.skills.dungeoneering.npcs.combat;
 
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.content.skills.dungeoneering.npcs.Rammernaut;
 import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
@@ -69,7 +70,7 @@ public class RammernautCombat extends CombatScript {
 			for (Entity entity : npc.getPossibleTargets()) {
 				if (!WorldUtil.isInRange(npc.getX(), npc.getY(), npc.getSize(), entity.getX(), entity.getY(), entity.getSize(), 0))
 					continue;
-				((Rammernaut) npc).applyStunHit(entity, npc.getLevelForStyle(AttackStyle.MELEE));
+				((Rammernaut) npc).applyStunHit(entity, npc.getLevelForStyle(CombatStyle.MELEE));
 			}
 			return npc.getAttackSpeed();
 		}
@@ -84,7 +85,7 @@ public class RammernautCombat extends CombatScript {
 
 		// default melee attack can be protected with prayer
 		npc.setNextAnimation(new Animation(defs.getAttackEmote()));
-		delayHit(npc, 0, target, getMeleeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MELEE, target)));
+		delayHit(npc, 0, target, Hit.melee(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.MELEE, target)));
 		return npc.getAttackSpeed();
 	}
 }

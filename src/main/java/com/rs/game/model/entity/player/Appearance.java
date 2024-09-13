@@ -21,7 +21,6 @@ import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.cache.loaders.StructDefinitions;
 import com.rs.game.World;
-import com.rs.game.model.entity.BodyGlow;
 import com.rs.lib.game.Item;
 import com.rs.lib.io.OutputStream;
 import com.rs.lib.util.Logger;

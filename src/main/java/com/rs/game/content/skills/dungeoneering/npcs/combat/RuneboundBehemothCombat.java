@@ -17,6 +17,7 @@
 package com.rs.game.content.skills.dungeoneering.npcs.combat;
 
 import com.rs.game.World;
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.content.skills.dungeoneering.npcs.RuneboundBehemoth;
 import com.rs.game.model.entity.Entity;
@@ -25,7 +26,6 @@ import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
@@ -54,7 +54,7 @@ public class RuneboundBehemothCombat extends CombatScript {
 		for (Entity t : npc.getPossibleTargets())
 			if (WorldUtil.collides(t.getX(), t.getY(), t.getSize(), npc.getX(), npc.getY(), npc.getSize())) {
 				trample = true;
-				delayHit(npc, 0, t, getRegularHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MELEE, t)));
+				delayHit(npc, 0, t, Hit.flat(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.MELEE, t)));
 				if (t instanceof Player player)
 					player.sendMessage("The beast tramples you.");
 			}
@@ -113,14 +113,14 @@ public class RuneboundBehemothCombat extends CombatScript {
 			//melee
 			case 0 -> {
 				boss.setNextAnimation(new Animation(14423));
-				delayHit(npc, 0, target, getMeleeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MELEE, target)));
+				delayHit(npc, 0, target, Hit.melee(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.MELEE, target)));
 			}
 			//green exploding blob attack (magic)
 			case 1 -> {
 				boss.setNextAnimation(new Animation(14427));
 				//boss.setNextGraphics(new Graphics(2413));
 				World.sendProjectile(npc, target, 2414, new Pair<>(41, 16), 50, 4, 0);
-				delayHit(npc, 1, target, getMagicHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MAGE, target)));
+				delayHit(npc, 1, target, Hit.magic(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.MAGE, target)));
 				target.setNextSpotAnim(new SpotAnim(2417, 80, 0));
 			}
 			//green blob attack (range)
@@ -128,7 +128,7 @@ public class RuneboundBehemothCombat extends CombatScript {
 				boss.setNextAnimation(new Animation(14424));
 				boss.setNextSpotAnim(new SpotAnim(2394));
 				World.sendProjectile(npc, target, 2395, new Pair<>(41, 16), 50, 4, 0);
-				delayHit(npc, 1, target, getRangeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.RANGE, target)));
+				delayHit(npc, 1, target, Hit.range(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.RANGE, target)));
 				target.setNextSpotAnim(new SpotAnim(2396, 80, 0));
 			}
 		}

@@ -1,7 +1,7 @@
 package com.rs.game.content.world.areas.kethsi;
 
-import com.rs.game.content.skills.agility.Agility;
 import com.rs.engine.pathfinder.Direction;
+import com.rs.game.content.skills.agility.Agility;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;

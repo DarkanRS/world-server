@@ -22,7 +22,6 @@ import it.unimi.dsi.fastutil.ints.IntPriorityQueue;
 import it.unimi.dsi.fastutil.ints.IntSet;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.AbstractCollection;
 import java.util.Iterator;
 
 public class EntityList<T extends Entity> implements Iterable<T> {
