@@ -5817,24 +5817,6 @@
   {
     "tile": {
       "plane": 0,
-      "x": 1640,
-      "y": 5232
-    },
-    "comment": "Iron dragon",
-    "npcId": 1591
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 1640,
-      "y": 5232
-    },
-    "comment": "Iron dragon",
-    "npcId": 1591
-  },
-  {
-    "tile": {
-      "plane": 0,
       "x": 1646,
       "y": 5255
     },
@@ -5912,24 +5894,6 @@
     },
     "comment": "Greater demon",
     "npcId": 83
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 1646,
-      "y": 5273
-    },
-    "comment": "Iron dragon",
-    "npcId": 1591
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 1645,
-      "y": 5279
-    },
-    "comment": "Iron dragon",
-    "npcId": 1591
   },
   {
     "tile": {

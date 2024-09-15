@@ -1,0 +1,39 @@
+[
+  {
+    "tile": {
+      "plane": 0,
+      "x": 1646,
+      "y": 5274
+    },
+    "comment": "Iron Dragon",
+    "npcId": 1591
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 1645,
+      "y": 5265
+    },
+    "comment": "Iron Dragon",
+    "npcId": 1591
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 1653,
+      "y": 5272
+    },
+    "comment": "Iron Dragon",
+    "npcId": 1591
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 1651,
+      "y": 5264
+
+    },
+    "comment": "Iron Dragon",
+    "npcId": 1591
+  }
+]
