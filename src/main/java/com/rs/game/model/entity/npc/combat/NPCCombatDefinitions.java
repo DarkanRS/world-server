@@ -220,6 +220,11 @@ public class NPCCombatDefinitions {
 	}
 
 	public Bonus getAttackBonus() {
+		if (attackBonus == null) return switch(attackStyle) {
+			case MELEE -> Bonus.SLASH_ATT;
+			case RANGE -> Bonus.RANGE_ATT;
+			case MAGE -> Bonus.MAGIC_ATT;
+		};
 		return attackBonus;
 	}
 

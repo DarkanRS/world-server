@@ -171,6 +171,27 @@ val combatPlugins = listOf<(Entity, Entity, Bonus, CombatStyle) -> (CombatMod)>(
 
         return@hexhunterBowPlugin CombatMod()
     },
+    broadsPlugin@ { player, target, offensiveBonus, combatStyle ->
+        if (player !is Player || target !is NPC || (target.name != "Turoth" && target.name != "Kurask"))
+            return@broadsPlugin CombatMod()
+        when(combatStyle) {
+            CombatStyle.RANGE -> {
+                val weapon = RangedWeapon.forId(player.equipment.weaponId)
+                val ammo = AmmoType.forId(player.equipment.ammoId)
+                if (weapon?.ammos?.contains(ammo) != true || !setOf(AmmoType.BROAD_ARROW, AmmoType.BROAD_TIPPED_BOLTS).contains(ammo))
+                    return@broadsPlugin CombatMod(overallDamage = 0.0)
+            }
+            CombatStyle.MELEE -> {
+                if (player.equipment.weaponId != 4158 && player.equipment.weaponId != 13290)
+                    return@broadsPlugin CombatMod(overallDamage = 0.0)
+            }
+            CombatStyle.MAGE -> {
+                if (player.combatDefinitions.spell != CombatSpell.MAGIC_DART)
+                    return@broadsPlugin CombatMod(overallDamage = 0.0)
+            }
+        }
+        return@broadsPlugin CombatMod()
+    },
     vyrePlugin@ { player, target, offensiveBonus, combatStyle ->
         if (player !is Player || target !is NPC || !target.name.startsWith("Vyre")) return@vyrePlugin CombatMod()
         when(combatStyle) {

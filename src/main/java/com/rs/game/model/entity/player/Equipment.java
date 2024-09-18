@@ -516,13 +516,11 @@ public final class Equipment {
 		return false;
 	}
 
-	public boolean hasFirecape() {
-		if (items.get(CAPE) != null) {
-			String name = items.get(CAPE).getDefinitions().getName().toLowerCase();
-            return name.contains("fire cape") || name.contains("tokhaar-kal") || name.contains("completionist cape");
-		}
-		return false;
+	public boolean hasFireCape() {
+		int capeId = getCapeId();
+		return capeId == 6570 || capeId == 20769 || capeId == 20771 || capeId == 23659;
 	}
+
 
 	public double getEquipmentWeight() {
 		return equipmentWeight;

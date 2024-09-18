@@ -17,7 +17,6 @@
 package com.rs.game.model.entity.npc.combat;
 
 import com.rs.game.content.Effect;
-import com.rs.game.content.bosses.godwars.zaros.Nex;
 import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.content.combat.PlayerCombatKt;
 import com.rs.game.content.skills.summoning.Familiar;
@@ -162,7 +161,7 @@ public final class NPCCombat {
 
 			maxDistance = npc.isForceFollowClose() ? 0 : npc.getAttackRange();
 			npc.resetWalkSteps();
-			boolean los = target.lineOfSightTo(npc, maxDistance == 0);
+			boolean los = npc.lineOfSightTo(target, maxDistance == 0);
 			boolean inRange = WorldUtil.isInRange(npc.getX(), npc.getY(), size, target.getX(), target.getY(), targetSize, maxDistance);
 			if (!los || !inRange) {
 				npc.calcFollow(target, npc.getRun() ? 2 : 1, npc.isIntelligentRouteFinder());
