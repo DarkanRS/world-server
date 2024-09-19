@@ -39,6 +39,7 @@ import com.rs.lib.game.Animation
 import com.rs.lib.game.Item
 import com.rs.lib.game.Tile
 import com.rs.lib.util.Utils
+import com.rs.lib.util.Utils.random
 import com.rs.utils.ItemConfig
 import com.rs.utils.Ticks
 import java.util.*
@@ -448,10 +449,12 @@ class PlayerCombat(@JvmField val target: Entity) : PlayerAction() {
 
         if (player.combatDefinitions.isUsingSpecialAttack) return execute(SpecialAttack.Type.MELEE, player, target)
 
-        val hit = calculateHit(player, target, attackStyle, CombatStyle.MELEE)
+        val veracsProc = fullVeracsEquipped(player) && random(4) == 0
+
+        val hit = calculateHit(player, target, attackStyle, CombatStyle.MELEE, calcDefense = !veracsProc)
 
         if (weaponId == 22358 && hit.damage <= 0) {
-            if (Utils.random(10) == 0) {
+            if (random(10) == 0) {
                 player.sync(14417, 1929)
                 attackTarget(getMultiAttackTargets(player, target, 6, 10, true)) { nextTarget ->
                     nextTarget.freeze(Ticks.fromSeconds(10), true)
