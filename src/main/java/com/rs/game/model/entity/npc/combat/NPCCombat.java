@@ -16,6 +16,7 @@
 //
 package com.rs.game.model.entity.npc.combat;
 
+import com.rs.engine.pathfinder.PathFinder;
 import com.rs.game.content.Effect;
 import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.content.combat.PlayerCombatKt;
@@ -76,8 +77,8 @@ public final class NPCCombat {
 			}
 		}
 		int maxDistance = npc.getAttackRange();
-		boolean los = target.lineOfSightTo(npc, maxDistance == 0);
-		boolean inRange = WorldUtil.isInRange(npc, target, maxDistance + (npc.hasWalkSteps() && target.hasWalkSteps() ? (npc.getRun() && target.getRun() ? 2 : 1) : 0));
+		boolean los = npc.lineOfSightTo(target, maxDistance == 0) || target.lineOfSightTo(npc, maxDistance == 0);
+		boolean inRange = WorldUtil.isInRange(npc, target, maxDistance + (target.getRun() ? target.hasWalkSteps() ? 2 : 1 : target.hasWalkSteps() ? 1 : 0));
 		//boolean collidesCheck = !npc.isCantFollowUnderCombat() && WorldUtil.collides(npc, target);
 		//add collision check here to enable jagex's cancer NPC walking mechanic
 		if (!los || !inRange)

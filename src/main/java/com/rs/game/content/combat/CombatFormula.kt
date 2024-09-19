@@ -34,8 +34,7 @@ fun hasFireCape(player: Player): Boolean {
 
 @JvmOverloads
 fun calculateMagicHit(entity: Entity, target: Entity, baseDamage: Int, applyMageLevelBoost: Boolean = true): Hit {
-    val hit = Hit.magic(entity, getMaxHit(entity, target, CombatStyle.MAGE, Bonus.MAGIC_ATT, 1.0, baseDamage, applyMageLevelBoost))
-    hit.setDamage(Utils.random(1, hit.damage))
+    val hit = calculateHit(entity, target, 1, getMaxHit(entity, target, CombatStyle.MAGE, Bonus.MAGIC_ATT, 1.0, baseDamage, applyMageLevelBoost), Bonus.MAGIC_ATT, CombatStyle.MAGE, true, 1.0)
     if (hit.damage > 0) if (target is NPC) if (target.id == 9463 && entity is Player && hasFireCape(entity)) hit.setDamage(hit.damage + 40)
     return hit
 }
@@ -114,9 +113,11 @@ fun calculateHit(entity: Entity, target: Entity, minHit: Int, maxHit: Int, attac
         for (combatMod in combatModifiers)
             atk *= combatMod.accuracy
 
-        var defLvl = entity.getLevel(Skills.DEFENSE).toDouble() * ((entity as? Player)?.prayer?.defenceMultiplier ?: 1.0)
-        val defBonus = entity.getBonus(attackBonus.invert()).toDouble()
-        defLvl = entity.getLevel(Skills.DEFENSE).toDouble() * ((entity as? Player)?.prayer?.defenceMultiplier ?: 1.0)
+        val defStat = if (combatStyle == CombatStyle.MAGE) Skills.MAGIC else Skills.DEFENSE
+
+        var defLvl = target.getLevel(defStat).toDouble() * ((target as? Player)?.prayer?.defenceMultiplier ?: 1.0)
+        val defBonus = target.getBonus(attackBonus.invert()).toDouble()
+        defLvl = target.getLevel(defStat).toDouble() * ((target as? Player)?.prayer?.defenceMultiplier ?: 1.0)
         if (target is Player) {
             val style = target.combatDefinitions.getAttackStyle()
             if (style.attackType == AttackType.LONG_RANGE || style.xpType == XPType.DEFENSIVE)
@@ -127,9 +128,9 @@ fun calculateHit(entity: Entity, target: Entity, minHit: Int, maxHit: Int, attac
         defLvl += 8.0
 
         if (combatStyle == CombatStyle.MAGE && entity is Player && target is Player) {
-            defLvl *= 0.3
-            var magLvl = floor(target.skills.getLevel(Constants.MAGIC) * target.prayer.mageMultiplier)
-            magLvl *= 0.7
+            defLvl *= 0.7
+            var magLvl = floor(target.skills.getLevel(Skills.DEFENSE) * target.prayer.mageMultiplier)
+            magLvl *= 0.3
             defLvl = defLvl + magLvl
         }
 
