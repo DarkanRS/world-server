@@ -581,6 +581,7 @@ public final class Familiar extends NPC {
 			owner.sendMessage("You need a " + ItemDefinitions.getDefs(pouch.getId()).getName().toLowerCase() + " to renew your familiar's timer.");
 			return false;
 		}
+		reset();
 		resetTickets();
 		owner.getInventory().deleteItem(pouch.getId(), 1);
 		call(true);
