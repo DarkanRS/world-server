@@ -16,12 +16,13 @@
 //
 package com.rs.game.content.bosses;
 
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.ForceTalk;
+import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -61,7 +62,7 @@ public class EvilChickenCombat extends CombatScript {
 			break;
 		}
 		target.setNextSpotAnim(new SpotAnim(337));
-		delayHit(npc, 0, target, getMagicHit(npc, getMaxHit(npc, defs.getMaxHit(), AttackStyle.MAGE, target)));
+		delayHit(npc, 0, target, Hit.magic(npc, getMaxHit(npc, defs.getMaxHit(), CombatStyle.MAGE, target)));
 		return npc.getAttackSpeed();
 	}
 }

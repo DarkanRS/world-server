@@ -16,11 +16,12 @@
 //
 package com.rs.game.content.world.npcs;
 
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -53,16 +54,16 @@ public class SkeletalWyvernCombat extends CombatScript {
 			target.setNextSpotAnim(new SpotAnim(502));
 			if (Utils.random(10) == 0)
 				target.freeze(Ticks.fromSeconds(5));
-			delayHit(npc, 1, target, getRegularHit(npc, Utils.getRandomInclusive(hasShield(target) ? 150 : 600)));
+			delayHit(npc, 1, target, Hit.flat(npc, Utils.getRandomInclusive(hasShield(target) ? 150 : 600)));
 			break;
 		case 1:
 			npc.setNextAnimation(new Animation(1593));
 			npc.setNextSpotAnim(new SpotAnim(499));
-			delayHit(npc, 1, target, getRangeHit(npc, getMaxHit(npc, defs.getMaxHit(), AttackStyle.RANGE, target)));
+			delayHit(npc, 1, target, Hit.range(npc, getMaxHit(npc, defs.getMaxHit(), CombatStyle.RANGE, target)));
 			break;
 		case 2:
 			npc.setNextAnimation(new Animation(1589 + Utils.random(2)));
-			delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, defs.getMaxHit(), AttackStyle.MELEE, target)));
+			delayHit(npc, 0, target, Hit.melee(npc, getMaxHit(npc, defs.getMaxHit(), CombatStyle.MELEE, target)));
 			break;
 		}
 		return npc.getAttackSpeed();

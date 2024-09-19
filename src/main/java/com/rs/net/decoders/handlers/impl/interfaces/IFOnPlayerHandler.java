@@ -16,8 +16,8 @@
 //
 package com.rs.net.decoders.handlers.impl.interfaces;
 
-import com.rs.game.World;
 import com.rs.engine.pathfinder.RouteEvent;
+import com.rs.game.World;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.net.packets.PacketHandler;
 import com.rs.lib.net.packets.decoders.interfaces.IFOnPlayer;

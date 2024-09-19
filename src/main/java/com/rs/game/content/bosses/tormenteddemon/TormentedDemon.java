@@ -41,7 +41,7 @@ public final class TormentedDemon extends NPC {
 	private int prayer;
 	private int combatStyleTimer;
 	private int[] damageTaken = new int[3];
-	private int combatStyle;
+	public int combatStyle;
 
 	public TormentedDemon(int id, Tile tile, boolean spawned) {
 		super(id, tile, spawned);
@@ -182,10 +182,6 @@ public final class TormentedDemon extends NPC {
 
 	public int getCombatStyleTimer() {
 		return combatStyleTimer;
-	}
-
-	public int getCombatStyle() {
-		return combatStyle;
 	}
 
 	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { 8349, 8350, 8351 }, (npcId, tile) -> new TormentedDemon(npcId, tile, false));

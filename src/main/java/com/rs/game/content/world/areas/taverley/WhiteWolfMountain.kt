@@ -1,10 +1,10 @@
 package com.rs.game.content.world.areas.taverley
 
+import com.rs.engine.pathfinder.RouteEvent
 import com.rs.engine.quest.Quest
 import com.rs.game.World
 import com.rs.game.content.quests.fishingcontest.DwarfBrothersFishingContestD
 import com.rs.game.content.quests.fishingcontest.FishingContest.QUEST_COMPLETE
-import com.rs.engine.pathfinder.RouteEvent
 import com.rs.lib.game.Tile
 import com.rs.plugin.annotations.ServerStartupEvent
 import com.rs.plugin.kts.onNpcClick

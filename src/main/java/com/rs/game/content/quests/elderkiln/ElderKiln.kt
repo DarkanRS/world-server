@@ -14,6 +14,7 @@ const val STAGE_HATCH_EGG = 1
 const val STAGE_SAVE_GAAL_FIGHTPITS = 2
 const val STAGE_WRAP_UP_FIGHT_PITS = 4
 const val STAGE_GO_TO_KILN = 5
+const val STAGE_ESCORT_GAAL_KILN = 6
 const val STAGE_COMPLETE = 45
 
 //@QuestHandler(
@@ -69,9 +70,9 @@ class ElderKiln : QuestOutline() {
     }
 }
 
-@ServerStartupEvent
-fun mapElderKiln() {
+//@ServerStartupEvent
+//fun mapElderKiln() {
 //    onLogin {
-//        it.player.setQuestStage(Quest.ELDER_KILN, STAGE_WRAP_UP_FIGHT_PITS)
+//        it.player.setQuestStage(Quest.ELDER_KILN, STAGE_ESCORT_GAAL_KILN)
 //    }
-}
+//}

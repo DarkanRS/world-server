@@ -17,15 +17,16 @@
 package com.rs.game.content.skills.dungeoneering.npcs.combat;
 
 import com.rs.game.World;
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.content.skills.dungeoneering.RoomReference;
 import com.rs.game.content.skills.dungeoneering.npcs.GluttonousBehemoth;
 import com.rs.game.content.skills.dungeoneering.npcs.bosses.DungeonBoss;
 import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.Task;
@@ -78,7 +79,7 @@ public class GluttonousBehemothCombat extends CombatScript {
 		for (Player player : manager.getParty().getTeam())
 			if (WorldUtil.collides(player.getX(), player.getY(), player.getSize(), npc.getX(), npc.getY(), npc.getSize())) {
 				stomp = true;
-				delayHit(npc, 0, player, getRegularHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MELEE, player)));
+				delayHit(npc, 0, player, Hit.flat(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.MELEE, player)));
 			}
 		if (stomp) {
 			npc.setNextAnimation(new Animation(13718));
@@ -88,7 +89,7 @@ public class GluttonousBehemothCombat extends CombatScript {
 		if (attackStyle == 2) {
 			if (WorldUtil.isInRange(npc.getX(), npc.getY(), npc.getSize(), target.getX(), target.getY(), target.getSize(), 0)) {
 				npc.setNextAnimation(new Animation(defs.getAttackEmote()));
-				delayHit(npc, 0, target, getMeleeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MELEE, target)));
+				delayHit(npc, 0, target, Hit.melee(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.MELEE, target)));
 				return npc.getAttackSpeed();
 			}
 			attackStyle = Utils.getRandomInclusive(1);
@@ -96,8 +97,8 @@ public class GluttonousBehemothCombat extends CombatScript {
 		if (attackStyle == 0) {
 			npc.setNextAnimation(new Animation(13719));
 			World.sendProjectile(npc, target, 2612, new Pair<>(41, 16), 41, 5, 16);
-			int damage = getMaxHitFromAttackStyleLevel(npc, AttackStyle.MAGE, target);
-			delayHit(npc, 2, target, getMagicHit(npc, damage));
+			int damage = getMaxHitFromAttackStyleLevel(npc, CombatStyle.MAGE, target);
+			delayHit(npc, 2, target, Hit.magic(npc, damage));
 			if (damage != 0)
 				WorldTasks.schedule(new Task() {
 					@Override
@@ -108,7 +109,7 @@ public class GluttonousBehemothCombat extends CombatScript {
 		} else if (attackStyle == 1) {
 			npc.setNextAnimation(new Animation(13721));
 			World.sendProjectile(npc, target, 2610, new Pair<>(41, 16), 41, 5, 16);
-			delayHit(npc, 2, target, getRangeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.RANGE, target)));
+			delayHit(npc, 2, target, Hit.range(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.RANGE, target)));
 			WorldTasks.schedule(new Task() {
 				@Override
 				public void run() {

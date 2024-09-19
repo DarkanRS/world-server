@@ -8,7 +8,9 @@ import com.rs.engine.miniquest.Miniquest
 import com.rs.engine.miniquest.MiniquestHandler
 import com.rs.engine.miniquest.MiniquestOutline
 import com.rs.game.World
+import com.rs.game.content.combat.CombatStyle
 import com.rs.game.content.pets.Pets
+import com.rs.game.model.entity.Hit
 import com.rs.game.model.entity.npc.NPC
 import com.rs.game.model.entity.npc.combat.CombatScript
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions
@@ -98,10 +100,10 @@ fun mapTrollWarzone() {
     npcCombat(14991, 14992) { npc, target ->
         if (npc.inMeleeRange(target)) {
             npc.anim(1932)
-            CombatScript.delayHit(npc, 1, target, CombatScript.getMeleeHit(npc, CombatScript.getMaxHit(npc, 2, NPCCombatDefinitions.AttackStyle.MELEE, target)))
+            CombatScript.delayHit(npc, 1, target, Hit.melee(npc, CombatScript.getMaxHit(npc, 2, CombatStyle.MELEE, target)))
         } else {
             npc.sync(1933, 262)
-            CombatScript.delayHit(npc, World.sendProjectile(npc, target, 295, 34 to 16, 60, 3, 16).taskDelay, target, CombatScript.getRangeHit(npc, CombatScript.getMaxHit(npc, 2, NPCCombatDefinitions.AttackStyle.RANGE, target)))
+            CombatScript.delayHit(npc, World.sendProjectile(npc, target, 295, 34 to 16, 60, 3, 16).taskDelay, target, Hit.range(npc, CombatScript.getMaxHit(npc, 2, CombatStyle.RANGE, target)))
         }
         return@npcCombat npc.attackSpeed
     }

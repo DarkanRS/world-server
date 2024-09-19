@@ -17,13 +17,14 @@
 package com.rs.game.content.skills.dungeoneering.npcs.bosses.balak;
 
 import com.rs.game.World;
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.ForceTalk;
+import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
@@ -53,7 +54,7 @@ public class BalLakThePummelerCombat extends CombatScript {
 		for (Player player : manager.getParty().getTeam())
 			if (WorldUtil.collides(player.getX(), player.getY(), player.getSize(), npc.getX(), npc.getY(), npc.getSize())) {
 				smash = true;
-				delayHit(npc, 0, player, getRegularHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MELEE, player)));
+				delayHit(npc, 0, player, Hit.flat(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.MELEE, player)));
 			}
 		if (smash) {
 			npc.setNextAnimation(new Animation(14384));
@@ -76,15 +77,15 @@ public class BalLakThePummelerCombat extends CombatScript {
 			for (Entity t : boss.getPossibleTargets()) {
 				if (!WorldUtil.isInRange(npc.getX(), npc.getY(), npc.getSize(), t.getX(), t.getY(), t.getSize(), 0))
 					continue;
-				int damage = getMaxHitFromAttackStyleLevel(npc, AttackStyle.MELEE, t);
-				int damage2 = getMaxHitFromAttackStyleLevel(npc, AttackStyle.MELEE, t);
+				int damage = getMaxHitFromAttackStyleLevel(npc, CombatStyle.MELEE, t);
+				int damage2 = getMaxHitFromAttackStyleLevel(npc, CombatStyle.MELEE, t);
 				if (t instanceof Player player)
 					if ((damage > 0 || damage2 > 0)) {
 						player.setProtectionPrayBlock(2);
 						player.sendMessage("You are injured and currently cannot use protection prayers.");
 					}
-				delayHit(npc, 0, t, getRegularHit(npc, damage));
-				delayHit(npc, 0, t, getRegularHit(npc, damage2));
+				delayHit(npc, 0, t, Hit.flat(npc, damage));
+				delayHit(npc, 0, t, Hit.flat(npc, damage2));
 			}
 			return npc.getAttackSpeed();
 		}
@@ -95,8 +96,8 @@ public class BalLakThePummelerCombat extends CombatScript {
 			final boolean firstHand = Utils.random(2) == 0;
 
 			boss.setNextAnimation(new Animation(firstHand ? defs.getAttackEmote() : defs.getAttackEmote() + 1));
-			delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, (int) (npc.getLevelForStyle(AttackStyle.MELEE) * 0.8), AttackStyle.MELEE, target)));
-			delayHit(npc, 2, target, getMeleeHit(npc, getMaxHit(npc, (int) (npc.getLevelForStyle(AttackStyle.MELEE) * 0.8), AttackStyle.MELEE, target)));
+			delayHit(npc, 0, target, Hit.melee(npc, getMaxHit(npc, (int) (npc.getLevelForStyle(CombatStyle.MELEE) * 0.8), CombatStyle.MELEE, target)));
+			delayHit(npc, 2, target, Hit.melee(npc, getMaxHit(npc, (int) (npc.getLevelForStyle(CombatStyle.MELEE) * 0.8), CombatStyle.MELEE, target)));
 			WorldTasks.schedule(new Task() {
 
 				@Override
@@ -111,7 +112,7 @@ public class BalLakThePummelerCombat extends CombatScript {
 			boss.setNextSpotAnim(new SpotAnim(2441));
 			for (Entity t : npc.getPossibleTargets()) {
 				World.sendProjectile(npc, t, 2872, new Pair<>(50, 30), 41, 4, 0);
-				delayHit(npc, 1, t, getMagicHit(npc, getMaxHit(npc, (int) (boss.getMaxHit() * 0.6), AttackStyle.MAGE, t)));
+				delayHit(npc, 1, t, Hit.magic(npc, getMaxHit(npc, (int) (boss.getMaxHit() * 0.6), CombatStyle.MAGE, t)));
 			}
 			return npc.getAttackSpeed() - 2;
 		}

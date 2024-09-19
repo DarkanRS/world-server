@@ -2,7 +2,6 @@ package com.rs.game.model.entity.interactions;
 
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.actions.Action;
-import com.rs.game.model.entity.player.Player;
 
 public abstract class EntityInteractionAction<T extends Action> extends EntityInteraction {
 

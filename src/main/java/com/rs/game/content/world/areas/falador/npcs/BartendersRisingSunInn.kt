@@ -5,7 +5,6 @@ import com.rs.game.content.miniquests.bar_crawl.BarCrawl
 import com.rs.game.content.miniquests.bar_crawl.BarCrawl.BarCrawlBars.Bars.RISING_SUN
 import com.rs.game.content.miniquests.bar_crawl.BarCrawl.BarCrawlBars.isBarVisited
 import com.rs.game.content.miniquests.bar_crawl.BarCrawl.BarCrawlBars.onBarCrawl
-import com.rs.game.content.utils.BartenderUtils
 import com.rs.game.content.utils.BartenderUtils.buyBarcrawlDrink
 import com.rs.game.content.utils.BartenderUtils.buyDrinkOrIngredients
 import com.rs.game.content.utils.BartenderUtils.sellBeerGlass

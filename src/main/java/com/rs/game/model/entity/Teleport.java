@@ -2,7 +2,6 @@ package com.rs.game.model.entity;
 
 import com.rs.game.content.bosses.godwars.GodwarsController;
 import com.rs.game.content.skills.dungeoneering.DamonheimController;
-import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.content.world.areas.wilderness.WildernessController;
 import com.rs.game.model.entity.player.Player;

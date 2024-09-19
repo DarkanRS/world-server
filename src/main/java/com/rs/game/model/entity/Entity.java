@@ -17,6 +17,7 @@
 package com.rs.game.model.entity;
 
 import com.rs.Settings;
+import com.rs.cache.loaders.Bonus;
 import com.rs.cache.loaders.NPCDefinitions.MovementType;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.cache.loaders.animations.AnimationDefinitions;
@@ -41,6 +42,7 @@ import com.rs.game.model.entity.interactions.EntityInteraction;
 import com.rs.game.model.entity.interactions.InteractionManager;
 import com.rs.game.model.entity.interactions.PlayerCombatInteraction;
 import com.rs.game.model.entity.npc.NPC;
+import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
@@ -55,8 +57,11 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
 import com.rs.lib.net.packets.decoders.Walk;
 import com.rs.lib.net.packets.encoders.Sound;
-import com.rs.lib.util.*;
+import com.rs.lib.util.GenericAttribMap;
+import com.rs.lib.util.MapUtils;
 import com.rs.lib.util.MapUtils.Structure;
+import com.rs.lib.util.Utils;
+import com.rs.lib.util.Vec2;
 import com.rs.plugin.PluginManager;
 import com.rs.plugin.events.PlayerStepEvent;
 import com.rs.utils.TriFunction;
@@ -813,6 +818,10 @@ public abstract class Entity {
 		return addWalkSteps(destX, destY, -1, true);
 	}
 
+	public void addWalkSteps(Tile toTile, int maxSteps, boolean clip) {
+		addWalkSteps(toTile.getX(), toTile.getY(), maxSteps, clip);
+	}
+
 	public Tile getMiddleTile() {
 		int size = getSize();
 		return size == 1 ? getTile() : Tile.of(getCoordFaceX(size), getCoordFaceY(size), getPlane());
@@ -857,8 +866,11 @@ public abstract class Entity {
 		for (TriFunction<Entity, Object, Boolean, Boolean> func : LOS_FUNCTION_OVERRIDES)
 			if (func.apply(this, target, melee))
 				return true;
-		if (melee && !(target instanceof Entity e && e.ignoreWallsWhenMeleeing()))
-			return World.checkMeleeStep(this, this.getSize(), target, targSize) && World.hasLineOfSight(getMiddleTile(), getSize(), target instanceof Entity e ? e.getMiddleTile() : tile, targSize);
+		if (melee && !(target instanceof Entity e && e.ignoreWallsWhenMeleeing())) {
+			boolean meleeStep = World.checkMeleeStep(this, this.getSize(), target, targSize);
+			boolean los = World.hasLineOfSight(getMiddleTile(), getSize(), target instanceof Entity e ? e.getMiddleTile() : tile, targSize);
+			return meleeStep && los;
+		}
 		return World.hasLineOfSight(getMiddleTile(), getSize(), target instanceof Entity e ? e.getMiddleTile() : tile, targSize);
 	}
 
@@ -1728,9 +1740,8 @@ public abstract class Entity {
 		return collisionStrategy;
 	}
 
-	public Entity setCollisionStrategy(CollisionStrategy strategy) {
+	public void setCollisionStrategy(CollisionStrategy strategy) {
 		this.collisionStrategy = strategy;
-		return this;
 	}
 
 	public Entity setCollisionStrategyType(CollisionStrategyType type) {
@@ -2002,6 +2013,49 @@ public abstract class Entity {
 
 	public void follow(Entity target) {
 		actionManager.setAction(new EntityFollow(target));
+	}
+
+	public int getLevel(int skillId) {
+		if (this instanceof Player player)
+			return player.getSkills().getLevel(skillId);
+		else if (this instanceof NPC npc)
+			return npc.getCombatLevel(npcSkillFromSkillId(skillId));
+		return 1;
+	}
+
+	public int getLevelForXp(int skillId) {
+		if (this instanceof Player player)
+			return player.getSkills().getLevelForXp(skillId);
+		else if (this instanceof NPC npc)
+			return npc.getCombatLevel(npcSkillFromSkillId(skillId));
+		return 1;
+	}
+
+	private static NPCCombatDefinitions.Skill npcSkillFromSkillId(int skillId) {
+		return switch(skillId) {
+			case Skills.ATTACK -> NPCCombatDefinitions.Skill.ATTACK;
+			case Skills.STRENGTH -> NPCCombatDefinitions.Skill.STRENGTH;
+			case Skills.DEFENSE -> NPCCombatDefinitions.Skill.DEFENSE;
+			case Skills.RANGE -> NPCCombatDefinitions.Skill.RANGE;
+			case Skills.MAGIC -> NPCCombatDefinitions.Skill.MAGE;
+			default -> null;
+		};
+	}
+
+	public Bonus getCurrentOffensiveBonusForStyle() {
+		if (this instanceof Player player)
+			return player.getCombatDefinitions().getCurrentAttackBonus();
+		else if (this instanceof NPC npc)
+			return npc.getCombatDefinitions().getAttackBonus();
+		return Bonus.SLASH_ATT;
+	}
+
+	public int getBonus(Bonus bonus) {
+		if (this instanceof Player player)
+			return player.getCombatDefinitions().getBonus(bonus);
+		else if (this instanceof NPC npc)
+			return npc.getCombatBonus(bonus);
+		return 0;
 	}
 
 	public int lowerStat(int skillId, double perc, double maxDrain) {

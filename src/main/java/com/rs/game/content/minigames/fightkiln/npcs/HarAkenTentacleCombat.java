@@ -17,12 +17,13 @@
 package com.rs.game.content.minigames.fightkiln.npcs;
 
 import com.rs.game.World;
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.lib.game.Animation;
 import com.rs.lib.util.Utils;
 import kotlin.Pair;
@@ -46,15 +47,15 @@ public class HarAkenTentacleCombat extends CombatScript {
 		switch (attackStyle) {
 		case 0:
 			npc.setNextAnimation(new Animation(defs.getAttackEmote()));
-			delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, defs.getMaxHit() - 36, AttackStyle.MELEE, target)));
+			delayHit(npc, 0, target, Hit.melee(npc, getMaxHit(npc, defs.getMaxHit() - 36, CombatStyle.MELEE, target)));
 			break;
 		case 1:
 			npc.setNextAnimation(new Animation(npc.getId() == 15209 ? 16253 : 16242));
 			WorldProjectile p = World.sendProjectile(npc, target, npc.getId() == 15209 ? 3004 : 2922, new Pair<>(140, 35), 80, 10, 16);
 			if (npc.getId() == 15209)
-				delayHit(npc, p.getTaskDelay(), target, getRangeHit(npc, getMaxHit(npc, defs.getMaxHit(), AttackStyle.RANGE, target)));
+				delayHit(npc, p.getTaskDelay(), target, Hit.range(npc, getMaxHit(npc, defs.getMaxHit(), CombatStyle.RANGE, target)));
 			else
-				delayHit(npc, p.getTaskDelay(), target, getMagicHit(npc, getMaxHit(npc, defs.getMaxHit(), AttackStyle.MAGE, target)));
+				delayHit(npc, p.getTaskDelay(), target, Hit.magic(npc, getMaxHit(npc, defs.getMaxHit(), CombatStyle.MAGE, target)));
 			break;
 		}
 		return npc.getAttackSpeed();

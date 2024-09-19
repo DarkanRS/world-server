@@ -16,10 +16,6 @@
 //
 package com.rs.game.content.world.areas.ape_atoll;
 
-import com.rs.game.tasks.Task
-import com.rs.game.tasks.WorldTasks
-import com.rs.lib.Constants
-import com.rs.lib.game.Animation
 import com.rs.lib.game.Tile
 import com.rs.plugin.annotations.ServerStartupEvent
 import com.rs.plugin.kts.onObjectClick

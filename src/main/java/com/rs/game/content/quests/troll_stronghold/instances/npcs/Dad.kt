@@ -4,6 +4,7 @@ import com.rs.engine.cutscenekt.cutscene
 import com.rs.engine.dialogue.HeadE.*
 import com.rs.engine.quest.Quest
 import com.rs.game.World
+import com.rs.game.content.combat.CombatStyle
 import com.rs.game.content.quests.troll_stronghold.utils.*
 import com.rs.game.model.entity.Entity
 import com.rs.game.model.entity.Hit
@@ -157,7 +158,7 @@ fun mapDadCombat() {
                     npc.anim(NPC_KNOCKBACK_ANIM)
                     target.forceMove(moveToTile, PLAYER_KNOCKBACK_ANIM, 1, 40)
                     target.actionManager.addActionDelay(2)
-                    CombatScript.delayHit(npc, 0, target, CombatScript.getMeleeHit(npc, CombatScript.getMaxHit(npc, npc.combatDefinitions.maxHit, NPCCombatDefinitions.AttackStyle.MELEE, target, 10000.0)))
+                    CombatScript.delayHit(npc, 0, target, Hit.melee(npc, CombatScript.getMaxHit(npc, npc.combatDefinitions.maxHit, CombatStyle.MELEE, target, 10000.0)))
                     target.stopFaceEntity()
                 }
                 previousPositions[target] = moveToTile

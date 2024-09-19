@@ -1,12 +1,12 @@
 package com.rs.game.content.world.npcs.max.tasks;
 
+import com.rs.engine.pathfinder.RouteEvent;
 import com.rs.game.World;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.skills.woodcutting.Hatchet;
 import com.rs.game.content.skills.woodcutting.TreeType;
 import com.rs.game.content.skills.woodcutting.Woodcutting;
 import com.rs.game.content.world.npcs.max.Max;
-import com.rs.engine.pathfinder.RouteEvent;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;

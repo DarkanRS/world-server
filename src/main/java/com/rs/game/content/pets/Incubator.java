@@ -16,10 +16,8 @@
 //
 package com.rs.game.content.pets;
 
-import com.rs.game.content.skills.crafting.SandBucketFill;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
-import com.rs.lib.game.Animation;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
 

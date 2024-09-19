@@ -3,10 +3,10 @@ package com.rs.game.map;
 import com.rs.Settings;
 import com.rs.cache.loaders.map.Region;
 import com.rs.cache.loaders.map.RegionSize;
+import com.rs.engine.pathfinder.WorldCollision;
 import com.rs.game.map.instance.InstancedChunk;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.engine.pathfinder.WorldCollision;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.Tile;
@@ -19,7 +19,10 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.events.EnterChunkEvent;
 import com.rs.utils.music.Music;
-import it.unimi.dsi.fastutil.ints.*;
+import it.unimi.dsi.fastutil.ints.Int2ObjectMaps;
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
+import it.unimi.dsi.fastutil.ints.IntSets;
 
 import java.util.*;
 

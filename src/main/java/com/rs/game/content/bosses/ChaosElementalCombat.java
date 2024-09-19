@@ -17,11 +17,11 @@
 package com.rs.game.content.bosses;
 
 import com.rs.game.World;
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.engine.pathfinder.Direction;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
@@ -85,15 +85,15 @@ public class ChaosElementalCombat extends CombatScript {
 					}
 				}, Utils.getDistanceI(npc.getTile(), target.getTile())/3);
 		} else {
-			int damage = getMaxHit(npc, 300, AttackStyle.MAGE, target);
-			Hit hit = getMagicHit(npc, damage);
+			int damage = getMaxHit(npc, 300, CombatStyle.MAGE, target);
+			Hit hit = Hit.magic(npc, damage);
 			int rand = Utils.random(3);
 			if (rand == 0) {
-				damage = getMaxHit(npc, 300, AttackStyle.RANGE, target);
-				hit = getRangeHit(npc, damage);
+				damage = getMaxHit(npc, 300, CombatStyle.RANGE, target);
+				hit = Hit.range(npc, damage);
 			} else if (rand == 1) {
-				damage = getMaxHit(npc, 300, AttackStyle.MELEE, target);
-				hit = getMeleeHit(npc, damage);
+				damage = getMaxHit(npc, 300, CombatStyle.MELEE, target);
+				hit = Hit.melee(npc, damage);
 			}
 			World.sendProjectile(npc, target, 1279, new Pair<>(30, 30), 45, 10, 15);
 			delayHit(npc, Utils.getDistanceI(npc.getTile(), target.getTile())/3, target, hit);

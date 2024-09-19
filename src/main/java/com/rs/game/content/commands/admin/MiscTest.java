@@ -47,6 +47,7 @@ import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.content.skills.summoning.Pouch;
 import com.rs.game.content.tutorialisland.TutorialIslandController;
 import com.rs.game.content.world.doors.Doors;
+import com.rs.game.map.Chunk;
 import com.rs.game.map.ChunkManager;
 import com.rs.game.map.instance.Instance;
 import com.rs.game.map.instance.InstancedChunk;
@@ -865,8 +866,6 @@ public class MiscTest {
 			p.getSession().writeToQueue(new HintTrail(Tile.of(p.getTile()), modelId, bufferX, bufferY, i));
 		});
 
-		Commands.add(Rights.ADMIN, "maxhit", "Displays the player's max hit.", (p, args) -> p.sendMessage("Max hit: " + PlayerCombatKt.getMaxHit(p, null, p.getEquipment().getWeaponId(), p.getCombatDefinitions().getAttackStyle(), PlayerCombatKt.isRanging(p), 1.0)));
-
 		Commands.add(Rights.DEVELOPER, "searchobj,so [objectId index]", "Searches the entire gameworld for an object matching the ID and teleports you to it.", (p, args) -> {
 			List<GameObject> objs = MapSearcher.getObjectsById(Integer.parseInt(args[0]));
 			if (objs.isEmpty()) {
@@ -1053,20 +1052,28 @@ public class MiscTest {
 		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.DEVELOPER, "bas,render [id]", "Sets the BAS of the player to specified ID.", (p, args) -> p.getAppearance().setBAS(Integer.parseInt(args[0])));
 
 		Commands.add(Rights.DEVELOPER, "camlook [localX localY z (speed1 speed2)]", "Points the camera at the specified tile.", (p, args) -> {
-			if(args.length == 3)
-				p.getPackets().sendCameraLook(Integer.parseInt(args[0]), Integer.parseInt(args[1]), Integer.parseInt(args[2]));
-			else if(args.length == 5)
-				p.getPackets().sendCameraLook(Integer.parseInt(args[0]), Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]));
+			Chunk chunk = ChunkManager.getChunk(p.getSceneBaseChunkId());
+			Tile tile = Tile.of(chunk.getBaseX() + Integer.parseInt(args[0]), chunk.getBaseY() + Integer.parseInt(args[1]), p.getPlane());
+			if (p.getInstancedArea() != null)
+				tile = Tile.of(p.getInstancedArea().getLocalTile(Integer.parseInt(args[0]), Integer.parseInt(args[1]), p.getPlane()));
+			if (args.length == 3)
+				p.getPackets().sendCameraLook(tile, Integer.parseInt(args[2]));
+			else if (args.length == 5)
+				p.getPackets().sendCameraLook(tile, Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]));
 		});
 
 		Commands.add(Rights.DEVELOPER, "campos [localX localY z (speed1 speed2)]", "Locks the camera to a specified tile.", (p, args) -> {
-			if(args.length == 3)
-				p.getPackets().sendCameraPos(Integer.parseInt(args[0]), Integer.parseInt(args[1]), Integer.parseInt(args[2]));
-			else if(args.length == 5)
-				p.getPackets().sendCameraPos(Integer.parseInt(args[0]), Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]));
+			Chunk chunk = ChunkManager.getChunk(p.getSceneBaseChunkId());
+			Tile tile = Tile.of(chunk.getBaseX() + Integer.parseInt(args[0]), chunk.getBaseY() + Integer.parseInt(args[1]), p.getPlane());
+			if (p.getInstancedArea() != null)
+				tile = Tile.of(p.getInstancedArea().getLocalTile(Integer.parseInt(args[0]), Integer.parseInt(args[1]), p.getPlane()));
+			if (args.length == 3)
+				p.getPackets().sendCameraPos(tile, Integer.parseInt(args[2]));
+			else if (args.length == 5)
+				p.getPackets().sendCameraPos(tile, Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]));
 		});
 
-		Commands.add(Rights.DEVELOPER, "resetcam", "Resets the camera back on the player.", (p, args) -> p.getPackets().sendResetCamera());
+		Commands.add(Rights.DEVELOPER, "resetcam", "Resets the camera back on the player.", (p, _) -> p.getPackets().sendResetCamera());
 
 		Commands.add(Rights.ADMIN, "spec", "Restores special attack energy to full.", (p, args) -> p.getCombatDefinitions().resetSpecialAttack());
 

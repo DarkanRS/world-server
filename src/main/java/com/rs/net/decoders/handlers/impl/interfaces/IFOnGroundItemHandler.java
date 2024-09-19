@@ -16,6 +16,7 @@
 //
 package com.rs.net.decoders.handlers.impl.interfaces;
 
+import com.rs.engine.pathfinder.RouteEvent;
 import com.rs.game.World;
 import com.rs.game.content.Effect;
 import com.rs.game.content.minigames.treasuretrails.TreasureTrailsManager;
@@ -25,7 +26,6 @@ import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.skills.magic.Rune;
 import com.rs.game.content.skills.magic.RuneSet;
 import com.rs.game.map.ChunkManager;
-import com.rs.engine.pathfinder.RouteEvent;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
 import com.rs.lib.Constants;

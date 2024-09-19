@@ -18,14 +18,14 @@ package com.rs.game.content.world.areas.karamja;
 
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.pathfinder.Direction;
+import com.rs.engine.pathfinder.RouteEvent;
 import com.rs.engine.quest.Quest;
 import com.rs.game.World;
 import com.rs.game.content.quests.dragonslayer.DragonSlayer;
 import com.rs.game.content.skills.agility.Agility;
 import com.rs.game.content.world.FurnacesKt;
 import com.rs.game.content.world.doors.Doors;
-import com.rs.engine.pathfinder.Direction;
-import com.rs.engine.pathfinder.RouteEvent;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.Task;

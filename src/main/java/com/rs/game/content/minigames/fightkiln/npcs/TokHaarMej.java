@@ -17,11 +17,12 @@
 package com.rs.game.content.minigames.fightkiln.npcs;
 
 import com.rs.game.World;
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.lib.game.Animation;
 import com.rs.lib.util.Utils;
 import kotlin.Pair;
@@ -45,15 +46,15 @@ public class TokHaarMej extends CombatScript {
 			attackStyle = 1;
 		switch (attackStyle) {
 		case 0:
-			hit = getMaxHit(npc, defs.getMaxHit() - 36, AttackStyle.MELEE, target);
+			hit = getMaxHit(npc, defs.getMaxHit() - 36, CombatStyle.MELEE, target);
 			npc.setNextAnimation(new Animation(defs.getAttackEmote()));
-			delayHit(npc, 0, target, getMeleeHit(npc, hit));
+			delayHit(npc, 0, target, Hit.melee(npc, hit));
 			break;
 		case 1:
-			hit = getMaxHit(npc, defs.getMaxHit(), AttackStyle.MAGE, target);
+			hit = getMaxHit(npc, defs.getMaxHit(), CombatStyle.MAGE, target);
 			npc.setNextAnimation(new Animation(16122));
 			World.sendProjectile(npc, target, 2991, new Pair<>(34, 16), 30, 10, 16);
-			delayHit(npc, 2, target, getMagicHit(npc, hit));
+			delayHit(npc, 2, target, Hit.magic(npc, hit));
 			break;
 		}
 		return npc.getAttackSpeed();

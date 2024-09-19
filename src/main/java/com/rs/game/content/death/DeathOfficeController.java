@@ -27,7 +27,10 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.InterfaceManager;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.game.model.object.GameObject;
-import com.rs.lib.game.*;
+import com.rs.lib.game.Animation;
+import com.rs.lib.game.GroundItem;
+import com.rs.lib.game.Item;
+import com.rs.lib.game.Tile;
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Utils;
 

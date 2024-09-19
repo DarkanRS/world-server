@@ -1,12 +1,13 @@
 package com.rs.game.content.bosses;
 
 import com.rs.game.World;
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
@@ -38,8 +39,8 @@ public class MelzarTheMadCombat extends CombatScript {
 			case 0 -> {
 				World.addGroundItem(new Item(1965, 1), Tile.of(target.getX() + Utils.random(0, 2) - 1, target.getY() + Utils.random(0, 2) - 1, target.getPlane()), (Player)target);
 				npc.setNextAnimation(new Animation(Utils.random(0, 2) == 0 ? 423 : 422));
-				int damage = getMaxHit(npc, defs.getMaxHit(), AttackStyle.MELEE, target);
-				delayHit(npc, 0, target, getMeleeHit(npc, damage));
+				int damage = getMaxHit(npc, defs.getMaxHit(), CombatStyle.MELEE, target);
+				delayHit(npc, 0, target, Hit.melee(npc, damage));
 			}
 			case 1 -> {
 				npc.setNextAnimation(new Animation(1163));
@@ -49,7 +50,7 @@ public class MelzarTheMadCombat extends CombatScript {
 					public void run() {
 						WorldProjectile p = World.sendProjectile(npc, target, 103, new Pair<>(80, 30), 40, 5, 5);
 						target.setNextSpotAnim(new SpotAnim(104, 0, 100));
-						delayHit(npc, p.getTaskDelay(), target, getMagicHit(npc, getMaxHit(npc, defs.getMaxHit() - 2, AttackStyle.MAGE, target)));
+						delayHit(npc, p.getTaskDelay(), target, Hit.magic(npc, getMaxHit(npc, defs.getMaxHit() - 2, CombatStyle.MAGE, target)));
 					}
 				}, 2);
 			}
@@ -61,7 +62,7 @@ public class MelzarTheMadCombat extends CombatScript {
 					public void run() {
 						WorldProjectile p = World.sendProjectile(npc, target, 103, new Pair<>(80, 30), 40, 5, 5);
 						target.setNextSpotAnim(new SpotAnim(2727, 0, 100));
-						delayHit(npc, p.getTaskDelay(), target, getMagicHit(npc, getMaxHit(npc, defs.getMaxHit() - 2, AttackStyle.MAGE, target)));
+						delayHit(npc, p.getTaskDelay(), target, Hit.magic(npc, getMaxHit(npc, defs.getMaxHit() - 2, CombatStyle.MAGE, target)));
 					}
 				}, 2);
 			}

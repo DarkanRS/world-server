@@ -3,12 +3,11 @@ package com.rs.game.content.bosses.qbd
 import com.rs.Settings
 import com.rs.cache.loaders.Bonus
 import com.rs.cache.loaders.ObjectType
-import com.rs.engine.dialogue.Dialogue
-import com.rs.engine.dialogue.Options
 import com.rs.engine.dialogue.sendOptionsDialogue
 import com.rs.engine.dialogue.startConversation
 import com.rs.engine.pathfinder.Direction
 import com.rs.game.World
+import com.rs.game.content.combat.CombatStyle
 import com.rs.game.content.combat.getAntifireLevel
 import com.rs.game.content.items.LootInterface
 import com.rs.game.model.entity.Entity
@@ -18,16 +17,12 @@ import com.rs.game.model.entity.npc.NPC
 import com.rs.game.model.entity.npc.NPC.yellDrop
 import com.rs.game.model.entity.npc.combat.CombatScript
 import com.rs.game.model.entity.npc.combat.CombatScript.delayHit
-import com.rs.game.model.entity.npc.combat.CombatScript.getMeleeHit
-import com.rs.game.model.entity.npc.combat.CombatScript.getRangeHit
 import com.rs.game.model.entity.npc.combat.CombatScriptsHandler
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle
 import com.rs.game.model.entity.player.Player
 import com.rs.game.model.entity.player.managers.InterfaceManager
 import com.rs.game.model.item.ItemsContainer
 import com.rs.game.model.`object`.GameObject
 import com.rs.lib.Constants
-import com.rs.lib.game.Animation
 import com.rs.lib.game.Item
 import com.rs.lib.game.Tile
 import com.rs.lib.util.Utils.add
@@ -35,15 +30,12 @@ import com.rs.lib.util.Utils.addArticle
 import com.rs.lib.util.Utils.clampI
 import com.rs.lib.util.Utils.random
 import com.rs.plugin.annotations.ServerStartupEvent
-import com.rs.plugin.events.ObjectClickEvent
-import com.rs.plugin.handlers.ObjectClickHandler
 import com.rs.plugin.kts.instantiateNpc
 import com.rs.plugin.kts.npcCombat
 import com.rs.plugin.kts.onObjectClick
 import com.rs.utils.DropSets
 import com.rs.utils.WorldUtil.gsonTreeMapToItemContainer
 import com.rs.utils.drop.DropTable
-import java.util.function.Consumer
 import java.util.stream.IntStream.range
 import kotlin.math.abs
 import kotlin.streams.toList
@@ -545,10 +537,10 @@ enum class QBDAttack(val func: (QBD, Player) -> Int) {
                 xDiff >= 3 -> ANIM_MELEE_RIGHT
                 else -> ANIM_MELEE_CENTER
             })
-            delayHit(qbd, 1, player, getMeleeHit(qbd, CombatScript.getMaxHit(qbd, 475, Bonus.SLASH_ATT, AttackStyle.MELEE, player)));
+            delayHit(qbd, 1, player, Hit.melee(qbd, CombatScript.getMaxHit(qbd, 475, Bonus.SLASH_ATT, CombatStyle.MELEE, player)));
         } else {
             qbd.anim(ANIM_RANGE)
-            delayHit(qbd, 1, player, getRangeHit(qbd, CombatScript.getMaxHit(qbd, 525, AttackStyle.RANGE, player)));
+            delayHit(qbd, 1, player, Hit.range(qbd, CombatScript.getMaxHit(qbd, 525, CombatStyle.RANGE, player)));
         }
         6
     }),

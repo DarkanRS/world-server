@@ -74,7 +74,8 @@ public class Strykewyrm extends NPC {
 						player.sendMessage("You seem to be unable to damage it.");
 						hit.setDamage(0);
 						setCapDamage(0);
-					}
+					} else if (player.getEquipment().hasFireCape() && hit.getDamage() < 40)
+						hit.setDamage(40);
 					if (hit.getData("combatSpell") != null && hit.getData("combatSpell", CombatSpell.class).isFireSpell())
 						hit.setDamage(hit.getDamage() * 2);
 					break;
@@ -96,7 +97,7 @@ public class Strykewyrm extends NPC {
 					break;
 				}
 
-				if (!player.getEquipment().hasFirecape() && !player.iceStrykeNoCape()) {
+				if (!player.getEquipment().hasFireCape() && !player.iceStrykeNoCape()) {
 					player.sendMessage("The strykewyrm numbs your hands and freezes your attack.");
 					hit.setDamage(0);
 					setCapDamage(0);

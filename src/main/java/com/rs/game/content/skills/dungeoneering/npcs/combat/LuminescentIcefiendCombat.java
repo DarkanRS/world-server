@@ -17,11 +17,12 @@
 package com.rs.game.content.skills.dungeoneering.npcs.combat;
 
 import com.rs.game.World;
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.content.skills.dungeoneering.npcs.LuminscentIcefiend;
 import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
@@ -53,11 +54,11 @@ public class LuminescentIcefiendCombat extends CombatScript {
 		if (magicAttack) {
 			npc.setNextAnimation(new Animation(13352));
 			World.sendProjectile(npc, target, 2529, new Pair<>(15, 16), 35, 5, 16);
-			delayHit(icefiend, 2, target, getMagicHit(npc, getMaxHit(npc, icefiend.getMaxHit(), AttackStyle.MAGE, target)));
+			delayHit(icefiend, 2, target, Hit.magic(npc, getMaxHit(npc, icefiend.getMaxHit(), CombatStyle.MAGE, target)));
 		} else {
 			npc.setNextAnimation(new Animation(13337));
 			World.sendProjectile(npc, target, 2530, new Pair<>(30, 16), 35, 5, 0);
-			delayHit(icefiend, 2, target, getRangeHit(npc, getMaxHit(npc, (int) (icefiend.getMaxHit() * .90), AttackStyle.RANGE, target)));
+			delayHit(icefiend, 2, target, Hit.range(npc, getMaxHit(npc, (int) (icefiend.getMaxHit() * .90), CombatStyle.RANGE, target)));
 			WorldTasks.schedule(new Task() {
 
 				@Override

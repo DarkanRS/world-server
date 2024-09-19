@@ -17,11 +17,12 @@
 package com.rs.game.content.skills.summoning.combat.impl;
 
 import com.rs.game.World;
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.content.skills.summoning.Pouch;
 import com.rs.game.content.skills.summoning.combat.FamiliarCombatScript;
 import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
@@ -41,7 +42,7 @@ public class Dreadfowl extends FamiliarCombatScript {
 		
 		npc.setNextAnimation(new Animation(7810));
 		npc.setNextSpotAnim(new SpotAnim(1523));
-		delayHit(npc, 1, target, getMagicHit(npc, getMaxHit(npc, 30, AttackStyle.MAGE, target)));
+		delayHit(npc, 1, target, Hit.magic(npc, getMaxHit(npc, 30, CombatStyle.MAGE, target)));
 		World.sendProjectile(npc, target, 1318, new Pair<>(34, 16), 30, 5, 16);
 		return npc.getAttackSpeed();
 	}

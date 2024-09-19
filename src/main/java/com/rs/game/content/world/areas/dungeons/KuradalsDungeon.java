@@ -16,9 +16,9 @@
 //
 package com.rs.game.content.world.areas.dungeons;
 
+import com.rs.engine.pathfinder.Direction;
 import com.rs.game.content.skills.slayer.TaskMonster;
 import com.rs.game.content.world.areas.dungeons.ancientcavern.KuradalDungeonController;
-import com.rs.engine.pathfinder.Direction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.game.tasks.Task;

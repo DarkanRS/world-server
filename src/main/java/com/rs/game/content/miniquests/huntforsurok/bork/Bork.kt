@@ -9,6 +9,7 @@ import com.rs.game.content.achievements.AchievementDef
 import com.rs.game.content.achievements.SetReward
 import com.rs.game.content.minigames.treasuretrails.TreasureTrailsManager
 import com.rs.game.model.entity.Entity
+import com.rs.game.model.entity.Hit
 import com.rs.game.model.entity.async.schedule
 import com.rs.game.model.entity.npc.NPC
 import com.rs.game.model.entity.npc.combat.CombatScript.*
@@ -122,7 +123,7 @@ fun instantiateAndCombat() {
 			return@npcCombat 0
 		}
 		npc.anim(if ((0..1).random() == 0) defs.attackEmote else 8757)
-		delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, defs.maxHit, null, target)))
+		delayHit(npc, 0, target, Hit.melee(npc, getMaxHit(npc, defs.maxHit, null, target)))
 		npc.attackSpeed
 	}
 
@@ -131,7 +132,7 @@ fun instantiateAndCombat() {
 	npcCombat("Ork legion") { npc, target ->
 		npc.anim(npc.combatDefinitions.attackEmote)
 		if ((0..3).random() == 0) npc.forceTalk(messages.random())
-		delayHit(npc, 0, target, getMeleeHit(npc, npc.combatDefinitions.maxHit))
+		delayHit(npc, 0, target, Hit.melee(npc, npc.combatDefinitions.maxHit))
 		npc.attackSpeed
 	}
 }

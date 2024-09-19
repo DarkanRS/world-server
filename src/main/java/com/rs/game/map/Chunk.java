@@ -1,13 +1,13 @@
 package com.rs.game.map;
 
 import com.rs.cache.loaders.ObjectType;
+import com.rs.engine.pathfinder.WorldCollision;
 import com.rs.game.World;
 import com.rs.game.content.ItemConstants;
 import com.rs.game.content.pets.Pet;
 import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.engine.pathfinder.WorldCollision;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.*;

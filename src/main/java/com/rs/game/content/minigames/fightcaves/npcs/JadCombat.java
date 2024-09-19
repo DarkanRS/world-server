@@ -17,11 +17,12 @@
 package com.rs.game.content.minigames.fightcaves.npcs;
 
 import com.rs.game.World;
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
@@ -41,7 +42,7 @@ public class JadCombat extends CombatScript {
 		if (attackStyle == 2) {
 			if (npc.inMeleeRange(target)) {
 				npc.anim(defs.getAttackEmote());
-				delayHit(npc, 1, target, getMeleeHit(npc, getMaxHit(npc, defs.getMaxHit(), AttackStyle.MELEE, target)));
+				delayHit(npc, 1, target, Hit.melee(npc, getMaxHit(npc, defs.getMaxHit(), CombatStyle.MELEE, target)));
 				return npc.getAttackSpeed();
 			}
 			attackStyle = Utils.random(2);
@@ -53,7 +54,7 @@ public class JadCombat extends CombatScript {
 					case 2 -> target.spotAnim(3000);
 					case 3 -> target.spotAnim(new SpotAnim(2741, 0, 100));
 					case 4 -> {
-						delayHit(npc, 1, target, getRangeHit(npc, getMaxHit(npc, defs.getMaxHit() - 2, AttackStyle.RANGE, target)));
+						delayHit(npc, 1, target, Hit.range(npc, getMaxHit(npc, defs.getMaxHit() - 2, CombatStyle.RANGE, target)));
 						return false;
 					}
 				}
@@ -64,7 +65,7 @@ public class JadCombat extends CombatScript {
 			WorldTasks.scheduleTimer((ticks) -> {
 				switch (ticks) {
 					case 2 -> World.sendProjectile(npc, target, 2996, new Pair<>(80, 30), 40, 10, 5);
-					case 3 -> delayHit(npc, 1, target, getMagicHit(npc, getMaxHit(npc, defs.getMaxHit() - 2, AttackStyle.MAGE, target)));
+					case 3 -> delayHit(npc, 1, target, Hit.magic(npc, getMaxHit(npc, defs.getMaxHit() - 2, CombatStyle.MAGE, target)));
 					case 4 -> {
 						target.spotAnim(new SpotAnim(2741, 0, 100));
 						return false;

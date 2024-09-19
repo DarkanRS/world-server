@@ -19,17 +19,16 @@ package com.rs.game.content.bosses.glacor;
 import com.rs.game.World;
 import com.rs.game.content.Effect;
 import com.rs.game.content.bosses.glacor.Glacor.InheritedType;
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
-import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
@@ -85,7 +84,7 @@ public class GlacorCombat extends CombatScript {
 				WorldTasks.schedule(new Task() {
 					@Override
 					public void run() {
-						delayHit(npc, -1, target, getMagicHit(npc, getMaxHit(npc, 255, AttackStyle.MAGE, player)));
+						delayHit(npc, -1, target, Hit.magic(npc, getMaxHit(npc, 255, CombatStyle.MAGE, player)));
 					}
 				}, p.getTaskDelay());
 				if ((Utils.getRandomInclusive(100) > 80) && !player.hasEffect(Effect.FREEZE) && !player.getPrayer().isProtectingMage()) {
@@ -98,7 +97,7 @@ public class GlacorCombat extends CombatScript {
 				WorldTasks.schedule(new Task() {
 					@Override
 					public void run() {
-						delayHit(npc, -1, target, getRangeHit(npc, getMaxHit(npc, 255, AttackStyle.RANGE, player)));
+						delayHit(npc, -1, target, Hit.range(npc, getMaxHit(npc, 255, CombatStyle.RANGE, player)));
 					}
 				}, p.getTaskDelay());
 			} else if (attackType == 3) {

@@ -19,6 +19,7 @@ package com.rs.game.content.skills.slayer.npcs.combat;
 import com.rs.game.content.skills.slayer.Slayer;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.ForceTalk;
+import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
@@ -37,7 +38,7 @@ public class CaveHorrorCombat extends CombatScript {
 	@Override
 	public int attack(NPC npc, Entity target) {
 		NPCCombatDefinitions def = npc.getCombatDefinitions();
-		if (!Slayer.hasWitchWoodIcon(target)) {
+		if (target instanceof Player player && !Slayer.hasWitchWoodIcon(player)) {
 			Player targetPlayer = (Player) target;
 			int randomSkill = Utils.random(0, 6);
 			int currentLevel = targetPlayer.getSkills().getLevel(randomSkill);
@@ -46,9 +47,9 @@ public class CaveHorrorCombat extends CombatScript {
 				targetPlayer.sendMessage("The screams of the cave horror make you feel slightly weaker.");
 				npc.setNextForceTalk(new ForceTalk("*OOOoooAHHHH*"));
 			}
-			delayHit(npc, 0, target, getMeleeHit(npc, targetPlayer.getMaxHitpoints() / 3));
+			delayHit(npc, 0, target, Hit.flat(npc, targetPlayer.getMaxHitpoints() / 3));
 		} else
-			delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, def.getMaxHit(), def.getAttackStyle(), target)));
+			delayHit(npc, 0, target, Hit.melee(npc, getMaxHit(npc, def.getMaxHit(), def.getAttackStyle(), target)));
 		npc.setNextAnimation(new Animation(4237));
 		return npc.getAttackSpeed();
 	}

@@ -48,7 +48,6 @@ import com.rs.game.content.clans.ClansManager;
 import com.rs.game.content.combat.CombatDefinitions;
 import com.rs.game.content.death.DeathOfficeController;
 import com.rs.game.content.death.GraveStone;
-
 import com.rs.game.content.minigames.domtower.DominionTower;
 import com.rs.game.content.minigames.duel.DuelRules;
 import com.rs.game.content.minigames.herblorehabitat.HabitatFeature;
@@ -3733,10 +3732,6 @@ public class Player extends Entity {
 	public boolean isOnTask(TaskMonster monster) {
         return getSlayer().getTask() != null && getSlayer().getTask().getMonster() == monster;
     }
-
-	public void addWalkSteps(Tile toTile, int maxSteps, boolean clip) {
-		addWalkSteps(toTile.getX(), toTile.getY(), maxSteps, clip);
-	}
 
 	public void passThrough(Tile tile) {
 		final boolean running = getRun();

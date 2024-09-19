@@ -1,19 +1,17 @@
 package com.rs.game.content.clans;
 
+import com.rs.engine.pathfinder.Direction;
 import com.rs.game.World;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.skills.magic.TeleType;
-import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.OwnedNPC;
-import com.rs.engine.pathfinder.Direction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Rights;
 import com.rs.lib.game.Tile;
 import com.rs.lib.model.clan.Clan;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;

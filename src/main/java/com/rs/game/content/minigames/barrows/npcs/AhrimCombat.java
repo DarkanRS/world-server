@@ -17,11 +17,12 @@
 package com.rs.game.content.minigames.barrows.npcs;
 
 import com.rs.game.World;
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
@@ -40,7 +41,7 @@ public class AhrimCombat extends CombatScript {
 	public int attack(NPC npc, Entity target) {
 		final NPCCombatDefinitions defs = npc.getCombatDefinitions();
 		npc.setNextAnimation(new Animation(defs.getAttackEmote()));
-		int damage = getMaxHit(npc, defs.getMaxHit(), AttackStyle.MAGE, target);
+		int damage = getMaxHit(npc, defs.getMaxHit(), CombatStyle.MAGE, target);
 		if (damage != 0 && target instanceof Player player && Utils.random(3) == 0) {
 			target.setNextSpotAnim(new SpotAnim(400, 0, 100));
 			int currentLevel = player.getSkills().getLevel(Constants.STRENGTH);
@@ -48,7 +49,7 @@ public class AhrimCombat extends CombatScript {
 		}
 		World.sendProjectile(npc, target, defs.getAttackProjectile(), new Pair<>(41, 16), 41, 5, 16);
 		npc.setNextSpotAnim(new SpotAnim(defs.getAttackGfx()));
-		delayHit(npc, 2, target, getMagicHit(npc, damage));
+		delayHit(npc, 2, target, Hit.magic(npc, damage));
 		return npc.getAttackSpeed();
 	}
 }

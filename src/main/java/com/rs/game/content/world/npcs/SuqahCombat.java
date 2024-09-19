@@ -17,6 +17,7 @@
 package com.rs.game.content.world.npcs;
 
 import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
@@ -40,7 +41,7 @@ public class SuqahCombat extends CombatScript {
 		boolean meleeOnly = npc.getId() == 4528 || npc.getId() == 4529 || npc.getId() == 4531 || npc.getId() == 4532;
 		if (!meleeOnly && Utils.getRandomInclusive(3) == 0) {// barrage
 			boolean hit = Utils.getRandomInclusive(1) == 0;
-			delayHit(npc, 2, target, getMagicHit(npc, hit ? 100 : 0));
+			delayHit(npc, 2, target, Hit.magic(npc, hit ? 100 : 0));
 			WorldTasks.schedule(new Task() {
 				@Override
 				public void run() {
@@ -51,7 +52,7 @@ public class SuqahCombat extends CombatScript {
 			});
 		} else {
 			npc.setNextAnimation(new Animation(defs.getAttackEmote()));
-			delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, defs.getMaxHit(), defs.getAttackStyle(), target)));
+			delayHit(npc, 0, target, Hit.melee(npc, getMaxHit(npc, defs.getMaxHit(), defs.getAttackStyle(), target)));
 		}
 		return npc.getAttackSpeed();
 	}

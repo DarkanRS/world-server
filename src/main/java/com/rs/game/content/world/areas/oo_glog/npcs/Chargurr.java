@@ -1,6 +1,5 @@
 package com.rs.game.content.world.areas.oo_glog.npcs;
 
-import com.rs.engine.Shop;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.quest.Quest;

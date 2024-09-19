@@ -17,14 +17,10 @@
 package com.rs.game.content.world.areas.falador.npcs;
 
 import com.rs.engine.dialogue.Conversation;
-import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
-import com.rs.engine.dialogue.Options;
-import com.rs.game.content.skills.thieving.PickPocketAction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
-import com.rs.utils.shop.ShopsHandler;
 
 @PluginEventHandler
 public class IkisKrum extends Conversation {

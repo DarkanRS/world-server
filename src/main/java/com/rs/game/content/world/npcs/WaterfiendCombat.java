@@ -17,12 +17,12 @@
 package com.rs.game.content.world.npcs;
 
 import com.rs.game.World;
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.lib.game.Animation;
 import com.rs.lib.util.Utils;
 import kotlin.Pair;
@@ -40,9 +40,9 @@ public class WaterfiendCombat extends CombatScript {
 		int spellType = Utils.getRandomInclusive(2);
 		Hit hit;
 		if (spellType > 1)
-			hit = getMagicHit(npc, getMaxHit(npc, defs.getMaxHit(), AttackStyle.MAGE, target));
+			hit = Hit.magic(npc, getMaxHit(npc, defs.getMaxHit(), CombatStyle.MAGE, target));
 		else
-			hit = getRangeHit(npc, getMaxHit(npc, defs.getMaxHit(), AttackStyle.RANGE, target));
+			hit = Hit.range(npc, getMaxHit(npc, defs.getMaxHit(), CombatStyle.RANGE, target));
 
 		npc.setNextAnimation(new Animation(defs.getAttackEmote()));
 		if (spellType == 0) {

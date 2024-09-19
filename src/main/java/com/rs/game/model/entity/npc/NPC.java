@@ -25,13 +25,13 @@ import com.rs.engine.thread.AsyncTaskExecutor;
 import com.rs.game.World;
 import com.rs.game.content.Effect;
 import com.rs.game.content.bosses.godwars.GodwarsController;
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.content.combat.PolyporeStaffKt;
 import com.rs.game.content.minigames.treasuretrails.TreasureTrailsManager;
 import com.rs.game.content.quests.elderkiln.TokkulZoKt;
 import com.rs.game.content.skills.hunter.BoxHunterType;
 import com.rs.game.content.skills.slayer.SlayerMonsters;
 import com.rs.game.content.skills.summoning.Familiar;
-import com.rs.game.content.world.areas.dungeons.TzHaar;
 import com.rs.game.content.world.areas.wilderness.WildernessController;
 import com.rs.game.map.ChunkManager;
 import com.rs.game.model.entity.Entity;
@@ -40,7 +40,6 @@ import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.npc.combat.NPCCombat;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AggressiveType;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.Skill;
 import com.rs.game.model.entity.player.Bank;
 import com.rs.game.model.entity.player.Player;
@@ -254,7 +253,7 @@ public class NPC extends Entity {
 	
 	private void restoreTick() {
 		for (Skill skill : Skill.values()) {
-			int currentLevel = getLevel(skill);
+			int currentLevel = getCombatLevel(skill);
 			int normalLevel = getCombatDefinitions().getLevel(skill);
 			if (currentLevel > normalLevel)
 				setStat(skill, currentLevel - 1);
@@ -342,7 +341,7 @@ public class NPC extends Entity {
 					hit.setDamage(0);
 					player.sendMessage("You do not have the slayer level required to damage this monster.");
 				}
-			if (hit.getDamage() > 0 && isTzhaarMonster() && TokkulZoKt.depleteTokkulZo(player))
+			if (TokkulZoKt.depleteTokkulZo(player) && hit.getDamage() > 0 && isTzhaarMonster())
 				hit.setDamage((int) (hit.getDamage() * 1.1));
 		}
 		if (hit.getDamage() >= 200) {
@@ -351,7 +350,7 @@ public class NPC extends Entity {
 				case RANGE_DAMAGE -> Bonus.ABSORB_RANGE;
 				default -> Bonus.ABSORB_MAGIC;
 			};
-			int reducedDamage = hit.getDamage() * getBonus(bonus) / 100;
+			int reducedDamage = hit.getDamage() * getCombatBonus(bonus) / 100;
 			if (reducedDamage > 0) {
 				hit.setDamage(hit.getDamage() - reducedDamage);
 				hit.addSoaking(reducedDamage);
@@ -471,28 +470,29 @@ public class NPC extends Entity {
 		return combat;
 	}
 	
-	public int getLevel(Skill skill) {
+	public int getCombatLevel(Skill skill) {
+		if (skill == null) return 1;
 		return combatLevels == null ? 1 : combatLevels.get(skill);
 	}
 
 	public int getAttackLevel() {
-		return getLevel(Skill.ATTACK);
+		return getCombatLevel(Skill.ATTACK);
 	}
 
 	public int getDefenseLevel() {
-		return getLevel(Skill.DEFENSE);
+		return getCombatLevel(Skill.DEFENSE);
 	}
 
 	public int getStrengthLevel() {
-		return getLevel(Skill.STRENGTH);
+		return getCombatLevel(Skill.STRENGTH);
 	}
 
 	public int getRangeLevel() {
-		return getLevel(Skill.RANGE);
+		return getCombatLevel(Skill.RANGE);
 	}
 
 	public int getMagicLevel() {
-		return getLevel(Skill.MAGE);
+		return getCombatLevel(Skill.MAGE);
 	}
 
 	@Override
@@ -708,11 +708,11 @@ public class NPC extends Entity {
 		return getCombatDefinitions().getMaxHit();
 	}
 
-	public int getLevelForStyle(AttackStyle style) {
+	public int getLevelForStyle(CombatStyle style) {
 		int maxHit = getAttackLevel();
-		if (style == AttackStyle.RANGE)
+		if (style == CombatStyle.RANGE)
 			maxHit = getRangeLevel();
-		else if (style == AttackStyle.MAGE)
+		else if (style == CombatStyle.MAGE)
 			maxHit = getMagicLevel();
 		return maxHit;
 	}
@@ -786,7 +786,7 @@ public class NPC extends Entity {
 		return getStat(stat);
 	}
 
-	public int getBonus(Bonus bonus) {
+	public int getCombatBonus(Bonus bonus) {
 		if (getCombatDefinitions().hasOverriddenBonuses())
 			return getCombatDefinitions().getBonus(bonus);
 		else
@@ -798,28 +798,28 @@ public class NPC extends Entity {
 	}
 
 	public Bonus getHighestAttackBonus() {
-		int highest = getBonus(Bonus.STAB_ATT);
+		int highest = getCombatBonus(Bonus.STAB_ATT);
 		Bonus attType = Bonus.STAB_ATT;
-		if (getBonus(Bonus.SLASH_ATT) > highest) {
-			highest = getBonus(Bonus.SLASH_ATT);
+		if (getCombatBonus(Bonus.SLASH_ATT) > highest) {
+			highest = getCombatBonus(Bonus.SLASH_ATT);
 			attType = Bonus.SLASH_ATT;
 		}
-		if (getBonus(Bonus.CRUSH_ATT) > highest) {
-			highest = getBonus(Bonus.CRUSH_ATT);
+		if (getCombatBonus(Bonus.CRUSH_ATT) > highest) {
+			highest = getCombatBonus(Bonus.CRUSH_ATT);
 			attType = Bonus.CRUSH_ATT;
 		}
 		return attType;
 	}
 
 	public Bonus getHighestDefenseBonus() {
-		int highest = getBonus(Bonus.STAB_DEF);
+		int highest = getCombatBonus(Bonus.STAB_DEF);
 		Bonus defType = Bonus.STAB_DEF;
-		if (getBonus(Bonus.SLASH_DEF) > highest) {
-			highest = getBonus(Bonus.SLASH_DEF);
+		if (getCombatBonus(Bonus.SLASH_DEF) > highest) {
+			highest = getCombatBonus(Bonus.SLASH_DEF);
 			defType = Bonus.SLASH_DEF;
 		}
-		if (getBonus(Bonus.CRUSH_DEF) > highest) {
-			highest = getBonus(Bonus.CRUSH_DEF);
+		if (getCombatBonus(Bonus.CRUSH_DEF) > highest) {
+			highest = getCombatBonus(Bonus.CRUSH_DEF);
 			defType = Bonus.CRUSH_DEF;
 		}
 		return defType;
@@ -901,7 +901,7 @@ public class NPC extends Entity {
 		return getDefinitions().getName().toLowerCase().contains("revenant");
 	}
 
-	public AttackStyle getAttackStyle() {
+	public CombatStyle getCombatStyle() {
 		return getCombatDefinitions().getAttackStyle();
 		//		if (bonuses[2] > 0)
 		//			return NPCCombatDefinitions.MAGE;
