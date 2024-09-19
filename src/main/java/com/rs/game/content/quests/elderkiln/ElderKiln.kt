@@ -70,9 +70,12 @@ class ElderKiln : QuestOutline() {
     }
 }
 
-//@ServerStartupEvent
-//fun mapElderKiln() {
-//    onLogin {
-//        it.player.setQuestStage(Quest.ELDER_KILN, STAGE_ESCORT_GAAL_KILN)
-//    }
-//}
+@ServerStartupEvent
+fun mapElderKiln() {
+    onLogin {
+        if (!Quest.ELDER_KILN.isImplemented)
+            it.player.vars.setVarBit(10810, 1)
+        else
+            it.player.setQuestStage(Quest.ELDER_KILN, STAGE_ESCORT_GAAL_KILN)
+    }
+}
