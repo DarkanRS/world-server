@@ -119,6 +119,8 @@ fun mapSoulwars() {
     }
 
     onObjectClick(42031) { (player) ->
+        if (player.equipment.get(Equipment.CAPE) != null || player.inventory.items.array().any { it?.definitions?.equipSlot == Equipment.CAPE })
+            return@onObjectClick player.sendMessage("You cannot enter the lobby with a cape.")
         player.tele(Tile.of(1875, 3162, 0))
         player.controllerManager.startController(SoulWarsLobbyController())
     }

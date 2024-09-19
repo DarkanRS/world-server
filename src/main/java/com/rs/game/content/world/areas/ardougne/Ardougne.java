@@ -20,6 +20,7 @@ import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.dialogue.Options;
+import com.rs.engine.pathfinder.Route;
 import com.rs.engine.pathfinder.RouteEvent;
 import com.rs.engine.pathfinder.RouteFinderKt;
 import com.rs.engine.quest.Quest;
@@ -312,7 +313,8 @@ public class Ardougne  {
 			e.getPlayer().sendMessage("You require 40 Ranged to enter the Ranging Guild.");
 			return;
 		}
-		if (RouteFinderKt.routeEntityToTile(e.getPlayer(), Tile.of(2659, 3437, 0)).getSuccess())
+		Route route = RouteFinderKt.routeEntityToTile(e.getPlayer(), Tile.of(2659, 3437, 0));
+		if (route.getSuccess() && !route.getAlternative())
 			e.getPlayer().setRouteEvent(new RouteEvent(Tile.of(2659, 3437, 0), () -> {
 				Doors.handleDoor(e.getPlayer(), e.getObject());
 				e.getPlayer().addWalkSteps(Tile.of(2657, 3439, 0), 5, false);
