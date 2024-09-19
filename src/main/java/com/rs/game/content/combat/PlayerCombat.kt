@@ -16,31 +16,24 @@
 //
 package com.rs.game.content.combat
 
-import com.rs.Settings
 import com.rs.cache.loaders.Bonus
 import com.rs.cache.loaders.ItemDefinitions
+import com.rs.engine.pathfinder.Direction
 import com.rs.game.World
 import com.rs.game.content.Effect
 import com.rs.game.content.combat.special_attacks.SpecialAttack
 import com.rs.game.content.combat.special_attacks.execute
-import com.rs.game.content.skills.dungeoneering.DungeonController
-import com.rs.game.content.skills.dungeoneering.KinshipPerk
 import com.rs.game.content.skills.summoning.Familiar
-import com.rs.game.content.skills.summoning.Pouch
 import com.rs.game.model.WorldProjectile
 import com.rs.game.model.entity.Entity
 import com.rs.game.model.entity.Hit
 import com.rs.game.model.entity.Hit.HitLook
 import com.rs.game.model.entity.interactions.PlayerCombatInteraction
 import com.rs.game.model.entity.npc.NPC
-import com.rs.engine.pathfinder.Direction
-import com.rs.game.content.skills.slayer.Slayer
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions
 import com.rs.game.model.entity.player.Equipment
 import com.rs.game.model.entity.player.Player
 import com.rs.game.model.entity.player.Skills
 import com.rs.game.model.entity.player.actions.PlayerAction
-import com.rs.game.model.entity.player.managers.AuraManager.Aura
 import com.rs.lib.Constants
 import com.rs.lib.game.Animation
 import com.rs.lib.game.Item
@@ -49,9 +42,7 @@ import com.rs.lib.util.Utils
 import com.rs.utils.ItemConfig
 import com.rs.utils.Ticks
 import java.util.*
-import kotlin.math.floor
 import kotlin.math.min
-import kotlin.math.pow
 
 class PlayerCombat(@JvmField val target: Entity) : PlayerAction() {
     override fun start(player: Player): Boolean {

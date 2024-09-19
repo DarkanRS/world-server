@@ -17,16 +17,21 @@
 package com.rs.game.content.skills.summoning.combat.impl;
 
 import com.rs.game.World;
+import com.rs.game.content.combat.CombatFormulaKt;
+import com.rs.game.content.combat.CombatMod;
 import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.content.skills.summoning.Pouch;
 import com.rs.game.content.skills.summoning.combat.FamiliarCombatScript;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.lib.game.Animation;
+import com.rs.game.model.entity.player.Player;
 import com.rs.lib.util.Utils;
+import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.annotations.ServerStartupEvent;
 import kotlin.Pair;
 
+@PluginEventHandler
 public class SteelTitan extends FamiliarCombatScript {
 
 	@Override
@@ -37,7 +42,7 @@ public class SteelTitan extends FamiliarCombatScript {
 	@Override
 	public int alternateAttack(final NPC npc, final Entity target) {
 		if (npc.inMeleeRange(target)) {
-			npc.setNextAnimation(new Animation(8183));
+			npc.anim(8183);
 			delayHit(npc, 1, target, Hit.melee(npc, getMaxHit(npc, 244, CombatStyle.MELEE, target)));
 		} else {
 			switch (Utils.getRandomInclusive(1)) {
@@ -52,5 +57,14 @@ public class SteelTitan extends FamiliarCombatScript {
 			}
 		}
 		return npc.getAttackSpeed();
+	}
+
+	@ServerStartupEvent
+	public static void addDefenseBoost() {
+		CombatFormulaKt.onCombatFormulaAdjust((_, target, _, _) -> {
+			if (!(target instanceof Player pTarget)) return new CombatMod();
+			if (pTarget.getFamiliarPouch() == Pouch.STEEL_TITAN) return new CombatMod(1.0, 1.0, 1.0, 1.0, 1.0, 1.15, 1.0);
+			return new CombatMod();
+		});
 	}
 }

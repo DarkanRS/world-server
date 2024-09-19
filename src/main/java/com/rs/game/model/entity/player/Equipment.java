@@ -893,6 +893,13 @@ public final class Equipment {
 					default -> value;
 				};
 			}
+			case 22358, 22359, 22360, 22361 -> {
+				if (player.getEquipment().getWeaponId() != -1) return value;
+				if (bonus == Bonus.CRUSH_ATT || bonus == Bonus.MELEE_STR)
+					return bonus == Bonus.MELEE_STR ? 96 : 95;
+				else
+					return value;
+			}
 			default -> {
 				return value;
 			}

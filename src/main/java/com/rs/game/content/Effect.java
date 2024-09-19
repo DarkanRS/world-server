@@ -123,16 +123,32 @@ public enum Effect {
 
 		@Override
 		public void tick(Entity entity, long tick) {
-			if(entity instanceof Player player && player.getDungManager().isInsideDungeon()) {
-				List<NPC> npcs = player.queryNearbyNPCsByTileRange(1, npc -> !npc.isDead() && npc.withinDistance(player, 1)
-						&& npc.getDefinitions().hasAttackOption() && player.getControllerManager().canHit(npc) && npc.getCombatTarget() instanceof Player);
-				for (NPC npc : npcs)
-					if (tick % Ticks.fromSeconds(10) == 0) {
+			if (tick % Ticks.fromSeconds(10) == 0) {
+				if (entity instanceof Player player && player.getDungManager().isInsideDungeon()) {
+					List<NPC> npcs = player.queryNearbyNPCsByTileRange(1, npc -> !npc.isDead() && npc.withinDistance(player, 1)
+							&& npc.getDefinitions().hasAttackOption() && player.getControllerManager().canHit(npc) && npc.getCombatTarget() instanceof Player);
+					for (NPC npc : npcs) {
 						int dmg = 40 * player.getSkills().getCombatLevelWithSummoning() / 138;
 						npc.applyHit(new Hit(player, dmg, Hit.HitLook.TRUE_DAMAGE));
 						player.heal(dmg);
 					}
+				}
 			}
+		}
+	},
+
+	STONE_OF_JAS("Stone of Jas") {
+		@Override
+		public void apply(Entity entity) {
+			entity.sync(11705, 1340);
+			if (entity instanceof Player player)
+				player.sendMessage("The residual energy from the Stone of Jas empowers you, increasing your damage.");
+		}
+
+		@Override
+		public void tick(Entity entity, long tick) {
+			if (tick % 50 == 0)
+				entity.spotAnim(1340);
 		}
 	},
 
