@@ -231,13 +231,3 @@ fun getMaxHit(entity: Entity, target: Entity, combatStyle: CombatStyle, attackBo
     if (Settings.getConfig().isDebug && (entity as? Player)?.nsv?.getB("hitChance") == true) entity.sendMessage("Your max hit: ${maxHit.toInt()}")
     return maxHit.toInt()
 }
-
-fun fullVeracsEquipped(player: Player): Boolean {
-    val helmId = player.equipment.hatId
-    val chestId = player.equipment.chestId
-    val legsId = player.equipment.legsId
-    val weaponId = player.equipment.weaponId
-    if (helmId == -1 || chestId == -1 || legsId == -1 || weaponId == -1) return false
-    return (ItemDefinitions.getDefs(helmId).getName().contains("Verac's") && ItemDefinitions.getDefs(chestId).getName().contains("Verac's") && ItemDefinitions.getDefs(legsId).getName().contains("Verac's")
-            && ItemDefinitions.getDefs(weaponId).getName().contains("Verac's"))
-}

@@ -17,6 +17,7 @@ import com.rs.game.model.entity.player.Player
 import com.rs.game.model.entity.player.Skills
 import com.rs.lib.util.Utils.clampD
 import com.rs.lib.util.Utils.clampI
+import com.rs.lib.util.Utils.random
 import com.rs.plugin.annotations.ServerStartupEvent
 import kotlin.math.floor
 import kotlin.math.pow
@@ -24,6 +25,7 @@ import kotlin.math.pow
 @ServerStartupEvent
 fun mapCombatEnhancingItems() {
     onCombatFormulaAdjust berserkerNeck@ { player, target, offensiveBonus, combatStyle ->
+        if (combatStyle != CombatStyle.MELEE) return@berserkerNeck CombatMod()
         if (player !is Player) return@berserkerNeck CombatMod()
         if (setOf(6523, 6525, 6527, 6528).contains(player.equipment.weaponId) && player.equipment.amuletId == 11128)
             return@berserkerNeck CombatMod(baseDamage = 1.2)
@@ -31,10 +33,19 @@ fun mapCombatEnhancingItems() {
     }
 
     onCombatFormulaAdjust dharoks@ { player, target, offensiveBonus, combatStyle ->
+        if (combatStyle != CombatStyle.MELEE) return@dharoks CombatMod()
         if (player !is Player) return@dharoks CombatMod()
-        if (setOf(4718, 4886, 4887, 4888, 4889).contains(player.equipment.weaponId) && fullDharokEquipped(player))
+        if (player.fullDharokEquipped())
             return@dharoks CombatMod(baseDamage = 1.0 + (player.maxHitpoints - player.hitpoints) / 1000.0 * (player.maxHitpoints / 1000.0))
         return@dharoks CombatMod()
+    }
+
+    onCombatFormulaAdjust veracs@ { player, target, offensiveBonus, combatStyle ->
+        if (combatStyle != CombatStyle.MELEE) return@veracs CombatMod()
+        if (player !is Player) return@veracs CombatMod()
+        if (player.fullVeracsEquipped() && random(100) <= 24)
+            return@veracs CombatMod(defense = 0.0)
+        return@veracs CombatMod()
     }
 
     onCombatFormulaAdjust salveAmulet@ { player, target, offensiveBonus, combatStyle ->
@@ -91,7 +102,7 @@ fun mapCombatEnhancingItems() {
     }
 
     onCombatFormulaAdjust spellcasterPlugin@ { entity, target, offensiveBonus, combatStyle ->
-        if (entity.tempAttribs.getO<Any?>("spellcasterProc") != null) {
+        if (entity.tempAttribs.getO<Any?>("spellcasterProc") != null && combatStyle == CombatStyle.MAGE) {
             target.lowerStat(Skills.ATTACK, 0.1, 0.9)
             target.lowerStat(Skills.STRENGTH, 0.1, 0.9)
             target.lowerStat(Skills.DEFENSE, 0.1, 0.9)
@@ -104,7 +115,7 @@ fun mapCombatEnhancingItems() {
     }
 
     onCombatFormulaAdjust hexhunterBowPlugin@ { player, target, offensiveBonus, combatStyle ->
-        if (player !is Player || target !is NPC) return@hexhunterBowPlugin CombatMod()
+        if (combatStyle != CombatStyle.RANGE || player !is Player || target !is NPC) return@hexhunterBowPlugin CombatMod()
         if (player.equipment.weaponId == 15836 || player.equipment.weaponId == 17295 || player.equipment.weaponId == 21332) {
             val mageLvl = clampI(target.magicLevel, 0, 350)
             if (player.controllerManager.isIn(DungeonController::class.java) && target.combatDefinitions.attackStyle == CombatStyle.MAGE)
@@ -158,11 +169,21 @@ fun mapCombatEnhancingItems() {
     }
 }
 
-private fun fullDharokEquipped(player: Player): Boolean {
-    val helmId = player.equipment.hatId
-    val chestId = player.equipment.chestId
-    val legsId = player.equipment.legsId
-    val weaponId = player.equipment.weaponId
+fun Player.fullVeracsEquipped(): Boolean {
+    val helmId = equipment.hatId
+    val chestId = equipment.chestId
+    val legsId = equipment.legsId
+    val weaponId = equipment.weaponId
+    if (helmId == -1 || chestId == -1 || legsId == -1 || weaponId == -1) return false
+    return (ItemDefinitions.getDefs(helmId).getName().contains("Verac's") && ItemDefinitions.getDefs(chestId).getName().contains("Verac's") && ItemDefinitions.getDefs(legsId).getName().contains("Verac's")
+            && ItemDefinitions.getDefs(weaponId).getName().contains("Verac's"))
+}
+
+private fun Player.fullDharokEquipped(): Boolean {
+    val helmId = equipment.hatId
+    val chestId = equipment.chestId
+    val legsId = equipment.legsId
+    val weaponId = equipment.weaponId
     if (helmId == -1 || chestId == -1 || legsId == -1 || weaponId == -1) return false
     return (ItemDefinitions.getDefs(helmId).getName().contains("Dharok's") && ItemDefinitions.getDefs(chestId).getName().contains("Dharok's") && ItemDefinitions.getDefs(legsId).getName().contains("Dharok's")
             && ItemDefinitions.getDefs(weaponId).getName().contains("Dharok's"))

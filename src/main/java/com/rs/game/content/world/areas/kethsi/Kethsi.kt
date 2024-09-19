@@ -9,16 +9,10 @@ import com.rs.game.content.combat.onCombatFormulaAdjust
 import com.rs.game.content.skills.agility.Agility
 import com.rs.game.model.entity.npc.NPC
 import com.rs.game.model.entity.player.Player
-import com.rs.plugin.annotations.PluginEventHandler
 import com.rs.plugin.annotations.ServerStartupEvent
-import com.rs.plugin.events.ItemOnObjectEvent
-import com.rs.plugin.events.ObjectClickEvent
-import com.rs.plugin.handlers.ItemOnObjectHandler
-import com.rs.plugin.handlers.ObjectClickHandler
 import com.rs.plugin.kts.onItemOnObject
 import com.rs.plugin.kts.onObjectClick
 import java.util.Locale
-import java.util.function.Consumer
 
 @ServerStartupEvent
 fun mapKethsiEffects() {

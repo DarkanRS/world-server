@@ -449,9 +449,7 @@ class PlayerCombat(@JvmField val target: Entity) : PlayerAction() {
 
         if (player.combatDefinitions.isUsingSpecialAttack) return execute(SpecialAttack.Type.MELEE, player, target)
 
-        val veracsProc = fullVeracsEquipped(player) && random(4) == 0
-
-        val hit = calculateHit(player, target, attackStyle, CombatStyle.MELEE, calcDefense = !veracsProc)
+        val hit = calculateHit(player, target, attackStyle, CombatStyle.MELEE)
 
         if (weaponId == 22358 && hit.damage <= 0) {
             if (random(10) == 0) {
