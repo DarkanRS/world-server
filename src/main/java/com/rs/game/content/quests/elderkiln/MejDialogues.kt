@@ -53,7 +53,7 @@ private fun mejJahBirthingPoolDialogue(player: Player) {
 }
 
 private fun mejDialogueCenterRing(player: Player, npc: NPC) {
-    if (player.isQuestComplete(Quest.ELDER_KILN))
+    if (!Quest.ELDER_KILN.isImplemented || player.isQuestComplete(Quest.ELDER_KILN))
         mejJahDialoguePostQuest(player, npc)
     else when(player.getQuestStage(Quest.ELDER_KILN)) {
         STAGE_SAVE_GAAL_FIGHTPITS -> saveGaalFightPitsAkDialogue(player, npc)
