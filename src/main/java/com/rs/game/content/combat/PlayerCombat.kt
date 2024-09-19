@@ -452,7 +452,7 @@ class PlayerCombat(@JvmField val target: Entity) : PlayerAction() {
 
         if (weaponId == 22358 && hit.damage <= 0) {
             if (Utils.random(10) == 0) {
-                player.anim(14417)
+                player.sync(14417, 1929)
                 attackTarget(getMultiAttackTargets(player, target, 6, 10, true)) { nextTarget ->
                     nextTarget.freeze(Ticks.fromSeconds(10), true)
                     nextTarget.spotAnim(181, 0, 96)
