@@ -866,11 +866,8 @@ public abstract class Entity {
 		for (TriFunction<Entity, Object, Boolean, Boolean> func : LOS_FUNCTION_OVERRIDES)
 			if (func.apply(this, target, melee))
 				return true;
-		if (melee && !(target instanceof Entity e && e.ignoreWallsWhenMeleeing())) {
-			boolean meleeStep = World.checkMeleeStep(this, this.getSize(), target, targSize);
-			boolean los = World.hasLineOfSight(getMiddleTile(), getSize(), target instanceof Entity e ? e.getMiddleTile() : tile, targSize);
-			return meleeStep && los;
-		}
+		if (melee && !(target instanceof Entity e && e.ignoreWallsWhenMeleeing()))
+			return World.checkMeleeStep(this, this.getSize(), target, targSize) && World.hasLineOfSight(getMiddleTile(), getSize(), target instanceof Entity e ? e.getMiddleTile() : tile, targSize);
 		return World.hasLineOfSight(getMiddleTile(), getSize(), target instanceof Entity e ? e.getMiddleTile() : tile, targSize);
 	}
 
