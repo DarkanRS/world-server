@@ -617,6 +617,7 @@ public class Runecrafting {
 				});
 				ops.add("Nevermind.");
 			}));
+			return;
 		}
 
 		if (e.getObjectId() == 26847)
