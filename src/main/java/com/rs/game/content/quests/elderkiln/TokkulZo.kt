@@ -58,7 +58,7 @@ fun rechargeTokkulZo(player: Player) {
 }
 
 fun depleteTokkulZo(player: Player): Boolean {
-    val ring = player.getItemWithPlayer(TOKKUL_ZO_CHARGED)
+    val ring = player.equipment.getItemById(TOKKUL_ZO_CHARGED)
     if (ring != null && ring.id == TOKKUL_ZO_CHARGED) {
         val charges = ring.getMetaDataI("tzhaarCharges", -1)
         if (charges <= 1) {
