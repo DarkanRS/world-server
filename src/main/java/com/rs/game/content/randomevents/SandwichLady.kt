@@ -75,7 +75,7 @@ fun handleSandwichLady() {
 class SandwichLady(owner: Player, tile: Tile) : RandomEventNPC(owner, NPC_ID, tile, DURATION, null, false) {
 
 	companion object {
-		const val NPC_ID = 8631
+		const val NPC_ID = 8629
 		val DURATION = Ticks.fromMinutes(10)
 	}
 
