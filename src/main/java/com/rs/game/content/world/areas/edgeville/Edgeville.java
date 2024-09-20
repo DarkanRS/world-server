@@ -215,6 +215,8 @@ public class Edgeville  {
 		Agility.walkToAgility(player, 295, (entering ? Direction.EAST : Direction.WEST), 6, 6, 7,-1);
 	});
 
+	public static ObjectClickHandler trapdoorDungeon = new ObjectClickHandler(new Object[] { 26934 }, e -> e.getPlayer().useStairs(828, e.getPlayer().transform(0, 6400)));
+
 	public static ObjectClickHandler handleStairs29355 = new ObjectClickHandler(new Object[] { 29355 }, new Tile[] { Tile.of(3097, 9867, 0) }, e -> e.getPlayer().useStairs(828, Tile.of(3096, 3468, 0)));
 	public static ObjectClickHandler handleStairs29355_1 = new ObjectClickHandler(new Object[] { 29355 }, new Tile[] { Tile.of(3088, 9971, 0) }, e -> e.getPlayer().useStairs(828, Tile.of(3087, 3571, 0)));
 	public static ObjectClickHandler handleStairs29355_2 = new ObjectClickHandler(new Object[] { 29355 }, new Tile[] { Tile.of(3116, 9852, 0) }, e -> e.getPlayer().useStairs(833, Tile.of(3115, 3452, 0)));
