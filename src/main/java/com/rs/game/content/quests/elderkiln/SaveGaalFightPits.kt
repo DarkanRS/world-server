@@ -106,7 +106,7 @@ fun saveGaalFightPitsAkDialogue(player: Player, npc: NPC) {
                 options {
                     op("Yes.") {
                         npc(npc.id, T_CALM_TALK, "Fine! Let's get started, crowd getting rowdy.")
-                        exec { player.controllerManager.startController(saveGaalFightPitController) }
+                        exec { player.controllerManager.startController(SaveGaalFightPitsController()) }
                     }
                     op("No.")
                 }
@@ -131,7 +131,7 @@ fun saveGaalFightPitsAkDialogue(player: Player, npc: NPC) {
     }
 }
 
-val saveGaalFightPitController = object : InstancedController(Instance.of(Tile.of(4670, 5160, 0), 8, 8)) {
+class SaveGaalFightPitsController : InstancedController(Instance.of(Tile.of(4670, 5160, 0), 8, 8)) {
     override fun onBuildInstance() {
         instance.copyMapAllPlanes(568, 632).thenAccept {
             player.cutscene {
