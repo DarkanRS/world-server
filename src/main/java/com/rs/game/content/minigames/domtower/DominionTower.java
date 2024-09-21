@@ -120,7 +120,7 @@ public final class DominionTower {
 				e.getPlayer().getDominionTower().startEnduranceMode();
 	});
 
-	public static ObjectClickHandler handleDominionTowerInteractions = new ObjectClickHandler(new Object[] { 62675, 62678, 62679, 62688, 62677, 62680 }, e -> {
+	public static ObjectClickHandler handleDominionTowerInteractions = new ObjectClickHandler(new Object[] { 62674, 62675, 62678, 62679, 62688, 62677, 62680 }, e -> {
 		Player player = e.getPlayer();
 
 		switch (e.getObjectId()) {
