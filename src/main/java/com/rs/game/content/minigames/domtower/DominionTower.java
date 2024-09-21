@@ -128,22 +128,26 @@ public final class DominionTower {
 			case 62675 -> player.getCutsceneManager().play(new DTPreview());
 			case 62676 -> player.useStairs(-1, Tile.of(3374, 3093, 0), 0, 1);
 			case 62678, 62679 -> player.getDominionTower().openModes();
-			case 62688 -> player.startConversation(new Dialogue()
-				.addSimple("You have a Dominion Factor of " + player.getDominionTower().getDominionFactor() + ".")
-				.addOptions("If you claim your rewards your progress will be reset.", ops -> {
-					ops.add("Claim rewards", () -> player.getDominionTower().openRewardsChest());
-					ops.add("Nevermind.");
-				}));
-			case 62677 -> player.getDominionTower().talkToFace();
+			case 62688 -> {
+				if (e.getOption().equals("Claim-rewards")) {
+					player.startConversation(new Dialogue()
+							.addSimple("You have a Dominion Factor of " + player.getDominionTower().getDominionFactor() + ".")
+							.addOptions("If you claim your rewards your progress will be reset.", ops -> {
+								ops.add("Claim rewards", () -> player.getDominionTower().openRewardsChest());
+								ops.add("Nevermind.");
+							}));
+				} else if (e.getOption().equals("Check-DF")) {
+					e.getPlayer().simpleDialogue("You have a Dominion Factor of " + e.getPlayer().getDominionTower().getDominionFactor() + ".");
+				}
+			}
+			case 62677 -> {
+				if (e.getOption().equals("Talk-to"))
+					player.getDominionTower().talkToFace();
+				else if (e.getOption().equals("Rewards"))
+					e.getPlayer().getDominionTower().openRewards();
+			}
 			case 62680 -> player.getDominionTower().openBankChest();
 		}
-	});
-
-	public static ObjectClickHandler handleDominionTowerRewards = new ObjectClickHandler(new Object[] { 62677 }, e -> e.getPlayer().getDominionTower().openRewards());
-
-	public static ObjectClickHandler handleDominionFactor = new ObjectClickHandler(new Object[] { 62688 }, e -> {
-		String message = "You have a Dominion Factor of " + e.getPlayer().getDominionTower().getDominionFactor() + ".";
-		e.getPlayer().simpleDialogue(message);
 	});
 
 
