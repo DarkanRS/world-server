@@ -152,7 +152,7 @@ public class Wilderness {
 		}, 3);
 	});
 
-	public static ObjectClickHandler handleCorpCave = new ObjectClickHandler(new Object[] { 38811, 37928, 38815 }, e -> {
+	public static ObjectClickHandler handleCorpCave = new ObjectClickHandler(new Object[] { 38811, 37928, 37929, 38815 }, e -> {
 		Player player = e.getPlayer();
         switch (e.getObjectId()) {
 			case 38811 -> player.getInterfaceManager().sendInterface(650);
