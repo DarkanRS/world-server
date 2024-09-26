@@ -534,9 +534,9 @@ public final class Familiar extends NPC {
 				owner.getSkills().drainSummoning(1);
 			trackDrain = !trackDrain;
 			if (ticks == 100)
-				owner.sendMessage("You have 1 minute before your familiar vanishes.");
+				owner.sendMessage("<col=FF0000>You have 1 minute before your familiar vanishes.");
 			else if (ticks == 50)
-				owner.sendMessage("You have 30 seconds before your familiar vanishes.");
+				owner.sendMessage("<col=FF0000>You have 30 seconds before your familiar vanishes.");
 			sendTimeRemaining();
 		}
 		if (ticks == 0) {
