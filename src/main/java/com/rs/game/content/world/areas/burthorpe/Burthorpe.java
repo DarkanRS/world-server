@@ -123,4 +123,11 @@ public class Burthorpe {
     public static ObjectClickHandler handleGamesRoomStairsDown2 = new ObjectClickHandler(new Object[] { 4620 }, e -> e.getPlayer().useStairs(-1, e.getPlayer().transform(0, e.getObject().getRotation() == 2 ? 4 : -4, -1), 1, 1));
     public static ObjectClickHandler handleGamesRoomStairsUp = new ObjectClickHandler(new Object[] { 4622 }, e -> e.getPlayer().useStairs(-1, e.getPlayer().transform(0, e.getObject().getRotation() == 2 ? -4 : 4, 1), 1, 1));
     public static ObjectClickHandler handleGamesRoomStairsUp2 = new ObjectClickHandler(new Object[] { 4627 }, e -> e.getPlayer().useStairs(-1, Tile.of(2893, 3567, 0), 1, 1));
+
+    public static ObjectClickHandler handletopherostairs = new ObjectClickHandler(new Object[] { 67346, 67694 }, e -> {
+        if (e.getObjectId() == 67346)
+            e.getPlayer().useStairs(e.getPlayer().transform(e.getObject().getRotation() == 1 ? 5 : e.getObject().getRotation() == 0 ? 5 : 0, e.getObject().getRotation() == 2 ? -5 : e.getObject().getRotation() == 3 ? 5 : 0,  1));
+        else if (e.getObjectId() == 67694)
+            e.getPlayer().useStairs(e.getPlayer().transform(e.getObject().getRotation() == 1 ? -5 : e.getObject().getRotation() == 0 ? -5 : 0, e.getObject().getRotation() == 2 ? 5 : e.getObject().getRotation() == 3 ? -5 : 0, -1));
+    });
 }
