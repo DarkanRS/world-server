@@ -17,7 +17,7 @@ public class DwarvenMine {
         Player player = e.getPlayer();
         switch (e.getObjectId()) {
             case 30942 -> player.useStairs(828, e.getPlayer().transform(0, 6400, 0));
-            case 6226 ->  player.useStairs(833, e.getPlayer().transform(0, -6400, 0));
+            case 6226 ->  player.useStairs(828, e.getPlayer().transform(0, -6400, 0));
             case 30943 -> player.useStairs(-1, Tile.of(3061, 3376, 0), 0, 1);
             case 30944 -> player.useStairs(-1, Tile.of(3058, 9776, 0), 0, 1);
             case 2113 -> {
@@ -36,6 +36,13 @@ public class DwarvenMine {
             return;
         }
         Doors.handleDoor(e.getPlayer(), e.getObject());
+    });
+
+    public static ObjectClickHandler handlePickaxeFactoryLadder = new ObjectClickHandler(new Object[]{31002, 31012}, e -> {
+        switch (e.getObjectId()) {
+            case 31002 -> e.getPlayer().useStairs(828, Tile.of(2998, 3452, 0), 1, 1);
+            case 31012 -> e.getPlayer().useStairs(828, Tile.of(2996, 9845, 0), 1, 1);
+        }
     });
 
     public static ObjectClickHandler handleCartSearch = new ObjectClickHandler(new Object[] { 6045 }, e -> e.getPlayer().sendMessage("You search the cart but find nothing."));
