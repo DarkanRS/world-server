@@ -147,7 +147,7 @@ fun mapWerewolfAgility() {
         val strengthLevel: Int = player.skills.getLevel(Skills.STRENGTH)
 
         val baseFailureChance = when {
-            agilityLevel >= 80 && strengthLevel >= 80 && playerWeight < 2 -> 0.0
+            agilityLevel >= 80 && strengthLevel >= 80 && playerWeight <= 2 -> 0.0
             playerWeight < -5 -> -30.0
             playerWeight < 0 -> -15.0
             playerWeight <= 0 -> 5.0
@@ -163,7 +163,7 @@ fun mapWerewolfAgility() {
         }
 
         val adjustedFailureChance = when {
-            agilityLevel >= 80 && strengthLevel >= 80 && playerWeight < 2 -> 0.0
+            agilityLevel >= 80 && strengthLevel >= 80 && playerWeight <= 2 -> 0.0
             agilityLevel >= 80 && strengthLevel >= 80 -> baseFailureChance * 0.5
             agilityLevel >= 70 && strengthLevel >= 70 -> baseFailureChance * 0.75
             agilityLevel >= 60 && strengthLevel >= 60 -> baseFailureChance * 0.9
