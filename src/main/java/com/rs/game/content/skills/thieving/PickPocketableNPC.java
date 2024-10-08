@@ -117,7 +117,7 @@ public enum PickPocketableNPC {
 			new short[] { 1911 },
 			new byte[] { 25, 127, 127, 127 },
 			new byte[] { 1, 1, 1, 1 }, 26,
-			new Animation(-1), 4, 20,
+			new Animation(6811), 4, 20,
 			new DropTable(4621, 1)),
 
 	ARDOUGNE_KNIGHT(41, 240,
