@@ -50,7 +50,7 @@ public class MelzarTheMadCombat extends CombatScript {
 					public void run() {
 						WorldProjectile p = World.sendProjectile(npc, target, 103, new Pair<>(80, 30), 40, 5, 5);
 						target.setNextSpotAnim(new SpotAnim(104, 0, 100));
-						delayHit(npc, p.getTaskDelay(), target, Hit.magic(npc, getMaxHit(npc, defs.getMaxHit() - 2, CombatStyle.MAGE, target)));
+						delayHit(npc, p.getTaskDelay(), target, Hit.magic(npc, getMaxHit(npc, defs.getMaxHit() - 2, CombatStyle.MAGIC, target)));
 					}
 				}, 2);
 			}
@@ -62,7 +62,7 @@ public class MelzarTheMadCombat extends CombatScript {
 					public void run() {
 						WorldProjectile p = World.sendProjectile(npc, target, 103, new Pair<>(80, 30), 40, 5, 5);
 						target.setNextSpotAnim(new SpotAnim(2727, 0, 100));
-						delayHit(npc, p.getTaskDelay(), target, Hit.magic(npc, getMaxHit(npc, defs.getMaxHit() - 2, CombatStyle.MAGE, target)));
+						delayHit(npc, p.getTaskDelay(), target, Hit.magic(npc, getMaxHit(npc, defs.getMaxHit() - 2, CombatStyle.MAGIC, target)));
 					}
 				}, 2);
 			}

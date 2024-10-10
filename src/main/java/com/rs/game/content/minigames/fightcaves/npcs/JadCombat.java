@@ -65,7 +65,7 @@ public class JadCombat extends CombatScript {
 			WorldTasks.scheduleTimer((ticks) -> {
 				switch (ticks) {
 					case 2 -> World.sendProjectile(npc, target, 2996, new Pair<>(80, 30), 40, 10, 5);
-					case 3 -> delayHit(npc, 1, target, Hit.magic(npc, getMaxHit(npc, defs.getMaxHit() - 2, CombatStyle.MAGE, target)));
+					case 3 -> delayHit(npc, 1, target, Hit.magic(npc, getMaxHit(npc, defs.getMaxHit() - 2, CombatStyle.MAGIC, target)));
 					case 4 -> {
 						target.spotAnim(new SpotAnim(2741, 0, 100));
 						return false;

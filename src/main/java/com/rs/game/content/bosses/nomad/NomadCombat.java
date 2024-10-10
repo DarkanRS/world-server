@@ -206,7 +206,7 @@ public class NomadCombat extends CombatScript {
 			}
 		else {
 			npc.setNextAnimation(new Animation(12697));
-			int damage = getMaxHit(npc, 322, CombatStyle.MAGE, target);
+			int damage = getMaxHit(npc, 322, CombatStyle.MAGIC, target);
 			delayHit(npc, 2, target, Hit.flat(npc, damage));
 			if (damage == 0)
 				WorldTasks.schedule(new Task() {

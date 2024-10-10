@@ -38,7 +38,7 @@ public class Hydra extends FamiliarCombatScript {
 		if (Utils.random(2) != 0)
 			return CANCEL;
 		npc.anim(npc.getCombatDefinitions().getAttackEmote());
-		delayHit(npc, World.sendProjectile(npc, target, 1489, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, Hit.magic(npc, getMaxHit(npc, npc.getCombatDefinitions().getMaxHit(), CombatStyle.MAGE, target)));
+		delayHit(npc, World.sendProjectile(npc, target, 1489, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, Hit.magic(npc, getMaxHit(npc, npc.getCombatDefinitions().getMaxHit(), CombatStyle.MAGIC, target)));
 		return npc.getAttackSpeed();
 	}
 }

@@ -161,7 +161,7 @@ public class YkLagorThunderousCombat extends CombatScript {
 				if (player.isDead() || !npc.getManager().isAtBossRoom(player.getTile()))
 					continue;
 				World.sendProjectile(npc, player, 2733, new Pair<>(75, 50), 20, 5, 20);
-				delayHit(npc, 1, player, Hit.magic(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.MAGE, player)));
+				delayHit(npc, 1, player, Hit.magic(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.MAGIC, player)));
 				player.setNextSpotAnim(new SpotAnim(2755, 85, 0));
 			}
 		if (specialAttack)

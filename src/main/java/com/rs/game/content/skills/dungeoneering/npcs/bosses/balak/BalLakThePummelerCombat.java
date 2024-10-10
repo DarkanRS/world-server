@@ -112,7 +112,7 @@ public class BalLakThePummelerCombat extends CombatScript {
 			boss.setNextSpotAnim(new SpotAnim(2441));
 			for (Entity t : npc.getPossibleTargets()) {
 				World.sendProjectile(npc, t, 2872, new Pair<>(50, 30), 41, 4, 0);
-				delayHit(npc, 1, t, Hit.magic(npc, getMaxHit(npc, (int) (boss.getMaxHit() * 0.6), CombatStyle.MAGE, t)));
+				delayHit(npc, 1, t, Hit.magic(npc, getMaxHit(npc, (int) (boss.getMaxHit() * 0.6), CombatStyle.MAGIC, t)));
 			}
 			return npc.getAttackSpeed() - 2;
 		}

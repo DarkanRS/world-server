@@ -12,7 +12,7 @@
   "respawnDelay": 29,
   "hitpoints": 850,
   "maxHit": 174,
-  "attackStyle": "MAGE",
+  "attackStyle": "MAGIC",
   "combatLevels": {
     "ATTACK": 1,
     "RANGE": 1,

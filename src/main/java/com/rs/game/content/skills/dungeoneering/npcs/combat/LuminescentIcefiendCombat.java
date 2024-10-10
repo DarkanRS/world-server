@@ -54,7 +54,7 @@ public class LuminescentIcefiendCombat extends CombatScript {
 		if (magicAttack) {
 			npc.setNextAnimation(new Animation(13352));
 			World.sendProjectile(npc, target, 2529, new Pair<>(15, 16), 35, 5, 16);
-			delayHit(icefiend, 2, target, Hit.magic(npc, getMaxHit(npc, icefiend.getMaxHit(), CombatStyle.MAGE, target)));
+			delayHit(icefiend, 2, target, Hit.magic(npc, getMaxHit(npc, icefiend.getMaxHit(), CombatStyle.MAGIC, target)));
 		} else {
 			npc.setNextAnimation(new Animation(13337));
 			World.sendProjectile(npc, target, 2530, new Pair<>(30, 16), 35, 5, 0);

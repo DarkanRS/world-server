@@ -88,7 +88,7 @@ public class StompCombat extends CombatScript {
 				npc.setNextSpotAnim(new SpotAnim(2404));
 				World.sendProjectile(npc, target, 2405, new Pair<>(30, 16), 41, 6, 0);
 				target.setNextSpotAnim(new SpotAnim(2406, 120, 0));
-				delayHit(npc, 2, target, Hit.magic(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.MAGE, target)));
+				delayHit(npc, 2, target, Hit.magic(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.MAGIC, target)));
 			}
 		}
 		return npc.getAttackSpeed();

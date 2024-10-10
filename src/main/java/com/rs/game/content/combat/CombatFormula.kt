@@ -2,11 +2,6 @@ package com.rs.game.content.combat
 
 import com.rs.Settings
 import com.rs.cache.loaders.Bonus
-import com.rs.cache.loaders.ItemDefinitions
-import com.rs.game.content.skills.dungeoneering.DungeonController
-import com.rs.game.content.skills.dungeoneering.KinshipPerk
-import com.rs.game.content.skills.slayer.Slayer
-import com.rs.game.content.skills.summoning.Pouch
 import com.rs.game.model.entity.Entity
 import com.rs.game.model.entity.Hit
 import com.rs.game.model.entity.Hit.HitLook
@@ -16,10 +11,8 @@ import com.rs.game.model.entity.player.Skills
 import com.rs.game.model.entity.player.managers.AuraManager.Aura
 import com.rs.lib.Constants
 import com.rs.lib.util.Utils
-import java.util.Locale
 import kotlin.collections.mutableListOf
 import kotlin.math.floor
-import kotlin.math.pow
 
 private val combatPlugins = mutableListOf<(Entity, Entity, Bonus, CombatStyle) -> (CombatMod)>()
 
@@ -34,7 +27,7 @@ fun hasFireCape(player: Player): Boolean {
 
 @JvmOverloads
 fun calculateMagicHit(entity: Entity, target: Entity, baseDamage: Int, applyMageLevelBoost: Boolean = true): Hit {
-    val hit = calculateHit(entity, target, 1, getMaxHit(entity, target, CombatStyle.MAGE, Bonus.MAGIC_ATT, 1.0, baseDamage, applyMageLevelBoost), Bonus.MAGIC_ATT, CombatStyle.MAGE, true, 1.0)
+    val hit = calculateHit(entity, target, 1, getMaxHit(entity, target, CombatStyle.MAGIC, Bonus.MAGIC_ATT, 1.0, baseDamage, applyMageLevelBoost), Bonus.MAGIC_ATT, CombatStyle.MAGIC, true, 1.0)
     if (hit.damage > 0) if (target is NPC) if (target.id == 9463 && entity is Player && hasFireCape(entity)) hit.setDamage(hit.damage + 40)
     return hit
 }
@@ -79,18 +72,18 @@ fun calculateHit(entity: Entity, target: Entity, minHit: Int, maxHit: Int, attac
     val hit = Hit(entity, 0, when(combatStyle) {
         CombatStyle.MELEE -> HitLook.MELEE_DAMAGE
         CombatStyle.RANGE -> HitLook.RANGE_DAMAGE
-        CombatStyle.MAGE -> HitLook.MAGIC_DAMAGE
+        CombatStyle.MAGIC -> HitLook.MAGIC_DAMAGE
     })
     if (calcDefense) {
         val offensiveStat = when(combatStyle) {
             CombatStyle.MELEE -> Skills.ATTACK
             CombatStyle.RANGE -> Skills.RANGE
-            CombatStyle.MAGE -> Skills.MAGIC
+            CombatStyle.MAGIC -> Skills.MAGIC
         }
         val prayerAccuracyMultiplier = if (entity is Player) when(combatStyle) {
             CombatStyle.MELEE -> entity.prayer.attackMultiplier
             CombatStyle.RANGE -> entity.prayer.rangeMultiplier
-            CombatStyle.MAGE -> entity.prayer.mageMultiplier
+            CombatStyle.MAGIC -> entity.prayer.mageMultiplier
         } else 1.0
         var atkLvl = floor(entity.getLevel(offensiveStat) * prayerAccuracyMultiplier)
         if (entity is Player) {
@@ -113,7 +106,7 @@ fun calculateHit(entity: Entity, target: Entity, minHit: Int, maxHit: Int, attac
         for (combatMod in combatModifiers)
             atk *= combatMod.accuracy
 
-        val defStat = if (combatStyle == CombatStyle.MAGE) Skills.MAGIC else Skills.DEFENSE
+        val defStat = if (combatStyle == CombatStyle.MAGIC) Skills.MAGIC else Skills.DEFENSE
 
         var defLvl = target.getLevel(defStat).toDouble() * ((target as? Player)?.prayer?.defenceMultiplier ?: 1.0)
         val defBonus = target.getBonus(attackBonus.invert()).toDouble()
@@ -127,7 +120,7 @@ fun calculateHit(entity: Entity, target: Entity, minHit: Int, maxHit: Int, attac
         }
         defLvl += 8.0
 
-        if (combatStyle == CombatStyle.MAGE && entity is Player && target is Player) {
+        if (combatStyle == CombatStyle.MAGIC && entity is Player && target is Player) {
             defLvl *= 0.7
             var magLvl = floor(target.skills.getLevel(Skills.DEFENSE) * target.prayer.mageMultiplier)
             magLvl *= 0.3
@@ -188,12 +181,12 @@ fun getMaxHit(entity: Entity, target: Entity, combatStyle: CombatStyle, attackBo
     val offensiveStat = when(combatStyle) {
         CombatStyle.MELEE -> Skills.STRENGTH
         CombatStyle.RANGE -> Skills.RANGE
-        CombatStyle.MAGE -> Skills.MAGIC
+        CombatStyle.MAGIC -> Skills.MAGIC
     }
     val prayerAccuracyMultiplier = if (entity is Player) when(combatStyle) {
         CombatStyle.MELEE -> entity.prayer.strengthMultiplier
         CombatStyle.RANGE -> entity.prayer.rangeMultiplier
-        CombatStyle.MAGE -> 1.0
+        CombatStyle.MAGIC -> 1.0
     } else 1.0
 
     var strLvl = floor(entity.getLevel(offensiveStat) * prayerAccuracyMultiplier)
@@ -213,7 +206,7 @@ fun getMaxHit(entity: Entity, target: Entity, combatStyle: CombatStyle, attackBo
 
     var baseDamage = 5 + strLvl * (strBonus + 64) / 64
 
-    if (combatStyle == CombatStyle.MAGE)
+    if (combatStyle == CombatStyle.MAGIC)
         baseDamage = spellBaseDamage.toDouble()
 
     for (combatMod in combatModifiers)
@@ -221,7 +214,7 @@ fun getMaxHit(entity: Entity, target: Entity, combatStyle: CombatStyle, attackBo
 
     var maxHit = floor(baseDamage * damageMultiplier)
 
-    if (combatStyle == CombatStyle.MAGE) {
+    if (combatStyle == CombatStyle.MAGIC) {
         if (applyMageLevelBoost) {
             val boostedMageLevelBonus = 1 + ((entity.getLevel(Constants.MAGIC) - entity.getLevelForXp(Constants.MAGIC)) * 0.03)
             if (boostedMageLevelBonus > 1) maxHit = (maxHit * boostedMageLevelBonus)

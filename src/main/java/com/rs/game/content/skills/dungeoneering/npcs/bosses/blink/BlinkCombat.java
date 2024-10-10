@@ -126,7 +126,7 @@ public class BlinkCombat extends CombatScript {
 			boss.setNextAnimation(new Animation(14956));
 			boss.setNextSpotAnim(new SpotAnim(2854));
 			target.setNextSpotAnim(new SpotAnim(2854, 5, 0));
-			int damage = getMaxHit(boss, boss.getMaxHit(), CombatStyle.MAGE, target);
+			int damage = getMaxHit(boss, boss.getMaxHit(), CombatStyle.MAGIC, target);
 			if (target instanceof Player player)
 				if (player.getPrayer().isProtectingMage())
 					damage *= 0.5D;

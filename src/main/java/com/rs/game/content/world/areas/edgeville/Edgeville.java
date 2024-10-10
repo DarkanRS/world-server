@@ -218,9 +218,11 @@ public class Edgeville  {
 	public static ObjectClickHandler trapdoorDungeon = new ObjectClickHandler(new Object[] { 26934 }, e -> e.getPlayer().useStairs(828, e.getPlayer().transform(0, 6400)));
 
 	public static ObjectClickHandler handleStairs29355 = new ObjectClickHandler(new Object[] { 29355 }, new Tile[] { Tile.of(3097, 9867, 0) }, e -> e.getPlayer().useStairs(828, Tile.of(3096, 3468, 0)));
-	public static ObjectClickHandler handleStairs29355_1 = new ObjectClickHandler(new Object[] { 29355 }, new Tile[] { Tile.of(3088, 9971, 0) }, e -> e.getPlayer().useStairs(828, Tile.of(3087, 3571, 0)));
-	public static ObjectClickHandler handleStairs29355_2 = new ObjectClickHandler(new Object[] { 29355 }, new Tile[] { Tile.of(3116, 9852, 0) }, e -> e.getPlayer().useStairs(833, Tile.of(3115, 3452, 0)));
-	public static ObjectClickHandler handleStairs65453 = new ObjectClickHandler(new Object[] { 65453 }, new Tile[] { Tile.of(3089, 9971, 0) }, e -> e.getPlayer().useStairs(833, Tile.of(3089, 9971, 0)));
+	public static ObjectClickHandler handleStairs29355_1 = new ObjectClickHandler(new Object[] { 29355 }, new Tile[] { Tile.of(3088, 9971, 0) }, e -> {
+		e.getPlayer().useStairs(828, Tile.of(3087, 3571, 0));
+	});
+	public static ObjectClickHandler handleStairs29355_2 = new ObjectClickHandler(new Object[] { 65453 }, new Tile[] { Tile.of(3116, 9852, 0) }, e -> e.getPlayer().useStairs(833, Tile.of(3115, 3452, 0)));
+	public static ObjectClickHandler handleStairs65453 = new ObjectClickHandler(new Object[] { 29355 }, new Tile[] { Tile.of(3089, 9971, 0) }, e -> e.getPlayer().useStairs(833, Tile.of(3089, 9971, 0)));
 	public static ObjectClickHandler handleStairs12389 = new ObjectClickHandler(new Object[] { 12389 }, new Tile[] { Tile.of(3116, 3452, 0) }, e -> e.getPlayer().useStairs(833, Tile.of(3117, 9852, 0)));
 	public static ObjectClickHandler handleStrongholdOfPlayerSafety = new ObjectClickHandler(new Object[] { 29671, 29672, 29728, 29729 }, e -> {
 		switch (e.getObjectId()) {

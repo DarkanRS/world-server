@@ -38,7 +38,7 @@ public class SpiritualMage extends CombatScript {
 	public int attack(NPC npc, final Entity target) {
 		final NPCCombatDefinitions defs = npc.getCombatDefinitions();
 		npc.setNextAnimation(new Animation(defs.getAttackEmote()));
-		int damage = getMaxHit(npc, defs.getMaxHit(), CombatStyle.MAGE, target);
+		int damage = getMaxHit(npc, defs.getMaxHit(), CombatStyle.MAGIC, target);
 		npc.setNextSpotAnim(new SpotAnim(defs.getAttackGfx()));
 		delayHit(npc, 2, target, Hit.magic(npc, damage));
 		if (damage > 0)

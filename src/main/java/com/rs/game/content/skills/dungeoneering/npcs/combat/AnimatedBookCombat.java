@@ -56,7 +56,7 @@ public class AnimatedBookCombat extends CombatScript {
 	private void magicAttack(NPC npc, final Entity target) {
 		npc.setNextAnimation(new Animation(13480));
 		npc.setNextSpotAnim(new SpotAnim(2728));
-		delayHit(npc, 1, target, Hit.magic(npc, getMaxHit(npc, 100, CombatStyle.MAGE, target)));
+		delayHit(npc, 1, target, Hit.magic(npc, getMaxHit(npc, 100, CombatStyle.MAGIC, target)));
 		World.sendProjectile(npc, target, 2731, new Pair<>(34, 16), 30, 5, 16);
 		WorldTasks.schedule(new Task() {
 

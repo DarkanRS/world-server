@@ -84,7 +84,7 @@ public class GlacorCombat extends CombatScript {
 				WorldTasks.schedule(new Task() {
 					@Override
 					public void run() {
-						delayHit(npc, -1, target, Hit.magic(npc, getMaxHit(npc, 255, CombatStyle.MAGE, player)));
+						delayHit(npc, -1, target, Hit.magic(npc, getMaxHit(npc, 255, CombatStyle.MAGIC, player)));
 					}
 				}, p.getTaskDelay());
 				if ((Utils.getRandomInclusive(100) > 80) && !player.hasEffect(Effect.FREEZE) && !player.getPrayer().isProtectingMage()) {

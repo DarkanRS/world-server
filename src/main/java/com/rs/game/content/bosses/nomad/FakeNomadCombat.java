@@ -39,7 +39,7 @@ public class FakeNomadCombat extends CombatScript {
 	@Override
 	public int attack(final NPC npc, final Entity target) {
 		npc.setNextAnimation(new Animation(12697));
-		boolean hit = getMaxHit(npc, 50, CombatStyle.MAGE, target) != 0;
+		boolean hit = getMaxHit(npc, 50, CombatStyle.MAGIC, target) != 0;
 		delayHit(npc, 2, target, Hit.flat(npc, hit ? 50 : 0));
 		World.sendProjectile(npc, target, 1657, new Pair<>(30, 30), 75, 10, 0);
 		if (hit)

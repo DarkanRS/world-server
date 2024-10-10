@@ -40,7 +40,7 @@ public class WaterfiendCombat extends CombatScript {
 		int spellType = Utils.getRandomInclusive(2);
 		Hit hit;
 		if (spellType > 1)
-			hit = Hit.magic(npc, getMaxHit(npc, defs.getMaxHit(), CombatStyle.MAGE, target));
+			hit = Hit.magic(npc, getMaxHit(npc, defs.getMaxHit(), CombatStyle.MAGIC, target));
 		else
 			hit = Hit.range(npc, getMaxHit(npc, defs.getMaxHit(), CombatStyle.RANGE, target));
 

@@ -67,7 +67,7 @@ public class ToKashBloodChillerCombat extends CombatScript {
 			} else {
 				npc.setNextAnimation(new Animation(14398));
 				World.sendProjectile(npc, target, 2546, new Pair<>(16, 16), 41, 5, 0);
-				delayHit(npc, 1, target, Hit.magic(npc, getMaxHit(npc, 200, CombatStyle.MAGE, target)));
+				delayHit(npc, 1, target, Hit.magic(npc, getMaxHit(npc, 200, CombatStyle.MAGIC, target)));
 			}
 			return meleeAttack ? 4 : 5;
 		}

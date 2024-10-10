@@ -104,7 +104,7 @@ public class LakkTheRiftSplitterCombat extends CombatScript {
 		npc.setNextAnimation(new Animation(14398));
 		World.sendProjectile(npc, target, 2579, new Pair<>(50, 30), 41, 5, 0);
 		if (target instanceof Player player) {
-			int damage = getMaxHitFromAttackStyleLevel(npc, CombatStyle.MAGE, player);
+			int damage = getMaxHitFromAttackStyleLevel(npc, CombatStyle.MAGIC, player);
 			if (player.getPrayer().getPoints() > 0 && player.getPrayer().isProtectingMage()) {
 				player.getPrayer().drainPrayer((int) (damage * .5));
 				player.sendMessage("Your prayer points feel drained.");

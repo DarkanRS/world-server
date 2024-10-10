@@ -62,7 +62,7 @@ public class EvilChickenCombat extends CombatScript {
 			break;
 		}
 		target.setNextSpotAnim(new SpotAnim(337));
-		delayHit(npc, 0, target, Hit.magic(npc, getMaxHit(npc, defs.getMaxHit(), CombatStyle.MAGE, target)));
+		delayHit(npc, 0, target, Hit.magic(npc, getMaxHit(npc, defs.getMaxHit(), CombatStyle.MAGIC, target)));
 		return npc.getAttackSpeed();
 	}
 }

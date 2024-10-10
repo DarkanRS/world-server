@@ -50,7 +50,7 @@ public class KreeArraCombat extends CombatScript {
 			if (Utils.getRandomInclusive(2) == 0) {
 				WorldProjectile p = World.sendProjectile(npc, t, 1198, new Pair<>(60, 32), 50, 5, 0);
 				npc.setNextAnimation(new Animation(6976));
-				delayHit(npc, p.getTaskDelay(), t, Hit.magic(npc, getMaxHit(npc, 210, CombatStyle.MAGE, t)));
+				delayHit(npc, p.getTaskDelay(), t, Hit.magic(npc, getMaxHit(npc, 210, CombatStyle.MAGIC, t)));
 				t.setNextSpotAnim(new SpotAnim(1196, p.getTaskDelay()));
 			} else {
 				WorldProjectile p = World.sendProjectile(npc, t, 1197, new Pair<>(60, 32), 50, 5, 0);

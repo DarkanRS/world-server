@@ -87,7 +87,7 @@ public class WarpedGulegaCombat extends CombatScript {
 				for (Entity t : npc.getPossibleTargets(true)) {
 					World.sendProjectile(npc, t, 2880, new Pair<>(150, 75), 30, 5, 15);
 					t.setNextSpotAnim(new SpotAnim(2881, 90, 0));
-					delayHit(npc, 2, t, Hit.magic(npc, getMaxHit(npc, (int) (npc.getLevelForStyle(CombatStyle.MELEE) * 0.75), CombatStyle.MAGE, t)));
+					delayHit(npc, 2, t, Hit.magic(npc, getMaxHit(npc, (int) (npc.getLevelForStyle(CombatStyle.MELEE) * 0.75), CombatStyle.MAGIC, t)));
 				}
 			}
 			case 0 -> {

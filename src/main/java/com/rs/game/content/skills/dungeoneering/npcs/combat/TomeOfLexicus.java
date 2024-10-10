@@ -39,7 +39,7 @@ public class TomeOfLexicus extends CombatScript {
 		switch (type) {
 			case 0 -> {
 				npc.setNextAnimation(new Animation(13479));
-				delayHit(npc, 0, target, Hit.magic(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.MAGE, target)));
+				delayHit(npc, 0, target, Hit.magic(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.MAGIC, target)));
 			}
 			case 1, 2 -> {
 				boolean range_style = type == 1;
@@ -49,7 +49,7 @@ public class TomeOfLexicus extends CombatScript {
 				if (range_style)
 					delayHit(npc, 1, target, Hit.range(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.RANGE, target)));
 				else
-					delayHit(npc, 1, target, Hit.magic(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.MAGE, target)));
+					delayHit(npc, 1, target, Hit.magic(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.MAGIC, target)));
 				target.setNextSpotAnim(new SpotAnim(range_style ? 2410 : 2426, 75, 0));
 			}
 		}

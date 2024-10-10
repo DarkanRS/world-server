@@ -55,7 +55,7 @@ fun mapPestControlRewards() {
                 accuracyLevel = 1.1,
                 strengthLevel = 1.1
             ) else null
-            CombatStyle.MAGE -> if (player.fullVoidEquipped(11663, 11674)) CombatMod(accuracyLevel = 1.3) else null
+            CombatStyle.MAGIC -> if (player.fullVoidEquipped(11663, 11674)) CombatMod(accuracyLevel = 1.3) else null
             else -> null
         } ?: CombatMod()
     }

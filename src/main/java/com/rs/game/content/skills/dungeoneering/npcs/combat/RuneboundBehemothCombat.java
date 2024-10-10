@@ -120,7 +120,7 @@ public class RuneboundBehemothCombat extends CombatScript {
 				boss.setNextAnimation(new Animation(14427));
 				//boss.setNextGraphics(new Graphics(2413));
 				World.sendProjectile(npc, target, 2414, new Pair<>(41, 16), 50, 4, 0);
-				delayHit(npc, 1, target, Hit.magic(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.MAGE, target)));
+				delayHit(npc, 1, target, Hit.magic(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.MAGIC, target)));
 				target.setNextSpotAnim(new SpotAnim(2417, 80, 0));
 			}
 			//green blob attack (range)

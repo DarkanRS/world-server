@@ -55,7 +55,7 @@ public class IcyBonesCombat extends CombatScript {
 				target.freeze(8);
 			}
 			if (mage)
-				delayHit(npc, 2, target, Hit.magic(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.MAGE, target)));
+				delayHit(npc, 2, target, Hit.magic(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.MAGIC, target)));
 			else
 				delayHit(npc, 2, target, Hit.range(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.RANGE, target)));
 			World.sendProjectile(npc, target, 2595, new Pair<>(41, 16), 41, 5, 16);

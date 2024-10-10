@@ -97,7 +97,7 @@ public class ForgottenMage extends CombatScript {
 			World.sendProjectile(npc, target, 2736, new Pair<>(18, 18), 50, 5, 110);
 		} else
 			World.sendProjectile(npc, target, projectileId, new Pair<>(18, 18), 50, 5, 3);
-		delayHit(npc, 2, target, Hit.magic(npc, getMaxHit(npc, npc.getMaxHit(), CombatStyle.MAGE, target)));
+		delayHit(npc, 2, target, Hit.magic(npc, getMaxHit(npc, npc.getMaxHit(), CombatStyle.MAGIC, target)));
 		if (hit == -1)
 			return;
 		WorldTasks.schedule(2, () -> target.setNextSpotAnim(new SpotAnim(hit, 0, 85)));

@@ -712,7 +712,7 @@ public class NPC extends Entity {
 		int maxHit = getAttackLevel();
 		if (style == CombatStyle.RANGE)
 			maxHit = getRangeLevel();
-		else if (style == CombatStyle.MAGE)
+		else if (style == CombatStyle.MAGIC)
 			maxHit = getMagicLevel();
 		return maxHit;
 	}

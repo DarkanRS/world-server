@@ -19,25 +19,18 @@ package com.rs.game.content.bosses.godwars.zamorak
 import com.rs.game.World
 import com.rs.game.content.bosses.godwars.GodWarMinion
 import com.rs.game.content.combat.CombatStyle
-import com.rs.game.model.entity.ForceTalk
 import com.rs.game.model.entity.Hit
 import com.rs.game.model.entity.async.schedule
 import com.rs.game.model.entity.npc.NPC
 import com.rs.game.model.entity.npc.combat.CombatScript.delayHit
 import com.rs.game.model.entity.npc.combat.CombatScript.getMaxHit
 import com.rs.game.model.entity.player.Player
-import com.rs.game.tasks.WorldTasks
-import com.rs.lib.game.Animation
-import com.rs.lib.game.SpotAnim
 import com.rs.lib.game.Tile
-import com.rs.lib.util.Utils
 import com.rs.lib.util.Utils.getRandomInclusive
 import com.rs.lib.util.Utils.random
 import com.rs.plugin.annotations.ServerStartupEvent
-import com.rs.plugin.handlers.NPCInstanceHandler
 import com.rs.plugin.kts.instantiateNpc
 import com.rs.plugin.kts.npcCombat
-import java.util.function.BiFunction
 
 private val QUOTES = arrayOf("Attack them, you dogs!", "Forward!", "Death to Saradomin's dogs!", "Kill them, you cowards!", "The Dark One will have their souls!", "Zamorak curse them!", "Rend them limb from limb!", "No retreat!", "Flay them all!")
 
@@ -55,7 +48,7 @@ fun mapKrilTsutsaroth() {
             0 -> {
                 npc.sync(14962, 1210)
                 for (t in npc.possibleTargets) {
-                    delayHit(npc, 1, t, Hit.magic(npc, getMaxHit(npc, 300, CombatStyle.MAGE, t)))
+                    delayHit(npc, 1, t, Hit.magic(npc, getMaxHit(npc, 300, CombatStyle.MAGIC, t)))
                     World.sendProjectile(npc, t, 1211, 41 to 16, 41, 5, 16)
                     if (getRandomInclusive(4) == 0) t.poison.makePoisoned(168)
                 }

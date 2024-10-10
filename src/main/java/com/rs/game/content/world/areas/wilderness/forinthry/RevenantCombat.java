@@ -100,7 +100,7 @@ public class RevenantCombat extends CombatScript {
 
 		switch (attackStyle) {
 		case 0: // magic
-			int damage = getMaxHit(npc, defs.getMaxHit(), CombatStyle.MAGE, target);
+			int damage = getMaxHit(npc, defs.getMaxHit(), CombatStyle.MAGIC, target);
 			if (target instanceof Player player && player.hasEffect(Effect.REV_IMMUNE))
 				damage = 0;
 			delayHit(npc, 2, target, Hit.magic(npc, damage));

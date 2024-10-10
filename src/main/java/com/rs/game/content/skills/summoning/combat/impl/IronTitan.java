@@ -38,7 +38,7 @@ public class IronTitan extends FamiliarCombatScript {
 		if (Utils.random(5) != 0)
 			return CANCEL;
 		npc.sync(7694, 1452);
-		delayHit(npc, World.sendProjectile(npc, target, 1454, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, Hit.magic(npc, getMaxHit(npc, 255, CombatStyle.MAGE, target)));
+		delayHit(npc, World.sendProjectile(npc, target, 1454, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, Hit.magic(npc, getMaxHit(npc, 255, CombatStyle.MAGIC, target)));
 		return npc.getAttackSpeed();
 	}
 }

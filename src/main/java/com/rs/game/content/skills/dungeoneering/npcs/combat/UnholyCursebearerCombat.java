@@ -82,11 +82,11 @@ public class UnholyCursebearerCombat extends CombatScript {
 					npc.setNextSpotAnim(new SpotAnim(2441));
 					for (Entity t : npc.getPossibleTargets()) {
 						World.sendProjectile(npc, t, 88, new Pair<>(50, 30), 41, 4, 0);
-						delayHit(npc, 1, t, Hit.magic(npc, getMaxHit(npc, (int) (npc.getLevelForStyle(CombatStyle.MAGE) * 0.6), CombatStyle.MAGE, t)));
+						delayHit(npc, 1, t, Hit.magic(npc, getMaxHit(npc, (int) (npc.getLevelForStyle(CombatStyle.MAGIC) * 0.6), CombatStyle.MAGIC, t)));
 					}
 				} else {
 					World.sendProjectile(npc, target, 88, new Pair<>(50, 30), 41, 5, 0);
-					delayHit(npc, 1, target, Hit.magic(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.MAGE, target)));
+					delayHit(npc, 1, target, Hit.magic(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.MAGIC, target)));
 				}
 			}
 			case 1 -> {

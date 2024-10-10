@@ -69,7 +69,7 @@ fun mapCombatEnhancingItems() {
         return@slayerHelmPlugin when (combatStyle) {
             CombatStyle.MELEE -> if (Slayer.hasBlackMask(player)) mod else CombatMod()
             CombatStyle.RANGE -> if (Slayer.hasFocusSight(player)) mod else CombatMod()
-            CombatStyle.MAGE -> if (Slayer.hasHexcrest(player)) mod else CombatMod()
+            CombatStyle.MAGIC -> if (Slayer.hasHexcrest(player)) mod else CombatMod()
             else -> CombatMod()
         }
     }
@@ -78,7 +78,7 @@ fun mapCombatEnhancingItems() {
         if (player !is Player) return@auraPlugin CombatMod()
         return@auraPlugin when(combatStyle) {
             CombatStyle.RANGE -> CombatMod(accuracyLevel = player.auraManager.rangeAcc)
-            CombatStyle.MAGE -> CombatMod(accuracyLevel = player.auraManager.magicAcc)
+            CombatStyle.MAGIC -> CombatMod(accuracyLevel = player.auraManager.magicAcc)
             else -> null
         } ?: CombatMod()
     }
@@ -102,7 +102,7 @@ fun mapCombatEnhancingItems() {
     }
 
     onCombatFormulaAdjust spellcasterPlugin@ { entity, target, offensiveBonus, combatStyle ->
-        if (entity.tempAttribs.getO<Any?>("spellcasterProc") != null && combatStyle == CombatStyle.MAGE) {
+        if (entity.tempAttribs.getO<Any?>("spellcasterProc") != null && combatStyle == CombatStyle.MAGIC) {
             target.lowerStat(Skills.ATTACK, 0.1, 0.9)
             target.lowerStat(Skills.STRENGTH, 0.1, 0.9)
             target.lowerStat(Skills.DEFENSE, 0.1, 0.9)
@@ -118,7 +118,7 @@ fun mapCombatEnhancingItems() {
         if (combatStyle != CombatStyle.RANGE || player !is Player || target !is NPC) return@hexhunterBowPlugin CombatMod()
         if (player.equipment.weaponId == 15836 || player.equipment.weaponId == 17295 || player.equipment.weaponId == 21332) {
             val mageLvl = clampI(target.magicLevel, 0, 350)
-            if (player.controllerManager.isIn(DungeonController::class.java) && target.combatDefinitions.attackStyle == CombatStyle.MAGE)
+            if (player.controllerManager.isIn(DungeonController::class.java) && target.combatDefinitions.attackStyle == CombatStyle.MAGIC)
                 mageLvl * 2
             val atkMul = (140.0 + floor((3 * mageLvl.toDouble() - 10.0) / 100.0) - floor((0.3 * mageLvl.toDouble() - 100.0).pow(2.0) / 100.0)) / 100.0
             val strMul = (250.0 + floor((3 * mageLvl.toDouble() - 14.0) / 100.0) - floor((0.3 * mageLvl.toDouble() - 140.0).pow(2.0) / 100.0)) / 100.0
@@ -145,7 +145,7 @@ fun mapCombatEnhancingItems() {
                 if (player.equipment.weaponId != 4158 && player.equipment.weaponId != 13290)
                     return@broadsPlugin CombatMod(overallDamage = 0.0)
             }
-            CombatStyle.MAGE -> {
+            CombatStyle.MAGIC -> {
                 if (player.combatDefinitions.spell != CombatSpell.MAGIC_DART)
                     return@broadsPlugin CombatMod(overallDamage = 0.0)
             }
@@ -162,7 +162,7 @@ fun mapCombatEnhancingItems() {
                 } else if (!(player.equipment.weaponId == 6746 || player.equipment.weaponId == 2961 || player.equipment.weaponId == 2963 || player.equipment.weaponId == 2952 || player.equipment.weaponId == 2402 || (player.equipment.weaponId >= 7639 && player.equipment.weaponId <= 7648) || (player.equipment.weaponId >= 13117 && player.equipment.weaponId <= 13146)))
                     return@vyrePlugin CombatMod(baseDamage = 0.0)
             }
-            CombatStyle.MAGE -> return@vyrePlugin if (player.equipment.weaponId == 21580)
+            CombatStyle.MAGIC -> return@vyrePlugin if (player.equipment.weaponId == 21580)
                 CombatMod(accuracy = 1.5, baseDamage = 1.5) else CombatMod(baseDamage = 0.0)
         }
         return@vyrePlugin CombatMod()

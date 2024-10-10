@@ -9,7 +9,6 @@ import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTasks;
-import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.utils.Ticks;
 import kotlin.Pair;
@@ -20,7 +19,7 @@ public class FamiliarSpecs {
 	public static int snaringWave(Player owner, Familiar familiar, Entity target, int tier) {
 		target.freeze(8, true);
 		familiar.sync(13620, 2591);
-		delayHit(familiar, World.sendProjectile(familiar, target, 2592, new Pair<>(41, 16), 41, 5, 16).getTaskDelay(), target, Hit.magic(familiar, getMaxHit(familiar, (int) (familiar.getMaxHit() * (1.0 + (0.05 * tier))), CombatStyle.MAGE, target, 1.5)), () -> target.setNextSpotAnim(new SpotAnim(2593)));
+		delayHit(familiar, World.sendProjectile(familiar, target, 2592, new Pair<>(41, 16), 41, 5, 16).getTaskDelay(), target, Hit.magic(familiar, getMaxHit(familiar, (int) (familiar.getMaxHit() * (1.0 + (0.05 * tier))), CombatStyle.MAGIC, target, 1.5)), () -> target.setNextSpotAnim(new SpotAnim(2593)));
 		return Familiar.DEFAULT_ATTACK_SPEED;
 	}
 

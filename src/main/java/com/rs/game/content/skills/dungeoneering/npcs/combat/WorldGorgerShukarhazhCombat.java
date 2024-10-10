@@ -60,7 +60,7 @@ public class WorldGorgerShukarhazhCombat extends CombatScript {
 			npc.setNextAnimation(new Animation(14893));
 			npc.setNextSpotAnim(new SpotAnim(2846, 0, 100));
 			target.setNextSpotAnim(new SpotAnim(2848, 75, 100));
-			delayHit(npc, 2, target, Hit.magic(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.MAGE, target)));
+			delayHit(npc, 2, target, Hit.magic(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.MAGIC, target)));
 		}
 		return 6;
 	}

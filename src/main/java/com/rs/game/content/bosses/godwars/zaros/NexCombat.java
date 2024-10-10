@@ -94,7 +94,7 @@ public class NexCombat extends CombatScript {
 				nex.setNextAnimation(new Animation(6987));
 				nex.setNextSpotAnim(new SpotAnim(1214));
 				for (Entity t : nex.getPossibleTargets()) {
-					int damage = getMaxHit(nex, 250, CombatStyle.MAGE, t);
+					int damage = getMaxHit(nex, 250, CombatStyle.MAGIC, t);
 					delayHit(nex, World.sendProjectile(nex, t, 306, new Pair<>(41, 16), 41, 10, 16, 0, p -> t.setNextSpotAnim(new SpotAnim(471))).getTaskDelay(), t, Hit.magic(nex, damage));
 					if (damage > 0 && Utils.getRandomInclusive(5) == 0)
 						t.getPoison().makePoisoned(88);
@@ -112,12 +112,12 @@ public class NexCombat extends CombatScript {
 				break;
 			case BLOOD:
 				nex.setNextAnimation(new Animation(6986));
-				delayHit(nex, World.sendProjectile(nex, target, 374, new Pair<>(41, 16), 41, 10, 16).getTaskDelay(), target, Hit.magic(nex, getMaxHit(nex, 250, CombatStyle.MAGE, target)));
+				delayHit(nex, World.sendProjectile(nex, target, 374, new Pair<>(41, 16), 41, 10, 16).getTaskDelay(), target, Hit.magic(nex, getMaxHit(nex, 250, CombatStyle.MAGIC, target)));
 				break;
 			case ICE:
 				nex.setNextAnimation(new Animation(6986));
 				for (final Entity t : nex.getPossibleTargets()) {
-					int damage = getMaxHit(nex, 250, CombatStyle.MAGE, t);
+					int damage = getMaxHit(nex, 250, CombatStyle.MAGIC, t);
 					delayHit(nex, World.sendProjectile(nex, t, 362, new Pair<>(41, 16), 41, 10, 16).getTaskDelay(), t, Hit.magic(nex, damage));
 					if (damage > 0 && Utils.getRandomInclusive(5) == 0) {
 						if (t instanceof Player player)
@@ -129,7 +129,7 @@ public class NexCombat extends CombatScript {
 			case ZAROS:
 				nex.setNextAnimation(new Animation(6987));
 				for (Entity t : nex.getPossibleTargets()) {
-					int damage = getMaxHit(nex, 350, CombatStyle.MAGE, t);
+					int damage = getMaxHit(nex, 350, CombatStyle.MAGIC, t);
 					delayHit(nex, World.sendProjectile(nex, t, 306, new Pair<>(41, 16), 41, 10, 16, 0, p -> t.setNextSpotAnim(new SpotAnim(471))).getTaskDelay(), t, Hit.magic(nex, damage));
 				}
 				break;
@@ -145,7 +145,7 @@ public class NexCombat extends CombatScript {
 		npc.setNextAnimation(new Animation(6987));
 		npc.setNextSpotAnim(new SpotAnim(1214));
 		for (Entity t : npc.getPossibleTargets()) {
-			int damage = getMaxHit(npc, 250, CombatStyle.MAGE, t);
+			int damage = getMaxHit(npc, 250, CombatStyle.MAGIC, t);
 			delayHit(npc, World.sendProjectile(npc, t, 306, new Pair<>(41, 16), 41, 10, 16, 0, p -> t.setNextSpotAnim(new SpotAnim(471))).getTaskDelay(), t, Hit.magic(npc, damage));
 			if (damage > 0 && Utils.getRandomInclusive(5) == 0)
 				t.getPoison().makePoisoned(88);

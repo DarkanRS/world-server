@@ -85,7 +85,7 @@ public class CommanderZilyanaCombat extends CombatScript {
 			for (Entity t : npc.getPossibleTargets()) {
 				if (!t.withinDistance(npc.getTile(), 3))
 					continue;
-				int damage = getMaxHit(npc, defs.getMaxHit(), CombatStyle.MAGE, t);
+				int damage = getMaxHit(npc, defs.getMaxHit(), CombatStyle.MAGIC, t);
 				if (damage > 0) {
 					delayHit(npc, 1, t, Hit.magic(npc, damage));
 					t.setNextSpotAnim(new SpotAnim(1194));

@@ -56,12 +56,12 @@ public class StrykewyrmCombat extends CombatScript {
 					target.getPoison().makePoisoned(44);
 				}
 			}
-			delayHit(npc, 0, target, Hit.melee(npc, getMaxHit(npc, defs.getMaxHit(), CombatStyle.MAGE, target)));
+			delayHit(npc, 0, target, Hit.melee(npc, getMaxHit(npc, defs.getMaxHit(), CombatStyle.MAGIC, target)));
 			return npc.getAttackSpeed();
 		}
 		if (attackStyle <= 9) { // mage
 			npc.setNextAnimation(new Animation(12794));
-			final Hit hit = Hit.magic(npc, getMaxHit(npc, defs.getMaxHit(), CombatStyle.MAGE, target));
+			final Hit hit = Hit.magic(npc, getMaxHit(npc, defs.getMaxHit(), CombatStyle.MAGIC, target));
 			delayHit(npc, 1, target, hit);
 			World.sendProjectile(npc, target, defs.getAttackProjectile(), new Pair<>(41, 16), 41, 5, 16);
 			if (npc.getId() == 9463)

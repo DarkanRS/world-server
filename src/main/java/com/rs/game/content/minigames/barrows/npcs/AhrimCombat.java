@@ -41,7 +41,7 @@ public class AhrimCombat extends CombatScript {
 	public int attack(NPC npc, Entity target) {
 		final NPCCombatDefinitions defs = npc.getCombatDefinitions();
 		npc.setNextAnimation(new Animation(defs.getAttackEmote()));
-		int damage = getMaxHit(npc, defs.getMaxHit(), CombatStyle.MAGE, target);
+		int damage = getMaxHit(npc, defs.getMaxHit(), CombatStyle.MAGIC, target);
 		if (damage != 0 && target instanceof Player player && Utils.random(3) == 0) {
 			target.setNextSpotAnim(new SpotAnim(400, 0, 100));
 			int currentLevel = player.getSkills().getLevel(Constants.STRENGTH);

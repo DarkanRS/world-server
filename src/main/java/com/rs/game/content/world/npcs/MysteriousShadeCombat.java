@@ -45,7 +45,7 @@ public class MysteriousShadeCombat extends CombatScript {
 		if (rangeAttack)
 			delayHit(npc, projectile.getTaskDelay(), target, Hit.range(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.RANGE, target)), () -> target.setNextSpotAnim(new SpotAnim(2512)));
 		else
-			delayHit(npc, projectile.getTaskDelay(), target, Hit.magic(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.MAGE, target)), () -> target.setNextSpotAnim(new SpotAnim(2513)));
+			delayHit(npc, projectile.getTaskDelay(), target, Hit.magic(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.MAGIC, target)), () -> target.setNextSpotAnim(new SpotAnim(2513)));
 		target.setNextSpotAnim(new SpotAnim(rangeAttack ? 2512 : 2513, projectile.getTaskDelay(), 0));
 		return npc.getAttackSpeed();
 	}

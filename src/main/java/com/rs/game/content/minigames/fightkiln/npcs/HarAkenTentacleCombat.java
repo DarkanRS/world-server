@@ -55,7 +55,7 @@ public class HarAkenTentacleCombat extends CombatScript {
 			if (npc.getId() == 15209)
 				delayHit(npc, p.getTaskDelay(), target, Hit.range(npc, getMaxHit(npc, defs.getMaxHit(), CombatStyle.RANGE, target)));
 			else
-				delayHit(npc, p.getTaskDelay(), target, Hit.magic(npc, getMaxHit(npc, defs.getMaxHit(), CombatStyle.MAGE, target)));
+				delayHit(npc, p.getTaskDelay(), target, Hit.magic(npc, getMaxHit(npc, defs.getMaxHit(), CombatStyle.MAGIC, target)));
 			break;
 		}
 		return npc.getAttackSpeed();

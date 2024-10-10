@@ -24,10 +24,8 @@ import com.rs.game.model.entity.async.schedule
 import com.rs.game.model.entity.npc.NPC
 import com.rs.game.model.entity.npc.combat.CombatScript.*
 import com.rs.game.model.entity.npc.combat.CombatScriptsHandler.getDefaultCombat
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions
 import com.rs.game.model.entity.npc.combat.NPCCombatUtil.Companion.projectileBounce
 import com.rs.game.model.entity.player.Player
-import com.rs.game.tasks.WorldTasks
 import com.rs.lib.game.Tile
 import com.rs.lib.util.Utils.random
 import com.rs.plugin.annotations.ServerStartupEvent
@@ -87,7 +85,7 @@ fun mapKalphiteQueen() {
         //mage
         npc.spotAnim(if (npc.id == 1158) 278 else 279)
         projectileBounce(npc, target, mutableSetOf(target), 280, 281, 5) { nextTarget ->
-            delayHit(npc, 0, nextTarget, Hit.magic(npc, getMaxHit(npc, npc.maxHit, CombatStyle.MAGE, nextTarget, 10000.0)))
+            delayHit(npc, 0, nextTarget, Hit.magic(npc, getMaxHit(npc, npc.maxHit, CombatStyle.MAGIC, nextTarget, 10000.0)))
         }
         return@npcCombat npc.attackSpeed
     }

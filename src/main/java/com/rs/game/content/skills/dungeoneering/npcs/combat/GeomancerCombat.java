@@ -91,7 +91,7 @@ public class GeomancerCombat extends CombatScript {
 				continue;
 			t.setNextSpotAnim(new SpotAnim(2726, 75, 100));
 			World.sendProjectile(npc, t, 2720, new Pair<>(50, 18), 50, 5, 0);
-			delayHit(npc, 1, t, Hit.magic(npc, getMaxHit(npc, (int) (npc.getLevelForStyle(CombatStyle.MAGE) * .7), CombatStyle.MAGE, t)));
+			delayHit(npc, 1, t, Hit.magic(npc, getMaxHit(npc, (int) (npc.getLevelForStyle(CombatStyle.MAGIC) * .7), CombatStyle.MAGIC, t)));
 		}
 	}
 
@@ -101,7 +101,7 @@ public class GeomancerCombat extends CombatScript {
 		npc.removeCombatTarget();
 		World.sendProjectile(npc, target, 178, new Pair<>(40, 18), 55, 7, 5);
 
-		int damage = getMaxHit(npc, (int) (npc.getLevelForStyle(CombatStyle.MAGE) * 0.95), CombatStyle.MAGE, target);
+		int damage = getMaxHit(npc, (int) (npc.getLevelForStyle(CombatStyle.MAGIC) * 0.95), CombatStyle.MAGIC, target);
 
 		if (damage > 0) {
 			target.setNextSpotAnim(new SpotAnim(180, 75, 100));
@@ -119,7 +119,7 @@ public class GeomancerCombat extends CombatScript {
 		npc.setNextAnimation(new Animation(12992));
 		World.sendProjectile(npc, target, 106, new Pair<>(40, 18), 55, 7, 5);
 
-		int damage = getMaxHitFromAttackStyleLevel(npc, CombatStyle.MAGE, target);
+		int damage = getMaxHitFromAttackStyleLevel(npc, CombatStyle.MAGIC, target);
 
 		if (damage > 0) {
 			target.setNextSpotAnim(new SpotAnim(107, 75, 150));
@@ -142,7 +142,7 @@ public class GeomancerCombat extends CombatScript {
 		boolean hasDrained = false;
 
 		for (Entity t : npc.getPossibleTargets()) {
-			int damage = getMaxHitFromAttackStyleLevel(npc, CombatStyle.MAGE, t);
+			int damage = getMaxHitFromAttackStyleLevel(npc, CombatStyle.MAGIC, t);
 
 			if (damage > 0)
 				if (t instanceof Player player)

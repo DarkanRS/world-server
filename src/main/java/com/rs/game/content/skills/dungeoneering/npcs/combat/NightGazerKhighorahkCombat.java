@@ -147,7 +147,7 @@ public class NightGazerKhighorahkCombat extends CombatScript {
 		npc.setNextAnimation(new Animation(gazer.isSecondStage() ? 13430 : 13431));
 		World.sendProjectile(npc, target, 2385, new Pair<>(gazer.isSecondStage() ? 60 : 40, 16), 41, 10, 0);
 		target.setNextSpotAnim(new SpotAnim(2386, 70, 100));
-		delayHit(npc, 1, target, Hit.magic(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.MAGE, target)));
+		delayHit(npc, 1, target, Hit.magic(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.MAGIC, target)));
 		return npc.getAttackSpeed();
 	}
 }

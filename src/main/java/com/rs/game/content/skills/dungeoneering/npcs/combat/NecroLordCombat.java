@@ -72,7 +72,7 @@ public class NecroLordCombat extends CombatScript {
 				npc.setNextAnimation(new Animation(14209));
 				npc.setNextSpotAnim(new SpotAnim(2716));
 				World.sendProjectile(npc, target, 2721, new Pair<>(38, 18), 50, 5, 0);
-				delayHit(npc, 1, target, Hit.magic(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.MAGE, target)));
+				delayHit(npc, 1, target, Hit.magic(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.MAGIC, target)));
 				target.setNextSpotAnim(new SpotAnim(2726, 75, 80));
 			}
 			case 2, 3 -> {
@@ -82,7 +82,7 @@ public class NecroLordCombat extends CombatScript {
 				World.sendProjectile(npc, tile, attack == 2 ? 178 : 168, new Pair<>(40, 18), 55, 10, 5);
 				WorldTasks.scheduleTimer(1, (ticks) -> {
 					for (Entity t : boss.getPossibleTargets()) {
-						int damage = getMaxHit(boss, boss.getMaxHit(), CombatStyle.MAGE, t);
+						int damage = getMaxHit(boss, boss.getMaxHit(), CombatStyle.MAGIC, t);
 						if (!t.withinDistance(tile, 1))
 							continue;
 						if (damage > 0) {

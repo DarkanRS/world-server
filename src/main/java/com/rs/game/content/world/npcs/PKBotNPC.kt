@@ -214,7 +214,7 @@ enum class Attack(val range: Int, val attackFunc: PKBotNPC.(Entity) -> Int) {
         val delay = spell.cast(this, target)
         val baseDamage = spell.getBaseDamage(this)
         if (baseDamage < 0) {
-            val hit = Hit.magic(this, getMaxHit(this, CombatStyle.MAGE, target))
+            val hit = Hit.magic(this, getMaxHit(this, CombatStyle.MAGIC, target))
             if (hit.damage > 0) spell.onHit(this, target, hit)
             target.tasks.schedule(delay) {
                 if (hit.damage > 0) {

@@ -73,9 +73,9 @@ public class KingBlackDragonCombat extends CombatScript {
 			npc.soundEffect(587, true);
 			int protection = PlayerCombatKt.getAntifireLevel(player, true);
 			if (protection == 1)
-				damage = getMaxHit(npc, 164, CombatStyle.MAGE, target);
+				damage = getMaxHit(npc, 164, CombatStyle.MAGIC, target);
 			if (protection == 2)
-				damage = getMaxHit(npc, 100, CombatStyle.MAGE, target);
+				damage = getMaxHit(npc, 100, CombatStyle.MAGIC, target);
 			if (Utils.getRandomInclusive(2) == 0)
 				target.getPoison().makePoisoned(80);
 			delayHit(npc, 2, target, Hit.flat(npc, damage));
@@ -87,9 +87,9 @@ public class KingBlackDragonCombat extends CombatScript {
 			npc.soundEffect(586, true);
 			int protection = PlayerCombatKt.getAntifireLevel(player, true);
 			if (protection == 1)
-				damage = getMaxHit(npc, 164, CombatStyle.MAGE, target);
+				damage = getMaxHit(npc, 164, CombatStyle.MAGIC, target);
 			if (protection == 2)
-				damage = getMaxHit(npc, 100, CombatStyle.MAGE, target);
+				damage = getMaxHit(npc, 100, CombatStyle.MAGIC, target);
 			if (Utils.getRandomInclusive(2) == 0)
 				target.freeze(Ticks.fromSeconds(15));
 			delayHit(npc, 2, target, Hit.flat(npc, damage));
@@ -101,9 +101,9 @@ public class KingBlackDragonCombat extends CombatScript {
 			npc.soundEffect(584, true);
 			int protection = PlayerCombatKt.getAntifireLevel(player, true);
 			if (protection == 1)
-				damage = getMaxHit(npc, 164, CombatStyle.MAGE, target);
+				damage = getMaxHit(npc, 164, CombatStyle.MAGIC, target);
 			if (protection == 2)
-				damage = getMaxHit(npc, 100, CombatStyle.MAGE, target);
+				damage = getMaxHit(npc, 100, CombatStyle.MAGIC, target);
 			delayHit(npc, 2, target, Hit.flat(npc, damage));
 			World.sendProjectile(npc, target, 396, new Pair<>(34, 16), 30, 5, 16);
 			npc.setNextAnimation(new Animation(81));

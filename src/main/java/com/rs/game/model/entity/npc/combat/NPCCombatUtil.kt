@@ -31,7 +31,7 @@ class NPCCombatUtil {
 
         @JvmStatic
         fun castSpellAtTarget(npc: NPC, target: Entity, spell: CombatSpell, hitDelay: Int): Boolean {
-            val hit = Hit.magic(npc, getMaxHit(npc, spell.getBaseDamage(npc), CombatStyle.MAGE, target))
+            val hit = Hit.magic(npc, getMaxHit(npc, spell.getBaseDamage(npc), CombatStyle.MAGIC, target))
             if (spell === CombatSpell.STORM_OF_ARMADYL && hit.damage > 0) {
                 var minHit = (npc.getCombatLevel(NPCCombatDefinitions.Skill.MAGE) - 77) * 5
                 minHit = (minHit * getMagicBonusBoost(npc)).toInt()

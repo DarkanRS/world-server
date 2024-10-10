@@ -132,7 +132,7 @@ public class ShadowForgerIhlakhizanCombat extends CombatScript {
 				npc.setNextSpotAnim(new SpotAnim(2375));
 				World.sendProjectile(npc, target, 2376, new Pair<>(120, 30), 60, 10, 16);
 				target.setNextSpotAnim(new SpotAnim(2377, 120, 0));
-				delayHit(npc, 3, target, Hit.flat(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.MAGE, target)));
+				delayHit(npc, 3, target, Hit.flat(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.MAGIC, target)));
 			}
 			case 1 -> {
 				npc.setNextAnimation(new Animation(defs.getAttackEmote()));

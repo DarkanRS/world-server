@@ -93,7 +93,7 @@ public class KalGerWarmongerCombat extends CombatScript {
 			for (Entity t : boss.getPossibleTargets()) {
 				World.sendProjectile(boss, t, 2875, new Pair<>(65, 10), 50, 5, 5);
 				t.setNextSpotAnim(new SpotAnim(2873));
-				delayHit(npc, 0, t, Hit.magic(npc, getMaxHit(npc, boss.getMaxHit(), CombatStyle.MAGE, t)));
+				delayHit(npc, 0, t, Hit.magic(npc, getMaxHit(npc, boss.getMaxHit(), CombatStyle.MAGIC, t)));
 			}
 		} else if (boss.getType() == 4) {// 2H
 			npc.setNextAnimation(new Animation(14450));

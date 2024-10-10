@@ -88,13 +88,13 @@ private fun attackMelee(npc: NPC, target: Entity): Boolean {
 
 private fun attackMagicSingleTarget(npc: NPC, target: Entity) {
     npc.anim(10410)
-    delayHit(npc, World.sendProjectile(npc, target, 1825, heights = 41 to 20, delay = 0, speed = 10, angle = 15).taskDelay, target, Hit.magic(npc, getMaxHit(npc, 650, CombatStyle.MAGE, target)))
+    delayHit(npc, World.sendProjectile(npc, target, 1825, heights = 41 to 20, delay = 0, speed = 10, angle = 15).taskDelay, target, Hit.magic(npc, getMaxHit(npc, 650, CombatStyle.MAGIC, target)))
 }
 
 private fun attackMagicDrain(npc: NPC, target: Entity) {
     npc.anim(10410)
     val delay = World.sendProjectile(npc, target, 1823, heights = 41 to 20, delay = 0, speed = 10, angle = 15).taskDelay
-    delayHit(npc, delay, target, Hit.magic(npc, getMaxHit(npc, 550, CombatStyle.MAGE, target)))
+    delayHit(npc, delay, target, Hit.magic(npc, getMaxHit(npc, 550, CombatStyle.MAGIC, target)))
     if (target is Player) {
         val skill = when (Utils.getRandomInclusive(2)) {
             0 -> Constants.MAGIC
@@ -120,7 +120,7 @@ fun attackMagicSplash(npc: NPC, target: Entity) {
             val newTile = Tile.of(initialTile, 3)
             if (floorAndWallsFree(newTile, 1)) {
                 npc.possibleTargets.filter { Utils.getDistance(newTile.x, newTile.y, it.x, it.y) <= 1 && it.lineOfSightTo(newTile, false) }
-                    .forEach { delayHit(npc, 0, it, Hit.magic(npc, getMaxHit(npc, 350, CombatStyle.MAGE, it))) }
+                    .forEach { delayHit(npc, 0, it, Hit.magic(npc, getMaxHit(npc, 350, CombatStyle.MAGIC, it))) }
                 npc.schedule {
                     wait(World.sendProjectile(initialTile, newTile, 1824, heights = 15 to 5, delay = 15, speed = 15, angle = 15).taskDelay + 1)
                     sendSpotAnim(newTile, SpotAnim(1806))

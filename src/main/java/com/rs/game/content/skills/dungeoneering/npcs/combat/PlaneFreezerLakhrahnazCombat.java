@@ -54,7 +54,7 @@ public class PlaneFreezerLakhrahnazCombat extends CombatScript {
 					for (Entity t : npc.getPossibleTargets()) {
 						World.sendProjectile(npc, t, 2577, new Pair<>(16, 16), 41, 5, 0);
 						t.setNextSpotAnim(new SpotAnim(2578, 70, 0));
-						delayHit(npc, 1, t, Hit.magic(npc, getMaxHit(npc, 100, CombatStyle.MAGE, target)));
+						delayHit(npc, 1, t, Hit.magic(npc, getMaxHit(npc, 100, CombatStyle.MAGIC, target)));
 					}
 				}
 				case 1 -> {

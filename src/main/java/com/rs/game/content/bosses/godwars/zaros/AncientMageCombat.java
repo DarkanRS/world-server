@@ -41,7 +41,7 @@ public class AncientMageCombat extends CombatScript {
 	public int attack(NPC npc, Entity target) {
 		final NPCCombatDefinitions defs = npc.getCombatDefinitions();
 		int spellType = Utils.getRandomInclusive(3);
-		Hit hit = Hit.magic(npc, getMaxHit(npc, defs.getMaxHit(), CombatStyle.MAGE, target));
+		Hit hit = Hit.magic(npc, getMaxHit(npc, defs.getMaxHit(), CombatStyle.MAGIC, target));
 
 		npc.setNextAnimation(new Animation(defs.getAttackEmote()));
 		if (spellType == 0) {

@@ -56,7 +56,7 @@ public class TormentedDemonCombat extends CombatScript {
 			delayHit(npc, 1, target, Hit.melee(npc, hit));
 			return 7;
 		case 1:
-			hit = getMaxHit(npc, 270, CombatStyle.MAGE, target);
+			hit = getMaxHit(npc, 270, CombatStyle.MAGIC, target);
 			npc.setNextAnimation(new Animation(10918));
 			npc.setNextSpotAnim(new SpotAnim(1883, 0, 96 << 16));
 			delayHit(npc, World.sendProjectile(npc, target, 1884, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, Hit.magic(npc, hit));

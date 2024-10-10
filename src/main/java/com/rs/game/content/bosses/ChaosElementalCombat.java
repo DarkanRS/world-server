@@ -85,7 +85,7 @@ public class ChaosElementalCombat extends CombatScript {
 					}
 				}, Utils.getDistanceI(npc.getTile(), target.getTile())/3);
 		} else {
-			int damage = getMaxHit(npc, 300, CombatStyle.MAGE, target);
+			int damage = getMaxHit(npc, 300, CombatStyle.MAGIC, target);
 			Hit hit = Hit.magic(npc, damage);
 			int rand = Utils.random(3);
 			if (rand == 0) {

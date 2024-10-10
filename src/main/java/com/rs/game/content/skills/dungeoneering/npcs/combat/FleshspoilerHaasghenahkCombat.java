@@ -50,7 +50,7 @@ public class FleshspoilerHaasghenahkCombat extends CombatScript {
 					if (player.getPrayer().isProtectingMage() && Utils.random(3) == 0)
 						boss.setUseMagicOnly(false);
 			npc.setNextAnimation(new Animation(14463));
-			delayHit(npc, 1, target, Hit.magic(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.MAGE, target)));
+			delayHit(npc, 1, target, Hit.magic(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.MAGIC, target)));
 		} else {
 			npc.setNextAnimation(new Animation(13320));
 			delayHit(npc, 0, target, Hit.melee(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.MELEE, target)));

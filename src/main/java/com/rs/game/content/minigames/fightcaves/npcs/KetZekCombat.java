@@ -64,7 +64,7 @@ public class KetZekCombat extends CombatScript {
 	}
 
 	private void commenceMagicAttack(final NPC npc, final Entity target) {
-        int hit = getMaxHit(npc, npc.getCombatDefinitions().getMaxHit() - 50, CombatStyle.MAGE, target);
+        int hit = getMaxHit(npc, npc.getCombatDefinitions().getMaxHit() - 50, CombatStyle.MAGIC, target);
 		npc.setNextAnimation(new Animation(16136));
 		// npc.setNextGraphics(new Graphics(1622, 0, 96 << 16));
 		World.sendProjectile(npc, target, 2984, new Pair<>(34, 16), 30, 7, 16);

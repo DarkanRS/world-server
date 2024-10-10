@@ -66,7 +66,7 @@ public class HopeDevourerCombat extends CombatScript {
 				int healedDamage = 0;
 				for (Entity t : npc.getPossibleTargets()) {
 					Player player = (Player) t;
-					int damage = (int) Utils.random(npc.getLevelForStyle(CombatStyle.MAGE) * .85, npc.getLevelForStyle(CombatStyle.MAGE));
+					int damage = (int) Utils.random(npc.getLevelForStyle(CombatStyle.MAGIC) * .85, npc.getLevelForStyle(CombatStyle.MAGIC));
 					if (damage > 0 && player.getPrayer().isUsingProtectionPrayer()) {
 						healedDamage += damage;
 						player.setProtectionPrayBlock(2);
