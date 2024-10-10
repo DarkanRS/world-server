@@ -73,6 +73,10 @@ public class PrayerManager {
 	}
 
 	private boolean canUsePrayer(Prayer prayer) {
+		if (points <= 0.0) {
+			player.sendMessage("You should recharge your prayer at an altar.");
+			return false;
+		}
 		if (player.getSkills().getLevelForXp(Constants.PRAYER) < prayer.getReq()) {
 			player.sendMessage("You need a prayer level of at least " + prayer.getReq() + " to use this prayer.");
 			return false;
