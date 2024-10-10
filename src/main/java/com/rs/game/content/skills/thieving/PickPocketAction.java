@@ -49,7 +49,7 @@ public class PickPocketAction extends PlayerAction {
 	private int index;
 	private boolean success = false;
 
-	public static NPCClickHandler defaultPickpocket = new NPCClickHandler(new String[]{"Pickpocket"}, e -> {
+	public static NPCClickHandler defaultPickpocket = new NPCClickHandler(new String[]{"Pickpocket", "Grab-feather"}, e -> {
 		PickPocketableNPC pocket = PickPocketableNPC.get(e.getNPC().getId());
 		if (pocket != null) {
 			e.getNPC().resetDirection();
