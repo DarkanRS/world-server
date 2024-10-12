@@ -3,6 +3,7 @@ package com.rs.game.content.quests.eadgars_ruse.instances.npcs
 import com.rs.game.World.sendProjectile
 import com.rs.game.content.quests.eadgars_ruse.utils.*
 import com.rs.game.model.entity.Entity
+import com.rs.game.model.entity.Hit
 import com.rs.game.model.entity.async.schedule
 import com.rs.game.model.entity.npc.NPC
 import com.rs.game.model.entity.npc.combat.CombatScript
@@ -53,7 +54,7 @@ class GoutweedPatrolGuards(id: Int, tile: Tile, private val tiles: Array<Tile>) 
                                 faceEntity(it)
                                 anim(GOUTWEED_GUARD_THROW_ANIM)
                                 val projectile = sendProjectile(this, it, ROCK_PROJECTILE, Pair(40, 30), 40, 5, 5)
-                                CombatScript.delayHit(this, projectile.taskDelay, player, CombatScript.getRangeHit(this, Random.nextInt(1, 61)))
+                                CombatScript.delayHit(this, projectile.taskDelay, player, Hit.range(this, Random.nextInt(1, 61)))
                                 player.schedule {
                                     wait (projectile.taskDelay)
                                     player.lock()

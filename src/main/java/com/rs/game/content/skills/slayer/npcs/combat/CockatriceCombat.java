@@ -18,6 +18,7 @@ package com.rs.game.content.skills.slayer.npcs.combat;
 
 import com.rs.game.content.skills.slayer.Slayer;
 import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
@@ -35,13 +36,13 @@ public class CockatriceCombat extends CombatScript {
 	@Override
 	public int attack(NPC npc, final Entity target) {
 		NPCCombatDefinitions def = npc.getCombatDefinitions();
-		if (!Slayer.hasReflectiveEquipment(target)) {
+		if (target instanceof Player player && !Slayer.hasReflectiveEquipment(player)) {
 			Player targetPlayer = (Player) target;
 			npc.setNextAnimation(new Animation(7766));
 			npc.setNextSpotAnim(new SpotAnim(1467));
-			delayHit(npc, 1, target, getRegularHit(npc, targetPlayer.getMaxHitpoints() / 6));
+			delayHit(npc, 1, target, Hit.flat(npc, targetPlayer.getMaxHitpoints() / 6));
 		} else
-			delayHit(npc, 1, target, getMeleeHit(npc, getMaxHit(npc, def.getMaxHit(), def.getAttackStyle(), target)));
+			delayHit(npc, 1, target, Hit.melee(npc, getMaxHit(npc, def.getMaxHit(), def.getAttackStyle(), target)));
 		npc.setNextAnimation(new Animation(def.getAttackEmote()));
 		return npc.getAttackSpeed();
 	}

@@ -144,7 +144,7 @@ public class Halloween2009Controller extends Controller {
 		if (numLeft > 0)
 			player.sendMessage("You web up the " + ObjectDefinitions.getDefs(objectId, player.getVars()).getName().toLowerCase() + ". Only <col=FF0000>" + numLeft + "</col> more to go!");
 		else {
-			player.save(Halloween2009.STAGE_KEY, 8);
+			player.set(Halloween2009.STAGE_KEY, 8);
 			player.sendMessage("<col=FF0000>That's all of them! Return to the Grim Reaper.");
 			player.startConversation(new Dialogue().addNext(new SpiderStatement("That's it! We've done them all! Now we should talk to the scary skeleton guy.")));
 		}

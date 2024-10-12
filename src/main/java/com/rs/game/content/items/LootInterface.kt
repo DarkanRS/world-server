@@ -26,8 +26,10 @@ fun mapLootInterface() {
                 val item = container[e.slotId] ?: return@onButtonClick
                 when (e.packet) {
                     ClientPacket.IF_OP1 -> {
-                        if (e.player.inventory.addItem(item)) {
-                            container[e.slotId] = null
+                        if (e.player.inventory.addItem(Item(item).setAmount(1))) {
+                            item.amount--
+                            if (item.amount <= 0)
+                                container[e.slotId] = null
                             e.player.packets.sendUpdateItems(100, container, e.slotId)
                         }
                     }
@@ -74,17 +76,28 @@ fun mapLootInterface() {
 object LootInterface {
     @JvmStatic
     @JvmOverloads
-    fun open(title: String?, player: Player, container: ItemsContainer<Item?>, onClose: Runnable? = null) {
+    fun open(title: String?, player: Player, container: ItemsContainer<Item?>, autoLootOnClose: Boolean = true, onClose: Runnable? = null) {
         player.packets.setIFText(1284, 28, title)
         player.interfaceManager.sendInterface(1284)
-        player.packets.sendInterSetItemsOptionsScript(1284, 7, 100, 7, 4, "Take", "Bank", "Discard", "Examine")
-        player.packets.setIFRightClickOps(1284, 7, 0, 10, 0, 1, 2, 3)
+        player.packets.sendInterSetItemsOptionsScript(1284, 7, 100, 7, 4, "Take-1", "Bank", "Discard", "Examine")
+        player.packets.setIFRightClickOps(1284, 7, 0, 28, 0, 1, 2, 3)
         player.packets.sendItems(100, container)
         player.tempAttribs.setO<Any>("lootInterfaceContainer", container)
         player.setCloseInterfacesEvent {
             player.tempAttribs.removeO<Any>("lootInterfaceContainer")
             onClose?.run()
-            for (item in container.toArray()) if (item != null) player.inventory.addItemDrop(item)
+            if (autoLootOnClose) {
+                container.array().filterNotNull().forEach { item ->
+                    if (player.inventory.hasRoomFor(item)) {
+                        player.inventory.addItemDrop(item)
+                    } else {
+                        if (item.definitions.isNoted)
+                            item.id = item.definitions.certId
+                        if (!player.bank.addItem(item, true))
+                            player.inventory.addItemDrop(item)
+                    }
+                }
+            }
         }
     }
 }

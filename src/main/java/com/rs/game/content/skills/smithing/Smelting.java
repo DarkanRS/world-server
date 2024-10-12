@@ -17,7 +17,6 @@
 package com.rs.game.content.skills.smithing;
 
 import com.rs.game.content.achievements.SetReward;
-import com.rs.game.content.skills.mining.Ore;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
@@ -258,9 +257,9 @@ public class Smelting extends PlayerAction {
 			if (required.getId() == 453 && player.getInventory().containsItem(18339) && player.getI("coalBag") > 0) {
 				int coalBag = player.getI("coalBag");
 				if (coalBag > required.getAmount())
-					player.save("coalBag", coalBag - required.getAmount());
+					player.set("coalBag", coalBag - required.getAmount());
 				else {
-					player.save("coalBag", 0);
+					player.set("coalBag", 0);
 					player.getInventory().deleteItem(453, required.getAmount()-coalBag);
 				}
 			} else

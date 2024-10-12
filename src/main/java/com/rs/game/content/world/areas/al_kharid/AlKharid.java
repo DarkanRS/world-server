@@ -16,10 +16,10 @@
 //
 package com.rs.game.content.world.areas.al_kharid;
 
-import com.rs.game.content.skills.agility.Agility;
-import com.rs.game.content.world.AgilityShortcuts;
-import com.rs.game.content.world.doors.Doors;
 import com.rs.engine.pathfinder.Direction;
+import com.rs.game.content.skills.agility.Agility;
+import com.rs.game.content.world.areas.global.AgilityShortcuts;
+import com.rs.game.content.world.doors.Doors;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Tile;
@@ -77,4 +77,12 @@ public class AlKharid {
 		else if (e.getObjectId() == 46)
 			e.getPlayer().tele(e.getPlayer().transform(e.getObject().getRotation() == 2 ? 0 : e.getObject().getRotation() == 0 ? -0 : 0, e.getObject().getRotation() == 2 ? 4 : e.getObject().getRotation() == 0 ? -4 : 0, -1));
 	});
+
+	public static ObjectClickHandler handlePolyporeEntrance = new ObjectClickHandler(new Object[] { 63093, 63094 }, e -> {
+		switch (e.getObjectId()) {
+			case 63093 -> e.getPlayer().useStairs(-1, Tile.of(4620, 5458, 3), 0, 1);
+			case 63094 -> e.getPlayer().useStairs(-1, Tile.of(3410, 3329, 0), 0, 1);
+		}
+	});
+
 }

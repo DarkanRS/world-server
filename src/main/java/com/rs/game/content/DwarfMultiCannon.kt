@@ -21,6 +21,7 @@ import com.rs.engine.pathfinder.Direction
 import com.rs.engine.pathfinder.Direction.Companion.forDelta
 import com.rs.engine.quest.Quest
 import com.rs.game.World
+import com.rs.game.content.combat.CombatStyle
 import com.rs.game.content.combat.calculateHit
 import com.rs.game.content.combat.isRanging
 import com.rs.game.content.world.areas.wilderness.WildernessController
@@ -88,7 +89,9 @@ class DwarfMultiCannon(player: Player, tile: Tile, private val cannonType: Int) 
         WARRIORS_GUILD(11319),
         WYVERN_CAVE(12181),
         KALPHITE_QUEEN(13972),
-        KING_BLACK_DRAGON(9033);
+        KING_BLACK_DRAGON(9033),
+        CHAOS_TUNNEL_RESOURCE_DUNGEON(4934);
+
 
         val message: String = stopMes ?: "It is not permitted to set up a cannon here."
 
@@ -167,8 +170,8 @@ class DwarfMultiCannon(player: Player, tile: Tile, private val cannonType: Int) 
             if (!owner.isAtMultiArea && npc.attackedBy !== owner && npc.inCombat()) continue
 
             if (npc.withinDistance(cannonTile, 10) && getDirectionTo(npc) == spinRot) {
-                val hit = calculateHit(owner, npc, 0, 300, owner.equipment.weaponId, owner.combatDefinitions.getAttackStyle(), isRanging(owner), true, 1.0)
-                val proj = World.sendProjectile(Tile.of(x + 1, y + 1, plane), npc, 53, 38 to 38, 30, 2, 0)
+                val hit = calculateHit(owner, npc, 0, 300, if (isRanging(owner)) CombatStyle.RANGE else CombatStyle.MELEE, true, 1.0)
+                val proj = World.sendProjectile(Tile.of(x + 1, y + 1, plane), npc, 53, 38 to 38, 10, 2, 0)
                 WorldTasks.schedule(proj.taskDelay) { npc.applyHit(Hit(owner, hit.damage, Hit.HitLook.CANNON_DAMAGE)) }
                 owner.skills.addXp(Constants.RANGE, hit.damage.toDouble() / 5.0)
                 balls--

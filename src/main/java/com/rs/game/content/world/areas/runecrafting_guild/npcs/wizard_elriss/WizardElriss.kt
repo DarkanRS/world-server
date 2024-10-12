@@ -151,7 +151,7 @@ class WizardElriss(var player: Player, var npc: NPC) {
                 item(if (itemName == "talisman") talisman.talismanId else talisman.tiaraId, "You show Elriss the ${talisman.type.lowercase()} $itemName.") {
                     shownTalismans.add(talisman.type)
                     player.skills.addXp(Skills.RUNECRAFTING, talisman.xp)
-                    player.save("omniTalisman_shownTypes", shownTalismans.toList())
+                    player.set("omniTalisman_shownTypes", shownTalismans.toList())
                 }
             }
             exec {

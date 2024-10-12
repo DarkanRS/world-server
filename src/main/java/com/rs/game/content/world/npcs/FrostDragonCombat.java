@@ -17,13 +17,13 @@
 package com.rs.game.content.world.npcs;
 
 import com.rs.game.World;
-import com.rs.game.content.combat.PlayerCombat;
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.content.combat.PlayerCombatKt;
 import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
@@ -54,7 +54,7 @@ public class FrostDragonCombat extends CombatScript {
 					damage = 0;
 				npc.setNextAnimation(new Animation(13152));
 				npc.setNextSpotAnim(new SpotAnim(2465));
-				delayHit(npc, 1, target, getRegularHit(npc, damage));
+				delayHit(npc, 1, target, Hit.flat(npc, damage));
 			} else {
 				damage = Utils.getRandomInclusive(500);
 				int protection = PlayerCombatKt.getAntifireLevel(target, true);
@@ -63,20 +63,20 @@ public class FrostDragonCombat extends CombatScript {
 				else if (protection == 2)
 					damage = 0;
 				npc.setNextAnimation(new Animation(13155));
-				delayHit(npc, World.sendProjectile(npc, target, 393, new Pair<>(28, 16), 35, 5, 16).getTaskDelay(), target, getRegularHit(npc, damage));
+				delayHit(npc, World.sendProjectile(npc, target, 393, new Pair<>(28, 16), 35, 5, 16).getTaskDelay(), target, Hit.flat(npc, damage));
 			}
 		} else if (npc.withinDistance(target.getTile(), 3) && Utils.random(2) == 0) {
-			damage = getMaxHit(npc, defs.getMaxHit(), AttackStyle.MELEE, target);
+			damage = getMaxHit(npc, defs.getMaxHit(), CombatStyle.MELEE, target);
 			npc.setNextAnimation(new Animation(defs.getAttackEmote()));
-			delayHit(npc, 0, target, getMeleeHit(npc, damage));
+			delayHit(npc, 0, target, Hit.melee(npc, damage));
 		} else if (mageRange == 0) {
 			damage = Utils.getRandomInclusive(250);
 			npc.setNextAnimation(new Animation(13155));
-			delayHit(npc, World.sendProjectile(npc, target, 2705, new Pair<>(28, 16), 35, 5, 16).getTaskDelay(), target, getMagicHit(npc, damage), () -> target.setNextSpotAnim(new SpotAnim(2711)));
+			delayHit(npc, World.sendProjectile(npc, target, 2705, new Pair<>(28, 16), 35, 5, 16).getTaskDelay(), target, Hit.magic(npc, damage), () -> target.setNextSpotAnim(new SpotAnim(2711)));
 		} else {
 			damage = Utils.getRandomInclusive(250);
 			npc.setNextAnimation(new Animation(13155));
-			delayHit(npc, World.sendProjectile(npc, target, 11, new Pair<>(28, 16), 35, 5, 16).getTaskDelay(), target, getRangeHit(npc, damage));
+			delayHit(npc, World.sendProjectile(npc, target, 11, new Pair<>(28, 16), 35, 5, 16).getTaskDelay(), target, Hit.range(npc, damage));
 		}
 		return npc.getAttackSpeed();
 	}

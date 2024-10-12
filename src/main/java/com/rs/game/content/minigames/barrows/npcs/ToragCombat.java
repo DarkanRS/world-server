@@ -16,11 +16,12 @@
 //
 package com.rs.game.content.minigames.barrows.npcs;
 
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -37,12 +38,12 @@ public class ToragCombat extends CombatScript {
 	public int attack(NPC npc, Entity target) {
 		final NPCCombatDefinitions defs = npc.getCombatDefinitions();
 		npc.setNextAnimation(new Animation(defs.getAttackEmote()));
-		int damage = getMaxHit(npc, defs.getMaxHit(), AttackStyle.MELEE, target);
+		int damage = getMaxHit(npc, defs.getMaxHit(), CombatStyle.MELEE, target);
 		if (damage != 0 && target instanceof Player player && Utils.random(3) == 0) {
 			target.setNextSpotAnim(new SpotAnim(399));
 			player.setRunEnergy(player.getRunEnergy() > 4 ? player.getRunEnergy() - 4 : 0);
 		}
-		delayHit(npc, 0, target, getMeleeHit(npc, damage));
+		delayHit(npc, 0, target, Hit.melee(npc, damage));
 		return npc.getAttackSpeed();
 	}
 }

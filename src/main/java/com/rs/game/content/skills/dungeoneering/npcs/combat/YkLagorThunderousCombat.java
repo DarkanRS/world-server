@@ -17,6 +17,7 @@
 package com.rs.game.content.skills.dungeoneering.npcs.combat;
 
 import com.rs.game.World;
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.content.skills.dungeoneering.npcs.YkLagorMage;
 import com.rs.game.content.skills.dungeoneering.npcs.YkLagorThunderous;
 import com.rs.game.model.entity.Entity;
@@ -25,7 +26,6 @@ import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
@@ -126,7 +126,7 @@ public class YkLagorThunderousCombat extends CombatScript {
 				if (target instanceof Player player)
 					if (player.getPrayer().getPoints() > 0 && damage > 0)
 						player.getPrayer().drainPrayer((int) (damage * .5));
-				delayHit(npc, 0, target, getMeleeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MELEE, target)));
+				delayHit(npc, 0, target, Hit.melee(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.MELEE, target)));
 			}
 			case 1 -> sendMagicalAttack(boss, false);
 		}
@@ -161,7 +161,7 @@ public class YkLagorThunderousCombat extends CombatScript {
 				if (player.isDead() || !npc.getManager().isAtBossRoom(player.getTile()))
 					continue;
 				World.sendProjectile(npc, player, 2733, new Pair<>(75, 50), 20, 5, 20);
-				delayHit(npc, 1, player, getMagicHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MAGE, player)));
+				delayHit(npc, 1, player, Hit.magic(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.MAGIC, player)));
 				player.setNextSpotAnim(new SpotAnim(2755, 85, 0));
 			}
 		if (specialAttack)
@@ -169,7 +169,7 @@ public class YkLagorThunderousCombat extends CombatScript {
 				if (mage.isDead() || mage.hasFinished())
 					continue;
 				mage.applyHit(new Hit(npc, mage.getMaxHitpoints(), HitLook.MAGIC_DAMAGE, 60));
-				// delayHit(mage, 1, mage, getMagicHit(npc, mage.getMaxHitpoints()));
+				// delayHit(mage, 1, mage, Hit.magic(npc, mage.getMaxHitpoints()));
 				mage.setNextSpotAnim(new SpotAnim(2755, 85, 0));
 			}
 		// for mages kill blablalb,we dont want to kill familiars lol

@@ -17,7 +17,6 @@
 package com.rs.game.content.world.areas.trollheim
 
 import com.rs.engine.cutscenekt.cutscene
-import com.rs.engine.dialogue.HeadE.*
 import com.rs.engine.pathfinder.Direction
 import com.rs.engine.pathfinder.RouteEvent
 import com.rs.engine.quest.Quest

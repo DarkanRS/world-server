@@ -16,6 +16,7 @@
 //
 package com.rs.game.content.world.areas.tree_gnome_stronghold;
 
+import com.rs.game.content.world.doors.Doors;
 import com.rs.game.map.ChunkManager;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.Tile;
@@ -85,4 +86,25 @@ public class TreeGnomeStronghold {
 		}
 		e.getPlayer().useStairs(Tile.of(2483, 3463, 1));
 	});
+
+	public static ObjectClickHandler handleDoubleDoor = new ObjectClickHandler(new Object[] { 69197, 69198 }, e -> {
+		Doors.handleInPlaceDoubleDoor(e.getPlayer(), e.getObject());
+		e.getPlayer().resetWalkSteps();
+		e.getPlayer().addWalkSteps(e.getObject().getX(), e.getPlayer().getY() <= 3491 ? e.getPlayer().getY() + 2 : e.getPlayer().getY() - 2, -1, false);
+	});
+
+	public static ObjectClickHandler handleBrimstailsEntrance = new ObjectClickHandler(new Object[]{17209}, e -> {
+		e.getPlayer().useStairs(-1, Tile.of(2408, 9812, 0), 0, 1);
+	});
+
+	public static ObjectClickHandler handleBrimstailsExit = new ObjectClickHandler(new Object[]{17222, 17223}, e -> {
+		e.getPlayer().useStairs(-1, Tile.of(2402, 3419, 0), 0, 1);
+	});
+
+	public static ObjectClickHandler handleGateEntrance = new ObjectClickHandler(new Object[] { 68983 }, e -> {
+		Doors.handleInPlaceSingleDoor(e.getPlayer(), e.getObject());
+		e.getPlayer().resetWalkSteps();
+		e.getPlayer().addWalkSteps(2461, e.getPlayer().getY() > e.getObject().getY() ? e.getObject().getY() - 1 : e.getObject().getY() + 3, -1, false);
+	});
+
 }

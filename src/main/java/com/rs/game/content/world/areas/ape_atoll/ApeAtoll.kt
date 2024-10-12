@@ -16,10 +16,6 @@
 //
 package com.rs.game.content.world.areas.ape_atoll;
 
-import com.rs.game.tasks.Task
-import com.rs.game.tasks.WorldTasks
-import com.rs.lib.Constants
-import com.rs.lib.game.Animation
 import com.rs.lib.game.Tile
 import com.rs.plugin.annotations.ServerStartupEvent
 import com.rs.plugin.kts.onObjectClick
@@ -57,5 +53,23 @@ fun mapApeAtoll() {
 
 	onObjectClick(4859) { (player) ->
 		player.prayer.worshipAltar()
+	}
+
+	onObjectClick(4755) { (player, obj) ->
+		when (obj.rotation) {
+			0 -> player.useStairs(-1, player.transform(0, -4, -1), 1, 1);
+			1 -> player.useStairs(-1, player.transform(4, 0, -1), 1, 1);
+			2 -> player.useStairs(-1, player.transform(0, 4, -1), 1, 1);
+			3 -> player.useStairs(-1, player.transform(-4, 0, -1), 1, 1);
+		}
+	}
+
+	onObjectClick(4756) { (player, obj) ->
+		when (obj.rotation) {
+			0 -> player.useStairs(-1, player.transform(0, 4, 1), 1, 1);
+			1 -> player.useStairs(-1, player.transform(-4, 0, 1), 1, 1);
+			2 -> player.useStairs(-1, player.transform(0, -4, 1), 1, 1);
+			3 -> player.useStairs(-1, player.transform(4, 0, 1), 1, 1);
+		}
 	}
 }

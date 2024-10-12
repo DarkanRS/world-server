@@ -23,7 +23,6 @@ import com.rs.game.content.skills.construction.HouseConstants.Servant;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
-
 public class ServantDialogue extends Conversation {
 
 	private static final String[] BEGINNING_MESSAGE = {
@@ -52,7 +51,7 @@ public class ServantDialogue extends Conversation {
 			"From a humble beginning as a dish-washer I have worked my way up through the ranks of domestic service in the households of nobles from Varrock and Ardougne. As a life-long servant I have naturally suppressed my personality.",
 			"For millennia I have served and waited on the mighty Demon Lords of the infernal Dimensions. I began as a humble footman in the household of Lord Thammaron. Currently, I come to serve the mortal masters in the realms of light.",
 	};
-	
+
 	public ServantDialogue(Player player, NPC npc) {
 		super(player);
 		

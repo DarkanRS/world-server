@@ -17,6 +17,7 @@
 package com.rs.game.content.skills.dungeoneering.npcs.combat;
 
 import com.rs.game.World;
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.content.skills.dungeoneering.npcs.bosses.DungeonBoss;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
@@ -24,7 +25,6 @@ import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
@@ -82,16 +82,16 @@ public class UnholyCursebearerCombat extends CombatScript {
 					npc.setNextSpotAnim(new SpotAnim(2441));
 					for (Entity t : npc.getPossibleTargets()) {
 						World.sendProjectile(npc, t, 88, new Pair<>(50, 30), 41, 4, 0);
-						delayHit(npc, 1, t, getMagicHit(npc, getMaxHit(npc, (int) (npc.getLevelForStyle(AttackStyle.MAGE) * 0.6), AttackStyle.MAGE, t)));
+						delayHit(npc, 1, t, Hit.magic(npc, getMaxHit(npc, (int) (npc.getLevelForStyle(CombatStyle.MAGIC) * 0.6), CombatStyle.MAGIC, t)));
 					}
 				} else {
 					World.sendProjectile(npc, target, 88, new Pair<>(50, 30), 41, 5, 0);
-					delayHit(npc, 1, target, getMagicHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MAGE, target)));
+					delayHit(npc, 1, target, Hit.magic(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.MAGIC, target)));
 				}
 			}
 			case 1 -> {
 				npc.setNextAnimation(new Animation(defs.getAttackEmote()));
-				delayHit(npc, 0, target, getMeleeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MELEE, target)));
+				delayHit(npc, 0, target, Hit.melee(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.MELEE, target)));
 			}
 		}
 		return npc.getAttackSpeed();

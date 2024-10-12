@@ -17,6 +17,7 @@
 package com.rs.game.content.skills.dungeoneering.npcs.combat;
 
 import com.rs.game.World;
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.content.skills.dungeoneering.npcs.NightGazerKhighorahk;
 import com.rs.game.model.entity.Entity;
@@ -24,7 +25,6 @@ import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
@@ -51,7 +51,7 @@ public class NightGazerKhighorahkCombat extends CombatScript {
 		gazer.setNextAnimation(new Animation(13425));
 		for (Entity target : gazer.getPossibleTargets()) {
 			World.sendProjectile(gazer, target, 2385, new Pair<>(60, 16), 41, 3, 0);
-			delayHit(gazer, 1, target, getRangeHit(gazer, getMaxHit(gazer, (int) (gazer.getMaxHit() * 0.6), AttackStyle.RANGE, target)));
+			delayHit(gazer, 1, target, Hit.range(gazer, getMaxHit(gazer, (int) (gazer.getMaxHit() * 0.6), CombatStyle.RANGE, target)));
 		}
 
 		if (!gazer.isSecondStage())
@@ -140,14 +140,14 @@ public class NightGazerKhighorahkCombat extends CombatScript {
 		if (Utils.random(3) == 0) { // range single target
 			npc.setNextAnimation(new Animation(gazer.isSecondStage() ? 13433 : 13434));
 			World.sendProjectile(npc, target, 2385, new Pair<>(gazer.isSecondStage() ? 60 : 40, 16), 41, 5, 0);
-			delayHit(npc, 3, target, getRangeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.RANGE, target)));
+			delayHit(npc, 3, target, Hit.range(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.RANGE, target)));
 			return npc.getAttackSpeed() + 1;
 		}
 		// magic
 		npc.setNextAnimation(new Animation(gazer.isSecondStage() ? 13430 : 13431));
 		World.sendProjectile(npc, target, 2385, new Pair<>(gazer.isSecondStage() ? 60 : 40, 16), 41, 10, 0);
 		target.setNextSpotAnim(new SpotAnim(2386, 70, 100));
-		delayHit(npc, 1, target, getMagicHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MAGE, target)));
+		delayHit(npc, 1, target, Hit.magic(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.MAGIC, target)));
 		return npc.getAttackSpeed();
 	}
 }

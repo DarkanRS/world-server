@@ -17,6 +17,7 @@
 package com.rs.game.content.skills.dungeoneering.npcs.combat;
 
 import com.rs.game.World;
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.content.skills.dungeoneering.npcs.FrozenAdventurer;
 import com.rs.game.content.skills.dungeoneering.npcs.ToKashBloodChiller;
@@ -26,7 +27,6 @@ import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
@@ -63,11 +63,11 @@ public class ToKashBloodChillerCombat extends CombatScript {
 
 			if (meleeAttack) {
 				npc.setNextAnimation(new Animation(14392));
-				delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, 200, AttackStyle.MELEE, target)));
+				delayHit(npc, 0, target, Hit.melee(npc, getMaxHit(npc, 200, CombatStyle.MELEE, target)));
 			} else {
 				npc.setNextAnimation(new Animation(14398));
 				World.sendProjectile(npc, target, 2546, new Pair<>(16, 16), 41, 5, 0);
-				delayHit(npc, 1, target, getMagicHit(npc, getMaxHit(npc, 200, AttackStyle.MAGE, target)));
+				delayHit(npc, 1, target, Hit.magic(npc, getMaxHit(npc, 200, CombatStyle.MAGIC, target)));
 			}
 			return meleeAttack ? 4 : 5;
 		}

@@ -20,6 +20,8 @@ import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.dialogue.Options;
+import com.rs.engine.pathfinder.Route;
+import com.rs.engine.pathfinder.RouteEvent;
 import com.rs.engine.pathfinder.RouteFinderKt;
 import com.rs.engine.quest.Quest;
 import com.rs.game.World;
@@ -29,10 +31,9 @@ import com.rs.game.content.quests.monksfriend.dialogues.BrotherCedricMonksFriend
 import com.rs.game.content.quests.monksfriend.dialogues.BrotherOmadMonksFriendD;
 import com.rs.game.content.skills.agility.Agility;
 import com.rs.game.content.skills.thieving.Thieving;
-import com.rs.game.content.world.AgilityShortcuts;
+import com.rs.game.content.world.areas.global.AgilityShortcuts;
 import com.rs.game.content.world.doors.Doors;
 import com.rs.game.ge.GE;
-import com.rs.engine.pathfinder.RouteEvent;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.Constants;
@@ -45,7 +46,6 @@ import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.Ticks;
-import com.rs.utils.shop.ShopsHandler;
 
 @PluginEventHandler
 public class Ardougne  {
@@ -64,7 +64,7 @@ public class Ardougne  {
 							.addNPC(492, HeadE.OLD_CHAT, "My Lord instructs me to help you.")
 							.addNPC(492, HeadE.OLD_CHAT, "Here is a mould to make a token for our Lord;a mould for the unholy symbol of Zamorak.")
 							.addItem(1594, "The ghost gives you a casting mould.", () -> {
-								e.getPlayer().save("spiritOfScorpiusTalkedTo", true);
+								e.getPlayer().set("spiritOfScorpiusTalkedTo", true);
 								e.getPlayer().getInventory().addItemDrop(1594, 1);
 							});
 					} else {
@@ -313,7 +313,8 @@ public class Ardougne  {
 			e.getPlayer().sendMessage("You require 40 Ranged to enter the Ranging Guild.");
 			return;
 		}
-		if (RouteFinderKt.routeEntityToTile(e.getPlayer(), Tile.of(2659, 3437, 0)).getSuccess())
+		Route route = RouteFinderKt.routeEntityToTile(e.getPlayer(), Tile.of(2659, 3437, 0));
+		if (route.getSuccess() && !route.getAlternative())
 			e.getPlayer().setRouteEvent(new RouteEvent(Tile.of(2659, 3437, 0), () -> {
 				Doors.handleDoor(e.getPlayer(), e.getObject());
 				e.getPlayer().addWalkSteps(Tile.of(2657, 3439, 0), 5, false);
@@ -434,4 +435,54 @@ public class Ardougne  {
 
 	public static ObjectClickHandler handleObservatoryladderdown = new ObjectClickHandler(new Object[] { 25437 }, e -> e.getPlayer().tele(Tile.of(2444, 3162, 0)));
 
+	public static ObjectClickHandler handleLooseRailing = new ObjectClickHandler(new Object[] { 19171 }, e -> {
+		if (!Agility.hasLevel(e.getPlayer(), 20)) return;
+		e.getPlayer().useStairs(-1, Tile.of(e.getPlayer().getX() >= 2523 ? 2522 : 2523, 3375, 0), 1, 2, "You easily squeeze through the railing.");
+	});
+
+	public static ObjectClickHandler handleSpiralStairsUp = new ObjectClickHandler(new Object[] { 34548 }, e -> {
+		var player = e.getPlayer();
+		switch (e.getObject().getRotation()) {
+			case 0 -> player.useStairs(-1, player.transform(3, 0, 1), 1, 1);
+			case 1 -> player.useStairs(-1, player.transform(0, -3, 1), 1, 1);
+			case 2 -> player.useStairs(-1, player.transform(-3, 0, 1), 1, 1);
+			case 3 -> player.useStairs(-1, player.transform(0, 3, 1), 1, 1);
+		}
+	});
+
+	public static ObjectClickHandler handleSpiralStairsDown = new ObjectClickHandler(new Object[] { 34550 }, e -> {
+		var player = e.getPlayer();
+		switch (e.getObject().getRotation()) {
+			case 0 -> player.useStairs(-1, player.transform(-3, 0, -1), 1, 1);
+			case 1 -> player.useStairs(-1, player.transform(0, 3, -1), 1, 1);
+			case 2 -> player.useStairs(-1, player.transform(3, 0, -1), 1, 1);
+			case 3 -> player.useStairs(-1, player.transform(0, -3, -1), 1, 1);
+		}
+	});
+
+	public static ObjectClickHandler handleStairsUp = new ObjectClickHandler(new Object[] { 34567 }, e -> {
+		e.getPlayer().useStairs(-1, e.getPlayer().transform(e.getObject().getRotation() == 3 ? -3 : 3, 0, 1), 1, 1);
+	});
+
+	public static ObjectClickHandler handleStairsDown = new ObjectClickHandler(new Object[] { 34568 }, e -> {
+		e.getPlayer().useStairs(-1, e.getPlayer().transform(e.getObject().getRotation() == 3 ? 3 : -3, 0, -1), 1, 1);
+	});
+
+	public static ObjectClickHandler handleStairsUp1 = new ObjectClickHandler(new Object[] { 34498 }, e -> {
+		switch (e.getObject().getRotation()) {
+			case 0 -> e.getPlayer().useStairs(-1, e.getPlayer().transform(0, 3, 1), 1, 1);
+			case 1 -> e.getPlayer().useStairs(-1, e.getPlayer().transform(3, 0, 1), 1, 1);
+			case 2 -> e.getPlayer().useStairs(-1, e.getPlayer().transform(0, -3, 1), 1, 1);
+			case 3 -> e.getPlayer().useStairs(-1, e.getPlayer().transform(-3, 0, 1), 1, 1);
+		}
+	});
+
+	public static ObjectClickHandler handleStairsDown1 = new ObjectClickHandler(new Object[] { 34499 }, e -> {
+		switch (e.getObject().getRotation()) {
+			case 0 -> e.getPlayer().useStairs(-1, e.getPlayer().transform(0, -3, -1), 1, 1);
+			case 1 -> e.getPlayer().useStairs(-1, e.getPlayer().transform(-3, 0, -1), 1, 1);
+			case 2 -> e.getPlayer().useStairs(-1, e.getPlayer().transform(0, 3, -1), 1, 1);
+			case 3 -> e.getPlayer().useStairs(-1, e.getPlayer().transform(3, 0, -1), 1, 1);
+		}
+	});
 }

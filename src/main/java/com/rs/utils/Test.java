@@ -38,6 +38,9 @@ import com.rs.utils.drop.DropSet;
 import com.rs.utils.drop.DropTable;
 import com.rs.utils.json.ControllerAdapter;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Date;
@@ -61,27 +64,32 @@ public class Test {
 		Settings.getConfig();
 		Cache.init(Settings.getConfig().getCachePath());
 
-//		IComponentDefinitions[] summ = IComponentDefinitions.getInterface(672);
-//		for (int i = 0;i < summ.length;i++)
-//			System.out.println(summ[i]);
-
-		int num = 2319;
-
-		DropSet reward = new DropSet(
-				new DropTable(995, 5000),
-				new DropTable(75, 100, new Drop(995, 10000), new Drop(1392, 2), new Drop(565, 20), new Drop(5300, 1)),
-				new DropTable(20, 100, 1305, 1),
-				new DropTable(5, 100, 989, 1));
-
-		long total = 0;
-
-		for (int i = 0; i < 1_000_000; i++) {
-			total += Arrays.stream(DropTable.calculateDrops(reward))
-					.mapToInt(item -> Utils.clampI(item.getDefinitions().getHighAlchPrice(), 1, Integer.MAX_VALUE) * item.getAmount())
-					.sum();
+		File file = new File("itemListMeshModifiers.txt");
+		if (file.exists())
+			file.delete();
+		else
+			file.createNewFile();
+		BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+		writer.flush();
+		for (int itemId = 0;itemId < Utils.getItemDefinitionsSize();itemId++) {
+			ItemDefinitions def = ItemDefinitions.getDefs(itemId);
+			boolean colors = def.originalModelColors != null && def.originalModelColors.length > 0 || def.modifiedModelColors != null && def.modifiedModelColors.length > 0;
+			boolean textures = def.originalTextureIds != null && def.originalTextureIds.length > 0 || def.modifiedTextureIds != null && def.modifiedTextureIds.length > 0;
+			if (def.getEquipSlot() != -1 && (colors || textures)) {
+				writer.write(itemId + " (" + def.name + "):");
+				writer.newLine();
+				if (colors) {
+					writer.write("Original colors: " + Arrays.toString(def.originalModelColors));
+					writer.write("Modified colors: " + Arrays.toString(def.modifiedModelColors));
+					writer.newLine();
+				}
+				if (textures) {
+					writer.write("Original textures: " + Arrays.toString(def.originalTextureIds));
+					writer.write("Modified textures: " + Arrays.toString(def.modifiedTextureIds));
+					writer.newLine();
+				}
+			}
 		}
-
-		System.out.println("Average loot per key: " + (total / 1_000_000L));
 	}
 
 //	public static void main(String[] args) throws IOException {

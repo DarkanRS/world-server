@@ -32,6 +32,7 @@ import com.rs.lib.io.OutputStream;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Vec2;
 import com.rs.lib.web.dto.FCData;
+import kotlin.Pair;
 
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
@@ -42,6 +43,10 @@ import java.util.List;
 import java.util.Map;
 
 public class WorldUtil {
+
+	public static Pair<Integer, Integer> regionIdToChunkCoords(int regionId) {
+		return new Pair<>((regionId >> 8) * 8, (regionId & 0xFF) * 8);
+	}
 
 	public static byte[] completeQuickMessage(Player player, int fileId, byte[] data) {
 		QCMesDefinitions defs = QCMesDefinitions.getDefs(fileId);
@@ -197,8 +202,18 @@ public class WorldUtil {
 			return null;
 		try {
 			ItemsContainer<Item> container = null;
+			if (metadata instanceof ItemsContainer)
+				return (ItemsContainer<Item>) metadata;
+			if (metadata instanceof LinkedTreeMap<?,?> serializedContainer) {
+				if (serializedContainer.get("alwaysStackable") != null) {
+					List<?> items = (List<?>) serializedContainer.get("data");
+					container = new ItemsContainer<>(items.size(), (Boolean) serializedContainer.get("alwaysStackable"));
+					metadata = items;
+				}
+			}
 			if (metadata instanceof List<?> list) {
-				container = new ItemsContainer<>(list.size(), false);
+				if (container == null)
+					container = new ItemsContainer<>(list.size(), false);
 				for (Object itemObj : list) {
 					if (itemObj instanceof Item item)
 						container.add(item);

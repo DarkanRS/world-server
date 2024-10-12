@@ -1,7 +1,6 @@
 package com.rs.game.content.items.combinations;
 
 import com.rs.cache.loaders.ItemDefinitions;
-import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ItemOnItemHandler;

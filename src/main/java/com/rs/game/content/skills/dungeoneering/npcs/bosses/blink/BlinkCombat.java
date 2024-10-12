@@ -17,6 +17,7 @@
 package com.rs.game.content.skills.dungeoneering.npcs.bosses.blink;
 
 import com.rs.game.World;
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.ForceTalk;
@@ -24,7 +25,6 @@ import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
@@ -71,7 +71,7 @@ public class BlinkCombat extends CombatScript {
 		boolean atDistance = !WorldUtil.isInRange(npc.getX(), npc.getY(), npc.getSize(), target.getX(), target.getY(), target.getSize(), 0);
 		if (!atDistance && (Utils.random(3) != 0)) {
 			boss.setNextAnimation(new Animation(12310));
-			delayHit(boss, 0, target, getMeleeHit(boss, getMaxHit(boss, boss.getMaxHit(), AttackStyle.MELEE, target)));
+			delayHit(boss, 0, target, Hit.melee(boss, getMaxHit(boss, boss.getMaxHit(), CombatStyle.MELEE, target)));
 			return 4;
 		}
 		boolean rangeAttack = Utils.random(3) == 0;
@@ -106,7 +106,7 @@ public class BlinkCombat extends CombatScript {
 								for (Entity t : boss.getPossibleTargets()) {
 									if (!t.matches(tile))
 										continue;
-									delayHit(boss, delay, t, getRangeHit(boss, getMaxHit(boss, boss.getMaxHit(), AttackStyle.RANGE, t)));
+									delayHit(boss, delay, t, Hit.range(boss, getMaxHit(boss, boss.getMaxHit(), CombatStyle.RANGE, t)));
 								}
 							}
 							stop();
@@ -117,7 +117,7 @@ public class BlinkCombat extends CombatScript {
 			} else {
 				boss.setNextAnimation(new Animation(14949));
 				World.sendProjectile(boss, target, 2853, new Pair<>(18, 18), 50, 5, 0);
-				delayHit(boss, 1, target, getRangeHit(boss, getMaxHit(boss, boss.getMaxHit(), AttackStyle.RANGE, target)));
+				delayHit(boss, 1, target, Hit.range(boss, getMaxHit(boss, boss.getMaxHit(), CombatStyle.RANGE, target)));
 			}
 		} else {
 			if (Utils.random(7) == 0)
@@ -126,11 +126,11 @@ public class BlinkCombat extends CombatScript {
 			boss.setNextAnimation(new Animation(14956));
 			boss.setNextSpotAnim(new SpotAnim(2854));
 			target.setNextSpotAnim(new SpotAnim(2854, 5, 0));
-			int damage = getMaxHit(boss, boss.getMaxHit(), AttackStyle.MAGE, target);
+			int damage = getMaxHit(boss, boss.getMaxHit(), CombatStyle.MAGIC, target);
 			if (target instanceof Player player)
 				if (player.getPrayer().isProtectingMage())
 					damage *= 0.5D;
-			delayHit(boss, 1, target, getMagicHit(boss, damage));
+			delayHit(boss, 1, target, Hit.magic(boss, damage));
 		}
 		return 5;
 	}

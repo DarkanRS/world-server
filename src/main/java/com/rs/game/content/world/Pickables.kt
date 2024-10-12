@@ -56,9 +56,9 @@ private fun pick(player: Player, obj: GameObject, itemId: Int) {
     }
     if (player.inventory.addItem(itemId, 1)) {
         player.anim(827)
-        player.lock(2)
+        player.lock(1)
         when (itemId) {
-            1799 -> if (Utils.random(5) == 0) World.removeObjectTemporary(obj, Ticks.fromMinutes(1))
+            1779 -> if (Utils.random(5) == 0) World.removeObjectTemporary(obj, Ticks.fromMinutes(1))
             2114 -> if (Utils.random(5) == 0) obj.setIdTemporary(1413, Ticks.fromMinutes(1))
             else -> World.removeObjectTemporary(obj, Ticks.fromMinutes(1))
         }

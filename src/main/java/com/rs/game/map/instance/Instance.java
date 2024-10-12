@@ -103,21 +103,21 @@ public class Instance {
         return future;
     }
 
-    public CompletableFuture<Boolean> copyChunk(int localChunkX, int localChunkY, int plane, int fromChunkX, int fromChunkY, int fromPlane, int rotation) {
+    public CompletableFuture<Boolean> copyChunk(int localChunkX, int localChunkY, int plane, int fromChunkX, int fromChunkY, int fromPlane, int rotation, boolean reinitCollision) {
         CompletableFuture<Boolean> future = new CompletableFuture<>();
         if (chunkBase == null)
-            requestChunkBound().thenAccept(bool -> InstanceBuilder.copyChunk(this, localChunkX, localChunkY, plane, fromChunkX, fromChunkY, fromPlane, rotation, future)).exceptionally(e -> { future.completeExceptionally(e); return null; });
+            requestChunkBound().thenAccept(bool -> InstanceBuilder.copyChunk(this, localChunkX, localChunkY, plane, fromChunkX, fromChunkY, fromPlane, rotation, reinitCollision, future)).exceptionally(e -> { future.completeExceptionally(e); return null; });
         else
-            InstanceBuilder.copyChunk(this, localChunkX, localChunkY, plane, fromChunkX, fromChunkY, fromPlane, rotation, future);
+            InstanceBuilder.copyChunk(this, localChunkX, localChunkY, plane, fromChunkX, fromChunkY, fromPlane, rotation, reinitCollision, future);
         return future;
     }
 
-    public CompletableFuture<Boolean> clearChunk(int localChunkX, int localChunkY, int plane) {
+    public CompletableFuture<Boolean> clearChunk(int localChunkX, int localChunkY, int plane, boolean reinitCollision) {
         CompletableFuture<Boolean> future = new CompletableFuture<>();
         if (chunkBase == null)
-            requestChunkBound().thenAccept(bool -> InstanceBuilder.clearChunk(this, localChunkX, localChunkY, plane, future)).exceptionally(e -> { future.completeExceptionally(e); return null; });
+            requestChunkBound().thenAccept(bool -> InstanceBuilder.clearChunk(this, localChunkX, localChunkY, plane, reinitCollision, future)).exceptionally(e -> { future.completeExceptionally(e); return null; });
         else
-            InstanceBuilder.clearChunk(this, localChunkX, localChunkY, plane, future);
+            InstanceBuilder.clearChunk(this, localChunkX, localChunkY, plane, reinitCollision, future);
         return future;
     }
 

@@ -19,7 +19,6 @@ package com.rs.game.content.death;
 import com.rs.cache.loaders.EnumDefinitions;
 import com.rs.db.WorldDB;
 import com.rs.game.World;
-import com.rs.game.World.DropMethod;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
@@ -30,7 +29,10 @@ import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.Ticks;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class GraveStone extends NPC {// 652 - gravestone selection interface
 

@@ -516,13 +516,11 @@ public final class Equipment {
 		return false;
 	}
 
-	public boolean hasFirecape() {
-		if (items.get(CAPE) != null) {
-			String name = items.get(CAPE).getDefinitions().getName().toLowerCase();
-            return name.contains("fire cape") || name.contains("tokhaar-kal") || name.contains("completionist cape");
-		}
-		return false;
+	public boolean hasFireCape() {
+		int capeId = getCapeId();
+		return capeId == 6570 || capeId == 20769 || capeId == 20771 || capeId == 23659;
 	}
+
 
 	public double getEquipmentWeight() {
 		return equipmentWeight;
@@ -894,6 +892,13 @@ public final class Equipment {
 					case RANGE_STR -> value + Utils.clampI((int) (player.getSkills().getLevelForXp(Constants.RANGE) * 0.7), 0, 49);
 					default -> value;
 				};
+			}
+			case 22358, 22359, 22360, 22361 -> {
+				if (player.getEquipment().getWeaponId() != -1) return value;
+				if (bonus == Bonus.CRUSH_ATT || bonus == Bonus.MELEE_STR)
+					return bonus == Bonus.MELEE_STR ? 96 : 95;
+				else
+					return value;
 			}
 			default -> {
 				return value;

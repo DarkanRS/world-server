@@ -20,15 +20,16 @@ import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.dialogue.Options;
+import com.rs.engine.dialogue.statements.NPCStatement;
+import com.rs.engine.pathfinder.Direction;
 import com.rs.engine.quest.Quest;
 import com.rs.game.World;
 import com.rs.game.content.combat.PlayerCombatKt;
 import com.rs.game.content.combat.XPType;
 import com.rs.game.content.quests.scorpioncatcher.ScorpionCatcher;
 import com.rs.game.content.skills.agility.Agility;
-import com.rs.game.content.world.AgilityShortcuts;
+import com.rs.game.content.world.areas.global.AgilityShortcuts;
 import com.rs.game.content.world.doors.Doors;
-import com.rs.engine.pathfinder.Direction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.Task;
@@ -249,5 +250,30 @@ public class Varrock {
 		} else
 			Doors.handleDoor(p, obj);
 	});
+
+	public static ObjectClickHandler handleLumberYardFence = new ObjectClickHandler(new Object[] { 31149 }, e -> {
+			boolean isEntering = e.getPlayer().getX() <= e.getObject().getX();
+			e.getPlayer().useStairs(isEntering ? 9221 : 9220, Tile.of(e.getObject().getX() + (isEntering ? 1 : 0), e.getObject().getY(), 0));
+	});
+
+	public static ObjectClickHandler handleCooksGuild = new ObjectClickHandler(new Object[] { 2712 }, e -> {
+		var player = e.getPlayer();
+		if (player.getSkills().getLevel(Constants.COOKING) < 32 && player.getY() < 3444) {
+			player.startConversation(new Conversation(player, new Dialogue(new NPCStatement(847, HeadE.ANGRY, "I can't allow someone as novice as you into my kitchen!"))));
+			return;
+		}
+		if (player.getEquipment().getHatId() != 1949 && player.getY() < 3444) {
+			player.startConversation(new Conversation(player, new Dialogue(new NPCStatement(847, HeadE.ANGRY, "You sure don't look much like a chef!"))));
+			return;
+		}
+		Doors.handleDoor(player, e.getObject());
+	});
+
+	public static ObjectClickHandler handleStairs24357 = new ObjectClickHandler(new Object[] { 24357 }, new Tile[] { Tile.of(3188, 3355, 0) }, e -> e.getPlayer().useStairs(-1, Tile.of(3189, 3354, 1), 0, 1));
+	public static ObjectClickHandler handleStairs24359 = new ObjectClickHandler(new Object[] { 24359 }, new Tile[] { Tile.of(3188, 3355, 0) }, e -> e.getPlayer().useStairs(-1, Tile.of(3189, 3358, 0), 0, 1));
+	public static ObjectClickHandler handleVarrockDungeonClimb = new ObjectClickHandler(new Object[] { 29355 }, new Tile[] { Tile.of(3230, 9904, 0) }, e -> e.getPlayer().useStairs(828, Tile.of(3229, 3503, 0)));
+	public static ObjectClickHandler handleStairs24264 = new ObjectClickHandler(new Object[] { 24264 }, e -> e.getPlayer().useStairs(833, Tile.of(3229, 9904, 0)));
+	public static ObjectClickHandler handleStairs24366 = new ObjectClickHandler(new Object[] { 24366 }, e -> e.getPlayer().useStairs(828, Tile.of(3237, 3459, 0)));
+
 
 }

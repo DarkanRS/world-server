@@ -7,9 +7,7 @@ import com.rs.engine.quest.Quest;
 import com.rs.game.content.achievements.AchievementSystemD;
 import com.rs.game.content.achievements.SetReward;
 import com.rs.game.content.quests.piratestreasure.RedbeardFrankPiratesTreasureD;
-import com.rs.game.model.entity.Entity;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.utils.shop.ShopsHandler;
 

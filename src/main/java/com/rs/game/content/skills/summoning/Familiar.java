@@ -331,6 +331,7 @@ public final class Familiar extends NPC {
 	public void setCombatTarget(Entity target) {
 		if (isPassive())
 			return;
+		getActionManager().forceStop();
 		super.setCombatTarget(target);
 	}
 	
@@ -533,9 +534,9 @@ public final class Familiar extends NPC {
 				owner.getSkills().drainSummoning(1);
 			trackDrain = !trackDrain;
 			if (ticks == 100)
-				owner.sendMessage("You have 1 minute before your familiar vanishes.");
+				owner.sendMessage("<col=FF0000>You have 1 minute before your familiar vanishes.");
 			else if (ticks == 50)
-				owner.sendMessage("You have 30 seconds before your familiar vanishes.");
+				owner.sendMessage("<col=FF0000>You have 30 seconds before your familiar vanishes.");
 			sendTimeRemaining();
 		}
 		if (ticks == 0) {
@@ -557,9 +558,10 @@ public final class Familiar extends NPC {
 			return;
 		}
 		if (!getCombat().process())
-			if (!getCombat().hasTarget() && isAgressive() && owner.getAttackedBy() != null && owner.inCombat() && canAttack(owner.getAttackedBy()) && Utils.getRandomInclusive(5) == 0)
+			if (!getCombat().hasTarget() && isAgressive() && owner.getAttackedBy() != null && owner.inCombat() && canAttack(owner.getAttackedBy()) && Utils.getRandomInclusive(5) == 0) {
+				getActionManager().forceStop();
 				getCombat().setTarget(owner.getAttackedBy());
-			else if (routeEvent == null && !isLocked() && !getActionManager().hasSkillWorking())
+			} else if (routeEvent == null && !isLocked() && !getActionManager().hasSkillWorking())
 				getActionManager().setAction(new EntityFollow(owner));
 	}
 
@@ -579,6 +581,7 @@ public final class Familiar extends NPC {
 			owner.sendMessage("You need a " + ItemDefinitions.getDefs(pouch.getId()).getName().toLowerCase() + " to renew your familiar's timer.");
 			return false;
 		}
+		reset();
 		resetTickets();
 		owner.getInventory().deleteItem(pouch.getId(), 1);
 		call(true);

@@ -18,6 +18,7 @@ package com.rs.game.content.skills.slayer.npcs.combat;
 
 import com.rs.game.World;
 import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
@@ -39,7 +40,7 @@ public class InfernalMage extends CombatScript {
 		npc.setNextAnimation(new Animation(defs.getAttackEmote()));
 
 		World.sendProjectile(npc, target, defs.getAttackProjectile(), new Pair<>(30, 30), 50, 5, Utils.random(5));
-		delayHit(npc, 3, target, getMagicHit(npc, getMaxHit(npc, defs.getMaxHit(), defs.getAttackStyle(), target)));
+		delayHit(npc, 3, target, Hit.magic(npc, getMaxHit(npc, defs.getMaxHit(), defs.getAttackStyle(), target)));
 		target.setNextSpotAnim(new SpotAnim(2739, 3, 100));
 		return npc.getAttackSpeed();
 	}

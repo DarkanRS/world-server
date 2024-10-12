@@ -17,6 +17,7 @@
 package com.rs.game.content.skills.dungeoneering.npcs.combat;
 
 import com.rs.game.World;
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.content.skills.dungeoneering.npcs.Stomp;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
@@ -24,7 +25,6 @@ import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -72,7 +72,7 @@ public class StompCombat extends CombatScript {
 		switch (attackStyle) {
 			case 0 -> {
 				npc.setNextAnimation(new Animation(defs.getAttackEmote()));
-				delayHit(npc, 0, target, getMeleeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MELEE, target)));
+				delayHit(npc, 0, target, Hit.melee(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.MELEE, target)));
 			}
 			case 1 -> {
 				npc.setNextAnimation(new Animation(13449));
@@ -80,7 +80,7 @@ public class StompCombat extends CombatScript {
 				for (Entity t : npc.getPossibleTargets()) {
 					World.sendProjectile(npc, t, 2402, new Pair<>(16, 16), 41, 5, 0);
 					t.setNextSpotAnim(new SpotAnim(2403, 70, 0));
-					delayHit(npc, 1, t, getRangeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.RANGE, target)));
+					delayHit(npc, 1, t, Hit.range(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.RANGE, target)));
 				}
 			}
 			case 2 -> {
@@ -88,7 +88,7 @@ public class StompCombat extends CombatScript {
 				npc.setNextSpotAnim(new SpotAnim(2404));
 				World.sendProjectile(npc, target, 2405, new Pair<>(30, 16), 41, 6, 0);
 				target.setNextSpotAnim(new SpotAnim(2406, 120, 0));
-				delayHit(npc, 2, target, getMagicHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MAGE, target)));
+				delayHit(npc, 2, target, Hit.magic(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.MAGIC, target)));
 			}
 		}
 		return npc.getAttackSpeed();

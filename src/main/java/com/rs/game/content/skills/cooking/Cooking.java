@@ -196,7 +196,7 @@ public class Cooking extends PlayerAction {
 	private int quantity;
 	private final int option;
 
-	public Cooking(Player player, int option, GameObject gameObject, Cookables cookable, int quantity) {
+	public Cooking(int option, GameObject gameObject, Cookables cookable, int quantity) {
 		this.option = option;
 		this.gameObject = gameObject;
 		this.quantity = quantity;
@@ -217,13 +217,16 @@ public class Cooking extends PlayerAction {
 		if (!ChunkManager.getChunk(gameObject.getTile().getChunkId()).objectExists(gameObject)) {
 			return false;
 		}
+		if (!player.getInventory().hasFreeSlots() && cookable.getRawItem().getDefinitions().isStackable()) {
+			return false;
+		}
 		return player.getInventory().containsItem(cookable.getRawItem().getId(), 1);
 	}
 
 	@Override
 	public int processWithDelay(Player player) {
 		quantity--;
-		player.setNextAnimation(new Animation(gameObject.getDefinitions(player).getName().equals("Fire") ? 897 : 896));
+		player.anim(gameObject.getDefinitions(player).getName().equals("Fire") ? 897 : 896);
 		if (rollIsBurnt(cookable, player)) {
 			player.getInventory().deleteItem(cookable.getRawItem().getId(), 1);
 			player.getInventory().addItem(cookable.getBurntItem().getId(), cookable.getBurntItem().getAmount());

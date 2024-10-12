@@ -28,10 +28,12 @@ import com.rs.lib.game.Rights;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
+import com.rs.plugin.handlers.ItemOnObjectHandler;
 import com.rs.utils.Ticks;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 @PluginEventHandler
 public class ItemConstants {
@@ -316,9 +318,37 @@ public class ItemConstants {
 			player.startConversation(new RepairStandD(player, details, item, stand, slot));
 	}
 
+	private static final Set<Quest> GOLIATH_QUESTS = Set.of(Quest.NOMADS_REQUIEM, Quest.DO_NO_EVIL, Quest.BLOOD_RUNS_DEEP, Quest.DREAM_MENTOR, Quest.WHILE_GUTHIX_SLEEPS, Quest.TEMPLE_AT_SENNTISTEN);
+	private static final Set<Quest> SWIFT_QUESTS = Set.of(Quest.VOID_STARES_BACK, Quest.LOVE_STORY, Quest.DESERT_TREASURE, Quest.RECIPE_FOR_DISASTER, Quest.MONKEY_MADNESS, Quest.DREAM_MENTOR);
+	private static final Set<Quest> SPELLCASTER_QUESTS = Set.of(Quest.NOMADS_REQUIEM, Quest.BLOOD_RUNS_DEEP, Quest.DREAM_MENTOR, Quest.LEGENDS_QUEST, Quest.CURSE_OF_ARRAV, Quest.MY_ARMS_BIG_ADVENTURE);
+
 	public static boolean canWear(Item item, Player player) {
 		if (player.hasRights(Rights.ADMIN))
 			return true;
+		if (item.getId() == 22358 || item.getId() == 22359 || item.getId() == 22360 || item.getId() == 22361) {
+			boolean canWear = true;
+			for (Quest quest : GOLIATH_QUESTS) {
+				if (!player.isQuestComplete(quest, "to use Goliath gloves."))
+					canWear = false;
+			}
+			if (!canWear) return false;
+		}
+		if (item.getId() == 22362 || item.getId() == 22363 || item.getId() == 22364 || item.getId() == 22365) {
+			boolean canWear = true;
+			for (Quest quest : SWIFT_QUESTS) {
+				if (!player.isQuestComplete(quest, "to use Swift gloves."))
+					canWear = false;
+			}
+			if (!canWear) return false;
+		}
+		if (item.getId() == 22366 || item.getId() == 22367 || item.getId() == 22368 || item.getId() == 22369) {
+			boolean canWear = true;
+			for (Quest quest : SPELLCASTER_QUESTS) {
+				if (!player.isQuestComplete(quest, "to use Spellcaster gloves."))
+					canWear = false;
+			}
+			if (!canWear) return false;
+		}
 		if (item.getId() == 9813 || item.getId() == 9814 || item.getId() == 10662)
 			if (!player.getQuestManager().completedAllQuests()) {
 				player.sendMessage("You need to have completed all quests to be able to wear this.");
@@ -411,4 +441,9 @@ public class ItemConstants {
 			return false;
 		return item.getDefinitions().canExchange();
 	}
+
+	public static ItemOnObjectHandler handleArmorRepair = new ItemOnObjectHandler(new Object[] { 13715 }, new Object[] { 4207, 4212, 4213, 4214, 4215, 4216, 4217, 4218, 4219,4220, 4221, 4222, 4223, 4224, 4225, 4226, 4227, 4228, 4229, 4230,4231,4232,4233, 4234,
+		18349, 18350, 18351, 18352, 18353, 18354, 18355, 18356, 18357, 18358, 18359, 18360, 18361, 18362, 18363, 18364, 18365, 18366, 18367, 18368, 18369, 18370, 18371, 18372, 18373, 18374, 20120 },
+		e -> ItemConstants.handleRepairs(e.getPlayer(), e.getItem(), true, e.getItem().getSlot()));
+
 }

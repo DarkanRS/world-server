@@ -3,10 +3,10 @@ package com.rs.game.map;
 import com.rs.Settings;
 import com.rs.cache.loaders.map.Region;
 import com.rs.cache.loaders.map.RegionSize;
+import com.rs.engine.pathfinder.WorldCollision;
 import com.rs.game.map.instance.InstancedChunk;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.engine.pathfinder.WorldCollision;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.Tile;
@@ -19,7 +19,10 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.events.EnterChunkEvent;
 import com.rs.utils.music.Music;
-import it.unimi.dsi.fastutil.ints.*;
+import it.unimi.dsi.fastutil.ints.Int2ObjectMaps;
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
+import it.unimi.dsi.fastutil.ints.IntSets;
 
 import java.util.*;
 
@@ -136,8 +139,6 @@ public final class ChunkManager {
                 CHUNKS.put(chunkId, chunk);
                 return;
             }
-            if (chunk.loadedMapData)
-                return;
             int regionId = MapUtils.chunkToRegionId(chunkId);
             Region region = new Region(regionId);
             verifyChunksInited(region);
@@ -321,10 +322,12 @@ public final class ChunkManager {
 
     public static void markChunkActive(int chunkId) {
         ACTIVE_CHUNKS.add(chunkId);
+        //Logger.debug(ChunkManager.class, "markChunkActive", "Marking chunk active: " + chunkId);
     }
 
     public static void markChunkInactive(int chunkId) {
         ACTIVE_CHUNKS.remove(chunkId);
+        //Logger.debug(ChunkManager.class, "markChunkInactive", "Marking chunk inactive: " + chunkId);
     }
 
     public static void processUpdateZones() {
@@ -351,6 +354,7 @@ public final class ChunkManager {
                         for (int chunkYOff = 0; chunkYOff < 8; chunkYOff++) {
                             int chunkId = chunkBaseId + chunkXOff + chunkYOff + planeOff;
                             if (ACTIVE_CHUNKS.contains(chunkId)) {
+                                Logger.debug(ChunkManager.class, "clearUnusedMemory", "Chunk " + chunkId + " is marked as active. Skipping region.");
                                 skipRegion = true;
                                 break outerLoop;
                             }
@@ -362,6 +366,7 @@ public final class ChunkManager {
                 }
 
                 if (!skipRegion) {
+                    Logger.debug(ChunkManager.class, "clearUnusedMemory", "Clearing region: " + regionId);
                     chunksToDestroy.forEach(chunkId -> {
                         Chunk chunk = getChunk(chunkId);
                         if (chunk != null) {
@@ -370,7 +375,8 @@ public final class ChunkManager {
                         }
                     });
                     iterator.remove();
-                }
+                } else
+                    Logger.debug(ChunkManager.class, "clearUnusedMemory", "Skipping region: " + regionId);
             }
         }
     }

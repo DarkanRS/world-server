@@ -16,11 +16,12 @@
 //
 package com.rs.game.content.skills.slayer.npcs.combat;
 
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
@@ -37,9 +38,9 @@ public class SpiritualMage extends CombatScript {
 	public int attack(NPC npc, final Entity target) {
 		final NPCCombatDefinitions defs = npc.getCombatDefinitions();
 		npc.setNextAnimation(new Animation(defs.getAttackEmote()));
-		int damage = getMaxHit(npc, defs.getMaxHit(), AttackStyle.MAGE, target);
+		int damage = getMaxHit(npc, defs.getMaxHit(), CombatStyle.MAGIC, target);
 		npc.setNextSpotAnim(new SpotAnim(defs.getAttackGfx()));
-		delayHit(npc, 2, target, getMagicHit(npc, damage));
+		delayHit(npc, 2, target, Hit.magic(npc, damage));
 		if (damage > 0)
 			WorldTasks.schedule(new Task() {
 

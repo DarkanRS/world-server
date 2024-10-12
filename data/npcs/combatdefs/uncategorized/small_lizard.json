@@ -2,11 +2,11 @@
   "names": [
     "Small Lizard"
   ],
-  "attackAnim": 2776,
+  "attackAnim": 1579,
   "attackSound": 605,
-  "defenceAnim": 2777,
+  "defenceAnim": 1580,
   "defendSound": 607,
-  "deathAnim": 2778,
+  "deathAnim": 1581,
   "deathDelay": 6,
   "deathSound": 606,
   "respawnDelay": 59,

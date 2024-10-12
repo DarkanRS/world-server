@@ -41,7 +41,7 @@ public enum PickPocketableNPC {
 			new byte[] { 1, 11, 21, 31 },
 			new byte[] { 1, 1, 11, 21 },
 			8.0, 4, 10,
-			"pp_man"),
+			new DropTable(995, 3)),
 
 	FARMER(155, 240,
 			new short[] { 7, 1757, 1758, 1760 },
@@ -117,7 +117,7 @@ public enum PickPocketableNPC {
 			new short[] { 1911 },
 			new byte[] { 25, 127, 127, 127 },
 			new byte[] { 1, 1, 1, 1 }, 26,
-			new Animation(-1), 4, 20,
+			new Animation(6811), 4, 20,
 			new DropTable(4621, 1)),
 
 	ARDOUGNE_KNIGHT(41, 240,

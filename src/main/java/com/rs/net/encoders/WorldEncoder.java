@@ -43,7 +43,6 @@ import com.rs.lib.net.packets.encoders.social.MessageGame.MessageType;
 import com.rs.lib.net.packets.encoders.updatezone.*;
 import com.rs.lib.net.packets.encoders.vars.*;
 import com.rs.lib.net.packets.encoders.zonespecific.SpotAnimSpecific;
-import com.rs.lib.util.Logger;
 import com.rs.lib.util.MapUtils;
 import com.rs.lib.util.MapUtils.Structure;
 import com.rs.lib.util.Utils;
@@ -674,8 +673,8 @@ public class WorldEncoder extends Encoder {
 		int index = 0;
 		for (int count = options.length - 1; count >= 0; count--)
 			parameters[index++] = options[count];
-		parameters[index++] = -1; // dunno but always this
-		parameters[index++] = 0;// dunno but always this, maybe startslot?
+		parameters[index++] = -1; 	// dunno but always this (some widget or something)
+		parameters[index++] = 0;	// draggable mode on items
 		parameters[index++] = height;
 		parameters[index++] = width;
 		parameters[index++] = key;

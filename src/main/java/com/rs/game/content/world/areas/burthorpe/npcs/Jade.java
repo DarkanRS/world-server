@@ -24,7 +24,6 @@ import com.rs.game.ge.GE;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.InputIntegerEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.NPCInteractionDistanceHandler;
 
@@ -60,7 +59,7 @@ public class Jade extends Conversation {
                         .addNext(() -> player.sendInputInteger("What would you like to set it to?", amount -> {
                             if (amount < 0)
                                 return;
-                            player.save("lootbeamThreshold", amount);
+                            player.set("lootbeamThreshold", amount);
                         })));
             }
         });

@@ -93,7 +93,7 @@ fun onItemAddedToBank(vararg itemNamesOrIds: Any, eventHandler: (ItemAddedToBank
 
 fun onItemClick(vararg itemNamesOrIds: Any, options: Array<String>? = null, eventHandler: (ItemClickEvent) -> Unit) {
     itemNamesOrIds.forEach { require(it is String || it is Int) { "itemNamesOrIds must contain only String or Int types" } }
-    ItemClickEvent.registerMethod(ItemClickEvent::class.java, ItemClickHandler(itemNamesOrIds, options) { eventHandler(it) })
+    ItemClickEvent.registerMethod(ItemClickEvent::class.java, if (options != null) ItemClickHandler(itemNamesOrIds, options) { eventHandler(it) } else ItemClickHandler(itemNamesOrIds) { eventHandler(it) })
 }
 
 fun onItemEquip(vararg itemNamesOrIds: Any, eventHandler: (ItemEquipEvent) -> Unit) {
@@ -136,6 +136,11 @@ fun onLogin(eventHandler: (LoginEvent) -> Unit) {
 fun onNpcDeath(vararg npcNamesOrIds: Any, eventHandler: (NPCDeathEvent) -> Unit) {
     npcNamesOrIds.forEach { require(it is String || it is Int) { "npcNamesOrIds must contain only String or Int types" } }
     NPCDeathEvent.registerMethod(NPCDeathEvent::class.java, NPCDeathHandler(npcNamesOrIds) { eventHandler(it) })
+}
+
+fun onNpcKillParticipation(vararg npcNamesOrIds: Any, eventHandler: (NPCKillParticipatedEvent) -> Unit) {
+    npcNamesOrIds.forEach { require(it is String || it is Int) { "npcNamesOrIds must contain only String or Int types" } }
+    NPCKillParticipatedEvent.registerMethod(NPCKillParticipatedEvent::class.java, NPCKillParticipatedHandler(npcNamesOrIds) { eventHandler(it) })
 }
 
 fun onNpcDrop(npcNamesOrIds: Array<Any>?, itemNamesOrIds: Array<Any>?, eventHandler: (NPCDropEvent) -> Unit) {

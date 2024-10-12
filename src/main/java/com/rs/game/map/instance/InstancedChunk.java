@@ -17,12 +17,11 @@
 package com.rs.game.map.instance;
 
 import com.rs.cache.loaders.map.ClipFlag;
-import com.rs.game.World;
+import com.rs.engine.pathfinder.Direction;
+import com.rs.engine.pathfinder.WorldCollision;
 import com.rs.game.map.Chunk;
 import com.rs.game.map.ChunkManager;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.engine.pathfinder.Direction;
-import com.rs.engine.pathfinder.WorldCollision;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.Tile;
 import com.rs.lib.game.WorldObject;
@@ -48,9 +47,7 @@ public class InstancedChunk extends Chunk {
 
 	public InstancedChunk(int fromChunkId, int toChunkId, int rotation) {
 		super(toChunkId);
-		loadingMapData = true;
 		loadedMapData = true;
-		loadingSpawnData = true;
 		loadedSpawnData = true;
 		this.fromChunkId = fromChunkId;
 		int[] coords = MapUtils.decode(Structure.CHUNK, fromChunkId);

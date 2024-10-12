@@ -265,7 +265,7 @@ class PlagueCityUtils {
         player.startConversation {
             item(A_MAGIC_SCROLL, "You memorise what is written on the scroll.")
             simple("You can now cast the Ardougne Teleport spell provided you have the required runes and magic level.") {
-                player.save(ARDOUGNE_TELEPORT_UNLOCKED, true)
+                player.set(ARDOUGNE_TELEPORT_UNLOCKED, true)
                 player.inventory.deleteItem(A_MAGIC_SCROLL, 1)
                 player.anim(-1)
             }

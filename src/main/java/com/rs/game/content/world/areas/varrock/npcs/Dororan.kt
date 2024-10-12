@@ -223,7 +223,7 @@ fun completeDororanCraftTask(player: Player, xpToAward: Double) {
         player.lock()
         player.anim(ANIM_CHISEL)
         player.skills.addXp(Skills.CRAFTING, xpToAward)
-        player.save(DORORAN_CRAFT_TASKS_KEY, (player.getI(DORORAN_CRAFT_TASKS_KEY) + 1))
+        player.set(DORORAN_CRAFT_TASKS_KEY, (player.getI(DORORAN_CRAFT_TASKS_KEY) + 1))
         wait(4)
         player.unlock()
     }
@@ -235,6 +235,6 @@ fun retrieveGunnarsGroundPoem(player: Player) {
 fun retrieveSwankyBoots(player: Player) {
     player.anim(ANIM_TAKE_ITEM)
     player.inventory.addItem(REPLACEMENT_SWANKY_BOOTS, true)
-    if (player.getI(SWANKY_BOOTS_KEY) < 0) player.save(SWANKY_BOOTS_KEY, 1)
-    else player.save(SWANKY_BOOTS_KEY, (player.getI(SWANKY_BOOTS_KEY) + 1))
+    if (player.getI(SWANKY_BOOTS_KEY) < 0) player.set(SWANKY_BOOTS_KEY, 1)
+    else player.set(SWANKY_BOOTS_KEY, (player.getI(SWANKY_BOOTS_KEY) + 1))
 }

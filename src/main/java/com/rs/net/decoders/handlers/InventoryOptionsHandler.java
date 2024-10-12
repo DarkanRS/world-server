@@ -18,8 +18,6 @@ package com.rs.net.decoders.handlers;
 
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.ObjectType;
-import com.rs.engine.dialogue.Dialogue;
-import com.rs.engine.dialogue.statements.Statement;
 import com.rs.game.World;
 import com.rs.game.content.items.Lamps;
 import com.rs.game.content.minigames.fightkiln.FightKilnController;
@@ -53,7 +51,6 @@ import com.rs.game.content.transportation.ItemTeleports;
 import com.rs.game.content.world.unorganized_dialogue.DestroyItem;
 import com.rs.game.content.world.unorganized_dialogue.FlowerPickup;
 import com.rs.game.content.world.unorganized_dialogue.LeatherCraftingD;
-import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.Task;

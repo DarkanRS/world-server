@@ -17,6 +17,7 @@
 package com.rs.game.content.skills.dungeoneering.npcs.combat;
 
 import com.rs.game.World;
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.content.skills.dungeoneering.npcs.KalGerWarmonger;
 import com.rs.game.model.entity.Entity;
@@ -25,7 +26,6 @@ import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
@@ -83,31 +83,31 @@ public class KalGerWarmongerCombat extends CombatScript {
 			boss.setNextForceTalk(new ForceTalk("ENOUGH!"));
 		if (boss.getType() == 1) {// NO WEAPONS HUR
 			npc.setNextAnimation(new Animation(14392));
-			delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, boss.getMaxHit(), AttackStyle.MELEE, target)));
+			delayHit(npc, 0, target, Hit.melee(npc, getMaxHit(npc, boss.getMaxHit(), CombatStyle.MELEE, target)));
 		} else if (boss.getType() == 2) {// LONG
 			npc.setNextAnimation(new Animation(14416));
-			delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, boss.getMaxHit(), AttackStyle.MELEE, target)));
+			delayHit(npc, 0, target, Hit.melee(npc, getMaxHit(npc, boss.getMaxHit(), CombatStyle.MELEE, target)));
 		} else if (boss.getType() == 3) {// STAFF
 			npc.setNextAnimation(new Animation(14996));
 			npc.setNextSpotAnim(new SpotAnim(2874));
 			for (Entity t : boss.getPossibleTargets()) {
 				World.sendProjectile(boss, t, 2875, new Pair<>(65, 10), 50, 5, 5);
 				t.setNextSpotAnim(new SpotAnim(2873));
-				delayHit(npc, 0, t, getMagicHit(npc, getMaxHit(npc, boss.getMaxHit(), AttackStyle.MAGE, t)));
+				delayHit(npc, 0, t, Hit.magic(npc, getMaxHit(npc, boss.getMaxHit(), CombatStyle.MAGIC, t)));
 			}
 		} else if (boss.getType() == 4) {// 2H
 			npc.setNextAnimation(new Animation(14450));
-			delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, boss.getMaxHit(), AttackStyle.MELEE, target)));
+			delayHit(npc, 0, target, Hit.melee(npc, getMaxHit(npc, boss.getMaxHit(), CombatStyle.MELEE, target)));
 		} else if (boss.getType() == 5) {// BOW
 			npc.setNextAnimation(new Animation(14537));
 			npc.setNextSpotAnim(new SpotAnim(2885));
 			for (Entity t : boss.getPossibleTargets()) {
 				World.sendProjectile(boss, t, 2886, new Pair<>(75, 30), 50, 5, 2);
-				delayHit(npc, 2, t, getRangeHit(npc, getMaxHit(npc, boss.getMaxHit(), AttackStyle.RANGE, t)));
+				delayHit(npc, 2, t, Hit.range(npc, getMaxHit(npc, boss.getMaxHit(), CombatStyle.RANGE, t)));
 			}
 		} else if (boss.getType() == 6) {// MAUL
 			npc.setNextAnimation(new Animation(14963));
-			delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, boss.getMaxHit(), AttackStyle.MELEE, target)));
+			delayHit(npc, 0, target, Hit.melee(npc, getMaxHit(npc, boss.getMaxHit(), CombatStyle.MELEE, target)));
 			return 3;// SUPER OP MODE!
 		}
 		return 4;

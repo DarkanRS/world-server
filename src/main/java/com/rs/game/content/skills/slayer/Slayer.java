@@ -35,6 +35,7 @@ import com.rs.plugin.handlers.ItemOnPlayerHandler;
 import com.rs.utils.Ticks;
 
 import java.util.List;
+import java.util.Set;
 
 @PluginEventHandler
 public class Slayer {
@@ -260,60 +261,63 @@ public class Slayer {
 		}
 	});
 
-	public static boolean hasNosepeg(Entity target) {
-		if (!(target instanceof Player targetPlayer))
-			return true;
-		int hat = targetPlayer.getEquipment().getHatId();
-		return hat == 4168 || hasSlayerHelmet(target);
+	public static boolean hasNosepeg(Player player) {
+		int hat = player.getEquipment().getHatId();
+		return hat == 4168 || hasSlayerHelmet(player);
 	}
 
-	public static boolean hasEarmuffs(Entity target) {
-		if (!(target instanceof Player targetPlayer))
-			return true;
-		int hat = targetPlayer.getEquipment().getHatId();
-		return hat == 4166 || hat == 13277 || hasSlayerHelmet(target);
+	public static boolean hasEarmuffs(Player player) {
+		int hat = player.getEquipment().getHatId();
+		return hat == 4166 || hat == 13277 || hasSlayerHelmet(player);
 	}
 
-	public static boolean hasMask(Entity target) {
-		if (!(target instanceof Player targetPlayer))
-			return true;
-		int hat = targetPlayer.getEquipment().getHatId();
-		return hat == 1506 || hat == 4164 || hat == 13277 || hasSlayerHelmet(target);
+	public static boolean hasMask(Player player) {
+		int hat = player.getEquipment().getHatId();
+		return hat == 1506 || hat == 4164 || hat == 13277 || hasSlayerHelmet(player);
 	}
 
-	public static boolean hasWitchWoodIcon(Entity target) {
-		if (!(target instanceof Player targetPlayer))
-			return true;
-		int hat = targetPlayer.getEquipment().getAmuletId();
+	public static boolean hasWitchWoodIcon(Player player) {
+		int hat = player.getEquipment().getAmuletId();
 		return hat == 8923;
 	}
 
-	public static boolean hasSlayerHelmet(Entity target) {
-		if (!(target instanceof Player targetPlayer))
-			return true;
-		int hat = targetPlayer.getEquipment().getHatId();
-		return hat == 13263 || hat == 14636 || hat == 14637 || hasFullSlayerHelmet(target);
+	static Set<Integer> BLACK_MASKS = Set.of(8901, 8903, 8905, 8907, 8909, 8911, 8913, 8915, 8917, 8919, 8921);
+	static Set<Integer> SLAYER_HELMS = Set.of(13263, 14636, 14637);
+	static Set<Integer> FULL_SLAYER_HELMS = Set.of(15492, 15496, 15497, 22528, 22529, 22530, 22531, 22532, 22533, 22534, 22535, 22536, 22537, 22538, 22539, 22540, 22541, 22542, 22543, 22544, 22545, 22546, 22547, 22548, 22549, 22550, 22551);
+
+	public static boolean hasSlayerHelmet(Player player) {
+		int hat = player.getEquipment().getHatId();
+		return SLAYER_HELMS.contains(hat) || hasFullSlayerHelmet(player);
 	}
 
-	public static boolean hasFullSlayerHelmet(Entity target) {
-		if (!(target instanceof Player targetPlayer))
-			return true;
-		int hat = targetPlayer.getEquipment().getHatId();
-		return hat == 15492 || hat == 15496 || hat == 15497 || (hat >= 22528 && hat <= 22550);
+	public static boolean hasFullSlayerHelmet(Player player) {
+		int hat = player.getEquipment().getHatId();
+		return FULL_SLAYER_HELMS.contains(hat);
 	}
 
-	public static boolean hasReflectiveEquipment(Entity target) {
-		if (!(target instanceof Player targetPlayer))
-			return true;
-		int shieldId = targetPlayer.getEquipment().getShieldId();
+	public static boolean hasBlackMask(Player player) {
+		int hat = player.getEquipment().getHatId();
+		return BLACK_MASKS.contains(hat) || hasSlayerHelmet(player);
+	}
+
+	public static boolean hasFocusSight(Player player) {
+		int hat = player.getEquipment().getHatId();
+		return hat == 15490 || hasFullSlayerHelmet(player);
+	}
+
+	public static boolean hasHexcrest(Player player) {
+		int hat = player.getEquipment().getHatId();
+		return hat == 15488 || hasFullSlayerHelmet(player);
+	}
+
+	public static boolean hasReflectiveEquipment(Player player) {
+		int shieldId = player.getEquipment().getShieldId();
 		return shieldId == 4156;
 	}
 
-	public static boolean hasSpinyHelmet(Entity target) {
-		if (!(target instanceof Player targetPlayer))
-			return true;
-		int hat = targetPlayer.getEquipment().getHatId();
-		return hat == 4551 || hasSlayerHelmet(target);
+	public static boolean hasSpinyHelmet(Player player) {
+		int hat = player.getEquipment().getHatId();
+		return hat == 4551 || hasSlayerHelmet(player);
 	}
 
 	public static boolean isUsingBell(final Player player) {

@@ -2,13 +2,10 @@ package com.rs.game.content.miniquests.huntforsurok.npcs;
 
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.HeadE;
-import com.rs.engine.miniquest.Miniquest;
 import com.rs.engine.quest.Quest;
 import com.rs.game.content.skills.mining.Pickaxe;
-import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
@@ -35,7 +32,7 @@ public class AnnaJones extends Conversation {
             addNPC(ID, HeadE.CHEERFUL, "Ah, hello " + player.getDisplayName() + "! Here is a bronze pickaxe.", () -> player.getInventory().addItemDrop(Pickaxe.BRONZE.getItemId(), 1));
             addNPC(ID, HeadE.CHEERFUL, "My employer, Surok Magis, sent word to me that you may come to use the tunnel. You will need something to help you get in there. The pickaxe I've given to you should help.");
             addPlayer(HeadE.CHEERFUL, "Uh, thanks.");
-            addNPC(ID, HeadE.CHEERFUL, "Okay, then. The tunnel awaits...", () -> player.save("annaTunnelTalk", true));
+            addNPC(ID, HeadE.CHEERFUL, "Okay, then. The tunnel awaits...", () -> player.set("annaTunnelTalk", true));
         } else
             addNPC(ID, HeadE.CHEERFUL, "Yes? Can I help you?");
         addOptions(this, "startOps", ops -> {

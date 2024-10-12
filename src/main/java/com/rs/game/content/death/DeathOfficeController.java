@@ -16,7 +16,6 @@
 //
 package com.rs.game.content.death;
 
-import com.rs.Settings;
 import com.rs.engine.miniquest.Miniquest;
 import com.rs.engine.quest.Quest;
 import com.rs.game.content.skills.magic.Magic;
@@ -28,7 +27,10 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.InterfaceManager;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.game.model.object.GameObject;
-import com.rs.lib.game.*;
+import com.rs.lib.game.Animation;
+import com.rs.lib.game.GroundItem;
+import com.rs.lib.game.Item;
+import com.rs.lib.game.Tile;
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Utils;
 
@@ -261,12 +263,12 @@ public class DeathOfficeController extends InstancedController {
 		player.getInterfaceManager().sendInterface(18);
 		if (slots[0].length > 0) {
 			player.getVars().setVarBit(9227, slots[0].length);
-			player.save("protectSlots", slots[0].length);
+			player.set("protectSlots", slots[0].length);
 			sendProtectedItems();
 		} else {
 			player.getVars().setVarBit(9222, -1);
 			player.getVars().setVarBit(9227, 1);
-			player.save("protectSlots", 1);
+			player.set("protectSlots", 1);
 		}
 		player.getVars().setVar(105, -1); //unlocks choose respawn location
 		player.getVars().setVarBit(9231, currentHub.ordinal());

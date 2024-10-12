@@ -18,11 +18,12 @@ package com.rs.game.content.bosses.nomad;
 
 import com.rs.engine.dialogue.HeadE;
 import com.rs.game.World;
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
@@ -70,7 +71,7 @@ public class NomadCombat extends CombatScript {
 			if (distanceX > size || distanceX < -1 || distanceY > size || distanceY < -1)
 				return 0;
 			npc.setNextAnimation(new Animation(12696));
-			delayHit(npc, 0, target, getRegularHit(npc, getMaxHit(npc, 322, AttackStyle.MELEE, target)));
+			delayHit(npc, 0, target, Hit.flat(npc, getMaxHit(npc, 322, CombatStyle.MELEE, target)));
 			return 2;
 		}
 		if (target instanceof Player player && nomad.useSpecialSpecialMove())
@@ -151,7 +152,7 @@ public class NomadCombat extends CombatScript {
 							secondLoop = true;
 						} else {
 							if (npc.lineOfSightTo(target, false)) {
-								delayHit(npc, 2, target, getRegularHit(npc, 750));
+								delayHit(npc, 2, target, Hit.flat(npc, 750));
 								World.sendProjectile(npc, target, 1658, new Pair<>(30, 30), 75, 5, 0);
 							}
 							nomad.setCantFollowUnderCombat(false);
@@ -190,7 +191,7 @@ public class NomadCombat extends CombatScript {
 							player.unlock();
 							secondLoop = true;
 						} else {
-							delayHit(npc, 2, target, getRegularHit(npc, player.getMaxHitpoints() - 1));
+							delayHit(npc, 2, target, Hit.flat(npc, player.getMaxHitpoints() - 1));
 							World.sendProjectile(npc, target, 2280, new Pair<>(30, 30), 5, 5, 0);
 							nomad.setCantFollowUnderCombat(false);
 							nomad.setNextMovePerform();
@@ -205,8 +206,8 @@ public class NomadCombat extends CombatScript {
 			}
 		else {
 			npc.setNextAnimation(new Animation(12697));
-			int damage = getMaxHit(npc, 322, AttackStyle.MAGE, target);
-			delayHit(npc, 2, target, getRegularHit(npc, damage));
+			int damage = getMaxHit(npc, 322, CombatStyle.MAGIC, target);
+			delayHit(npc, 2, target, Hit.flat(npc, damage));
 			if (damage == 0)
 				WorldTasks.schedule(new Task() {
 					@Override

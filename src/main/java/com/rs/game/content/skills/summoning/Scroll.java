@@ -20,6 +20,7 @@ import com.rs.cache.loaders.Bonus;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.World;
 import com.rs.game.content.Effect;
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.content.combat.PlayerCombatKt;
 import com.rs.game.content.minigames.MinigameUtilKt;
 import com.rs.game.content.minigames.creations.Score;
@@ -41,7 +42,6 @@ import com.rs.game.content.skills.woodcutting.Woodcutting;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.game.model.object.GameObject;
@@ -70,7 +70,7 @@ public enum Scroll {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
 			familiar.sync(8294, 1334);
-			delayHit(familiar, World.sendProjectile(familiar, target, 1333, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, getMagicHit(familiar, getMaxHit(familiar, 20, AttackStyle.MAGE, target)));
+			delayHit(familiar, World.sendProjectile(familiar, target, 1333, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, Hit.magic(familiar, getMaxHit(familiar, 20, CombatStyle.MAGIC, target)));
 			if (target instanceof Familiar)
 				familiar.getOwner().sendMessage("Your familiar cannot scare other familiars.");
 			else if (target instanceof Player)
@@ -82,7 +82,7 @@ public enum Scroll {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
 			familiar.sync(7810, 1523);
-			delayHit(familiar, World.sendProjectile(familiar, target, 1318, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, getMagicHit(familiar, getMaxHit(familiar, 40, AttackStyle.MAGE, target)));
+			delayHit(familiar, World.sendProjectile(familiar, target, 1318, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, Hit.magic(familiar, getMaxHit(familiar, 40, CombatStyle.MAGIC, target)));
 			return Familiar.DEFAULT_ATTACK_SPEED;
 		}
 	},
@@ -121,7 +121,7 @@ public enum Scroll {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
 			familiar.sync(8148, 1385);
-			delayHit(familiar, World.sendProjectile(familiar, target, 1386, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, getRangeHit(familiar, getMaxHit(familiar, 80, AttackStyle.RANGE, target)), () -> target.setNextSpotAnim(new SpotAnim(1387)));
+			delayHit(familiar, World.sendProjectile(familiar, target, 1386, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, Hit.range(familiar, getMaxHit(familiar, 80, CombatStyle.RANGE, target)), () -> target.setNextSpotAnim(new SpotAnim(1387)));
 			return Familiar.DEFAULT_ATTACK_SPEED;
 		}
 	},
@@ -154,7 +154,7 @@ public enum Scroll {
 				return false;
 			familiar.freeze(3);
 			familiar.sync(8040, 1440);
-			delayHit(familiar, 2, target, getMeleeHit(familiar, getMaxHit(familiar, 90, AttackStyle.MELEE, target)), () -> {
+			delayHit(familiar, 2, target, Hit.melee(familiar, getMaxHit(familiar, 90, CombatStyle.MELEE, target)), () -> {
 				familiar.tele(target.getNearestTeleTile(familiar));
 				familiar.sync(8041, 1442);
 			});
@@ -165,7 +165,7 @@ public enum Scroll {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
 			familiar.sync(7803, 1410);
-			delayHit(familiar, World.sendProjectile(familiar, target, 1411, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, getMagicHit(familiar, getMaxHit(familiar, 50, AttackStyle.MAGE, target)), () -> target.setNextSpotAnim(new SpotAnim(1413)));
+			delayHit(familiar, World.sendProjectile(familiar, target, 1411, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, Hit.magic(familiar, getMaxHit(familiar, 50, CombatStyle.MAGIC, target)), () -> target.setNextSpotAnim(new SpotAnim(1413)));
 			return Familiar.DEFAULT_ATTACK_SPEED;
 		}
 	},
@@ -173,7 +173,7 @@ public enum Scroll {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
 			familiar.sync(8124, 1403);
-			delayHit(familiar, 2, target, getRangeHit(familiar, getMaxHit(familiar, 50, AttackStyle.RANGE, target)), () -> {
+			delayHit(familiar, 2, target, Hit.range(familiar, getMaxHit(familiar, 50, CombatStyle.RANGE, target)), () -> {
 				target.setNextSpotAnim(new SpotAnim(1404));
 				target.getPoison().makePoisoned(50);
 			});
@@ -184,9 +184,9 @@ public enum Scroll {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
 			familiar.sync(7871, 1396);
-			delayHit(familiar, World.sendProjectile(familiar, target, 1392, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, getMagicHit(familiar, getMaxHit(familiar, 80, AttackStyle.MAGE, target)), () -> target.setNextSpotAnim(new SpotAnim(1390)));
+			delayHit(familiar, World.sendProjectile(familiar, target, 1392, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, Hit.magic(familiar, getMaxHit(familiar, 80, CombatStyle.MAGIC, target)), () -> target.setNextSpotAnim(new SpotAnim(1390)));
 			for (Entity next : PlayerCombatKt.getMultiAttackTargets(owner, target, 4, 5, false))
-				delayHit(familiar, World.sendProjectile(familiar, next, 1392, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), next, getMagicHit(familiar, getMaxHit(familiar, 80, AttackStyle.MAGE, next)), () -> next.setNextSpotAnim(new SpotAnim(1390)));
+				delayHit(familiar, World.sendProjectile(familiar, next, 1392, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), next, Hit.magic(familiar, getMaxHit(familiar, 80, CombatStyle.MAGIC, next)), () -> next.setNextSpotAnim(new SpotAnim(1390)));
 			return Familiar.DEFAULT_ATTACK_SPEED;
 		}
 	},
@@ -206,9 +206,9 @@ public enum Scroll {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
 			familiar.sync(8517, 1349);
-			delayHit(familiar, World.sendProjectile(familiar, target, 1350, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, getMagicHit(familiar, getMaxHit(familiar, 90, AttackStyle.MAGE, target)));
+			delayHit(familiar, World.sendProjectile(familiar, target, 1350, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, Hit.magic(familiar, getMaxHit(familiar, 90, CombatStyle.MAGIC, target)));
 			for (Entity next : PlayerCombatKt.getMultiAttackTargets(owner, target, 4, 5, false))
-				delayHit(familiar, World.sendProjectile(familiar, next, 1350, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), next, getMagicHit(familiar, getMaxHit(familiar, 90, AttackStyle.MAGE, next)));
+				delayHit(familiar, World.sendProjectile(familiar, next, 1350, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), next, Hit.magic(familiar, getMaxHit(familiar, 90, CombatStyle.MAGIC, next)));
 			return Familiar.DEFAULT_ATTACK_SPEED;
 		}
 	},
@@ -248,13 +248,13 @@ public enum Scroll {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
 			familiar.freeze(3);
-			familiar.setLocked(true);
+			familiar.lock();
 			familiar.sync(7758, 1364);
 			for (Entity next : PlayerCombatKt.getMultiAttackTargets(owner, familiar.getTile(), 1, 9)) {
-				delayHit(familiar, 1, next, getRangeHit(familiar, getMaxHit(familiar, 120, AttackStyle.RANGE, next)));
-				delayHit(familiar, 1, next, getRangeHit(familiar, getMaxHit(familiar, 60, AttackStyle.RANGE, next)));
-				delayHit(familiar, 2, next, getRangeHit(familiar, getMaxHit(familiar, 120, AttackStyle.RANGE, next)));
-				delayHit(familiar, 2, next, getRangeHit(familiar, getMaxHit(familiar, 60, AttackStyle.RANGE, next)));
+				delayHit(familiar, 1, next, Hit.range(familiar, getMaxHit(familiar, 120, CombatStyle.RANGE, next)));
+				delayHit(familiar, 1, next, Hit.range(familiar, getMaxHit(familiar, 60, CombatStyle.RANGE, next)));
+				delayHit(familiar, 2, next, Hit.range(familiar, getMaxHit(familiar, 120, CombatStyle.RANGE, next)));
+				delayHit(familiar, 2, next, Hit.range(familiar, getMaxHit(familiar, 60, CombatStyle.RANGE, next)));
 			}
 			WorldTasks.delay(2, () -> {
 				familiar.kill();
@@ -267,7 +267,7 @@ public enum Scroll {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
 			familiar.sync(8277, 1323);
-			delayHit(familiar, World.sendProjectile(familiar, target, 1324, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, getMagicHit(familiar, getMaxHit(familiar, 180, AttackStyle.MAGE, target)), () -> target.setNextSpotAnim(new SpotAnim(1325)));
+			delayHit(familiar, World.sendProjectile(familiar, target, 1324, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, Hit.magic(familiar, getMaxHit(familiar, 180, CombatStyle.MAGIC, target)), () -> target.setNextSpotAnim(new SpotAnim(1325)));
 			return Familiar.DEFAULT_ATTACK_SPEED;
 		}
 	},
@@ -323,7 +323,7 @@ public enum Scroll {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
 			familiar.sync(8026, 1496);
-			delayHit(familiar, World.sendProjectile(familiar, target, 1497, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, getMagicHit(familiar, getMaxHit(familiar, 80, AttackStyle.MAGE, target)));
+			delayHit(familiar, World.sendProjectile(familiar, target, 1497, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, Hit.magic(familiar, getMaxHit(familiar, 80, CombatStyle.MAGIC, target)));
 			return Familiar.DEFAULT_ATTACK_SPEED;
 		}
 	},
@@ -369,7 +369,7 @@ public enum Scroll {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
 			familiar.sync(8251, 1328);
-			delayHit(familiar, World.sendProjectile(familiar, target, 1330, new Pair<>(16, 30), 30, 5, 16).getTaskDelay(), target, getMagicHit(familiar, getMaxHit(familiar, 120, AttackStyle.MAGE, target)), () -> target.setNextSpotAnim(new SpotAnim(1329)));
+			delayHit(familiar, World.sendProjectile(familiar, target, 1330, new Pair<>(16, 30), 30, 5, 16).getTaskDelay(), target, Hit.magic(familiar, getMaxHit(familiar, 120, CombatStyle.MAGIC, target)), () -> target.setNextSpotAnim(new SpotAnim(1329)));
 			return Familiar.DEFAULT_ATTACK_SPEED;
 		}
 	},
@@ -377,7 +377,7 @@ public enum Scroll {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
 			familiar.sync(7766, 1467);
-			Hit hit = getMagicHit(familiar, getMaxHit(familiar, 10, AttackStyle.MAGE, target));
+			Hit hit = Hit.magic(familiar, getMaxHit(familiar, 10, CombatStyle.MAGIC, target));
 			delayHit(familiar, World.sendProjectile(familiar, target, 1468, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, hit, () -> {
 				if (hit.getDamage() > 0) {
 					int skill = switch(familiar.getPouch()) {
@@ -400,7 +400,7 @@ public enum Scroll {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
 			familiar.sync(8026, 1496);
-			delayHit(familiar, World.sendProjectile(familiar, target, 1497, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, getMagicHit(familiar, getMaxHit(familiar, 100, AttackStyle.MAGE, target)));
+			delayHit(familiar, World.sendProjectile(familiar, target, 1497, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, Hit.magic(familiar, getMaxHit(familiar, 100, CombatStyle.MAGIC, target)));
 			return Familiar.DEFAULT_ATTACK_SPEED;
 		}
 	},
@@ -455,7 +455,7 @@ public enum Scroll {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
 			familiar.sync(7675, 1422);
-			Hit hit = delayHit(familiar, World.sendProjectile(familiar, target, 1423, new Pair<>(70, 16), 30, 5, 16).getTaskDelay(), target, getMagicHit(familiar, getMaxHit(familiar, 95, AttackStyle.MAGE, target)));
+			Hit hit = delayHit(familiar, World.sendProjectile(familiar, target, 1423, new Pair<>(70, 16), 30, 5, 16).getTaskDelay(), target, Hit.magic(familiar, getMaxHit(familiar, 95, CombatStyle.MAGIC, target)));
 			if (hit.getDamage() > 0) {
 				target.lowerStat(Constants.MAGIC, 0.1, 0.0);
 				target.lowerStat(Constants.PRAYER, 0.1, 0.0);
@@ -467,7 +467,7 @@ public enum Scroll {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
 			familiar.sync(8514, 1361);
-			Hit hit = delayHit(familiar, World.sendProjectile(familiar, target, 1359, new Pair<>(70, 16), 30, 5, 16).getTaskDelay(), target, getMagicHit(familiar, getMaxHit(familiar, 120, AttackStyle.MAGE, target)), () -> target.spotAnim(1360));
+			Hit hit = delayHit(familiar, World.sendProjectile(familiar, target, 1359, new Pair<>(70, 16), 30, 5, 16).getTaskDelay(), target, Hit.magic(familiar, getMaxHit(familiar, 120, CombatStyle.MAGIC, target)), () -> target.spotAnim(1360));
 			if (hit.getDamage() > 0)
 				target.lowerStat(Constants.ATTACK, 0.1, 0.0);
 			return Familiar.DEFAULT_ATTACK_SPEED;
@@ -485,7 +485,7 @@ public enum Scroll {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
 			familiar.sync(8026, 1496);
-			delayHit(familiar, World.sendProjectile(familiar, target, 1497, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, getMagicHit(familiar, getMaxHit(familiar, 120, AttackStyle.MAGE, target)));
+			delayHit(familiar, World.sendProjectile(familiar, target, 1497, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, Hit.magic(familiar, getMaxHit(familiar, 120, CombatStyle.MAGIC, target)));
 			return Familiar.DEFAULT_ATTACK_SPEED;
 		}
 	},
@@ -508,7 +508,7 @@ public enum Scroll {
 			if (!familiar.commandAttack(target))
 				return false;
 			familiar.freeze(2);
-			delayHit(familiar, 0, target, getMeleeHit(familiar, getMaxHit(familiar, 224, AttackStyle.MELEE, target)), () -> {
+			delayHit(familiar, 0, target, Hit.melee(familiar, getMaxHit(familiar, 224, CombatStyle.MELEE, target)), () -> {
 				familiar.tele(target.getNearestTeleTile(familiar));
 				familiar.sync(7914, 1366);
 			});
@@ -519,7 +519,7 @@ public enum Scroll {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
 			familiar.sync(7919, 1370);
-			Hit hit = delayHit(familiar, World.sendProjectile(familiar, target, 1371, new Pair<>(70, 16), 30, 5, 16).getTaskDelay(), target, getMagicHit(familiar, getMaxHit(familiar, 120, AttackStyle.MAGE, target)), () -> target.spotAnim(1372));
+			Hit hit = delayHit(familiar, World.sendProjectile(familiar, target, 1371, new Pair<>(70, 16), 30, 5, 16).getTaskDelay(), target, Hit.magic(familiar, getMaxHit(familiar, 120, CombatStyle.MAGIC, target)), () -> target.spotAnim(1372));
 			if (hit.getDamage() > 0)
 				target.lowerStat(Constants.STRENGTH, 0.1, 0.0);
 			return Familiar.DEFAULT_ATTACK_SPEED;
@@ -529,8 +529,8 @@ public enum Scroll {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
 			familiar.anim(7915);
-			delayHit(familiar, 0, target, getMeleeHit(familiar, getMaxHit(familiar, 120, AttackStyle.MELEE, target)));
-			delayHit(familiar, 0, target, getMeleeHit(familiar, getMaxHit(familiar, 120, AttackStyle.MELEE, target)));
+			delayHit(familiar, 0, target, Hit.melee(familiar, getMaxHit(familiar, 120, CombatStyle.MELEE, target)));
+			delayHit(familiar, 0, target, Hit.melee(familiar, getMaxHit(familiar, 120, CombatStyle.MELEE, target)));
 			return Familiar.DEFAULT_ATTACK_SPEED;
 		}
 	},
@@ -538,7 +538,7 @@ public enum Scroll {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
 			familiar.sync(7974, 1478);
-			Hit hit = delayHit(familiar, World.sendProjectile(familiar, target, 1479, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, getMagicHit(familiar, getMaxHit(familiar, 78, AttackStyle.MAGE, target)), () -> target.spotAnim(1480));
+			Hit hit = delayHit(familiar, World.sendProjectile(familiar, target, 1479, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, Hit.magic(familiar, getMaxHit(familiar, 78, CombatStyle.MAGIC, target)), () -> target.spotAnim(1480));
 			if (hit.getDamage() > 0)
 				target.lowerStat(Constants.MAGIC, 0.05, 0.0);
 			return Familiar.DEFAULT_ATTACK_SPEED;
@@ -548,9 +548,9 @@ public enum Scroll {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
 			familiar.sync(7820, 1375);
-			delayHit(familiar, World.sendProjectile(familiar, target, 1376, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, getMagicHit(familiar, getMaxHit(familiar, 80, AttackStyle.MAGE, target)), () -> target.setNextSpotAnim(new SpotAnim(1377)));
+			delayHit(familiar, World.sendProjectile(familiar, target, 1376, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, Hit.magic(familiar, getMaxHit(familiar, 80, CombatStyle.MAGIC, target)), () -> target.setNextSpotAnim(new SpotAnim(1377)));
 			for (Entity next : PlayerCombatKt.getMultiAttackTargets(owner, target, 7, 6, false))
-				delayHit(familiar, World.sendProjectile(familiar, next, 1376, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), next, getMagicHit(familiar, getMaxHit(familiar, 80, AttackStyle.MAGE, next)), () -> next.setNextSpotAnim(new SpotAnim(1377)));
+				delayHit(familiar, World.sendProjectile(familiar, next, 1376, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), next, Hit.magic(familiar, getMaxHit(familiar, 80, CombatStyle.MAGIC, next)), () -> next.setNextSpotAnim(new SpotAnim(1377)));
 			return Familiar.DEFAULT_ATTACK_SPEED;
 		}
 	},
@@ -607,7 +607,7 @@ public enum Scroll {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
 			familiar.anim(8214);
-			delayHit(familiar, World.sendProjectile(familiar, target, 1508, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, getMagicHit(familiar, getMaxHit(familiar, 120, AttackStyle.MAGE, target)));
+			delayHit(familiar, World.sendProjectile(familiar, target, 1508, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, Hit.magic(familiar, getMaxHit(familiar, 120, CombatStyle.MAGIC, target)));
 			return Familiar.DEFAULT_ATTACK_SPEED;
 		}
 	},
@@ -615,7 +615,7 @@ public enum Scroll {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
 			familiar.sync(8026, 1496);
-			delayHit(familiar, World.sendProjectile(familiar, target, 1497, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, getMagicHit(familiar, getMaxHit(familiar, 160, AttackStyle.MAGE, target)));
+			delayHit(familiar, World.sendProjectile(familiar, target, 1497, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, Hit.magic(familiar, getMaxHit(familiar, 160, CombatStyle.MAGIC, target)));
 			return Familiar.DEFAULT_ATTACK_SPEED;
 		}
 	},
@@ -733,7 +733,7 @@ public enum Scroll {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
 			familiar.sync(8523, 1405);
-			Hit hit = delayHit(familiar, World.sendProjectile(familiar, target, 1406, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, getMagicHit(familiar, getMaxHit(familiar, 130, AttackStyle.MAGE, target)), () -> target.spotAnim(1407));
+			Hit hit = delayHit(familiar, World.sendProjectile(familiar, target, 1406, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, Hit.magic(familiar, getMaxHit(familiar, 130, CombatStyle.MAGIC, target)), () -> target.spotAnim(1407));
 			if (hit.getDamage() > 0 && Utils.random(5) == 0 && target.getSize() <= 1)
 				target.addEffect(Effect.STUN, 3);
 			return Familiar.DEFAULT_ATTACK_SPEED;
@@ -758,7 +758,7 @@ public enum Scroll {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
 			familiar.sync(8071, 1379);
-			Hit hit = delayHit(familiar, World.sendProjectile(familiar, target, 1380, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, getMagicHit(familiar, getMaxHit(familiar, 100, AttackStyle.MAGE, target)), () -> target.spotAnim(1381));
+			Hit hit = delayHit(familiar, World.sendProjectile(familiar, target, 1380, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, Hit.magic(familiar, getMaxHit(familiar, 100, CombatStyle.MAGIC, target)), () -> target.spotAnim(1381));
 			if (hit.getDamage() > 0 && target.getSize() <= 1)
 				target.freeze(3, true);
 			return Familiar.DEFAULT_ATTACK_SPEED;
@@ -768,7 +768,7 @@ public enum Scroll {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
 			familiar.sync(8118, 1351);
-			Hit hit = delayHit(familiar, World.sendProjectile(familiar, target, 1352, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, getMagicHit(familiar, getMaxHit(familiar, 96, AttackStyle.MAGE, target)), () -> target.spotAnim(1353));
+			Hit hit = delayHit(familiar, World.sendProjectile(familiar, target, 1352, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, Hit.magic(familiar, getMaxHit(familiar, 96, CombatStyle.MAGIC, target)), () -> target.spotAnim(1353));
 			if (hit.getDamage() > 0)
 				target.lowerStat(Skills.DEFENSE, 0.05, 0.0);
 			return Familiar.DEFAULT_ATTACK_SPEED;
@@ -778,7 +778,7 @@ public enum Scroll {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
 			familiar.sync(7871, 1328);
-			delayHit(familiar, World.sendProjectile(familiar, target, 1330, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, getMagicHit(familiar, getMaxHit(familiar, 85, AttackStyle.MAGE, target)));
+			delayHit(familiar, World.sendProjectile(familiar, target, 1330, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, Hit.magic(familiar, getMaxHit(familiar, 85, CombatStyle.MAGIC, target)));
 			return Familiar.DEFAULT_ATTACK_SPEED;
 		}
 	},
@@ -786,7 +786,7 @@ public enum Scroll {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
 			familiar.sync(8026, 1496);
-			delayHit(familiar, World.sendProjectile(familiar, target, 1497, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, getMagicHit(familiar, getMaxHit(familiar, 200, AttackStyle.MAGE, target)));
+			delayHit(familiar, World.sendProjectile(familiar, target, 1497, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, Hit.magic(familiar, getMaxHit(familiar, 200, CombatStyle.MAGIC, target)));
 			return Familiar.DEFAULT_ATTACK_SPEED;
 		}
 	},
@@ -794,9 +794,9 @@ public enum Scroll {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
 			familiar.anim(familiar.getCombatDefinitions().getAttackEmote());
-			delayHit(familiar, 0, target, getMagicHit(familiar, getMaxHit(familiar, familiar.getCombatDefinitions().getMaxHit(), AttackStyle.MAGE, target)));
-			delayHit(familiar, 1, target, getMagicHit(familiar, getMaxHit(familiar, familiar.getCombatDefinitions().getMaxHit(), AttackStyle.MAGE, target)));
-			delayHit(familiar, 2, target, getMagicHit(familiar, getMaxHit(familiar, familiar.getCombatDefinitions().getMaxHit(), AttackStyle.MAGE, target)));
+			delayHit(familiar, 0, target, Hit.magic(familiar, getMaxHit(familiar, familiar.getCombatDefinitions().getMaxHit(), CombatStyle.MAGIC, target)));
+			delayHit(familiar, 1, target, Hit.magic(familiar, getMaxHit(familiar, familiar.getCombatDefinitions().getMaxHit(), CombatStyle.MAGIC, target)));
+			delayHit(familiar, 2, target, Hit.magic(familiar, getMaxHit(familiar, familiar.getCombatDefinitions().getMaxHit(), CombatStyle.MAGIC, target)));
 			return Familiar.DEFAULT_ATTACK_SPEED;
 		}
 	},
@@ -804,9 +804,9 @@ public enum Scroll {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
 			familiar.anim(7858);
-			delayHit(familiar, World.sendProjectile(familiar, target, 1362, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, getMagicHit(familiar, getMaxHit(familiar, 100, AttackStyle.MAGE, target)), () -> target.setNextSpotAnim(new SpotAnim(1363)));
+			delayHit(familiar, World.sendProjectile(familiar, target, 1362, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, Hit.magic(familiar, getMaxHit(familiar, 100, CombatStyle.MAGIC, target)), () -> target.setNextSpotAnim(new SpotAnim(1363)));
 			for (Entity next : PlayerCombatKt.getMultiAttackTargets(owner, target, 1, 9, false))
-				delayHit(familiar, World.sendProjectile(familiar, next, 1362, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), next, getMagicHit(familiar, getMaxHit(familiar, 100, AttackStyle.MAGE, next)), () -> next.setNextSpotAnim(new SpotAnim(1363)));
+				delayHit(familiar, World.sendProjectile(familiar, next, 1362, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), next, Hit.magic(familiar, getMaxHit(familiar, 100, CombatStyle.MAGIC, next)), () -> next.setNextSpotAnim(new SpotAnim(1363)));
 			return Familiar.DEFAULT_ATTACK_SPEED;
 		}
 	},
@@ -840,8 +840,8 @@ public enum Scroll {
 				return false;
 			}
 			object.setId(object.getAttribs().getI("originalTrunkId", -1));
-			familiar.setNextFaceEntity(null);
-			familiar.setLockedForTicks(2);
+			familiar.stopFaceEntity();
+			familiar.lock(2);
 			familiar.faceObject(object);
 			familiar.sync(7945, 1487);
 			return true;
@@ -851,14 +851,14 @@ public enum Scroll {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
 			familiar.anim(7787);
-			delayHit(familiar, World.sendProjectile(familiar, target, 1426, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, getMagicHit(familiar, getMaxHit(familiar, 170, AttackStyle.MAGE, target)), () -> target.spotAnim(1428));
+			delayHit(familiar, World.sendProjectile(familiar, target, 1426, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, Hit.magic(familiar, getMaxHit(familiar, 170, CombatStyle.MAGIC, target)), () -> target.spotAnim(1428));
 			return Familiar.DEFAULT_ATTACK_SPEED;
 		}
 	},
 	EBON_THUNDER(12837, ScrollTarget.COMBAT, "Fires a magic attack that lowers the opponent's special attack energy by 10%.", 8.3, 4) {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
-			Hit hit = getMagicHit(familiar, getMaxHit(familiar, 140, AttackStyle.MAGE, target));
+			Hit hit = Hit.magic(familiar, getMaxHit(familiar, 140, CombatStyle.MAGIC, target));
 			familiar.sync(7986, 1492);
 			delayHit(familiar, World.sendProjectile(familiar, target, 1493, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, hit, () -> target.spotAnim(1494));
 			if (hit.getDamage() > 0 && target instanceof Player player)
@@ -870,7 +870,7 @@ public enum Scroll {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
 			familiar.anim(8223);
-			delayHit(familiar, World.sendProjectile(familiar, target, 1462, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, getMagicHit(familiar, getMaxHit(familiar, 110, AttackStyle.MAGE, target)), () -> target.getPoison().makePoisoned(78));
+			delayHit(familiar, World.sendProjectile(familiar, target, 1462, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, Hit.magic(familiar, getMaxHit(familiar, 110, CombatStyle.MAGIC, target)), () -> target.getPoison().makePoisoned(78));
 			return Familiar.DEFAULT_ATTACK_SPEED;
 		}
 	},
@@ -878,7 +878,7 @@ public enum Scroll {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
 			familiar.sync(8026, 1496);
-			delayHit(familiar, World.sendProjectile(familiar, target, 1497, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, getMagicHit(familiar, getMaxHit(familiar, 240, AttackStyle.MAGE, target)));
+			delayHit(familiar, World.sendProjectile(familiar, target, 1497, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, Hit.magic(familiar, getMaxHit(familiar, 240, CombatStyle.MAGIC, target)));
 			return Familiar.DEFAULT_ATTACK_SPEED;
 		}
 	},
@@ -902,11 +902,11 @@ public enum Scroll {
 			familiar.setNextSpotAnim(new SpotAnim(1373));
 			if (!familiar.inMeleeRange(target)) {
 				if (Utils.getRandomInclusive(2) == 0)
-					delayHit(familiar, 1, target, getRangeHit(familiar, getMaxHit(familiar, 240, AttackStyle.RANGE, target)));
+					delayHit(familiar, 1, target, Hit.range(familiar, getMaxHit(familiar, 240, CombatStyle.RANGE, target)));
 				else
-					delayHit(familiar, 1, target, getMagicHit(familiar, getMaxHit(familiar, 240, AttackStyle.MAGE, target)));
+					delayHit(familiar, 1, target, Hit.magic(familiar, getMaxHit(familiar, 240, CombatStyle.MAGIC, target)));
 			} else
-				delayHit(familiar, 1, target, getMeleeHit(familiar, getMaxHit(familiar, 240, AttackStyle.MELEE, target)));
+				delayHit(familiar, 1, target, Hit.melee(familiar, getMaxHit(familiar, 240, CombatStyle.MELEE, target)));
 			World.sendProjectile(familiar, target, 1376, new Pair<>(34, 16), 30, 5, 16);
 			return Familiar.DEFAULT_ATTACK_SPEED;
 		}
@@ -947,13 +947,13 @@ public enum Scroll {
 			familiar.setNextAnimation(new Animation(7954));
 			familiar.setNextSpotAnim(new SpotAnim(1450));
 			if (!familiar.inMeleeRange(target)) {
-				delayHit(familiar, 2, target, getMagicHit(familiar, getMaxHit(familiar, 220, AttackStyle.MAGE, target, 2.0)));
-				delayHit(familiar, 2, target, getMagicHit(familiar, getMaxHit(familiar, 220, AttackStyle.MAGE, target, 2.0)));
-				delayHit(familiar, 3, target, getMagicHit(familiar, getMaxHit(familiar, 220, AttackStyle.MAGE, target, 2.0)));
+				delayHit(familiar, 2, target, Hit.magic(familiar, getMaxHit(familiar, 220, CombatStyle.MAGIC, target, 2.0)));
+				delayHit(familiar, 2, target, Hit.magic(familiar, getMaxHit(familiar, 220, CombatStyle.MAGIC, target, 2.0)));
+				delayHit(familiar, 3, target, Hit.magic(familiar, getMaxHit(familiar, 220, CombatStyle.MAGIC, target, 2.0)));
 			} else {
-				delayHit(familiar, 1, target, getMeleeHit(familiar, getMaxHit(familiar, 230, AttackStyle.MELEE, target, 2.0)));
-				delayHit(familiar, 1, target, getMeleeHit(familiar, getMaxHit(familiar, 230, AttackStyle.MELEE, target, 2.0)));
-				delayHit(familiar, 2, target, getMeleeHit(familiar, getMaxHit(familiar, 230, AttackStyle.MELEE, target, 2.0)));
+				delayHit(familiar, 1, target, Hit.melee(familiar, getMaxHit(familiar, 230, CombatStyle.MELEE, target, 2.0)));
+				delayHit(familiar, 1, target, Hit.melee(familiar, getMaxHit(familiar, 230, CombatStyle.MELEE, target, 2.0)));
+				delayHit(familiar, 2, target, Hit.melee(familiar, getMaxHit(familiar, 230, CombatStyle.MELEE, target, 2.0)));
 			}
 			return Familiar.DEFAULT_ATTACK_SPEED;
 		}
@@ -983,15 +983,15 @@ public enum Scroll {
 			familiar.sync(8190, 1449);
 			target.spotAnim(1449);
 			if (familiar.inMeleeRange(target)) {				
-				delayHit(familiar, 1, target, getMeleeHit(familiar, getMaxHit(familiar, 244, Bonus.CRUSH_ATT, AttackStyle.MELEE, target, 1.0)));
-				delayHit(familiar, 1, target, getMeleeHit(familiar, getMaxHit(familiar, 244, Bonus.CRUSH_ATT, AttackStyle.MELEE, target, 1.0)));
-				delayHit(familiar, 2, target, getMeleeHit(familiar, getMaxHit(familiar, 244, Bonus.CRUSH_ATT, AttackStyle.MELEE, target, 1.0)));
-				delayHit(familiar, 2, target, getMeleeHit(familiar, getMaxHit(familiar, 244, Bonus.CRUSH_ATT, AttackStyle.MELEE, target, 1.0)));
+				delayHit(familiar, 1, target, Hit.melee(familiar, getMaxHit(familiar, 244, Bonus.CRUSH_ATT, CombatStyle.MELEE, target, 1.0)));
+				delayHit(familiar, 1, target, Hit.melee(familiar, getMaxHit(familiar, 244, Bonus.CRUSH_ATT, CombatStyle.MELEE, target, 1.0)));
+				delayHit(familiar, 2, target, Hit.melee(familiar, getMaxHit(familiar, 244, Bonus.CRUSH_ATT, CombatStyle.MELEE, target, 1.0)));
+				delayHit(familiar, 2, target, Hit.melee(familiar, getMaxHit(familiar, 244, Bonus.CRUSH_ATT, CombatStyle.MELEE, target, 1.0)));
 			} else {
-				delayHit(familiar, 2, target, getRangeHit(familiar, getMaxHit(familiar, 244, Bonus.RANGE_ATT, AttackStyle.RANGE, target, 1.0)));
-				delayHit(familiar, 2, target, getRangeHit(familiar, getMaxHit(familiar, 244, Bonus.RANGE_ATT, AttackStyle.RANGE, target, 1.0)));
-				delayHit(familiar, 3, target, getRangeHit(familiar, getMaxHit(familiar, 244, Bonus.RANGE_ATT, AttackStyle.RANGE, target, 1.0)));
-				delayHit(familiar, 3, target, getRangeHit(familiar, getMaxHit(familiar, 244, Bonus.RANGE_ATT, AttackStyle.RANGE, target, 1.0)));
+				delayHit(familiar, 2, target, Hit.range(familiar, getMaxHit(familiar, 244, Bonus.RANGE_ATT, CombatStyle.RANGE, target, 1.0)));
+				delayHit(familiar, 2, target, Hit.range(familiar, getMaxHit(familiar, 244, Bonus.RANGE_ATT, CombatStyle.RANGE, target, 1.0)));
+				delayHit(familiar, 3, target, Hit.range(familiar, getMaxHit(familiar, 244, Bonus.RANGE_ATT, CombatStyle.RANGE, target, 1.0)));
+				delayHit(familiar, 3, target, Hit.range(familiar, getMaxHit(familiar, 244, Bonus.RANGE_ATT, CombatStyle.RANGE, target, 1.0)));
 			}
 			return Familiar.DEFAULT_ATTACK_SPEED;
 		}

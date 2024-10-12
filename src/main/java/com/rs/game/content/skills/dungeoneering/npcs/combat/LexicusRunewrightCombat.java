@@ -18,6 +18,7 @@ package com.rs.game.content.skills.dungeoneering.npcs.combat;
 
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.content.skills.dungeoneering.npcs.DungeonNPC;
 import com.rs.game.content.skills.dungeoneering.npcs.LexicusRunewright;
 import com.rs.game.content.skills.summoning.Familiar;
@@ -27,7 +28,6 @@ import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
@@ -80,14 +80,14 @@ public class LexicusRunewrightCombat extends CombatScript {
 			boss.setNextSpotAnim(new SpotAnim(range_style ? 2408 : 2424));
 			World.sendProjectile(npc, target, range_style ? 2409 : 2425, new Pair<>(40, 40), 54, 5, 5);
 			if (range_style)
-				delayHit(npc, 1, target, getRangeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.RANGE, target)));
+				delayHit(npc, 1, target, Hit.range(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.RANGE, target)));
 			else
-				delayHit(npc, 1, target, getMagicHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MAGE, target)));
+				delayHit(npc, 1, target, Hit.magic(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.MAGIC, target)));
 			target.setNextSpotAnim(new SpotAnim(range_style ? 2410 : 2426, 75, 0));
 			break;
 		case 4:// MELEE
 			boss.setNextAnimation(new Animation(13469));
-			delayHit(npc, 0, target, getMeleeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MELEE, target)));
+			delayHit(npc, 0, target, Hit.melee(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.MELEE, target)));
 			break;
 		}
 		return 5;

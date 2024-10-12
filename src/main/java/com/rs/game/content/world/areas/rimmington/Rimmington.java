@@ -1,9 +1,14 @@
 package com.rs.game.content.world.areas.rimmington;
 
+import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.statements.NPCStatement;
+import com.rs.game.content.world.doors.Doors;
+import com.rs.lib.Constants;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
+import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.shop.ShopsHandler;
 
 @PluginEventHandler
@@ -56,6 +61,26 @@ public class Rimmington {
                                 .addPlayer(HeadE.CALM_TALK, "No thanks, I've got all the crafting equipment I need.")
                                 .addNPC(585, HeadE.HAPPY_TALKING, "Okay. Fare well on your travels.");
                     }));
+        }
+    });
+
+    public static ObjectClickHandler handleCraftingDoor = new ObjectClickHandler(new Object[] { 2647 }, e -> {
+        var player = e.getPlayer();
+        if (player.getSkills().getLevel(Constants.CRAFTING) < 40 && player.getY() < 3288) {
+            player.startConversation(new Conversation(player, new Dialogue(new NPCStatement(805, HeadE.CHEERFUL, "I'm sorry, you need to have a crafting level of 40 to use my facilities."))));
+            return;
+        }
+        if (player.getEquipment().getChestId() != 1757 && player.getY() > 3288) {
+            player.startConversation(new Conversation(player, new Dialogue(new NPCStatement(805, HeadE.CHEERFUL, "Don't forget to put on your brown apron! It can be a little messy in here."))));
+            return;
+        }
+        Doors.handleDoor(player, e.getObject());
+    });
+
+    public static ObjectClickHandler handleStairs = new ObjectClickHandler(new Object[] { 71902, 71903 }, e -> {
+        switch (e.getObjectId()) {
+            case 71902 -> e.getPlayer().useStairs(-1, e.getPlayer().transform(e.getObject().getRotation() == 1 ? 4 : 0, e.getObject().getRotation() == 0 ? 4 : 0, 1), 1, 1);
+            case 71903 -> e.getPlayer().useStairs(-1, e.getPlayer().transform(e.getObject().getRotation() == 1 ? -4 : 0, e.getObject().getRotation() == 0 ? -4 : 0, -1), 1, 1);
         }
     });
 }

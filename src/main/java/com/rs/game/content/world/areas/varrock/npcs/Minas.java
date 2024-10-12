@@ -24,7 +24,7 @@ public class Minas {
                                         .addSimple("A lamp is placed in your hand")
                                         .addNext(() -> {
                                             e.getPlayer().getInventory().addItem(4447, 1);
-                                            e.getPlayer().save("claimedArravLamp", true);
+                                            e.getPlayer().set("claimedArravLamp", true);
                                         }));
                             else if(e.getPlayer().isQuestComplete(Quest.SHIELD_OF_ARRAV))
                                 option("About Shield Of Arrav...", new Dialogue()

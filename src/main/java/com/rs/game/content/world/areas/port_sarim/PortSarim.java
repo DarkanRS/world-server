@@ -20,13 +20,14 @@ import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.dialogue.Options;
+import com.rs.engine.pathfinder.Direction;
 import com.rs.engine.quest.Quest;
 import com.rs.game.content.Skillcapes;
 import com.rs.game.content.quests.heroesquest.HeroesQuest;
 import com.rs.game.content.quests.knightssword.KnightsSword;
 import com.rs.game.content.quests.knightssword.ThurgoKnightsSwordD;
+import com.rs.game.content.skills.agility.Agility;
 import com.rs.game.content.world.unorganized_dialogue.skillmasters.GenericSkillcapeOwnerD;
-import com.rs.engine.pathfinder.Direction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.Item;
@@ -171,5 +172,30 @@ public class PortSarim {
 				.addNPC(2692, HeadE.ANGRY, "Oi matey, leave my beer alone!")
 				.addPlayer(HeadE.SKEPTICAL, "Sorry!")
 		);
+	});
+
+	public static ObjectClickHandler handleGrotwormCave = new ObjectClickHandler(new Object[] { 70792, 70793, 70794, 70795, 70796, 70797, 70798, 70799 }, e -> {
+		Player player = e.getPlayer();
+		switch (e.getObjectId()) {
+			case 70792 -> player.useStairs(-1, Tile.of(1206, 6371, 0));
+			case 70793 -> player.useStairs(-1, Tile.of(2989, 3237, 0));
+			case 70794 -> player.useStairs(-1, Tile.of(1340, 6488, 0));
+			case 70795 -> {
+				if (!Agility.hasLevel(player, 50)) {
+					player.sendMessage("You need level 50 Agility to use this shortcut.");
+					return;
+				}
+				player.startConversation(new Dialogue()
+					.addSimple("The shortcut leads to the deepest level of the dungeon. The worms in that area are significantly more dangerous.")
+					.addOptions("Slide down the worm burrow?", ops -> {
+						ops.add("Yes.", () -> player.useStairs(Tile.of(1206, 6506, 0)));
+						ops.add("No.");
+					}));
+			}
+			case 70796 -> player.useStairs(-1, Tile.of(1090, 6360, 0));
+			case 70797 -> player.useStairs(-1, Tile.of(1090, 6497, 0));
+			case 70798 -> player.useStairs(-1, Tile.of(1340, 6380, 0));
+			case 70799 -> player.useStairs(-1, Tile.of(1178, 6355, 0));
+		}
 	});
 }

@@ -274,7 +274,12 @@ public class DungManager {
 			player.getVars().setVarBit(p.getVarbit(), getKinshipTier(p));
 		player.getVars().setVarBit(8065, activeRingPerk == null ? 0 : activeRingPerk.ordinal() + 1);
 		if (player.getInterfaceManager().topOpen(993))
-			player.getPackets().sendRunScriptBlank(3494);
+			player.getPackets().sendRunScript(3494, switch(player.getTempAttribs().getI("kinshipTab", 0)) {
+                case 1 -> Utils.toInterfaceHash(993, 227);
+				case 2 -> Utils.toInterfaceHash(993, 242);
+				case 3 -> Utils.toInterfaceHash(993, 257);
+				default -> Utils.toInterfaceHash(993, 212);
+			});
 		refreshKinshipStrings();
 	}
 

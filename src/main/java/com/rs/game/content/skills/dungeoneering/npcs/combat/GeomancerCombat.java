@@ -17,12 +17,13 @@
 package com.rs.game.content.skills.dungeoneering.npcs.combat;
 
 import com.rs.game.World;
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.content.skills.dungeoneering.*;
 import com.rs.game.content.skills.dungeoneering.npcs.HobgoblinGeomancer;
 import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
@@ -66,7 +67,7 @@ public class GeomancerCombat extends CombatScript {
 					sendEarthBlast(npc, target, true);
 				} else {
 					npc.setNextAnimation(new Animation(12989));
-					delayHit(npc, 0, target, getMeleeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MELEE, target)));
+					delayHit(npc, 0, target, Hit.melee(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.MELEE, target)));
 				}
 			}
 			// EARTH BLAST
@@ -90,7 +91,7 @@ public class GeomancerCombat extends CombatScript {
 				continue;
 			t.setNextSpotAnim(new SpotAnim(2726, 75, 100));
 			World.sendProjectile(npc, t, 2720, new Pair<>(50, 18), 50, 5, 0);
-			delayHit(npc, 1, t, getMagicHit(npc, getMaxHit(npc, (int) (npc.getLevelForStyle(AttackStyle.MAGE) * .7), AttackStyle.MAGE, t)));
+			delayHit(npc, 1, t, Hit.magic(npc, getMaxHit(npc, (int) (npc.getLevelForStyle(CombatStyle.MAGIC) * .7), CombatStyle.MAGIC, t)));
 		}
 	}
 
@@ -100,7 +101,7 @@ public class GeomancerCombat extends CombatScript {
 		npc.removeCombatTarget();
 		World.sendProjectile(npc, target, 178, new Pair<>(40, 18), 55, 7, 5);
 
-		int damage = getMaxHit(npc, (int) (npc.getLevelForStyle(AttackStyle.MAGE) * 0.95), AttackStyle.MAGE, target);
+		int damage = getMaxHit(npc, (int) (npc.getLevelForStyle(CombatStyle.MAGIC) * 0.95), CombatStyle.MAGIC, target);
 
 		if (damage > 0) {
 			target.setNextSpotAnim(new SpotAnim(180, 75, 100));
@@ -118,7 +119,7 @@ public class GeomancerCombat extends CombatScript {
 		npc.setNextAnimation(new Animation(12992));
 		World.sendProjectile(npc, target, 106, new Pair<>(40, 18), 55, 7, 5);
 
-		int damage = getMaxHitFromAttackStyleLevel(npc, AttackStyle.MAGE, target);
+		int damage = getMaxHitFromAttackStyleLevel(npc, CombatStyle.MAGIC, target);
 
 		if (damage > 0) {
 			target.setNextSpotAnim(new SpotAnim(107, 75, 150));
@@ -141,7 +142,7 @@ public class GeomancerCombat extends CombatScript {
 		boolean hasDrained = false;
 
 		for (Entity t : npc.getPossibleTargets()) {
-			int damage = getMaxHitFromAttackStyleLevel(npc, AttackStyle.MAGE, t);
+			int damage = getMaxHitFromAttackStyleLevel(npc, CombatStyle.MAGIC, t);
 
 			if (damage > 0)
 				if (t instanceof Player player)
@@ -159,7 +160,7 @@ public class GeomancerCombat extends CombatScript {
 						player.getPrayer().closeAllPrayers();
 						player.sendMessage("Your prayers have been disabled.");
 					}
-			delayHit(npc, 1, t, getMagicHit(npc, (int) (damage * .50)));
+			delayHit(npc, 1, t, Hit.magic(npc, (int) (damage * .50)));
 			t.setNextSpotAnim(new SpotAnim(2147));
 			World.sendProjectile(npc, t, 2368, new Pair<>(50, 18), 55, 7, 5);
 		}

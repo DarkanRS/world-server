@@ -16,8 +16,6 @@
 //
 package com.rs.game.model;
 
-import com.rs.cache.loaders.ObjectDefinitions;
-import com.rs.game.World;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;

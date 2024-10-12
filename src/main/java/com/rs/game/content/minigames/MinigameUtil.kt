@@ -25,3 +25,11 @@ fun checkAndDeleteFoodAndPotions(player: Player) {
 fun isMinigameSupply(id: Int): Boolean {
     return MINIGAME_SUPPLIES.any { it == id }
 }
+
+fun enableMinigameRunes(player: Player) {
+    player.vars.setVarBit(5493, 1)
+}
+
+fun disableMinigameRunes(player: Player) {
+    player.vars.setVarBit(5493, 0)
+}

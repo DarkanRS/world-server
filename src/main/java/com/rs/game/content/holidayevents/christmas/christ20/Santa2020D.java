@@ -50,7 +50,7 @@ public class Santa2020D extends Conversation {
 			addPlayer(HeadE.CHEERFUL, "That's a lot more simple than last year, I guess!");
 			addNPC(SANTA, HeadE.CHEERFUL, "Yeah, when Torpid Trent has things he'd rather do. It seems to make our jobs easier.", () -> player.getTempAttribs().setI("santaRandNum", Utils.random(1, 1000)));
 			addNext(() -> {
-				player.save(Christmas2020.STAGE_KEY, 1);
+				player.set(Christmas2020.STAGE_KEY, 1);
 				guessNumber(player);
 			});
 			break;
@@ -62,7 +62,7 @@ public class Santa2020D extends Conversation {
 			addPlayer(HeadE.CHEERFUL, "Good enough for me!");
 			addItem(1050, "Santa hands you a yo-yo and one of his hats!");
 			addNext(() -> {
-				player.save(Christmas2020.STAGE_KEY, 3);
+				player.set(Christmas2020.STAGE_KEY, 3);
 				player.getInventory().addItemDrop(new Item(962, 1));
 				player.getInventory().addItemDrop(new Item(4079, 1));
 				player.addDiangoReclaimItem(4079);
@@ -95,7 +95,7 @@ public class Santa2020D extends Conversation {
 						.addNPC(SANTA, HeadE.CHEERFUL, "That's too low! Try again.")
 						.addNext(() -> guessNumber(player)));
 			else {
-				player.save(Christmas2020.STAGE_KEY, 2);
+				player.set(Christmas2020.STAGE_KEY, 2);
 				player.startConversation(new Santa2020D(player));
 			}
 		});

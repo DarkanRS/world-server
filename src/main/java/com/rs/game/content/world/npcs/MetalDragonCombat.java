@@ -17,13 +17,13 @@
 package com.rs.game.content.world.npcs;
 
 import com.rs.game.World;
-import com.rs.game.content.combat.PlayerCombat;
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.content.combat.PlayerCombatKt;
 import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
 import com.rs.lib.util.Utils;
@@ -42,7 +42,7 @@ public class MetalDragonCombat extends CombatScript {
 		NPCCombatDefinitions defs = npc.getCombatDefinitions();
 		if (WorldUtil.isInRange(npc.getX(), npc.getY(), npc.getSize(), target.getX(), target.getY(), target.getSize(), 0) && Utils.random(2) == 0) {
 			npc.setNextAnimation(new Animation(defs.getAttackEmote()));
-			delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, defs.getMaxHit(), AttackStyle.MELEE, target)));
+			delayHit(npc, 0, target, Hit.melee(npc, getMaxHit(npc, defs.getMaxHit(), CombatStyle.MELEE, target)));
 		} else {
 			int damage = 100 + Utils.getRandomInclusive(500);
 			final Player player = target instanceof Player p ? p : null;
@@ -56,7 +56,7 @@ public class MetalDragonCombat extends CombatScript {
 
 			npc.setNextAnimation(new Animation(13160));
 			World.sendProjectile(npc, target, 393, new Pair<>(28, 16), 35, 10, 16);
-			delayHit(npc, 1, target, getRegularHit(npc, damage));
+			delayHit(npc, 1, target, Hit.flat(npc, damage));
 		}
 		return npc.getAttackSpeed();
 	}

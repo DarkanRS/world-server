@@ -47,7 +47,7 @@ class Aleck(player: Player, npc: NPC) {
     }
 
     private fun setTeleportLocation(player: Player, location: Boolean) {
-        player.save(WATCHTOWER_TELEPORT_LOCATION_KEY, location)
+        player.set(WATCHTOWER_TELEPORT_LOCATION_KEY, location)
     }
 }
 

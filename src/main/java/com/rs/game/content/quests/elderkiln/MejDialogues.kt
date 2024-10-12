@@ -1,6 +1,5 @@
 package com.rs.game.content.quests.elderkiln
 
-import com.rs.engine.dialogue.HeadE
 import com.rs.engine.dialogue.HeadE.*
 import com.rs.engine.dialogue.dialogue
 import com.rs.engine.dialogue.startConversation
@@ -54,11 +53,12 @@ private fun mejJahBirthingPoolDialogue(player: Player) {
 }
 
 private fun mejDialogueCenterRing(player: Player, npc: NPC) {
-    when(player.getQuestStage(Quest.ELDER_KILN)) {
+    if (!Quest.ELDER_KILN.isImplemented || player.isQuestComplete(Quest.ELDER_KILN))
+        mejJahDialoguePostQuest(player, npc)
+    else when(player.getQuestStage(Quest.ELDER_KILN)) {
         STAGE_SAVE_GAAL_FIGHTPITS -> saveGaalFightPitsAkDialogue(player, npc)
         STAGE_WRAP_UP_FIGHT_PITS -> wrapUpFightPits(player, npc)
         STAGE_GO_TO_KILN -> escortGaalThroughKiln(player, npc)
-        else -> mejJahDialoguePostQuest(player, npc)
     }
 }
 
@@ -161,7 +161,7 @@ private fun mejJahDialoguePostQuest(player: Player, npc: NPC) {
                         if (!player.inventory.hasFreeSlots()) return@item player.sendMessage("You don't have enough inventory space.")
                         if (!recTZ) {
                             player.inventory.addItem(Item(TOKKUL_ZO_CHARGED).addMetaData("tzhaarCharges", 4000))
-                            player.save("recTokkulZo", true)
+                            player.set("recTokkulZo", true)
                         } else player.inventory.addItem(TOKKUL_ZO_UNCHARGED)
                     }
                 }

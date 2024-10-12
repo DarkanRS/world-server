@@ -196,6 +196,7 @@ public class WildernessController extends Controller {
 		} else if (!showingSkull && isAtWild && !isAtWildSafe) {
 			showingSkull = true;
 			player.setCanPvp(true);
+			player.getPackets().sendDrawOrder(true);
 			showSkull();
 			player.setPvpCombatLevelThreshhold(getWildLevel());
 		} else if (showingSkull && (isAtWildSafe || !isAtWild))
@@ -206,6 +207,7 @@ public class WildernessController extends Controller {
 		if (showingSkull) {
 			showingSkull = false;
 			player.setCanPvp(false);
+			player.getPackets().sendDrawOrder(false);
 			player.getInterfaceManager().removeOverlay();
 			player.setPvpCombatLevelThreshhold(-1);
 			player.getEquipment().refresh(null);

@@ -327,7 +327,7 @@ public class ShieldOfArrav extends QuestOutline {
     }
 
     public static void setGang(Player p, String gang) {//"Phoenix", "Black", "None"
-		p.save("ThievingGang", gang);
+		p.set("ThievingGang", gang);
     }
 
     @Override

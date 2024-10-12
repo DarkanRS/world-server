@@ -151,7 +151,7 @@ public class Debug {
 		});
 
 		Commands.add(Rights.PLAYER, "shadesresources", "Sets Shades of Morton to requested amount (0-100).", (p, args) -> {
-			p.save("shadeResources", Utils.clampI(Integer.parseInt(args[0]), 0, 100));
+			p.set("shadeResources", Utils.clampI(Integer.parseInt(args[0]), 0, 100));
 			p.sendMessage("Your Shades of Mort'ton resources has been set to " + Utils.clampI(Integer.parseInt(args[0]), 0, 100) + ".");
 		});
 

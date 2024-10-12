@@ -17,6 +17,7 @@
 package com.rs.game.content.minigames.fightcaves.npcs;
 
 import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
@@ -34,7 +35,7 @@ public class YtMejKotCombat extends CombatScript {
 	public int attack(NPC npc, Entity target) {
 		final NPCCombatDefinitions defs = npc.getCombatDefinitions();
 		npc.setNextAnimation(new Animation(defs.getAttackEmote()));
-		delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, defs.getMaxHit(), defs.getAttackStyle(), target)));
+		delayHit(npc, 0, target, Hit.melee(npc, getMaxHit(npc, defs.getMaxHit(), defs.getAttackStyle(), target)));
 		if (npc.getHitpoints() < npc.getMaxHitpoints() / 2)
 			if (npc.getTempAttribs().removeB("Heal")) {
 				npc.setNextSpotAnim(new SpotAnim(2980, 0, 100));

@@ -17,8 +17,6 @@
 package com.rs.game.content.skills.crafting;
 
 import com.rs.cache.loaders.ObjectDefinitions;
-import com.rs.engine.dialogue.Dialogue;
-import com.rs.engine.dialogue.Options;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -70,7 +68,7 @@ public class GemBag {
 				if (e.getPlayer().getInventory().addItem(new Item(GEMS[i], num), true))
 					bagContents.set(i, (double) (bagContents.get(i).intValue() - num));
 			}
-			e.getPlayer().save("gemBagContents", bagContents);
+			e.getPlayer().set("gemBagContents", bagContents);
 		}
 		}
 	});
@@ -113,7 +111,7 @@ public class GemBag {
 			return false;
 		player.getInventory().deleteItem(id, gemsToStore);
 		bagContents.set(gemIndex, bagContents.get(gemIndex) + gemsToStore);
-		player.save("gemBagContents", bagContents);
+		player.set("gemBagContents", bagContents);
 		return true;
 	}
 
@@ -131,7 +129,7 @@ public class GemBag {
 					bagContents.set(i, 0.0);
 				}
 			}
-			e.getPlayer().save("gemBagContents", bagContents);
+			e.getPlayer().set("gemBagContents", bagContents);
 			e.getPlayer().sendMessage("You store " + stored + " gems in the bank.");
 		}
 	});

@@ -18,6 +18,7 @@ package com.rs.game.content.skills.smithing
 
 import com.rs.cache.loaders.ItemDefinitions
 import com.rs.cache.loaders.interfaces.IComponentDefinitions
+import com.rs.engine.quest.Quest
 import com.rs.game.content.skills.smithing.ForgingInterface.Slot
 import com.rs.game.model.entity.player.Player
 import com.rs.game.model.`object`.GameObject
@@ -79,14 +80,22 @@ fun sendSmithingInterface(player: Player, obj: GameObject, barId: Int) {
         val item = items[slot]
         val componentDef = IComponentDefinitions.getInterface(300)[slot.componentId]
 
-        if (item == null) {
-            if (!componentDef.hidden)
-                player.packets.setIFHidden(SMITHING_INTERFACE, slot.componentId - 1, true)
+        if (item == null || componentDef.hidden) {
+            player.packets.setIFHidden(SMITHING_INTERFACE, slot.componentId - 1, true)
             continue
         }
 
-        if (componentDef.hidden)
+        if (!componentDef.hidden)
             player.packets.setIFHidden(SMITHING_INTERFACE, slot.componentId - 1, false)
+
+        if (slot == Slot.DART_TIPS && !player.isQuestComplete(Quest.TOURIST_TRAP)) {
+            player.packets.setIFHidden(SMITHING_INTERFACE, slot.componentId - 1, true)
+        }
+
+        if (slot == Slot.CLAWS && !player.isQuestComplete(Quest.DEATH_PLATEAU)) {
+            player.packets.setIFHidden(SMITHING_INTERFACE, slot.componentId - 1, true)
+        }
+
         player.packets.setIFItem(SMITHING_INTERFACE, slot.componentId, item.product.id, item.product.amount)
         val name = getStrings(player, item)
         player.packets.setIFText(300, slot.componentId + 1, name[0])

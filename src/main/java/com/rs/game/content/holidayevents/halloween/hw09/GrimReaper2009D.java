@@ -80,7 +80,7 @@ public class GrimReaper2009D extends Conversation {
 													.addGotoStage("taskResponses", GrimReaper2009D.this));
 											option("I'll deal with the spider.", new Dialogue()
 													.addPlayer(HeadE.CALM_TALK, "I'll deal with the spider.")
-													.addNPC(8867, HeadE.CALM_TALK, "Good. You will find the bathroom on the upper floor.", () -> player.save(Halloween2009.STAGE_KEY, 1)));
+													.addNPC(8867, HeadE.CALM_TALK, "Good. You will find the bathroom on the upper floor.", () -> player.set(Halloween2009.STAGE_KEY, 1)));
 											option("I'm not doing your chores!", new Dialogue()
 													.addPlayer(HeadE.CHUCKLE, "I'm not doing your chores!")
 													.addNPC(8867, HeadE.CALM_TALK, "Then begone, mortal."));
@@ -105,7 +105,7 @@ public class GrimReaper2009D extends Conversation {
 			addPlayer(HeadE.CALM_TALK, "The spider says it was sent by the Spider Queen, and it will only leave if the Spider Queen tells it to.");
 			addNPC(8867, HeadE.CALM_TALK, "That is...concerning.");
 			addNPC(8867, HeadE.CALM_TALK, "You must meet with the Spider Queen and ask her to remove the spider from my bath. I will open a portal for you.");
-			addNext(() -> player.save(Halloween2009.STAGE_KEY, 3));
+			addNext(() -> player.set(Halloween2009.STAGE_KEY, 3));
 			break;
 		case 3:
 		case 4:
@@ -136,7 +136,7 @@ public class GrimReaper2009D extends Conversation {
 			addNPC(8867, HeadE.CALM_TALK, "She is right. Guthix decrees that my house be full of cobwebs, especially at Hallowe'en.");
 			addNPC(8867, HeadE.CALM_TALK, "Very well. You have the freedom of my house. Please spin webs over whatever Eek the Spider wishes.");
 			addNext(new SpiderStatement("Hold me in your hand, "+player.getDisplayName()+"! Then we'll see what we can web up!"), () -> {
-				player.save(Halloween2009.STAGE_KEY, 7);
+				player.set(Halloween2009.STAGE_KEY, 7);
 				Halloween2009.refreshWebbables(player, player.getEquipment().getWeaponId() == 15353);
 			});
 			break;
@@ -148,7 +148,7 @@ public class GrimReaper2009D extends Conversation {
 		case 8:
 			addNPC(8867, HeadE.CALM_TALK, "Have you finished spinning cobwebs on my furniture?");
 			addNext(new SpiderStatement("Yes! All done! All done!"));
-			addNPC(8867, HeadE.CALM_TALK, "Then please return to the Spider Queen and tell her that you are done here, so that she can tell the spider to move from my bath.", () -> player.save(Halloween2009.STAGE_KEY, 9));
+			addNPC(8867, HeadE.CALM_TALK, "Then please return to the Spider Queen and tell her that you are done here, so that she can tell the spider to move from my bath.", () -> player.set(Halloween2009.STAGE_KEY, 9));
 			break;
 		case 9:
 			addNPC(8867, HeadE.CALM_TALK, "Have you spoken with the Queen about getting that spider gone yet?");

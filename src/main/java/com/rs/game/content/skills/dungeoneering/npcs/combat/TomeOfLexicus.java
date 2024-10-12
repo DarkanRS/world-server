@@ -17,10 +17,11 @@
 package com.rs.game.content.skills.dungeoneering.npcs.combat;
 
 import com.rs.game.World;
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import kotlin.Pair;
@@ -38,7 +39,7 @@ public class TomeOfLexicus extends CombatScript {
 		switch (type) {
 			case 0 -> {
 				npc.setNextAnimation(new Animation(13479));
-				delayHit(npc, 0, target, getMagicHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MAGE, target)));
+				delayHit(npc, 0, target, Hit.magic(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.MAGIC, target)));
 			}
 			case 1, 2 -> {
 				boolean range_style = type == 1;
@@ -46,9 +47,9 @@ public class TomeOfLexicus extends CombatScript {
 				npc.setNextSpotAnim(new SpotAnim(range_style ? 2408 : 2424));
 				World.sendProjectile(npc, target, range_style ? 2409 : 2425, new Pair<>(40, 40), 54, 5, 5);
 				if (range_style)
-					delayHit(npc, 1, target, getRangeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.RANGE, target)));
+					delayHit(npc, 1, target, Hit.range(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.RANGE, target)));
 				else
-					delayHit(npc, 1, target, getMagicHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MAGE, target)));
+					delayHit(npc, 1, target, Hit.magic(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.MAGIC, target)));
 				target.setNextSpotAnim(new SpotAnim(range_style ? 2410 : 2426, 75, 0));
 			}
 		}

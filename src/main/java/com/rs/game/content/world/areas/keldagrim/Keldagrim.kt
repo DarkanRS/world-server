@@ -21,8 +21,6 @@ import com.rs.engine.dialogue.startConversation
 import com.rs.game.model.entity.player.Player
 import com.rs.lib.game.Tile
 import com.rs.plugin.annotations.ServerStartupEvent
-import com.rs.plugin.events.ObjectClickEvent
-import com.rs.plugin.handlers.ObjectClickHandler
 import com.rs.plugin.kts.onNpcClick
 import com.rs.plugin.kts.onObjectClick
 import com.rs.utils.shop.ShopsHandler

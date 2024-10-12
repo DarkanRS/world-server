@@ -16,11 +16,12 @@
 //
 package com.rs.game.content.skills.dungeoneering.npcs.combat;
 
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.content.skills.dungeoneering.npcs.FleshspoilerHaasghenahk;
 import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
 import com.rs.lib.util.Utils;
@@ -39,7 +40,7 @@ public class FleshspoilerHaasghenahkCombat extends CombatScript {
 
 		for (Entity t : npc.getPossibleTargets())
 			if (WorldUtil.collides(t.getX(), t.getY(), t.getSize(), npc.getX(), npc.getY(), npc.getSize()))
-				delayHit(npc, 0, t, getRegularHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MELEE, t)));
+				delayHit(npc, 0, t, Hit.flat(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.MELEE, t)));
 		if (boss.isSecondStage())
 			return 0;
 		boolean magicOnly = boss.canUseMagicOnly();
@@ -49,10 +50,10 @@ public class FleshspoilerHaasghenahkCombat extends CombatScript {
 					if (player.getPrayer().isProtectingMage() && Utils.random(3) == 0)
 						boss.setUseMagicOnly(false);
 			npc.setNextAnimation(new Animation(14463));
-			delayHit(npc, 1, target, getMagicHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MAGE, target)));
+			delayHit(npc, 1, target, Hit.magic(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.MAGIC, target)));
 		} else {
 			npc.setNextAnimation(new Animation(13320));
-			delayHit(npc, 0, target, getMeleeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MELEE, target)));
+			delayHit(npc, 0, target, Hit.melee(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.MELEE, target)));
 		}
 		return 6;
 	}

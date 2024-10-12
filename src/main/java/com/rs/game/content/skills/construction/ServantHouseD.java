@@ -23,8 +23,12 @@ import com.rs.engine.dialogue.HeadE;
 import com.rs.game.content.skills.construction.HouseConstants.Servant;
 import com.rs.game.content.skills.construction.ServantNPC.RequestType;
 import com.rs.game.model.entity.player.Player;
-
+import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.handlers.NPCClickHandler;
+@PluginEventHandler
 public class ServantHouseD extends Conversation {
+
+	public static NPCClickHandler ServantDialogue = new NPCClickHandler(new Object[] { 4236, 4238, 4240, 4242, 4244 }, e ->  e.getPlayer().startConversation(new ServantDialogue(e.getPlayer(), e.getNPC())));
 
 	public ServantHouseD(Player player, ServantNPC servant, boolean bankOps) {
 		super(player);

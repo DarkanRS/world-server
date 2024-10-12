@@ -16,12 +16,12 @@
 //
 package com.rs.game.content.minigames.domtower;
 
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
 import com.rs.lib.util.Utils;
@@ -61,7 +61,7 @@ public class DreadNipCombat extends CombatScript {
 		}
 		if (attackStyle != 0)
 			dreadNip.getOwner().sendMessage(DREADNIP_ATTACK_MESSAGE[attackStyle - 1]);
-		delayHit(npc, 0, target, new Hit(npc, getMaxHit(npc, 550, AttackStyle.MELEE, target), HitLook.TRUE_DAMAGE));
+		delayHit(npc, 0, target, new Hit(npc, getMaxHit(npc, 550, CombatStyle.MELEE, target), HitLook.TRUE_DAMAGE));
 		return 5;
 	}
 }

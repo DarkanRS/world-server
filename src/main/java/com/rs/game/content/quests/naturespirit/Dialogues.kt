@@ -130,7 +130,7 @@ fun drezelNatureSpiritOptions(player: Player, npc: NPC, options: Options) {
                     npc.anim(811)
                     player.anim(645)
                     npc.forceTalk("Ashustru, blessidium, adverturasi, fidum!")
-                    World.sendProjectile(npc, player, 268, 15, 10, 15) { player.spotAnim(259) }
+                    World.sendProjectile(npc, player, 268, delay = 15, speed = 10, angle = 15) { player.spotAnim(259) }
                     player.setQuestStage(Quest.NATURE_SPIRIT, STAGE_CAST_BLOOM)
                 }
                 npc(DREZEL, CHEERFUL, "There you go my friend, you're now blessed. It's funny, now I look at you, there seems to be something of the faith about you. It sounds like you should get back to Filliman without delay. Would you like me to use my runes to teleport you?")
@@ -358,9 +358,9 @@ fun fillimanDialogue(player: Player, npc: NPC) {
                         if (success) {
                             fungus?.let { World.removeGroundItem(it) }
                             spell?.let { World.removeGroundItem(it) }
-                            World.sendProjectile(player, npc, 268, 15, 10, 15) { player.spotAnim(259) }
-                            World.sendProjectile(Tile.of(3439, 3336, 0), npc, 268, 15, 10, 15)
-                            World.sendProjectile(Tile.of(3441, 3336, 0), npc, 268, 15, 10, 15)
+                            World.sendProjectile(player, npc, 268, delay = 15, speed = 10, angle = 15) { player.spotAnim(259) }
+                            World.sendProjectile(Tile.of(3439, 3336, 0), npc, 268, delay = 15, speed = 10, angle = 15)
+                            World.sendProjectile(Tile.of(3441, 3336, 0), npc, 268, delay = 15, speed = 10, angle = 15)
                             player.setQuestStage(Quest.NATURE_SPIRIT, STAGE_MEET_IN_GROTTO)
                             player.npcDialogue(FILLIMAN, CHEERFUL, "Aha, everything seems to be in place! You can come through now into the grotto for the final section of my transformation.")
                         } else
@@ -387,11 +387,11 @@ fun fillimanDialogue(player: Player, npc: NPC) {
             npc(FILLIMAN, CHEERFUL, "Well, hello there again, I was just enjoying the grotto. Many thanks for your help, I couldn't have become a Spirit of nature without you.")
             npc(FILLIMAN, CHEERFUL, "I must complete the transformation now. Just stand there and watch the show. Apparently it's quite good.")
             simple("~The ritual begins~") {
-                World.sendProjectile(npc.tile.transform(-3, -3), npc.tile, 268, 0, 10, 30)
-                World.sendProjectile(npc.tile.transform(3, 3), npc.tile, 268, 0, 10, 30)
-                World.sendProjectile(npc.tile.transform(-2, -2), npc.tile, 268, 0, 10, 30)
-                World.sendProjectile(npc.tile.transform(2, 2), npc.tile, 268, 0, 10, 30)
-                World.sendProjectile(npc.tile.transform(-2, 2), npc.tile, 268, 0, 10, 30)
+                World.sendProjectile(npc.tile.transform(-3, -3), npc.tile, 268, angle = 30)
+                World.sendProjectile(npc.tile.transform(3, 3), npc.tile, 268, angle = 30)
+                World.sendProjectile(npc.tile.transform(-2, -2), npc.tile, 268, angle = 30)
+                World.sendProjectile(npc.tile.transform(2, 2), npc.tile, 268, angle = 30)
+                World.sendProjectile(npc.tile.transform(-2, 2), npc.tile, 268, angle = 30)
                 World.sendSpotAnim(npc.tile, SpotAnim(259, 50))
                 player.setQuestStage(Quest.NATURE_SPIRIT, STAGE_BRING_SICKLE)
             }
@@ -405,9 +405,9 @@ fun fillimanDialogue(player: Player, npc: NPC) {
             if (player.inventory.containsOneItem(2961, 2963)) {
                 player(CHEERFUL, "Yes, here it is. What are you going to do with it?")
                 npc(NATURE_SPIRIT, CHEERFUL, "My friend, I will bless it for you and you will then be able to accomplish great things. Now then, I must cast the enchantment. You can bless a new sickle by dipping it in the holy water of the grotto.") {
-                    World.sendProjectile(Tile.of(2271, 5341, 0), player, 268, 0, 10, 30)
-                    World.sendProjectile(Tile.of(2271, 5340, 0), player, 268, 0, 10, 30)
-                    World.sendProjectile(Tile.of(2272, 5340, 0), player, 268, 0, 10, 30)
+                    World.sendProjectile(Tile.of(2271, 5341, 0), player, 268, angle = 30)
+                    World.sendProjectile(Tile.of(2271, 5340, 0), player, 268, angle = 30)
+                    World.sendProjectile(Tile.of(2272, 5340, 0), player, 268, angle = 30)
                     if (player.inventory.containsItem(2961)) {
                         player.inventory.deleteItem(2961, 1)
                         player.inventory.addItem(2963, 1)

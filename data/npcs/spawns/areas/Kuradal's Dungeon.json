@@ -1,0 +1,453 @@
+[
+{
+    "comment": "Hellhound",
+    "npcId": 49,
+    "tile": {
+      "x":1637,
+      "y":5254,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Hellhound",
+    "npcId": 49,
+    "tile": {
+      "x":1639,
+      "y":5256,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Hellhound",
+    "npcId": 49,
+    "tile": {
+      "x":1640,
+      "y":5252,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Hellhound",
+    "npcId": 49,
+    "tile": {
+      "x":1643,
+      "y":5257,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Hellhound",
+    "npcId": 49,
+    "tile": {
+      "x":1644,
+      "y":5253,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Hellhound",
+    "npcId": 49,
+    "tile": {
+      "x":1648,
+      "y":5253,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Hellhound",
+    "npcId": 49,
+    "tile": {
+      "x":1648,
+      "y":5257,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Greater demon",
+    "npcId": 4700,
+    "tile": {
+      "x":1603,
+      "y":5256,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Greater demon",
+    "npcId": 83,
+    "tile": {
+      "x":1609,
+      "y":5257,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Greater demon",
+    "npcId": 4699,
+    "tile": {
+      "x":1612,
+      "y":5252,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Greater demon",
+    "npcId": 4699,
+    "tile": {
+      "x":1613,
+      "y":5259,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Greater demon",
+    "npcId": 4698,
+    "tile": {
+      "x":1617,
+      "y":5263,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Greater demon",
+    "npcId": 4701,
+    "tile": {
+      "x":1620,
+      "y":5256,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Greater demon",
+    "npcId": 83,
+    "tile": {
+      "x":1626,
+      "y":5257,
+      "plane": 0
+    }
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 1613,
+      "y": 5282
+    },
+    "comment": "Blue dragon",
+    "npcId": 4681
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 1608,
+      "y": 5279
+    },
+    "comment": "Blue dragon",
+    "npcId": 4682
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 1611,
+      "y": 5272
+    },
+    "comment": "Blue dragon",
+    "npcId": 4683
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 1606,
+      "y": 5270
+    },
+    "comment": "Blue dragon",
+    "npcId": 4684
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 1607,
+      "y": 5284
+    },
+    "comment": "Blue dragon",
+    "npcId": 55
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 1607,
+      "y": 5296
+    },
+    "comment": "Gargoyle",
+    "npcId": 1610
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 1605,
+      "y": 5299
+    },
+    "comment": "Gargoyle",
+    "npcId": 1610
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 1621,
+      "y": 5298
+    },
+    "comment": "Gargoyle",
+    "npcId": 1610
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 1608,
+      "y": 5300
+    },
+    "comment": "Gargoyle",
+    "npcId": 1610
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 1622,
+      "y": 5301
+    },
+    "comment": "Gargoyle",
+    "npcId": 1610
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 1617,
+      "y": 5301
+    },
+    "comment": "Gargoyle",
+    "npcId": 1610
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 1611,
+      "y": 5307
+    },
+    "comment": "Gargoyle",
+    "npcId": 1610
+  },
+  {
+    "comment": "Abyssal demon",
+    "npcId": 1615,
+    "tile": {
+      "x":1630,
+      "y":5303,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Abyssal demon",
+    "npcId": 1615,
+    "tile": {
+      "x":1631,
+      "y":5299,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Abyssal demon",
+    "npcId": 1615,
+    "tile": {
+      "x":1632,
+      "y":5302,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Abyssal demon",
+    "npcId": 1615,
+    "tile": {
+      "x":1634,
+      "y":5305,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Abyssal demon",
+    "npcId": 1615,
+    "tile": {
+      "x":1637,
+      "y":5303,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Abyssal demon",
+    "npcId": 1615,
+    "tile": {
+      "x":1639,
+      "y":5299,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Abyssal demon",
+    "npcId": 1615,
+    "tile": {
+      "x":1641,
+      "y":5303,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Abyssal demon",
+    "npcId": 1615,
+    "tile": {
+      "x":1641,
+      "y":5307,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Abyssal demon",
+    "npcId": 1615,
+    "tile": {
+      "x":1643,
+      "y":5306,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Abyssal demon",
+    "npcId": 1615,
+    "tile": {
+      "x":1645,
+      "y":5305,
+      "plane": 0
+    }
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 1646,
+      "y": 5289
+    },
+    "comment": "Dark beast",
+    "npcId": 2783
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 1648,
+      "y": 5292
+    },
+    "comment": "Dark beast",
+    "npcId": 2783
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 1650,
+      "y": 5295
+    },
+    "comment": "Dark beast",
+    "npcId": 2783
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 1653,
+      "y": 5293
+    },
+    "comment": "Dark beast",
+    "npcId": 2783
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 1655,
+      "y": 5300
+    },
+    "comment": "Dark beast",
+    "npcId": 2783
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 1651,
+      "y": 5285
+    },
+    "comment": "Dark beast",
+    "npcId": 2783
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 1646,
+      "y": 5274
+    },
+    "comment": "Iron Dragon",
+    "npcId": 1591
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 1645,
+      "y": 5265
+    },
+    "comment": "Iron Dragon",
+    "npcId": 1591
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 1653,
+      "y": 5272
+    },
+    "comment": "Iron Dragon",
+    "npcId": 1591
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 1651,
+      "y": 5264
+
+    },
+    "comment": "Iron Dragon",
+    "npcId": 1591
+  },
+  {
+    "comment": "Steel dragon",
+    "npcId": 1592,
+    "tile": {
+      "x":1624,
+      "y":5276,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Steel dragon",
+    "npcId": 1592,
+    "tile": {
+      "x":1624,
+      "y":5283,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Steel dragon",
+    "npcId": 1592,
+    "tile": {
+      "x":1633,
+      "y":5286,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Steel dragon",
+    "npcId": 1592,
+    "tile": {
+      "x":1631,
+      "y":5276,
+      "plane": 0
+    }
+  }
+]

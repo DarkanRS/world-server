@@ -18,6 +18,7 @@ package com.rs.game.content.skills.slayer.npcs.combat;
 
 import com.rs.game.World;
 import com.rs.game.content.Effect;
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.content.skills.slayer.npcs.Strykewyrm;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
@@ -25,7 +26,6 @@ import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
@@ -56,12 +56,12 @@ public class StrykewyrmCombat extends CombatScript {
 					target.getPoison().makePoisoned(44);
 				}
 			}
-			delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, defs.getMaxHit(), AttackStyle.MAGE, target)));
+			delayHit(npc, 0, target, Hit.melee(npc, getMaxHit(npc, defs.getMaxHit(), CombatStyle.MAGIC, target)));
 			return npc.getAttackSpeed();
 		}
 		if (attackStyle <= 9) { // mage
 			npc.setNextAnimation(new Animation(12794));
-			final Hit hit = getMagicHit(npc, getMaxHit(npc, defs.getMaxHit(), AttackStyle.MAGE, target));
+			final Hit hit = Hit.magic(npc, getMaxHit(npc, defs.getMaxHit(), CombatStyle.MAGIC, target));
 			delayHit(npc, 1, target, hit);
 			World.sendProjectile(npc, target, defs.getAttackProjectile(), new Pair<>(41, 16), 41, 5, 16);
 			if (npc.getId() == 9463)

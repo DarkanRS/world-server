@@ -83,6 +83,8 @@ public final class Skills {
 	public static final int[] SKILLING = { PRAYER, COOKING, WOODCUTTING, FLETCHING, FISHING, FIREMAKING, CRAFTING, SMITHING, MINING, HERBLORE, AGILITY, THIEVING, RUNECRAFTING, SLAYER, FARMING, HUNTER, CONSTRUCTION, DUNGEONEERING };
 	public static final int[] COMBAT = { ATTACK, DEFENSE, STRENGTH, RANGE, MAGIC };
 
+	private static final int[][] LEVEL_UP_JINGLES = new int[][] { { 30, 38, 66, 48, 58, 56, 52, 34, 70, 44, 42, 40, 36, 64, 54, 46, 322, 68, 62, 10, 60, 50, 32, 301, 417 }, { 29, 37, 65, 47, 57, 55, 51, 33, 69, 43, 41, 39, 35, 63, 53, 45, 28, 67, 61, 11, 59, 49, 31, 300, 416 } };
+
 	private short[] level;
 	private double[] xp;
 	private double[] xpTracks;
@@ -727,18 +729,12 @@ public final class Skills {
 		bonusXpDrop = 0;
 	}
 
-	public static final int[] SKILL_LEVEL_UP_MUSIC_EFFECTS = { 30, 38, 65, 48,
-			58, 56, 52, 34, 70, 44, 42, 39, 36, 64, 54, 46, 28, 68, 62, -1, 60,
-			50, 32, 300, 417 };
-
 	private void sendLevelUp(int skill) {
 		int level = getLevelForXp(skill);
 		player.getInterfaceManager().sendSub(Sub.LEVEL_UP, 1216);
 		player.getPackets().sendVarc(1756, Skills.getTargetIdBySkillId(skill));
 		switchFlash(player, skill, true);
-		int musicEffect = SKILL_LEVEL_UP_MUSIC_EFFECTS[skill];
-		if (musicEffect != -1)
-			player.jingle(musicEffect);
+		player.jingle(level > 49 ? LEVEL_UP_JINGLES[0][skill] : LEVEL_UP_JINGLES[1][skill]);
 		if (!player.hasRights(Rights.ADMIN) && (level == 99 || level == 120))
 			checkMaxedNotification(player, skill, level);
 	}

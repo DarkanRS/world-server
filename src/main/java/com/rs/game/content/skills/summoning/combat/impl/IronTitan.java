@@ -17,11 +17,12 @@
 package com.rs.game.content.skills.summoning.combat.impl;
 
 import com.rs.game.World;
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.content.skills.summoning.Pouch;
 import com.rs.game.content.skills.summoning.combat.FamiliarCombatScript;
 import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.lib.util.Utils;
 import kotlin.Pair;
 
@@ -37,7 +38,7 @@ public class IronTitan extends FamiliarCombatScript {
 		if (Utils.random(5) != 0)
 			return CANCEL;
 		npc.sync(7694, 1452);
-		delayHit(npc, World.sendProjectile(npc, target, 1454, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, getMagicHit(npc, getMaxHit(npc, 255, AttackStyle.MAGE, target)));
+		delayHit(npc, World.sendProjectile(npc, target, 1454, new Pair<>(34, 16), 30, 5, 16).getTaskDelay(), target, Hit.magic(npc, getMaxHit(npc, 255, CombatStyle.MAGIC, target)));
 		return npc.getAttackSpeed();
 	}
 }

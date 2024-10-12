@@ -17,12 +17,13 @@
 package com.rs.game.content.skills.dungeoneering.npcs.combat;
 
 import com.rs.game.World;
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.content.skills.dungeoneering.npcs.SkeletalAdventurer;
 import com.rs.game.content.skills.dungeoneering.npcs.YkLagorMage;
 import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
@@ -96,7 +97,7 @@ public class ForgottenMage extends CombatScript {
 			World.sendProjectile(npc, target, 2736, new Pair<>(18, 18), 50, 5, 110);
 		} else
 			World.sendProjectile(npc, target, projectileId, new Pair<>(18, 18), 50, 5, 3);
-		delayHit(npc, 2, target, getMagicHit(npc, getMaxHit(npc, npc.getMaxHit(), AttackStyle.MAGE, target)));
+		delayHit(npc, 2, target, Hit.magic(npc, getMaxHit(npc, npc.getMaxHit(), CombatStyle.MAGIC, target)));
 		if (hit == -1)
 			return;
 		WorldTasks.schedule(2, () -> target.setNextSpotAnim(new SpotAnim(hit, 0, 85)));

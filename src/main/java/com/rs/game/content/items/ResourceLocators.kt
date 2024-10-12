@@ -130,18 +130,18 @@ val RESOURCE_MAP = mapOf(
     /**
      * Tier 4
      */
-    36 to Resource(3, arrayOf( //Adamant
+    36 to Resource(4, arrayOf( //Adamant
         Tile.of(3300, 3314, 0),
         Tile.of(3300, 3314, 0),
         Tile.of(3018, 3797, 0),
         Tile.of(3055, 3942, 0),
         Tile.of(3039, 9768, 0),
     )),
-    37 to Resource(3, arrayOf( //Runite
+    37 to Resource(4, arrayOf( //Runite
         Tile.of(3059, 3884, 0),
         Tile.of(3045, 10263, 0),
     )),
-    18 to Resource(3, arrayOf( //Magic trees
+    18 to Resource(4, arrayOf( //Magic trees
         Tile.of(2693, 3425, 0),
         Tile.of(2702, 3397, 0),
         Tile.of(3370, 3314, 0),
@@ -162,7 +162,7 @@ fun mapResourceLocators() {
         if (inventory?.getItem(locator.slot) == null && equipment?.getItem(locator.slot) == null) return@onButtonClick player.closeInterfaces()
         val tier = locator.id - 15004
         if (resource.first > tier) return@onButtonClick player.sendMessage("This locator isn't powerful enough to attune to that resource.")
-        if (Magic.sendItemTeleportSpell(player, true,11871, 2061, 11885, -1, 4, resource.second.random())) {
+        if (Magic.sendItemTeleportSpell(player, true, 11871, 2061, 11885, -1, 4, resource.second.random())) {
             val chargesLeft = locator.getMetaDataI("locateCharges", DEFAULT_CHARGES) - 1
             locator.addMetaData("locateCharges", chargesLeft)
             if (chargesLeft <= 0) {

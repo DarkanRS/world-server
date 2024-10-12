@@ -18,11 +18,12 @@ package com.rs.game.content.world.areas.wilderness.forinthry;
 
 import com.rs.game.World;
 import com.rs.game.content.Effect;
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
@@ -99,10 +100,10 @@ public class RevenantCombat extends CombatScript {
 
 		switch (attackStyle) {
 		case 0: // magic
-			int damage = getMaxHit(npc, defs.getMaxHit(), AttackStyle.MAGE, target);
+			int damage = getMaxHit(npc, defs.getMaxHit(), CombatStyle.MAGIC, target);
 			if (target instanceof Player player && player.hasEffect(Effect.REV_IMMUNE))
 				damage = 0;
-			delayHit(npc, 2, target, getMagicHit(npc, damage));
+			delayHit(npc, 2, target, Hit.magic(npc, damage));
 			World.sendProjectile(npc, target, 1276, new Pair<>(34, 16), 30, 7, 16);
 			if (damage > 0)
 				WorldTasks.schedule(new Task() {
@@ -120,18 +121,18 @@ public class RevenantCombat extends CombatScript {
 			npc.setNextAnimation(new Animation(getMagicAnimation(npc)));
 			break;
 		case 1: // range
-			int damage2 = getMaxHit(npc, defs.getMaxHit(), AttackStyle.RANGE, target);
+			int damage2 = getMaxHit(npc, defs.getMaxHit(), CombatStyle.RANGE, target);
 			if (target instanceof Player player && player.hasEffect(Effect.REV_IMMUNE))
 				damage = 0;
-			delayHit(npc, 2, target, getRangeHit(npc, damage2));
+			delayHit(npc, 2, target, Hit.range(npc, damage2));
 			World.sendProjectile(npc, target, 1278, new Pair<>(34, 16), 30, 7, 16);
 			npc.setNextAnimation(new Animation(getRangeAnimation(npc)));
 			break;
 		case 2: // melee
-			int damage3 = getMaxHit(npc, defs.getMaxHit(), AttackStyle.MELEE, target);
+			int damage3 = getMaxHit(npc, defs.getMaxHit(), CombatStyle.MELEE, target);
 			if (target instanceof Player player && player.hasEffect(Effect.REV_IMMUNE))
 				damage = 0;
-			delayHit(npc, 0, target, getMeleeHit(npc, damage3));
+			delayHit(npc, 0, target, Hit.melee(npc, damage3));
 			npc.setNextAnimation(new Animation(defs.getAttackEmote()));
 			break;
 		}

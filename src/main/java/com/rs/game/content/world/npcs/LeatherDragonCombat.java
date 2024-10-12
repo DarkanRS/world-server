@@ -16,13 +16,13 @@
 //
 package com.rs.game.content.world.npcs;
 
-import com.rs.game.content.combat.PlayerCombat;
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.content.combat.PlayerCombatKt;
 import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
@@ -44,7 +44,7 @@ public class LeatherDragonCombat extends CombatScript {
 			return 0;
 		if (Utils.getRandomInclusive(3) != 0) {
 			npc.setNextAnimation(new Animation(defs.getAttackEmote()));
-			delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, defs.getMaxHit(), AttackStyle.MELEE, target)));
+			delayHit(npc, 0, target, Hit.melee(npc, getMaxHit(npc, defs.getMaxHit(), CombatStyle.MELEE, target)));
 		} else {
 			int damage = Utils.getRandomInclusive(500);
 			int fireBreathAnimID = 12259;
@@ -57,7 +57,7 @@ public class LeatherDragonCombat extends CombatScript {
 				damage = Utils.getRandomInclusive(50);
 			else if (protection == 2)
 				damage = 0;
-			delayHit(npc, 1, target, getRegularHit(npc, damage));
+			delayHit(npc, 1, target, Hit.flat(npc, damage));
 		}
 		return npc.getAttackSpeed();
 	}

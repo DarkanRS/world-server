@@ -52,11 +52,11 @@ public class ItemsKeptOnDeath {
 			for (int i = 0; i < slots[0].length; i++)
 				player.getVars().setVarBit(9222 + i, slots[0][i]);
 			player.getVars().setVarBit(9227, slots[0].length);
-			player.save("protectSlots", slots[0].length);
+			player.set("protectSlots", slots[0].length);
 		} else {
 			player.getVars().setVarBit(9222, -1);
 			player.getVars().setVarBit(9227, 1);
-			player.save("protectSlots", 1);
+			player.set("protectSlots", 1);
 		}
 		player.getVars().setVarBit(9226, wilderness ? 1 : 0);
 		player.getTempAttribs().setB("wildy", wilderness ? true : false);

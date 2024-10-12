@@ -228,7 +228,9 @@ public class Summoning {
 			return;
 		if (!ItemConstants.isDungItem(pouch.getId()) && player.getControllerManager().isIn(DungeonController.class))
 			return;
-		Item[] itemReq = pouch.getMaterialList().get();
+		Item[] itemReq = (pouch == Pouch.PRAYING_MANTIS) ? PouchMaterialList.getMantisMaterialList(player) : pouch.getMaterialList().get();
+		if (itemReq == null)
+			return;
 		for (int i = 0; i < creationCount; i++) {
 			if (!player.getInventory().containsItems(itemReq)) {
 				player.sendMessage("You need " + getMaterialListString(pouch) + " to create this pouch.");
@@ -249,6 +251,9 @@ public class Summoning {
 		StringBuilder list = new StringBuilder();
 		if (pouch == null)
 			return "nothing";
+		if (pouch == Pouch.PRAYING_MANTIS) {
+			return "168 spirit shards, 1 crimson charm, 1 pouch, and 1 flowers (any except black or white)";
+		}
 		Item[] items = pouch.getMaterialList().get();
 		for (int i = 0;i < items.length;i++)
 			list.append(items[i].getAmount()).append(" ").append(items[i].getDefinitions().name.toLowerCase()).append((i == items.length - 1) ? "" : ", ");

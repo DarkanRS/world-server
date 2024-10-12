@@ -287,7 +287,7 @@ class TrollStrongholdUtils(val player: Player) {
         player.inventory.addItem(com.rs.game.content.quests.troll_stronghold.utils.QUEST_REWARD_LAMP, amount)
         val updatedAmount = player.getI(TROLL_STRONGHOLD_QUEST_LAMPS_LOST) - amount
         if (updatedAmount == 0) player.delete(TROLL_STRONGHOLD_QUEST_LAMPS_LOST)
-        else player.save(TROLL_STRONGHOLD_QUEST_LAMPS_LOST, updatedAmount)
+        else player.set(TROLL_STRONGHOLD_QUEST_LAMPS_LOST, updatedAmount)
     }
 
     fun isInCell(tile: Tile): Boolean {

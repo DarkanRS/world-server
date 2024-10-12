@@ -17,6 +17,7 @@
 package com.rs.game.content.skills.dungeoneering.npcs.combat;
 
 import com.rs.game.World;
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.content.skills.dungeoneering.RoomReference;
 import com.rs.game.content.skills.dungeoneering.npcs.Sagittare;
@@ -26,7 +27,6 @@ import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
@@ -60,9 +60,9 @@ public class SagittareCombat extends CombatScript {
 						continue;
 					World.sendProjectile(npc, t, attack == 0 ? 2533 : 2535, new Pair<>(65, 50), 54, 5, 5);
 					if (attack == 0)
-						delayHit(npc, 1, t, getRangeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.RANGE, t)));
+						delayHit(npc, 1, t, Hit.range(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.RANGE, t)));
 					else
-						delayHit(npc, 1, t, getMagicHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MAGE, t)));
+						delayHit(npc, 1, t, Hit.magic(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.MAGIC, t)));
 				}
 			}
 			// Bind attacks
@@ -79,10 +79,10 @@ public class SagittareCombat extends CombatScript {
 					if (isMagicAttack) {
 						if (!player.getPrayer().isProtectingMage())
 							bindTarget = true;
-						delayHit(npc, 1, t, getMagicHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MAGE, t)));
+						delayHit(npc, 1, t, Hit.magic(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.MAGIC, t)));
 					} else {
 						bindTarget = Utils.random(2) == 0;// 50/50
-						delayHit(npc, 1, t, getMagicHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MAGE, t)));
+						delayHit(npc, 1, t, Hit.magic(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.MAGIC, t)));
 					}
 					if (bindTarget) {
 						player.freeze(8);
@@ -151,7 +151,7 @@ public class SagittareCombat extends CombatScript {
 					player.setRun(false);
 					player.freeze(8);
 					player.sendMessage("You have been injured and can't move.");
-					int hit = (int) (boss.getMaxHit() * .1 + getMaxHit(boss, (int) (boss.getMaxHit() * .90), AttackStyle.RANGE, player));
+					int hit = (int) (boss.getMaxHit() * .1 + getMaxHit(boss, (int) (boss.getMaxHit() * .90), CombatStyle.RANGE, player));
 					player.applyHit(new Hit(boss, hit, HitLook.TRUE_DAMAGE));
 				}
 				boss.setUsingSpecial(false);

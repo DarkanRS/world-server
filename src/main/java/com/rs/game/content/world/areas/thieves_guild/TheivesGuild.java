@@ -57,7 +57,7 @@ public class TheivesGuild {
             return;
         }
         if (Miniquest.FROM_TINY_ACORNS.isImplemented() && e.getPlayer().isMiniquestComplete(Miniquest.FROM_TINY_ACORNS, false)) {
-            e.getPlayer().useLadder(Tile.of(4634, 5763, 0));
+            e.getPlayer().useLadder(Tile.of(4762, 5891, 0));
             e.getPlayer().getMusicsManager().unlockMusic(839);
             return;
         }

@@ -36,7 +36,7 @@ public class FillAction extends PlayerAction {
 	private final Animation FILLING = new Animation(883);
 	private final Filler fill;
 
-	public static ItemOnObjectHandler handleFilling = new ItemOnObjectHandler(new Object[] { "Waterpump", "Water pump", "Fountain", "Sink", "Well", "Pump" }, Arrays.stream(Filler.values()).map(filler -> filler.getEmptyItem().getId()).toArray(), e -> {
+	public static ItemOnObjectHandler handleFilling = new ItemOnObjectHandler(new Object[] { "Carved fountain", "Waterpump", "Water pump", "Fountain", "Sink", "Well", "Pump" }, Arrays.stream(Filler.values()).map(filler -> filler.getEmptyItem().getId()).toArray(), e -> {
 		Player player = e.getPlayer();
 		Filler fill = FillAction.isFillable(e.getItem());
 		if (fill != null)
@@ -64,7 +64,11 @@ public class FillAction extends PlayerAction {
 		WATERING_CAN5(new Item(5337, 1), new Item(5340, 1)),
 		WATERING_CAN6(new Item(5338, 1), new Item(5340, 1)),
 		WATERING_CAN7(new Item(5339, 1), new Item(5340, 1)),
-		KETTLE(new Item(7688, 1), new Item(7690, 1));
+		KETTLE(new Item(7688, 1), new Item(7690, 1)),
+		WATERSKIN0(new Item(1831, 1), new Item(1823, 1)),
+		WATERSKIN1(new Item(1829, 1), new Item(1823, 1)),
+		WATERSKIN2(new Item(1827, 1), new Item(1823, 1)),
+		WATERSKIN3(new Item(1825, 1), new Item(1823, 1));
 
 		private static final Map<Integer, Filler> EMPTY = new HashMap<>();
 		private static final Map<Integer, Filler> FULL = new HashMap<>();

@@ -132,7 +132,7 @@ public class BoxAction extends PlayerAction {
 			player.sendMessage("You can't setup more than " + trapAmt + " traps.");
 			return false;
 		}
-		if (type != BoxTrapType.DEAD_FALL && trap.overlapsExisting()) {
+		if (type != BoxTrapType.DEAD_FALL && trap.overlapsExisting() || player.getControllerManager().getController() != null) {
 			player.sendMessage("You can't place a trap here.");
 			return false;
 		}

@@ -579,6 +579,23 @@ public final class Inventory {
 		return true;
 	}
 
+	public boolean removeItems(int[] itemIdsToRemove, int[] amountsToRemove) {
+		if (itemIdsToRemove.length != amountsToRemove.length) {
+			return false;
+		}
+		for (int i = 0; i < itemIdsToRemove.length; i++) {
+			int itemId = itemIdsToRemove[i];
+			int amount = amountsToRemove[i];
+			if (amount <= 0) {
+				continue;
+			}
+			for (int j = 0; j < amount; j++) {
+				deleteItem(itemId, 1);
+			}
+		}
+		return true;
+	}
+
 	public double getInventoryWeight() {
 		return inventoryWeight;
 	}
@@ -712,5 +729,4 @@ public final class Inventory {
 		}
 		return null;
 	}
-
 }

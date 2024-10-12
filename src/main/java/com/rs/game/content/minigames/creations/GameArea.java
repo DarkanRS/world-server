@@ -193,7 +193,7 @@ public class GameArea {
 					} else if (type >= 9 && type <= 12 && tier <= 0)
 						copy = EMPTY;
 					final int fx = x, fy = y, fcopyx = copy[0], fcopyy = copy[1];
-					futures.add(region.copyChunk(fx, fy, 0, fcopyx, fcopyy, 0, rot));
+					futures.add(region.copyChunk(fx, fy, 0, fcopyx, fcopyy, 0, rot, false));
 				}
 			}
 			CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).thenRun(() -> {

@@ -22,7 +22,6 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.AuraManager;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
 import com.rs.utils.DropSets;
 import com.rs.utils.drop.DropTable;
@@ -181,7 +180,7 @@ public enum Ore {
 				player.sendMessage("Your bracelet of clay degrades into dust.");
 				player.delete("braceletOfClayCharges");
 			} else
-				player.save("braceletOfClayCharges", charges);
+				player.set("braceletOfClayCharges", charges);
 			ore.setId(1761);
 		}
 		if (!name().startsWith("STARDUST"))

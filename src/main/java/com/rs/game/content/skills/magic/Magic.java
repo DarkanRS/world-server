@@ -18,12 +18,14 @@ package com.rs.game.content.skills.magic;
 
 import com.rs.engine.quest.Quest;
 import com.rs.game.World;
+import com.rs.game.content.Effect;
 import com.rs.game.content.combat.CombatSpell;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Teleport;
 import com.rs.game.model.entity.interactions.PlayerCombatInteraction;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
+import com.rs.game.model.entity.player.Skills;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.*;
@@ -389,6 +391,18 @@ public class Magic {
 			case 72: // Ape Atoll teleport
 				sendNormalTeleportSpell(player, 64, 76, Tile.of(2797, 2798, 1), new RuneSet(Rune.FIRE, 2, Rune.WATER, 2, Rune.LAW, 2));
 				break;
+			case 83:
+				if (player.hasEffect(Effect.CHARGED)) {
+					player.sendMessage("You're already under the effects of this spell.");
+					return;
+				}
+				if (!player.canCastSpell() || !Magic.checkMagicAndRunes(player, 80, true, new RuneSet(Rune.FIRE, 3, Rune.BLOOD, 3, Rune.AIR, 3)))
+					return;
+				player.sync(811, new SpotAnim(308, 23, 130));
+				player.getSkills().addXp(Skills.MAGIC, 180);
+				player.refreshChargeTimer();
+				player.sendMessage("You feel charged with magical power.");
+				break;
 		}
 	}
 
@@ -494,19 +508,18 @@ public class Magic {
 	}
 
 	public static boolean sendTeleportSpell(final Player player, int upEmoteId, final int downEmoteId, int upGraphicId, final int downGraphicId, int level, final double xp, final Tile tile, int delay, final boolean randomize, final TeleType teleType, Runnable onArrive) {
-		sendTeleportSpell(player, upEmoteId, downEmoteId, upGraphicId, downGraphicId, level, xp, tile, delay, randomize, teleType, (RuneSet) null, onArrive);
-		return randomize;
+		return sendTeleportSpell(player, upEmoteId, downEmoteId, upGraphicId, downGraphicId, level, xp, tile, delay, randomize, teleType, (RuneSet) null, onArrive);
 	}
 
-	public static void sendTeleportSpell(final Player player, int upEmoteId, final int downEmoteId, int upGraphicId, final int downGraphicId, int level, final double xp, final Tile tile, int delay, final boolean randomize, final TeleType teleType, RuneSet runes, Runnable onArrive) {
-		sendTeleportSpell(player, upEmoteId, downEmoteId, upGraphicId, downGraphicId, level, xp, tile, delay, randomize, teleType, runes, null, onArrive);
+	public static boolean sendTeleportSpell(final Player player, int upEmoteId, final int downEmoteId, int upGraphicId, final int downGraphicId, int level, final double xp, final Tile tile, int delay, final boolean randomize, final TeleType teleType, RuneSet runes, Runnable onArrive) {
+		return sendTeleportSpell(player, upEmoteId, downEmoteId, upGraphicId, downGraphicId, level, xp, tile, delay, randomize, teleType, runes, null, onArrive);
 	}
 
-	public static void sendTeleportSpell(final Player player, int upEmoteId, final int downEmoteId, int upGraphicId, final int downGraphicId, int level, final double xp, final Tile tile, int delay, final boolean randomize, final TeleType teleType, Runnable onCast, Runnable onArrive) {
-		sendTeleportSpell(player, upEmoteId, downEmoteId, upGraphicId, downGraphicId, level, xp, tile, delay, randomize, teleType, null, onCast, onArrive);
+	public static boolean sendTeleportSpell(final Player player, int upEmoteId, final int downEmoteId, int upGraphicId, final int downGraphicId, int level, final double xp, final Tile tile, int delay, final boolean randomize, final TeleType teleType, Runnable onCast, Runnable onArrive) {
+		return sendTeleportSpell(player, upEmoteId, downEmoteId, upGraphicId, downGraphicId, level, xp, tile, delay, randomize, teleType, null, onCast, onArrive);
 	}
 
-	public static void sendTeleportSpell(final Player player, int upEmoteId, final int downEmoteId, int upGraphicId, final int downGraphicId, int level, final double xp, final Tile tile, int delay, final boolean randomize, final TeleType teleType, RuneSet runes, Runnable onCast, Runnable onArrive) {
+	public static boolean sendTeleportSpell(final Player player, int upEmoteId, final int downEmoteId, int upGraphicId, final int downGraphicId, int level, final double xp, final Tile tile, int delay, final boolean randomize, final TeleType teleType, RuneSet runes, Runnable onCast, Runnable onArrive) {
 		Teleport tele = new Teleport(Tile.of(player.getTile()), tile, teleType, () -> {
 			if (player.isLocked())
 				return false;
@@ -563,7 +576,7 @@ public class Magic {
 			player.resetReceivedHits();
 			player.resetReceivedDamage();
 		}, true);
-		Teleport.execute(player, tele, delay);
+		return Teleport.execute(player, tele, delay);
 	}
 
 	public static void npcTeleport(NPC npc, int upEmoteId, final int downEmoteId, int upGraphicId, final int downGraphicId, final Tile tile, int delay, final boolean randomize, Consumer<NPC> onArrive) {

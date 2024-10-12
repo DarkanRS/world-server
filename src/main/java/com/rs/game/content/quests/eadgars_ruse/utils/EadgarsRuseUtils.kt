@@ -9,6 +9,7 @@ import com.rs.game.World
 import com.rs.game.content.quests.eadgars_ruse.instances.npcs.GoutweedCrateGuard
 import com.rs.game.content.quests.eadgars_ruse.instances.npcs.TrollThistle
 import com.rs.game.content.world.doors.Doors
+import com.rs.game.model.entity.Hit
 import com.rs.game.model.entity.async.schedule
 import com.rs.game.model.entity.npc.NPC
 import com.rs.game.model.entity.npc.combat.CombatScript
@@ -185,7 +186,7 @@ class EadgarsRuseUtils(val player: Player) {
                         guard.schedule {
                             guard.stopAll()
                             guard.anim(GOUTWEED_CRATE_GUARD_ANIM)
-                            CombatScript.delayHit(guard, 2, player, CombatScript.getRangeHit(guard, Random.nextInt(1, 61)))
+                            CombatScript.delayHit(guard, 2, player, Hit.range(guard, Random.nextInt(1, 61)))
                             guard.faceEntityTile(player)
                             guard.forceTalk("Hm?")
                             guard.spotAnim(-1)

@@ -22,9 +22,12 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Tile;
+import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.handlers.ObjectClickHandler;
 
 import java.util.*;
 
+@PluginEventHandler
 public class Lander {
 
 	public static Lander[] landers = new Lander[3];
@@ -180,21 +183,28 @@ public class Lander {
 		return landerRequirement.name().toLowerCase();
 	}
 
-	public static boolean canEnter(Player player, int landerIndex) {
+	public static void canEnter(Player player, int landerIndex) {
 		Lander lander = landers[landerIndex];
 		if (player.getSkills().getCombatLevelWithSummoning() < lander.getLanderRequirement().requirement) {
 			player.simpleDialogue("You need a combat level of " + lander.getLanderRequirement().getRequirement() + " or more to enter in boat.");
-			return false;
+			return;
 		}
 		if (player.getPet() != null || player.getFamiliar() != null) {
 			player.sendMessage("You can't take a follower into the lander, there isn't enough room!");
-			return false;
+			return;
 		}
 		lander.enterLander(player);
-		return true;
 	}
 
 	public LobbyTimer getTimer() {
 		return timer;
 	}
+
+	public static ObjectClickHandler handleLanderEntrance = new ObjectClickHandler(new Object[] { 14315, 25631, 25632 }, e -> {
+		switch (e.getObjectId()) {
+			case 14315 -> Lander.canEnter(e.getPlayer(), 0);
+			case 25631 -> Lander.canEnter(e.getPlayer(), 1);
+			case 25632 -> Lander.canEnter(e.getPlayer(), 2);
+		}
+	});
 }

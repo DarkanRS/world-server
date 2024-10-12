@@ -46,19 +46,25 @@ public class NPCSpawn {
 	}
 
 	public NPCSpawn(int npcId, Tile tile, Direction dir, String comment) {
-		this(npcId, tile, dir, comment, CollisionStrategyType.NORMAL);
+		this(npcId, tile, dir, comment, null);
 	}
 
 	public NPCSpawn(int npcId, Tile tile, String comment) {
-		this(npcId, tile, null, comment, CollisionStrategyType.NORMAL);
+		this(npcId, tile, null, comment, null);
 	}
 
 	public NPC spawn() {
-		return (NPC) World.spawnNPC(npcId, tile, dir, false, true, customName).setCollisionStrategyType(clip);
+		NPC npc = World.spawnNPC(npcId, tile, dir, false, true, customName);
+		if (clip != null)
+			npc.setCollisionStrategyType(clip);
+		return npc;
 	}
 
 	public NPC spawnAtCoords(Tile tile, Direction dir) {
-		return (NPC) World.spawnNPC(npcId, tile, dir, false, true, customName).setCollisionStrategyType(clip);
+		NPC npc = World.spawnNPC(npcId, tile, dir, false, true, customName);
+		if (clip != null)
+			npc.setCollisionStrategyType(clip);
+		return npc;
 	}
 
 	public Tile getTile() {

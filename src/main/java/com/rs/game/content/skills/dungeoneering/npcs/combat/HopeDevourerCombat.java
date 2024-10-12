@@ -17,13 +17,14 @@
 package com.rs.game.content.skills.dungeoneering.npcs.combat;
 
 import com.rs.game.World;
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.content.skills.dungeoneering.npcs.HopeDevourer;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.ForceTalk;
+import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
@@ -50,7 +51,7 @@ public class HopeDevourerCombat extends CombatScript {
 		for (Player player : manager.getParty().getTeam())
 			if (WorldUtil.collides(player.getX(), player.getY(), player.getSize(), npc.getX(), npc.getY(), npc.getSize())) {
 				stomp = true;
-				delayHit(npc, 0, player, getRegularHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MELEE, player)));
+				delayHit(npc, 0, player, Hit.flat(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.MELEE, player)));
 			}
 		if (stomp) {
 			npc.setNextAnimation(new Animation(14459));
@@ -65,12 +66,12 @@ public class HopeDevourerCombat extends CombatScript {
 				int healedDamage = 0;
 				for (Entity t : npc.getPossibleTargets()) {
 					Player player = (Player) t;
-					int damage = (int) Utils.random(npc.getLevelForStyle(AttackStyle.MAGE) * .85, npc.getLevelForStyle(AttackStyle.MAGE));
+					int damage = (int) Utils.random(npc.getLevelForStyle(CombatStyle.MAGIC) * .85, npc.getLevelForStyle(CombatStyle.MAGIC));
 					if (damage > 0 && player.getPrayer().isUsingProtectionPrayer()) {
 						healedDamage += damage;
 						player.setProtectionPrayBlock(2);
 						t.setNextSpotAnim(new SpotAnim(2845, 75, 0));
-						delayHit(npc, 0, t, getMagicHit(npc, damage));
+						delayHit(npc, 0, t, Hit.magic(npc, damage));
 					}
 				}
 				npc.heal(healedDamage);
@@ -84,10 +85,10 @@ public class HopeDevourerCombat extends CombatScript {
 
 		if (Utils.random(5) == 0) {
 			npc.setNextAnimation(new Animation(14458));
-			final int damage = (int) Utils.random(npc.getLevelForStyle(AttackStyle.MELEE) * .85, npc.getLevelForStyle(AttackStyle.MELEE));
+			final int damage = (int) Utils.random(npc.getLevelForStyle(CombatStyle.MELEE) * .85, npc.getLevelForStyle(CombatStyle.MELEE));
 			if (target instanceof Player player)
 				player.getSkills().set(Constants.DEFENSE, (int) (player.getSkills().getLevel(Constants.DEFENSE) - (damage * .05)));
-			delayHit(npc, 0, target, getMeleeHit(npc, damage));
+			delayHit(npc, 0, target, Hit.melee(npc, damage));
 			WorldTasks.scheduleLooping(new Task() {
 				private int ticks;
 				private Tile tile;
@@ -116,13 +117,13 @@ public class HopeDevourerCombat extends CombatScript {
 			}, 0, 0);
 		} else {
 			npc.setNextAnimation(new Animation(14457));
-			int damage = (int) Utils.random(npc.getLevelForStyle(AttackStyle.MELEE) * .75, npc.getLevelForStyle(AttackStyle.MELEE));
+			int damage = (int) Utils.random(npc.getLevelForStyle(CombatStyle.MELEE) * .75, npc.getLevelForStyle(CombatStyle.MELEE));
 			if (target instanceof Player player)
 				if (player.getPrayer().isProtectingMelee()) {
 					player.sendMessage("Your prayer completely negates the attack.", true);
 					damage = 0;
 				}
-			delayHit(npc, 0, target, getMeleeHit(npc, damage));
+			delayHit(npc, 0, target, Hit.melee(npc, damage));
 		}
 		return 6;
 	}

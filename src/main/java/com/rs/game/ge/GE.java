@@ -25,7 +25,6 @@ import com.rs.game.ge.Offer.State;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.lib.net.ClientPacket;
-import com.rs.lib.net.ServerPacket;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;

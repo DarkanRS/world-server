@@ -79,7 +79,7 @@ public class TempleOfIkov extends QuestOutline {
 	}
 
 	public static void setIkovLucienSide(Player p, boolean isLucienSide) {
-		p.save("IkovQuestHelpedLucien", isLucienSide);
+		p.set("IkovQuestHelpedLucien", isLucienSide);
 	}
 
 	public static boolean isLucienSide(Player p) {

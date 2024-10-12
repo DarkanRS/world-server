@@ -17,6 +17,7 @@
 package com.rs.game.content.world;
 
 import com.rs.game.World;
+import com.rs.game.content.skills.cooking.CowMilkingAction;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.lib.game.Tile;
@@ -48,5 +49,7 @@ public class Cow extends NPC {
     public static NPCDeathHandler count = new NPCDeathHandler(new Object[] { "Cow" }, e -> World.getData().getAttribs().incI("cowTrackerKills"));
     
     public static ObjectClickHandler signpost = new ObjectClickHandler(new Object[] { 31297 }, e -> e.getPlayer().sendMessage("So far, " + World.getData().getAttribs().getI("cowTrackerKills") + " cows have been killed by adventurers."));
+
+    public static ObjectClickHandler handleDairyCow = new ObjectClickHandler(new Object[] { 8689 }, e -> e.getPlayer().getActionManager().setAction(new CowMilkingAction()));
 
 }

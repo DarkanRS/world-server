@@ -5,13 +5,13 @@ import com.rs.cache.loaders.ObjectType
 import com.rs.engine.dialogue.HeadE
 import com.rs.engine.dialogue.Options
 import com.rs.engine.dialogue.startConversation
+import com.rs.engine.pathfinder.Direction
 import com.rs.game.World
 import com.rs.game.content.Effect
 import com.rs.game.content.skills.woodcutting.Hatchet
 import com.rs.game.content.skills.woodcutting.TreeType
 import com.rs.game.content.transportation.SpiritTree
 import com.rs.game.model.entity.npc.NPC
-import com.rs.engine.pathfinder.Direction
 import com.rs.game.model.entity.player.Player
 import com.rs.game.model.entity.player.Skills
 import com.rs.game.model.entity.player.actions.PlayerAction

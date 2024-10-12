@@ -17,14 +17,15 @@
 package com.rs.game.content.skills.dungeoneering.npcs.combat;
 
 import com.rs.game.World;
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.content.skills.dungeoneering.npcs.IcyBones;
 import com.rs.game.content.skills.dungeoneering.npcs.bosses.DungeonBoss;
 import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -54,25 +55,25 @@ public class IcyBonesCombat extends CombatScript {
 				target.freeze(8);
 			}
 			if (mage)
-				delayHit(npc, 2, target, getMagicHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MAGE, target)));
+				delayHit(npc, 2, target, Hit.magic(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.MAGIC, target)));
 			else
-				delayHit(npc, 2, target, getRangeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.RANGE, target)));
+				delayHit(npc, 2, target, Hit.range(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.RANGE, target)));
 			World.sendProjectile(npc, target, 2595, new Pair<>(41, 16), 41, 5, 16);
 			return npc.getAttackSpeed();
 		}
 		if (Utils.random(3) == 0 && WorldUtil.isInRange(target.getX(), target.getY(), target.getSize(), npc.getX(), npc.getY(), npc.getSize(), 0) && ((IcyBones) npc).sendSpikes()) {
 			npc.setNextSpotAnim(new SpotAnim(2596));
 			npc.setNextAnimation(new Animation(13790));
-			delayHit(npc, 0, target, getMeleeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MELEE, target)));
+			delayHit(npc, 0, target, Hit.melee(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.MELEE, target)));
 			return npc.getAttackSpeed();
 		}
 		boolean onRange = false;
 		for (Player player : manager.getParty().getTeam())
 			if (WorldUtil.isInRange(player.getX(), player.getY(), player.getSize(), npc.getX(), npc.getY(), npc.getSize(), 0)) {
-				int damage = getMaxHitFromAttackStyleLevel(npc, AttackStyle.MELEE, player);
+				int damage = getMaxHitFromAttackStyleLevel(npc, CombatStyle.MELEE, player);
 				if (damage != 0 && player.getPrayer().isProtectingMelee())
 					player.sendMessage("Your prayer offers only partial protection against the attack.");
-				delayHit(npc, 0, player, getMeleeHit(npc, damage));
+				delayHit(npc, 0, player, Hit.melee(npc, damage));
 				onRange = true;
 			}
 		if (onRange) {

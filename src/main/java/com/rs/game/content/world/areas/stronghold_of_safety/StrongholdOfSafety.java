@@ -44,7 +44,7 @@ public class StrongholdOfSafety {
         }
         else
         {
-            e.getPlayer().save("sopsRew", true);
+            e.getPlayer().set("sopsRew", true);
             e.getPlayer().simpleDialogue("You open the chest to find a large pile of gold, along with a pair of safety gloves, and two antique lamps. Also in the chest is the secret to the 'Safety First' emote.");
             e.getPlayer().getEmotesManager().unlockEmote(EmotesManager.Emote.SAFETY_FIRST);
             e.getPlayer().getInventory().addCoins(10000);

@@ -12,7 +12,7 @@
   "respawnDelay": 29,
   "hitpoints": 2000,
   "maxHit": 160,
-  "attackStyle": "MAGE",
+  "attackStyle": "MAGIC",
   "attackRange": -1,
   "attackGfx": 3162,
   "attackProjectile": 3164,

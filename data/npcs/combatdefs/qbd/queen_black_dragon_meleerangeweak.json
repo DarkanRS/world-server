@@ -17,19 +17,19 @@
     "ATTACK": 250,
     "RANGE": 250,
     "STRENGTH": 250,
-    "DEFENSE": 0,
+    "DEFENSE": 150,
     "MAGE": 250
   },
   "bonuses": {
     "SLASH_ATT": 490,
     "RANGE_ATT": 490,
     "STAB_DEF": 0,
-    "SLASH_DEF": 100,
-    "CRUSH_DEF": 100,
+    "SLASH_DEF": 50,
+    "CRUSH_DEF": 50,
     "MAGIC_DEF": 500,
     "RANGE_DEF": 0
   },
-  "attackRange": -1,
+  "attackRange": 20,
   "attackGfx": -1,
   "attackProjectile": -1,
   "agressivenessType": "AGGRESSIVE",

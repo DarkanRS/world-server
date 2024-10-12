@@ -17,10 +17,11 @@
 package com.rs.game.content.skills.dungeoneering.npcs.combat;
 
 import com.rs.game.World;
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
@@ -49,13 +50,13 @@ public class AnimatedBookCombat extends CombatScript {
 
 	private void meleeAttack(NPC npc, Entity target) {
 		npc.setNextAnimation(new Animation(13479));
-		delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, 100, AttackStyle.MELEE, target)));
+		delayHit(npc, 0, target, Hit.melee(npc, getMaxHit(npc, 100, CombatStyle.MELEE, target)));
 	}
 
 	private void magicAttack(NPC npc, final Entity target) {
 		npc.setNextAnimation(new Animation(13480));
 		npc.setNextSpotAnim(new SpotAnim(2728));
-		delayHit(npc, 1, target, getMagicHit(npc, getMaxHit(npc, 100, AttackStyle.MAGE, target)));
+		delayHit(npc, 1, target, Hit.magic(npc, getMaxHit(npc, 100, CombatStyle.MAGIC, target)));
 		World.sendProjectile(npc, target, 2731, new Pair<>(34, 16), 30, 5, 16);
 		WorldTasks.schedule(new Task() {
 

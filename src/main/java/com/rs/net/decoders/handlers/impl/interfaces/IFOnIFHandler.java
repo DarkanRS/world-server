@@ -16,21 +16,12 @@
 //
 package com.rs.net.decoders.handlers.impl.interfaces;
 
-import com.rs.game.content.skills.magic.Alchemy;
-import com.rs.game.content.skills.magic.Enchanting;
-import com.rs.game.content.skills.magic.Lunars;
-import com.rs.game.model.entity.player.Equipment;
-import com.rs.game.model.entity.player.Inventory;
 import com.rs.game.model.entity.player.Player;
-import com.rs.lib.game.Item;
-import com.rs.lib.game.Rights;
 import com.rs.lib.net.packets.PacketHandler;
 import com.rs.lib.net.packets.decoders.interfaces.IFOnIF;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
-import com.rs.net.decoders.handlers.InventoryOptionsHandler;
 import com.rs.plugin.PluginManager;
-import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.events.IFOnIFEvent;
 
 public class IFOnIFHandler implements PacketHandler<Player, IFOnIF> {

@@ -1,12 +1,12 @@
 package com.rs.game.content.world.npcs.max.tasks;
 
 import com.rs.cache.loaders.ObjectType;
+import com.rs.engine.pathfinder.RouteEvent;
 import com.rs.game.World;
 import com.rs.game.content.skills.firemaking.Firemaking;
 import com.rs.game.content.skills.firemaking.Firemaking.Fire;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.world.npcs.max.Max;
-import com.rs.engine.pathfinder.RouteEvent;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
@@ -34,13 +34,17 @@ public class MaxTaskFM implements Task {
 		}
 		currentBonfire = World.getClosestObjectByTypeAndObjectId(ObjectType.SCENERY_INTERACT, Fire.MAGIC.getFireId(), max.getTile());
 		if (currentBonfire == null) {
-			max.getActionManager().setAction(new Firemaking(Fire.MAGIC));
+			if (Firemaking.canLightFire(max, null))
+				max.getActionManager().setAction(new Firemaking(Fire.MAGIC));
+			else
+				max.walkToAndExecute(Tile.of(Tile.of(3086, 3490, 0), 5), () -> max.getActionManager().setAction(new Firemaking(Fire.MAGIC)));
 			return 20;
 		}
 		if (!max.getActionManager().hasSkillWorking() && !max.hasWalkSteps()) {
 			max.setRouteEvent(new RouteEvent(currentBonfire, () -> {
 				max.setBas(2498);
 				max.repeatAction(5, count -> {
+					if (currentBonfire == null) return false;
 					if (World.getObjectWithType(currentBonfire.getTile(), currentBonfire.getType()) != currentBonfire) {
 						max.anim(-1);
 						max.setBas(-1);

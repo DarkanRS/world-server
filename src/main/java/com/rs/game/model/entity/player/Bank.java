@@ -22,26 +22,21 @@ import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.interfaces.IFEvents;
 import com.rs.cache.loaders.interfaces.IFEvents.UseFlag;
 import com.rs.game.content.Potion;
-import com.rs.game.content.PotionsKt;
-import com.rs.game.content.holidayevents.easter.easter22.Easter2022;
 import com.rs.game.content.skills.cooking.Foods;
 import com.rs.game.content.skills.runecrafting.Runecrafting;
 import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.lib.game.Item;
 import com.rs.lib.net.ClientPacket;
-import com.rs.lib.net.ServerPacket;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.PluginManager;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ItemAddedToBankEvent;
 import com.rs.plugin.events.ItemClickEvent;
-import com.rs.plugin.events.PluginEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.ItemAddedToBankHandler;
 import com.rs.utils.ItemConfig;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
-import it.unimi.dsi.fastutil.ints.IntSet;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -350,7 +345,20 @@ public class Bank {
 		if (familiar == null || familiar.getInventory() == null)
 			return;
 		for (int i = 0; i < familiar.getInventory().getSize(); i++) {
-			if (addItem(familiar.getInventory().get(i), banking))
+			Item item = familiar.getInventory().get(i);
+			if (item == null) continue;
+			int originalId = unnote(item);
+			Item bankedItem = getItem(item.getId());
+			if (bankedItem != null) {
+				if (bankedItem.getAmount() + item.getAmount() <= 0) {
+					item.setAmount(Integer.MAX_VALUE - bankedItem.getAmount());
+					player.sendMessage("Not enough space in your bank.");
+				}
+			} else if (!hasBankSpace()) {
+				player.sendMessage("Not enough space in your bank.");
+				continue;
+			}
+			if (addItem(new Item(originalId, item.getAmount(), item.getMetaData()), banking))
 				familiar.getInventory().set(i, null);
 		}
 	}
@@ -777,10 +785,7 @@ public class Bank {
 			item = new Item(item.getId(), amt, item.getMetaData());
 		else
 			item = new Item(item.getId(), quantity, item.getMetaData());
-		ItemDefinitions defs = item.getDefinitions();
-		int originalId = item.getId();
-		if (defs.isNoted() && defs.getCertId() != -1)
-			item.setId(defs.getCertId());
+		int originalId = unnote(item);
 		Item bankedItem = getItem(item.getId());
 		if (bankedItem != null) {
 			if (bankedItem.getAmount() + item.getAmount() <= 0) {
@@ -801,6 +806,14 @@ public class Bank {
 	//	public void addItem(Item item, boolean refresh) {
 	//		addItem(item.getId(), item.getAmount(), refresh);
 	//	}
+
+	private static int unnote(Item item) {
+		ItemDefinitions defs = item.getDefinitions();
+		int originalId = item.getId();
+		if (defs.isNoted() && defs.getCertId() != -1)
+			item.setId(defs.getCertId());
+		return originalId;
+	}
 
 	public boolean addItem(Item item, boolean refresh) {
 		return addItem(item, currentTab, refresh);

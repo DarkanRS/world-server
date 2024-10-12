@@ -6,7 +6,6 @@ import com.rs.game.World;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.net.packets.encoders.updatezone.UpdateZonePartialEnclosed;
 import com.rs.lib.util.MapUtils;
-import com.rs.lib.util.MapUtils.Structure;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import it.unimi.dsi.fastutil.ints.IntSets;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;

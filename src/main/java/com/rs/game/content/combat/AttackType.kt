@@ -21,7 +21,7 @@ import com.rs.game.model.entity.Entity
 import com.rs.game.model.entity.npc.NPC
 import com.rs.game.model.entity.player.Player
 
-enum class AttackType(private val attBonus: Bonus, private val defBonus: Bonus) {
+enum class AttackType(val attBonus: Bonus, val defBonus: Bonus) {
     STAB(Bonus.STAB_ATT, Bonus.STAB_DEF),
     SLASH(Bonus.SLASH_ATT, Bonus.SLASH_DEF),
     CRUSH(Bonus.CRUSH_ATT, Bonus.CRUSH_DEF),
@@ -34,13 +34,4 @@ enum class AttackType(private val attBonus: Bonus, private val defBonus: Bonus) 
     POLYPORE_LONGRANGE(Bonus.MAGIC_ATT, Bonus.MAGIC_DEF),
 
     MAGIC(Bonus.MAGIC_ATT, Bonus.MAGIC_DEF);
-
-    fun getAttackBonus(player: Player): Int {
-        return player.combatDefinitions.getBonus(attBonus)
-    }
-
-    fun getDefenseBonus(entity: Entity): Int {
-        if (entity is Player) return entity.combatDefinitions.getBonus(defBonus)
-        return (entity as NPC).getBonus(defBonus)
-    }
 }

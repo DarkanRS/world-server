@@ -16,12 +16,13 @@
 //
 package com.rs.game.content.bosses.godwars.saradomin;
 
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.ForceTalk;
+import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
@@ -84,16 +85,16 @@ public class CommanderZilyanaCombat extends CombatScript {
 			for (Entity t : npc.getPossibleTargets()) {
 				if (!t.withinDistance(npc.getTile(), 3))
 					continue;
-				int damage = getMaxHit(npc, defs.getMaxHit(), AttackStyle.MAGE, t);
+				int damage = getMaxHit(npc, defs.getMaxHit(), CombatStyle.MAGIC, t);
 				if (damage > 0) {
-					delayHit(npc, 1, t, getMagicHit(npc, damage));
+					delayHit(npc, 1, t, Hit.magic(npc, damage));
 					t.setNextSpotAnim(new SpotAnim(1194));
 				}
 			}
 
 		} else { // melee attack
 			npc.setNextAnimation(new Animation(defs.getAttackEmote()));
-			delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, defs.getMaxHit(), AttackStyle.MELEE, target)));
+			delayHit(npc, 0, target, Hit.melee(npc, getMaxHit(npc, defs.getMaxHit(), CombatStyle.MELEE, target)));
 		}
 		return npc.getAttackSpeed();
 	}

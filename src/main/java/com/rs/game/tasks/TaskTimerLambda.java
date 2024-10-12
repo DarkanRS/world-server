@@ -16,9 +16,6 @@
 //
 package com.rs.game.tasks;
 
-import com.rs.lib.util.Utils;
-
-import java.io.PrintStream;
 import java.util.function.Function;
 
 public class TaskTimerLambda extends Task {

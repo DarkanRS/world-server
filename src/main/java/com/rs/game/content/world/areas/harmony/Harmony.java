@@ -16,8 +16,6 @@
 //
 package com.rs.game.content.world.areas.harmony;
 
-import com.rs.engine.quest.Quest;
-import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 

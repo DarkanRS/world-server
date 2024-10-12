@@ -16,11 +16,12 @@
 //
 package com.rs.game.content.skills.summoning.combat.impl;
 
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.content.skills.summoning.Pouch;
 import com.rs.game.content.skills.summoning.combat.FamiliarCombatScript;
 import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
@@ -36,9 +37,9 @@ public class LavaTitan extends FamiliarCombatScript {
 	public int alternateAttack(final NPC npc, final Entity target) {
 		npc.setNextAnimation(new Animation(7980));
 		npc.setNextSpotAnim(new SpotAnim(1490));
-		delayHit(npc, 1, target, getMeleeHit(npc, getMaxHit(npc, 140, AttackStyle.MELEE, target)));
+		delayHit(npc, 1, target, Hit.melee(npc, getMaxHit(npc, 140, CombatStyle.MELEE, target)));
 		if (Utils.getRandomInclusive(10) == 0) // 1/10 chance of happening
-			delayHit(npc, 1, target, getMeleeHit(npc, Utils.getRandomInclusive(50)));
+			delayHit(npc, 1, target, Hit.melee(npc, Utils.getRandomInclusive(50)));
 		return npc.getAttackSpeed();
 	}
 }

@@ -137,7 +137,7 @@ public class ErnestTheChicken extends QuestOutline {
 							public void create() {
 								option("Yes.", new Dialogue()
 										.addNext(()->{
-											p.save("EverEnteredDraynorManor", true);
+											p.set("EverEnteredDraynorManor", true);
 											handleDoubleDoor(p, e.getObject());
 											p.sendMessage("The doors slam shut behind you.");
 										}));

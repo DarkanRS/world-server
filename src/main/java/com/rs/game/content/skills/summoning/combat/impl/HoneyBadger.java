@@ -17,12 +17,13 @@
 package com.rs.game.content.skills.summoning.combat.impl;
 
 import com.rs.game.World;
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.content.skills.summoning.Pouch;
 import com.rs.game.content.skills.summoning.combat.FamiliarCombatScript;
 import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.lib.util.Utils;
 
 public class HoneyBadger extends FamiliarCombatScript {
@@ -40,8 +41,8 @@ public class HoneyBadger extends FamiliarCombatScript {
 			return CANCEL;
 
 		npc.sync(7930, 1397);
-		delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, npc.getCombatDefinitions().getMaxHit(), AttackStyle.MELEE, target)));
-		delayHit(npc, 1, target, getMeleeHit(npc, getMaxHit(npc, npc.getCombatDefinitions().getMaxHit(), AttackStyle.MELEE, target)));
+		delayHit(npc, 0, target, Hit.melee(npc, getMaxHit(npc, npc.getCombatDefinitions().getMaxHit(), CombatStyle.MELEE, target)));
+		delayHit(npc, 1, target, Hit.melee(npc, getMaxHit(npc, npc.getCombatDefinitions().getMaxHit(), CombatStyle.MELEE, target)));
 		return npc.getAttackSpeed();
 	}
 }

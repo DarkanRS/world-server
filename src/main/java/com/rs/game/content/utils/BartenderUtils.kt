@@ -1,8 +1,8 @@
 package com.rs.game.content.utils
 
-import com.rs.game.content.miniquests.bar_crawl.BarCrawl.BarCrawlBars.Bars
 import com.rs.engine.dialogue.HeadE
 import com.rs.engine.dialogue.startConversation
+import com.rs.game.content.miniquests.bar_crawl.BarCrawl.BarCrawlBars.Bars
 import com.rs.game.model.entity.async.schedule
 import com.rs.game.model.entity.npc.NPC
 import com.rs.game.model.entity.player.Player

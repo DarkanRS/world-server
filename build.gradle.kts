@@ -4,11 +4,11 @@ plugins {
 	application
 	`maven-publish`
 	id("com.github.johnrengelman.shadow") version "8.1.1"
-	kotlin("jvm") version("2.0.0")
+	kotlin("jvm") version("2.0.20")
 }
 
-val darkanVersion: String = "2.0.1"
-val ktVer: String = "2.0.0"
+val darkanVersion: String = "2.0.4"
+val ktVer: String = "2.0.20"
 
 application {
 	group = "rs.darkan"
@@ -27,7 +27,7 @@ repositories {
 }
 
 dependencies {
-	implementation("rs.darkan:core:2.0.0")
+	implementation("rs.darkan:core:2.0.1")
 
 	implementation("org.jetbrains.kotlin:kotlin-stdlib:$ktVer")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-common:$ktVer")
@@ -43,8 +43,8 @@ dependencies {
 	implementation("com.google.guava:guava:33.0.0-jre")
 	implementation("org.mongodb:mongodb-driver-sync:4.11.1")
 	implementation("org.mongodb:mongodb-driver-core:4.11.1")
-	implementation("io.netty:netty-all:4.1.104.Final")
-	implementation("io.undertow:undertow-core:2.3.10.Final")
+	implementation("io.netty:netty-all:4.1.112.Final")
+	implementation("io.undertow:undertow-core:2.3.16.Final")
 	implementation("it.unimi.dsi:fastutil:8.5.12")
 	implementation("com.trivago:fastutil-concurrent-wrapper:0.2.2")
 

@@ -18,8 +18,10 @@ package com.rs.game.content.pets;
 
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
-import com.rs.lib.game.Animation;
+import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.handlers.ItemOnObjectHandler;
 
+@PluginEventHandler
 public class Incubator {
 
 	public enum Egg {
@@ -62,10 +64,12 @@ public class Incubator {
 			return true;
 		}
 		player.lock(1);
-		player.setNextAnimation(new Animation(833));
+		player.anim(833);
 		player.getInventory().deleteItem(itemId, 1);
 		player.getInventory().addItem(egg.petId, 1);
 		player.sendMessage("You put the egg in the incubator and it hatches.");
 		return true;
 	}
+
+	public static ItemOnObjectHandler handleIncubator = new ItemOnObjectHandler(new Object[] { 28550, 28352 }, new Object[] { 5076, 5077, 5078, 11964, 11965, 12477, 12478, 12479, 12480, 12483, 12494 }, e -> useEgg(e.getPlayer(), e.getItem().getId()));
 }

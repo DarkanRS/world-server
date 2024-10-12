@@ -1202,8 +1202,7 @@ public class DungeonController extends Controller {
 					return false;
 				player.getInventory().addItem(DungeonConstants.GATESTONE, 1);
 				player.getSkills().addXp(Constants.MAGIC, 43.5);
-				player.setNextAnimation(new Animation(713));
-				player.setNextSpotAnim(new SpotAnim(113));
+				player.sync(713, 113);
 			} else
 				Magic.processDungSpell(player, componentId, packet);
 			return false;
@@ -1254,7 +1253,7 @@ public class DungeonController extends Controller {
 			player.getInventory().deleteItem(item);
 			setGatestone(null);
 		}
-		if (!Magic.checkRunes(player, true, new RuneSet(Rune.LAW, 3)))
+		if (group && !Magic.checkRunes(player, true, new RuneSet(Rune.LAW, 3)))
 			return;
 		Magic.sendTeleportSpell(player, 13288, 13285, 2516, 2517, group ? 64 : 32, 0, tile, 3, false, TeleType.MAGIC, null);
 		if (!group) {

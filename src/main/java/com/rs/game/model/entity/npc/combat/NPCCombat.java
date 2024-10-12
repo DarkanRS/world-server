@@ -16,14 +16,14 @@
 //
 package com.rs.game.model.entity.npc.combat;
 
+import com.rs.engine.pathfinder.PathFinder;
 import com.rs.game.content.Effect;
-import com.rs.game.content.bosses.godwars.zaros.Nex;
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.content.combat.PlayerCombatKt;
 import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.content.skills.summoning.Summoning.ScrollTarget;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
 import com.rs.lib.util.Utils;
@@ -77,10 +77,8 @@ public final class NPCCombat {
 			}
 		}
 		int maxDistance = npc.getAttackRange();
-		if (!(npc instanceof Nex) && !npc.lineOfSightTo(target, maxDistance == 0))
-			return Math.min(combatDelay, npc.getAttackSpeed()); //probably could return 0 but too scared of side effects
-		boolean los = npc.lineOfSightTo(target, maxDistance == 0);
-		boolean inRange = WorldUtil.isInRange(npc, target, maxDistance + (npc.hasWalkSteps() && target.hasWalkSteps() ? (npc.getRun() && target.getRun() ? 2 : 1) : 0));
+		boolean los = npc.lineOfSightTo(target, maxDistance == 0) || target.lineOfSightTo(npc, maxDistance == 0);
+		boolean inRange = WorldUtil.isInRange(npc, target, maxDistance + (target.getRun() ? target.hasWalkSteps() ? 2 : 1 : target.hasWalkSteps() ? 1 : 0));
 		//boolean collidesCheck = !npc.isCantFollowUnderCombat() && WorldUtil.collides(npc, target);
 		//add collision check here to enable jagex's cancer NPC walking mechanic
 		if (!los || !inRange)
@@ -104,10 +102,9 @@ public final class NPCCombat {
 
 	public void setTarget(Entity target) {
 		this.target = target;
-		npc.setNextFaceEntity(target);
-		if (!checkAll()) {
+		npc.faceEntity(target);
+		if (!checkAll())
 			removeTarget();
-        }
 	}
 
 	public boolean checkAll() {
@@ -157,7 +154,7 @@ public final class NPCCombat {
 				}
 				return true;
 			}
-			if (npc.getAttackStyle() == AttackStyle.MELEE && targetSize == 1 && size == 1 && Math.abs(npc.getX() - target.getX()) == 1 && Math.abs(npc.getY() - target.getY()) == 1 && !target.hasWalkSteps()) {
+			if (npc.getCombatStyle() == CombatStyle.MELEE && targetSize == 1 && size == 1 && Math.abs(npc.getX() - target.getX()) == 1 && Math.abs(npc.getY() - target.getY()) == 1 && !target.hasWalkSteps()) {
 				if (!npc.addWalkSteps(target.getX(), npc.getY(), 1))
 					npc.addWalkSteps(npc.getX(), target.getY(), 1);
 				return true;
@@ -189,7 +186,7 @@ public final class NPCCombat {
 
 	public void removeTarget() {
 		target = null;
-		npc.setNextFaceEntity(null);
+		npc.stopFaceEntity();
 	}
 
 	public void reset() {

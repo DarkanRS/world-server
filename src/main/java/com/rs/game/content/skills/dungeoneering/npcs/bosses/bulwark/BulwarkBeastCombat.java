@@ -17,20 +17,19 @@
 package com.rs.game.content.skills.dungeoneering.npcs.bosses.bulwark;
 
 import com.rs.game.World;
+import com.rs.game.content.combat.CombatStyle;
 import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.npc.combat.NPCCombatUtil;
-import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
 import kotlin.Pair;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -55,7 +54,7 @@ public class BulwarkBeastCombat extends CombatScript {
 			for (Entity t : targets)
 				if (WorldUtil.isInRange(t.getX(), t.getY(), t.getSize(), npc.getX(), npc.getY(), npc.getSize(), 0)) {
 					t.setNextSpotAnim(new SpotAnim(2400));
-					delayHit(npc, 1, t, getRegularHit(npc, 1 + Utils.random((int) (npc.getLevelForStyle(AttackStyle.MELEE) * 0.7))));
+					delayHit(npc, 1, t, Hit.flat(npc, 1 + Utils.random((int) (npc.getLevelForStyle(CombatStyle.MELEE) * 0.7))));
 				}
 			return npc.getAttackSpeed();
 		}
@@ -66,7 +65,7 @@ public class BulwarkBeastCombat extends CombatScript {
 			case 0 -> {
 				npc.sync(13004, 2397);
 				NPCCombatUtil.projectileBounce(npc, target, new HashSet<>(Set.of(target)), 2398, 2399, 5, null, nextTarget ->
-					delayHit(npc, 0, nextTarget, getMagicHit(npc, getMaxHit(npc, npc.getMaxHit(), NPCCombatDefinitions.AttackStyle.MAGE, nextTarget))));
+					delayHit(npc, 0, nextTarget, Hit.magic(npc, getMaxHit(npc, npc.getMaxHit(), CombatStyle.MAGIC, nextTarget))));
 			}
 			case 1 -> {
 				npc.setNextAnimation(new Animation(13006));
@@ -75,12 +74,12 @@ public class BulwarkBeastCombat extends CombatScript {
 				for (Entity t : targets) {
 					World.sendProjectile(npc, t, 2395, new Pair<>(35, 30), 41, 5, 0);
 					t.setNextSpotAnim(new SpotAnim(2396, 75, 0));
-					delayHit(npc, 1, t, getRangeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.RANGE, t)));
+					delayHit(npc, 1, t, Hit.range(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.RANGE, t)));
 				}
 			}
 			case 2 -> {
 				npc.setNextAnimation(new Animation(defs.getAttackEmote()));
-				delayHit(npc, 0, target, getMeleeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MELEE, target)));
+				delayHit(npc, 0, target, Hit.melee(npc, getMaxHitFromAttackStyleLevel(npc, CombatStyle.MELEE, target)));
 			}
 		}
 		return npc.getAttackSpeed();

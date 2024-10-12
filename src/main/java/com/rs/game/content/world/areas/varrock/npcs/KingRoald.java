@@ -2,12 +2,9 @@ package com.rs.game.content.world.areas.varrock.npcs;
 
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
-import com.rs.engine.dialogue.Options;
 import com.rs.engine.quest.Quest;
-//import com.rs.game.content.quests.allfiredup.KingRoaldAllFiredUpD;
 import com.rs.game.content.quests.priestinperil.KingRoaldPriestInPerilD;
 import com.rs.game.content.quests.shieldofarrav.KingRoaldShieldOfArravD;
-import com.rs.game.model.entity.player.Skills;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 
