@@ -415,11 +415,11 @@ fun mapTheDigSiteInteractions() {
 
     onDropItem(UNIDENTIFIED_LIQUID, NITROGLYCERIN, MIXED_CHEMICALS, MIXED_CHEMICALS_CHARCOAL, CHEMICAL_COMPOUND) { e ->
         when (e.item.id) {
-            UNIDENTIFIED_LIQUID -> TheDigSiteUtils(e.player).dropLiquid(e.item, 25)
-            NITROGLYCERIN -> TheDigSiteUtils(e.player).dropLiquid(e.item, 35)
-            MIXED_CHEMICALS -> TheDigSiteUtils(e.player).dropLiquid(e.item, 45)
-            MIXED_CHEMICALS_CHARCOAL -> TheDigSiteUtils(e.player).dropLiquid(e.item, 55)
-            CHEMICAL_COMPOUND -> TheDigSiteUtils(e.player).dropLiquid(e.item, 65)
+            UNIDENTIFIED_LIQUID -> TheDigSiteUtils(e.player).dropLiquid(e.item, 250)
+            NITROGLYCERIN -> TheDigSiteUtils(e.player).dropLiquid(e.item, 350)
+            MIXED_CHEMICALS -> TheDigSiteUtils(e.player).dropLiquid(e.item, 450)
+            MIXED_CHEMICALS_CHARCOAL -> TheDigSiteUtils(e.player).dropLiquid(e.item, 550)
+            CHEMICAL_COMPOUND -> TheDigSiteUtils(e.player).dropLiquid(e.item, 650)
         }
         e.cancelDrop()
     }
