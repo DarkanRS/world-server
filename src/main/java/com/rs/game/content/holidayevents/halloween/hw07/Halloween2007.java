@@ -383,6 +383,7 @@ public class Halloween2007 {
 						ops.add("Yes", () -> {
 							ctrl.removeItems();
 							ctrl.resetReturnedItems();
+							handlePassGargoyleEntry(e.getPlayer(), e.getObject());
 						});
 						ops.add("No, I'll finish first.");
 					});
