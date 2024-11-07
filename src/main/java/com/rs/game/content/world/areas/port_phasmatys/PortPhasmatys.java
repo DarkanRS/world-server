@@ -91,7 +91,13 @@ public class PortPhasmatys {
     public static ObjectClickHandler energyBarrier = new ObjectClickHandler(new Object[] { 5259 }, e -> {
         switch(e.getPlayer().getY()) {
             case 3507 -> e.getPlayer().tele(Tile.of(e.getPlayer().getX(), e.getPlayer().getY() + 2, 0));
+            case 3508 -> e.getPlayer().tele(Tile.of(e.getPlayer().getX(), e.getPlayer().getY() - 1, 0));
             case 3509 -> e.getPlayer().tele(Tile.of(e.getPlayer().getX(), e.getPlayer().getY() - 2, 0));
+        }
+        switch(e.getPlayer().getX()) {
+            case 3651 -> e.getPlayer().tele(Tile.of(e.getPlayer().getX() + 2, e.getPlayer().getY(), 0));
+            case 3652 -> e.getPlayer().tele(Tile.of(e.getPlayer().getX() + 1, e.getPlayer().getY(), 0));
+            case 3653 -> e.getPlayer().tele(Tile.of(e.getPlayer().getX() - 2, e.getPlayer().getY(), 0));
         }
     });
 

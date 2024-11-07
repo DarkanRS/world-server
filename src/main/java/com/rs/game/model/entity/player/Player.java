@@ -1322,6 +1322,7 @@ public class Player extends Entity {
 		if (Utils.getTodayDate() >= weeklyDate) {
 			sendMessage("<col=FF0000>Your weekly tasks have been reset.</col>");
 			weeklyAttributes = new ConcurrentHashMap<>();
+			getVars().saveVarBit(5276, 0); // Penguin spotted count
 			weeklyDate = setLastDateToNextWednesday();
 		}
 	}

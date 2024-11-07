@@ -827,4 +827,26 @@
     "comment": "King Lathas added by mr_ashie_b",
     "npcId": 364
   },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2596,
+      "y": 3266
+    },
+	"dir": "NORTH",
+	"clip": "OUTDOOR",
+    "comment": "Larry-QuestVersion",
+    "npcId": 8693
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2596,
+      "y": 3266
+    },
+	"dir": "NORTH",
+	"clip": "OUTDOOR",
+    "comment": "Larry-Generic",
+    "npcId": 5424
+  },
 ]

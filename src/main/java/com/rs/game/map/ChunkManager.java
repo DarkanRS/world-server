@@ -309,6 +309,14 @@ public final class ChunkManager {
         }
     }
 
+    public static void removePermanentlyPreloadedRegions(Set<Integer> regionIds) {
+        for (int regionId : regionIds) {
+            if (!PERMANENTLY_LOADED_REGIONS.contains(regionId))
+                continue;
+            PERMANENTLY_LOADED_REGIONS.remove(regionId);
+        }
+    }
+
     public static void processChunks() {
         synchronized(CHUNKS) {
             try {
