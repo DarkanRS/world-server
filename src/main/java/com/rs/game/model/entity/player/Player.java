@@ -1322,6 +1322,7 @@ public class Player extends Entity {
 		if (Utils.getTodayDate() >= weeklyDate) {
 			sendMessage("<col=FF0000>Your weekly tasks have been reset.</col>");
 			weeklyAttributes = new ConcurrentHashMap<>();
+			getVars().saveVarBit(5276, 0); // Penguin spotted count
 			weeklyDate = setLastDateToNextWednesday();
 		}
 	}
@@ -2071,7 +2072,7 @@ public class Player extends Entity {
 
 	@Override
 	public void handlePreHitOut(Entity target, Hit hit) {
-		if (getEquipment().fullGuthansEquipped())
+		if (getEquipment().fullGuthansEquipped() && hit.getLook() == HitLook.MELEE_DAMAGE)
 			if (Utils.random(4) == 0) {
 				int heal = hit.getDamage();
 				if (heal > 0)

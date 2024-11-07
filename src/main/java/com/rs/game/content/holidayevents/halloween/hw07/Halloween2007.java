@@ -233,7 +233,7 @@ public class Halloween2007 {
 	public static ObjectClickHandler handleChest = new ObjectClickHandler(new Object[] { 27255 }, e -> searchItem(e.getPlayer(), GRIM_WILL, "You found someone's Last Will and Testament."));
 	public static ObjectClickHandler handleFireplace = new ObjectClickHandler(new Object[] { 27251 }, e -> searchItem(e.getPlayer(), VOD_POTION, "You found a 'Voice of Doom' potion."));
 
-	public static ItemOnObjectHandler handleSharpenerCabinet = new ItemOnObjectHandler(new Object[] { 27246 }, new Tile[] { Tile.of(1687, 4820, 0) }, e -> {
+	public static ItemOnObjectHandler handleSharpenerCabinet = new ItemOnObjectHandler(new Object[] { 27246 }, null, new Tile[] { Tile.of(1687, 4820, 0) }, e -> {
 		if (e.getPlayer().getControllerManager().getController() == null)
 			e.getPlayer().getControllerManager().startController(new Halloween2007Controller());
 		Halloween2007Controller ctrl = (Halloween2007Controller) e.getPlayer().getControllerManager().getController();
@@ -383,6 +383,7 @@ public class Halloween2007 {
 						ops.add("Yes", () -> {
 							ctrl.removeItems();
 							ctrl.resetReturnedItems();
+							handlePassGargoyleEntry(e.getPlayer(), e.getObject());
 						});
 						ops.add("No, I'll finish first.");
 					});

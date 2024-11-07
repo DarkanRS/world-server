@@ -117,24 +117,14 @@ public class GrimReaper2007D extends Conversation {
 			addPlayer(HeadE.CONFUSED, "So...any chance of a reward for my service?");
 			addNPC(8867, HeadE.CALM_TALK, "Hmmm. Mortals and their goal-driven attitude - one thing that shall forever elude my understanding. As you wish, but trouble me no more.");
 			addPlayer(HeadE.CHEERFUL, "Thank you!");
-			addItem(9925, "The Grim Reaper has given you a jack-o-lantern mask, a skeleton costume, random halloween mask, and you have now unlocked the Living on Borrowed Time emote!");
+			addItem(9925, "The Grim Reaper has given you a scythe, random halloween mask, and you have now unlocked the Zombie Hand emote!");
 			addNPC(8867, HeadE.CALM_TALK, "Death will find you one day...");
 			addNext(() -> {
 				player.set(Halloween2007.STAGE_KEY, 10);
-				player.getInventory().addItemDrop(new Item(9920, 1));
-				player.getInventory().addItemDrop(new Item(9925, 1));
-				player.getInventory().addItemDrop(new Item(9924, 1));
-				player.getInventory().addItemDrop(new Item(9923, 1));
-				player.getInventory().addItemDrop(new Item(9921, 1));
-				player.getInventory().addItemDrop(new Item(9922, 1));
+				player.getInventory().addItemDrop(new Item(1419, 1));
 				player.getInventory().addItemDrop(new Item(HWEEN_MASKS[Utils.random(HWEEN_MASKS.length)]));
-				player.addDiangoReclaimItem(9920);
-				player.addDiangoReclaimItem(9925);
-				player.addDiangoReclaimItem(9924);
-				player.addDiangoReclaimItem(9923);
-				player.addDiangoReclaimItem(9921);
-				player.addDiangoReclaimItem(9922);
-				player.getEmotesManager().unlockEmote(Emote.LIVING_BORROWED_TIME);
+				player.addDiangoReclaimItem(1419);
+				player.getEmotesManager().unlockEmote(Emote.ZOMBIE_HAND);
 				player.fakeHit(new Hit(player.getHitpoints(), HitLook.TRUE_DAMAGE));
 				player.sendDeath(null);
 				player.fadeScreen(() -> player.startConversation(new Dialogue().addPlayer(HeadE.CONFUSED, "Well. That was an experience I will never forget.")));

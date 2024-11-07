@@ -21243,15 +21243,6 @@
   {
     "tile": {
       "plane": 0,
-      "x": 2596,
-      "y": 3266
-    },
-    "comment": "Larry",
-    "npcId": 8693
-  },
-  {
-    "tile": {
-      "plane": 0,
       "x": 2621,
       "y": 3688
     },
@@ -84777,6 +84768,7 @@
       "x": 3652,
       "y": 3484
     },
+	"dir": "WEST",
     "comment": "Ghost guard",
     "npcId": 1706
   },
@@ -84786,6 +84778,7 @@
       "x": 3652,
       "y": 3487
     },
+	"dir": "WEST",
     "comment": "Ghost guard",
     "npcId": 1706
   },
@@ -84795,6 +84788,7 @@
       "x": 3658,
       "y": 3508
     },
+	"dir": "NORTH",
     "comment": "Ghost guard",
     "npcId": 1706
   },
@@ -84804,6 +84798,7 @@
       "x": 3661,
       "y": 3508
     },
+	"dir": "NORTH",
     "comment": "Ghost guard",
     "npcId": 1706
   },

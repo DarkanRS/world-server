@@ -57,6 +57,10 @@ tasks.withType<ShadowJar> {
 	mergeServiceFiles()
 }
 
+tasks.withType<Jar> {
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
 publishing {
 	val ciProjectId: String? = System.getenv("CI_PROJECT_ID")
 	val ciJobToken: String? = System.getenv("CI_JOB_TOKEN")

@@ -60,7 +60,7 @@ public class PumpkinSpawning {
 	public static int countPumpkins(int chunkId) {
 		pumpkinCount = 0;
 		List<GroundItem> itemSpawns = ChunkManager.getChunk(chunkId, true).getAllGroundItems();
-		if (itemSpawns != null && itemSpawns.size() > 0)
+		if (itemSpawns != null && !itemSpawns.isEmpty())
 			itemSpawns.forEach( spawn -> {
 				if (spawn.getId() == 1959)
 					pumpkinCount += 1;
