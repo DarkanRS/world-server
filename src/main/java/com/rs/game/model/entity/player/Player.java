@@ -2071,7 +2071,7 @@ public class Player extends Entity {
 
 	@Override
 	public void handlePreHitOut(Entity target, Hit hit) {
-		if (getEquipment().fullGuthansEquipped())
+		if (getEquipment().fullGuthansEquipped() && hit.getLook() == HitLook.MELEE_DAMAGE)
 			if (Utils.random(4) == 0) {
 				int heal = hit.getDamage();
 				if (heal > 0)

@@ -48,7 +48,7 @@ import java.util.Set;
 public class Halloween2007 {
 
 	public static String STAGE_KEY = "hw2024";
-	public static boolean ENABLED = true;
+	public static boolean ENABLED = false;
 
 	public static Tile START_LOCATION = Tile.of(1697, 4814, 0);
 
