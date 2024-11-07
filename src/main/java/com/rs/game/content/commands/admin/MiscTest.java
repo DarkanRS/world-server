@@ -25,8 +25,8 @@ import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.cache.loaders.ObjectType;
-import com.rs.cache.loaders.interfaces.IFEvents;
 import com.rs.cache.loaders.map.ClipFlag;
+import com.rs.db.WorldDB;
 import com.rs.engine.command.Commands;
 import com.rs.engine.cutscene.ExampleCutscene;
 import com.rs.engine.miniquest.Miniquest;
@@ -35,8 +35,8 @@ import com.rs.engine.quest.Quest;
 import com.rs.game.World;
 import com.rs.game.content.achievements.Achievement;
 import com.rs.game.content.combat.CombatDefinitions.Spellbook;
-import com.rs.game.content.combat.PlayerCombatKt;
 import com.rs.game.content.dnds.eviltree.EvilTreesKt;
+import com.rs.game.content.dnds.penguins.*;
 import com.rs.game.content.dnds.shootingstar.ShootingStars;
 import com.rs.game.content.minigames.barrows.BarrowsController;
 import com.rs.game.content.minigames.treasuretrails.TreasureTrailsManager;
@@ -82,6 +82,7 @@ import com.rs.tools.MapSearcher;
 import com.rs.tools.NPCDropDumper;
 import com.rs.utils.DropSets;
 import com.rs.utils.ObjAnimList;
+import com.rs.utils.Ticks;
 import com.rs.utils.music.Genre;
 import com.rs.utils.music.Music;
 import com.rs.utils.music.Song;
@@ -95,8 +96,12 @@ import com.rs.utils.spawns.NPCSpawns;
 import kotlin.Pair;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 @PluginEventHandler
@@ -154,6 +159,80 @@ public class MiscTest {
 		Commands.add(Rights.ADMIN, "shootingstar", "spawn a shooting star", (p, args) -> ShootingStars.spawnStar());
 
 		Commands.add(Rights.ADMIN, "eviltree", "spawn an evil tree", (p, args) -> EvilTreesKt.spawnTree());
+
+		Commands.add(Rights.ADMIN, "penguin_status", "Returns the location of the active polar bear.", (p, args) -> {
+			PenguinSpawnService penguinSpawnService = PenguinServices.INSTANCE.getPenguinSpawnService();
+			long[] activePenguinCount = {0};
+
+			Penguins.getEntries().stream()
+					.filter(penguin -> penguinSpawnService.getSpawnedNPCs().values().stream()
+							.anyMatch(npc -> npc.getRespawnTile().equals(penguin.getTile())))
+					.forEach(penguin -> {
+						activePenguinCount[0]++;
+						p.getPackets().sendDevConsoleMessage(activePenguinCount[0] + ". " + penguin + " - " + penguin.getTile() + " - " + penguin.getWikiLocation());
+					});
+
+			p.getPackets().sendDevConsoleMessage("Total active penguins: " + activePenguinCount[0]);
+
+			PolarBearManager polarBearManager = PenguinServices.INSTANCE.getPolarBearManager();
+			p.getPackets().sendDevConsoleMessage("Polar Bear currently located in: " + polarBearManager.getLocationName(polarBearManager.getCurrentLocationId()));
+
+			Commands.processCommand(p, "penguin_next_reset", true, false);
+		});
+
+		Commands.add(Rights.ADMIN, "penguin_respawn", "Respawns both penguins and polar bear.", (p, args) -> {
+			PolarBearManager polarBearManager = PenguinServices.INSTANCE.getPolarBearManager();
+			polarBearManager.setLocation();
+			if (p != null) p.getPackets().sendDevConsoleMessage("Polar Bear respawned at: " + polarBearManager.getLocationName(polarBearManager.getCurrentLocationId()));
+			PenguinSpawnService penguinSpawnService = PenguinServices.INSTANCE.getPenguinSpawnService();
+			PenguinManager penguinManager = PenguinServices.INSTANCE.getPenguinHideAndSeekManager();
+			penguinSpawnService.getSpawnedNPCs().values().forEach(NPC::finish);
+			penguinSpawnService.getSpawnedNPCs().clear();
+			penguinManager.checkAndSpawn();
+			if (p != null)p.getPackets().sendDevConsoleMessage("Penguins respawned.");
+			if (p != null) Commands.processCommand(p, "penguin_status", true, false);
+		});
+
+		Commands.add(Rights.ADMIN, "penguin_participants", "Returns a list of all Penguin Hide and Seek participants for the current Penguin/Polar Bear spawns.", (p, args) -> {
+			try {
+				List<String> spotters = WorldDB.getPenguinHAS().getAllParticipants();
+
+				if (spotters.isEmpty()) {
+					p.getPackets().sendDevConsoleMessage("No participants found.");
+				} else {
+					StringBuilder participantsInfo = new StringBuilder();
+					for (int i = 0; i < spotters.size(); i++) {
+						String username = spotters.get(i);
+						List<String> foundEntities = WorldDB.getPenguinHAS().getFoundEntitiesByUsername(username);
+						String foundList = foundEntities.isEmpty() ? "None" : String.join(", ", foundEntities);
+
+						participantsInfo.append(username).append(" - Found ").append(foundEntities.size()).append(": ").append(foundList);
+
+						if (i < spotters.size() - 1) {
+							participantsInfo.append("\n");
+						}
+					}
+
+					p.getPackets().sendDevConsoleMessage("Penguin Hide and Seek participants:\n" + participantsInfo);
+					p.getPackets().sendDevConsoleMessage("Total participants for week " + PenguinServices.INSTANCE.getPenguinWeeklyScheduler().getCurrentWeek() + ": " + spotters.size());
+				}
+			} catch (Exception e) {
+				p.getPackets().sendDevConsoleMessage("Couldn't retrieve participants from Database.");
+			}
+		});
+
+		Commands.add(Rights.ADMIN, "penguin_next_reset", "Returns the date/time of the next reset.", (p, args) -> {
+			PenguinWeeklyScheduler scheduler = PenguinServices.INSTANCE.getPenguinWeeklyScheduler();
+
+			ZonedDateTime nextResetTime = scheduler.getNextWeeklyReset();
+			long millisUntilReset = Duration.between(scheduler.getCurrentDayAndTime(), nextResetTime).toMillis();
+
+			Date resetDate = Date.from(nextResetTime.toInstant());
+			SimpleDateFormat formatter = new SimpleDateFormat("EEE, MMM d, yyyy 'at' HH:mm:ss z");
+			String formattedResetTime = formatter.format(resetDate);
+
+			p.getPackets().sendDevConsoleMessage("Next reset is scheduled for: " + formattedResetTime + ", or in " + Ticks.breakDownOfTicks((int) (millisUntilReset / 600)) + ".");
+		});
 
 		Commands.add(Rights.DEVELOPER, "dumpdrops [npcId]", "exports a drop dump file for the specified NPC", (p, args) -> NPCDropDumper.dumpNPC(args[0]));
 

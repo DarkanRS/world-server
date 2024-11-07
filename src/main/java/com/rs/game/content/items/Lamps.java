@@ -26,6 +26,8 @@ import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ButtonClickHandler;
 
+import static com.rs.game.content.dnds.penguins.PenguinHASControllerKt.PENGUIN_POINTS;
+
 @PluginEventHandler
 public class Lamps {
 
@@ -36,32 +38,32 @@ public class Lamps {
 
 	public static final int[] SELECTABLE_XP_LAMPS = { 23713, 23714, 23715, 23716, 12628, 18782, 20960 };
 	public static final int[] SELECTABLE_XP_LAMPS_TYPES = { LAMP_SMALL, LAMP_MEDIUM, LAMP_BIG, LAMP_HUGE, LAMP_SMALL, LAMP_SMALL, LAMP_SMALL };
-	public static final int[][] SKILL_LAMPS = { 
-			{ 23717, 23718, 23719, 23720 }, 
-			{ 23725, 23726, 23727, 23728 }, 
-			{ 23721, 23722, 23723, 23724 }, 
-			{ 23753, 23754, 23755, 23756 }, 
-			{ 23729, 23730, 23731, 23732 }, 
-			{ 23737, 23738, 23739, 23740 }, 
-			{ 23733, 23734, 23735, 23736 }, 
-			{ 23798, 23799, 23800, 23801 }, 
-			{ 23806, 23807, 23808, 23809 }, 
-			{ 23774, 23775, 23776, 23777 }, 
-			{ 23794, 23795, 23796, 23797 }, 
-			{ 23802, 23803, 23804, 23805 }, 
-			{ 23769, 23770, 23771, 23773 }, 
+	public static final int[][] SKILL_LAMPS = {
+			{ 23717, 23718, 23719, 23720 },
+			{ 23725, 23726, 23727, 23728 },
+			{ 23721, 23722, 23723, 23724 },
+			{ 23753, 23754, 23755, 23756 },
+			{ 23729, 23730, 23731, 23732 },
+			{ 23737, 23738, 23739, 23740 },
+			{ 23733, 23734, 23735, 23736 },
+			{ 23798, 23799, 23800, 23801 },
+			{ 23806, 23807, 23808, 23809 },
+			{ 23774, 23775, 23776, 23777 },
+			{ 23794, 23795, 23796, 23797 },
+			{ 23802, 23803, 23804, 23805 },
+			{ 23769, 23770, 23771, 23773 },
 			{ 23790, 23791, 23792, 23793 },
-			{ 23786, 23787, 23788, 23789 }, 
-			{ 23761, 23762, 23763, 23764 }, 
-			{ 23757, 23758, 23759, 23760 }, 
-			{ 23765, 23766, 23767, 23768 }, 
-			{ 23778, 23779, 23780, 23781 }, 
-			{ 23810, 23811, 23812, 23813 }, 
-			{ 23741, 23742, 23743, 23744 }, 
-			{ 23782, 23783, 23784, 23785 }, 
-			{ 23745, 23746, 23747, 23748 }, 
-			{ 23814, 23815, 23816, 23817 }, 
-			{ 23749, 23750, 23751, 23752 } 
+			{ 23786, 23787, 23788, 23789 },
+			{ 23761, 23762, 23763, 23764 },
+			{ 23757, 23758, 23759, 23760 },
+			{ 23765, 23766, 23767, 23768 },
+			{ 23778, 23779, 23780, 23781 },
+			{ 23810, 23811, 23812, 23813 },
+			{ 23741, 23742, 23743, 23744 },
+			{ 23782, 23783, 23784, 23785 },
+			{ 23745, 23746, 23747, 23748 },
+			{ 23814, 23815, 23816, 23817 },
+			{ 23749, 23750, 23751, 23752 }
 	};
 
 	// 2528: RE Genie, 4447: Shield Of Arrav, 13227: Troll Stronghold, 19775: Gunnar's Ground, 23085: Death Plateau, 23086: Death Plateau Post-Quest
@@ -69,13 +71,13 @@ public class Lamps {
 
 	private static final int[] DIALOGUE_INTERFACE_CS2 = { Skills.ATTACK, Skills.MAGIC, Skills.MINING, Skills.WOODCUTTING, Skills.AGILITY, Skills.FLETCHING, Skills.THIEVING, Skills.STRENGTH, Skills.RANGE, Skills.SMITHING, Skills.FIREMAKING, Skills.HERBLORE, Skills.SLAYER, Skills.CONSTRUCTION, Skills.DEFENSE, Skills.PRAYER, Skills.FISHING, Skills.CRAFTING, Skills.FARMING, Skills.HUNTER, Skills.SUMMONING, Skills.HITPOINTS, Skills.DUNGEONEERING, Skills.COOKING, Skills.RUNECRAFTING };
 
-	private static final double[] BASE_LAMPS_XP = { 
-		62.5, 69, 77, 85, 94, 104, 115, 127, 139, 154, 170, 188, 206, 229, 252, 262, 274, 285, 298, 310, 
-		325, 337, 352, 367.5, 384, 399, 405, 414, 453, 473, 514, 528, 536, 551, 583, 609, 635, 662, 692, 
-		721, 752, 785, 818, 854, 890, 929, 971, 1013, 1055, 1101, 1149, 1200, 1250, 1305, 1362, 1422, 1485, 
-		1542, 1617, 1685, 1758, 1836, 1912, 2004.5, 2085, 2172, 2269, 2379, 2471, 2593, 2693, 2810, 2947, 
-		3082, 3214, 3339, 3496, 3648, 3793, 3980, 4166, 4348, 4522, 4762, 4919, 5150, 5376, 5593, 5923, 
-		6122, 6452, 6615, 6929, 7236, 7533, 8065, 8348, 8602 
+	private static final double[] BASE_LAMPS_XP = {
+			62.5, 69, 77, 85, 94, 104, 115, 127, 139, 154, 170, 188, 206, 229, 252, 262, 274, 285, 298, 310,
+			325, 337, 352, 367.5, 384, 399, 405, 414, 453, 473, 514, 528, 536, 551, 583, 609, 635, 662, 692,
+			721, 752, 785, 818, 854, 890, 929, 971, 1013, 1055, 1101, 1149, 1200, 1250, 1305, 1362, 1422, 1485,
+			1542, 1617, 1685, 1758, 1836, 1912, 2004.5, 2085, 2172, 2269, 2379, 2471, 2593, 2693, 2810, 2947,
+			3082, 3214, 3339, 3496, 3648, 3793, 3980, 4166, 4348, 4522, 4762, 4919, 5150, 5376, 5593, 5923,
+			6122, 6452, 6615, 6929, 7236, 7533, 8065, 8348, 8602
 	};
 
 	public static void processLampClick(Player player, int slot, int id) {
@@ -102,16 +104,16 @@ public class Lamps {
 	}
 
 	private static int getLampsLevelReq(int id) {
-        return switch (id) {
+		return switch (id) {
 			case 4447 ->// Shield of Arrav
-				20;
+					20;
 			case 13227 -> // Troll Stronghold
-				30;
+					30;
 			case 19775 -> // Gunnar's Ground
-				5;
-            default -> 1;
-        };
-    }
+					5;
+			default -> 1;
+		};
+	}
 
 	public static void openSelectableInterface(Player player, int slot, int id) {
 		Lamp lamp = new Lamp(id, slot, getLampsLevelReq(id));
@@ -151,6 +153,29 @@ public class Lamps {
 			player.sendMessage("You have been awarded " + Utils.getFormattedNumber(exp, ',') + " XP in " + Skills.SKILL_NAME[lamp.getSelectedSkill()] + "!");
 			player.getTempAttribs().removeO("lampInstance");
 		});
+		lampD.addNext(() -> player.getTempAttribs().removeO("lampInstance"));
+		player.startConversation(lampD);
+		player.setCloseInterfacesEvent(() -> player.getTempAttribs().removeO("lampInstance"));
+	}
+
+	// openPenguinHASExpReward relates to the Penguin Hide And Seek Distraction and Diversion XP reward.
+	public static void openPenguinHASExpReward(Player player, int penguinPoints) {
+		Lamp lamp = new Lamp(23713, -1, 1);
+		Dialogue lampD = new Dialogue().addNext(new LampXPSelectStatement(lamp));
+
+		lampD.addNext(() -> {
+			int skillId = lamp.getSelectedSkill();
+			int lvl = player.getSkills().getLevelForXp(skillId);
+
+			// Calculate experience gained based on penguin points and player's level
+			double expGained = penguinPoints * (lvl * 25.0);
+			double exp = player.getSkills().addXpLamp(skillId, expGained);
+
+			player.sendMessage("You have been awarded " + Utils.getFormattedNumber(exp, ',') + " XP in " + Skills.SKILL_NAME[skillId] + "!");
+			player.getTempAttribs().removeO("lampInstance");
+			player.set(PENGUIN_POINTS, 0);
+		});
+
 		lampD.addNext(() -> player.getTempAttribs().removeO("lampInstance"));
 		player.startConversation(lampD);
 		player.setCloseInterfacesEvent(() -> player.getTempAttribs().removeO("lampInstance"));
@@ -211,10 +236,10 @@ public class Lamps {
 	}
 
 	private static int skillLampType(int id) {
-        for (int[] skillLamp : SKILL_LAMPS)
-            for (int i = 0; i < skillLamp.length; i++)
-                if (skillLamp[i] == id)
-                    return LAMP_SMALL + i;
+		for (int[] skillLamp : SKILL_LAMPS)
+			for (int i = 0; i < skillLamp.length; i++)
+				if (skillLamp[i] == id)
+					return LAMP_SMALL + i;
 		return -1;
 	}
 

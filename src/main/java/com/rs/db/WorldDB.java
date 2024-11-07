@@ -19,6 +19,7 @@ package com.rs.db;
 import com.rs.Settings;
 import com.rs.db.collection.GEManager;
 import com.rs.db.collection.HighscoresManager;
+import com.rs.db.collection.PenguinHASManager;
 import com.rs.db.collection.PlayerManager;
 import com.rs.db.collection.logs.LogManager;
 import com.rs.lib.db.DBConnection;
@@ -30,6 +31,7 @@ public class WorldDB extends DBConnection {
 	private static final HighscoresManager HIGHSCORES = new HighscoresManager();
 	private static final GEManager GE = new GEManager();
 	private static final LogManager LOGS = new LogManager();
+	private static final PenguinHASManager PENGUINHAS = new PenguinHASManager();
 
 	public WorldDB() {
 		super(Settings.getConfig().getMongoDb(), Settings.getConfig().getMongoDBName());
@@ -38,6 +40,7 @@ public class WorldDB extends DBConnection {
 		addItemManager(HIGHSCORES);
 		addItemManager(GE);
 		addItemManager(LOGS);
+		addItemManager(PENGUINHAS);
 	}
 
 	public static PlayerManager getPlayers() {
@@ -54,5 +57,9 @@ public class WorldDB extends DBConnection {
 
 	public static LogManager getLogs() {
 		return LOGS;
+	}
+
+	public static PenguinHASManager getPenguinHAS() {
+		return PENGUINHAS;
 	}
 }
