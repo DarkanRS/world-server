@@ -76,7 +76,7 @@ public class BoxAction extends PlayerAction {
 			player.getInventory().deleteItem(type.getId(), 1);
 			World.addGroundItem(new Item(type.getId(), 1), Tile.of(player.getTile()), player, true, 180);
 		}
-		player.sendMessage("You start setting up the trap..");
+		player.sendMessage("You begin setting up a trap.");
 		player.setNextAnimation(type == BoxTrapType.TREE_NET ? new Animation(5215) : new Animation(5208));
 		setActionDelay(player, type == BoxTrapType.TREE_NET ? 1 : 2);
 		return true;
