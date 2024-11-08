@@ -129,7 +129,7 @@ public class BoxAction extends PlayerAction {
 		int trapAmt = getTrapAmount(player);
 		int numberSetup = OwnedObject.getNumOwned(player, BoxStyleTrap.class);
 		if (numberSetup >= trapAmt) {
-			player.sendMessage("You can't setup more than " + trapAmt + " traps.");
+			player.sendMessage("You can't setup more than " + trapAmt + " " + (trapAmt == 1 ? "trap." : "traps."));
 			return false;
 		}
 		if (type != BoxTrapType.DEAD_FALL && trap.overlapsExisting() || player.getControllerManager().getController() != null) {
