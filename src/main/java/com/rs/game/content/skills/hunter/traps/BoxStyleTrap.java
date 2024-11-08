@@ -77,6 +77,7 @@ public class BoxStyleTrap extends OwnedObject {
 
 	public void expire(Player player) {
 		World.addGroundItem(new Item(type.getId(), 1), Tile.of(this.getTile()), player, true, 60);
+		player.sendMessage("The " + type.getName() + " trap that you set has collapsed.");
 		if (bait != -1)
 			World.addGroundItem(new Item(bait, 1), Tile.of(this.getTile()), player, true, 60);
 	}
