@@ -115,6 +115,7 @@ public class BoxStyleTrap extends OwnedObject {
 		if (getTrapType() == BoxTrapType.TREE_NET)
 			player.getInventory().addItemDrop(954, 1);
 		player.getInventory().addItemDrop(getTrapType().getId(), 1);
+		player.sendMessage("You dismantle the trap.");
 		if (bait != -1)
 			player.getInventory().addItemDrop(bait, 1);
 	}
