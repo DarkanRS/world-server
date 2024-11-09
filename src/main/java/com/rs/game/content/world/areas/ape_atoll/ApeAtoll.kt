@@ -16,6 +16,9 @@
 //
 package com.rs.game.content.world.areas.ape_atoll;
 
+import com.rs.game.World.getObjectWithId
+import com.rs.game.World.spawnObjectTemporary
+import com.rs.game.model.`object`.GameObject
 import com.rs.lib.game.Tile
 import com.rs.plugin.annotations.ServerStartupEvent
 import com.rs.plugin.kts.onObjectClick
@@ -70,6 +73,21 @@ fun mapApeAtoll() {
 			1 -> player.useStairs(-1, player.transform(-4, 0, 1), 1, 1);
 			2 -> player.useStairs(-1, player.transform(0, -4, 1), 1, 1);
 			3 -> player.useStairs(-1, player.transform(4, 0, 1), 1, 1);
+		}
+	}
+
+	// Main gates into Ape Atoll
+	onObjectClick(4787, 4788) { (player) ->
+		val eastDoor = getObjectWithId(Tile.of(2721, 2766, 0), 4788)
+		val westDoor = getObjectWithId(Tile.of(2719, 2766, 0), 4787)
+		if (eastDoor != null && westDoor != null) {
+			spawnObjectTemporary(GameObject(eastDoor, 83), 3, true)
+			spawnObjectTemporary(GameObject(westDoor, 83), 3, true)
+			spawnObjectTemporary(GameObject(eastDoor.id+2, eastDoor.type, eastDoor.getRotation(0), eastDoor.tile.transform(1, 0, 0)), 3, true)
+			spawnObjectTemporary(GameObject(westDoor.id+2, westDoor.type, westDoor.getRotation(0), westDoor.tile.transform(0, 0, 0)), 3, true)
+			player.addWalkSteps(player.x, player.y + (if (player.y > 2765) -2 else 2), 2, false)
+		} else {
+			player.sendMessage("Someone else is using the gate at the moment.")
 		}
 	}
 }

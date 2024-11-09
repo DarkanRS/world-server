@@ -28,17 +28,53 @@ class PenguinSpawnService () {
     fun isSpawnEmpty(): Boolean = repository.getAllSpawns().isEmpty()
 
     fun prepareNew(week: Int) {
-        removeAllSpawns()
-        val currentMonth = PenguinServices.penguinWeeklyScheduler.getCurrentMonth()
-        val penguinsToSpawn = Penguins.getPenguinsByPoints(1, 5) + Penguins.getPenguinsByPoints(2, 5)
+        var previouslySpawnedPenguins = repository.getAllSpawns()
+            .filter { (_, spawnWeek) -> spawnWeek == (week - 1) }
+            .map { (spawn, _) -> spawn }
 
-        penguinsToSpawn.forEach { penguin ->
+        removeAllSpawns()
+
+        val currentMonth = PenguinServices.penguinWeeklyScheduler.getCurrentMonth()
+        val usedLocationHints = mutableSetOf<String>()
+
+        val onePointPenguins = Penguins.getPenguinsByPoints(1)
+            .filterNot { it.locationHint in usedLocationHints || previouslySpawnedPenguins.any { spawn -> spawn.tile == it.tile } }
+            .take(5)
+        onePointPenguins.forEach { usedLocationHints.add(it.locationHint) }
+        val twoPointPenguins = Penguins.getPenguinsByPoints(2)
+            .filterNot { it.locationHint in usedLocationHints || previouslySpawnedPenguins.any { spawn -> spawn.tile == it.tile } }
+            .take(5)
+        twoPointPenguins.forEach { usedLocationHints.add(it.locationHint) }
+
+        val selectedPenguins = (onePointPenguins + twoPointPenguins).toMutableList()
+        val uniquePenguins = selectedPenguins.distinctBy { it.locationHint }.toMutableList()
+
+        if (uniquePenguins.size < 10) {
+            fun addReplacementPenguins(points: Int, targetList: MutableList<Penguins>, requiredCount: Int) {
+                val needed = requiredCount - targetList.count { it.points == points }
+                if (needed > 0) {
+                    Penguins.getPenguinsByPoints(points).filterNot { it.locationHint in usedLocationHints || it in targetList || previouslySpawnedPenguins.any { spawn -> spawn.tile == it.tile } }
+                        .take(needed)
+                        .forEach { penguin ->
+                            if (penguin.locationHint !in usedLocationHints) {
+                                targetList += penguin
+                                usedLocationHints.add(penguin.locationHint)
+                            }
+                        }
+                }
+            }
+
+            addReplacementPenguins(1, uniquePenguins, 5)
+            addReplacementPenguins(2, uniquePenguins, 5)
+        }
+
+        uniquePenguins.forEach { penguin ->
+            usedLocationHints.add(penguin.locationHint)
             val idToUse = when (currentMonth) {
                 Month.OCTOBER -> PUMPKIN_ID
                 Month.DECEMBER -> SNOWMAN_ID
                 else -> penguin.npcId
             }
-
             val newPenguin = WorldDB.getPenguinHAS().createPenguin(idToUse, penguin.name, null, week, penguin.points, penguin.tile, penguin.wikiLocation, penguin.locationHint)
             val spawn = repository.addSpawn(idToUse, newPenguin.location, penguin.wikiLocation, week)
             spawnPenguins(week, spawn)
