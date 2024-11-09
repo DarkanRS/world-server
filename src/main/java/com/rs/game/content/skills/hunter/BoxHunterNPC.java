@@ -70,6 +70,12 @@ public class BoxHunterNPC extends NPC {
 			BoxHunterType type = getType(trapO.getOwner());
 			if (type == null)
 				continue;
+			if (type.getQuestReqs() != null && !type.getQuestReqs().stream().allMatch(owner::isQuestComplete)) {
+				continue;
+			}
+			if (type.getSkillReqs() != null && !type.getSkillReqs().entrySet().stream().allMatch(entry -> owner.getSkills().getLevel(entry.getKey()) >= entry.getValue())) {
+				continue;
+			}
 			if (owner.getSkills().getLevel(Constants.HUNTER) < type.getLevel() || trapO.getStatus() != Status.IDLE || trapO.getLife() < 10 || trapO.getLife() > 75 || trapO.getTrapType() != type.getTrap() || trapO.getBait() != type.getBaitId() || !withinDistance(o.getTile(), 2))
 				continue;
 			captureTicks = 1;

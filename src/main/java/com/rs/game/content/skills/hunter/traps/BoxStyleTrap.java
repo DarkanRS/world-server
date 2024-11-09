@@ -37,7 +37,7 @@ import java.util.Arrays;
 
 public class BoxStyleTrap extends OwnedObject {
 
-	private static final int[] VALID_BAITS = { 5972, 12535 };
+	private static final int[] VALID_BAITS = { 1963, 5972, 12535 };
 
 	public enum Status {
 		IDLE,
