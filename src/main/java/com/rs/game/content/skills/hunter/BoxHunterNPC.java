@@ -80,7 +80,7 @@ public class BoxHunterNPC extends NPC {
 					return;
 				boolean success = Utils.skillSuccess(owner.getSkills().getLevel(Constants.HUNTER), type.getRate1(), type.getRate99());
 				faceObject(trapO);
-				setNextAnimation(success ? type.getAnimSuccess() : type.getAnimFail());
+				anim(success ? type.getAnimSuccess() : type.getAnimFail());
 				trapO.handleCatch(this, success);
 			}));
 			break;

@@ -57,17 +57,17 @@ public enum BoxHunterType {
 
 	BLACK_SALAMANDER(5116, "hunter_salam_black", 67, 319.2, BoxTrapType.TREE_NET, -1, -1, -1, new Animation(-1), new Animation(-1), -2, 212),
 
-	CRIMSON_SWIFT(5073, "hunter_crimswift", 1, 34, BoxTrapType.BIRD_SNARE, 19179, 19180, 19174, new Animation(6775), new Animation(6774), 100, 420),
+	CRIMSON_SWIFT(5073, "hunter_crimswift", 1, 34, BoxTrapType.BIRD_SNARE, 19179, 19180, 19174, new Animation(5171), new Animation(5172), 100, 420),
 
-	GOLDEN_WARBLER(5075, "hunter_goldwarb", 5, 48, BoxTrapType.BIRD_SNARE, 19183, 19184, 19174, new Animation(6775), new Animation(6774), 92, 402),
+	GOLDEN_WARBLER(5075, "hunter_goldwarb", 5, 48, BoxTrapType.BIRD_SNARE, 19183, 19184, 19174, new Animation(5171), new Animation(5172), 92, 402),
 
-	COPPER_LONGTAIL(5076, "hunter_copperlong", 9, 61, BoxTrapType.BIRD_SNARE, 19185, 19186, 19174, new Animation(6775), new Animation(6774), 84, 389),
+	COPPER_LONGTAIL(5076, "hunter_copperlong", 9, 61, BoxTrapType.BIRD_SNARE, 19185, 19186, 19174, new Animation(5171), new Animation(5172), 84, 389),
 
-	CERULEAN_TWITCH(5074, "hunter_cerutwitch", 11, 64.67, BoxTrapType.BIRD_SNARE, 19181, 19182, 19174, new Animation(6775), new Animation(6774), 82, 381),
+	CERULEAN_TWITCH(5074, "hunter_cerutwitch", 11, 64.67, BoxTrapType.BIRD_SNARE, 19181, 19182, 19174, new Animation(5171), new Animation(5172), 82, 381),
 
-	TROPICAL_WAGTAIL(5072, "hunter_tropwag", 19, 95.2, BoxTrapType.BIRD_SNARE, 19177, 19178, 19174, new Animation(6775), new Animation(6774), 74, 368),
+	TROPICAL_WAGTAIL(5072, "hunter_tropwag", 19, 95.2, BoxTrapType.BIRD_SNARE, 19177, 19178, 19174, new Animation(5171), new Animation(5172), 74, 368),
 
-	WIMPY_BIRD(7031, "hunter_wimpybird", 39, 167, BoxTrapType.BIRD_SNARE, 29164, 29165, 19174, new Animation(6775), new Animation(6774), 60, 321),
+	WIMPY_BIRD(7031, "hunter_wimpybird", 39, 167, BoxTrapType.BIRD_SNARE, 29164, 29165, 19174, new Animation(5171), new Animation(5172), 60, 321),
 
 	IMP(708, "hunter_imp", 71, 450, BoxTrapType.MAGIC_BOX, 19225, 19226, 19224, new Animation(5218), new Animation(5285), 15, 130),
 
