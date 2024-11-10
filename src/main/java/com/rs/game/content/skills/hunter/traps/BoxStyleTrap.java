@@ -37,7 +37,7 @@ import java.util.Arrays;
 
 public class BoxStyleTrap extends OwnedObject {
 
-	private static final int[] VALID_BAITS = { 5972, 12535 };
+	private static final int[] VALID_BAITS = { 1963, 5972, 12535 };
 
 	public enum Status {
 		IDLE,
@@ -77,6 +77,7 @@ public class BoxStyleTrap extends OwnedObject {
 
 	public void expire(Player player) {
 		World.addGroundItem(new Item(type.getId(), 1), Tile.of(this.getTile()), player, true, 60);
+		player.sendMessage("The " + type.getName() + " trap that you set has collapsed.");
 		if (bait != -1)
 			World.addGroundItem(new Item(bait, 1), Tile.of(this.getTile()), player, true, 60);
 	}
@@ -85,9 +86,9 @@ public class BoxStyleTrap extends OwnedObject {
 		BoxHunterType npcType = npc.getType(getOwner());
 		if (npcType == null)
 			return;
-		if (type == BoxTrapType.BIRD_SNARE)
+		if (type == BoxTrapType.BIRD_SNARE) {
 			setId(success ? npcType.getObjectCatch() : 19176);
-		else if (type == BoxTrapType.DEAD_FALL)
+		} else if (type == BoxTrapType.DEAD_FALL)
 			setId(success ? npcType.getObjectCatch() : 19219);
 		else
 			setId(npcType.getObjectCatch());
@@ -102,7 +103,7 @@ public class BoxStyleTrap extends OwnedObject {
 				setId(success ? npcType.getObjectSuccess() : npcType.getObjectFail());
 				setStatus(success ? Status.SUCCESS : Status.FAIL);
 				if (success) {
-					npc.setNextAnimation(new Animation(-1));
+					npc.anim(new Animation(-1));
 					npc.setRespawnTask();
 				}
 			}
@@ -111,10 +112,11 @@ public class BoxStyleTrap extends OwnedObject {
 
 	public void dismantle(Player player) {
 		destroy();
-		player.setNextAnimation(getTrapType().getPickUpAnimation());
+		player.anim(getTrapType().getPickUpAnimation());
 		if (getTrapType() == BoxTrapType.TREE_NET)
 			player.getInventory().addItemDrop(954, 1);
 		player.getInventory().addItemDrop(getTrapType().getId(), 1);
+		player.sendMessage("You dismantle the trap.");
 		if (bait != -1)
 			player.getInventory().addItemDrop(bait, 1);
 	}
@@ -122,7 +124,8 @@ public class BoxStyleTrap extends OwnedObject {
 	public void check(Player player) {
 		destroy();
 		player.incrementCount(NPCDefinitions.getDefs(getNpcTrapped().getNpcId()).getName()+" trapped");
-		player.setNextAnimation(getTrapType().getPickUpAnimation());
+		player.sendMessage("You've caught a " + NPCDefinitions.getDefs(getNpcTrapped().getNpcId()).getName().toLowerCase() + ".");
+		player.anim(getTrapType().getPickUpAnimation());
 		for (Item i : getNpcTrapped().getItems(player)) {
 			if (i == null || DropCleanersKt.bonecrush(player, i) || DropCleanersKt.herbicide(player, i))
 				continue;
