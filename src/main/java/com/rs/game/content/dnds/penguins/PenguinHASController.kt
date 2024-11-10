@@ -197,9 +197,7 @@ class PenguinManager() {
                 penguinSpawnService.prepareNew(currentWeek)
             } else if (isResetDay) {
                 Logger.debug(PenguinManager::class.java, "checkAndSpawn", "Refreshing penguin spawns.")
-                if (penguinSpawnService.removeAllSpawns()) {
-                    penguinSpawnService.prepareNew(currentWeek)
-                }
+                penguinSpawnService.prepareNew(currentWeek)
             } else {
                 penguinSpawnService.prepareExisting(currentWeek)
                 Logger.debug(PenguinManager::class.java, "checkAndSpawn", "Spawn existing penguins.")
@@ -209,8 +207,4 @@ class PenguinManager() {
             Logger.debug(PenguinManager::class.java, "checkAndSpawn", "Current week penguins are already populated. Spawn existing penguins.")
         }
     }
-}
-
-class PenguinNPC(id: Int, tile: Tile) : NPC(id, tile) {
-    override fun faceEntityTile(target: Entity?) { }
 }

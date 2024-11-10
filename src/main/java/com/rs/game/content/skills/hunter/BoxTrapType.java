@@ -23,13 +23,14 @@ import java.util.Map;
 
 public enum BoxTrapType {
 
-	BIRD_SNARE(10006, 19175, new Animation(5207), 1),
-	DEAD_FALL(1511, 19206, new Animation(451), 23),
-	BOX(10008, 19187, new Animation(451), 27),
-	TREE_NET(303, -1, new Animation(5207), 29),
-	MARASAMAW_PLANT(19965, 56806, new Animation(451), 70),
-	MAGIC_BOX(10025, 19223, new Animation(451), 71);
+	BIRD_SNARE("bird snare", 10006, 19175, new Animation(5207), 1),
+	DEAD_FALL("dead fall", 1511, 19206, new Animation(451), 23),
+	BOX("box", 10008, 19187, new Animation(451), 27),
+	TREE_NET("net", 303, -1, new Animation(5207), 29),
+	MARASAMAW_PLANT("marasamaw plant", 19965, 56806, new Animation(451), 70),
+	MAGIC_BOX("magic box", 10025, 19223, new Animation(451), 71);
 
+	private final String name;
 	private final int itemId;
     private final int objectId;
     private final int baseLevel;
@@ -46,11 +47,16 @@ public enum BoxTrapType {
 		return TRAPS_BY_ITEM.get(id);
 	}
 
-	private BoxTrapType(int itemId, int objectId, Animation pickUpAnimation, int baseLevel) {
+	private BoxTrapType(String name, int itemId, int objectId, Animation pickUpAnimation, int baseLevel) {
+		this.name = name;
 		this.itemId = itemId;
 		this.objectId = objectId;
 		this.pickUpAnimation = pickUpAnimation;
 		this.baseLevel = baseLevel;
+	}
+
+	public String getName() {
+		return name;
 	}
 
 	public int getId() {

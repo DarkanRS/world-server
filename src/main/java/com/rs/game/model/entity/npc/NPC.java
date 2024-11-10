@@ -270,21 +270,7 @@ public class NPC extends Entity {
 			restoreTick();
 		if (!combat.process() && routeEvent == null) {
 			if (getTickCounter() % 3 == 0 && !isForceWalking() && !cantInteract && !checkAggressivity() && !hasEffect(Effect.FREEZE)) {
-				if (!hasWalkSteps() && shouldRandomWalk()) {
-					boolean can = Math.random() > 0.9;
-					if (can) {
-						int moveX = Utils.random(getDefinitions().hasAttackOption() ? 4 : 2, getDefinitions().hasAttackOption() ? 8 : 4);
-						int moveY = Utils.random(getDefinitions().hasAttackOption() ? 4 : 2, getDefinitions().hasAttackOption() ? 8 : 4);
-						if (Utils.random(2) == 0)
-							moveX = -moveX;
-						if (Utils.random(2) == 0)
-							moveY = -moveY;
-						resetWalkSteps();
-						DumbRouteFinder.addDumbPathfinderSteps(this, respawnTile.transform(moveX, moveY, 0), getDefinitions().hasAttackOption() ? 7 : 3, getCollisionStrategy());
-						if (Utils.getDistance(this.getTile(), respawnTile) > 3 && !getDefinitions().hasAttackOption())
-							DumbRouteFinder.addDumbPathfinderSteps(this, respawnTile, getDefinitions().hasAttackOption() ? 7 : 3, getCollisionStrategy());
-					}
-				}
+				randomWalk();
 			}
 		}
 		if (isForceWalking())
@@ -301,6 +287,22 @@ public class NPC extends Entity {
 				} else
 					// walked till forcewalk place
 					forceWalk = null;
+	}
+
+	protected void randomWalk() {
+		if (!hasWalkSteps() && shouldRandomWalk()) {
+			boolean can = Math.random() > 0.9;
+			if (can) {
+				int moveX = Utils.random(getDefinitions().hasAttackOption() ? 4 : 2, getDefinitions().hasAttackOption() ? 8 : 4);
+				int moveY = Utils.random(getDefinitions().hasAttackOption() ? 4 : 2, getDefinitions().hasAttackOption() ? 8 : 4);
+				if (Utils.random(2) == 0) moveX = -moveX;
+				if (Utils.random(2) == 0) moveY = -moveY;
+				resetWalkSteps();
+				DumbRouteFinder.addDumbPathfinderSteps(this, respawnTile.transform(moveX, moveY, 0), getDefinitions().hasAttackOption() ? 7 : 3, getCollisionStrategy());
+				if (Utils.getDistance(this.getTile(), respawnTile) > 3 && !getDefinitions().hasAttackOption())
+					DumbRouteFinder.addDumbPathfinderSteps(this, respawnTile, getDefinitions().hasAttackOption() ? 7 : 3, getCollisionStrategy());
+			}
+		}
 	}
 
 	@Override

@@ -21,6 +21,7 @@ import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.game.content.ItemConstants;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.player.Player;
+import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Tile;
@@ -87,8 +88,10 @@ public final class PetManager {
 			player.sendMessage("You already have a follower.");
 			return true;
 		}
-		if (!hasRequirements(pets))
+		if (!hasRequirements(player, pets)) {
+			player.sendMessage("You need a Summoning level of at least " + pets.getSummoningLevel() + " to summon this pet.");
 			return true;
+		}
 		int baseItemId = pets.getBabyItemId();
         PetDetails details = petDetails.computeIfAbsent(baseItemId, k -> new PetDetails(pets.getGrowthRate() == 0.0 ? 100.0 : 0.0));
         int id = pets.getItemId(details.getStage());
@@ -124,10 +127,8 @@ public final class PetManager {
 	 *            The pet.
 	 * @return {@code True} if so.
 	 */
-	private boolean hasRequirements(Pets pet) {
-        return switch (pet) {
-            default -> true;
-        };
+	private boolean hasRequirements(Player player, Pets pet) {
+		return player.getSkills().getLevel(Constants.SUMMONING) >= pet.getSummoningLevel();
 	}
 
 	/**
