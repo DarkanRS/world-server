@@ -16,12 +16,11 @@
 //
 package com.rs.game.content.achievements;
 
-import com.rs.engine.dialogue.Dialogue;
-import com.rs.engine.dialogue.Options;
 import com.rs.game.content.DropCleanersKt;
 import com.rs.game.content.SkillCapeCustomizer;
 import com.rs.game.content.achievements.AchievementDef.Area;
 import com.rs.game.content.achievements.AchievementDef.Difficulty;
+import com.rs.game.content.interfacehandlers.ItemSelectWindow;
 import com.rs.game.content.skills.magic.Alchemy;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.skills.magic.TeleType;
@@ -35,6 +34,8 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.*;
+
+import static com.rs.game.content.interfacehandlers.ItemSelectWindow.openItemSelectWindow;
 
 @PluginEventHandler
 public class AchievementSetRewards {
@@ -99,73 +100,76 @@ public class AchievementSetRewards {
 				return;
 			}
 			e.getPlayer().incDailyI("eRingRunRep");
-			e.getPlayer().setNextAnimation(new Animation(9988));
-			e.getPlayer().setNextSpotAnim(new SpotAnim(1733));
+			e.getPlayer().anim(new Animation(9988));
+			e.getPlayer().spotAnim(new SpotAnim(1733));
 			e.getPlayer().restoreRunEnergy(50);
 			e.getPlayer().soundEffect(5035, true);
 			e.getPlayer().sendMessage("The ring replenishes your run energy.");
 			break;
 		case "Low-alchemy":
 		case "Low-Alchemy":
-			openERingInter(e.getPlayer(), 0);
+			openItemSelectWindow(e.getPlayer(), 0, ItemSelectWindow.Mode.ALCHEMY);
 			break;
 		case "High-alchemy":
 		case "High-Alchemy":
-			openERingInter(e.getPlayer(), 1);
+			openItemSelectWindow(e.getPlayer(), 1, ItemSelectWindow.Mode.ALCHEMY);
 			break;
 		case "Superheat":
-			openERingInter(e.getPlayer(), 2);
+			openItemSelectWindow(e.getPlayer(), 0, ItemSelectWindow.Mode.SUPERHEAT);
 			break;
 		case "Alchemy-or-superheat":
 			e.getPlayer().sendOptionDialogue("What would you like to do?", ops -> {
-				ops.add("Low-alchemy", () -> openERingInter(e.getPlayer(), 0));
-				ops.add("High-alchemy", () -> openERingInter(e.getPlayer(), 1));
-				ops.add("Superheat", () -> openERingInter(e.getPlayer(), 2));
+				ops.add("Low-alchemy", () -> openItemSelectWindow(e.getPlayer(), 0, ItemSelectWindow.Mode.ALCHEMY));
+				ops.add("High-alchemy", () -> openItemSelectWindow(e.getPlayer(), 1, ItemSelectWindow.Mode.ALCHEMY));
+				ops.add("Superheat", () -> openItemSelectWindow(e.getPlayer(), 2, ItemSelectWindow.Mode.SUPERHEAT));
 			});
 			break;
 		}
 	});
 
-	private static void openERingInter(Player player, int type) {
-		player.getTempAttribs().setI("eRingInterType", type);
-		String action = type == 0 ? "Low-alchemy" : type == 1 ? "High-alchemy" : "Superheat";
-		player.getPackets().setIFText(12, 11, action);
-		player.getPackets().sendInterSetItemsOptionsScript(12, 13, 93, 7, 4, action);
-		player.getPackets().setIFRightClickOps(12, 13, 0, 27, 0);
-		player.getInterfaceManager().sendInterface(12);
+	public static void handleAlchemyActions(Player player, Item item, int type) {
+		if (item == null) {
+			return;
+		}
+		switch (type) {
+			case 0: {
+				if (player.getDailyI("itemSelectLowAlchs") >= 30) {
+					player.sendMessage("You have used up all your low alchemy charges for the day.");
+					return;
+				}
+				if (Alchemy.handleAlchemy(player, item, true, false)) {
+					player.incDailyI("itemSelectLowAlchs");
+				}
+				break;
+			}
+			case 1: {
+				if (player.getDailyI("itemSelectHighAlchs") >= 15) {
+					player.sendMessage("You have used up all your high alchemy charges for the day.");
+					return;
+				}
+				if (Alchemy.handleAlchemy(player, item, false, false)) {
+					player.incDailyI("itemSelectHighAlchs");
+				}
+				break;
+			}
+			case 2:
+				handleSuperheatAction(player, item);
+				break;
+		}
 	}
 
-	public static ButtonClickHandler handleAlchs = new ButtonClickHandler(12, e -> {
-		Item item = e.getPlayer().getInventory().getItem(e.getSlotId());
-		if (item == null)
+	public static void handleSuperheatAction(Player player, Item item) {
+		if (item == null) {
 			return;
-		switch (e.getPlayer().getTempAttribs().getI("eRingInterType", 0)) {
-		case 0:
-			if (e.getPlayer().getDailyI("eRingLowAlchs") >= 30) {
-				e.getPlayer().sendMessage("You have used up all your low alchemy charges for the day.");
-				return;
-			}
-			if (Alchemy.handleAlchemy(e.getPlayer(), item, true, false))
-				e.getPlayer().incDailyI("eRingLowAlchs");
-			break;
-		case 1:
-			if (e.getPlayer().getDailyI("eRingHighAlchs") >= 15) {
-				e.getPlayer().sendMessage("You have used up all your high alchemy charges for the day.");
-				return;
-			}
-			if (Alchemy.handleAlchemy(e.getPlayer(), item, false, false))
-				e.getPlayer().incDailyI("eRingHighAlchs");
-			break;
-		case 2:
-			if (e.getPlayer().getDailyI("eRingSuperheats") >= 27) {
-				e.getPlayer().sendMessage("You have used up all your superheat charges for the day.");
-				return;
-			}
-			if (Alchemy.handleSuperheat(e.getPlayer(), item, false))
-				e.getPlayer().incDailyI("eRingSuperheats");
-			break;
 		}
-	});
+		if (player.getDailyI("itemSelectSuperheats") >= 27) {
+			player.sendMessage("You have used up all your superheat charges for the day.");
+			return;
+		}
+		if (Alchemy.handleSuperheat(player, item, false)) {
+			player.incDailyI("itemSelectSuperheats");
+		}
+	}
 
 	public static ItemEquipHandler handleKaramjaGloveLadderUnlock = new ItemEquipHandler(new Object[] { 11140, 19754 }, e -> e.getPlayer().getVars().setVarBit(3610, e.equip() ? 1 : 0));
 
