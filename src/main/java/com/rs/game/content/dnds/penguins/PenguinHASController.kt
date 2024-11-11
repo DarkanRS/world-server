@@ -189,7 +189,7 @@ class PenguinManager() {
         val currentWeek = today.get(WeekFields.of(Locale.getDefault()).weekOfYear())
         val currentWeekSpawns = penguinSpawnService.getSpawnsForWeek(currentWeek)
 
-        val isResetDay = today.dayOfWeek == penguinWeeklyScheduler.getResetDay()
+        val isResetDay = today.dayOfWeek >= penguinWeeklyScheduler.getResetDay()
 
         if (currentWeekSpawns.isEmpty()) {
             if (penguinSpawnService.isSpawnEmpty()) {
