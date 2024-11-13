@@ -509,33 +509,6 @@ public class Debug {
 		// return true;
 
 		// Start Penguin Hide And Seek debug commands
-		Commands.add(Rights.ADMIN, "penguin_reset [type] [weekNumber]", "Resets penguins or polar bear and spawns a new set. Type can be 'penguins' or 'polarbear'. Week number parameter is optional.", (p, args) -> {
-			if (args.length < 1 || (!args[0].equalsIgnoreCase("penguins") && !args[0].equalsIgnoreCase("polarbear"))) {
-				p.getPackets().sendDevConsoleMessage("Usage: ::penguin_reset [penguins|polarbear] [weekNumber]");
-				return;
-			}
-
-			String type = args[0].toLowerCase();
-
-			if (type.equals("penguins")) {
-				PenguinSpawnService penguinSpawnService = PenguinServices.INSTANCE.getPenguinSpawnService();
-				int week = (args.length > 1 && args[1].matches("\\b([1-9]|[1-4][0-9]|5[0-2])\\b"))
-						? Integer.parseInt(args[1])
-						: PenguinServices.INSTANCE.getPenguinWeeklyScheduler().getCurrentDayAndTime().get(IsoFields.WEEK_OF_WEEK_BASED_YEAR);
-
-				if (penguinSpawnService.removeAllSpawns()) {
-					penguinSpawnService.prepareNew(week);
-					World.getPlayers().forEach(player -> player.getVars().saveVarBit(5276, 0));
-				}
-				Commands.processCommand(p, "penguin_status", true, true);
-
-			} else if (type.equals("polarbear")) {
-				PolarBearManager polarBearManager = PenguinServices.INSTANCE.getPolarBearManager();
-				polarBearManager.setNewLocation();
-				p.getPackets().sendDevConsoleMessage("Polar Bear manually changed to: " + polarBearManager.getLocationName(polarBearManager.getCurrentLocationId()));
-			}
-		});
-
 		Commands.add(Rights.ADMIN, "penguin_task_set", "Resets and schedules the penguin task.", (p, args) -> {
 
 			if (args.length < 4) {
