@@ -3,16 +3,14 @@ package com.rs.game.content.world.areas.gu_tanoth.npcs
 import com.rs.engine.dialogue.HeadE.*
 import com.rs.engine.dialogue.Options
 import com.rs.engine.dialogue.startConversation
-import com.rs.game.content.interfacehandlers.ItemSelectWindow.Mode
-import com.rs.game.content.interfacehandlers.ItemSelectWindow.openItemSelectWindow
+import com.rs.game.content.interfacehandlers.ItemSelectInventory.openItemSelectInventory
+import com.rs.game.content.interfacehandlers.ItemSelectInventory.Mode
 import com.rs.game.content.skills.summoning.PouchMaterialList.getItemsForPouchId
 import com.rs.game.content.skills.summoning.Scroll
 import com.rs.game.content.world.areas.gu_tanoth.npcs.Bogrog.Companion.openSwapInterface
 import com.rs.game.model.entity.npc.NPC
 import com.rs.game.model.entity.player.Player
 import com.rs.game.model.entity.player.Skills
-import com.rs.game.model.entity.player.managers.InterfaceManager.Sub
-import com.rs.game.model.entity.player.managers.InterfaceManager.Sub.ALL_GAME_TABS
 import com.rs.lib.game.Item
 import com.rs.lib.net.ClientPacket
 import com.rs.lib.util.Utils
@@ -119,7 +117,8 @@ class Bogrog() {
                             if (num > 0) {
                                 val itemType = if (item.name.contains("scroll", true)) "scroll" else "pouch"
                                 val pluralItemName = pluraliseItemName(itemType, num)
-                                player.sendOptionDialogue("Swap ${Utils.formatNumber(num)} $pluralItemName?") { conf: Options ->
+                                val value = getValue(item.id) * num
+                                player.sendOptionDialogue("Swap ${Utils.formatNumber(num)} $pluralItemName for ${value.toInt()} ${if (value.toInt() == 1) "shard" else "shards"}?") { conf: Options ->
                                     conf.add("Yes, I'm sure.") {
                                         doSwap(player, num, item.id)
                                     }
@@ -188,11 +187,12 @@ class Bogrog() {
         }
 
         fun openSwapInterface(player: Player) {
-            player.interfaceManager.removeSubs(*ALL_GAME_TABS)
-            openItemSelectWindow(player, 0, Mode.BOGROG)
+            player.abortDialogue();
+            if (player.interfaceManager.containsInventoryInter())
+                player.interfaceManager.removeInventoryInterface();
+            openItemSelectInventory(player, Mode.BOGROG)
             player.setCloseInterfacesEvent {
-                player.interfaceManager.sendSubDefaults(*ALL_GAME_TABS)
-                player.interfaceManager.openTab(Sub.TAB_INVENTORY)
+                player.abortDialogue();
             }
         }
 
