@@ -54,7 +54,7 @@ public class Foods {
         }
         player.sendMessage("You eat the " + item.getName().toLowerCase() + ".", true);
         player.incrementCount("Food eaten");
-        player.setNextAnimation(EAT_ANIM);
+        player.anim(EAT_ANIM);
         player.addFoodDelay(food.ids.length > 1 ? 2 : 3);
         player.getActionManager().setActionDelay(player.getActionManager().getActionDelay() + 3);
         Item replace = new Item(item.getId(), item.getAmount());
@@ -249,7 +249,7 @@ public class Foods {
         JUBBLY(7568, 150),
         JUJU_GUMBO(19949, 320, p -> p.addEffect(Effect.BARON_SHARK, Ticks.fromSeconds(12))),
         KARAMBWANJI(3151, 30),
-        KEBAB(1971, 0, KEBAB_EFFECT),
+        KEBAB(1971, 0, p -> KEBAB_EFFECT.accept(p)),
         KING_WORM(2162, 20),
         LAVA_EEL(2149, 110),
         LEAN_SNAIL_MEAT(3371, 80),
@@ -383,7 +383,7 @@ public class Foods {
             p.restoreRunEnergy(10);
         }),
         SUMMER_SQIRKJUICE(10849, 150, p -> p.getSkills().adjustStat(2, 0.1, true, Constants.THIEVING)),
-        SUPER_KEBAB(4608, 0, KEBAB_EFFECT),
+        SUPER_KEBAB(4608, 0, p -> KEBAB_EFFECT.accept(p)),
         SWORDFISH(373, 140),
         TANGLED_TOAD_LEGS(2187, 150),
         TCHIKI_MONKEY_NUTS(7573, 2),
@@ -498,35 +498,48 @@ public class Foods {
 
     private static final Consumer<Player> KEBAB_EFFECT = player -> {
         int roll = Utils.random(100);
-        if (roll >= 95) {
+        int maxHp = player.getMaxHitpoints();
+        int currentHp = player.getHitpoints();
+
+        if (currentHp == maxHp) {
+            if (roll < 10) {
+                player.applyHit(new Hit(player, Utils.random(10, 20), Hit.HitLook.TRUE_DAMAGE));
+                player.sendMessage("The kebab didn't sit well with you.");
+            }
+            return;
+        }
+
+        if (roll >= 96) {
             player.sendMessage("Wow, that was an amazing kebab! You feel really invigorated.");
-            int healChance = Utils.random(26, 32);
-            int hp = (int) Math.round(player.getMaxHitpoints() * healChance);
-            player.heal(hp);
-            player.getSkills().adjustStat(2, 0.1, true, Constants.ATTACK);
-            player.getSkills().adjustStat(2, 0.1, true, Constants.STRENGTH);
-            player.getSkills().adjustStat(2, 0.1, true, Constants.DEFENSE);
-        } else if (roll >= 90 && roll <= 94) {
-            player.sendMessage("That tasted very dodgy. You feel very ill. Eating the kebab has done damage to some of your stats.");
-            player.getSkills().adjustStat(-3, 0.1, true, Constants.ATTACK);
-            player.getSkills().adjustStat(-3, 0.1, true, Constants.STRENGTH);
-            player.getSkills().adjustStat(-3, 0.1, true, Constants.DEFENSE);
-        } else if (roll >= 40 && roll <= 89) {
-            player.sendMessage("It restores some life points.");
-            double healChance = Utils.random(7.3, 10.0);
-            int hp = (int) Math.round(player.getMaxHitpoints() * healChance);
-            player.heal(hp);
-        } else if (roll >= 25 && roll <= 39) {
-            player.sendMessage("That kebab didn't seem to do a lot.");
-        } else if (roll >= 10 && roll <= 24) {
+            int healAmount = Math.min(300, maxHp - currentHp);
+            player.heal(healAmount);
+            player.getSkills().adjustStat(1 + Utils.random(3), 0.1, true, Constants.ATTACK);
+            player.getSkills().adjustStat(1 + Utils.random(3), 0.1, true, Constants.STRENGTH);
+            player.getSkills().adjustStat(1 + Utils.random(3), 0.1, true, Constants.DEFENSE);
+        } else if (roll >= 75 && roll <= 95) {
             player.sendMessage("That was a good kebab. You feel a lot better.");
-            double healChance = Utils.random(14.6, 20.0);
-            int hp = (int) Math.round(player.getMaxHitpoints() * healChance);
-            player.heal(hp);
-        } else if (roll >= 0 && roll <= 9) {
-            int skill = Utils.random(0, 25);
-            player.sendMessage("That tasted very dodgy. You feel very ill. Eating the kebab has done damage to some of your " + Constants.SKILL_NAME[skill] + " stats.");
-            player.getSkills().adjustStat(-3, 0.1, true, skill);
+            int healAmount = Math.min(Utils.random(100, 200), maxHp - currentHp);
+            player.heal(healAmount);
+        } else if (roll >= 10 && roll <= 74) {
+            player.sendMessage("It restores some life points.");
+            int healAmount = Math.min((int) (maxHp * 0.10), maxHp - currentHp);
+            player.heal(healAmount);
+        } else if (roll >= 1 && roll <= 9) {
+            player.sendMessage("That kebab didn't seem to do a lot.");
+        } else {
+            int skillEffectRoll = Utils.random(0, 1);
+            if (skillEffectRoll == 0) {
+                int skill = Utils.random(0, Constants.SKILL_NAME.length - 1);
+                player.sendMessage("That tasted a bit dodgy. You feel a bit ill.");
+                player.sendMessage("Eating the kebab has damaged your " + Constants.SKILL_NAME[skill] + " stat.");
+                player.getSkills().adjustStat(-1, 0.1, true, skill);
+            } else {
+                player.sendMessage("That tasted very dodgy. You feel very ill.");
+                player.sendMessage("Eating the kebab has done damage to some of your stats.");
+                player.getSkills().adjustStat(-5, 0.05, true, Constants.ATTACK);
+                player.getSkills().adjustStat(-5, 0.05, true, Constants.STRENGTH);
+                player.getSkills().adjustStat(-5, 0.05, true, Constants.DEFENSE);
+            }
         }
     };
 }
