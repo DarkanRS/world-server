@@ -530,12 +530,23 @@ public class Debug {
 
 				p.getPackets().sendDevConsoleMessage("Penguin task scheduled for " + day + " at " + hour + ":" + min + ":" + sec + ".");
 
-				WorldTasks.remove("penguin_has");
+				WorldTasks.remove(PenguinServices.INSTANCE.getPenguinTaskName());
 				PenguinHASControllerKt.scheduleWeeklyReset();
 
 			} catch (Exception e) {
 				p.getPackets().sendDevConsoleMessage("Invalid arguments. Usage: penguin_task <DayOfWeek> <Hour> <Minute> <Second>");
 			}
+		});
+
+		Commands.add(Rights.ADMIN, "penguin_task_query", "Returns the penguin task time remaining (in ticks).", (p, args) -> {
+
+			p.getPackets().sendDevConsoleMessage("Remaining Ticks: " + WorldTasks.getRemainingTicks(PenguinServices.INSTANCE.getPenguinTaskName()));
+
+			Map<String, Integer> tasks = WorldTasks.listAllMappedTasks();
+			tasks.forEach((mapping, remainingTicks) -> {
+				p.getPackets().sendDevConsoleMessage("Task Mapping: " + mapping + ", Remaining Ticks: " + remainingTicks);
+			});
+
 		});
 
 		Commands.add(Rights.ADMIN, "penguin_points [set/add/remove]", "Manipulates the player's Penguin Points by the action chosen (Set/Add/Remove).", (p, args) -> {

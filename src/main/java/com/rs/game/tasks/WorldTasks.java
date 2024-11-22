@@ -17,6 +17,7 @@
 package com.rs.game.tasks;
 
 import java.time.DayOfWeek;
+import java.util.Map;
 import java.util.function.Function;
 
 public class WorldTasks {
@@ -117,5 +118,14 @@ public class WorldTasks {
 	public static int getSize() {
 		return TASKS.getSize();
 	}
+
+	public static int getRemainingTicks(String mapping) {
+		return TASKS.getRemainingTicks(mapping);
+	}
+
+	public static Map<String, Integer> listAllMappedTasks() {
+		return TASKS.listAllMappedTasks();
+	}
+
 
 }

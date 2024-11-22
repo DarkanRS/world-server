@@ -1,5 +1,6 @@
 package com.rs.game.content.dnds.penguins
 
+import com.rs.game.content.dnds.penguins.PenguinServices.penguinTaskName
 import com.rs.game.tasks.WorldTasks
 import com.rs.utils.Ticks
 import com.rs.lib.util.Logger
@@ -25,14 +26,15 @@ class PenguinWeeklyScheduler() {
     fun scheduleWeeklyReset(action: () -> Unit) {
 
         delayInTicks = getDelayUntilNextResetInTicks()
+        penguinTaskName = "penguin_has_$delayInTicks"
 
         if (delayInTicks > 0) {
             Logger.debug(PenguinWeeklyScheduler::class.java, "scheduleWeeklyReset", "Scheduled weekly reset in $delayInTicks ticks.")
 
-            WorldTasks.schedule("penguin_has", delayInTicks) {
+            WorldTasks.schedule(penguinTaskName, delayInTicks) {
                 action()
                 Logger.debug(PenguinWeeklyScheduler::class.java, "scheduleWeeklyReset", "Task completed, rescheduling now.");
-                scheduleWeeklyReset(action)
+                scheduleWeeklyReset()
             }
         } else {
             Logger.debug(PenguinWeeklyScheduler::class.java, "scheduleWeeklyReset", "No valid delay found; skipping rescheduling.")

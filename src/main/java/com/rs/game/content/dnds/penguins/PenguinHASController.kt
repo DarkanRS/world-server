@@ -34,6 +34,7 @@ object PenguinServices {
     val penguinSpawnService = PenguinSpawnService()
     val penguinWeeklyScheduler = PenguinWeeklyScheduler()
     val polarBearManager = PolarBearManager()
+    var penguinTaskName = ""
 }
 
 @ServerStartupEvent
