@@ -20,18 +20,19 @@ class PenguinWeeklyScheduler() {
         var RESET_SEC = 0
     }
 
+    var delayInTicks = 0
+
     fun scheduleWeeklyReset(action: () -> Unit) {
 
-        val delayInTicks = getDelayUntilNextResetInTicks()
+        delayInTicks = getDelayUntilNextResetInTicks()
 
         if (delayInTicks > 0) {
             Logger.debug(PenguinWeeklyScheduler::class.java, "scheduleWeeklyReset", "Scheduled weekly reset in $delayInTicks ticks.")
 
-            if (!WorldTasks.hasTask("penguin_has")) {
-                WorldTasks.schedule("penguin_has", delayInTicks) {
-                    action()
-                    scheduleWeeklyReset(action)
-                }
+            WorldTasks.schedule("penguin_has", delayInTicks) {
+                action()
+                Logger.debug(PenguinWeeklyScheduler::class.java, "scheduleWeeklyReset", "Task completed, rescheduling now.");
+                scheduleWeeklyReset(action)
             }
         } else {
             Logger.debug(PenguinWeeklyScheduler::class.java, "scheduleWeeklyReset", "No valid delay found; skipping rescheduling.")

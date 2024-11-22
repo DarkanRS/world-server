@@ -10,9 +10,6 @@ import com.rs.game.content.dnds.penguins.PenguinServices.penguinHideAndSeekManag
 import com.rs.game.content.dnds.penguins.PenguinServices.penguinSpawnService
 import com.rs.game.content.dnds.penguins.PenguinServices.penguinWeeklyScheduler
 import com.rs.game.content.dnds.penguins.PenguinServices.polarBearManager
-import com.rs.game.model.entity.Entity
-import com.rs.game.model.entity.npc.NPC
-import com.rs.lib.game.Tile
 import com.rs.lib.util.Logger
 import com.rs.plugin.annotations.ServerStartupEvent
 import com.rs.plugin.annotations.ServerStartupEvent.Priority
