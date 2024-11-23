@@ -54,7 +54,7 @@ fun mapToolLeprechauns() {
         player.takeLeprechaunItem(item, amount)
     }
 
-    onNpcClick("Tool leprechaun", "Tool Leprechaun") { e ->
+    onNpcClick("Tool leprechaun", "Tool Leprechaun", "Teclyn") { e ->
         when (e.option) {
             "Exchange", "Exchange-tools", "Exchange-potions" -> openToolStorage(e.player)
             "Talk-to" -> e.player.startConversation {
@@ -81,7 +81,7 @@ fun mapToolLeprechauns() {
 
     val noteableHerbs = arrayOf(249, 251, 253, 255, 257, 259, 261, 263, 265, 267, 269, 2481, 2998, 3000, 12172, 14854, 21624)
 
-    onItemOnNpc("Tool leprechaun", "Tool Leprechaun") { e ->
+    onItemOnNpc("Tool leprechaun", "Tool Leprechaun", "Teclyn") { e ->
         val itemId = e.item.id
         val produceType = ProduceType.forProduce(itemId)
         if ((produceType == null || e.item.definitions.getCertId() == -1) && !noteableHerbs.contains(itemId)) {
