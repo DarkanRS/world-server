@@ -35,7 +35,7 @@ class SickSheepOwnedNPC(owner: Player, id: Int, tile: Tile, var officialRespawnT
 
         super.processNPC()
 
-        if (proddedRecently && !enteredEnclosure && tickCounter - tempAttribs.getL("lastProddedTick") >= Ticks.fromSeconds(Utils.random(7, 10))) {
+        if (proddedRecently && !enteredEnclosure && tickCounter - tempAttribs.getL("lastProddedTick") >= Ticks.fromSeconds(Utils.randomInclusive(7, 10))) {
             handleNotProddedRecently()
         }
 
