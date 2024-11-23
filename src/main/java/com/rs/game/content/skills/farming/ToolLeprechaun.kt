@@ -54,7 +54,49 @@ fun mapToolLeprechauns() {
         player.takeLeprechaunItem(item, amount)
     }
 
-    onNpcClick("Tool leprechaun", "Tool Leprechaun", "Teclyn") { e ->
+    onNpcClick("Teclyn") { e ->
+        when (e.option) {
+            "Exchange" -> openToolStorage(e.player)
+            "Talk-to" -> e.player.startConversation {
+                npc(e.npcId, HeadE.CHEERFUL, "Gosh, it's a nice day! Now, can I help you with tool storage, or a trip to Winkin's Farm, or something else?")
+                options {
+                    op("Tool storage.") {
+                        npc(e.npcId, HeadE.CHEERFUL, "I can hold onto your rake, seed dibber, spade, secateurs, watering can and trowel - but not those trowels used for archaeology.")
+                        npc(e.npcId, HeadE.CHEERFUL, "I can also store a few buckets and scarecrows for you, and even compost and supercompost. Of course, compost is essential for good Farming, so I can store lots of that for you.")
+                        npc(e.npcId, HeadE.CHEERFUL, "Also, if you hand me your Farming produce, I might be able to change it into banknotes.")
+                        npc(e.npcId, HeadE.CHEERFUL, "So, would you like me to look after your Farming tools?")
+                        options {
+                            opExec("Yes, please.") { openToolStorage(e.player) }
+                            op("What do you do with the tools you're storing?") {
+                                player(HeadE.CONFUSED, "What do you do with the tools you're storing? They can't all possibly fit in your pockets!")
+                                npc(e.npcId, HeadE.HAPPY_TALKING, "Of course not. I have a toolshed. It is rather a curious shed, though. Sometimes, items just seem to appear in there.")
+                            }
+                            op("No thanks, I'll keep hold of my stuff.") {
+                                player(HeadE.CHEERFUL,"No thanks, I'll keep hold of my stuff.")
+                                npc(e.npcId, HeadE.CHEERFUL, "Well, I shall be here if you ever decide that I may be of service.")
+                            }
+                        }
+                    }
+                    op("Winkin's farm.") {
+                        npc(e.npcId, HeadE.UPSET, "I'm sorry ${e.player.genderTerm("sir", "ma'am")}, I've been instructed that I'm not allowed to do that yet!")
+                    }
+                    op("Other topics.") {
+                        options {
+                            op("Aren't you a bit tall for a leprechaun?") {
+                                player(HeadE.CONFUSED, "Aren't you a bit tall for a leprechaun?")
+                                npc(e.npcId, HeadE.FRUSTRATED, "I'm not a leprechaun! Why would you ask such a strange question?")
+                                player(HeadE.HAPPY_TALKING, "Well, you're looking after tools like leprechauns do.")
+                                npc(e.npcId, HeadE.HAPPY_TALKING, "I'm of the Crwys clan. We have a special affinity with nature. It is my duty and pleasure to tend this farming patch.")
+                            }
+                            op("Actually, I'm fine.")
+                        }
+                    }
+                }
+            }
+            "Teleport" -> e.player.sendMessage("Vinesweeper is not available yet.")
+        }
+    }
+    onNpcClick("Tool leprechaun", "Tool Leprechaun") { e ->
         when (e.option) {
             "Exchange", "Exchange-tools", "Exchange-potions" -> openToolStorage(e.player)
             "Talk-to" -> e.player.startConversation {
@@ -71,7 +113,7 @@ fun mapToolLeprechauns() {
                         }
                     }
                     op("Winkin's farm.") {
-                        npc(e.npcId, HeadE.UPSET, "I'm sorry mate, I've been instructed that I'm not allowed to do that yet!")
+                        npc(e.npcId, HeadE.UPSET, "I'm sorry ${e.player.genderTerm("lad", "lass")}, I've been instructed that I'm not allowed to do that yet!")
                     }
                 }
             }
@@ -83,14 +125,31 @@ fun mapToolLeprechauns() {
 
     onItemOnNpc("Tool leprechaun", "Tool Leprechaun", "Teclyn") { e ->
         val itemId = e.item.id
+        // Duplicate npcid hack for miscellania cabbage noting
+        if (e.npc.respawnTile.isAt(3056, 3310) && e.item.id in listOf(1965, 1967)) {
+            e.player.startConversation {
+                npc(e.npc.id, HeadE.SAD_MILD_LOOK_DOWN,"A cabbage? Don't ye go showing me yer cabbage; this whole farm stinks of the things! Take it away and get it exchanged somewhere else.")
+            }
+            return@onItemOnNpc
+        }
         val produceType = ProduceType.forProduce(itemId)
         if ((produceType == null || e.item.definitions.getCertId() == -1) && !noteableHerbs.contains(itemId)) {
-            e.player.sendMessage("The leprechaun cannot note that item for you.")
+            e.player.npcDialogue(e.npc.id, HeadE.SAD_MILD_LOOK_DOWN,
+                when (e.npc.id) {
+                    2861 -> "Sorry, I can't turn that into a banknote."
+                    else -> "Nay, I've got no banknotes to exchange for that item."
+                })
             return@onItemOnNpc
         }
         val num = e.player.inventory.getNumberOf(itemId)
         e.player.inventory.deleteItem(itemId, num)
         e.player.inventory.addItem(Item(e.item.definitions.getCertId(), num))
+        e.player.sendMessage(
+            when (e.npc.id) {
+                2861 -> "The elf exchanges your items for banknotes."
+                else -> "The leprechaun exchanges your items for banknotes."
+            }
+        )
     }
 
     onButtonClick(125) { e ->
