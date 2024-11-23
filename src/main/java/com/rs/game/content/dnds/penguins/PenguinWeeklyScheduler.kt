@@ -26,7 +26,7 @@ class PenguinWeeklyScheduler() {
     fun scheduleWeeklyReset(action: () -> Unit) {
 
         delayInTicks = getDelayUntilNextResetInTicks()
-        penguinTaskName = "penguin_has_$delayInTicks"
+        penguinTaskName = "penguin_has_${delayInTicks}_${ZonedDateTime.now(ZoneOffset.UTC).toLocalDate()}"
 
         if (delayInTicks > 0) {
             Logger.debug(PenguinWeeklyScheduler::class.java, "scheduleWeeklyReset", "Scheduled weekly reset in $delayInTicks ticks.")
