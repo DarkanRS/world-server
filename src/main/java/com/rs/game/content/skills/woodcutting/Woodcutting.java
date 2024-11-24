@@ -185,7 +185,11 @@ public class Woodcutting extends Action {
 			if (!hasWoodcuttingLevel(player))
 				return false;
 			if (!player.getInventory().hasFreeSlots()) {
-				player.sendMessage("Not enough space in your inventory.");
+				TreeType treeType = TreeType.forObject(player, treeObj);
+				String logName = treeType != null && treeType.getLogsId() != null && treeType.getLogsId().length > 0
+						? ItemDefinitions.getDefs(treeType.getLogsId()[0]).getName().toLowerCase()
+						: "logs";
+				player.sendMessage("Your inventory is too full to hold any more " + logName + ".");
 				player.anim(-1);
 				return false;
 			}
@@ -207,7 +211,7 @@ public class Woodcutting extends Action {
 		entity.anim(entity instanceof Familiar ? 7722 : hatchet.getAnim(type));
 		if (entity instanceof Familiar)
 			entity.spotAnim(1459);
-		return checkAll(entity) && checkTree();
+        return checkAll(entity) && checkTree();
 	}
 
 	@Override
