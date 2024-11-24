@@ -1111,7 +1111,7 @@ public class MiscTest {
 			p.getAppearance().generateAppearanceData();
 		});
 
-		Commands.add(Rights.DEVELOPER, "dropstobank,bankdrops", "Will send all drops recieved from monsters directly to the bank.", (p, args) -> p.getNSV().setB("sendingDropsToBank", true));
+		Commands.add(Rights.DEVELOPER, "dropstobank,bankdrops", "Will send all drops received from monsters directly to the bank.", (p, args) -> p.getNSV().setB("sendingDropsToBank", true));
 
 		Commands.add(Rights.DEVELOPER, "spotanim,gfx [id height]", "Creates a spot animation on top of the player.", (p, args) -> p.setNextSpotAnim(new SpotAnim(Integer.parseInt(args[0]), 0, args.length == 1 ? 0 : Integer.parseInt(args[1]))));
 
