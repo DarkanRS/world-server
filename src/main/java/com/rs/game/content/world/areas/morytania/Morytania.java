@@ -56,18 +56,6 @@ public class Morytania  {
         }
     }));
 
-	public static NPCClickHandler handleRobin = new NPCClickHandler(new Object[] { 1694 }, e -> e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
-        {
-            addNPC(e.getNPCId(), HeadE.CHEERFUL, "Hello, what can I do for you?");
-            addOptions("What would you like to say?", new Options() {
-                @Override
-                public void create() {
-                    option("About the Achievement System...", () -> new AchievementSystemD(player, e.getNPCId(), SetReward.MORYTANIA_LEGS));
-                }
-            });
-        }
-    }));
-
 	public static NPCClickHandler handleStrangeOldManBarrows = new NPCClickHandler(new Object[] { 2024 }, e -> e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
         {
             addNPC(e.getNPCId(), HeadE.CHEERFUL, "Hello, what can I do for you?");
