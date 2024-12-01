@@ -99,6 +99,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.ZonedDateTime;
+import java.time.temporal.IsoFields;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -232,6 +233,33 @@ public class MiscTest {
 			String formattedResetTime = formatter.format(resetDate);
 
 			p.getPackets().sendDevConsoleMessage("Next reset is scheduled for: " + formattedResetTime + ", or in " + Ticks.breakDownOfTicks((int) (millisUntilReset / 600)) + ".");
+		});
+
+		Commands.add(Rights.ADMIN, "penguin_reset [type] [weekNumber]", "Resets penguins or polar bear and spawns a new set. Type can be 'penguins' or 'polarbear'. Week number parameter is optional.", (p, args) -> {
+			if (args.length < 1 || (!args[0].equalsIgnoreCase("penguins") && !args[0].equalsIgnoreCase("polarbear"))) {
+				p.getPackets().sendDevConsoleMessage("Usage: ::penguin_reset [penguins|polarbear] [weekNumber]");
+				return;
+			}
+
+			String type = args[0].toLowerCase();
+
+			if (type.equals("penguins")) {
+				PenguinSpawnService penguinSpawnService = PenguinServices.INSTANCE.getPenguinSpawnService();
+				int week = (args.length > 1 && args[1].matches("\\b([1-9]|[1-4][0-9]|5[0-2])\\b"))
+						? Integer.parseInt(args[1])
+						: PenguinServices.INSTANCE.getPenguinWeeklyScheduler().getCurrentDayAndTime().get(IsoFields.WEEK_OF_WEEK_BASED_YEAR);
+
+				if (penguinSpawnService.removeAllSpawns()) {
+					penguinSpawnService.prepareNew(week);
+					World.getPlayers().forEach(player -> player.getVars().saveVarBit(5276, 0));
+				}
+				Commands.processCommand(p, "penguin_status", true, true);
+
+			} else if (type.equals("polarbear")) {
+				PolarBearManager polarBearManager = PenguinServices.INSTANCE.getPolarBearManager();
+				polarBearManager.setNewLocation();
+				p.getPackets().sendDevConsoleMessage("Polar Bear manually changed to: " + polarBearManager.getLocationName(polarBearManager.getCurrentLocationId()));
+			}
 		});
 
 		Commands.add(Rights.DEVELOPER, "dumpdrops [npcId]", "exports a drop dump file for the specified NPC", (p, args) -> NPCDropDumper.dumpNPC(args[0]));
