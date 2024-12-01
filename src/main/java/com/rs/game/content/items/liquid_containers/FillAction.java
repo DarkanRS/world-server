@@ -36,7 +36,7 @@ public class FillAction extends PlayerAction {
 	private final Animation FILLING = new Animation(883);
 	private final Filler fill;
 
-	public static ItemOnObjectHandler handleFilling = new ItemOnObjectHandler(new Object[] { "Carved fountain", "Waterpump", "Water pump", "Fountain", "Sink", "Well", "Pump" }, Arrays.stream(Filler.values()).map(filler -> filler.getEmptyItem().getId()).toArray(), e -> {
+	public static ItemOnObjectHandler handleFilling = new ItemOnObjectHandler(new Object[] { "Carved fountain", "Waterpump", "Water pump", "Fountain", "Sink", "Well", "Pump", "Pump and drain" }, Arrays.stream(Filler.values()).map(filler -> filler.getEmptyItem().getId()).toArray(), e -> {
 		Player player = e.getPlayer();
 		Filler fill = FillAction.isFillable(e.getItem());
 		if (fill != null)
