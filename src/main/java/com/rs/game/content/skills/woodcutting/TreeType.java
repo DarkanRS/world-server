@@ -19,10 +19,12 @@ package com.rs.game.content.skills.woodcutting;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.util.Utils;
+import com.sun.source.tree.Tree;
 
 public enum TreeType {
 	FRUIT_TREE(1, 0, -1, 60, 200, 8, false),
 	NORMAL(1, 25, 1511, 60, 200, 8, false),
+	ACHEY(1, 25, 2862, 60, 200, 8, false),
 	OAK(15, 37.5, 1521, 60, 180, 15, true),
 	WILLOW(30, 67.5, 1519, 35, 155, 51, true),
 	TEAK(35, 105, 6333, 1, 130, 51, true),
@@ -31,6 +33,7 @@ public enum TreeType {
 	MAPLE(45, 100, 1517, 45, 65, 72, true),
 	MAHOGANY(50, 125, 6332, 20, 55, 51, true),
 	ARCTIC_PINE(54, 125, 10810, 20, 55, 51, true),
+	EUCALYPTUS(58, 165, 12581, 25, 55, 148, true),
 	YEW(60, 175, 1515, 6, 35, 94, true),
 	IVY(68, 332.5, -1, 16, 30, 58, true),
 	MAGIC(75, 250, 1513, -10, 24, 121, true),
@@ -95,13 +98,15 @@ public enum TreeType {
 		}
 		
 		return switch(object.getDefinitions(player).getName()) {
-		case "Tree", "Swamp tree", "Dead tree", "Evergreen", "Dying tree", "Jungle tree" -> TreeType.NORMAL;
+		case "Tree", "Swamp tree", "Dead tree", "Evergreen", "Dying tree", "Jungle Tree" -> TreeType.NORMAL;
+		case "Achey", "Achey Tree" -> TreeType.ACHEY;
 		case "Oak", "Oak tree" -> TreeType.OAK;
 		case "Willow", "Willow tree" -> TreeType.WILLOW;
 		case "Maple", "Maple tree", "Maple Tree" -> TreeType.MAPLE;
 		case "Teak", "Teak tree" -> TreeType.TEAK;
 		case "Mahogany", "Mahogany tree" -> TreeType.MAHOGANY;
 		case "Arctic Pine" -> TreeType.ARCTIC_PINE;
+		case "Eucalyptus", "Eucalyptus tree" -> TreeType.EUCALYPTUS;
 		case "Yew", "Yew tree" -> TreeType.YEW;
 		case "Magic tree", "Cursed magic tree" -> TreeType.MAGIC;
 		default -> null;
