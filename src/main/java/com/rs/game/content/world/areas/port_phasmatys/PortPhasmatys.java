@@ -25,6 +25,7 @@ import com.rs.game.content.minigames.ectofuntus.Ectofuntus;
 import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
+import com.rs.plugin.handlers.ItemOnObjectHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
@@ -43,13 +44,7 @@ public class PortPhasmatys {
 		});
 	});
 
-	public static ItemClickHandler handleEctophial = new ItemClickHandler(new Object[] { 4251 }, e -> {
-		if (!e.getPlayer().isQuestComplete(Quest.GHOSTS_AHOY, "to use the ectophial."))
-			return;
-		Ectofuntus.sendEctophialTeleport(e.getPlayer(), Tile.of(3659, 3523, 0));
-	});
-
-	public static NPCClickHandler handleVelorina = new NPCClickHandler(new Object[] { 1683 }, e -> e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
+    public static NPCClickHandler handleVelorina = new NPCClickHandler(new Object[] { 1683 }, e -> e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
         {
             if (e.getPlayer().getEquipment().getAmuletId() != 552) {
                 addNPC(1683, HeadE.CALM_TALK, "Woooowoooooo woooooo!");
