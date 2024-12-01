@@ -21943,6 +21943,15 @@
     "npcId": 3021
   },
   {
+    "comment": "Tool leprechaun",
+    "npcId": 3021,
+    "tile": {
+      "x": 3197,
+      "y": 3230,
+      "plane": 0
+    }
+  },
+  {
     "tile": {
       "plane": 0,
       "x": 2665,
