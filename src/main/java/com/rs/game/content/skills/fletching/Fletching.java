@@ -17,64 +17,73 @@
 package com.rs.game.content.skills.fletching;
 
 import com.rs.cache.loaders.ItemDefinitions;
+import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
+import com.rs.lib.util.Utils;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class Fletching extends PlayerAction {
 
+	public static final int ARROW_SHAFT = 52;
+	public static final int HEADLESS_ARROW = 53;
+	public static final int FEATHER = 314;
 	public static final int KNIFE = 946;
 	public static final int CHISLE = 1755;
 	public static final int BOW_STRING = 1777;
 	public static final int CROSSBOW_STRING = 9438;
 	public static final int DUNGEONEERING_KNIFE = 17754;
 
-	public static enum Fletch {
+	public enum Fletch {
 
-		LOG(1511, 946, new int[] { 52, 50, 48, 9440 }, new int[] { 1, 1, 10, 9 }, new double[] { 0.33, 5, 10, 6 }, new Animation(6702)),
+		LOG(1511, KNIFE, new int[] { ARROW_SHAFT, 50, 48, 9440 }, new int[] { 1, 1, 10, 9 }, new double[] { 0.33, 5, 10, 6 }, new Animation(6702)),
 
-		STRUNG_SHORT_BOW(50, 1777, new int[] { 841 }, new int[] { 1 }, new double[] { 5 }, new Animation(6678)),
+		STRUNG_SHORT_BOW(50, BOW_STRING, new int[] { 841 }, new int[] { 1 }, new double[] { 5 }, new Animation(6678)),
 
-		STRUNG_LONG_BOW(48, 1777, new int[] { 839 }, new int[] { 10 }, new double[] { 10 }, new Animation(6684)),
+		STRUNG_LONG_BOW(48, BOW_STRING, new int[] { 839 }, new int[] { 10 }, new double[] { 10 }, new Animation(6684)),
 
-		OAK_LOG(1521, 946, new int[] { 52, 54, 56, 9442 }, new int[] { 15, 20, 25, 24 }, new double[] { 0.375, 16.5, 25, 16 }, new Animation(6702)),
+		ACHEY_LOG(2862, KNIFE, new int[] { 2864, 4825 }, new int[] { 5, 30 }, new double[] { 6.4, 45 }, new Animation(6702)),
 
-		STRUNG_OAK_SHORT_BOW(54, 1777, new int[] { 843 }, new int[] { 20 }, new double[] { 16.5 }, new Animation(6679)),
+		//STRUNG_COMP_BOW(4825, BOW_STRING, new int[] { 4827 }, new int[] { 30 }, new double[] { 45 }, new Animation(6684)),
 
-		STRUNG_OAK_LONG_BOW(56, 1777, new int[] { 845 }, new int[] { 25 }, new double[] { 25 }, new Animation(6685)),
+		OAK_LOG(1521, KNIFE, new int[] { ARROW_SHAFT, 54, 56, 9442 }, new int[] { 15, 20, 25, 24 }, new double[] { 0.375, 16.5, 25, 16 }, new Animation(6702)),
 
-		WILLOW_LOG(1519, 946, new int[] { 52, 60, 58, 9444 }, new int[] { 30, 35, 40, 39 }, new double[] { 0.4, 33.3, 41.5, 22 }, new Animation(6702)),
+		STRUNG_OAK_SHORT_BOW(54, BOW_STRING, new int[] { 843 }, new int[] { 20 }, new double[] { 16.5 }, new Animation(6679)),
 
-		STRUNG_WILLOW_SHORT_BOW(60, 1777, new int[] { 849 }, new int[] { 35 }, new double[] { 33.3 }, new Animation(6680)),
+		STRUNG_OAK_LONG_BOW(56, BOW_STRING, new int[] { 845 }, new int[] { 25 }, new double[] { 25 }, new Animation(6685)),
 
-		STRUNG_WILLOW_LONG_BOW(58, 1777, new int[] { 847 }, new int[] { 40 }, new double[] { 41.5 }, new Animation(6686)),
+		WILLOW_LOG(1519, KNIFE, new int[] { ARROW_SHAFT, 60, 58, 9444 }, new int[] { 30, 35, 40, 39 }, new double[] { 0.4, 33.3, 41.5, 22 }, new Animation(6702)),
 
-		TEAK_LOG(6333, 946, new int[] { 9446 }, new int[] {46 }, new double[] { 27 }, new Animation(6702)),
+		STRUNG_WILLOW_SHORT_BOW(60, BOW_STRING, new int[] { 849 }, new int[] { 35 }, new double[] { 33.3 }, new Animation(6680)),
 
-		MAHOGANY_LOG (6332, 946, new int[] { 9450 }, new int[] { 61 }, new double[] { 41 }, new Animation(6702)),
+		STRUNG_WILLOW_LONG_BOW(58, BOW_STRING, new int[] { 847 }, new int[] { 40 }, new double[] { 41.5 }, new Animation(6686)),
 
-		MAPLE_LOG(1517, 946, new int[] { 52, 64, 62, 9448 }, new int[] { 45, 50, 55, 54 }, new double[] { 0.416, 50, 58.3, 32 }, new Animation(6702)),
+		TEAK_LOG(6333, KNIFE, new int[] { 9446 }, new int[] {46 }, new double[] { 27 }, new Animation(6702)),
 
-		STRUNG_MAPLE_SHORT_BOW(64, 1777, new int[] { 853 }, new int[] { 50 }, new double[] { 50 }, new Animation(6681)),
+		MAHOGANY_LOG (6332, KNIFE, new int[] { 9450 }, new int[] { 61 }, new double[] { 41 }, new Animation(6702)),
 
-		STRUNG_MAPLE_LONG_BOW(62, 1777, new int[] { 851 }, new int[] { 55 }, new double[] { 58.3 }, new Animation(6687)),
+		MAPLE_LOG(1517, KNIFE, new int[] { ARROW_SHAFT, 64, 62, 9448 }, new int[] { 45, 50, 55, 54 }, new double[] { 0.416, 50, 58.3, 32 }, new Animation(6702)),
 
-		YEW_LOG(1515, 946, new int[] { 52, 68, 66, 9452 }, new int[] { 60, 65, 70, 69 }, new double[] { 0.428, 67.5, 75, 50 }, new Animation(6702)),
+		STRUNG_MAPLE_SHORT_BOW(64, BOW_STRING, new int[] { 853 }, new int[] { 50 }, new double[] { 50 }, new Animation(6681)),
 
-		STRUNG_YEW_SHORT_BOW(68, 1777, new int[] { 857 }, new int[] { 65 }, new double[] { 67.5 }, new Animation(6682)),
+		STRUNG_MAPLE_LONG_BOW(62, BOW_STRING, new int[] { 851 }, new int[] { 55 }, new double[] { 58.3 }, new Animation(6687)),
 
-		STRUNG_YEW_LONG_BOW(66, 1777, new int[] { 855 }, new int[] { 70 }, new double[] { 75 }, new Animation(6688)),
+		YEW_LOG(1515, KNIFE, new int[] { ARROW_SHAFT, 68, 66, 9452 }, new int[] { 60, 65, 70, 69 }, new double[] { 0.428, 67.5, 75, 50 }, new Animation(6702)),
 
-		MAGIC_LOG(1513, 946, new int[] { 52, 72, 70 }, new int[] { 75, 80, 85 }, new double[] { 0.4375, 83.25, 91.5 }, new Animation(7211)),
+		STRUNG_YEW_SHORT_BOW(68, BOW_STRING, new int[] { 857 }, new int[] { 65 }, new double[] { 67.5 }, new Animation(6682)),
 
-		STRUNG_MAGIC_SHORT_BOW(72, 1777, new int[] { 861 }, new int[] { 80 }, new double[] { 83.25 }, new Animation(6683)),
+		STRUNG_YEW_LONG_BOW(66, BOW_STRING, new int[] { 855 }, new int[] { 70 }, new double[] { 75 }, new Animation(6688)),
 
-		STRUNG_MAGIC_LONG_BOW(70, 1777, new int[] { 859 }, new int[] { 85 }, new double[] { 91.5 }, new Animation(6689)),
+		MAGIC_LOG(1513, KNIFE, new int[] { ARROW_SHAFT, 72, 70 }, new int[] { 75, 80, 85 }, new double[] { 0.4375, 83.25, 91.5 }, new Animation(7211)),
+
+		STRUNG_MAGIC_SHORT_BOW(72, BOW_STRING, new int[] { 861 }, new int[] { 80 }, new double[] { 83.25 }, new Animation(6683)),
+
+		STRUNG_MAGIC_LONG_BOW(70, BOW_STRING, new int[] { 859 }, new int[] { 85 }, new double[] { 91.5 }, new Animation(6689)),
 
 		/**
 		 * Crossbows
@@ -93,19 +102,19 @@ public class Fletching extends PlayerAction {
 
 		U_RUNITE_CBOW(9452, 9431, new int[] { 9465 }, new int[] { 69 }, new double[] { 50 }, new Animation(-1)),
 
-		BRONZE_CBOW(9454, 9438, new int[] { 9174 }, new int[] { 9 }, new double[] { 6.0 }, new Animation(6671)),
+		BRONZE_CBOW(9454, CROSSBOW_STRING, new int[] { 9174 }, new int[] { 9 }, new double[] { 6.0 }, new Animation(6671)),
 
-		IRON_CBOW(9457, 9438, new int[] { 9177 }, new int[] { 39 }, new double[] { 22 }, new Animation(6673)),
+		IRON_CBOW(9457, CROSSBOW_STRING, new int[] { 9177 }, new int[] { 39 }, new double[] { 22 }, new Animation(6673)),
 
-		STEEL_CBOW(9459, 9438, new int[] { 9179 }, new int[] { 46 }, new double[] { 27 }, new Animation(6674)),
+		STEEL_CBOW(9459, CROSSBOW_STRING, new int[] { 9179 }, new int[] { 46 }, new double[] { 27 }, new Animation(6674)),
 
-		BLURITE_CBOW(9456, 9438, new int[] { 9176 }, new int[] { 24 }, new double[] { 16 }, new Animation(6672)),
+		BLURITE_CBOW(9456, CROSSBOW_STRING, new int[] { 9176 }, new int[] { 24 }, new double[] { 16 }, new Animation(6672)),
 
-		MITHRIL_CBOW(9461, 9438, new int[] { 9181 }, new int[] { 52 }, new double[] { 32 }, new Animation(6675)),
+		MITHRIL_CBOW(9461, CROSSBOW_STRING, new int[] { 9181 }, new int[] { 52 }, new double[] { 32 }, new Animation(6675)),
 
-		ADAMANT_CBOW(9463, 9438, new int[] { 9183 }, new int[] { 61 }, new double[] { 41 }, new Animation(6676)),
+		ADAMANT_CBOW(9463, CROSSBOW_STRING, new int[] { 9183 }, new int[] { 61 }, new double[] { 41 }, new Animation(6676)),
 
-		RUNITE_CBOW(9465, 9438, new int[] { 9185 }, new int[] { 69 }, new double[] { 50 }, new Animation(6677)),
+		RUNITE_CBOW(9465, CROSSBOW_STRING, new int[] { 9185 }, new int[] { 69 }, new double[] { 50 }, new Animation(6677)),
 
 		MITH_GRAPPLE(9416, 9142, new int[] { 9418 }, new int[] { 59 }, new double[] { 11 }, new Animation(-1)),
 		MITH_GRAPPLE_ROPE(9418, 954, new int[] { 9419 }, new int[] { 59 }, new double[] { 0 }, new Animation(-1)),
@@ -113,58 +122,58 @@ public class Fletching extends PlayerAction {
 		/**
 		 * Arrows
 		 */
-		HEADLESS_ARROWS(52, 314, new int[] { 53 }, new int[] { 1 }, new double[] { 1 }, new Animation(-1)),
+		HEADLESS_ARROWS(ARROW_SHAFT, FEATHER, new int[] { HEADLESS_ARROW }, new int[] { 1 }, new double[] { 1 }, new Animation(-1)),
 
-		BRONZE_ARROWS(39, 53, new int[] { 882 }, new int[] { 1 }, new double[] { 1.3 }, new Animation(-1)),
+		BRONZE_ARROWS(39, HEADLESS_ARROW, new int[] { 882 }, new int[] { 1 }, new double[] { 1.3 }, new Animation(-1)),
 
-		IRON_ARROWS(40, 53, new int[] { 884 }, new int[] { 15 }, new double[] { 3.8 }, new Animation(-1)),
+		IRON_ARROWS(40, HEADLESS_ARROW, new int[] { 884 }, new int[] { 15 }, new double[] { 3.8 }, new Animation(-1)),
 
-		STEEL_ARROWS(41, 53, new int[] { 886 }, new int[] { 30 }, new double[] { 6.3 }, new Animation(-1)),
+		STEEL_ARROWS(41, HEADLESS_ARROW, new int[] { 886 }, new int[] { 30 }, new double[] { 6.3 }, new Animation(-1)),
 
-		MITHRIL_ARROWS(42, 53, new int[] { 888 }, new int[] { 45 }, new double[] { 8.8 }, new Animation(-1)),
+		MITHRIL_ARROWS(42, HEADLESS_ARROW, new int[] { 888 }, new int[] { 45 }, new double[] { 8.8 }, new Animation(-1)),
 
-		ADAMANT_ARROWS(43, 53, new int[] { 890 }, new int[] { 60 }, new double[] { 11.3 }, new Animation(-1)),
+		ADAMANT_ARROWS(43, HEADLESS_ARROW, new int[] { 890 }, new int[] { 60 }, new double[] { 11.3 }, new Animation(-1)),
 
-		RUNITE_ARROWS(44, 53, new int[] { 892 }, new int[] { 75 }, new double[] { 13.8 }, new Animation(-1)),
+		RUNITE_ARROWS(44, HEADLESS_ARROW, new int[] { 892 }, new int[] { 75 }, new double[] { 13.8 }, new Animation(-1)),
 
-		DRAGON_ARROWS(11237, 53, new int[] { 11212 }, new int[] { 90 }, new double[] { 16.3 }, new Animation(-1)),
+		DRAGON_ARROWS(11237, HEADLESS_ARROW, new int[] { 11212 }, new int[] { 90 }, new double[] { 16.3 }, new Animation(-1)),
 
-		BROAD_BOLTS(13279, 314, new int[] { 13280 }, new int[] { 55 }, new double[] { 3 }, new Animation(-1)),
+		BROAD_BOLTS(13279, FEATHER, new int[] { 13280 }, new int[] { 55 }, new double[] { 3 }, new Animation(-1)),
 
-		BROAD_ARROW(13278, 53, new int[] { 4160 }, new int[] { 52 }, new double[] { 15 }, new Animation(-1)),
-		DRAGONBANE_ARROW(21823, 53, new int[] { 21640 }, new int[] { 76 }, new double[] { 12.5 }, new Animation(-1)),
-		ABYSSALBANE_ARROW(21838, 53, new int[] { 21655 }, new int[] { 76 }, new double[] { 12.5 }, new Animation(-1)),
-		WALLASALKIBANE_ARROW(21828, 53, new int[] { 21645 }, new int[] { 76 }, new double[] { 12.5 }, new Animation(-1)),
-		BASILISKBANE_ARROW(21833, 53, new int[] { 21650 }, new int[] { 76 }, new double[] { 12.5 }, new Animation(-1)),
+		BROAD_ARROW(13278, HEADLESS_ARROW, new int[] { 4160 }, new int[] { 52 }, new double[] { 15 }, new Animation(-1)),
+		DRAGONBANE_ARROW(21823, HEADLESS_ARROW, new int[] { 21640 }, new int[] { 76 }, new double[] { 12.5 }, new Animation(-1)),
+		ABYSSALBANE_ARROW(21838, HEADLESS_ARROW, new int[] { 21655 }, new int[] { 76 }, new double[] { 12.5 }, new Animation(-1)),
+		WALLASALKIBANE_ARROW(21828, HEADLESS_ARROW, new int[] { 21645 }, new int[] { 76 }, new double[] { 12.5 }, new Animation(-1)),
+		BASILISKBANE_ARROW(21833, HEADLESS_ARROW, new int[] { 21650 }, new int[] { 76 }, new double[] { 12.5 }, new Animation(-1)),
 
 		/**
 		 * Bolts
 		 */
-		BRONZE_BOLT(9375, 314, new int[] { 877 }, new int[] { 9 }, new double[] { 0.5 }, new Animation(-1)),
+		BRONZE_BOLT(9375, FEATHER, new int[] { 877 }, new int[] { 9 }, new double[] { 0.5 }, new Animation(-1)),
 
-		IRON_BOLT(9377, 314, new int[] { 9140 }, new int[] { 39 }, new double[] { 1.5 }, new Animation(-1)),
+		IRON_BOLT(9377, FEATHER, new int[] { 9140 }, new int[] { 39 }, new double[] { 1.5 }, new Animation(-1)),
 
-		STEEL_BOLT(9378, 314, new int[] { 9141 }, new int[] { 46 }, new double[] { 3.5 }, new Animation(-1)),
+		STEEL_BOLT(9378, FEATHER, new int[] { 9141 }, new int[] { 46 }, new double[] { 3.5 }, new Animation(-1)),
 
-		MITHRIL_BOLT(9379, 314, new int[] { 9142 }, new int[] { 54 }, new double[] { 5 }, new Animation(-1)),
+		MITHRIL_BOLT(9379, FEATHER, new int[] { 9142 }, new int[] { 54 }, new double[] { 5 }, new Animation(-1)),
 
-		ADAMANT_BOLT(9380, 314, new int[] { 9143 }, new int[] { 61 }, new double[] { 7 }, new Animation(-1)),
+		ADAMANT_BOLT(9380, FEATHER, new int[] { 9143 }, new int[] { 61 }, new double[] { 7 }, new Animation(-1)),
 
-		RUNITE_BOLT(9381, 314, new int[] { 9144 }, new int[] { 69 }, new double[] { 10 }, new Animation(-1)),
-		DRAGONBANE_BOLT(21843, 314, new int[] { 21660 }, new int[] { 80 }, new double[] { 7 }, new Animation(-1)),
-		ABYSSALBANE_BOLT(21858, 314, new int[] { 21675 }, new int[] { 80 }, new double[] { 7 }, new Animation(-1)),
-		WALLASALKIBANE_BOLT(21853, 314, new int[] { 21665 }, new int[] { 80 }, new double[] { 7 }, new Animation(-1)),
-		BASILISKBANE_BOLT(21848, 314, new int[] { 21670 }, new int[] { 80 }, new double[] { 7 }, new Animation(-1)),
+		RUNITE_BOLT(9381, FEATHER, new int[] { 9144 }, new int[] { 69 }, new double[] { 10 }, new Animation(-1)),
+		DRAGONBANE_BOLT(21843, FEATHER, new int[] { 21660 }, new int[] { 80 }, new double[] { 7 }, new Animation(-1)),
+		ABYSSALBANE_BOLT(21858, FEATHER, new int[] { 21675 }, new int[] { 80 }, new double[] { 7 }, new Animation(-1)),
+		WALLASALKIBANE_BOLT(21853, FEATHER, new int[] { 21665 }, new int[] { 80 }, new double[] { 7 }, new Animation(-1)),
+		BASILISKBANE_BOLT(21848, FEATHER, new int[] { 21670 }, new int[] { 80 }, new double[] { 7 }, new Animation(-1)),
 
 		OPAL_BOLTS(45, 877, new int[] { 879 }, new int[] { 11 }, new double[] { 1.6 }, new Animation(-1)),
 
-		BLURITE_BOLTS(9376, 314, new int[] { 9139 }, new int[] { 24 }, new double[] { 1 }, new Animation(-1)),
+		BLURITE_BOLTS(9376, FEATHER, new int[] { 9139 }, new int[] { 24 }, new double[] { 1 }, new Animation(-1)),
 
 		JADE_BOLTS(9187, 9376, new int[] { 9335 }, new int[] { 26 }, new double[] { 2.4 }, new Animation(-1)),
 
 		PEARL_BOLTS(46, 9140, new int[] { 880 }, new int[] { 41 }, new double[] { 3.2 }, new Animation(-1)),
 
-		SILVER_BOLTS(9382, 314, new int[] { 9145 }, new int[] { 43 }, new double[] { 2.5 }, new Animation(-1)),
+		SILVER_BOLTS(9382, FEATHER, new int[] { 9145 }, new int[] { 43 }, new double[] { 2.5 }, new Animation(-1)),
 
 		RED_TOPAZ_BOLTS(9188, 9141, new int[] { 9336 }, new int[] { 48 }, new double[] { 3.9 }, new Animation(-1)),
 
@@ -182,24 +191,24 @@ public class Fletching extends PlayerAction {
 
 		ONYX_BOLTS(9194, 9144, new int[] { 9342 }, new int[] { 73 }, new double[] { 9.4 }, new Animation(-1)),
 
-		BRONZE_DART(819, 314, new int[] { 806 }, new int[] { 1 }, new double[] { 0.8 }, new Animation(-1)),
+		BRONZE_DART(819, FEATHER, new int[] { 806 }, new int[] { 1 }, new double[] { 0.8 }, new Animation(-1)),
 
 		/**
 		 * Darts
 		 */
-		IRON_DART(820, 314, new int[] { 807 }, new int[] { 22 }, new double[] { 1 }, new Animation(-1)),
+		IRON_DART(820, FEATHER, new int[] { 807 }, new int[] { 22 }, new double[] { 1 }, new Animation(-1)),
 
-		STEEL_DART(821, 314, new int[] { 808 }, new int[] { 37 }, new double[] { 1.7 }, new Animation(-1)),
+		STEEL_DART(821, FEATHER, new int[] { 808 }, new int[] { 37 }, new double[] { 1.7 }, new Animation(-1)),
 
-		MITHRIL_DART(822, 314, new int[] { 809 }, new int[] { 52 }, new double[] { 4 }, new Animation(-1)),
+		MITHRIL_DART(822, FEATHER, new int[] { 809 }, new int[] { 52 }, new double[] { 4 }, new Animation(-1)),
 
-		ADAMANT_DART(823, 314, new int[] { 810 }, new int[] { 67 }, new double[] { 7.6 }, new Animation(-1)),
+		ADAMANT_DART(823, FEATHER, new int[] { 810 }, new int[] { 67 }, new double[] { 7.6 }, new Animation(-1)),
 
-		RUNITE_DART(824, 314, new int[] { 811 }, new int[] { 81 }, new double[] { 12.2 }, new Animation(-1)),
+		RUNITE_DART(824, FEATHER, new int[] { 811 }, new int[] { 81 }, new double[] { 12.2 }, new Animation(-1)),
 
-		DRAGON_DART(11232, 314, new int[] { 11230 }, new int[] { 95 }, new double[] { 18.4 }, new Animation(-1)),
+		DRAGON_DART(11232, FEATHER, new int[] { 11230 }, new int[] { 95 }, new double[] { 18.4 }, new Animation(-1)),
 
-		BLISTERWOODS(21600, 946, new int[] { 21580, 21581, 21582 }, new int[] { 70, 70, 70 }, new double[] { 100, 10, 100 }, new Animation(-1));
+		BLISTERWOODS(21600, KNIFE, new int[] { 21580, 21581, 21582 }, new int[] { 70, 70, 70 }, new double[] { 100, 10, 100 }, new Animation(-1));
 
 		private static final Map<Integer, Fletch> fletching = new HashMap<>();
 
@@ -213,9 +222,9 @@ public class Fletching extends PlayerAction {
 		}
 
 		private final int[] product;
-        private final int[] level;
+		private final int[] level;
 		private final int id;
-        private final int selected;
+		private final int selected;
 		private final double[] xp;
 		private final Animation anim;
 
@@ -271,9 +280,23 @@ public class Fletching extends PlayerAction {
 			player.sendMessage("You need to unlock the ability to fletch these from a slayer master.");
 			return false;
 		}
+		if (fletch == Fletch.ACHEY_LOG && !player.isQuestComplete(Quest.ZOGRE_FLESH_EATERS)) {
+			player.sendMessage("You must complete Zogre Flesh Eaters before being able to fletch this.");
+			return false;
+		}
+		if (fletch == Fletch.ACHEY_LOG && option == 1) {
+			if (!player.getInventory().containsItem(2859)) {
+				player.sendMessage("You need some wolf bones in order to fletch this.");
+				return false;
+			}
+		}
+		if ((fletch == Fletch.ACHEY_LOG && option == 0) && !player.isQuestComplete(Quest.BIG_CHOMPY_BIRD_HUNTING)) {
+			player.sendMessage("You must complete Big Chompy Bird Hunting before being able to fletch these.");
+			return false;
+		}
 		if (!process(player))
 			return false;
-		player.sendMessage("You attempt to create a " + new Item(fletch.getProduct()[option]).getDefinitions().getName().replace("(u)", "") + "...", true);
+		player.sendMessage("You attempt to create " + Utils.addArticle(new Item(fletch.getProduct()[option]).getDefinitions().getName().replace("(u)", "")) + "...", true);
 		return true;
 	}
 
@@ -289,13 +312,13 @@ public class Fletching extends PlayerAction {
 	}
 
 	public static boolean maxMakeQuantityTen(Fletch fletch) {
-		return (fletch.getSelected() == 53 && fletch.getSelected() == 314) || ItemDefinitions.getDefs(fletch.getId()).getName().toLowerCase().contains("dart")
+		return (fletch.getSelected() == HEADLESS_ARROW && fletch.getSelected() == FEATHER) || ItemDefinitions.getDefs(fletch.getId()).getName().toLowerCase().contains("dart")
 				|| ItemDefinitions.getDefs(fletch.getProduct()[0]).getName().toLowerCase().contains("bolt") || ItemDefinitions.getDefs(fletch.getProduct()[0]).getName().toLowerCase().contains(" stake") || ItemDefinitions.getDefs(fletch.getProduct()[0]).getName().toLowerCase().contains("dart") || ItemDefinitions.getDefs(fletch.getProduct()[0]).getName().toLowerCase().contains("arrow");
 	}
 
 
 	public static boolean maxMakeQuantityTen(Fletch fletch, int option) {
-		return (fletch.getSelected() == 53 && fletch.getSelected() == 314) || ItemDefinitions.getDefs(fletch.getId()).getName().toLowerCase().contains("dart")
+		return (fletch.getSelected() == HEADLESS_ARROW && fletch.getSelected() == FEATHER) || ItemDefinitions.getDefs(fletch.getId()).getName().toLowerCase().contains("dart")
 				|| ItemDefinitions.getDefs(fletch.getProduct()[option]).getName().toLowerCase().contains("bolt") || ItemDefinitions.getDefs(fletch.getProduct()[0]).getName().toLowerCase().contains(" stake") || ItemDefinitions.getDefs(fletch.getProduct()[option]).getName().toLowerCase().contains("dart") || ItemDefinitions.getDefs(fletch.getProduct()[option]).getName().toLowerCase().contains("arrow");
 	}
 
@@ -310,34 +333,49 @@ public class Fletching extends PlayerAction {
 
 		if (fletch.getProduct()[option] == 52)
 			amount = switch (fletch.getId()) {
-			case 1511 -> 15;
-			case 1521 -> 20;
-			case 1519 -> 25;
-			case 1517 -> 30;
-			case 1515 -> 35;
-			case 1513 -> 40;
-			default -> 15;
+				case 1511 -> 15;
+				case 1521 -> 20;
+				case 1519 -> 25;
+				case 1517 -> 30;
+				case 1515 -> 35;
+				case 1513 -> 40;
+				default -> 15;
 			};
 
-			if (fletch.getProduct()[option] == 21581)
-				amount = 10;
+		if (fletch.getProduct()[option] == 2865)
+			if (fletch.getId() == 2864) amount = 4;
 
-			if (!player.getInventory().containsItem(fletch.getId(), amount) && (fletch.getProduct()[option] != 52) && (fletch.getProduct()[option] != 21581)) {
-				player.sendMessage("You don't have enough of the supplies to make that many.");
+		if (fletch.getProduct()[option] == 2864 || fletch.getProduct()[option] == 2865)
+			amount = 4;
+
+		if (fletch.getProduct()[option] == 21581)
+			amount = 10;
+
+		if (fletch.getProduct()[option] == 4825) {
+			if (!player.getInventory().containsItem(2859, 1)) {
+				player.sendMessage("You need some wolf bones to create this item.");
 				return -1;
+			} else {
+				player.getInventory().deleteItem(2859, 1);
 			}
-			player.setNextAnimation(fletch.getAnim());
-			player.getInventory().deleteItem(fletch.getId(), fletch.getProduct()[option] == 52 || fletch.getProduct()[option] == 21581  ? 1 : amount);
-			if (fletch.getSelected() != KNIFE && fletch.getSelected() != CHISLE)
-				player.getInventory().deleteItem(fletch.getSelected(), amount);
-			player.getInventory().addItem(fletch.getProduct()[option], amount);
-			player.sendMessage("You create a " + new Item(fletch.getProduct()[option]).getDefinitions().getName().toLowerCase().replace(" (u)", "") + ".", true);
-			player.getSkills().addXp(Constants.FLETCHING, fletch.getXp()[option] * amount);
-			if (fletch.getSelected() == KNIFE)
-				return 2;
-			if (amount > 5)
-				return 0;
-			return 1;
+		}
+
+		if (!player.getInventory().containsItem(fletch.getId(), amount) && (fletch.getProduct()[option] != 52) && (fletch.getProduct()[option] != 21581) && (fletch.getProduct()[option] != 2864)) {
+			player.sendMessage("You don't have enough of the supplies to make that many.");
+			return -1;
+		}
+		player.anim(fletch.getAnim());
+		player.getInventory().deleteItem(fletch.getId(), fletch.getProduct()[option] == 52 || fletch.getProduct()[option] == 21581 || fletch.getProduct()[option] == 2864  ? 1 : amount);
+		if (fletch.getSelected() != KNIFE && fletch.getSelected() != CHISLE)
+			player.getInventory().deleteItem(fletch.getSelected(), amount);
+		player.getInventory().addItem(fletch.getProduct()[option], amount);
+		player.sendMessage("You create " + Utils.addArticle(new Item(fletch.getProduct()[option]).getDefinitions().getName().toLowerCase().replace(" (u)", "")) + ".", true);
+		player.getSkills().addXp(Constants.FLETCHING, fletch.getXp()[option] * amount);
+		if (fletch.getSelected() == KNIFE)
+			return 2;
+		if (amount > 5)
+			return 0;
+		return 1;
 	}
 
 	@Override
