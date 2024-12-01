@@ -62,5 +62,5 @@ public class SandBucketFill extends PlayerAction {
 		return false;
 	}
 
-	public static ItemOnObjectHandler handleBucketsOnSand = new ItemOnObjectHandler(new Object[] { "Sand", "Sand pit", "Sand pile" }, new Object[] { 1925 }, e -> e.getPlayer().getActionManager().setAction(new SandBucketFill()));
+	public static ItemOnObjectHandler handleBucketsOnSand = new ItemOnObjectHandler(new Object[] { "Sand", "Sand pit", "Sandpit", "Sand pile" }, new Object[] { 1925 }, e -> e.getPlayer().getActionManager().setAction(new SandBucketFill()));
 }
