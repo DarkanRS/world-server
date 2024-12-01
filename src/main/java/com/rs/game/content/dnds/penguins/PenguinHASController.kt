@@ -10,9 +10,6 @@ import com.rs.game.content.dnds.penguins.PenguinServices.penguinHideAndSeekManag
 import com.rs.game.content.dnds.penguins.PenguinServices.penguinSpawnService
 import com.rs.game.content.dnds.penguins.PenguinServices.penguinWeeklyScheduler
 import com.rs.game.content.dnds.penguins.PenguinServices.polarBearManager
-import com.rs.game.model.entity.Entity
-import com.rs.game.model.entity.npc.NPC
-import com.rs.lib.game.Tile
 import com.rs.lib.util.Logger
 import com.rs.plugin.annotations.ServerStartupEvent
 import com.rs.plugin.annotations.ServerStartupEvent.Priority
@@ -37,6 +34,7 @@ object PenguinServices {
     val penguinSpawnService = PenguinSpawnService()
     val penguinWeeklyScheduler = PenguinWeeklyScheduler()
     val polarBearManager = PolarBearManager()
+    var penguinTaskName = ""
 }
 
 @ServerStartupEvent
@@ -189,7 +187,7 @@ class PenguinManager() {
         val currentWeek = today.get(WeekFields.of(Locale.getDefault()).weekOfYear())
         val currentWeekSpawns = penguinSpawnService.getSpawnsForWeek(currentWeek)
 
-        val isResetDay = today.dayOfWeek == penguinWeeklyScheduler.getResetDay()
+        val isResetDay = today.dayOfWeek >= penguinWeeklyScheduler.getResetDay()
 
         if (currentWeekSpawns.isEmpty()) {
             if (penguinSpawnService.isSpawnEmpty()) {

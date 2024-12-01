@@ -18,7 +18,6 @@ package com.rs.game.content.minigames.ectofuntus;
 
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
-import com.rs.lib.game.Animation;
 
 public class SlimeBucketFill extends PlayerAction {
 
@@ -51,7 +50,7 @@ public class SlimeBucketFill extends PlayerAction {
 
 	public boolean fillBucket(Player player) {
 		if (player.getInventory().containsItem(Ectofuntus.EMPTY_BUCKET, 1)) {
-			player.setNextAnimation(new Animation(4471));
+			player.anim(4471);
 			player.getInventory().deleteItem(Ectofuntus.EMPTY_BUCKET, 1);
 			player.soundEffect(1132, true);
 			player.getInventory().addItem(Ectofuntus.BUCKET_OF_SLIME, 1);

@@ -623,9 +623,9 @@ public class NPC extends Entity {
 				dropTo = possible.get(Utils.random(possible.size()));
 				for (Player p : possible)
 					if (!p.getUsername().equals(dropTo.getUsername()))
-						p.sendMessage(dropTo.getDisplayName()+" has recieved: "+item.getAmount()+" "+item.getName()+".");
+						p.sendMessage(dropTo.getDisplayName()+" has received: "+item.getAmount()+" "+item.getName()+".");
 					else
-						p.sendMessage("<col=006600>You recieved: "+item.getAmount()+" "+item.getName()+".");
+						p.sendMessage("<col=006600>You received: "+item.getAmount()+" "+item.getName()+".");
 			}
 		}
 

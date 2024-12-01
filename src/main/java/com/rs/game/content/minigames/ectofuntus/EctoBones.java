@@ -19,6 +19,8 @@ package com.rs.game.content.minigames.ectofuntus;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
 
+import static com.rs.game.content.minigames.ectofuntus.EctofuntusKt.*;
+
 public class EctoBones extends PlayerAction {
 
 	public EctoBones(int itemId) {
@@ -45,19 +47,19 @@ public class EctoBones extends PlayerAction {
 	public int processWithDelay(Player player) {
 		switch (step) {
 		case 0:
-			if (!Ectofuntus.hopper(player, itemId))
+			if (!hopper(player, itemId))
 				step = -1;
 			else
 				step++;
 			return 2;
 		case 1:
-			if (!Ectofuntus.grinder(player))
+			if (!grinder(player))
 				step = -1;
 			else
 				step++;
 			return 2;
 		case 2:
-			if (!Ectofuntus.bin(player))
+			if (!bin(player))
 				step = -1;
 			else
 				step = 0;

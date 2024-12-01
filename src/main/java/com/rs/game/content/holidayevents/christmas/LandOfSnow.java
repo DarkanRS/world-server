@@ -36,7 +36,7 @@ import com.rs.utils.spawns.ObjectSpawns;
 @PluginEventHandler
 public class LandOfSnow {
 
-    private static final boolean ACTIVE = false;
+    private static final boolean ACTIVE = true;
 
 	@ServerStartupEvent
 	public static void initObjects() {

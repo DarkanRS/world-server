@@ -113,7 +113,7 @@ public class PriestInPeril extends QuestOutline {
 				break;
 			case 3:
 				lines.add("");
-				lines.add("I killed the dog easily");
+				lines.add("I killed the dog easily.");
 				break;
 			case 4:
 				lines.add("");
@@ -134,14 +134,13 @@ public class PriestInPeril extends QuestOutline {
 				break;
 			case 10:
 				lines.add("");
-				lines.add("I followed Drezel to the mausoleum only to fine the Salve contaminated");
-				lines.add("and in need of purification.");
+				lines.add("I followed Drezel to the mausoleum only to find the Salve contaminated and in need of purification.");
 				break;
 			case 11:
 				lines.add("");
-				lines.add("I brought Drezel fifty rune essences and the contaminats were dissolved");
+				lines.add("I brought Drezel fifty rune essences and the contaminates were dissolved");
 				lines.add("from the Salve.");
-				lines.add("Drezel rewarded me for my help with an ancient Holy Weapon");
+				lines.add("Drezel rewarded me for my help with an ancient Holy Weapon.");
 				break;
 			default:
 				lines.add("Invalid quest stage. Report this to an administrator.");

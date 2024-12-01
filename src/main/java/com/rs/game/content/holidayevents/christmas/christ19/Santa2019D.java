@@ -79,9 +79,11 @@ public class Santa2019D extends Conversation {
 			addNext(() -> {
 				player.set(Christmas2019.STAGE_KEY, 10);
 				player.getVars().setVarBit(6934, 1);
-				player.getInventory().addItemDrop(new Item(962, 1));
-				player.getInventory().addItemDrop(new Item(11949, 1));
-				player.addDiangoReclaimItem(11949);
+				player.getInventory().addItemDrop(new Item(1050, 1));
+				player.getInventory().addItemDrop(new Item(6860, 1));
+				player.getInventory().addItemDrop(new Item(6861, 1));
+				player.addDiangoReclaimItem(6860);
+				player.addDiangoReclaimItem(6861);
 				player.addDiangoReclaimItem(14599);
 				player.getEmotesManager().unlockEmote(Emote.SNOWMAN_DANCE);
 			});

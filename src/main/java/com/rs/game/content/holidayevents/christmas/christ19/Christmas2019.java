@@ -37,7 +37,7 @@ import java.util.Map;
 @PluginEventHandler
 public class Christmas2019 {
 
-	public static final String STAGE_KEY = "christ2025";
+	public static final String STAGE_KEY = "christ2024";
 
 	private static final boolean ACTIVE = false;
 

@@ -39,6 +39,9 @@ public class DrezelMausoleumD extends Conversation {
 			if (player.getInventory().containsItem(1436) || player.getInventory().containsItem(7936)) {
 				int essence = player.getInventory().getAmountOf(1436);
 				int pureEssence = player.getInventory().getAmountOf(7936);
+				int totalEssence = essence + pureEssence;
+				int currentEssence = player.getQuestManager().getAttribs(Quest.PRIEST_IN_PERIL).getI("essence");
+
 				if (remainingEssence == 0) {
 					player.startConversation(new Dialogue()
 							.addNPC(DREZEL, HeadE.CALM_TALK, "Excellent! That should do it! I will bless these stones and place them within the well. With the river safe, Misthalin should be protected from the vampyres once more!")
@@ -49,25 +52,19 @@ public class DrezelMausoleumD extends Conversation {
 					player.sendMessage("Drezel blesses you, allowing you to pass through the barrier into Morytania.");
 					return;
 				}
-				if (remainingEssence > 0) {
-					if (essence <= remainingEssence) {
-						player.getInventory().deleteItem(1436, essence);
-						player.getInventory().deleteItem(7936, pureEssence);
-						player.getQuestManager().getAttribs(Quest.PRIEST_IN_PERIL).setI("essence", essence + Utils.clampI(player.getQuestManager().getAttribs(Quest.PRIEST_IN_PERIL).getI("essence"), 0, 50));
-						player.getQuestManager().getAttribs(Quest.PRIEST_IN_PERIL).setI("essence", pureEssence + Utils.clampI(player.getQuestManager().getAttribs(Quest.PRIEST_IN_PERIL).getI("essence"), 0, 50));
-						remainingEssence = Utils.clampI(50 - player.getQuestManager().getAttribs(Quest.PRIEST_IN_PERIL).getI("essence"), 0, 50);
+
+				if (totalEssence > 0) {
+					int essenceToUse = Math.min(remainingEssence, totalEssence);
+					player.getInventory().deleteItem(1436, essenceToUse);
+					player.getInventory().deleteItem(7936, essenceToUse);
+					currentEssence += essenceToUse;
+					player.getQuestManager().getAttribs(Quest.PRIEST_IN_PERIL).setI("essence", currentEssence);
+					remainingEssence = Math.max(0, 50 - currentEssence);
+
+					if (remainingEssence == 0) {
 						player.startConversation(new Dialogue()
 								.addPlayer(HeadE.CALM_TALK, "I brought you some rune essence.")
-								.addNPC(DREZEL, HeadE.CALM_TALK, "Quickly, give them to me!")
-								.addNPC(DREZEL, HeadE.CALM_TALK, "Thank you. I need " + remainingEssence + " more.")
-						);
-					} else {
-						player.getInventory().deleteItem(1436, remainingEssence);
-						player.getInventory().deleteItem(7936, remainingEssence);
-						player.getQuestManager().getAttribs(Quest.PRIEST_IN_PERIL).setI("essence", 50);
-						player.startConversation(new Dialogue()
-								.addPlayer(HeadE.CALM_TALK, "I brought you some more essence.")
-								.addNPC(DREZEL, HeadE.CALM_TALK, "Quickly, give them to me!")
+								.addNPC(DREZEL, HeadE.CALM_TALK, "Quickly, give " + (totalEssence == 1 ? "it" : "them") + " to me!")
 								.addNPC(DREZEL, HeadE.CALM_TALK, "Excellent! That should do it! I will bless these stones and place them within the well. With the river safe, Misthalin should be protected from the vampyres once more!")
 								.addNPC(DREZEL, HeadE.CALM_TALK, "Please take this dagger. It has been handed down within my family for generations and is filled with the power of Saradomin.")
 								.addNPC(DREZEL, HeadE.CALM_TALK, "You will find that it has the ability to prevent werewolves from adopting their wolf form in combat. Hopefully it comes in useful.", () -> player.getQuestManager().setStage(Quest.PRIEST_IN_PERIL, 11))
@@ -75,18 +72,23 @@ public class DrezelMausoleumD extends Conversation {
 						player.getQuestManager().completeQuest(Quest.PRIEST_IN_PERIL);
 						player.sendMessage("Drezel blesses you, allowing you to pass through the barrier into Morytania.");
 						return;
+					} else {
+						player.startConversation(new Dialogue()
+								.addPlayer(HeadE.CALM_TALK, "I brought you some rune essence.")
+								.addNPC(DREZEL, HeadE.CALM_TALK, "Quickly, give " + (totalEssence == 1 ? "it" : "them") + " to me!")
+								.addNPC(DREZEL, HeadE.CALM_TALK, "Thank you. I need " + remainingEssence + " more.")
+						);
 					}
-				}
-				if (Utils.clampI(player.getQuestManager().getAttribs(Quest.PRIEST_IN_PERIL).getI("essence"), 0, 50) > 0) {
+				} else {
 					player.startConversation(new Dialogue()
-							.addPlayer(HeadE.CALM_TALK, "How much more essence do I need to bring you ?")
-							.addNPC(DREZEL, HeadE.CALM_TALK, "I need " + remainingEssence + " more.")
+							.addPlayer(HeadE.CALM_TALK, "What am I supposed to do again?")
+							.addNPC(DREZEL, HeadE.CALM_TALK, "Bring me fifty rune essence so that I can undo the damage done by those Zamorakians. I need " + remainingEssence + " more.")
 					);
 				}
 			} else {
 				player.startConversation(new Dialogue()
 						.addPlayer(HeadE.CALM_TALK, "What am I supposed to do again?")
-						.addNPC(DREZEL, HeadE.CALM_TALK, "Bring me fifty rune essence so that I can undo the damage done by those Zamorakians.")
+						.addNPC(DREZEL, HeadE.CALM_TALK, "Bring me fifty rune essence so that I can undo the damage done by those Zamorakians. I need " + remainingEssence + " more.")
 				);
 			}
 		}
