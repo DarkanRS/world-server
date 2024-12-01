@@ -3,8 +3,7 @@ package com.rs.game.content.skills.summoning;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public enum PouchMaterialList {
 	SPIRIT_TERRORBIRD_POUCH(12007, new Item[] { new Item(12183, 12), new Item(12158, 1), new Item(12155, 1), new Item(9978, 1) }),
@@ -181,6 +180,14 @@ public enum PouchMaterialList {
 			}
 		}
 		return null;
+	}
+
+	public static List<Item> getItemsForPouchId(int pouchId) {
+		PouchMaterialList pouchMaterialList = PouchMaterialList.forId(pouchId);
+		if (pouchMaterialList == null) {
+			return new ArrayList<>();
+		}
+		return new ArrayList<>(Arrays.asList(pouchMaterialList.get()));
 	}
 
 }

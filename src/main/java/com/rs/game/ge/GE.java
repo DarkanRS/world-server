@@ -20,6 +20,7 @@ import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.interfaces.IFEvents;
 import com.rs.db.WorldDB;
 import com.rs.game.World;
+import com.rs.game.content.interfacehandlers.ItemSelectInventory;
 import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.ge.Offer.State;
 import com.rs.game.model.entity.player.Player;
@@ -37,6 +38,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import static com.rs.game.content.interfacehandlers.ItemSelectInventory.openItemSelectInventory;
 
 @PluginEventHandler
 public class GE {
@@ -192,23 +195,23 @@ public class GE {
         }
     });
 
-    public static ButtonClickHandler sellInv = new ButtonClickHandler(SPECIAL_DEPOSIT_INV, e -> {
-        e.getPlayer().soundEffect(4043, false);
-        if (e.getPlayer().isIronMan()) {
-            e.getPlayer().sendMessage("Ironmen stand alone.");
+    public static void handleSellInv(Player player, int slotId, int componentId) {
+        player.soundEffect(4043, false);
+        if (player.isIronMan()) {
+            player.sendMessage("Ironmen stand alone.");
             return;
         }
-        if (e.getPlayer().getTempAttribs().getB("geLocked"))
+        if (player.getTempAttribs().getB("geLocked"))
             return;
-        if (e.getComponentId() == 18) {
-            Item item = e.getPlayer().getInventory().getItem(e.getSlotId());
+        if (componentId == 18) {
+            Item item = player.getInventory().getItem(slotId);
             if (item == null)
                 return;
             if (item.getDefinitions().isNoted())
                 item = new Item(item.getDefinitions().getCertId(), item.getAmount());
-            selectItem(e.getPlayer(), item.getId(), item.getAmount());
+            selectItem(player, item.getId(), item.getAmount());
         }
-    });
+    }
 
     public static ButtonClickHandler collBox = new ButtonClickHandler(COLLECTION_BOX, e -> {
         if (e.getPlayer().isIronMan()) {
@@ -326,11 +329,7 @@ public class GE {
     public static void openSell(Player player, int box) {
         player.getVars().setVar(VAR_CURR_BOX, box);
         player.getVars().setVar(VAR_IS_SELLING, 1);
-        player.getInterfaceManager().sendInventoryInterface(SPECIAL_DEPOSIT_INV);
-        player.getPackets().sendItems(93, player.getInventory().getItems());
-        player.getPackets().setIFRightClickOps(SPECIAL_DEPOSIT_INV, 18, 0, 27, 0);
-        player.getPackets().sendInterSetItemsOptionsScript(SPECIAL_DEPOSIT_INV, 18, 93, 4, 7, "Offer");
-        player.getInterfaceManager().closeChatBoxInterface();
+        openItemSelectInventory(player, ItemSelectInventory.Mode.GE_SELL);
         player.getPackets().setIFHidden(OFFER_SELECTION, 196, true);
         player.soundEffect(2266, false);
     }
