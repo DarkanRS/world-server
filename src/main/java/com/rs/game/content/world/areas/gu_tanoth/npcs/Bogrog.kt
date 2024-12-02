@@ -91,7 +91,7 @@ class Bogrog() {
                     npc(npc, CALM_TALK, "Hur, hur, hur! Yooman's gotta buy lotsa stuff if yooman wants ta train good!")
                     exec { ShopsHandler.openShop(player, "Summoning_Supplies_(Bogrog)") }
                 }
-                if (player.skills.getLevel(Skills.SUMMONING) >= 21)
+                if (player.skills.getLevelForXp(Skills.SUMMONING) >= 21)
                     op("Are you interested in buying pouches or scrolls?") {
                         player(CALM_TALK, "Are you interested in buying pouches or scrolls?")
                         npc(npc, CALM_TALK, "Des other ogres's stealin' Bogrog's stock. Gimmie pouches and scrolls and yooman gets da shardies.")
@@ -211,7 +211,7 @@ class Bogrog() {
 fun mapBogrog() {
     onNpcClick(4472, options=arrayOf("Talk-To")) { (player, npc) -> Bogrog().talk(player, npc) }
     onNpcClick(4472, options=arrayOf("Swap")) { (player) ->
-        if (player.skills.getLevel(Skills.SUMMONING) >= 21) {
+        if (player.skills.getLevelForXp(Skills.SUMMONING) >= 21) {
             player.sendMessage("Pick the pouches and scrolls you wish to trade for shards.")
             openSwapInterface(player)
         } else {
