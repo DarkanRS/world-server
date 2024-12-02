@@ -144,7 +144,7 @@ fun mapEctofuntusInteractions() {
         player.schedule {
             player.anim(9609)
             player.spotAnim(1688)
-            player.sendMessage("You empty your ectophial on the floor...")
+            player.sendMessage("You empty your ectophial on the floor...", true)
             player.lock(3)
             wait(5)
             Magic.sendTeleportSpell(
@@ -155,7 +155,7 @@ fun mapEctofuntusInteractions() {
                 },
                 Runnable {
                     player.unlock()
-                    player.sendMessage("Your ectophial magically fills itself from the nearby ectofuntus.")
+                    player.sendMessage("Your ectophial magically fills itself from the nearby ectofuntus.", true)
                     /*val obj = World.getObject(Tile.of(3658, 3518, 0))
                     if (obj != null) {
                         player.inventory.replace(Ectofuntus.FULL_ECTOPHIAL, Ectofuntus.EMPTY_ECTOPHIAL)
