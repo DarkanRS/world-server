@@ -8,7 +8,7 @@ enum class Penguins(val points: Int, val npcId: Int, val locationHint: String, v
     CACTUS_3(1, 8107, "located in the south of the Kharidian desert.", Tile(3250, 2958, 0), "Southern Desert (Lodestone) - East of the Bandit camp lodestone", 7..35),
     CACTUS_4(2, 8107, "located in a city of plagues within the desert.", Tile(3275, 2802, 0), "Sophanem (Northern Sophanem) - West of the musician", 7..20),
     CACTUS_5(2, 8107, "located in a city of plagues within the desert.", Tile(3282, 2755, 0), "Sophanem (Southern Sophanem) - Inside the most south-western building", 7..20),
-    CACTUS_6(2, 8107, "located in the north of the Kharidian desert.", Tile(3438, 2958, 0), "Southern Desert (Nardah) - North of Nardah, south-east of Fairy Ring code DLQ", 5..20),
+    CACTUS_6(2, 8107, "located in the south of the Kharidian desert.", Tile(3438, 2958, 0), "Southern Desert (Nardah) - North of Nardah, south-east of Fairy Ring code DLQ", 5..20),
     CACTUS_7(2, 8107, "located in the south of the Kharidian desert.", Tile(3285, 2911, 0), "Southern Desert (Pyramid) - East of the pyramid, north of the bridge", 5..20),
 
     BUSH_1(1, 8105, "located near the Barbarian Outpost.", Tile(2529, 3587, 0), "Barbarian Outpost - North of the Barbarian Assault building", 5..25),
