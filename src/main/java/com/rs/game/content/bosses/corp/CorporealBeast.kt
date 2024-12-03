@@ -80,7 +80,7 @@ private fun attackMelee(npc: NPC, target: Entity): Boolean {
     val distanceY = target.y - npc.y
     if ((distanceX <= npc.size) && (distanceX >= -1) && (distanceY <= npc.size) && (distanceY >= -1)) {
         npc.anim(if (Utils.getRandomInclusive(1) == 0) npc.combatDefinitions.attackEmote else 10058)
-        delayHit(npc, 0, target, Hit.magic(npc, getMaxHit(npc, npc.combatDefinitions.maxHit, CombatStyle.MELEE, target)))
+        delayHit(npc, 0, target, Hit.melee(npc, getMaxHit(npc, npc.combatDefinitions.maxHit, CombatStyle.MELEE, target)))
         return true
     }
     return false

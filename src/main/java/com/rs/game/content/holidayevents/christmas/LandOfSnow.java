@@ -37,6 +37,7 @@ import com.rs.utils.spawns.ObjectSpawns;
 public class LandOfSnow {
 
     private static final boolean ACTIVE = true;
+	private static final int TRADEABLE_REWARD = 962;
 
 	@ServerStartupEvent
 	public static void initObjects() {
@@ -102,7 +103,6 @@ public class LandOfSnow {
 			}
 			double chance = e.getXp() / 75000.0;
 			if (Math.random() < chance) {
-                int TRADEABLE_REWARD = 1050;
                 e.getPlayer().sendMessage("<shad=000000><col=ff0000>You found a "+ItemDefinitions.getDefs(TRADEABLE_REWARD).name+" while skilling!");
 				if (e.getPlayer().getInventory().hasFreeSlots())
 					e.getPlayer().getInventory().addItemDrop(TRADEABLE_REWARD, 1);
