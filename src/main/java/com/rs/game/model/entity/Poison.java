@@ -40,7 +40,7 @@ public final class Poison {
 		if (poisonDamage > startDamage)
 			return;
 		if (entity instanceof Player player) {
-			if (player.hasEffect(Effect.ANTIPOISON))
+			if (player.hasEffect(Effect.ANTIPOISON) || player.getEquipment().getShieldId() == 18340 || player.getInventory().containsItem(18340))
 				return;
 			if (poisonDamage == 0)
 				player.sendMessage("You are poisoned.");

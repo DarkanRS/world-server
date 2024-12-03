@@ -2,12 +2,12 @@
   "names": [
     "Otherworldly being"
   ],
-  "attackAnim": -1,
+  "attackAnim": 14094,
   "attackSound": -1,
-  "defenceAnim": -1,
+  "defenceAnim": 14095,
   "defendSound": -1,
-  "deathAnim": -1,
-  "deathDelay": 6,
+  "deathAnim": 14096,
+  "deathDelay": 4,
   "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 660,

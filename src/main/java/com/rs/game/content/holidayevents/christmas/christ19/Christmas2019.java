@@ -39,7 +39,7 @@ public class Christmas2019 {
 
 	public static final String STAGE_KEY = "christ2024";
 
-	private static final boolean ACTIVE = false;
+	private static final boolean ACTIVE = true;
 
 	public enum Imp {
 		WINE(9372, 6928, Location.VARROCK_CASTLE, Location.CAMELOT_CASTLE, Location.ARDOUGNE_CASTLE),
