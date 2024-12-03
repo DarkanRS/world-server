@@ -34,6 +34,7 @@ import com.rs.utils.json.ControllerAdapter;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -66,9 +67,15 @@ public class NPCCombatDefMerger {
 //				def.aggroDistance = def.getAttackStyle() == AttackStyle.MELEE ? 4 : def.getAttackRange() - 2;
 //				System.out.println("Modified: " + file);
 //			}
+			if (def.getAttackStyle() == null) {
+				System.out.println(file.getName());
+				System.out.println(Arrays.toString(def.getNames()));
+				System.out.println(Arrays.toString(def.getIds()));
+			}
+
 			
-			JsonFileManager.saveJsonFile(def, file);
-			System.out.println("Processed: " + file);
+//			JsonFileManager.saveJsonFile(def, file);
+//			System.out.println("Processed: " + file);
 		}
 	}
 
