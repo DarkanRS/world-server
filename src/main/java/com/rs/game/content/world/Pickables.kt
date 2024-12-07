@@ -1,6 +1,8 @@
 package com.rs.game.content.world
 
 import com.rs.game.World
+import com.rs.game.model.entity.Hit
+import com.rs.game.model.entity.Hit.HitLook
 import com.rs.game.model.entity.player.Player
 import com.rs.game.model.`object`.GameObject
 import com.rs.lib.util.Utils
@@ -10,7 +12,7 @@ import com.rs.utils.Ticks
 
 @ServerStartupEvent
 fun mapPickables() {
-    onObjectClick("Flax", "Cabbage", "Potato", "Wheat", "Onion", "Pineapple Plant") { (player, obj, option) ->
+    onObjectClick("Flax", "Cabbage", "Potato", "Wheat", "Onion", "Pineapple Plant", "Nettles") { (player, obj, option) ->
         if (option == "Pick") {
             when (obj.getDefinitions(player).name) {
                 "Flax" -> pick(player, obj, 1779)
@@ -19,6 +21,7 @@ fun mapPickables() {
                 "Wheat" -> pick(player, obj, 1947)
                 "Onion" -> pick(player, obj, 1957)
                 "Pineapple Plant" -> pick(player, obj, 2114)
+                "Nettles" -> pick(player, obj, 4241)
             }
         }
     }
@@ -54,12 +57,20 @@ private fun pick(player: Player, obj: GameObject, itemId: Int) {
         player.sendMessage("There aren't any pineapples left to pick.")
         return
     }
+    if (obj.definitions.name == "Nettles" && !player.equipment.wearingGloves()) {
+        player.anim(827)
+        player.lock(1)
+        player.applyHit(Hit(player, Utils.random(1, 20), HitLook.POISON_DAMAGE), 1)
+        player.sendMessage("You have been stung by the nettles.")
+        return
+    }
     if (player.inventory.addItem(itemId, 1)) {
         player.anim(827)
         player.lock(1)
         when (itemId) {
             1779 -> if (Utils.random(5) == 0) World.removeObjectTemporary(obj, Ticks.fromMinutes(1))
             2114 -> if (Utils.random(5) == 0) obj.setIdTemporary(1413, Ticks.fromMinutes(1))
+            4241 -> World.removeObjectTemporary(obj, Ticks.fromSeconds(20))
             else -> World.removeObjectTemporary(obj, Ticks.fromMinutes(1))
         }
     }
