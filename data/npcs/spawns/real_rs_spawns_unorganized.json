@@ -113887,15 +113887,6 @@
   {
     "tile": {
       "plane": 0,
-      "x": 2446,
-      "y": 3097
-    },
-    "comment": "Postie Pete",
-    "npcId": 3805
-  },
-  {
-    "tile": {
-      "plane": 0,
       "x": 3092,
       "y": 3283
     },
